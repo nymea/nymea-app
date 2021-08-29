@@ -81,6 +81,7 @@ Page {
 
         EmptyViewPlaceholder {
             anchors.centerIn: parent
+            width: parent.width - app.margins * 2
             title: qsTr("No scripts are installed yet.")
             text: qsTr("Press \"Add script\" to get started.")
             imageSource: "../images/script.svg"

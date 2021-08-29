@@ -50,6 +50,7 @@ Page {
         anchors.fill: parent
         contentHeight: contentColumn.height + app.margins
         interactive: contentHeight > height
+        clip: true
 
         ScrollBar.vertical: ScrollBar {}
 

@@ -50,6 +50,7 @@ MainViewBase {
     SwipeView {
         id: swipeView
         anchors.fill: parent
+        anchors.topMargin: root.topMargin
         anchors.bottomMargin: pageIndicator.visible ? pageIndicator.height : 0
 
         Repeater {

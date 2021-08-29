@@ -42,6 +42,9 @@ Item {
 
     property var model: null
     property bool editMode: false
+    property bool dashboardVisible: false
+
+    property int contentY: flickable.contentY - flickable.originY
 
     function addItem(index) {
         if (index === undefined) {
@@ -124,6 +127,11 @@ Item {
                         target: loader.item
                         property: "editMode"
                         value: root.editMode
+                    }
+                    Binding {
+                        target: loader.item
+                        property: "dashboardVisible"
+                        value: root.dashboardVisible
                     }
                     Binding {
                         target: loader.item

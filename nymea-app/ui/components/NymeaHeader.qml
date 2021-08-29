@@ -36,7 +36,7 @@ import Nymea 1.0
 
 Item {
     id: root
-    implicitHeight: toolBar.implicitHeight + infoPane.height
+    implicitHeight: layout.implicitHeight + infoPane.height
     property string text
     property alias backButtonVisible: backButton.visible
     property alias menuButtonVisible: menuButton.visible
@@ -59,14 +59,10 @@ Item {
         }
     }
 
-    ToolBar {
-        id: toolBar
-        Material.elevation: 3
-        anchors { left: parent.left; top: parent.top; right: parent.right }
 
         RowLayout {
             id: layout
-            anchors { fill: parent; leftMargin: app.margins; rightMargin: app.margins }
+            anchors { left: parent.left; top: parent.top; right: parent.right }
 
             HeaderButton {
                 id: menuButton
@@ -85,16 +81,17 @@ Item {
             Label {
                 id: label
                 Layout.fillWidth: true
+                Layout.maximumWidth: layout.width - x * 2
                 Layout.fillHeight: true
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: app.mediumFont
+                horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 text: root.text
-                visible: text.length > 0
-                color: Style.headerForegroundColor
+//                visible: text.length > 0
+                font: Style.bigFont
             }
         }
-    }
+
 
     Pane {
         id: infoPane
@@ -108,7 +105,7 @@ Item {
         visible: height > 0
         height: shown ? contentRow.implicitHeight : 0
         Behavior on height { NumberAnimation {} }
-        anchors { left: parent.left; top: toolBar.bottom; right: parent.right }
+        anchors { left: parent.left; top: layout.bottom; right: parent.right }
 
         padding: 0
         contentItem: Rectangle {

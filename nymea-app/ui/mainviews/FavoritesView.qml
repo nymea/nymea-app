@@ -38,6 +38,7 @@ import "../delegates"
 
 MainViewBase {
     id: root
+    contentY: gridView.contentY - gridView.originY + topMargin
 
     property bool editMode: false
 
@@ -51,6 +52,7 @@ MainViewBase {
         id: gridView
         anchors.fill: parent
         anchors.margins: app.margins / 2
+        topMargin: root.topMargin
         readonly property int minTileWidth: 172
         readonly property int tilesPerRow: root.width / minTileWidth
 

@@ -46,6 +46,7 @@ Page {
     Flickable {
         anchors.fill: parent
         contentHeight: layout.implicitHeight
+        clip: true
 
         GridLayout {
             id: layout

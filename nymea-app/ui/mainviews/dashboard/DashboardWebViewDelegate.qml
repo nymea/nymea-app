@@ -69,7 +69,7 @@ DashboardDelegateBase {
         // clever in resizing and hding...
         property bool needsHack: ["android", "ios", "osx"].indexOf(Qt.platform.os) >= 0
         property bool webViewVisible: !needsHack ||
-                     (!app.mainMenu.visible && !root.editMode && root.topClip < root.height && root.bottomClip < height && !pageStack.busy)
+                     (!app.mainMenu.visible && !root.editMode && root.topClip < root.height && root.bottomClip < height && !pageStack.busy && root.dashboardVisible)
 
         property int topClip: needsHack ? root.topClip : 0
         property int bottomClip: needsHack ? root.bottomClip : 0
@@ -134,7 +134,7 @@ DashboardDelegateBase {
             visible: !parent.webViewVisible
 
             ColorIcon {
-                anchors.horizontalCenter: parent.horizontalCenter
+                Layout.alignment: Qt.AlignHCenter
                 size: Style.largeIconSize
                 name: "stock_website"
                 color: Style.accentColor

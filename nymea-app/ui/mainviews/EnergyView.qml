@@ -40,6 +40,8 @@ import "../delegates"
 MainViewBase {
     id: root
 
+    contentY: flickable.contentY + topMargin
+
     ThingsProxy {
         id: energyMeters
         engine: _engine
@@ -61,10 +63,12 @@ MainViewBase {
 
 
     Flickable {
+        id: flickable
         anchors.fill: parent
         anchors.margins: app.margins / 2
         contentHeight: energyGrid.childrenRect.height
         visible: energyMeters.count > 0
+        topMargin: root.topMargin
 
 
         GridLayout {
@@ -85,10 +89,24 @@ MainViewBase {
                 visible: consumers.count > 0
             }
 
+            SmartMeterChart {
+                Layout.fillWidth: true
+                Layout.preferredHeight: width * .7
+                backgroundColor: Style.tileBackgroundColor
+                backgroundRoundness: Style.cornerRadius
+                rootMeter: root.rootMeter
+                meters: producers
+                title: qsTr("Total produced energy")
+                stateName: "totalEnergyProduced"
+                readonly property State totalProducedState: rootMeter ? rootMeter.stateByName("totalEnergyProduced") : null
+                visible: (rootMeterTotalEnergyState && rootMeterTotalEnergyState.value > 0) || producers.count > 0
+            }
+
             ChartView {
                 id: chartView
                 Layout.fillWidth: true
 //                Layout.preferredWidth: energyGrid.width / energyGrid.columns
+                Layout.columnSpan: energyGrid.columns
                 Layout.preferredHeight: width * .7
                 legend.alignment: Qt.AlignBottom
                 legend.font.pixelSize: app.smallFont
@@ -431,20 +449,7 @@ MainViewBase {
                             scrollMouseArea.scrollRightLimited(10)
                         }
                     }
-
                 }
-            }
-
-            SmartMeterChart {
-                Layout.fillWidth: true
-                Layout.preferredHeight: width * .7
-                backgroundColor: Style.tileBackgroundColor
-                backgroundRoundness: Style.cornerRadius
-                rootMeter: root.rootMeter
-                meters: producers
-                title: qsTr("Total produced energy")
-                stateName: "totalEnergyProduced"
-                visible: root.rootMeter || producers.count > 0
             }
         }
     }

@@ -47,6 +47,7 @@ ThingsListPageBase {
         anchors.fill: parent
         contentHeight: contentGrid.implicitHeight
         topMargin: app.margins / 2
+        clip: true
 
         GridLayout {
             id: contentGrid

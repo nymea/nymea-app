@@ -86,6 +86,11 @@ SwipeDelegate {
         property var finalContextOptions: root.contextOptions.concat(d.deleteContextOption)
     }
 
+    background: Item {
+        // SwipeDelegate has a background set to cover the swipe items. However, that messes with gradient backgrounds
+        // So we're removing the background and need to clip the swipe items instead
+    }
+
     contentItem: RowLayout {
         id: innerLayout
         spacing: app.margins
@@ -192,34 +197,57 @@ SwipeDelegate {
         }
     }
 
-    swipe.right: Row {
-        height: root.height
-        anchors.right: parent.right
-        width: height * d.finalContextOptions.count
-        Repeater {
-            model: d.finalContextOptions
+    swipe.right: swipeComponent
 
-            delegate: MouseArea {
-                height: root.height
-                width: height
-                property var entry: d.finalContextOptions[index]
-                visible: entry.hasOwnProperty("visible") ? entry.visible : true
-                Rectangle {
-                    anchors.fill: parent
-                    color: entry.hasOwnProperty("backgroundColor") ? entry.backgroundColor : "transparent"
+    Component {
+        id: swipeComponent
+        Item {
+            height: parent.height
+            width: height * d.finalContextOptions.length
+            anchors.right: parent.right
+            Item {
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    bottom: parent.bottom
                 }
+                width: parent.width * -swipe.position
+                clip: true
 
-                ColorIcon {
-                    anchors.fill: parent
-                    anchors.margins: app.margins
-                    name: entry.icon
-                    color: entry.hasOwnProperty("foregroundColor") ? entry.foregroundColor : Style.iconColor
-                }
-                onClicked: {
-                    swipe.close();
-                    entry.callback()
+                Row {
+                    anchors {
+                        top: parent.top
+                        right: parent.right
+                        bottom: parent.bottom
+                    }
+                    Repeater {
+                        model: d.finalContextOptions
+
+                        delegate: MouseArea {
+                            height: root.height
+                            width: height
+                            property var entry: d.finalContextOptions[index]
+                            visible: entry.hasOwnProperty("visible") ? entry.visible : true
+                            Rectangle {
+                                anchors.fill: parent
+                                color: entry.hasOwnProperty("backgroundColor") ? entry.backgroundColor : "transparent"
+                            }
+
+                            ColorIcon {
+                                anchors.fill: parent
+                                anchors.margins: app.margins
+                                name: entry.icon
+                                color: entry.hasOwnProperty("foregroundColor") ? entry.foregroundColor : Style.iconColor
+                            }
+                            onClicked: {
+                                swipe.close();
+                                entry.callback()
+                            }
+                        }
+                    }
                 }
             }
+
         }
     }
 

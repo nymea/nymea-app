@@ -38,10 +38,13 @@ import "../components"
 MainViewBase {
     id: root
 
+    contentY: interfacesGridView.contentY - interfacesGridView.originY + topMargin
+
     GridView {
         id: interfacesGridView
         anchors.fill: parent
         anchors.margins: app.margins / 2
+        topMargin: root.topMargin
 
         readonly property int minTileWidth: 172
         readonly property int tilesPerRow: root.width / minTileWidth

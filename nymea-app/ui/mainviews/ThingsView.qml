@@ -38,6 +38,7 @@ import "../delegates"
 
 MainViewBase {
     id: root
+    contentY: interfacesGridView.contentY - interfacesGridView.originY + topMargin
 
     InterfacesSortModel {
         id: mainModel
@@ -55,6 +56,7 @@ MainViewBase {
         id: interfacesGridView
         anchors.fill: parent
         anchors.margins: app.margins / 2
+        topMargin: root.topMargin
         model: mainModel
 
         readonly property int minTileWidth: 172

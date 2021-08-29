@@ -50,6 +50,7 @@ Item {
 
     property bool editMode: false
 
+    property bool dashboardVisible: false
     property int topClip: 0
     property int bottomClip: 0
 

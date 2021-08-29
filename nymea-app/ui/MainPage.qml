@@ -35,6 +35,7 @@ import QtQuick.Layouts 1.2
 import QtQuick.Window 2.3
 import Qt.labs.settings 1.0
 import Qt.labs.folderlistmodel 2.2
+import QtGraphicalEffects 1.0
 import Nymea 1.0
 import "components"
 import "delegates"
@@ -51,33 +52,63 @@ Page {
 
         PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
         d.configOverlay = configComponent.createObject(contentContainer)
-        mainHeader.menuOpen = false;
     }
 
-    header: ToolBar {
+    header: Item {
         id: mainHeader
-        RowLayout {
-            anchors.fill: parent
+        height: 0
+
+        HeaderButton {
+            id: menuButton
+            imageSource: "../images/navigation-menu.svg"
+            anchors { left: parent.left; top: parent.top }
+            onClicked: {
+                if (d.configOverlay != null) {
+                    d.configOverlay.destroy();
+                }
+                app.mainMenu.open()
+            }
+        }
+
+
+//        Label {
+//            anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
+//            horizontalAlignment: Text.AlignHCenter
+//            leftPadding: Math.max(menuButton.width, additionalIcons.width)
+//            rightPadding: leftPadding
+//            elide: Text.ElideRight
+//            font: Style.bigFont
+//            text: d.configOverlay !== null ?
+//                      qsTr("Configure main view")
+//                    : swipeView.currentItem.item.title.length > 0 ? swipeView.currentItem.item.title : filteredContentModel.modelData(swipeView.currentIndex, "displayName")
+//        }
+
+
+        Row {
+            id: additionalIcons
+            anchors { right: parent.right; top: parent.top }
+            visible: !d.configOverlay
+            width: visible ? implicitWidth : 0
 
             HeaderButton {
-                imageSource: "../images/navigation-menu.svg"
-                color: Style.headerForegroundColor
-                onClicked: {
-                    if (d.configOverlay != null) {
-                        d.configOverlay.destroy();
-                    }
-                    app.mainMenu.open()
+                imageSource: "../images/system-update.svg"
+                color: Style.accentColor
+                visible: updatesModel.count > 0 || engine.systemController.updateRunning
+                onClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
+                RotationAnimation on rotation {
+                    from: 0
+                    to: 360
+                    duration: 2000
+                    loops: Animation.Infinite
+                    running: engine.systemController.updateRunning
+                    onStopped: icon.rotation = 0;
+                }
+                PackagesFilterModel {
+                    id: updatesModel
+                    packages: engine.systemController.packages
+                    updatesOnly: true
                 }
             }
-
-            Label {
-                Layout.fillWidth: true
-                color: Style.headerForegroundColor
-                text: d.configOverlay !== null ?
-                           qsTr("Configure main view")
-                         : swipeView.currentItem.item.title.length > 0 ? swipeView.currentItem.item.title : filteredContentModel.modelData(swipeView.currentIndex, "displayName")
-            }
-
             Repeater {
                 model: swipeView.currentItem.item.hasOwnProperty("headerButtons") ? swipeView.currentItem.item.headerButtons : 0
                 delegate: HeaderButton {
@@ -88,7 +119,6 @@ Page {
                 }
             }
         }
-
     }
 
     Connections {
@@ -204,71 +234,115 @@ Page {
         filterRoleName: "name"
     }
 
-    ColumnLayout {
-        id: mainColumn
+
+    Item {
+        id: contentContainer
         anchors.fill: parent
-        spacing: 0
+        clip: true
+//        visible: false
 
-        InfoPane {
-            Layout.fillWidth: true
-            shown: updatesModel.count > 0 || engine.systemController.updateRunning
-            text: engine.systemController.updateRunning ? qsTr("System update in progress...") : qsTr("%n system update(s) available", "", updatesModel.count)
-            imageSource: "../images/system-update.svg"
-            rotatingIcon: engine.systemController.updateRunning
-            onClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
+        property int headerSize: 48
 
-            PackagesFilterModel {
-                id: updatesModel
-                packages: engine.systemController.packages
-                updatesOnly: true
-            }
-        }
+        readonly property int scrollOffset: swipeView.currentItem.item.contentY
+        readonly property int headerBlurSize: Math.min(headerSize, scrollOffset * 2)
 
-        Item {
-            id: contentContainer
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            clip: true
 
-            SwipeView {
-                id: swipeView
-                anchors.fill: parent
-                opacity: d.configOverlay === null ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
+        SwipeView {
+            id: swipeView
+            anchors.fill: parent
+            opacity: d.configOverlay === null ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
 
-                Repeater {
-                    model: d.configOverlay != null ? null : filteredContentModel
 
-                    delegate: Loader {
-                        width: swipeView.width
-                        height: swipeView.height
-                        clip: true
-                        source: "mainviews/" + model.source + ".qml"
+
+            Repeater {
+                model: d.configOverlay != null ? null : filteredContentModel
+
+                delegate: Loader {
+                    id: mainViewLoader
+                    width: swipeView.width
+                    height: swipeView.height
+                    clip: true
+                    source: "mainviews/" + model.source + ".qml"
+
+                    Binding {
+                        target: mainViewLoader.item
+                        property: "isCurrentItem"
+                        value: swipeView.currentIndex === index
                     }
-                }
-            }
 
-            ColumnLayout {
-                anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
-                spacing: app.margins
-                visible: engine.thingManager.fetchingData
-                BusyIndicator {
-                    Layout.alignment: Qt.AlignHCenter
-                    running: parent.visible
-                }
-                Label {
-                    text: qsTr("Loading data...")
-                    font.pixelSize: app.largeFont
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
+                    Image {
+                        source: "qrc:/styles/%1/logo-wide.svg".arg(styleController.currentStyle)
+                        anchors {
+                            top: parent.top;
+                            topMargin: -contentContainer.scrollOffset + (contentContainer.headerSize - height) / 2
+                            horizontalCenter: parent.horizontalCenter;
+                        }
+                        fillMode: Image.PreserveAspectFit
+                        height: 28
+                    }
+
                 }
             }
         }
 
+        ColumnLayout {
+            anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
+            spacing: app.margins
+            visible: engine.thingManager.fetchingData
+            BusyIndicator {
+                Layout.alignment: Qt.AlignHCenter
+                running: parent.visible
+            }
+            Label {
+                text: qsTr("Loading data...")
+                font.pixelSize: app.largeFont
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
     }
+
+    ShaderEffectSource {
+        id: headerBlurSource
+        width: contentContainer.width
+        height: contentContainer.headerBlurSize
+        sourceItem: contentContainer
+        sourceRect: Qt.rect(0, 0, contentContainer.width, contentContainer.headerBlurSize)
+        visible: false
+    }
+
+    FastBlur {
+        anchors {
+            left: parent.left;
+            top: parent.top;
+            right: parent.right;
+        }
+        height: contentContainer.headerBlurSize
+        radius: 40
+        transparentBorder: true
+        source: headerBlurSource
+    }
+
+    Rectangle {
+        id: headerOpacityMask
+        anchors {
+            left: parent.left
+            top: parent.top
+            right: parent.right
+        }
+        height:  contentContainer.headerBlurSize
+
+        gradient: Gradient {
+            GradientStop { position: 0.1; color: Style.backgroundColor }
+            GradientStop { position: 0.6; color: Qt.rgba(Style.backgroundColor.r, Style.backgroundColor.g, Style.backgroundColor.b, 0.3) }
+            GradientStop { position: 1; color: "transparent" }
+        }
+    }
+
     footer: Item {
-        readonly property bool shown: tabsRepeater.count > 1 || mainHeader.menuOpen || d.configOverlay
+        readonly property bool shown: tabsRepeater.count > 1 || d.configOverlay
         implicitHeight: shown ? 64 + (app.landscape ? -20 : 0) : 0
         Behavior on implicitHeight { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }}
 
@@ -279,7 +353,7 @@ Page {
             Material.elevation: 3
             position: TabBar.Footer
 
-            opacity: (!mainHeader.menuOpen && !d.configOverlay) ? 1 : 0
+            opacity: d.configOverlay ? 0 : 1
             Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
 
             Repeater {
@@ -305,7 +379,7 @@ Page {
             Material.elevation: 3
             position: TabBar.Footer
 
-            opacity: mainHeader.menuOpen || d.configOverlay ? 1 : 0
+            opacity: d.configOverlay ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
             visible: opacity > 0
 
@@ -517,7 +591,7 @@ Page {
                     BigTile {
                         id: dndTile
                         anchors.fill: parent
-//                        anchors.margins: app.margins / 2
+                        //                        anchors.margins: app.margins / 2
                         Material.elevation: 2
 
                         leftPadding: 0

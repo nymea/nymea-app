@@ -41,6 +41,8 @@ import "dashboard"
 MainViewBase {
     id: root
 
+    contentY: dashboard.contentY
+
     headerButtons: [
         {
             iconSource: "/ui/images/configure.svg",
@@ -85,6 +87,9 @@ MainViewBase {
     Dashboard {
         id: dashboard
         anchors.fill: parent
+        anchors.topMargin: root.topMargin
+
         model: dashboardModel
+        dashboardVisible: root.isCurrentItem
     }
 }

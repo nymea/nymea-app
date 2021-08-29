@@ -43,6 +43,7 @@ Drawer {
 
                 RowLayout {
                     Layout.margins: Style.margins
+                    spacing: Style.bigMargins
                     Image {
                         Layout.preferredHeight: Style.hugeIconSize
                         sourceSize.height: Style.hugeIconSize
