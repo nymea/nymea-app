@@ -561,8 +561,8 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems connected to your cloud.</source>
-        <translation><numerusform>Bulutunuza bağlı %n %1 sistem var.</numerusform>
-        <numerusform>Bulutunuza bağlı %n %1 sistemler var.</numerusform>
+        <translation><numerusform>Bulutunuza bağlı %n %1 sistemler var.</numerusform>
+        <numerusform>Bulutunuza bağlı %n %1 sistem var.</numerusform>
         </translation></message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
@@ -790,8 +790,8 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems in your network! Which one would you like to use?</source>
-        <translation><numerusform>Ağınızda %n %1 sistem var! Hangisini kullanmak istersin?</numerusform>
-        <numerusform>Ağınızda %n %1 sistemleri var! Hangisini kullanmak istersin?</numerusform>
+        <translation><numerusform>Ağınızda %n %1 sistemleri var! Hangisini kullanmak istersin?</numerusform>
+        <numerusform>Ağınızda %n %1 sistem var! Hangisini kullanmak istersin?</numerusform>
         </translation></message>
     <message>
         <source>We haven&apos;t found a %1 system in your network yet.</source>
@@ -1658,38 +1658,38 @@
     </message>
     <message numerus="yes">
         <source>%n seconds</source>
-        <translation><numerusform>%n saniye</numerusform>
-        <numerusform>%n saniyeler</numerusform>
+        <translation><numerusform>%n saniyeler</numerusform>
+        <numerusform>%n saniye</numerusform>
         </translation></message>
     <message numerus="yes">
         <source>%n minutes</source>
-        <translation><numerusform>%n dakika</numerusform>
-        <numerusform>%n dakikalar</numerusform>
+        <translation><numerusform>%n dakikalar</numerusform>
+        <numerusform>%n dakika</numerusform>
         </translation></message>
     <message numerus="yes">
         <source>%n hours</source>
-        <translation><numerusform>%n saat</numerusform>
-        <numerusform>%n saatler</numerusform>
+        <translation><numerusform>%n saatler</numerusform>
+        <numerusform>%n saat</numerusform>
         </translation></message>
     <message numerus="yes">
         <source>%n days</source>
-        <translation><numerusform>%n gün</numerusform>
-        <numerusform>%n günler</numerusform>
+        <translation><numerusform>%n günler</numerusform>
+        <numerusform>%n gün</numerusform>
         </translation></message>
     <message numerus="yes">
         <source>%n weeks</source>
-        <translation><numerusform>%n hafta</numerusform>
-        <numerusform>%n haftalar</numerusform>
+        <translation><numerusform>%n haftalar</numerusform>
+        <numerusform>%n hafta</numerusform>
         </translation></message>
     <message numerus="yes">
         <source>%n months</source>
-        <translation><numerusform>%n ay</numerusform>
-        <numerusform>%n aylar</numerusform>
+        <translation><numerusform>%n aylar</numerusform>
+        <numerusform>%n ay</numerusform>
         </translation></message>
     <message numerus="yes">
         <source>%n years</source>
-        <translation><numerusform>%n yıl</numerusform>
-        <numerusform>%n yıllar</numerusform>
+        <translation><numerusform>%n yıllar</numerusform>
+        <numerusform>%n yıl</numerusform>
         </translation></message>
     <message>
         <source>Unknown</source>
@@ -2020,18 +2020,18 @@ Please try again.</source>
     </message>
     <message numerus="yes">
         <source>%n seconds</source>
-        <translation><numerusform>%n saniye</numerusform>
-        <numerusform>%n saniyeler</numerusform>
+        <translation><numerusform>%n saniyeler</numerusform>
+        <numerusform>%n saniye</numerusform>
         </translation></message>
     <message numerus="yes">
         <source>%n minutes</source>
-        <translation><numerusform>%n dakika</numerusform>
-        <numerusform>%n dakikalar</numerusform>
+        <translation><numerusform>%n dakikalar</numerusform>
+        <numerusform>%n dakika</numerusform>
         </translation></message>
     <message numerus="yes">
         <source>%n hours</source>
-        <translation><numerusform>%n saat</numerusform>
-        <numerusform>%n saatler</numerusform>
+        <translation><numerusform>%n saatler</numerusform>
+        <numerusform>%n saat</numerusform>
         </translation></message>
     <message numerus="yes">
         <source>%n days</source>
@@ -2050,8 +2050,8 @@ Please try again.</source>
         </translation></message>
     <message numerus="yes">
         <source>%n years</source>
-        <translation><numerusform>%n yıl</numerusform>
-        <numerusform>%n yıllar</numerusform>
+        <translation><numerusform>%n yıllar</numerusform>
+        <numerusform>%n yıl</numerusform>
         </translation></message>
 </context>
 <context>
