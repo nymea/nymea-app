@@ -6,9 +6,6 @@ StyleBase {
     backgroundColor: "#50514f"
     foregroundColor: "#ebebeb"
 
-    headerBackgroundColor: "#494948"
-    headerForegroundColor: foregroundColor
-
     accentColor: "#f45b69"
     iconColor: foregroundColor
 

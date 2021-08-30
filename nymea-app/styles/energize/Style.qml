@@ -6,9 +6,6 @@ StyleBase {
     backgroundColor: "#ffffff"
     foregroundColor: "#638B87"
 
-    headerBackgroundColor: "#ffffff"
-    headerForegroundColor: "#79a79f"
-
     accentColor: "#8cc1b6"
 
     interfaceColors: {
