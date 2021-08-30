@@ -87,7 +87,7 @@ Drawer {
                             }
                             ProgressButton {
                                 imageSource: "/ui/images/close.svg"
-                                visible: topSectionLayout.configureConnections
+                                visible: topSectionLayout.configureConnections && (autoConnectHost.length === 0 || index > 0)
                                 longpressEnabled: false
                                 onClicked: {
                                     configuredHostsModel.removeHost(index)
