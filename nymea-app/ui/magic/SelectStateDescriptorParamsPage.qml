@@ -53,11 +53,6 @@ Page {
         onBackPressed: root.backPressed();
     }
 
-    QtObject {
-        id: d
-        property var value: root.stateType.defaultValue
-    }
-
     GroupBox {
         anchors {
             left: parent.left
@@ -123,13 +118,14 @@ Page {
                     ThinDivider { Layout.columnSpan: parent.columns }
 
                     ParamDelegate {
+                        id: staticValueParamDelegate
                         Layout.fillWidth: true
                         hoverEnabled: false
                         padding: 0
                         paramType: root.thing.thingClass.eventTypes.getEventType(root.stateType.id).paramTypes.getParamType(root.stateType.id)
                         enabled: staticValueRadioButton.checked
                         nameVisible: false
-                        value: d.value
+                        value: root.stateType.defaultValue
                         visible: staticValueRadioButton.checked
                         placeholderText: qsTr("Insert value here")
                     }
@@ -172,9 +168,11 @@ Page {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
                 onClicked: {
+                    print("saving")
                     root.stateDescriptor.valueOperator = operatorComboBox.currentIndex
                     if (staticValueRadioButton.checked) {
-                        root.stateDescriptor.value = d.value
+                        print("static value:", staticValueParamDelegate.value)
+                        root.stateDescriptor.value = staticValueParamDelegate.value
                     } else {
                         root.stateDescriptor.valueThingId = statePickerDelegate.thingId
                         root.stateDescriptor.valueStateTypeId = statePickerDelegate.stateTypeId
