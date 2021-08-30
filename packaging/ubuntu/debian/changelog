@@ -1,3 +1,10 @@
+nymea-app (1.0.347) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Drop header color settings from style
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 30 Aug 2021 11:53:18 +0200
+
 nymea-app (1.0.346) bionic; urgency=medium
 
   [ Michael Zanetti ]
