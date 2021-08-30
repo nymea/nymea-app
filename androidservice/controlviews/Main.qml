@@ -15,7 +15,6 @@ ApplicationWindow {
 
     Material.theme: NymeaUtils.isDark(Style.backgroundColor) ? Material.Dark : Material.Light
     Material.background: Style.backgroundColor
-    Material.primary: Style.headerBackgroundColor
     Material.accent: Style.accentColor
     Material.foreground: Style.foregroundColor
 

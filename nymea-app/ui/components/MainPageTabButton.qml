@@ -39,12 +39,6 @@ TabButton {
     property string iconSource
     property var alignment: Qt.Vertical
 
-    Rectangle {
-        anchors.fill: parent
-        color: Material.foreground
-        opacity: 0.05
-    }
-
     contentItem: Item {
         height: root.height
         Grid {
