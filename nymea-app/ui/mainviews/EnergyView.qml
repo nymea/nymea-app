@@ -86,7 +86,7 @@ MainViewBase {
                 rootMeter: root.rootMeter
                 meters: consumers
                 title: qsTr("Total consumed energy")
-                visible: consumers.count > 0
+                visible: rootMeterTotalEnergyState || consumers.count > 0
             }
 
             SmartMeterChart {
