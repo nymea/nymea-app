@@ -129,7 +129,7 @@ Item {
                                 return;
                             }
                             print("Warning: There is a last connected host but UUID is unknown to discovery...")
-                        } else if (autoConnectHost.length > 0) {
+                        } else if (autoConnectHost.length > 0 && index === 0) {
                             var host = nymeaDiscovery.nymeaHosts.createLanHost(Configuration.systemName, autoConnectHost);
                             engine.jsonRpcClient.connectToHost(host)
                             return;
