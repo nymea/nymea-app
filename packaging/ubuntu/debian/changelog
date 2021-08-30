@@ -1,3 +1,11 @@
+nymea-app (1.0.349) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix text color in new thing filter panel
+  * Fix app name in controloverlay
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 30 Aug 2021 21:31:07 +0200
+
 nymea-app (1.0.348) bionic; urgency=medium
 
   [ Michael Zanetti ]
