@@ -140,7 +140,7 @@
     </message>
     <message>
         <source>Last scan</source>
-        <translation>Laatste san</translation>
+        <translation>Laatste scan</translation>
     </message>
 </context>
 <context>
@@ -225,11 +225,11 @@
     </message>
     <message>
         <source>Searching for %1 systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoeken naar %1 systemen.</translation>
     </message>
     <message>
         <source>Troubles finding your %1 system?</source>
-        <translation type="unfinished"></translation>
+        <translation>Problemen met het vinden van uw %1 systeem?</translation>
     </message>
 </context>
 <context>
@@ -274,30 +274,30 @@
     <name>ButtonControls</name>
     <message>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan</translation>
     </message>
     <message>
         <source>All off</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles uit</translation>
     </message>
     <message>
         <source>%1 on</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 aan</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation>Uit</translation>
     </message>
 </context>
 <context>
     <name>ButtonThingPage</name>
     <message>
         <source>This switch has not been used yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze schakelaar is nog niet gebruikt.</translation>
     </message>
     <message>
         <source>Press a button on the switch to see logs appearing here.</source>
-        <translation type="unfinished"></translation>
+        <translation>Druk op een knop op de schakelaar om logging te zien verschijnen.</translation>
     </message>
 </context>
 <context>
@@ -553,19 +553,17 @@
     </message>
     <message>
         <source>Connected %1 systems</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbonden %1 systemen</translation>
     </message>
     <message>
         <source>There are no %1 systems connected to your cloud yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen %1 systemen verbonden met uw cloud.</translation>
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems connected to your cloud.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Er zijn %n %1 systemen verbonden met uw cloud.</numerusform>
+        <numerusform>Er zijn %n %1 systemen verbonden met uw cloud.</numerusform>
+        </translation></message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
         <translation type="unfinished"></translation>
