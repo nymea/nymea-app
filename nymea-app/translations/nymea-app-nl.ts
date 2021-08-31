@@ -29,11 +29,11 @@
     </message>
     <message>
         <source>About %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Over %1</translation>
     </message>
     <message>
         <source>Device serial number</source>
-        <translation type="unfinished"></translation>
+        <translation>Apparaat serienummer</translation>
     </message>
 </context>
 <context>
@@ -79,7 +79,7 @@
     <name>AppLogPage</name>
     <message>
         <source>Application logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicatie logs</translation>
     </message>
 </context>
 <context>
@@ -132,22 +132,22 @@
     <name>BarcodeScannerThingPage</name>
     <message>
         <source>No codes have been scanned yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen codes gescand.</translation>
     </message>
     <message>
         <source>Scan a code to see it appearing here.</source>
-        <translation type="unfinished"></translation>
+        <translation>Scan een code om hier te laten verschijnen.</translation>
     </message>
     <message>
         <source>Last scan</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatste san</translation>
     </message>
 </context>
 <context>
     <name>BlindThingsListPage</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Jaloezieën</translation>
     </message>
 </context>
 <context>
