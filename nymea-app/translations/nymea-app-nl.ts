@@ -5,7 +5,7 @@
     <name>AboutNymeaPage</name>
     <message>
         <source>Connection:</source>
-        <translation></translation>
+        <translation>Connectie:</translation>
     </message>
     <message>
         <source>Server UUID:</source>
@@ -17,7 +17,7 @@
     </message>
     <message>
         <source>JSON-RPC version:</source>
-        <translation></translation>
+        <translation>JSON-RPC versie:</translation>
     </message>
     <message>
         <source>Qt version:</source>
@@ -25,7 +25,7 @@
     </message>
     <message>
         <source>Built with %1</source>
-        <translation></translation>
+        <translation>Gebouwd met %1</translation>
     </message>
     <message>
         <source>About %1</source>
@@ -40,11 +40,11 @@
     <name>AboutPage</name>
     <message>
         <source>About %1</source>
-        <translation></translation>
+        <translation>Over %1</translation>
     </message>
     <message>
         <source>App version:</source>
-        <translation></translation>
+        <translation>App versie:</translation>
     </message>
     <message>
         <source>Qt version:</source>
@@ -52,11 +52,11 @@
     </message>
     <message>
         <source>Built with %1</source>
-        <translation></translation>
+        <translation>Gebouwd met %1</translation>
     </message>
     <message>
         <source>Suru icons by Ubuntu</source>
-        <translation></translation>
+        <translation>Suru icons door Ubuntu</translation>
     </message>
     <message>
         <source>Ubuntu font by Ubuntu</source>
@@ -64,15 +64,15 @@
     </message>
     <message>
         <source>QtZeroConf library by Jonathan Bagg</source>
-        <translation></translation>
+        <translation>QtZeroConf library door Jonathan Bagg</translation>
     </message>
     <message>
         <source>OpenSSL libraries by Eric Young</source>
-        <translation></translation>
+        <translation>OpenSSL libraries door Eric Young</translation>
     </message>
     <message>
         <source>Oswald font by The Oswald Project</source>
-        <translation></translation>
+        <translation>Oswald font door The Oswald Project</translation>
     </message>
 </context>
 <context>
@@ -86,7 +86,7 @@
     <name>AppSettingsPage</name>
     <message>
         <source>App Settings</source>
-        <translation></translation>
+        <translation>App Instellingen</translation>
     </message>
     <message>
         <source>Look &amp; feel</source>
@@ -94,11 +94,11 @@
     </message>
     <message>
         <source>Customize the app&apos;s look and behavior</source>
-        <translation></translation>
+        <translation>Werking en uitstraling van de applicatie aanpassen.</translation>
     </message>
     <message>
         <source>Cloud login</source>
-        <translation></translation>
+        <translation>Aanmelden Cloud</translation>
     </message>
     <message>
         <source>Developer options</source>
@@ -106,15 +106,15 @@
     </message>
     <message>
         <source>About %1</source>
-        <translation></translation>
+        <translation>Over %1</translation>
     </message>
     <message>
         <source>Find app versions and licence information</source>
-        <translation></translation>
+        <translation>Bekijk app versies and licentie informatie</translation>
     </message>
     <message>
         <source>Access tools for debugging and error reporting</source>
-        <translation></translation>
+        <translation>Toegang tot tools voor debug en error overzichten</translation>
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1 systems</source>
@@ -205,7 +205,7 @@
     </message>
     <message>
         <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
-        <translation></translation>
+        <translation>Nadat u de nymea community image op uw Raspbery Pi geïnstalleerd heeft, hoeft u alleen nog maar de stekker in het stopcontact te doen. Let op: Draadloze installatie is alleen beschikbaar als de Raspberry Pi niet verbonden is met het bedraad netwerk.</translation>
     </message>
     <message>
         <source>If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.</source>
@@ -240,7 +240,7 @@
     </message>
     <message>
         <source>System UUID</source>
-        <translation></translation>
+        <translation>Systeem UUID</translation>
     </message>
     <message>
         <source>Manufacturer</source>
@@ -394,7 +394,7 @@
     </message>
     <message>
         <source>The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?</source>
-        <translation></translation>
+        <translation>Het certificaat voor dit  %1 systeem is gewijzigd. Dit kan optreden als de configuratie gewijzigd is, maar kan ook betekenen, dat er is ingebroken op uw systeem. Wilt u het nieuwe certificaat accepteren?</translation>
     </message>
 </context>
 <context>
@@ -433,7 +433,7 @@
     </message>
     <message>
         <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
-        <translation>Inloggen is mislukt. Probeer het nogmaals. Heeft u misschien &lt;a href=&quot;#&quot;&gt;uw wachtwoord vergeten?&lt;/a&gt;</translation>
+        <translation>inloggen is mislukt. Probeer het nogmaals. Heeft u misschien &lt;a href=&quot;#&quot;&gt;uw wachtwoord vergeten?&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Don&apos;t have a user yet?</source>
@@ -449,39 +449,39 @@
     </message>
     <message>
         <source>Welcome to %1:cloud.</source>
-        <translation>Welkom bij %1:cloud.</translation>
+        <translation>Welkome bij %1:cloud.</translation>
     </message>
     <message>
         <source>Please enter your email address and pick a password in order to create a new account.</source>
-        <translation></translation>
+        <translation>Vul uw emailadres in en kies een wachtwoord om een nieuw account aan te maken.</translation>
     </message>
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.</source>
-        <translation></translation>
+        <translation>Bekijk onze &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; om te zien welke informatie verwerkt wordt. Door in te loggen in %2:cloud accepteert u deze voorwaarden.</translation>
     </message>
     <message>
         <source>The given username or password are not valid.</source>
-        <translation></translation>
+        <translation>De ingevoerde gebruikersnaam of wachtwoord zijn niet geldig.</translation>
     </message>
     <message>
         <source>Uh oh, something went wrong. Please try again.</source>
-        <translation></translation>
+        <translation>Oh oh, er is iets mis gegaan. Probeer het nogmaals.</translation>
     </message>
     <message>
         <source>Confirm account</source>
-        <translation></translation>
+        <translation>Bevestig account</translation>
     </message>
     <message>
         <source>Thanks for signing up. We will send you an email with a confirmation code. Please enter that code in the field below.</source>
-        <translation></translation>
+        <translation>Bedankt voor het registreren. We zullen u een email sturen met een bevestigingscode. Vul deze code hieronder in.</translation>
     </message>
     <message>
         <source>The given user already exists. Did you forget the password?</source>
-        <translation></translation>
+        <translation>De opgegeven gebruiker bestaat al. Bent u uw wachtwoord vergeten?</translation>
     </message>
     <message>
         <source>That wasn&apos;t the right code. Please try again.</source>
-        <translation></translation>
+        <translation>Dat was niet de juiste code. Probeer het nogmaals.</translation>
     </message>
     <message>
         <source>Reset password</source>
@@ -489,59 +489,59 @@
     </message>
     <message>
         <source>Sorry, this wasn&apos;t right. Did you misspell the email address?</source>
-        <translation></translation>
+        <translation>Sorry, dit was niet juist. Heeft u uw emailadres juist ingevoerd?</translation>
     </message>
     <message>
         <source>Sorry, there were too many attempts. Please try again after some time.</source>
-        <translation></translation>
+        <translation>Sorry, te veel pogingen. Probeer het na een tijdje nogmaals.</translation>
     </message>
     <message>
         <source>Password forgotten?</source>
-        <translation></translation>
+        <translation>Wachtwoord vergeten?</translation>
     </message>
     <message>
         <source>No problem. Enter your email address here and we&apos;ll send you a confirmation code to change your password.</source>
-        <translation></translation>
+        <translation>Geen probleem. Vul uw emailadres in en we sturen u een code om uw wachtwoord te wijzigen.</translation>
     </message>
     <message>
         <source>Sorry, couldn&apos;t reset your password. Did you enter the wrong confirmation code?</source>
-        <translation></translation>
+        <translation>Sorry, kon het wachtwoord niet herstellen. Heeft u misschien een verkeerde bevestigingscode ingevuld?</translation>
     </message>
     <message>
         <source>Yay!</source>
-        <translation></translation>
+        <translation>Yeah!</translation>
     </message>
     <message>
         <source>Your password has been reset.</source>
-        <translation></translation>
+        <translation>Uw wachtwoord is gereset.</translation>
     </message>
     <message>
         <source>Check your email!</source>
-        <translation></translation>
+        <translation>Controleer uw email!</translation>
     </message>
     <message>
         <source>Enter the confirmation code you&apos;ve received and a new password for your user %1.</source>
-        <translation></translation>
+        <translation>Vul de bevestigingscode in en een nieuw wachtwoord voor gebruiker %1, die u heeft ontvangen via de e-mail.</translation>
     </message>
     <message>
         <source>Confirmation code:</source>
-        <translation></translation>
+        <translation>Bevestigingscode:</translation>
     </message>
     <message>
         <source>Pick a new password:</source>
-        <translation></translation>
+        <translation>Kies een nieuw wachtwoord:</translation>
     </message>
     <message>
         <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
-        <translation></translation>
+        <translation>Kon geen verbinding maken met de aanmeld server. Contoleer of uw netwerk goed functioneert.</translation>
     </message>
     <message>
         <source>An unexpected error happened. Please report this isse. Error code: %1</source>
-        <translation></translation>
+        <translation>Er is een onverwachte fout opgetreden. Rapporteer dit probleem aub. Foutmelding: %1</translation>
     </message>
     <message>
         <source>%1 cloud login</source>
-        <translation></translation>
+        <translation>%1 cloud aanmelding</translation>
     </message>
     <message>
         <source>Login</source>
@@ -573,43 +573,43 @@
     <name>CloudSettingsPage</name>
     <message>
         <source>Cloud connection enabled</source>
-        <translation></translation>
+        <translation>Cloud connectie geactiveerd</translation>
     </message>
     <message>
         <source>This box is not connected to %1:cloud</source>
-        <translation></translation>
+        <translation>Dit systeem is niet verbonden met %1:cloud</translation>
     </message>
     <message>
         <source>Registering box in %1:cloud...</source>
-        <translation></translation>
+        <translation>Systeem registreren in %1:cloud...</translation>
     </message>
     <message>
         <source>This box is not configured to connect to %1:cloud.</source>
-        <translation></translation>
+        <translation>Dit systeem is niet geconfigureerd om te verbinden met %1:cloud.</translation>
     </message>
     <message>
         <source>Connecting the box to %1:cloud...</source>
-        <translation></translation>
+        <translation>Het systeem aan het verbinden met %1:cloud...</translation>
     </message>
     <message>
         <source>The box is connected to %1:cloud.</source>
-        <translation></translation>
+        <translation>Het systeem is verbonden met %1:cloud.</translation>
     </message>
     <message>
         <source>This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.</source>
-        <translation></translation>
+        <translation>Dit systeem is niet geconfigureerd om te verbinden met %1:cloud. Om een systeem te verbinden met %1:cloud moet het eerst geregistreerd worden.</translation>
     </message>
     <message>
         <source>Register box</source>
-        <translation></translation>
+        <translation>Registreer systeem</translation>
     </message>
     <message>
         <source>Log in to cloud</source>
-        <translation></translation>
+        <translation>Aanmelden cloud</translation>
     </message>
     <message>
         <source>Cloud connection</source>
-        <translation></translation>
+        <translation>Cloud connectie</translation>
     </message>
     <message>
         <source>Status</source>
@@ -617,15 +617,15 @@
     </message>
     <message>
         <source>Remote connection</source>
-        <translation></translation>
+        <translation>Connectie op afstand</translation>
     </message>
     <message>
         <source>Go to app settings</source>
-        <translation></translation>
+        <translation>Ga naar app instellingen</translation>
     </message>
     <message>
         <source>Set up cloud connection for %1</source>
-        <translation></translation>
+        <translation>Stel cloud verbinding in voor %1</translation>
     </message>
     <message>
         <source>%1 cloud settings</source>
@@ -633,26 +633,26 @@
     </message>
     <message>
         <source>Connect %1 to %1:cloud in order to access it from anywhere.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbind %1 met %1:cloud om van waar dan ook te kunnen verbinden.</translation>
     </message>
     <message>
         <source>In order to remotely connect to this %1 system, %2 needs to be logged into %1:cloud as well.</source>
-        <translation type="unfinished"></translation>
+        <translation>Om op afstand te verbinden met dit %1 systeem, moet %2 ook aangemeld zijn op %1:cloud.</translation>
     </message>
 </context>
 <context>
     <name>ComposeEventDescriptorPage</name>
     <message>
         <source>Select event</source>
-        <translation></translation>
+        <translation>Selecteer gebeurtenis</translation>
     </message>
     <message>
         <source>A specific thing</source>
-        <translation></translation>
+        <translation>Een specifiek ding</translation>
     </message>
     <message>
         <source>A group of things</source>
-        <translation></translation>
+        <translation>Een groep dingen</translation>
     </message>
 </context>
 <context>
@@ -663,11 +663,11 @@
     </message>
     <message>
         <source>Apply</source>
-        <translation></translation>
+        <translation>Toepassen</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation></translation>
+        <translation>Hernoemen</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -675,7 +675,7 @@
     </message>
     <message>
         <source>Reconfigure</source>
-        <translation></translation>
+        <translation>Opnieuw configureren</translation>
     </message>
     <message>
         <source>Information</source>
@@ -687,7 +687,7 @@
     </message>
     <message>
         <source>Settings</source>
-        <translation></translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <source>Type:</source>
@@ -699,62 +699,62 @@
     </message>
     <message>
         <source>ID copied to clipboard</source>
-        <translation></translation>
+        <translation>ID gekopieerd naar clipboard</translation>
     </message>
     <message>
         <source>Thing class</source>
-        <translation></translation>
+        <translation>Ding klasse</translation>
     </message>
     <message>
         <source>View the type definition for this thing</source>
-        <translation></translation>
+        <translation>Bekijk de type definitie voor dit ding</translation>
     </message>
     <message>
         <source>Input/Output Connections</source>
-        <translation></translation>
+        <translation>Invoer/Uitvoer Connecties</translation>
     </message>
     <message>
         <source>Not connected</source>
-        <translation></translation>
+        <translation>Niet verbonden</translation>
     </message>
     <message>
         <source>Connect Inputs/Outputs</source>
-        <translation></translation>
+        <translation>Verbind Invoeren/Uitvoeren</translation>
     </message>
     <message>
         <source>Connect &quot;%1&quot; to:</source>
-        <translation></translation>
+        <translation>Verbind &quot;%1&quot; met:</translation>
     </message>
     <message>
         <source>Inverted</source>
-        <translation></translation>
+        <translation>Omgekeerd</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation></translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation></translation>
+        <translation>Verbreek verbinding</translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation></translation>
+        <translation>Verbind</translation>
     </message>
 </context>
 <context>
     <name>ConnectPage</name>
     <message>
         <source>Connect %1</source>
-        <translation></translation>
+        <translation>Verbind %1</translation>
     </message>
     <message>
         <source>Oh, look!</source>
-        <translation></translation>
+        <translation>Oh, kijk!</translation>
     </message>
     <message>
         <source>Just a moment...</source>
-        <translation></translation>
+        <translation>Eén moment...</translation>
     </message>
     <message>
         <source>Uh oh</source>
@@ -762,11 +762,11 @@
     </message>
     <message>
         <source>Start wireless setup</source>
-        <translation></translation>
+        <translation>Start draadloze installatie</translation>
     </message>
     <message>
         <source>Cloud login</source>
-        <translation></translation>
+        <translation>Cloud aanmelding</translation>
     </message>
     <message>
         <source>Demo mode (online)</source>
@@ -790,14 +790,12 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems in your network! Which one would you like to use?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Er is %n %1 systeem in uw netwerk! Welke wilt u gebuiken?</numerusform>
+        <numerusform>Er zijn %n %1 systemen in uw netwerk! Welke wilt u gebuiken?</numerusform>
+        </translation></message>
     <message>
         <source>We haven&apos;t found a %1 system in your network yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>We hebben nog geen %1 systeem in uw netwerk kunnen vinden.</translation>
     </message>
     <message>
         <source>There doesn&apos;t seem to be a %1 system installed in your network. Please make sure your %1 system is correctly set up and connected.</source>
@@ -805,7 +803,7 @@
     </message>
     <message>
         <source>Searching for %1 systems...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoeken naar %1 systemen...</translation>
     </message>
     <message>
         <source>Do you have a %1 system but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
@@ -840,7 +838,7 @@
     </message>
     <message>
         <source>Connecting %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 verbinden met %2</translation>
     </message>
 </context>
 <context>
@@ -875,26 +873,26 @@
     </message>
     <message>
         <source>%1 could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kon niet worden gevonden op dit adres. Contoleer of het adres juist is en dat het systeem aan staat.</translation>
     </message>
     <message>
         <source>%1 has closed the connection. This probably means it has been turned off or restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 heeft de verbinding verbroken. Waarschijnlijk is het uitgezet of is opnieuw aan het starten.</translation>
     </message>
     <message>
         <source>%1 did not respond. Please make sure your network connection works properly</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 heeft niet geantwoord. Controleer of uw netwerk goed functioneert</translation>
     </message>
 </context>
 <context>
     <name>ConnectionInfoDialog</name>
     <message>
         <source>Box information</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeem informatie</translation>
     </message>
     <message>
         <source>Available connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschikbare verbindingen</translation>
     </message>
 </context>
 <context>
@@ -939,132 +937,132 @@
     <name>Dashboard</name>
     <message>
         <source>Dashboard is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Dashboard is leeg</translation>
     </message>
     <message>
         <source>Start with adding a new item to this dashboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Start met het toevoegen van een nieuw item aan dit dashboard.</translation>
     </message>
     <message>
         <source>Add item</source>
-        <translation type="unfinished"></translation>
+        <translation>Item toevoegen</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
     <name>DashboardAddWizard</name>
     <message>
         <source>Add item</source>
-        <translation type="unfinished"></translation>
+        <translation>Item toevoegen</translation>
     </message>
     <message>
         <source>Thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Ding</translation>
     </message>
     <message>
         <source>Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Map</translation>
     </message>
     <message>
         <source>Chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Grafiek</translation>
     </message>
     <message>
         <source>Scene</source>
-        <translation type="unfinished"></translation>
+        <translation>Scène</translation>
     </message>
     <message>
         <source>Web view</source>
-        <translation type="unfinished"></translation>
+        <translation>Web view</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Locatie</translation>
     </message>
     <message>
         <source>Enter a URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer een URL in</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Maat</translation>
     </message>
     <message>
         <source>Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolommen</translation>
     </message>
     <message>
         <source>Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Rijen</translation>
     </message>
     <message>
         <source>Behavior</source>
-        <translation type="unfinished"></translation>
+        <translation>Gedrag</translation>
     </message>
     <message>
         <source>Interactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Interactief</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Terug</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>DashboardFolderDelegate</name>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Naam</translation>
     </message>
 </context>
 <context>
     <name>DashboardWebViewDelegate</name>
     <message>
         <source>Web view is not supported on this platform.</source>
-        <translation type="unfinished"></translation>
+        <translation>Web view wordt op dit platform niet ondersteund.</translation>
     </message>
     <message>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Locatie</translation>
     </message>
     <message>
         <source>Enter a URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een URL in</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Maat</translation>
     </message>
     <message>
         <source>Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolommen</translation>
     </message>
     <message>
         <source>Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Rijen</translation>
     </message>
     <message>
         <source>Behavior</source>
-        <translation type="unfinished"></translation>
+        <translation>Gedrag</translation>
     </message>
     <message>
         <source>Interactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Interactief</translation>
     </message>
 </context>
 <context>
@@ -1166,15 +1164,15 @@
     </message>
     <message>
         <source>Application logs enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicatie logs geactiveerd</translation>
     </message>
     <message>
         <source>View live log</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekijk live log</translation>
     </message>
     <message>
         <source>Configure logging categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Log categorieën instellen</translation>
     </message>
 </context>
 <context>
@@ -1205,7 +1203,7 @@
     </message>
     <message>
         <source>Debug interface active at %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Debug interface actief op %1.</translation>
     </message>
 </context>
 <context>
@@ -1494,11 +1492,11 @@
     </message>
     <message>
         <source>Execute those actions:</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer deze acties uit:</translation>
     </message>
     <message>
         <source>When the condition isn&apos;t met any more, execute those actions:</source>
-        <translation type="unfinished"></translation>
+        <translation>Als de conditie niet meer geldig is, voer deze acties uit:</translation>
     </message>
 </context>
 <context>
@@ -1634,61 +1632,47 @@
     <name>EnergyView</name>
     <message>
         <source>Total consumed energy</source>
-        <translation type="unfinished"></translation>
+        <translation>Totaal verbruikte energie</translation>
     </message>
     <message>
         <source>Power usage history</source>
-        <translation type="unfinished"></translation>
+        <translation>Energieverbruik historie</translation>
     </message>
     <message numerus="yes">
         <source>%n seconds</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n seconde</numerusform>
+        <numerusform>%n secondes</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n minutes</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n minuut</numerusform>
+        <numerusform>%n minuten</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n hours</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n uur</numerusform>
+        <numerusform>%n uren</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n days</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n dag</numerusform>
+        <numerusform>%n dagen</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n weeks</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n week</numerusform>
+        <numerusform>%n weken</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n months</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n maand</numerusform>
+        <numerusform>%n maanden</numerusform>
+        </translation></message>
     <message numerus="yes">
         <source>%n years</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n jaar</numerusform>
+        <numerusform>%n jaren</numerusform>
+        </translation></message>
     <message>
         <source>Total produced energy</source>
         <translation type="unfinished"></translation>
