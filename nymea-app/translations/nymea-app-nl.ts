@@ -118,25 +118,25 @@
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1 systems</source>
-        <translation type="unfinished"></translation>
+        <translation>Aanmelden bij %1:cloud en beheer verbonden %1 systemen</translation>
     </message>
 </context>
 <context>
     <name>AwningThingsListPage</name>
     <message>
         <source>Awnings</source>
-        <translation type="unfinished"></translation>
+        <translation>Zonneschermen</translation>
     </message>
 </context>
 <context>
     <name>BarcodeScannerThingPage</name>
     <message>
         <source>No codes have been scanned yet.</source>
-        <translation>Er zijn nog geen codes gescand.</translation>
+        <translation>Er is nog geen code gescand.</translation>
     </message>
     <message>
         <source>Scan a code to see it appearing here.</source>
-        <translation>Scan een code om hier te laten verschijnen.</translation>
+        <translation>Scan een code om het hier te laten verschijnen.</translation>
     </message>
     <message>
         <source>Last scan</source>
@@ -154,27 +154,27 @@
     <name>BluetoothDevice</name>
     <message>
         <source>Connecting to %1...</source>
-        <translation></translation>
+        <translation>Verbinden met %1...</translation>
     </message>
     <message>
         <source>Connected to %1</source>
-        <translation></translation>
+        <translation>Verbonden met %1</translation>
     </message>
     <message>
         <source>Disconnecting from %1...</source>
-        <translation></translation>
+        <translation>Afmelden van %1...</translation>
     </message>
     <message>
         <source>Discovering services of %1...</source>
-        <translation></translation>
+        <translation>Diensten ontdekken van %1...</translation>
     </message>
     <message>
         <source>%1 connected and discovered.</source>
-        <translation></translation>
+        <translation>%1 verbonden en gevonden.</translation>
     </message>
     <message>
         <source>%1 disconnected.</source>
-        <translation></translation>
+        <translation>%1 afgemeld.</translation>
     </message>
 </context>
 <context>
@@ -185,23 +185,23 @@
     </message>
     <message>
         <source>Help</source>
-        <translation></translation>
+        <translation>Hulp</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation></translation>
+        <translation>Oh oh</translation>
     </message>
     <message>
         <source>Bluetooth doesn&apos;t seem to be available on this device. The wireless network setup requires a working Bluetooth connection.</source>
-        <translation></translation>
+        <translation>Bluetooth lijkt niet beschikbaar op dit apparaat. Draadloos netwerk installatie vereist een werkende Bluetooth verbinding.</translation>
     </message>
     <message>
         <source>Bluetooth seems to be disabled. Please enable Bluetooth on your device in order to use the wireless network setup.</source>
-        <translation></translation>
+        <translation>Bluetooth lijkt inactief. Activeer Bluetooth op uw apparaat, zodat u draadloos kan instaleren.</translation>
     </message>
     <message>
         <source>Wireless setup help</source>
-        <translation></translation>
+        <translation>Draadloze installatie hulp</translation>
     </message>
     <message>
         <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
@@ -213,11 +213,11 @@
     </message>
     <message>
         <source>Connecting...</source>
-        <translation></translation>
+        <translation>Verbinden...</translation>
     </message>
     <message>
         <source>Connecting to %1</source>
-        <translation></translation>
+        <translation>Verbinden met %1</translation>
     </message>
     <message>
         <source>%1 box</source>
@@ -236,7 +236,7 @@
     <name>BoxInfoPage</name>
     <message>
         <source>Box information</source>
-        <translation></translation>
+        <translation>Box informatie</translation>
     </message>
     <message>
         <source>System UUID</source>
@@ -244,26 +244,26 @@
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation></translation>
+        <translation>Fabrikant</translation>
     </message>
     <message>
         <source>Software revision</source>
-        <translation></translation>
+        <translation>Software revisie</translation>
     </message>
     <message>
         <source>Firmware revision</source>
-        <translation></translation>
+        <translation>Firmware revisie</translation>
     </message>
     <message>
         <source>Hardware revision</source>
-        <translation></translation>
+        <translation>Hardware revisie</translation>
     </message>
 </context>
 <context>
     <name>BrowserContextMenu</name>
     <message>
         <source>Cancel</source>
-        <translation></translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>OK</source>
@@ -304,70 +304,70 @@
     <name>CalendarItemDelegate</name>
     <message>
         <source>From %1 to %2</source>
-        <translation></translation>
+        <translation>Van %1 tot %2</translation>
     </message>
     <message>
         <source>repeated %3</source>
-        <translation></translation>
+        <translation>herhalend %3</translation>
     </message>
     <message>
         <source>never</source>
-        <translation></translation>
+        <translation>nooit</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation></translation>
+        <translation>elk uur</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation></translation>
+        <translation>dagelijks</translation>
     </message>
     <message>
         <source>Mon</source>
-        <translation></translation>
+        <translation>Ma</translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation></translation>
+        <translation>Di</translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation></translation>
+        <translation>Wo</translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation></translation>
+        <translation>Do</translation>
     </message>
     <message>
         <source>Fri</source>
-        <translation></translation>
+        <translation>Vr</translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation></translation>
+        <translation>Za</translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation></translation>
+        <translation>Zo</translation>
     </message>
     <message>
         <source>weekly on %1</source>
-        <translation></translation>
+        <translation>wekelijks op %1</translation>
     </message>
     <message>
         <source>monthly on the %1</source>
-        <translation></translation>
+        <translation>maandelijks op de %1</translation>
     </message>
     <message>
         <source>every year</source>
-        <translation></translation>
+        <translation>elk jaar</translation>
     </message>
 </context>
 <context>
     <name>CertificateDialog</name>
     <message>
         <source>Certificate information</source>
-        <translation></translation>
+        <translation>Certificaat informatie</translation>
     </message>
     <message>
         <source>nymea UUID:</source>
@@ -375,7 +375,7 @@
     </message>
     <message>
         <source>Organisation:</source>
-        <translation></translation>
+        <translation>Organisatie:</translation>
     </message>
     <message>
         <source>Common name:</source>
@@ -390,7 +390,7 @@
     <name>CertificateErrorDialog</name>
     <message>
         <source>Insecure connection</source>
-        <translation></translation>
+        <translation>Onveilige verbinding</translation>
     </message>
     <message>
         <source>The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?</source>
@@ -401,31 +401,31 @@
     <name>CloudLoginPage</name>
     <message>
         <source>Sorry, an error happened removing the account. Please try again later.</source>
-        <translation></translation>
+        <translation>Sorry, een fout is opgetreden bij het verwijderen van het account. Probeer het later nogmaals.</translation>
     </message>
     <message>
         <source>Logged in as %1</source>
-        <translation></translation>
+        <translation>Ingelogd als %1</translation>
     </message>
     <message>
         <source>Log out</source>
-        <translation></translation>
+        <translation>Uitloggen</translation>
     </message>
     <message>
         <source>Goodbye</source>
-        <translation></translation>
+        <translation>Tot ziens</translation>
     </message>
     <message>
         <source>Delete my account</source>
-        <translation></translation>
+        <translation>Verwijder mijn account</translation>
     </message>
     <message>
         <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed.</source>
-        <translation></translation>
+        <translation>Bekijk onze &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; om te zien welke informatie wij gebruiken.</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation></translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <source>OK</source>
@@ -433,23 +433,23 @@
     </message>
     <message>
         <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
-        <translation></translation>
+        <translation>Inloggen is mislukt. Probeer het nogmaals. Heeft u misschien &lt;a href=&quot;#&quot;&gt;uw wachtwoord vergeten?&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Don&apos;t have a user yet?</source>
-        <translation></translation>
+        <translation>Nog niet geregistreerd als gebruiker?</translation>
     </message>
     <message>
         <source>Sign Up</source>
-        <translation></translation>
+        <translation>Registreren</translation>
     </message>
     <message>
         <source>Sign up</source>
-        <translation></translation>
+        <translation>Registreren</translation>
     </message>
     <message>
         <source>Welcome to %1:cloud.</source>
-        <translation></translation>
+        <translation>Welkom bij %1:cloud.</translation>
     </message>
     <message>
         <source>Please enter your email address and pick a password in order to create a new account.</source>
@@ -561,7 +561,7 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems connected to your cloud.</source>
-        <translation><numerusform>Er zijn %n %1 systemen verbonden met uw cloud.</numerusform>
+        <translation><numerusform>Er is %n %1 systeem verbonden met uw cloud.</numerusform>
         <numerusform>Er zijn %n %1 systemen verbonden met uw cloud.</numerusform>
         </translation></message>
     <message>
@@ -629,7 +629,7 @@
     </message>
     <message>
         <source>%1 cloud settings</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 cloud instellingen</translation>
     </message>
     <message>
         <source>Connect %1 to %1:cloud in order to access it from anywhere.</source>
