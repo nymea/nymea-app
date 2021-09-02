@@ -109,7 +109,7 @@ MainViewBase {
                 Layout.columnSpan: energyGrid.columns
                 Layout.preferredHeight: width * .7
                 legend.alignment: Qt.AlignBottom
-                legend.font.pixelSize: app.smallFont
+                legend.font: Style.extraSmallFont
 //                legend.visible: false
                 legend.labelColor: Style.foregroundColor
                 backgroundColor: Style.tileBackgroundColor
@@ -286,7 +286,7 @@ MainViewBase {
                     // This seems to crash occationally
 //                    onMinChanged: applyNiceNumbers();
 //                    onMaxChanged: applyNiceNumbers();
-                    labelsFont.pixelSize: app.smallFont
+                    labelsFont: Style.extraSmallFont
                     labelFormat: "%d"
                     labelsColor: Style.foregroundColor
                     color: Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, .2)
@@ -298,7 +298,7 @@ MainViewBase {
                     gridVisible: false
                     color: Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, .2)
                     tickCount: chartView.width / 70
-                    labelsFont.pixelSize: app.smallFont
+                    labelsFont: Style.extraSmallFont
                     labelsColor: Style.foregroundColor
                     property int timeDiff: (xAxis.max.getTime() - xAxis.min.getTime()) / 1000
 

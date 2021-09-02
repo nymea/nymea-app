@@ -5,6 +5,9 @@ Item {
     id: root
 
     property Thing thing: null
+
+    // either or
+    property string stateName: ""
     property StateType stateType: null
 
     readonly property var pendingValue: d.queuedValue || d.pendingValue
@@ -16,9 +19,10 @@ Item {
             return;
         }
         d.pendingValue = value;
-        d.pendingCommand = root.thing.executeAction(root.stateType.name,
+        var stateName = root.stateType == null ? root.stateName : root.stateType.name
+        d.pendingCommand = root.thing.executeAction(stateName,
                                           [{
-                                               paramName: root.stateType.name,
+                                               paramName: stateName,
                                                value: value
                                            }])
         d.queuedValue = null
