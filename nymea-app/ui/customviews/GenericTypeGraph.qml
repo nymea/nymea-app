@@ -108,7 +108,6 @@ Item {
                 text: root.stateType.type.toLowerCase() === "bool"
                        ? root.stateType.displayName
                        : 1.0 * Math.round(Types.toUiValue(root.valueState.value, root.stateType.unit) * Math.pow(10, root.roundTo)) / Math.pow(10, root.roundTo) + " " + Types.toUiUnit(root.stateType.unit)
-                font.pixelSize: app.largeFont
             }
             HeaderButton {
                 imageSource: "../images/zoom-out.svg"
@@ -139,7 +138,7 @@ Item {
             min: Math.floor(logsModelNg.minValue - Math.abs(logsModelNg.minValue * .05))
             //                onMinChanged: applyNiceNumbers();
             //                onMaxChanged: applyNiceNumbers();
-            labelsFont: Style.smallFont
+            labelsFont: Style.extraSmallFont
             labelFormat: {
                 if (root.stateType && root.stateType.type.toLowerCase() == "bool") {
                     return "x";
@@ -165,7 +164,7 @@ Item {
             gridVisible: false
             color: Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, .2)
             tickCount: chartView.width / 70
-            labelsFont: Style.smallFont
+            labelsFont: Style.extraSmallFont
             labelsColor: Style.foregroundColor
             property int timeDiff: (xAxis.max.getTime() - xAxis.min.getTime()) / 1000
 
