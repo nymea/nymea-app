@@ -30,7 +30,7 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.1
 import Nymea 1.0
 import QtGraphicalEffects 1.0
@@ -57,10 +57,10 @@ ThingPageBase {
 
     GridLayout {
         anchors.fill: parent
-        anchors.margins: app.margins
+        anchors.margins: Style.bigMargins
         columns: app.landscape ? root.statesCount : 1
-        rowSpacing: app.margins
-        columnSpacing: app.margins
+        rowSpacing: Style.bigMargins
+        columnSpacing: Style.bigMargins
         Layout.alignment: Qt.AlignCenter
 
         GridLayout {
@@ -79,71 +79,87 @@ ThingPageBase {
                     ListElement { name: "reading"; ct: "57"; bri: 100; color: "#f4de00" }
                     ListElement { name: "relax"; ct: "95" ; bri: 55; color: "#ffaf2a"}
                 }
-                delegate: Item {
-                    Layout.preferredWidth: Style.hugeIconSize
+                delegate: ProgressButton {
                     Layout.preferredHeight: Style.hugeIconSize
-                    Layout.fillWidth: true
-                    Layout.fillHeight: app.landscape
-                    ItemDelegate {
-                        height: Style.hugeIconSize
-                        width: height
-                        anchors.centerIn: parent
-
-                        leftPadding: 0
-                        rightPadding: 0
-                        topPadding: 0
-                        bottomPadding: 0
-
-                        contentItem: Rectangle {
-                            color: model.color
-                            radius: Style.cornerRadius
-
-                            ColorIcon {
-                                anchors.fill: parent
-                                name: "../images/lighting/" + model.name + ".svg"
-                                color: "white"
-                            }
-                        }
+                    Layout.preferredWidth: Style.hugeIconSize
+                    imageSource: "../images/lighting/" + model.name + ".svg"
+                    longpressEnabled: false
+//                    mode: "normal"
+//                    backgroundColor: model.color
 
 
-                        onClicked: {
-                            // Translate from % to absolute value in min/max
-                            // % : 100 = abs : (max - min)
-                            print("min,max", root.ctStateType, root.ctStateType.minValue, root.ctStateType.maxValue)
-                            var absoluteCtValue = (model.ct * (root.ctStateType.maxValue - root.ctStateType.minValue) / 100) + root.ctStateType.minValue
-                            var params = [];
-                            var param1 = {};
-                            param1["paramName"] = root.ctActionType.paramTypes.get(0).name;
-                            param1["value"] = absoluteCtValue;
-                            params.push(param1)
-                            root.thing.executeAction(root.ctActionType.name, params)
-                            params = [];
-                            param1 = {};
-                            param1["paramName"] = root.brightnessActionType.paramTypes.get(0).name;
-                            param1["value"] = model.bri;
-                            params.push(param1)
-                            root.thing.executeAction(root.brightnessActionType.name, params)
-                        }
+                    onClicked: {
+                        // Translate from % to absolute value in min/max
+                        // % : 100 = abs : (max - min)
+                        print("min,max", root.ctStateType, root.ctStateType.minValue, root.ctStateType.maxValue)
+                        var absoluteCtValue = (model.ct * (root.ctStateType.maxValue - root.ctStateType.minValue) / 100) + root.ctStateType.minValue
+                        var params = [];
+                        var param1 = {};
+                        param1["paramName"] = root.ctActionType.paramTypes.get(0).name;
+                        param1["value"] = absoluteCtValue;
+                        params.push(param1)
+                        root.thing.executeAction(root.ctActionType.name, params)
+                        params = [];
+                        param1 = {};
+                        param1["paramName"] = root.brightnessActionType.paramTypes.get(0).name;
+                        param1["value"] = model.bri;
+                        params.push(param1)
+                        root.thing.executeAction(root.brightnessActionType.name, params)
                     }
                 }
             }
         }
 
-        ColorPicker {
+        StackLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.maximumHeight: width
-            thing: root.thing
-            visible: root.thing.thingClass.stateTypes.findByName("color") !== null
+            currentIndex: selectionTabs.currentIndex
+
+            Repeater {
+                model: modeModel
+                delegate: Loader {
+                    sourceComponent: model.comp
+                }
+            }
+
+            Component {
+                id: colorPickerComponent
+                ColorPicker {
+                    anchors.fill: parent
+                    thing: root.thing
+                }
+            }
+
+            Component {
+                id: colorTemperatureComponent
+                ColorTemperaturePicker {
+                    anchors.fill: parent
+                    thing: root.thing
+                    orientation: app.landscape ? Qt.Vertical : Qt.Horizontal
+                }
+            }
         }
 
-        ColorTemperaturePicker {
-            Layout.fillWidth: !app.landscape
-            Layout.fillHeight: app.landscape
-            thing: root.thing
-            orientation: app.landscape ? Qt.Vertical : Qt.Horizontal
-            visible: root.thing.thingClass.stateTypes.findByName("colorTemperature") !== null
+        ListModel {
+            id: modeModel
+            Component.onCompleted: {
+                if (root.thing.thingClass.stateTypes.findByName("color") !== null) {
+                    append({modelData: qsTr("Color"), comp: colorPickerComponent})
+                }
+                if (root.thing.thingClass.stateTypes.findByName("colorTemperature") !== null) {
+                    append({modelData: qsTr("Temperature"), comp: colorTemperatureComponent})
+                }
+            }
         }
+
+        SelectionTabs {
+            id: selectionTabs
+            Layout.fillWidth: true
+            model: modeModel
+            visible: modeModel.count > 1
+        }
+
 
         GridLayout {
             id: basicItems
@@ -154,25 +170,14 @@ ThingPageBase {
             rowSpacing: app.margins
             columns: (app.landscape && (root.colorState !== null && root.ctState !== null))
                      || (!app.landscape && (root.colorState === null && root.ctState === null)) ? 1 : 2
-            Rectangle {
-                Layout.preferredWidth: Style.hugeIconSize
-                Layout.preferredHeight: width
-                radius: Style.cornerRadius
-                color: root.colorState ? root.colorState.value : "red"
-//                color: Qt.tint(Style.backgroundColor, Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.1))
-                ColorIcon {
-                    anchors.centerIn: parent
-                    height: Style.bigIconSize
-                    width: height
-                    name: root.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
-                    color: root.colorState ?
-                               NymeaUtils.isDark(root.colorState.value) ? "white" : "black" : "white"
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        root.thing.executeAction("power", [{paramName: "power", value: !root.powerState.value}])
-                    }
+
+            ProgressButton {
+                imageSource: root.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
+                mode: "normal"
+                size: Style.bigIconSize
+                longpressEnabled: false
+                onClicked: {
+                    root.thing.executeAction("power", [{paramName: "power", value: !root.powerState.value}])
                 }
             }
 

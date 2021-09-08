@@ -35,8 +35,8 @@ import "../utils"
 
 Item {
     id: root
-    implicitWidth: orientation == Qt.Horizontal ? 300 : Style.hugeIconSize
-    implicitHeight: orientation == Qt.Horizontal ? Style.hugeIconSize : 300
+    implicitWidth: orientation == Qt.Horizontal ? 300 : 12
+    implicitHeight: orientation == Qt.Horizontal ? 12 : 300
 
     property Thing thing: null
 
@@ -84,14 +84,15 @@ Item {
         y: root.orientation === Qt.Vertical ?
                root.height - dragHandle.height - ((actionQueue.pendingValue || root.value) * (root.height - dragHandle.height) / 100)
              : 0
-        height: root.orientation === Qt.Horizontal ? parent.height : 8
-        width: root.orientation === Qt.Horizontal ? 8 : parent.width
-        radius: 4
+        height: 14
+        width: 14
+        radius: 7
         color: Style.foregroundColor
     }
 
     MouseArea {
         anchors.fill: parent
+        anchors.margins: -Style.smallMargins
         onPositionChanged: {
             var minCt = root.colorTemperatureStateType.minValue;
             var maxCt = root.colorTemperatureStateType.maxValue
