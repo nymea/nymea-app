@@ -1,3 +1,11 @@
+nymea-app (1.0.352) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bigger blocksize in logs
+  * Reduce font size in graphs
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 08 Sep 2021 15:18:37 +0200
+
 nymea-app (1.0.351) bionic; urgency=medium
 
   [ Michael Zanetti ]
