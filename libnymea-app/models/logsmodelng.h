@@ -140,7 +140,7 @@ private:
     QList<QUuid> m_typeIds;
     QDateTime m_startTime;
     QDateTime m_endTime;
-    int m_blockSize = 100;
+    int m_blockSize = 1000;
     bool m_canFetchMore = true;
     QDateTime m_viewStartTime;
     QVariant m_minValue;

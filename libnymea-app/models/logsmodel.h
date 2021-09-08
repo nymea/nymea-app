@@ -36,6 +36,9 @@
 
 #include "types/logentry.h"
 
+#include <QLoggingCategory>
+Q_DECLARE_LOGGING_CATEGORY(dcLogEngine)
+
 class Engine;
 
 class LogsModel : public QAbstractListModel, public QQmlParserStatus
@@ -64,6 +67,7 @@ public:
         RoleErrorCode
     };
     explicit LogsModel(QObject *parent = nullptr);
+    virtual ~LogsModel() = default;
 
     Engine* engine() const;
     void setEngine(Engine* engine);
@@ -73,7 +77,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
     bool canFetchMore(const QModelIndex &parent) const override;
-    void fetchMore(const QModelIndex &parent = QModelIndex()) override;
+    virtual void fetchMore(const QModelIndex &parent = QModelIndex()) override;
     void classBegin() override;
     void componentComplete() override;
 
@@ -127,7 +131,7 @@ protected:
 
     bool m_busy = false;
     bool m_live = false;
-    int m_blockSize = 100;
+    int m_blockSize = 1000;
 
     bool m_busyInternal = false;
 
