@@ -131,8 +131,8 @@ ios: {
     message("iOS build")
     HEADERS += platformintegration/ios/platformhelperios.h
     SOURCES += platformintegration/ios/platformhelperios.cpp
-    OBJECTIVE_SOURCES += $${IOS_PACKAGE_DIR}/platformhelperios.mm \
-                         $${IOS_PACKAGE_DIR}/pushnotifications.mm \
+    OBJECTIVE_SOURCES += platformintegration/ios/platformhelperios.mm \
+                         platformintegration/ios/pushnotifications.mm \
 
     OTHER_FILES += $${OBJECTIVE_SOURCES}
 

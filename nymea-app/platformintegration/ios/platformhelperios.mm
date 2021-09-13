@@ -115,7 +115,7 @@ void PlatformHelperIOS::setTopPanelColorInternal(const QColor &color)
     }
 
     if (((color.red() * 299 + color.green() * 587 + color.blue() * 114) / 1000) > 123) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDarkContent animated:YES];
     } else {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     }
