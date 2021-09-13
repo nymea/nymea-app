@@ -76,6 +76,7 @@ android {
                 qt5AndroidDir + '/src',
                 nymeaAppRoot + '/androidservice/java',
                 nymeaAppRoot + '/nymea-app/platformintegration/android/java',
+                nymeaAppRoot + '/QtZeroConf/android',
                 'src',
                 'java']
             if ("${useFirebase}" == "true") {
