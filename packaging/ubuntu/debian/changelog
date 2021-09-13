@@ -1,3 +1,11 @@
+nymea-app (1.0.354) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix saving manual connections in config
+  * Update QtZeroConf commit
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 13 Sep 2021 19:39:19 +0200
+
 nymea-app (1.0.353) bionic; urgency=medium
 
   [ Michael Zanetti ]
