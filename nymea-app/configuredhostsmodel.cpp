@@ -158,6 +158,9 @@ void ConfiguredHostsModel::addHost(ConfiguredHost *host)
         QModelIndex idx = index(m_list.indexOf(host));
         emit dataChanged(idx, idx, {RoleName});
     });
+    connect(host, &ConfiguredHost::uuidChanged, this, [=](){
+        saveToDisk();
+    });
     m_list.append(host);
     endInsertRows();
     emit countChanged();

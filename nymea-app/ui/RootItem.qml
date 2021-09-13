@@ -295,7 +295,7 @@ Item {
                             popup.open();
                         }
                         onConnectedChanged: {
-                            print("json client connected changed", engine.jsonRpcClient.connected)
+                            print("json client connected changed", engine.jsonRpcClient.connected, engine.jsonRpcClient.serverUuid)
                             if (engine.jsonRpcClient.connected) {
                                 nymeaDiscovery.cacheHost(engine.jsonRpcClient.currentHost)
                                 configuredHost.uuid = engine.jsonRpcClient.serverUuid
