@@ -1,3 +1,10 @@
+nymea-app (1.0.353) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix iOS top panel font color with phone dark mode and light style
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 13 Sep 2021 14:06:02 +0200
+
 nymea-app (1.0.352) bionic; urgency=medium
 
   [ Michael Zanetti ]
