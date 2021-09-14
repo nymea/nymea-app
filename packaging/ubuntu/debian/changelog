@@ -1,3 +1,10 @@
+nymea-app (1.0.356) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump QtZeroconf once more
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 14 Sep 2021 11:14:49 +0200
+
 nymea-app (1.0.355) bionic; urgency=medium
 
   [ Michael Zanetti ]
