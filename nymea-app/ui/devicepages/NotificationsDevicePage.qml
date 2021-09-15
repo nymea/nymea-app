@@ -140,6 +140,7 @@ ThingPageBase {
             id: logView
             Layout.fillHeight: true
             Layout.fillWidth: true
+            clip: true
 
             model: LogsModel {
                 id: logsModel
