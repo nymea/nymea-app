@@ -1,3 +1,10 @@
+nymea-app (1.0.357) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Clip notifications list
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 15 Sep 2021 11:14:05 +0200
+
 nymea-app (1.0.356) bionic; urgency=medium
 
   [ Michael Zanetti ]
