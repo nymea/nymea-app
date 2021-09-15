@@ -98,7 +98,10 @@ void TagWatcher::update()
         if (t->tagId() != m_tagId) {
             continue;
         }
-        if (t->thingId() != m_thingId && t->ruleId() != m_ruleId) {
+        if (!m_thingId.isNull() && t->thingId() != m_thingId) {
+            continue;
+        }
+        if (!m_ruleId.isNull() && t->ruleId() != m_ruleId) {
             continue;
         }
         tag = t;
