@@ -44,7 +44,13 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
         Intent intent = new Intent(this, NymeaAppActivity.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, 0);
+
+        Log.d(TAG, "adding extra data to intent: " + remoteMessage.getData().get("nymeaData"));
+
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra("notificationData", remoteMessage.getData().get("nymeaData"));
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         // We can't directly access R.drawable.ic_stat_notification from here:
         // When the package is branded, the package name is not "io.guh.nymeaapp" and resources in
@@ -62,6 +68,17 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setSound(android.provider.Settings.System.DEFAULT_RINGTONE_URI)
                 .setContentIntent(pendingIntent);
+
+        // Action tests
+//        Intent actionIntent = new Intent(this, NymeaAppActivity.class);
+//        actionIntent.setAction(Intent.ACTION_SEND);
+//        actionIntent.putExtra("foobar", "baz");
+//        PendingIntent actionPendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, actionIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+//        notificationBuilder.addAction(resId, "30%", actionPendingIntent);
+//        notificationBuilder.addAction(resId, "50%", actionPendingIntent);
+//        notificationBuilder.addAction(resId, "70%", actionPendingIntent);
+        // Action tests end
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 

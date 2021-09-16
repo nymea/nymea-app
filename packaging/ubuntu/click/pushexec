@@ -7,13 +7,25 @@ import json
 f1, f2 = sys.argv[1:3]
 
 payloadJson = json.load(open(f1))
+print("<<<< Input: %s" % payloadJson)
 
+# Set an icon
 dir_path = os.path.dirname(os.path.realpath(__file__))
 payloadJson["notification"]["card"]["icon"] = dir_path + "/appicon.svg"
 
-payloadJson["notification"]["card"]["actions"] = ["appid://io.guh.nymeaapp/nymea-app/current-user-version"]
+
+# Define the on-click action
+action = "appid://io.guh.nymeaapp/nymea-app/current-user-version" # The default action (just opening the app)
+if "nymeaData" in payloadJson["notification"]:
+  action = "nymea://notification?nymeaData=%s" % json.dumps(payloadJson["notification"]["nymeaData"])
+
+payloadJson["notification"]["card"]["actions"] = [action]
 #payloadJson["notification"]["emblem-counter"] = {"count": 1, "visible": True }
 
-print(payloadJson)
+#print("nymeaData: %s" % nymeaData)
+print("action: %s" % action)
+
+print(">>>> Output: %s" % payloadJson)
+
 open(f2, "w").write(json.dumps(payloadJson) + "\n")
 

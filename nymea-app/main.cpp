@@ -98,7 +98,13 @@ int main(int argc, char *argv[])
     // Initialize app log controller as early as possible, but after setting app name and printing initial startup info
     AppLogController::instance();
 
-    qCInfo(dcApplication()) << "*** nymea:app starting ***" << QDateTime::currentDateTime().toString();
+    qCInfo(dcApplication()) << "*** nymea:app starting ***" << QDateTime::currentDateTime().toString() << application.arguments();
+
+    foreach (const QString &argument, application.arguments()) {
+        if (argument.startsWith("nymea://notification")) {
+            PlatformHelper::instance()->notificationActionReceived(QUrlQuery(QUrl(argument).query()).queryItemValue("nymeaData"));
+        }
+    }
 
     QTranslator qtTranslator;    
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));

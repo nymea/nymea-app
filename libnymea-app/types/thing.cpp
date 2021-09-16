@@ -222,8 +222,11 @@ int Thing::executeAction(const QString &actionName, const QVariantList &params)
 {
     ActionType *actionType = m_thingClass->actionTypes()->findByName(actionName);
     if (!actionType) {
-        qCWarning(dcThingManager) << "No such action name" << actionName << "in thing class" << m_thingClass->name();
-        return -1;
+        actionType = m_thingClass->actionTypes()->getActionType(QUuid(actionName));
+        if (!actionType) {
+            qCWarning(dcThingManager) << "No such action" << actionName << "in thing class" << m_thingClass->name();
+            return -1;
+        }
     }
 
     QVariantList finalParams;

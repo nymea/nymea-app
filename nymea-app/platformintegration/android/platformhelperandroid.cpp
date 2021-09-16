@@ -48,6 +48,7 @@ static PlatformHelperAndroid *m_instance = nullptr;
 
 static JNINativeMethod methods[] = {
     { "darkModeEnabledChangedJNI", "()V", (void *)PlatformHelperAndroid::darkModeEnabledChangedJNI },
+    { "notificationActionReceivedJNI", "(Ljava/lang/String;)V", (void *)PlatformHelperAndroid::notificationActionReceivedJNI },
 };
 
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
@@ -77,6 +78,10 @@ PlatformHelperAndroid::PlatformHelperAndroid(QObject *parent) : PlatformHelper(p
 {
     m_instance = this;
 
+    QString notificationData = QtAndroid::androidActivity().callObjectMethod("notificationData", "()Ljava/lang/String;").toString();
+    if (!notificationData.isNull()) {
+        notificationActionReceived(notificationData);
+    }
 }
 
 void PlatformHelperAndroid::requestPermissions()
@@ -272,5 +277,15 @@ void PlatformHelperAndroid::darkModeEnabledChangedJNI()
 {
     if (m_instance) {
         emit m_instance->darkModeEnabledChanged();
+    }
+}
+
+void PlatformHelperAndroid::notificationActionReceivedJNI(JNIEnv *env, jobject, jstring data)
+{
+    // Only call the platformhelper if it exists yet. We may get this callback before the Qt part is created
+    // and we don't want to create the PlatformHelper on the android thread.
+    PlatformHelper* platformHelper = PlatformHelperAndroid::instance(false);
+    if (platformHelper) {
+        platformHelper->notificationActionReceived(env->GetStringUTFChars(data, nullptr));
     }
 }

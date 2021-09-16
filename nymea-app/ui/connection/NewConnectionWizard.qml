@@ -747,6 +747,8 @@ WizardPageBase {
 
             content: ColumnLayout {
                 Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
                 Layout.maximumWidth: 500
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredHeight: visibleContentHeight
@@ -755,6 +757,7 @@ WizardPageBase {
                     wrapMode: Text.WordWrap
                     text: qsTr("You can now go ahead and configure your nymea system.")
                     visible: wirelessConnectionCompletedPage.host != null
+                    horizontalAlignment: Text.AlignHCenter
                 }
                 BusyIndicator {
                     Layout.alignment: Qt.AlignHCenter

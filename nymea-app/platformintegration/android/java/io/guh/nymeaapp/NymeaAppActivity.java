@@ -20,11 +20,21 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
     private static Context context = null;
 
     private static native void darkModeEnabledChangedJNI();
+    private static native void notificationActionReceivedJNI(String data);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = getApplicationContext();
+    }
+
+    public void onNewIntent (Intent intent) {
+        Log.d(TAG, "New intent: " + intent);
+        String notificationData = intent.getStringExtra("notificationData");
+        if (notificationData != null) {
+            Log.d(TAG, "Intent data: " + notificationData);
+            notificationActionReceivedJNI(notificationData);
+        }
     }
 
     @Override
@@ -33,6 +43,9 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
         NymeaAppActivity.darkModeEnabledChangedJNI();
     }
 
+    public String notificationData() {
+        return getIntent().getStringExtra("notificationData");
+    }
 
     public static Context getAppContext() {
         return NymeaAppActivity.context;

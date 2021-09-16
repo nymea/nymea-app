@@ -49,6 +49,11 @@ Item {
 
     property var headerButtons: []
 
+    // Override this to receive events (e.g. from push notification bubbles)
+    function handleEvent(data) {
+        print("handleEvent not implemented in", title)
+    }
+
     Background {
         anchors.fill: parent
     }

@@ -5,6 +5,22 @@
 
 #include "platformhelper.h"
 
+class UriHandlerObject: public QObject
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.freedesktop.Application")
+
+ public:
+    UriHandlerObject(PlatformHelper* platformHelper);
+
+ public Q_SLOTS:
+    void Open(const QStringList& uris, const QHash<QString, QVariant>& platformData);
+
+ private:
+    PlatformHelper* m_platformHelper = nullptr;
+};
+
+
 class PlatformHelperUBPorts : public PlatformHelper
 {
     Q_OBJECT
@@ -15,6 +31,11 @@ public:
     QString deviceSerial() const override;
 
 signals:
+
+private:
+    void setupUriHandler();
+
+    UriHandlerObject m_uriHandlerObject;
 
 };
 

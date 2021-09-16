@@ -105,7 +105,8 @@ ubuntu_files.files += \
     packaging/ubuntu/click/appicon.svg \
     packaging/ubuntu/click/push.json \
     packaging/ubuntu/click/push-apparmor.json \
-    packaging/ubuntu/click/pushexec
+    packaging/ubuntu/click/pushexec \
+    packaging/ubuntu/click/urls.json
 
 INSTALLS += ubuntu_files
 }

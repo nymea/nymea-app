@@ -1,8 +1,8 @@
 #import "UIKit/UIKit.h"
 #import <UserNotifications/UserNotifications.h>
 
-// Include our C++ class
 #include "pushnotifications.h"
+#include "platformhelper.h"
 
 #include <QDebug>
 
@@ -76,6 +76,11 @@
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)())completionHandler{
     NSLog(@"User Info : %@",response.notification.request.content.userInfo);
     qDebug() << "received notification response!";
+
+    NSString *nymeaData = response.notification.request.content.userInfo[@"gcm.notification.nymeaData"];
+
+    PlatformHelper::instance()->notificationActionReceived(QString::fromNSString(nymeaData));
+
     completionHandler();
 }
 

@@ -68,6 +68,7 @@ public:
     void shareFile(const QString &fileName) override;
 
     static void darkModeEnabledChangedJNI();
+    static void notificationActionReceivedJNI(JNIEnv *env, jobject /*thiz*/, jstring data);
 
 private:
     static void permissionRequestFinished(const QtAndroid::PermissionResultMap &);

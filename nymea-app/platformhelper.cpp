@@ -34,6 +34,8 @@
 #include <QClipboard>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QUrlQuery>
+#include <QJsonDocument>
 
 #if defined Q_OS_ANDROID
 #include <QtAndroidExtras/QtAndroid>
@@ -56,9 +58,34 @@ PlatformHelper::PlatformHelper(QObject *parent) : QObject(parent)
 
 }
 
-PlatformHelper *PlatformHelper::instance()
+void PlatformHelper::notificationActionReceived(const QString &nymeaData)
 {
-    if (!s_instance) {
+    QJsonParseError error;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(nymeaData.toUtf8(), &error);
+    if (error.error != QJsonParseError::NoError) {
+        qCWarning(dcPlatformIntegration()) << "Received a notification action but cannot parse it:" << error.errorString() << nymeaData;
+        return;
+    }
+    QVariantMap map = jsonDoc.toVariant().toMap();
+    QUuid id = QUuid::createUuid();
+    map.insert("id", id);
+
+    // transforming data from a url query to a map for easier processing in QML
+    QUrlQuery query(map.value("data").toString());
+    QVariantMap dataMap;
+    for (int i = 0; i < query.queryItems().count(); i++) {
+        const QPair<QString, QString> &item = query.queryItems().at(i);
+        dataMap.insert(item.first, item.second);
+    }
+    map.insert("dataMap", dataMap);
+
+    m_pendingNotificationActions.insert(id, map);
+    emit pendingNotificationActionsChanged();
+}
+
+PlatformHelper *PlatformHelper::instance(bool create)
+{
+    if (!s_instance && create) {
 #ifdef Q_OS_ANDROID
         s_instance = new PlatformHelperAndroid();
 #elif defined(Q_OS_IOS)
@@ -176,6 +203,17 @@ void PlatformHelper::setBottomPanelColor(const QColor &color)
 bool PlatformHelper::darkModeEnabled() const
 {
     return false;
+}
+
+QVariantList PlatformHelper::pendingNotificationActions() const
+{
+    return m_pendingNotificationActions.values();
+}
+
+void PlatformHelper::notificationActionHandled(const QUuid &id)
+{
+    m_pendingNotificationActions.remove(id);
+    emit pendingNotificationActionsChanged();
 }
 
 bool PlatformHelper::splashVisible() const

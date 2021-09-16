@@ -33,6 +33,9 @@
 
 #include <QObject>
 #include <QColor>
+#include <QHash>
+#include <QUuid>
+#include <QVariant>
 
 class QQmlEngine;
 class QJSEngine;
@@ -54,6 +57,7 @@ class PlatformHelper : public QObject
     Q_PROPERTY(QColor topPanelColor READ topPanelColor WRITE setTopPanelColor NOTIFY topPanelColorChanged)
     Q_PROPERTY(QColor bottomPanelColor READ bottomPanelColor WRITE setBottomPanelColor NOTIFY bottomPanelColorChanged)
     Q_PROPERTY(bool darkModeEnabled READ darkModeEnabled NOTIFY darkModeEnabledChanged)
+    Q_PROPERTY(QVariantList pendingNotificationActions READ pendingNotificationActions NOTIFY pendingNotificationActionsChanged)
 
 public:
     enum HapticsFeedback {
@@ -63,7 +67,7 @@ public:
     };
     Q_ENUM(HapticsFeedback)
 
-    static PlatformHelper* instance();
+    static PlatformHelper* instance(bool create = true);
     virtual ~PlatformHelper() = default;
 
     virtual bool hasPermissions() const;
@@ -89,6 +93,9 @@ public:
 
     virtual bool darkModeEnabled() const;
 
+    QVariantList pendingNotificationActions() const;
+    Q_INVOKABLE void notificationActionHandled(const QUuid &id);
+
     virtual bool splashVisible() const;
     virtual void setSplashVisible(bool splashVisible);
     Q_INVOKABLE virtual void hideSplashScreen();
@@ -102,6 +109,9 @@ public:
     Q_INVOKABLE virtual void shareFile(const QString &fileName);
 
     static QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
+
+    void notificationActionReceived(const QString &nymeaData);
+
 signals:
     void permissionsRequestFinished();
     void screenTimeoutChanged();
@@ -110,6 +120,7 @@ signals:
     void bottomPanelColorChanged();
     void darkModeEnabledChanged();
     void splashVisibleChanged();
+    void pendingNotificationActionsChanged();
 
 protected:
     explicit PlatformHelper(QObject *parent = nullptr);
@@ -121,6 +132,8 @@ private:
     QColor m_bottomPanelColor = QColor("black");
 
     bool m_splashVisible = true;
+
+    QHash<QUuid, QVariant> m_pendingNotificationActions;
 };
 
 #endif // PLATFORMHELPER_H

@@ -278,6 +278,7 @@ Page {
                         print("replacing args", typeof actionParam.value)
                         if (typeof actionParam.value === "string") {
                             actionParam.value = actionParam.value.replace("%" + selectionId, thingName);
+                            actionParam.value = actionParam.value.replace("$" + selectionId, selectedThings[selectionId]);
                         }
                     }
                 }
@@ -287,6 +288,7 @@ Page {
                         var actionParam = action.ruleActionParams.get(k);
                         if (typeof actionParam.value === "string") {
                             actionParam.value = actionParam.value.replace("%" + selectionId, thingName);
+                            actionParam.value = actionParam.value.replace("$" + selectionId, selectedThings[selectionId]);
                         }
                     }
                 }
@@ -445,6 +447,11 @@ Page {
             for (var j = 0; j < ruleActionTemplate.ruleActionParamTemplates.count; j++) {
                 var ruleActionParamTemplate = ruleActionTemplate.ruleActionParamTemplates.get(j)
                 var paramType = actionType.paramTypes.findByName(ruleActionParamTemplate.paramName);
+                if (!paramType) {
+                    print("Skipping template action param", ruleActionParamTemplate, "as action type does not have this param")
+                    continue;
+                }
+
                 if (ruleActionParamTemplate.value !== undefined) {
                     ruleAction.ruleActionParams.setRuleActionParam(paramType.id, ruleActionParamTemplate.value)
                 } else if (ruleActionParamTemplate.eventInterface && ruleActionParamTemplate.eventName && ruleActionParamTemplate.eventParamName) {

@@ -11,7 +11,9 @@
     "qml-module-qtcharts",
     "qml-module-qt-labs-calendar",
     "libconnectivity-qt1-dev",
-    "libunity-api-dev"
+    "libunity-api-dev",
+    "libnih-dbus-dev",
+    "libdbus-1-dev"
   ],
   "install_qml": [
     "/usr/lib/${ARCH_TRIPLET}/qt5/qml/Qt/labs/calendar/"

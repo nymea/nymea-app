@@ -6,7 +6,8 @@
     "hooks": {
         "nymea-app": {
             "apparmor": "nymea-app.apparmor",
-            "desktop":  "nymea-app.desktop"
+            "desktop":  "nymea-app.desktop",
+            "urls": "urls.json"
         },
         "push": {
             "apparmor": "push-apparmor.json",

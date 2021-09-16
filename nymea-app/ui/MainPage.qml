@@ -44,6 +44,11 @@ import "mainviews"
 Page {
     id: root
 
+    // Removing the background from this page only because the MainViewBase adds it again in
+    // a deepter layer as we need to include it in the blurring of the header and footer.
+    // We don't want to paint the background on the entire screen twice (overdraw is costly)
+    background: null
+
     function configureViews() {
         if (Configuration.hasOwnProperty("mainViewsFilter")) {
             console.warn("Main views configuration is disabled by app configuration")
@@ -54,10 +59,21 @@ Page {
         d.configOverlay = configComponent.createObject(contentContainer)
     }
 
-    // Removing the background from this page only because the MainViewBase adds it again in
-    // a deepter layer as we need to include it in the blurring of the header and footer.
-    // We don't want to paint the background on the entire screen twice (overdraw is costly)
-    background: null
+    function goToView(viewName, data) {
+        // We allow separating the target by : and pass more stuff to
+        console.log("Going to main view", viewName, filteredContentModel.count, data)
+        for (var i = 0; i < filteredContentModel.count; i++) {
+            console.log("got", i, filteredContentModel.modelData(i, "name"))
+            if (filteredContentModel.modelData(i, "name") === viewName) {
+                console.log("activating", i)
+//                mainViewSettings.currentIndex = i;
+//                tabBar.currentIndex = i;
+                swipeView.setCurrentIndex(i)
+                swipeView.currentItem.item.handleEvent(data)
+                break;
+            }
+        }
+    }
 
     header: Item {
         id: mainHeader
@@ -245,6 +261,7 @@ Page {
             Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
 
             Repeater {
+                id: mainViewsRepeater
                 model: d.configOverlay != null ? null : filteredContentModel
 
                 delegate: Loader {
