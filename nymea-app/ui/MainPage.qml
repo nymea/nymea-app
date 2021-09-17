@@ -280,6 +280,8 @@ Page {
                         }
                         fillMode: Image.PreserveAspectFit
                         height: 28
+                        sourceSize.height: height
+                        antialiasing: true
                     }
 
                 }
