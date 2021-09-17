@@ -1,3 +1,10 @@
+nymea-app (1.0.360) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix blurry logo with low res screens
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 17 Sep 2021 18:24:07 +0200
+
 nymea-app (1.0.359) bionic; urgency=medium
 
   [ Michael Zanetti ]
