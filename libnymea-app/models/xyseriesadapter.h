@@ -15,6 +15,7 @@ class XYSeriesAdapter : public QObject
 
     Q_PROPERTY(SampleRate sampleRate READ sampleRate WRITE setSampleRate NOTIFY sampleRateChanged)
     Q_PROPERTY(bool smooth READ smooth WRITE setSmooth NOTIFY smoothChanged)
+    Q_PROPERTY(bool inverted READ inverted WRITE setInverted NOTIFY invertedChanged)
 
     Q_PROPERTY(qreal maxValue READ maxValue NOTIFY maxValueChanged)
     Q_PROPERTY(qreal minValue READ minValue NOTIFY minValueChanged)
@@ -46,6 +47,9 @@ public:
     bool smooth() const;
     void setSmooth(bool smooth);
 
+    bool inverted() const;
+    void setInverted(bool inverted);
+
     qreal maxValue() const;
     qreal minValue() const;
 
@@ -57,6 +61,7 @@ signals:
     void baseSeriesChanged();
     void sampleRateChanged();
     void smoothChanged();
+    void invertedChanged();
     void maxValueChanged();
     void minValueChanged();
 
@@ -78,6 +83,7 @@ private:
     QtCharts::QXYSeries* m_baseSeries = nullptr;
     SampleRate m_sampleRate = SampleRateSecond;
     bool m_smooth = true;
+    bool m_inverted = false;
 
     QVector<Sample*> m_samples;
     QDateTime m_newestSample;

@@ -110,6 +110,19 @@ void XYSeriesAdapter::setSmooth(bool smooth)
     }
 }
 
+bool XYSeriesAdapter::inverted() const
+{
+    return m_inverted;
+}
+
+void XYSeriesAdapter::setInverted(bool inverted)
+{
+    if (m_inverted != inverted) {
+        m_inverted = inverted;
+        emit invertedChanged();
+    }
+}
+
 qreal XYSeriesAdapter::maxValue() const
 {
     return m_maxValue;
@@ -230,6 +243,10 @@ qreal XYSeriesAdapter::calculateSampleValue(int index)
 
     if (m_baseSeries && m_baseSeries->count() > index) {
         value += m_baseSeries->at(index).y();
+    }
+
+    if (m_inverted) {
+        value *= -1;
     }
 
     return value;
