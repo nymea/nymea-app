@@ -86,6 +86,18 @@ Item {
             interactive: false
             currentIndex: configuredHostsModel.currentIndex
 
+            onCurrentIndexChanged: visibleHackTimer.start();
+
+            // Hack: we only want the current one visible for performance reasons, however, during transitions this might look odd
+            // as we need to show two views partially at the same time.
+            // Couldn't find a way to determine the swipeView position, so let's assume it's moving for a second after currentIndex changed
+            Timer {
+                id: visibleHackTimer
+                repeat: false
+                interval: 500
+                running: false
+            }
+
             Repeater {
                 id: mainRepeater
                 model: configuredHostsModel
@@ -94,6 +106,7 @@ Item {
                     height: swipeView.height
                     width: swipeView.width
                     clip: true
+                    visible: SwipeView.isCurrentItem || visibleHackTimer.running
 
                     readonly property ConfiguredHost configuredHost: configuredHostsModel.get(index)
 
