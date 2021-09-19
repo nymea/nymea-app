@@ -58,7 +58,7 @@
         <file>ui/devicepages/GarageThingPage.qml</file>
         <file>ui/devicepages/AwningThingPage.qml</file>
         <file>ui/devicepages/NotificationsDevicePage.qml</file>
-        <file>ui/devicepages/LightDevicePage.qml</file>
+        <file>ui/devicepages/LightThingPage.qml</file>
         <file>ui/devicepages/FingerprintReaderDevicePage.qml</file>
         <file>ui/devicepages/DeviceLogPage.qml</file>
         <file>ui/devicelistpages/GenericThingsListPage.qml</file>

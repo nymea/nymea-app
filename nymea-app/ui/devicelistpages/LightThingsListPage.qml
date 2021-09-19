@@ -107,7 +107,7 @@ ThingsListPageBase {
                     property bool colorInverted: tileColored && NymeaUtils.isDark(Style.foregroundColor) === NymeaUtils.isDark(colorState.value)
 
                     onClicked: {
-                        if (isEnabled && (colorState || colorTemperatureState)) {
+                        if (isEnabled /*&& (colorState || colorTemperatureState)*/) {
                             root.enterPage(index)
                         } else {
                             itemDelegate.wobble()

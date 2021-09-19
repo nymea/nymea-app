@@ -209,7 +209,7 @@ MainPageTile {
                 case "light":
                     var group = engine.thingManager.createGroup(Interfaces.findByName("colorlight"), thingsProxy);
                     print("opening lights page for group", group)
-                    pageStack.push("../devicepages/LightDevicePage.qml", {thing: group})
+                    pageStack.push("../devicepages/LightThingPage.qml", {thing: group})
                 }
             }
         }

@@ -38,7 +38,7 @@ Item {
         } else if (interfaceList.indexOf("garagedoor") >= 0 ) {
             page = "GarageThingPage.qml";
         } else if (interfaceList.indexOf("light") >= 0) {
-            page = "LightDevicePage.qml";
+            page = "LightThingPage.qml";
         } else if (interfaceList.indexOf("shutter") >= 0  || interfaceList.indexOf("blind") >= 0) {
             page = "ShutterDevicePage.qml";
         } else if (interfaceList.indexOf("awning") >= 0) {
