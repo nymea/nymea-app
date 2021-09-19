@@ -1,3 +1,11 @@
+nymea-app (1.0.361) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump QtZeroConf version
+  * Hide inactive instances more agressively
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 19 Sep 2021 22:20:40 +0200
+
 nymea-app (1.0.360) bionic; urgency=medium
 
   [ Michael Zanetti ]
