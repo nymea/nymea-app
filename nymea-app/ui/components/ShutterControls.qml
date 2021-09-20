@@ -30,13 +30,13 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import Nymea 1.0
 
-RowLayout {
+Item {
     id: root
-    spacing: 0
+    implicitHeight: size * 4
+    implicitWidth: size * 7
 
     property Thing thing: null
     readonly property State openState: thing.stateByName("state")
@@ -48,47 +48,65 @@ RowLayout {
 
     signal activated(string button);
 
-    Item { Layout.fillWidth: true; Layout.fillHeight: true }
+    RowLayout {
+        anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
+        spacing: 0
 
-    ProgressButton {
-        longpressEnabled: false
-        imageSource: root.invert ? "../images/down.svg" : "../images/up.svg"
-        mode: root.backgroundEnabled ? "normal" : "transparent"
-        size: root.size
-        color: root.openState && root.openState.value === "opening" ? Material.accent : Style.iconColor
-        onClicked: {
-            engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("open").id)
-            root.activated("open")
+        Item { Layout.fillWidth: true; Layout.fillHeight: true }
+
+        ProgressButton {
+            imageSource: root.invert ? "../images/down.svg" : "../images/up.svg"
+            backgroundColor: root.backgroundEnabled ? Style.green : "transparent"
+            size: root.size
+            busy: root.openState ? root.openState.value === "opening" : openBusyTimer.running
+            onClicked: {
+                engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("open").id)
+                root.activated("open")
+                openBusyTimer.start()
+                closeBusyTimer.stop()
+            }
+
+            Timer {
+                id: openBusyTimer
+                interval: 5000
+            }
         }
-    }
 
-    Item { Layout.fillWidth: true; Layout.fillHeight: true }
+        Item { Layout.fillWidth: true; Layout.fillHeight: true }
 
-    ProgressButton {
-        visible: root.canStop
-        longpressEnabled: false
-        mode: root.backgroundEnabled ? "normal" : "transparent"
-        size: root.size
-        imageSource: "../images/media-playback-stop.svg"
-        onClicked: {
-            engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("stop").id)
-            root.activated("stop")
+        ProgressButton {
+            visible: root.canStop
+            backgroundColor: root.backgroundEnabled ? Style.yellow : "transparent"
+            size: root.size
+            imageSource: "../images/media-playback-stop.svg"
+            onClicked: {
+                engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("stop").id)
+                root.activated("stop")
+                openBusyTimer.stop()
+                closeBusyTimer.stop()
+            }
         }
-    }
 
-    Item { Layout.fillWidth: true; Layout.fillHeight: true }
+        Item { Layout.fillWidth: true; Layout.fillHeight: true }
 
-    ProgressButton {
-        imageSource: root.invert ? "../images/up.svg" : "../images/down.svg"
-        longpressEnabled: false
-        mode: root.backgroundEnabled ? "normal" : "transparent"
-        size: root.size
-        color: root.openState && root.openState.value === "closing" ? Material.accent : Style.iconColor
-        onClicked: {
-            engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("close").id)
-            root.activated("close")
+        ProgressButton {
+            imageSource: root.invert ? "../images/up.svg" : "../images/down.svg"
+            backgroundColor: root.backgroundEnabled ? Style.red : "transparent"
+            size: root.size
+            busy: root.openState ? root.openState.value === "closing" : closeBusyTimer.running
+            onClicked: {
+                engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("close").id)
+                root.activated("close")
+                openBusyTimer.stop();
+                closeBusyTimer.start()
+            }
+            Timer {
+                id: closeBusyTimer
+                interval: 5000
+            }
         }
-    }
 
-    Item { Layout.fillWidth: true; Layout.fillHeight: true }
+        Item { Layout.fillWidth: true; Layout.fillHeight: true }
+    }
 }
+

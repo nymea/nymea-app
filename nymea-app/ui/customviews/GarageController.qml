@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
+import QtGraphicalEffects 1.0
 import "../components"
 import Nymea 1.0
 
@@ -42,66 +43,49 @@ Item {
                                      : Math.min(Math.min(parent.width, 500), parent.height - shutterControlsContainer.minimumHeight)
             Layout.preferredHeight: width
 
-            ColorIcon {
+            Rectangle {
+                id: background
                 anchors.centerIn: parent
-                size: Math.min(parent.height, parent.width) - Style.hugeMargins * 2
-                property string currentImage: {
-                    if (root.isExtended) {
-                        return NymeaUtils.pad(Math.round(root.percentageState.value / 10), 2) + "0"
-                    }
-                    if (root.intermediatePositionStateType) {
-                        return root.stateState.value === "closed" ? "100"
-                                : root.intermediatePositionState.value === false ? "000" : "050"
-                    }
-                    return "100"
-                }
-                name: "../images/garage/garage-" + currentImage + ".svg"
+                width: Math.min(500, Math.min(parent.width, parent.height) - Style.hugeMargins * 2)
+                height: width
+                radius: width / 2
+                color: Style.tileBackgroundColor
+            }
 
-
-                Item {
-                    id: arrows
+            Item {
+                id: door
+                anchors.fill: background
+                Canvas {
+                    id: canvas
                     anchors.centerIn: parent
-                    width: Style.iconSize * 2
-                    height: parent.height * .6
-                    clip: true
-                    visible: root.stateStateType && (root.stateState.value === "opening" || root.stateState.value === "closing")
-                    property bool up: root.stateState && root.stateState.value === "opening"
+                    width: parent.width
+                    height: parent.height + Style.margins
+                    anchors.verticalCenterOffset: root.percentageState
+                                                  ? -height * (1 - (root.percentageState.value / 100))
+                                                  : -height / 2
+                    onPaint: {
+                        var ctx = getContext("2d");
+                        ctx.reset();
 
-                    // NumberAnimation doesn't reload to/from while it's running. If we switch from closing to opening or vice versa
-                    // we need to somehow stop and start the animation
-                    property bool animationHack: true
-                    onAnimationHackChanged: {
-                        if (!animationHack) hackTimer.start();
-                    }
-                    Timer { id: hackTimer; interval: 1; onTriggered: arrows.animationHack = true }
-                    Connections { target: root.stateState; onValueChanged: arrows.animationHack = false }
-
-                    NumberAnimation {
-                        target: arrowColumn
-                        property: "y"
-                        duration: 500
-                        easing.type: Easing.Linear
-                        from: arrows.up ? Style.iconSize : -Style.iconSize
-                        to: arrows.up ? -Style.iconSize : Style.iconSize
-                        loops: Animation.Infinite
-                        running: arrows.animationHack && root.stateState && (root.stateState.value === "opening" || root.stateState.value === "closing")
-                    }
-
-                    Column {
-                        id: arrowColumn
-                        width: parent.width
-
-                        Repeater {
-                            model: arrows.height / Style.iconSize + 1
-                            ColorIcon {
-                                name: arrows.up ? "../images/up.svg" : "../images/down.svg"
-                                width: parent.width
-                                height: width
-                                color: Style.accentColor
-                            }
+                        ctx.fillStyle = Style.tileForegroundColor
+                        var segments = 10;
+                        var segmentHeight = height / segments
+                        var barHeight = segmentHeight - Style.smallMargins
+                        for (var i = 0; i < segments; i++) {
+                            ctx.fillRect(0, i * segmentHeight, width, barHeight)
                         }
                     }
                 }
+            }
+
+
+            OpacityMask {
+                anchors.fill: background
+                source: ShaderEffectSource {
+                    sourceItem: door
+                    hideSource: true
+                }
+                maskSource: background
             }
         }
 
@@ -109,19 +93,27 @@ Item {
             id: shutterControlsContainer
             Layout.fillWidth: true
             Layout.minimumWidth: minimumWidth
-            Layout.fillHeight: true
+            Layout.preferredHeight: Style.bigIconSize * 4
             property int minimumWidth: Style.iconSize * 10
             property int minimumHeight: Style.iconSize * 2.5
 
             ProgressButton {
                 anchors.centerIn: parent
+                mode: "highlight"
                 visible: root.isImpulseBased
                 longpressEnabled: false
+                size: Style.bigIconSize
                 imageSource: "../images/closable-move.svg"
+                busy: busyTimer.running
                 onClicked: {
                     var actionTypeId = root.thing.thingClass.actionTypes.findByName("triggerImpulse").id
                     print("Triggering impulse", actionTypeId)
                     engine.thingManager.executeAction(root.thing.id, actionTypeId)
+                    busyTimer.start();
+                }
+                Timer {
+                    id: busyTimer
+                    interval: 5000
                 }
             }
 
@@ -132,7 +124,6 @@ Item {
                 anchors.centerIn: parent
                 backgroundEnabled: true
                 size: Style.bigIconSize
-                spacing: (parent.width - Style.iconSize*2*children.length) / (children.length - 1)
                 visible: !root.isImpulseBased
             }
         }

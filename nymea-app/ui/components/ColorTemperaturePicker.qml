@@ -10,9 +10,10 @@ Item {
 
     property Thing thing: null
 
-    property int orientation: Qt.Horizontal
+    property int orientation: Qt.Vertical
 
     readonly property StateType colorTemperatureStateType: root.thing.thingClass.stateTypes.findByName("colorTemperature")
+    readonly property State powerState: root.thing.stateByName("power")
 
     property int value: thing.stateByName("colorTemperature").value
 
@@ -23,45 +24,55 @@ Item {
     }
 
     Rectangle {
-        id: clipRect
-        anchors.fill: parent
-        radius: Style.cornerRadius
-    }
-
-    LinearGradient {
-        anchors.fill: parent
-        start: root.orientation == Qt.Horizontal ? Qt.point(0, 0) : Qt.point(0, height)
-        end: root.orientation == Qt.Horizontal ? Qt.point(width, 0) : Qt.point(0, 0)
-        source: clipRect
+        id: background
+        width: Math.min(400, Math.min(parent.width, parent.height))
+        anchors.centerIn: parent
+        height: width
+        radius: width / 2
+        visible: false
         gradient: Gradient {
             GradientStop { position: 0.0; color: "#dfffff" }
             GradientStop { position: 0.5; color: "#ffffea" }
             GradientStop { position: 1.0; color: "#ffd649" }
         }
+
+        Rectangle {
+            id: dragHandle
+            property double valuePercentage: ((actionQueue.pendingValue || root.value) - root.colorTemperatureStateType.minValue) / (root.colorTemperatureStateType.maxValue - root.colorTemperatureStateType.minValue)
+            width: 20
+            height: 20
+            radius: height / 2
+            color: Style.backgroundColor
+            border.color: Style.foregroundColor
+            border.width: 2
+            x: (background.width - width) / 2
+            y: (background.height - height) * valuePercentage
+        }
     }
 
-    Rectangle {
-        id: dragHandle
-        property double valuePercentage: ((actionQueue.pendingValue || root.value) - root.colorTemperatureStateType.minValue) / (root.colorTemperatureStateType.maxValue - root.colorTemperatureStateType.minValue)
-        x: orientation == Qt.Horizontal ? valuePercentage * (root.width - dragHandle.width) : 0
-        y: root.orientation === Qt.Vertical ? root.height - dragHandle.height - (valuePercentage * (root.height - dragHandle.height)) : 0
-        height: root.orientation == Qt.Horizontal ? parent.height : 8
-        width: root.orientation == Qt.Horizontal ? 8 : parent.width
-        radius: 4
-        color: Qt.tint(Style.backgroundColor, Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.5))
+    Desaturate {
+        anchors.fill: background
+        source: background
+        desaturation: root.powerState.value === true ? 0 : 1
+        Behavior on desaturation { NumberAnimation { duration: Style.animationDuration } }
     }
+
 
     MouseArea {
-        anchors.fill: parent
+        anchors.fill: background
         onPositionChanged: {
             var minCt = root.colorTemperatureStateType.minValue;
             var maxCt = root.colorTemperatureStateType.maxValue
             var ct;
-            if (root.orientation == Qt.Horizontal) {
-                ct = Math.min(maxCt, Math.max(minCt, (mouseX * (maxCt - minCt) / (width - dragHandle.width)) + minCt))
-            } else {
-                ct = Math.min(maxCt, Math.max(minCt, ((height - mouseY) * (maxCt - minCt) / (height - dragHandle.height)) + minCt))
-            }
+//            if (root.orientation == Qt.Horizontal) {
+//                ct = Math.min(maxCt, Math.max(minCt, (mouseX * (maxCt - minCt) / (width - dragHandle.width)) + minCt))
+//            } else {
+            // ct : y = max : height
+            ct = mouseY * (maxCt - minCt) / (height) + minCt
+            ct = Math.min(maxCt, ct)
+            ct = Math.max(minCt, ct)
+//                ct = Math.min(maxCt, Math.max(minCt, ((height - mouseY) * (maxCt - minCt) / (height - dragHandle.height)) + minCt))
+//            }
             actionQueue.sendValue(ct);
         }
     }

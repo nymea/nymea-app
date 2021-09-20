@@ -149,6 +149,7 @@ ApplicationWindow {
         "powersocket",
         "thermostat",
         "heating",
+        "cooling",
         "smartlock",
         "doorbell",
         "irrigation",

@@ -31,73 +31,55 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
-import QtQuick.Controls.Material 2.1
 import Nymea 1.0
 import "../components"
+import "../utils"
 
 ThingPageBase {
     id: root
 
     readonly property State powerState: thing.stateByName("power")
-    readonly property ActionType powerActionType: thing.thingClass.actionTypes.findByName("power");
+    readonly property State flowRateState: thing.stateByName("flowRate")
+    readonly property StateType flowRateStateType: thing.thingClass.stateTypes.findByName("flowRate")
 
-    GridLayout {
+    ActionQueue {
+        id: actionQueue
+        thing: root.thing
+        stateName: "power"
+    }
+
+    CircleBackground {
+        id: background
         anchors.fill: parent
-        anchors.margins: app.margins
-        columns: app.landscape ? 2 : 1
-        rowSpacing: app.margins
-        columnSpacing: app.margins
-        Layout.alignment: Qt.AlignCenter
-
-        Item {
-            Layout.preferredWidth: Math.max(Style.iconSize * 6, parent.width / 5)
-            Layout.preferredHeight: width
-            Layout.topMargin: app.margins
-            Layout.bottomMargin: app.landscape ? app.margins : 0
-            Layout.alignment: Qt.AlignCenter
-            Layout.rowSpan: app.landscape ? 4 : 1
-            Layout.fillHeight: true
-
-            AbstractButton {
-                height: Math.min(parent.height, parent.width)
-                width: height
-                anchors.centerIn: parent
-                Rectangle {
-                    anchors.fill: parent
-                    color: "transparent"
-                    border.color: root.powerState.value === true ? Style.accentColor : Style.iconColor
-                    border.width: 4
-                    radius: width / 2
-                }
-
-                ColorIcon {
-                    id: bulbIcon
-                    anchors.fill: parent
-                    anchors.margins: app.margins * 1.5
-                    name: "../images/ventilation.svg"
-                    color: root.powerState.value === true ? Style.accentColor : Style.iconColor
-
-                    PropertyAnimation on rotation {
-                        running: root.powerState.value === true
-                        duration: 2000
-                        from: 0
-                        to: 360
-                        loops: Animation.Infinite
-                        onDurationChanged: {
-                            running = false;
-                            running = true;
-                        }
-                    }
-                }
-                onClicked: {
-                    var params = []
-                    var param = {}
-                    param["paramTypeId"] = root.powerActionType.paramTypes.get(0).id;
-                    param["value"] = !root.powerState.value;
-                    params.push(param)
-                    engine.thingManager.executeAction(root.thing.id, root.powerActionType.id, params);
-                }
+        anchors.margins: Style.hugeMargins
+        iconSource: "ventilation"
+        onColor: app.interfaceToColor("ventilation")
+        on: (actionQueue.pendingValue || powerState.value) === true
+        onClicked: {
+            PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
+            actionQueue.sendValue(!root.powerState.value)
+        }
+        PropertyAnimation on rotation {
+            running: root.powerState.value === true
+            duration: 2000
+            from: 0
+            to: 360
+            loops: Animation.Infinite
+            onDurationChanged: {
+                running = false;
+                running = true;
             }
         }
+    }
+
+    Dial {
+        anchors.centerIn: parent
+        height: background.contentItem.height
+        width: background.contentItem.width
+        visible: root.flowRateState
+
+        thing: root.thing
+        stateName: "flowRate"
+        color: app.interfaceToColor("ventilation")
     }
 }

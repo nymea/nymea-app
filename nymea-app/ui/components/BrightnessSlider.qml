@@ -35,12 +35,12 @@ import "../utils"
 
 Item {
     id: root
-    implicitWidth: orientation == Qt.Horizontal ? 300 : Style.hugeIconSize
-    implicitHeight: orientation == Qt.Horizontal ? Style.hugeIconSize : 300
+    implicitWidth: orientation == Qt.Horizontal ? 300 : 12
+    implicitHeight: orientation == Qt.Horizontal ? 12 : 300
 
     property Thing thing: null
 
-    readonly property StateType colorTemperatureStateType: root.thing.thingClass.stateTypes.findByName("brightness")
+    readonly property StateType brightnessStateType: root.thing.thingClass.stateTypes.findByName("brightness")
 
     property int value: thing.stateByName("brightness").value
 
@@ -49,7 +49,7 @@ Item {
     ActionQueue {
         id: actionQueue
         thing: root.thing
-        stateType: root.colorTemperatureStateType
+        stateName: "brightness"
     }
 
     Rectangle {
@@ -84,17 +84,18 @@ Item {
         y: root.orientation === Qt.Vertical ?
                root.height - dragHandle.height - ((actionQueue.pendingValue || root.value) * (root.height - dragHandle.height) / 100)
              : 0
-        height: root.orientation === Qt.Horizontal ? parent.height : 8
-        width: root.orientation === Qt.Horizontal ? 8 : parent.width
-        radius: 4
+        height: 14
+        width: 14
+        radius: 7
         color: Style.foregroundColor
     }
 
     MouseArea {
         anchors.fill: parent
+        anchors.margins: -Style.smallMargins
         onPositionChanged: {
-            var minCt = root.colorTemperatureStateType.minValue;
-            var maxCt = root.colorTemperatureStateType.maxValue
+            var minCt = root.brightnessStateType.minValue;
+            var maxCt = root.brightnessStateType.maxValue
             var ct;
             if (root.orientation == Qt.Horizontal) {
                 ct = Math.min(maxCt, Math.max(minCt, (mouseX * (maxCt - minCt) / (width - dragHandle.width)) + minCt))

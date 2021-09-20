@@ -80,7 +80,8 @@ Item {
         "smartmeterconsumer": "orange",
         "smartmeterproducer": "lightgreen",
         "energymeter": "deepskyblue",
-        "heating" : "gainsboro",
+        "heating" : "crimson",
+        "cooling": "dodgerBlue",
         "thermostat": "dodgerblue",
         "irrigation": "lightblue",
         "windspeedsensor": "blue",
@@ -88,7 +89,9 @@ Item {
         "watersensor": "aqua",
         "phsensor": "green",
         "o2sensor": "lightblue",
-        "orpsensor": "yellow"
+        "orpsensor": "yellow",
+        "powersocket": "aquamarine",
+        "evcharger": "limegreen"
     }
 
     property var stateColors: {
@@ -97,7 +100,10 @@ Item {
         "currentPower": "deepskyblue",
     }
 
-    property color red: "#952727"
+    property color red: "indianred"
+    property color green: "mediumseagreen"
+    property color yellow: "gold"
+
     property color white: "white"
     property color gray: "gray"
     property color darkGray: "darkGray"

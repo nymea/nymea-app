@@ -74,6 +74,7 @@ MainPageTile {
         // Open interface specific things list
         switch (iface.name) {
         case "heating":
+        case "cooling":
         case "sensor":
             page = "SensorsDeviceListPage.qml"
             break;
@@ -172,6 +173,7 @@ MainPageTile {
             case "extendedsmartmeterconsumer":
             case "extendedsmartmeterproducer":
             case "heating":
+            case "cooling":
             case "thermostat":
                 return sensorComponent;
                 //                return labelComponent;
@@ -209,7 +211,7 @@ MainPageTile {
                 case "light":
                     var group = engine.thingManager.createGroup(Interfaces.findByName("colorlight"), thingsProxy);
                     print("opening lights page for group", group)
-                    pageStack.push("../devicepages/LightDevicePage.qml", {thing: group})
+                    pageStack.push("../devicepages/LightThingPage.qml", {thing: group})
                 }
             }
         }

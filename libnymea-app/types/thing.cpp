@@ -32,7 +32,8 @@
 #include "thingclass.h"
 #include "thingmanager.h"
 
-#include <QDebug>
+#include <QLoggingCategory>
+Q_DECLARE_LOGGING_CATEGORY(dcThingManager)
 
 Thing::Thing(ThingManager *thingManager, ThingClass *thingClass, const QUuid &parentId, QObject *parent) :
     QObject(parent),
@@ -220,6 +221,10 @@ void Thing::setStateValue(const QUuid &stateTypeId, const QVariant &value)
 int Thing::executeAction(const QString &actionName, const QVariantList &params)
 {
     ActionType *actionType = m_thingClass->actionTypes()->findByName(actionName);
+    if (!actionType) {
+        qCWarning(dcThingManager) << "No such action name" << actionName << "in thing class" << m_thingClass->name();
+        return -1;
+    }
 
     QVariantList finalParams;
     foreach (const QVariant &paramVariant, params) {

@@ -171,6 +171,7 @@ void ConfiguredHostsModel::saveToDisk()
     QSettings settings;
     settings.beginGroup("ConfiguredHosts");
     settings.remove("");
+    settings.setValue("currentIndex", m_currentIndex);
     for (int i = 0; i < m_list.count(); i++) {
         settings.beginGroup(QString::number(i));
         settings.setValue("uuid", m_list.at(i)->uuid());

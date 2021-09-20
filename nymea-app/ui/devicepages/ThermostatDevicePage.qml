@@ -35,6 +35,7 @@ import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
 import "../customviews"
+import "../utils"
 
 ThingPageBase {
     id: root
@@ -58,48 +59,32 @@ ThingPageBase {
         anchors.margins: app.margins
         columns: app.landscape ? 2 : 1
 
-        ThermostatController {
+        CircleBackground {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            thing: root.thing
+            Layout.margins: Style.bigMargins
+            ThermostatController {
+                anchors.centerIn: parent
+                height: Math.min(400, Math.min(parent.height, parent.width))
+                width: height
+                thing: root.thing
+            }
         }
 
-        Rectangle {
-            Layout.preferredWidth: app.landscape ? parent.width / 2 : parent.width
-            Layout.preferredHeight: 50
-            visible: root.boostStateType
-            border.color: boostMouseArea.pressed || root.boostStateType && root.boostState.value === true ? Style.accentColor : Style.foregroundColor
-            border.width: 1
-            radius: height / 2
-            color: root.boostStateType && root.boostState.value === true ? Style.accentColor : "transparent"
+        ProgressButton {
+            Layout.alignment: Qt.AlignHCenter
+            Layout.margins: Style.bigMargins
+            size: Style.largeIconSize
+            imageSource: "thermostat/heating"
+            backgroundColor: app.interfaceToColor("heating")
+            visible: root.boostState
+            busy: actionQueue.pendingValue ? actionQueue.pendingValue : (root.boostState && root.boostState.value === true)
+            onClicked: actionQueue.sendValue(!root.boostState.value)
 
-            Row {
-                anchors.centerIn: parent
-                spacing: app.margins / 2
-                ColorIcon {
-                    height: Style.iconSize
-                    width: Style.iconSize
-                    name: "../images/sensors/temperature.svg"
-                    color: root.boostStateType && root.boostState.value === true ? "red" : Style.iconColor
-                }
-
-                Label {
-                    text: qsTr("Boost")
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-            }
-            MouseArea {
-                id: boostMouseArea
-                anchors.fill: parent
-                onPressedChanged: PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackImpact)
-                onClicked: {
-                    var params = []
-                    var param = {}
-                    param["paramTypeId"] = root.boostStateType.id
-                    param["value"] = !root.boostState.value
-                    params.push(param)
-                    engine.thingManager.executeAction(root.thing.id, root.boostStateType.id, params);
-                }
+            ActionQueue {
+                id: actionQueue
+                thing: root.thing
+                stateName: "boost"
             }
         }
     }

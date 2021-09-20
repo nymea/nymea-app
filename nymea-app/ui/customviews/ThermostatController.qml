@@ -90,9 +90,9 @@ Item {
 
                 if (targetTempStep === step) {
                     if (currentTempStep && currentTempStep < targetTempStep) {
-                        ctx.strokeStyle = "red";
+                        ctx.strokeStyle = app.interfaceToColor("heating");
                     } else if (currentTempStep && currentTempStep > targetTempStep) {
-                        ctx.strokeStyle = "dodgerblue";
+                        ctx.strokeStyle = app.interfaceToColor("cooling");
                     } else {
                         ctx.strokeStyle = Style.accentColor;
                     }
@@ -100,16 +100,16 @@ Item {
                     ctx.lineWidth = 4;
                 } else if (currentTempStep && currentTempStep === step) {
                     if (currentTempStep < targetTempStep) {
-                        ctx.strokeStyle = "red";
+                        ctx.strokeStyle = app.interfaceToColor("heating");
                     } else {
-                        ctx.strokeStyle = "dodgerblue";
+                        ctx.strokeStyle = app.interfaceToColor("cooling");
                     }
                     ctx.lineWidth = 3;
                 } else  if (currentTempStep && currentTempStep < step && step < targetTempStep) {
-                    ctx.strokeStyle = "red";
+                    ctx.strokeStyle = app.interfaceToColor("heating");
                     ctx.lineWidth = 2;
                 } else  if (currentTempStep && currentTempStep > step && step > targetTempStep) {
-                    ctx.strokeStyle = "dodgerblue";
+                    ctx.strokeStyle = app.interfaceToColor("cooling");
                     ctx.lineWidth = 2;
                 } else {
                     ctx.strokeStyle = Style.tileOverlayColor;
@@ -127,8 +127,8 @@ Item {
                 var outerPointX = center.x + (outerRadius * c);
                 var outerPointY = center.x + (outerRadius * s);
 
-                context.moveTo(innerPointX, innerPointY);
-                context.lineTo(outerPointX, outerPointY);
+                ctx.moveTo(innerPointX, innerPointY);
+                ctx.lineTo(outerPointX, outerPointY);
                 ctx.stroke();
                 ctx.closePath();
             }
@@ -166,16 +166,16 @@ Item {
     ColorIcon {
         width: Style.largeIconSize
         height: width
-        anchors { bottom: canvas.bottom; horizontalCenter: canvas.horizontalCenter }
+        anchors { bottom: canvas.bottom; horizontalCenter: canvas.horizontalCenter; margins: Style.margins }
         name: root.heatingOnState && root.heatingOnState.value === true
               ? "../images/thermostat/heating.svg"
               : root.coolingOnState && root.coolingOnState.value === true
                 ? "../images/thermostat/cooling.svg"
                 : ""
         color: root.heatingOnState && root.heatingOnState.value === true
-              ? "red"
+              ? app.interfaceToColor("heating")
               : root.coolingOnState && root.coolingOnState.value === true
-                ? "dodgerblue"
+                ? app.interfaceToColor("cooling")
                 : Style.iconColor
     }
 

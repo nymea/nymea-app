@@ -30,11 +30,12 @@
 
 import QtQuick 2.5
 import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.2
+import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
 import "../customviews"
+import "../utils"
 
 ThingPageBase {
     id: root
@@ -48,75 +49,71 @@ ThingPageBase {
         anchors.fill: parent
         columns: root.landscape ? 2 : 1
 
-        Item {
-            id: shutterImage
-            Layout.preferredWidth: root.landscape ?
-                                       Math.min(parent.width - shutterControlsContainer.minimumWidth, parent.height)
-                                     : Math.min(Math.min(500, parent.width), parent.height - shutterControlsContainer.minimumHeight)
-            Layout.preferredHeight: width
+        CircleBackground {
+            id: background
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.margins: Style.hugeMargins
+            onColor: Style.yellow
+            on: true
+            iconSource: "weathericons/weather-clear-day"
 
-            ColorIcon {
+            ActionQueue {
+                id: actionQueue
+                thing: root.thing
+                stateName: "percentage"
+            }
+
+            Item {
+                id: awning
+                anchors.fill: parent
+
+
+                Rectangle {
+                    anchors.centerIn: parent
+                    width: background.contentItem.width
+                    height: background.contentItem.height
+                    property real progress: root.percentageState ?
+                                                dragArea.pressed ? dragArea.draggedProgress : root.percentageState.value  / 100
+                                              : .5
+                    anchors.verticalCenterOffset: -height * (1 - progress)
+                    color: Style.tileOverlayColor
+                }
+            }
+
+            OpacityMask {
+                anchors.fill: background
+                source: ShaderEffectSource {
+                    sourceItem: awning
+                    hideSource: true
+                }
+                maskSource: background
+            }
+
+            MouseArea {
+                id: dragArea
                 anchors.centerIn: parent
-                size: Math.min(parent.height, parent.width) - Style.hugeMargins * 2
-                name: root.isExtended ?
-                          "../images/awning/awning-" + app.pad(Math.round(root.percentageState.value / 10) * 10, 3) + ".svg"
-                        : "../images/awning/awning-100.svg"
+                width: background.contentItem.width
+                height: background.contentItem.height
+                property real draggedProgress: mouseY / height
+                onMouseYChanged: print("mouseY", mouseY, draggedProgress)
+                onReleased: {
+                    actionQueue.sendValue(draggedProgress * 100)
+                }
             }
         }
 
-        Item {
-            id: shutterControlsContainer
+
+        ShutterControls {
+            id: shutterControls
             Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.margins: app.margins * 2
-            property int minimumWidth: Style.iconSize * 2.7 * 3
-            property int minimumHeight: Style.iconSize * 4.5
+            Layout.minimumWidth: implicitWidth
+            Layout.preferredHeight: implicitHeight
 
-            ColumnLayout {
-                anchors.centerIn: parent
-                width: parent.width
-                spacing: app.margins
-
-                Slider {
-                    id: percentageSlider
-                    Layout.fillWidth: true
-                    from: 0
-                    to: 100
-                    stepSize: 1
-                    visible: isExtended
-
-                    Binding {
-                        target: percentageSlider
-                        property: "value"
-                        value: root.percentageState.value
-                        when: !percentageSlider.pressed
-                    }
-
-                    onPressedChanged: {
-                        if (pressed) {
-                            return
-                        }
-                        print("should move", value)
-
-                        var actionType = root.thing.thingClass.actionTypes.findByName("percentage");
-                        var params = [];
-                        var percentageParam = {}
-                        percentageParam["paramTypeId"] = actionType.paramTypes.findByName("percentage").id;
-                        percentageParam["value"] = value
-                        params.push(percentageParam);
-                        engine.thingManager.executeAction(root.thing.id, actionType.id, params);
-                    }
-                }
-
-                ShutterControls {
-                    id: shutterControls
-                    thing: root.thing
-                    size: Style.bigIconSize
-                    backgroundEnabled: true
-                    invert: true
-                    Layout.fillWidth: true
-                }
-            }
+            thing: root.thing
+            size: Style.bigIconSize
+            backgroundEnabled: true
+            invert: true
         }
     }
 }
