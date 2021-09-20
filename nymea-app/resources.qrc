@@ -254,5 +254,8 @@
         <file>ui/system/ZigbeeNetworkPage.qml</file>
         <file>ui/components/ConnectionInfoDialog.qml</file>
         <file>ui/components/ButtonControls.qml</file>
+        <file>ui/components/CircleBackground.qml</file>
+        <file>ui/devicepages/CoolingThingPage.qml</file>
+        <file>ui/devicepages/EvChargerThingPage.qml</file>
     </qresource>
 </RCC>

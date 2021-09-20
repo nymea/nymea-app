@@ -143,6 +143,8 @@ ThingsListPageBase {
                         ShutterControls {
                             id: shutterControls
                             Layout.fillWidth: false
+                            Layout.preferredWidth: Style.iconSize * 5
+                            Layout.preferredHeight: Style.iconSize
                             height: parent.height
                             thing: itemDelegate.thing
                             invert: root.invertControls

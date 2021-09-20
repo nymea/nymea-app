@@ -31,7 +31,6 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
-import QtQuick.Controls.Material 2.1
 import Nymea 1.0
 import "../components"
 import "../utils"
@@ -40,7 +39,8 @@ ThingPageBase {
     id: root
 
     readonly property State powerState: thing.stateByName("power")
-
+    readonly property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
+    readonly property StateType maxChargingCurrentStateType: thing.thingClass.stateTypes.findByName("maxChargingCurrent")
 
     ActionQueue {
         id: actionQueue
@@ -49,11 +49,26 @@ ThingPageBase {
     }
 
     CircleBackground {
+        id: background
         anchors.fill: parent
         anchors.margins: Style.hugeMargins
-        iconSource: "thermostat/heating"
-        onColor: app.interfaceToColor("heating")
-        on: actionQueue.pendingValue || root.powerState.value
-        onClicked: actionQueue.sendValue(!root.powerState.value)
+        iconSource: "ev-charger"
+        onColor: app.interfaceToColor("evcharger")
+        on: (actionQueue.pendingValue || powerState.value) === true
+        onClicked: {
+            PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
+            actionQueue.sendValue(!root.powerState.value)
+        }
+    }
+
+    Dial {
+        anchors.centerIn: parent
+        height: background.contentItem.height
+        width: background.contentItem.width
+        visible: root.maxChargingCurrentState
+
+        thing: root.thing
+        stateName: "maxChargingCurrent"
+        color: app.interfaceToColor("evcharger")
     }
 }

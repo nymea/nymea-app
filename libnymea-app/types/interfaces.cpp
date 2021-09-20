@@ -144,9 +144,13 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
 
     addInterface("heating", tr("Heating"));
     addStateType("heating", "power", QVariant::Bool, true, tr("Heating enabled"), tr("Heating enabled changed"), tr("Enable heating"));
+    addStateType("heating", "percentage", QVariant::Int, true, tr("Percentage"), tr("Percentage changed"), tr("Set percentage"), 0, 100);
 
-    addInterface("extendedheating", tr("Heatings"), {"heating"});
-    addStateType("extendedheating", "percentage", QVariant::Int, true, tr("Percentage"), tr("Percentage changed"), tr("Set percentage"), 0, 100);
+
+    addInterface("cooling", tr("Cooling"));
+    addStateType("cooling", "power", QVariant::Bool, true, tr("Cooling enabled"), tr("Cooling enabled changed"), tr("Enable cooling"));
+    addStateType("cooling", "percentage", QVariant::Int, true, tr("Percentage"), tr("Percentage changed"), tr("Set percentage"), 0, 100);
+
 
     addInterface("media", tr("Media"));
 

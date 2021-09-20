@@ -112,7 +112,7 @@ ThingPageBase {
         }
 
         ColumnLayout {
-            spacing: Style.margins
+            spacing: Style.hugeMargins
 
             StackLayout {
                 Layout.fillWidth: true
@@ -162,7 +162,7 @@ ThingPageBase {
                         Rectangle {
                             id: brightnessCircle
                             anchors.centerIn: parent
-                            width: Math.min(parent.width, parent.height)
+                            width: Math.min(400, Math.min(parent.width, parent.height))
                             height: width
                             radius: width / 2
                             color: Style.tileBackgroundColor
@@ -223,52 +223,22 @@ ThingPageBase {
                         property Thing thing: root.thing
                         readonly property State powerState: thing ? thing.stateByName("power") : null
 
-                        property color borderColor: "#ffd649"
+
                         ActionQueue {
                             id: actionQueue
                             thing: powerController.thing
                             stateType: thing.thingClass.stateTypes.findByName("power")
                         }
 
-                        Rectangle {
-                            id: background
-                            anchors.centerIn: parent
-                            width: Math.min(parent.width, parent.height)
-                            height: width
-                            color: Style.tileBackgroundColor
-                            radius: width / 2
-
-                            ColorIcon {
-                                anchors.centerIn: parent
-                                size: Style.hugeIconSize
-                                name: (actionQueue.pendingValue || powerState.value) === true ? "light-on" : "light-off"
-    //                            color: (actionQueue.pendingValue || powerState.value) === true ? Style.accentColor : Style.iconColor
+                        CircleBackground {
+                            anchors.fill: parent
+                            anchors.margins: Style.bigMargins
+                            onColor: "#ffd649"
+                            iconSource: (actionQueue.pendingValue || powerState.value) === true ? "light-on" : "light-off"
+                            on: (actionQueue.pendingValue || powerState.value) === true ? 1 : 0
+                            onClicked: {
+                                actionQueue.sendValue(!powerState.value)
                             }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    actionQueue.sendValue(!powerState.value)
-                                }
-                            }
-                        }
-
-                        RadialGradient {
-                            id: gradient
-                            anchors.fill: background
-                            visible: false
-                            gradient: Gradient{
-                                GradientStop { position: .45; color: "transparent" }
-                                GradientStop { position: .5; color: Qt.rgba(borderColor.r, borderColor.g, borderColor.b, 1) }
-                            }
-                        }
-                        OpacityMask {
-                            opacity: (actionQueue.pendingValue || powerState.value) === true ? 1 : 0
-                            anchors.fill: gradient
-                            source: gradient
-                            maskSource: background
-                            Behavior on opacity { NumberAnimation { duration: Style.animationDuration } }
-
                         }
                     }
                 }

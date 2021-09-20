@@ -32,7 +32,7 @@ Item {
     ConicalGradient {
         id: gradient
         anchors.centerIn: parent
-        width: Math.min(parent.width, parent.height)
+        width: Math.min(400, Math.min(parent.width, parent.height))
         height: width
         visible: false
         gradient: Gradient{
@@ -176,7 +176,7 @@ Item {
 
     MouseArea {
         id: mouseArea
-        anchors.fill: parent
+        anchors.fill: gradient
         onPositionChanged: {
 
             var angle = calculateAngle(mouseX, mouseY)

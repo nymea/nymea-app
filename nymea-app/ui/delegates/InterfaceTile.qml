@@ -74,6 +74,7 @@ MainPageTile {
         // Open interface specific things list
         switch (iface.name) {
         case "heating":
+        case "cooling":
         case "sensor":
             page = "SensorsDeviceListPage.qml"
             break;
@@ -172,6 +173,7 @@ MainPageTile {
             case "extendedsmartmeterconsumer":
             case "extendedsmartmeterproducer":
             case "heating":
+            case "cooling":
             case "thermostat":
                 return sensorComponent;
                 //                return labelComponent;

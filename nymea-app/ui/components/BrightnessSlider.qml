@@ -40,7 +40,7 @@ Item {
 
     property Thing thing: null
 
-    readonly property StateType colorTemperatureStateType: root.thing.thingClass.stateTypes.findByName("brightness")
+    readonly property StateType brightnessStateType: root.thing.thingClass.stateTypes.findByName("brightness")
 
     property int value: thing.stateByName("brightness").value
 
@@ -49,7 +49,7 @@ Item {
     ActionQueue {
         id: actionQueue
         thing: root.thing
-        stateType: root.colorTemperatureStateType
+        stateName: "brightness"
     }
 
     Rectangle {
@@ -94,8 +94,8 @@ Item {
         anchors.fill: parent
         anchors.margins: -Style.smallMargins
         onPositionChanged: {
-            var minCt = root.colorTemperatureStateType.minValue;
-            var maxCt = root.colorTemperatureStateType.maxValue
+            var minCt = root.brightnessStateType.minValue;
+            var maxCt = root.brightnessStateType.maxValue
             var ct;
             if (root.orientation == Qt.Horizontal) {
                 ct = Math.min(maxCt, Math.max(minCt, (mouseX * (maxCt - minCt) / (width - dragHandle.width)) + minCt))

@@ -25,7 +25,7 @@ Item {
 
     Rectangle {
         id: background
-        width: Math.min(parent.width, parent.height)
+        width: Math.min(400, Math.min(parent.width, parent.height))
         anchors.centerIn: parent
         height: width
         radius: width / 2
@@ -34,6 +34,19 @@ Item {
             GradientStop { position: 0.0; color: "#dfffff" }
             GradientStop { position: 0.5; color: "#ffffea" }
             GradientStop { position: 1.0; color: "#ffd649" }
+        }
+
+        Rectangle {
+            id: dragHandle
+            property double valuePercentage: ((actionQueue.pendingValue || root.value) - root.colorTemperatureStateType.minValue) / (root.colorTemperatureStateType.maxValue - root.colorTemperatureStateType.minValue)
+            width: 20
+            height: 20
+            radius: height / 2
+            color: Style.backgroundColor
+            border.color: Style.foregroundColor
+            border.width: 2
+            x: (background.width - width) / 2
+            y: (background.height - height) * valuePercentage
         }
     }
 
@@ -44,22 +57,9 @@ Item {
         Behavior on desaturation { NumberAnimation { duration: Style.animationDuration } }
     }
 
-    Rectangle {
-        id: dragHandle
-        property double valuePercentage: ((actionQueue.pendingValue || root.value) - root.colorTemperatureStateType.minValue) / (root.colorTemperatureStateType.maxValue - root.colorTemperatureStateType.minValue)
-        width: 20
-        height: 20
-        radius: height / 2
-        color: Style.backgroundColor
-        border.color: Style.foregroundColor
-        border.width: 2
-        x: (parent.width - width) / 2
-        y: parent.height * valuePercentage - (height / 2)
-
-    }
 
     MouseArea {
-        anchors.fill: parent
+        anchors.fill: background
         onPositionChanged: {
             var minCt = root.colorTemperatureStateType.minValue;
             var maxCt = root.colorTemperatureStateType.maxValue
@@ -68,7 +68,7 @@ Item {
 //                ct = Math.min(maxCt, Math.max(minCt, (mouseX * (maxCt - minCt) / (width - dragHandle.width)) + minCt))
 //            } else {
             // ct : y = max : height
-            ct = mouseY * (maxCt - minCt) / height + minCt
+            ct = mouseY * (maxCt - minCt) / (height) + minCt
             ct = Math.min(maxCt, ct)
             ct = Math.max(minCt, ct)
 //                ct = Math.min(maxCt, Math.max(minCt, ((height - mouseY) * (maxCt - minCt) / (height - dragHandle.height)) + minCt))

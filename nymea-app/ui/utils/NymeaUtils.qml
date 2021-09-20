@@ -29,6 +29,8 @@ Item {
             page = "WeatherDevicePage.qml";
         } else if (interfaceList.indexOf("heating") >= 0) {
             page = "HeatingDevicePage.qml";
+        } else if (interfaceList.indexOf("cooling") >= 0) {
+            page = "CoolingThingPage.qml";
         } else if (interfaceList.indexOf("thermostat") >= 0) {
             page = "ThermostatDevicePage.qml";
         } else if (interfaceList.indexOf("sensor") >= 0) {
@@ -47,6 +49,8 @@ Item {
             page = "NotificationsDevicePage.qml";
         } else if (interfaceList.indexOf("fingerprintreader") >= 0) {
             page = "FingerprintReaderDevicePage.qml";
+        } else if (interfaceList.indexOf("evcharger") >= 0) {
+            page = "EvChargerThingPage.qml"
         } else if (interfaceList.indexOf("smartmeter") >= 0) {
             page = "SmartMeterDevicePage.qml"
         } else if (interfaceList.indexOf("powersocket") >= 0) {
@@ -120,7 +124,7 @@ Item {
         "water": "/ui/images/sensors/water.svg",
         "wind": "/ui/images/sensors/windspeed.svg",
         "cloud": "/ui/images/weathericons/weather-clouds.svg",
-        "send": "/ui/images/send.svg"
+        "send": "/ui/images/send.svg",
     }
     function namedIcon(name) {
         if (!namedIcons.hasOwnProperty(name)) {

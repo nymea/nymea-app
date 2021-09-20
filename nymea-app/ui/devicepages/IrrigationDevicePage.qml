@@ -34,6 +34,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls.Material 2.1
 import Nymea 1.0
 import "../components"
+import "../utils"
 
 ThingPageBase {
     id: root
@@ -149,54 +150,36 @@ ThingPageBase {
         filterValue: root.thing.id
     }
 
+    ActionQueue {
+        id: actionQueue
+        thing: root.thing
+        stateName: "power"
+    }
+
     GridLayout {
         id: mainGrid
         anchors.fill: parent
-        anchors.margins: app.margins
         columns: app.landscape ? 2 : 1
 
-        Item {
-            Layout.preferredWidth: app.landscape ? parent.width * .4 : parent.width
-            Layout.preferredHeight: app.landscape ? parent.height : parent.height *.4
-
-            AbstractButton {
-                height: Math.min(Math.min(parent.height, parent.width), Style.iconSize * 5)
-                width: height
-                anchors.centerIn: parent
-                Rectangle {
-                    anchors.fill: parent
-                    color: "transparent"
-                    border.color: root.powerState.value === true ? Style.accentColor : Style.iconColoor
-                    border.width: 4
-                    radius: width / 2
-                }
-
-                ColorIcon {
-                    id: irrigationIcon
-                    anchors.fill: parent
-                    anchors.margins: app.margins * 1.5
-                    name: "../images/irrigation.svg"
-                    color: root.powerState.value === true ? Style.accentColor : Style.iconColor
-                }
-                onClicked: {
-                    var params = []
-                    var param = {}
-                    param["paramTypeId"] = root.powerActionType.paramTypes.get(0).id;
-                    param["value"] = !root.powerState.value;
-                    params.push(param)
-                    engine.thingManager.executeAction(root.thing.id, root.powerStateType.id, params);
-                    PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
-                }
-            }
+        CircleBackground {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.leftMargin: Style.hugeMargins; Layout.rightMargin: Style.hugeMargins; Layout.topMargin: Style.hugeMargins
+            iconSource: "irrigation"
+            onColor: app.interfaceToColor("irrigation")
+            on: actionQueue.pendingValue || root.powerState.value
+            onClicked: actionQueue.sendValue(!root.powerState.value)
         }
 
+
         ColumnLayout {
-            Layout.preferredWidth: app.landscape ? parent.width * .6 : parent.width
-            Layout.preferredHeight: app.landscape ? parent.height : parent.height * .6
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.margins: Style.margins
             Item { Layout.fillWidth: true; Layout.fillHeight: true }
             Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins
                 horizontalAlignment: Text.AlignHCenter
                 text: root.isOn ? qsTr("Watering since")
                                 : history.lastWatering ? qsTr("Last watering")
@@ -205,7 +188,7 @@ ThingPageBase {
 
             Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins
                 horizontalAlignment: Text.AlignHCenter
                 text: history.lastWatering ? Qt.formatDateTime(history.lastWatering) : ""
                 font.pixelSize: app.largeFont
@@ -213,7 +196,7 @@ ThingPageBase {
             }
             Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
+                Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins; Layout.bottomMargin: Style.margins
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: app.smallFont
                 text: {
@@ -252,7 +235,7 @@ ThingPageBase {
 
             Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
+                Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins; Layout.topMargin: Style.margins
                 horizontalAlignment: Text.AlignHCenter
                 text: tagsProxy.count > 0 ?
                           //: Irrigation will be turned of at, e.g. 09:00
@@ -299,7 +282,7 @@ ThingPageBase {
 
             Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+                Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins
                 horizontalAlignment: Text.AlignHCenter
                 visible: tagsProxy.count > 0
                 font.pixelSize: app.largeFont
@@ -308,7 +291,7 @@ ThingPageBase {
             }
             Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
+                Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins; Layout.bottomMargin: Style.margins
                 horizontalAlignment: Text.AlignHCenter
                 visible: tagsProxy.count > 0
                 font.pixelSize: app.smallFont

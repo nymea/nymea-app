@@ -51,8 +51,8 @@ ThingPageBase {
     CircleBackground {
         anchors.fill: parent
         anchors.margins: Style.hugeMargins
-        iconSource: "thermostat/heating"
-        onColor: app.interfaceToColor("heating")
+        iconSource: "thermostat/cooling"
+        onColor: app.interfaceToColor("cooling")
         on: actionQueue.pendingValue || root.powerState.value
         onClicked: actionQueue.sendValue(!root.powerState.value)
     }

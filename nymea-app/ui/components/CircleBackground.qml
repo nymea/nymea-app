@@ -30,30 +30,69 @@
 
 import QtQuick 2.5
 import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.1
-import QtQuick.Controls.Material 2.1
+import QtGraphicalEffects 1.0
 import Nymea 1.0
-import "../components"
 import "../utils"
 
-ThingPageBase {
+Item {
     id: root
+    implicitHeight: 400
+    implicitWidth: 400
 
-    readonly property State powerState: thing.stateByName("power")
+    property alias iconSource: icon.name
+    property color onColor: Style.accentColor
+    property bool on: false
+
+    readonly property Item contentItem: background
+
+    signal clicked()
 
 
-    ActionQueue {
-        id: actionQueue
-        thing: root.thing
-        stateName: "power"
+    Rectangle {
+        id: background
+        anchors.centerIn: parent
+        height: Math.min(400, Math.min(parent.height, parent.width))
+        width: height
+        radius: width / 2
+        color: Style.tileBackgroundColor
     }
 
-    CircleBackground {
-        anchors.fill: parent
-        anchors.margins: Style.hugeMargins
-        iconSource: "thermostat/heating"
-        onColor: app.interfaceToColor("heating")
-        on: actionQueue.pendingValue || root.powerState.value
-        onClicked: actionQueue.sendValue(!root.powerState.value)
+    MouseArea {
+        anchors.fill: background
+        onClicked: root.clicked()
     }
+
+    ColorIcon {
+        id: icon
+        anchors.centerIn: background
+        size: Style.hugeIconSize
+        color: root.on ? root.onColor : Style.iconColor
+        Behavior on color { ColorAnimation { duration: Style.animationDuration } }
+    }
+
+    RadialGradient {
+        id: gradient
+        anchors.fill: background
+        visible: false
+        gradient: Gradient{
+            GradientStop { position: .45; color: "transparent" }
+            GradientStop { position: .5; color: root.onColor }
+        }
+    }
+
+    OpacityMask {
+        id: opacityMask
+        opacity: root.on ? 1 : 0
+        anchors.fill: gradient
+        source: gradient
+        maskSource: background
+        Behavior on opacity { NumberAnimation { duration: Style.animationDuration } }
+
+    }
+
+    Item {
+        id: contentContainer
+        anchors.fill: background
+    }
+
 }

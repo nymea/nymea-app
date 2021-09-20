@@ -32,321 +32,174 @@ import QtQuick 2.5
 import QtQuick.Controls 2.2
 import Nymea 1.0
 import QtQuick.Layouts 1.2
-import QtQuick.Controls.Material 2.2
+import "../utils"
 
-ColumnLayout {
-    id: dial
+Item {
+    id: root
 
     property Thing thing: null
-    property alias device: dial.thing
-    property StateType stateType: null
+    property string stateName: ""
+    property StateType stateType: thing ? thing.thingClass.stateTypes.findByName(stateName) : null
 
-    property bool showValueLabel: true
-    property int steps: 10
     property color color: Style.accentColor
-    property int maxAngle: 235
+    property int precision: 1
 
-    // value : max = angle : maxAngle
-    function valueToAngle(value) {
-        return (value - from) * maxAngle / (to - from)
+    readonly property State progressState: thing ? thing.states.getState(stateType.id) : null
+    readonly property State powerState: thing ? thing.stateByName("power") : null
+
+    property int startAngle: 135
+    property int maxAngle: 270
+    readonly property int steps: canvas.roundToPrecision(root.stateType.maxValue - root.stateType.minValue) / root.precision + 1
+    readonly property double stepSize: (root.stateType.maxValue - root.stateType.minValue) / steps
+    readonly property double anglePerStep: maxAngle / steps
+
+
+    ActionQueue {
+        id: actionQueue
+        thing: root.thing
+        stateType: root.stateType
+        onPendingValueChanged: canvas.requestPaint()
     }
-    function angleToValue(angle) {
-        return (to - from) * angle / maxAngle + from
+
+    ActionQueue {
+        id: powerActionQueue
+        thing: root.thing
+        stateName: "power"
     }
 
-    readonly property State deviceState: thing && stateType ? thing.states.getState(stateType.id) : null
-    readonly property double from: dial.stateType ? dial.stateType.minValue : 0
-    readonly property double to: dial.stateType ? dial.stateType.maxValue : 100
-    readonly property double anglePerStep: maxAngle / dial.steps
-    readonly property double startAngle: -(dial.steps * dial.anglePerStep) / 2
-
-    readonly property StateType powerStateType: dial.thing.thingClass.stateTypes.findByName("power")
-    readonly property State powerState: powerStateType ? dial.thing.states.getState(powerStateType.id) : null
-
-    QtObject {
-        id: d
-        property int pendingActionId: -1
-        property real valueCache: 0
-        property bool valueCacheDirty: false
-
-        property bool busy: rotateMouseArea.pressed || pendingActionId != -1 || valueCacheDirty
-
-        property color onColor: dial.color
-        property color offColor: "#808080"
-        property color poweredColor: dial.powerStateType
-                                              ? (dial.powerState.value === true ? onColor : offColor)
-                                              : onColor
-
-
-        function enqueueSetValue(value) {
-            if (d.pendingActionId == -1) {
-                executeAction(value);
-                return;
-            } else {
-                valueCache = value
-                valueCacheDirty = true;
-            }
-        }
-
-        function executeAction(value) {
-            var params = []
-            var param = {}
-            param["paramName"] = dial.stateType.name
-            param["value"] = value
-            params.push(param)
-            d.pendingActionId = dial.thing.executeAction(dial.stateType.name, params)
-        }
-    }
     Connections {
-        target: engine.thingManager
-        onExecuteActionReply: {
-            if (d.pendingActionId == commandId) {
-                d.pendingActionId = -1
-                if (d.valueCacheDirty) {
-                    d.executeAction(d.valueCache)
-                    d.valueCacheDirty = false;
-                }
-            }
-        }
-    }
-    Connections {
-        target: dial.thing
-        onActionExecutionFinished: {
-            if (id == d.pendingActionId) {
-                d.pendingActionId = -1;
-                if (d.valueCacheDirty) {
-                    d.executeAction(d.valueCache)
-                    d.valueCacheDirty = false;
-                }
-            }
-        }
-    }
-
-    Component.onCompleted: rotationButton.rotation = dial.valueToAngle(dial.thingState.value)
-    Connections {
-        target: dial.thingState
+        target: root.progressState
         onValueChanged: {
-            if (!d.busy) {
-                rotationButton.rotation = dial.valueToAngle(dial.thingState.value)
+            canvas.requestPaint()
+        }
+    }
+
+
+    Canvas {
+        id: canvas
+        anchors.centerIn: root
+        width: Math.min(root.width, root.height)
+        height: width
+
+        function roundToPrecision(value) {
+            var tmp = Math.round(value / root.precision) * root.precision;
+            return tmp;
+        }
+
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.reset();
+
+            var center = { x: canvas.width / 2, y: canvas.height / 2 };
+
+            // Step lines
+            var currentValue = actionQueue.pendingValue || root.progressState.value
+            var currentStep;
+            if (root.progressState) {
+                currentStep = roundToPrecision(currentValue - root.stateType.minValue) / root.precision
+            }
+
+            print("* current step", currentStep, root.steps, currentValue)
+
+            for(var step = 0; step < steps; step += root.precision) {
+                var angle = step * anglePerStep + startAngle;
+                var innerRadius = canvas.width * 0.4
+                var outerRadius = canvas.width * 0.5
+
+                if (step === currentStep) {
+                    ctx.strokeStyle = root.color
+                    innerRadius = canvas.width * 0.38
+                    ctx.lineWidth = 4;
+                } else {
+                    ctx.strokeStyle = Style.tileOverlayColor;
+                    ctx.lineWidth = 1;
+                }
+
+                ctx.beginPath();
+                // rotate
+                //convert to radians
+                var rad = angle * Math.PI/180;
+                var c = Math.cos(rad);
+                var s = Math.sin(rad);
+                var innerPointX = center.x + (innerRadius * c);
+                var innerPointY = center.y + (innerRadius * s);
+                var outerPointX = center.x + (outerRadius * c);
+                var outerPointY = center.x + (outerRadius * s);
+
+                ctx.moveTo(innerPointX, innerPointY);
+                ctx.lineTo(outerPointX, outerPointY);
+                ctx.stroke();
+                ctx.closePath();
             }
         }
     }
 
-    Label {
-        id: topLabel
-        Layout.fillWidth: true
-        property var unit: dial.stateType ? dial.stateType.unit : Types.UnitNone
-        text: Types.toUiValue(rotateMouseArea.currentValue, unit) + Types.toUiUnit(unit)
-        font.pixelSize: app.largeFont * 1.5
-        horizontalAlignment: Text.AlignHCenter
-        visible: dial.showValueLabel && dial.stateType !== null
-    }
 
-    Item {
-        id: buttonContainer
-        Layout.fillWidth: true
-        Layout.fillHeight: true
+    MouseArea {
+        anchors.fill: canvas
 
-        Item {
-            id: innerDial
+        property bool dragging: false
+        property double lastAngle
+        property double angleDiff: 0
 
-            height: Math.min(parent.height, parent.width) * .9
-            width: height
-            anchors.centerIn: parent
-            rotation: dial.startAngle
+        onPressed: {
+            angleDiff = 0
+            lastAngle = calculateAngle(mouseX, mouseY)
+        }
 
-            Rectangle {
-                anchors.fill: rotationButton
-                radius: height / 2
-                border.color: Style.foregroundColor
-                border.width: 2
-                color: "transparent"
-                opacity: rotateMouseArea.pressed && !rotateMouseArea.grabbed ? .7 : 1
+        onReleased: {
+            if (!dragging && root.powerState) {
+                PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
+                powerActionQueue.sendValue(!root.powerState.value)
+            }
+            dragging = false
+        }
+
+        onPositionChanged: {
+            var angle = calculateAngle(mouseX, mouseY)
+            var tmpDiff = angle - lastAngle
+            if (tmpDiff > 300) {
+                tmpDiff -= 360
+            }
+            if (tmpDiff < -300) {
+                tmpDiff += 360
             }
 
-            Item {
-                id: rotationButton
-                height: parent.height * .75
-                width: height
-                anchors.centerIn: parent
-                visible: dial.stateType !== null
-                Behavior on rotation {
-                    NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
-                    enabled: !rotateMouseArea.pressed && !d.busy
-                }
+            lastAngle = angle;
 
-                Item {
-                    id: handle
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    height: parent.height * .35
-                    width: height
-
-//                    Rectangle { anchors.fill: parent; color: "red"; opacity: .3}
-
-                    Rectangle {
-                        height: parent.height * .5
-                        width: innerDial.width * 0.02
-                        radius: width / 2
-                        anchors.top: parent.top
-                        anchors.topMargin: height * .25
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: d.poweredColor
-                        Behavior on color { ColorAnimation { duration: 200 } }
-                    }
-                }
+            angleDiff += tmpDiff
+            if (Math.abs(angleDiff) > 1) {
+                dragging = true
             }
 
-            Repeater {
-                id: indexLEDs
-                model: dial.steps + 1
-
-                Item {
-                    height: parent.height
-                    width: parent.width * .04
-                    anchors.centerIn: parent
-                    rotation: dial.anglePerStep * index
-                    visible: dial.stateType !== null
-
-                    Rectangle {
-                        width: parent.width
-                        height: width
-                        radius: width / 2
-                        color: dial.deviceState && dial.angleToValue(parent.rotation) <= dial.deviceState.value ? d.poweredColor : d.offColor
-                        Behavior on color { ColorAnimation { duration: 200 } }
-                    }
+            var valueDiff = angleDiff / root.anglePerStep * root.stepSize
+            valueDiff = canvas.roundToPrecision(valueDiff)
+            if (Math.abs(valueDiff) > 0) {
+                var currentValue = actionQueue.pendingValue || root.progressState.value
+                var newValue = currentValue + valueDiff
+                newValue = Math.min(root.stateType.maxValue, Math.max(root.stateType.minValue, newValue))
+                if (currentValue !== newValue) {
+                    actionQueue.sendValue(newValue)
                 }
+                var steps = Math.round(valueDiff / root.stepSize)
+                angleDiff -= steps * root.anglePerStep
             }
         }
 
-        Rectangle {
-            id: buttonBorder
-            height: innerDial.height * .8
-            width: height
-            anchors.centerIn: parent
-            radius: height / 2
-            border.color: Style.foregroundColor
-            opacity: .3
-            border.width: width * .025
-            color: "transparent"
-        }
+        function calculateAngle(mouseX, mouseY) {
+            // transform coords to center of dial
+            mouseX -= canvas.width / 2
+            mouseY -= canvas.height / 2
 
-        Label {
-            anchors { left: innerDial.left; bottom: innerDial.bottom; bottomMargin: innerDial.height * .1 }
-            text: "MIN"
-            font.pixelSize: innerDial.height * .06
-            visible: dial.stateType !== null
-        }
+            var rad = Math.atan(mouseY / mouseX);
+            var angle = rad * 180 / Math.PI
 
-        Label {
-            anchors { right: innerDial.right; bottom: innerDial.bottom; bottomMargin: innerDial.height * .1 }
-            text: "MAX"
-            font.pixelSize: innerDial.height * .06
-            visible: dial.stateType !== null
-        }
+            angle += 90;
 
-        ColorIcon {
-            anchors.centerIn: innerDial
-            height: innerDial.height * .2
-            width: height
-            name: "../images/system-shutdown.svg"
-            visible: dial.powerStateType !== null
-            color: d.poweredColor
-            Behavior on color { ColorAnimation { duration: 200 } }
-        }
+            if (mouseX < 0 && mouseY >= 0) angle = 180 + angle;
+            if (mouseX < 0 && mouseY < 0) angle = 180 + angle;
 
-        MouseArea {
-            id: rotateMouseArea
-            anchors.fill: buttonBorder
-            onPressedChanged: PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackImpact)
-
-//            Rectangle { anchors.fill: parent; color: "blue"; opacity: .3}
-
-            property bool grabbed: false
-            onPressed: {
-                startX = mouseX
-                startY = mouseY
-                var mappedToHandle = mapToItem(handle, mouseX, mouseY);
-                if (mappedToHandle.x >= 0
-                        && mappedToHandle.x < handle.width
-                        && mappedToHandle.y >= 0
-                        && mappedToHandle.y < handle.height
-                        ) {
-                    grabbed = true;
-                    return;
-                }
-            }
-            onCanceled: grabbed = false;
-
-            property bool dragging: false
-            onReleased: {
-                grabbed = false;
-                if (dial.powerStateType && !dragging) {
-                    var params = []
-                    var param = {}
-                    param["paramName"] = "power"
-                    param["value"] = !dial.powerState.value
-                    params.push(param)
-                    dial.thing.executeAction("power", params)
-                }
-                dragging = false;
-            }
-
-            readonly property int decimals: dial.stateType && dial.stateType.type.toLowerCase() === "int" ? 0 : 1
-            property var currentValue: dial.deviceState ? dial.deviceState.value.toFixed(decimals) : 0
-            property date lastVibration: new Date()
-            property int startX
-            property int startY
-            onPositionChanged: {
-                if (Math.abs(mouseX - startX) > 10 || Math.abs(mouseY - startY) > 10) {
-                    dragging = true;
-                }
-
-                if (!grabbed) {
-                    return;
-                }
-                var angle = calculateAngle(mouseX, mouseY)
-                angle = (360 + angle - dial.startAngle) % 360;
-
-                if (angle > 360 - ((360 - dial.maxAngle) / 2)) {
-                    angle = 0;
-                } else if (angle > dial.maxAngle) {
-                    angle = dial.maxAngle
-                }
-
-                var newValue = Math.round(dial.angleToValue(angle) * 2) / 2;
-                rotationButton.rotation = angle;
-                newValue = newValue.toFixed(decimals)
-
-                if (newValue != currentValue) {
-                    currentValue = newValue;
-                    if (newValue <= dial.stateType.minValue || newValue >= dial.stateType.maxValue) {
-                        PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackImpact)
-                    } else {
-                        if (lastVibration.getTime() + 35 < new Date()) {
-                            PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
-                        }
-                        lastVibration = new Date()
-                    }
-
-                    d.enqueueSetValue(newValue);
-                }
-            }
-
-            function calculateAngle(mouseX, mouseY) {
-                // transform coords to center of dial
-                mouseX -= innerDial.width / 2
-                mouseY -= innerDial.height / 2
-
-                var rad = Math.atan(mouseY / mouseX);
-                var angle = rad * 180 / Math.PI
-
-                angle += 90;
-
-                if (mouseX < 0 && mouseY >= 0) angle = 180 + angle;
-                if (mouseX < 0 && mouseY < 0) angle = 180 + angle;
-
-                return angle;
-            }
+            return angle;
         }
     }
 }

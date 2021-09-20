@@ -46,7 +46,8 @@ Item {
     property alias color: icon.color
     property alias backgroundColor: background.color
 
-    property bool longpressEnabled: true
+    property bool longpressEnabled: false
+    property bool busy: false
 
     property int size: Style.iconSize
 
@@ -100,6 +101,16 @@ Item {
         }
     }
 
+    NumberAnimation {
+        target: busyCanvas
+        property: "rotation"
+        from: 360
+        to: 0
+        duration: 2000
+        loops: Animation.Infinite
+        running: root.busy
+    }
+
     Rectangle {
         id: background
         anchors.fill: parent
@@ -136,9 +147,8 @@ Item {
         property bool inverted: false
 
         readonly property int penWidth: 2
-        onProgressChanged: {
-            requestPaint()
-        }
+
+        onProgressChanged: requestPaint()
         Connections {
             target: buttonDelegate
             onPressedChanged: {
@@ -152,21 +162,49 @@ Item {
         onPaint: {
             var ctx = getContext("2d");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = Qt.rgba(1, 0, 0, 1);
-            ctx.lineWidth = canvas.penWidth
-            ctx.strokeStyle = Style.accentColor
 
-            var start = -Math.PI / 2;
-            var stop = -Math.PI / 2;
-            if (inverted) {
-                start += canvas.progress * 2 * Math.PI
-            } else {
-                stop += canvas.progress * 2 * Math.PI
+            // Draw longpress progress
+            if (canvas.progress > 0) {
+                ctx.save();
+                ctx.fillStyle = Qt.rgba(1, 0, 0, 1);
+                ctx.lineWidth = canvas.penWidth
+                ctx.strokeStyle = Style.accentColor
+
+                var start = -Math.PI / 2;
+                var stop = -Math.PI / 2;
+                if (inverted) {
+                    start += canvas.progress * 2 * Math.PI
+                } else {
+                    stop += canvas.progress * 2 * Math.PI
+                }
+
+                ctx.beginPath();
+                ctx.arc(canvas.width / 2, canvas.height / 2, ((canvas.width - canvas.penWidth) / 2), start, stop);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.restore();
             }
+        }
+    }
 
+    Canvas {
+        id: busyCanvas
+        visible: root.busy
+        anchors.fill: parent
+        anchors.margins: -4
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.save();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = root.backgroundColor;
+            var radius = (width - ctx.lineWidth) / 2
+            var circumference = 2 * Math.PI * radius
+            var dashRatio = circumference / 6 / ctx.lineWidth
+            ctx.setLineDash([dashRatio, dashRatio])
             ctx.beginPath();
-            ctx.arc(canvas.width / 2, canvas.height / 2, ((canvas.width - canvas.penWidth) / 2), start, stop);
+            ctx.arc(width / 2, height / 2, (width - 2) / 2, 0, 2 * Math.PI);
             ctx.stroke();
+            ctx.closePath();
         }
     }
 
