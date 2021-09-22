@@ -202,6 +202,10 @@ void NymeaDiscovery::setZeroconfDiscoveryEnabled(bool zeroconfDiscoveryEnabled)
     if (m_zeroconfDiscoveryEnabled  != zeroconfDiscoveryEnabled) {
         m_zeroconfDiscoveryEnabled = zeroconfDiscoveryEnabled;
         emit zeroconfDiscoveryEnabledChanged(m_zeroconfDiscoveryEnabled);
+        if (!m_zeroconfDiscoveryEnabled && m_zeroConf && m_zeroConf->discovering()) {
+            m_zeroConf->deleteLater();
+            m_zeroConf = nullptr;
+        }
     }
 }
 
@@ -210,6 +214,9 @@ void NymeaDiscovery::setBluetoothDiscoveryEnabled(bool bluetoothDiscoveryEnabled
     if (m_bluetoothDiscoveryEnabled != bluetoothDiscoveryEnabled) {
         m_bluetoothDiscoveryEnabled = bluetoothDiscoveryEnabled;
         emit bluetoothDiscoveryEnabledChanged(m_bluetoothDiscoveryEnabled);
+        if (!m_bluetoothDiscoveryEnabled && m_bluetooth && m_bluetooth->discovering()) {
+            m_bluetooth->stopDiscovery();
+        }
     }
 }
 
@@ -218,6 +225,9 @@ void NymeaDiscovery::setUpnpDiscoveryEnabled(bool upnpDiscoveryEnabled)
     if (m_upnpDiscoveryEnabled != upnpDiscoveryEnabled) {
         m_upnpDiscoveryEnabled = upnpDiscoveryEnabled;
         emit upnpDiscoveryEnabledChanged(m_upnpDiscoveryEnabled);
+        if (!m_upnpDiscoveryEnabled && m_upnp && m_upnp->discovering()) {
+            m_upnp->stopDiscovery();
+        }
     }
 }
 
