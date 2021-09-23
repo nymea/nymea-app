@@ -257,5 +257,6 @@
         <file>ui/components/CircleBackground.qml</file>
         <file>ui/devicepages/CoolingThingPage.qml</file>
         <file>ui/devicepages/EvChargerThingPage.qml</file>
+        <file>ui/components/BlurredLabel.qml</file>
     </qresource>
 </RCC>

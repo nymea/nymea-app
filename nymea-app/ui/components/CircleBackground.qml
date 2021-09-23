@@ -56,6 +56,13 @@ Item {
         radius: width / 2
         color: Style.tileBackgroundColor
     }
+    Rectangle {
+        id: mask
+        anchors.fill: background
+        radius: height / 2
+        visible: false
+        color: "red"
+    }
 
     MouseArea {
         anchors.fill: background
@@ -85,7 +92,7 @@ Item {
         opacity: root.on ? 1 : 0
         anchors.fill: gradient
         source: gradient
-        maskSource: background
+        maskSource: mask
         Behavior on opacity { NumberAnimation { duration: Style.animationDuration } }
 
     }

@@ -236,6 +236,8 @@ Page {
                                         return boolComponent;
                                     case "color":
                                         return colorComponent
+                                    case "double":
+                                        return floatLabelComponent;
                                     default:
                                         if (entryDelegate.stateType.unit == Types.UnitUnixTime) {
                                             return dateTimeComponent
@@ -273,6 +275,17 @@ Page {
             property var value
             property string unitString
             text: value + " " + unitString
+            font.pixelSize: app.smallFont
+            elide: Text.ElideRight
+        }
+    }
+
+    Component {
+        id: floatLabelComponent
+        Label {
+            property double value
+            property string unitString
+            text: value.toFixed(value > 1000 ? 0 : 2) + " " + unitString
             font.pixelSize: app.smallFont
             elide: Text.ElideRight
         }

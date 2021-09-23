@@ -44,9 +44,14 @@ Page {
 
     property ThingsProxy thingsProxy: thingsProxyInternal
 
-    function enterPage(index) {
+    function enterPage(index, interfaces) {
+        if (interfaces === undefined) {
+            interfaces = root.shownInterfaces
+        }
+
         var thing = thingsProxy.get(index);
-        var page = NymeaUtils.interfaceListToDevicePage(root.shownInterfaces);
+        print("matching interfaces", interfaces)
+        var page = NymeaUtils.interfaceListToDevicePage(interfaces);
         pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {thing: thingsProxy.get(index)})
     }
 

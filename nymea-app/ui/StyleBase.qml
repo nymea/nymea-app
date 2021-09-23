@@ -91,7 +91,8 @@ Item {
         "o2sensor": "lightblue",
         "orpsensor": "yellow",
         "powersocket": "aquamarine",
-        "evcharger": "limegreen"
+        "evcharger": "limegreen",
+        "energystorage": "limegreen"
     }
 
     property var stateColors: {
@@ -111,4 +112,5 @@ Item {
     readonly property int fastAnimationDuration: 100
     readonly property int animationDuration: 150
     readonly property int slowAnimationDuration: 300
+    readonly property int sleepyAnimationDuration: 2000
 }

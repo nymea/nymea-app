@@ -40,6 +40,7 @@ import QtCharts 2.2
 Item {
     id: root
     implicitHeight: width * .6
+    implicitWidth: 400
 
     property Thing thing: null
     property StateType stateType: null

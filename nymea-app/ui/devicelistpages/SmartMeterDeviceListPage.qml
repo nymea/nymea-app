@@ -66,52 +66,71 @@ ThingsListPageBase {
                     thing: root.thingsProxy.getThing(model.id)
 
                     onClicked: {
-                        enterPage(index)
+                        enterPage(index, ["energystorage", "smartmeter"])
                     }
-                    contentItem: GridLayout {
+                    contentItem: RowLayout {
                         id: dataGrid
-                        columns: Math.floor(contentItem.width / 120)
 
-                        Repeater {
-                            model: ListModel {
-                                Component.onCompleted: {
-                                    if (itemDelegate.thing.thingClass.stateTypes.findByName("totalEnergyConsumed") !== null) {
-                                        append( {stateName: "totalEnergyConsumed" })
+                        property State currentPowerState: itemDelegate.thing.stateByName("currentPower")
+                        property bool isEnergyMeter: itemDelegate.thing.thingClass.interfaces.indexOf("energymeter") >= 0
+                        property bool isBattery: itemDelegate.thing.thingClass.interfaces.indexOf("energystorage") >= 0
+                        property bool isEvCharger: itemDelegate.thing.thingClass.interfaces.indexOf("evcharger") >= 0
+                        property bool isProducer: itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterproducer") >= 0
+                        property bool isConsumer: itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0
+                        property bool isProduction: currentPowerState.value < 0
+                        property bool isConsumption: currentPowerState.value > 0
+                        property double absValue: Math.abs(currentPowerState.value)
+                        property double cleanVale: (absValue / (absValue > 1000 ? 1000 : 1)).toFixed(1)
+                        property string unit: absValue > 1000 ? "kW" : "W"
+
+                        ColorIcon {
+                            name: app.stateIcon("currentPower")
+                            color: app.stateColor("currentPower")
+                            size: Style.iconSize
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            text: {
+                                if (dataGrid.isEnergyMeter) {
+                                    if (dataGrid.isProduction) {
+                                        return qsTr("%1 %2 returning").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                    } else {
+                                        return qsTr("%1 %2 obtaining").arg(dataGrid.cleanVale).arg(dataGrid.unit)
                                     }
-                                    if (itemDelegate.thing.thingClass.stateTypes.findByName("totalEnergyProduced") !== null) {
-                                        append( {stateName: "totalEnergyProduced" })
+
+                                } else if (dataGrid.isBattery || dataGrid.isEvCharger) {
+                                    if (dataGrid.isProduction) {
+                                        return qsTr("%1 %2 discharging").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                    } else {
+                                        return qsTr("%1 %2 charging").arg(dataGrid.cleanVale).arg(dataGrid.unit)
                                     }
-                                    if (itemDelegate.thing.thingClass.stateTypes.findByName("currentPower") !== null) {
-                                        append({stateName: "currentPower"});
+
+                                } else if (dataGrid.isProducer && !dataGrid.isConsumer) {
+                                    if (dataGrid.isProduction) {
+                                        return qsTr("%1 %2 producing").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                    } else {
+                                        return qsTr("%1 %2 idling").arg(Math.max(0, dataGrid.cleanVale)).arg(dataGrid.unit)
+                                    }
+
+                                } else if (dataGrid.isConsumer && !dataGrid.isProducer) {
+                                    if (dataGrid.isProduction) {
+                                        return qsTr("%1 %2 idling").arg(Math.max(0, dataGrid.cleanVale)).arg(dataGrid.unit)
+                                    } else {
+                                        return qsTr("%1 %2 consuming").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                    }
+
+                                } else {
+                                    if (dataGrid.isProduction) {
+                                        return qsTr("%1 %2 producing").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                    } else {
+                                        return qsTr("%1 %2 consuming").arg(dataGrid.cleanVale).arg(dataGrid.unit)
                                     }
                                 }
                             }
-
-                            delegate: RowLayout {
-                                id: sensorValueDelegate
-                                Layout.preferredWidth: contentItem.width / dataGrid.columns
-
-                                property StateType stateType: itemDelegate.thing.thingClass.stateTypes.findByName(model.stateName)
-                                property State stateValue: stateType ? itemDelegate.thing.states.getState(stateType.id) : null
-
-                                ColorIcon {
-                                    Layout.preferredHeight: Style.iconSize
-                                    Layout.preferredWidth: height
-                                    Layout.alignment: Qt.AlignVCenter
-                                    color: app.stateColor(model.stateName)
-                                    name: app.stateIcon(model.stateName)
-                                }
-
-                                Label {
-                                    Layout.fillWidth: true
-                                    text: sensorValueDelegate.stateValue
-                                          ? "%1 %2".arg((1.0 * Math.round(Types.toUiValue(sensorValueDelegate.stateValue.value, sensorValueDelegate.stateType.unit) * 100000) / 100000).toFixed(3)).arg(Types.toUiUnit(sensorValueDelegate.stateType.unit))
-                                          : ""
-                                    elide: Text.ElideRight
-                                    verticalAlignment: Text.AlignVCenter
-                                    font.pixelSize: app.smallFont
-                                }
-                            }
+                            elide: Text.ElideRight
+                            verticalAlignment: Text.AlignVCenter
+                            font.pixelSize: app.smallFont
                         }
                     }
                 }

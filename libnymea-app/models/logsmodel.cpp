@@ -330,7 +330,7 @@ void LogsModel::fetchMore(const QModelIndex &parent)
     Q_UNUSED(parent)
 
     if (!m_engine) {
-        qCWarning(dcLogEngine()) << objectName() << "Cannot update. Engine not set";
+        qCDebug(dcLogEngine()) << objectName() << "Cannot update yet. Engine not set";
         return;
     }
     if (m_busyInternal) {
