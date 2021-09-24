@@ -55,6 +55,13 @@ UpnpDiscovery::UpnpDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
         }
         foreach (const QNetworkAddressEntry &netAddressEntry, iface.addressEntries()) {
             if (netAddressEntry.ip().protocol() == QAbstractSocket::IPv4Protocol) {
+#ifdef Q_OS_IOS
+                // On iOS this will fail, but it's also not of interest as we won't run app and core on the same iOS host
+                if (netAddressEntry.ip() == QHostAddress::LocalHost) {
+                    continue;
+                }
+
+#endif
                 QUdpSocket *socket = new QUdpSocket(this);
                 int port = -1;
                 for (int i = 49125; i < 65535; i++) {
@@ -68,7 +75,8 @@ UpnpDiscovery::UpnpDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
                     qCWarning(dcUPnP()) << "Discovery could not bind to interface" << netAddressEntry.ip();
                     continue;
                 }
-                qCInfo(dcUPnP()) << "Discovering on" << netAddressEntry.ip() << port;
+                bool ret = socket->joinMulticastGroup(QHostAddress("239.255.255.250"));
+                qCInfo(dcUPnP()) << "Discovering on" << netAddressEntry.ip() << port << ret;
                 m_sockets.append(socket);
                 connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
                 connect(socket, &QUdpSocket::readyRead, this, &UpnpDiscovery::readData);
@@ -116,7 +124,7 @@ void UpnpDiscovery::writeDiscoveryPacket()
                                               "MX:2\r\n"
                                               "ST: ssdp:all\r\n\r\n");
 
-    qCDebug(dcUPnP()) << "sending discovery package";
+    qCDebug(dcUPnP()) << "sending discovery packet";
     foreach (QUdpSocket* socket, m_sockets) {
         qint64 ret = socket->writeDatagram(ssdpSearchMessage, QHostAddress("239.255.255.250"), 1900);
         if (ret != ssdpSearchMessage.length()) {
@@ -129,7 +137,7 @@ void UpnpDiscovery::writeDiscoveryPacket()
 void UpnpDiscovery::error(QAbstractSocket::SocketError error)
 {
     QUdpSocket* socket = static_cast<QUdpSocket*>(sender());
-    qWarning() << "UPnP: Socket error:" << error << socket->errorString();
+    qWarning() << "UPnP: Socket error:" << error << socket->errorString() << socket->localAddress();
 }
 
 void UpnpDiscovery::readData()
