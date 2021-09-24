@@ -1,3 +1,11 @@
+nymea-app (1.0.363) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve energy pages
+  * Fixes in UPnP discovery on iOS
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 24 Sep 2021 23:04:41 +0200
+
 nymea-app (1.0.362) bionic; urgency=medium
 
   [ Michael Zanetti ]
