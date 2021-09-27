@@ -1,3 +1,10 @@
+nymea-app (1.0.364) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Enable multicast entitlement on iOS
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 27 Sep 2021 23:45:05 +0200
+
 nymea-app (1.0.363) bionic; urgency=medium
 
   [ Michael Zanetti ]
