@@ -160,7 +160,7 @@ ios: {
     QMAKE_SUBSTITUTES += plist
     QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
     OTHER_FILES += $${IOS_PACKAGE_DIR}/Info.plist.in \
-                   $${IOS_PACKAGE_DIR}/pushnotifications.entitlements \
+                   $${IOS_PACKAGE_DIR}/app.entitlements \
                    $${IOS_PACKAGE_DIR}/GoogleService-Info.plist
 
     QMAKE_ASSET_CATALOGS += $${IOS_PACKAGE_DIR}/Assets.xcassets
@@ -173,7 +173,7 @@ ios: {
     QMAKE_MAC_XCODE_SETTINGS += IOS_DEVELOPMENT_TEAM
 
     IOS_ENTITLEMENTS.name = CODE_SIGN_ENTITLEMENTS
-    IOS_ENTITLEMENTS.value = $$files($${IOS_PACKAGE_DIR}/pushnotifications.entitlements)
+    IOS_ENTITLEMENTS.value = $$files($${IOS_PACKAGE_DIR}/app.entitlements)
     QMAKE_MAC_XCODE_SETTINGS += IOS_ENTITLEMENTS
 }
 
