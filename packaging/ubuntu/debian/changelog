@@ -1,3 +1,10 @@
+nymea-app (1.0.365) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix reconfiguration of discovered things
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 28 Sep 2021 13:56:27 +0200
+
 nymea-app (1.0.364) bionic; urgency=medium
 
   [ Michael Zanetti ]
