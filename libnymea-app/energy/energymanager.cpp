@@ -34,6 +34,7 @@ void EnergyManager::setEngine(Engine *engine)
         emit engineChanged();
 
         if (m_engine) {
+            connect(engine, &Engine::destroyed, this, [engine, this]{ if (m_engine == engine) m_engine = nullptr; });
             m_engine->jsonRpcClient()->registerNotificationHandler(this, "Energy", "notificationReceived");
             m_engine->jsonRpcClient()->sendCommand("Energy.GetRootMeter", QVariantMap(), this, "getRootMeterResponse");
             m_engine->jsonRpcClient()->sendCommand("Energy.GetPowerBalance", QVariantMap(), this, "getPowerBalanceResponse");
@@ -71,6 +72,31 @@ double EnergyManager::currentPowerAcquisition() const
     return m_currentPowerAcquisition;
 }
 
+double EnergyManager::currentPowerStorage() const
+{
+    return m_currentPowerStorage;
+}
+
+double EnergyManager::totalConsumption() const
+{
+    return m_totalConsumption;
+}
+
+double EnergyManager::totalProduction() const
+{
+    return m_totalProduction;
+}
+
+double EnergyManager::totalAcquisition() const
+{
+    return m_totalAcquisition;
+}
+
+double EnergyManager::totalReturn() const
+{
+    return m_totalReturn;
+}
+
 void EnergyManager::notificationReceived(const QVariantMap &data)
 {
     QString notification = data.value("notification").toString();
@@ -83,6 +109,11 @@ void EnergyManager::notificationReceived(const QVariantMap &data)
         m_currentPowerConsumption = params.value("currentPowerConsumption").toDouble();
         m_currentPowerProduction = params.value("currentPowerProduction").toDouble();
         m_currentPowerAcquisition = params.value("currentPowerAcquisition").toDouble();
+        m_currentPowerStorage = params.value("currentPowerStorage").toDouble();
+        m_totalConsumption = params.value("totalConsumption").toDouble();
+        m_totalProduction = params.value("totalProduction").toDouble();
+        m_totalAcquisition = params.value("totalAcquisition").toDouble();
+        m_totalReturn = params.value("totalReturn").toDouble();
         emit powerBalanceChanged();
 
     } else if (notification == "Energy.PowerBalanceLogEntryAdded") {
@@ -110,6 +141,11 @@ void EnergyManager::getPowerBalanceResponse(int commandId, const QVariantMap &pa
     m_currentPowerConsumption = params.value("currentPowerConsumption").toDouble();
     m_currentPowerProduction = params.value("currentPowerProduction").toDouble();
     m_currentPowerAcquisition = params.value("currentPowerAcquisition").toDouble();
+    m_currentPowerStorage = params.value("currentPowerStorage").toDouble();
+    m_totalConsumption = params.value("totalConsumption").toDouble();
+    m_totalProduction = params.value("totalProduction").toDouble();
+    m_totalAcquisition = params.value("totalAcquisition").toDouble();
+    m_totalReturn = params.value("totalReturn").toDouble();
     emit powerBalanceChanged();
 }
 

@@ -36,6 +36,7 @@
 ThingsProxy::ThingsProxy(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
+    setSortRole(Things::RoleName);
 }
 
 Engine *ThingsProxy::engine() const
@@ -61,7 +62,7 @@ void ThingsProxy::setEngine(Engine *engine)
             setSourceModel(m_engine->thingManager()->things());
 
             setSortRole(Things::RoleName);
-            sort(0);
+            sort(0, sortOrder());
             connect(sourceModel(), SIGNAL(countChanged()), this, SIGNAL(countChanged()));
             connect(sourceModel(), &QAbstractItemModel::dataChanged, this, [this]() {
                 invalidateFilter();
@@ -422,6 +423,26 @@ void ThingsProxy::setGroupByInterface(bool groupByInterface)
     }
 }
 
+QString ThingsProxy::sortStateName() const
+{
+    return m_sortStateName;
+}
+
+void ThingsProxy::setSortStateName(const QString &sortStateName)
+{
+    if (m_sortStateName != sortStateName) {
+        m_sortStateName = sortStateName;
+        emit sortStateNameChanged();
+        invalidate();
+    }
+}
+
+void ThingsProxy::setSortOrder(Qt::SortOrder sortOrder)
+{
+    sort(0, sortOrder);
+    emit sortOrderChanged();
+}
+
 Thing *ThingsProxy::get(int index) const
 {
     return getInternal(mapToSource(this->index(index, 0)).row());
@@ -478,8 +499,26 @@ bool ThingsProxy::lessThan(const QModelIndex &left, const QModelIndex &right) co
             return QString::localeAwareCompare(leftBaseInterface, rightBaseInterface) < 0;
         }
     }
-    QString leftName = sourceModel()->data(left, Things::RoleName).toString();
-    QString rightName = sourceModel()->data(right, Things::RoleName).toString();
+
+    if (!m_sortStateName.isEmpty()) {
+        Thing *leftThing = nullptr;
+        Thing *rightThing = nullptr;
+        if (m_parentProxy) {
+            leftThing = m_parentProxy->get(left.row());
+            rightThing = m_parentProxy->get(right.row());
+        } else {
+            leftThing = m_engine->thingManager()->things()->get(left.row());
+            rightThing = m_engine->thingManager()->things()->get(right.row());
+        }
+        State *leftState = leftThing->stateByName(m_sortStateName);
+        State *rightState = rightThing->stateByName(m_sortStateName);
+        QVariant leftStateValue = leftState ? leftState->value() : 0;
+        QVariant rightStateValue = rightState ? rightState->value() : 0;
+        return leftStateValue < rightStateValue;
+    }
+
+    QString leftName = sourceModel()->data(left, sortRole()).toString();
+    QString rightName = sourceModel()->data(right, sortRole()).toString();
 
     int comparison = QString::localeAwareCompare(leftName, rightName);
     if (comparison == 0) {

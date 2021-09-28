@@ -211,7 +211,7 @@ ThingPageBase {
                 property bool isCharging: root.chargingState && root.chargingState.value === "charging"
                 property bool isDischarging: root.chargingState && root.chargingState.value === "discharging"
                 property double availableWh: isBattery ? root.capacityState.value * 1000 * root.batteryLevelState.value / 100 : 0
-                property double remainingWh: isCharging ? root.capacityState.value - availableWh : availableWh
+                property double remainingWh: isCharging ? root.capacityState.value * 1000 - availableWh : availableWh
                 property double remainingHours: isBattery ? remainingWh / Math.abs(root.currentPower) : 0
                 property date endTime: isBattery ? new Date(new Date().getTime() + remainingHours * 60 * 60 * 1000) : new Date()
                 property int n: Math.round(remainingHours)

@@ -58,6 +58,10 @@ SettingsPageBase {
             subText: engine.jsonRpcClient.serverUuid
             progressive: false
             prominentSubText: false
+            onClicked: {
+                PlatformHelper.toClipBoard(engine.jsonRpcClient.serverUuid)
+                ToolTip.show(qsTr("ID copied to clipboard"), 500);
+            }
         }
         NymeaSwipeDelegate {
             Layout.fillWidth: true

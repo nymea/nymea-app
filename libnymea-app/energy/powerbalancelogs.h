@@ -6,53 +6,68 @@
 #include <QDateTime>
 #include <QSortFilterProxyModel>
 
-class PowerBalanceLogEntry: public QObject
+#include "energylogs.h"
+
+class PowerBalanceLogEntry: public EnergyLogEntry
 {
     Q_OBJECT
-    Q_PROPERTY(QDateTime timestamp READ timestamp CONSTANT)
     Q_PROPERTY(double consumption READ consumption CONSTANT)
     Q_PROPERTY(double production READ production CONSTANT)
     Q_PROPERTY(double acquisition READ acquisition CONSTANT)
     Q_PROPERTY(double storage READ storage CONSTANT)
+    Q_PROPERTY(double totalConsumption READ totalConsumption CONSTANT)
+    Q_PROPERTY(double totalProduction READ totalProduction CONSTANT)
+    Q_PROPERTY(double totalAcquisition READ totalAcquisition CONSTANT)
+    Q_PROPERTY(double totalReturn READ totalReturn CONSTANT)
 public:
-    PowerBalanceLogEntry() = default;
-    PowerBalanceLogEntry(const QDateTime &timestamp, double consumption, double production, double acquisition, double storage, QObject *parent);
+    PowerBalanceLogEntry(QObject *parent = nullptr);
+    PowerBalanceLogEntry(const QDateTime &timestamp, double consumption, double production, double acquisition, double storage, double totalConsumption, double totalProduction, double totalAcquisition, double totalReturn, QObject *parent);
 
-    QDateTime timestamp() const;
     double consumption() const;
     double production() const;
     double acquisition() const;
     double storage() const;
+    double totalConsumption() const;
+    double totalProduction() const;
+    double totalAcquisition() const;
+    double totalReturn() const;
 private:
     QDateTime m_timestamp;
     double m_consumption = 0;
     double m_production = 0;
     double m_acquisition = 0;
     double m_storage = 0;
+    double m_totalConsumption = 0;
+    double m_totalProduction = 0;
+    double m_totalAcquisition = 0;
+    double m_totalReturn = 0;
 };
 
-class PowerBalanceLogs : public QAbstractListModel
+class PowerBalanceLogs : public EnergyLogs
 {
     Q_OBJECT
-    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(double minValue READ minValue NOTIFY minValueChanged)
     Q_PROPERTY(double maxValue READ maxValue NOTIFY maxValueChanged)
 public:
     explicit PowerBalanceLogs(QObject *parent = nullptr);
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
-    QHash<int, QByteArray> roleNames() const override;
+
     double minValue() const;
     double maxValue() const;
 
-    void addEntry(PowerBalanceLogEntry *entry);
+    Q_INVOKABLE EnergyLogEntry* find(const QDateTime &timestamp) const;
+
 signals:
-    void countChanged();
-    void entryAdded(PowerBalanceLogEntry *entry);
     void minValueChanged();
     void maxValueChanged();
+
+protected:
+    QString logsName() const override;
+    void logEntriesReceived(const QVariantMap &params) override;
+    void notificationReceived(const QVariantMap &data) override;
+
 private:
-    QList<PowerBalanceLogEntry*> m_list;
+    void addEntry(PowerBalanceLogEntry *entry);
+
     double m_minValue = 0;
     double m_maxValue = 0;
 };

@@ -32,15 +32,22 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.2
+import QtGraphicalEffects 1.0
 import QtCharts 2.2
 import Nymea 1.0
 import "../components"
 import "../delegates"
+import "energy"
 
 MainViewBase {
     id: root
 
     contentY: flickable.contentY + topMargin
+
+    EnergyManager {
+        id: energyManager
+        engine: _engine
+    }
 
     ThingsProxy {
         id: energyMeters
@@ -61,6 +68,11 @@ MainViewBase {
         shownInterfaces: ["smartmeterproducer"]
     }
 
+    ThingsProxy {
+        id: batteries
+        engine: _engine
+        shownInterfaces: ["energystorage"]
+    }
 
     Flickable {
         id: flickable
@@ -70,406 +82,88 @@ MainViewBase {
         visible: energyMeters.count > 0
         topMargin: root.topMargin
 
-
-        GridLayout {
-            id: energyGrid
+        // GridLayout directly in a flickable causes problems at initialisation
+        Item {
             width: parent.width
-            columns: root.width > 600 ? 2 : 1
-            rowSpacing: 0
-            columnSpacing: 0
+            height: energyGrid.implicitHeight
 
-            SmartMeterChart {
-                Layout.fillWidth: true
-//                Layout.preferredWidth: energyGrid.width / energyGrid.columns
-                Layout.preferredHeight: (energyGrid.width / energyGrid.columns) * .7
-                // FIXME: multiple root meters... Not exactly a use case, still possible tho
-                rootMeter: root.rootMeter
-                meters: consumers
-                title: qsTr("Total consumed energy")
-                visible: rootMeterTotalEnergyState || consumers.count > 0
-            }
 
-            SmartMeterChart {
-                Layout.fillWidth: true
-                Layout.preferredHeight: width * .7
-                backgroundColor: Style.tileBackgroundColor
-                backgroundRoundness: Style.cornerRadius
-                rootMeter: root.rootMeter
-                meters: producers
-                title: qsTr("Total produced energy")
-                stateName: "totalEnergyProduced"
-                readonly property State totalProducedState: rootMeter ? rootMeter.stateByName("totalEnergyProduced") : null
-                visible: (rootMeterTotalEnergyState && rootMeterTotalEnergyState.value > 0) || producers.count > 0
-            }
+            GridLayout {
+                id: energyGrid
+                width: parent.width
+                property int rawColumns: Math.floor(flickable.width / 300)
+                columns: Math.max(1, rawColumns - (rawColumns % 2))
+                rowSpacing: 0
+                columnSpacing: 0
 
-            ChartView {
-                id: chartView
-                Layout.fillWidth: true
-//                Layout.preferredWidth: energyGrid.width / energyGrid.columns
-                Layout.columnSpan: energyGrid.columns
-                Layout.preferredHeight: width * .7
-                legend.alignment: Qt.AlignBottom
-                legend.font: Style.extraSmallFont
-//                legend.visible: false
-                legend.labelColor: Style.foregroundColor
-                backgroundColor: Style.tileBackgroundColor
-                backgroundRoundness: Style.cornerRadius
-                theme: ChartView.ChartThemeLight
-                titleColor: Style.foregroundColor
-                title: qsTr("Power usage history")
 
-                property var startTime: xAxis.min
-                property var endTime: xAxis.max
-
-                property int sampleRate: XYSeriesAdapter.SampleRateMinute
-
-                property int busyModels: 0
-
-                BusyIndicator {
-                    anchors.centerIn: parent
-                    visible: chartView.busyModels > 0
-                    running: visible
+                CurrentConsumptionBalancePieChart {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                    visible: producers.count > 0
+                }
+                CurrentProductionBalancePieChart {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                    visible: producers.count > 0
                 }
 
-                LogsModel {
-                    id: rootMeterLogsModel
-                    objectName: "Root meter model"
-                    engine: rootMeter ? _engine : null // Don't start fetching before we know what we want
-                    thingId: rootMeter ? rootMeter.id : ""
-                    typeIds: rootMeter ? [rootMeter.thingClass.stateTypes.findByName("currentPower").id] : []
-                    viewStartTime: xAxis.min
-                    live: true
-                }
-                XYSeriesAdapter {
-                    id: rootMeterSeriesAdapter
-                    objectName: "Root meter adapter"
-                    logsModel: rootMeterLogsModel
-                    sampleRate: chartView.sampleRate
-                    xySeries: rootMeterSeries
-                    Component.onCompleted: ensureSamples(xAxis.min, xAxis.max)
-                }
-                Connections {
-                    target: xAxis
-                    onMinChanged: rootMeterSeriesAdapter.ensureSamples(xAxis.min, xAxis.max)
-                    onMaxChanged: rootMeterSeriesAdapter.ensureSamples(xAxis.min, xAxis.max)
+                PowerConsumptionBalanceHistory {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    visible: producers.count > 0
                 }
 
-                AreaSeries {
-                    id: rootMeterAreaSeries
-                    color: Style.accentColor
-                    borderWidth: 0
-                    axisX: xAxis
-                    axisY: yAxis
-                    name: qsTr("Unknown")
-                    useOpenGL: true
-                    lowerSeries: LineSeries {
-                        id: rootMeterLowerSeries
-                        XYPoint { x: xAxis.max.getTime(); y: 0 }
-                        XYPoint { x: xAxis.min.getTime(); y: 0 }
-                    }
-                    // HACK: We want this to be created (added to the chart) *before* the repeater Series below...
-                    // That might not be the case for a reason I don't understand. Most likely due to a mix of the declarative
-                    // approach here and the imperative approach using chartView.createSeries() below.
-                    // So hacking around by blocking the repeater from loading until this one is done
-                    property bool ready: false
-                    Component.onCompleted: ready = true
-
-                    upperSeries: LineSeries {
-                        id: rootMeterSeries
-
-                        onPointAdded: {
-                            var newPoint = rootMeterSeries.at(index)
-
-                            if (newPoint.x > rootMeterLowerSeries.at(0).x) {
-                                rootMeterLowerSeries.replace(0, newPoint.x, 0)
-                            }
-                            if (newPoint.x < rootMeterLowerSeries.at(1).x) {
-                                rootMeterLowerSeries.replace(1, newPoint.x, 0)
-                            }
-                        }
-                    }
+                PowerProductionBalanceHistory {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    visible: producers.count > 0
                 }
 
-                Repeater {
-                    id: consumersRepeater
-                    model: rootMeterAreaSeries.ready && !engine.thingManager.fetchingData ? consumers : null
-
-                    delegate: Item {
-                        id: consumer
-                        property Thing thing: consumers.get(index)
-
-                        property var model: LogsModel {
-                            id: logsModel
-                            objectName: consumer.thing.name
-                            engine: _engine
-                            thingId: consumer.thing.id
-                            typeIds: [consumer.thing.thingClass.stateTypes.findByName("currentPower").id]
-                            viewStartTime: xAxis.min
-                            live: true
-                            onBusyChanged: {
-                                if (busy) {
-                                    chartView.busyModels++
-                                } else {
-                                    chartView.busyModels--
-                                }
-                            }
-                        }
-                        property XYSeriesAdapter adapter: XYSeriesAdapter {
-                            id: seriesAdapter
-                            objectName: consumer.thing.name +  " adapter"
-                            logsModel: logsModel
-                            sampleRate: chartView.sampleRate
-                            xySeries: upperSeries
-                        }
-                        Connections {
-                            target: xAxis
-                            onMinChanged: seriesAdapter.ensureSamples(xAxis.min, xAxis.max)
-                            onMaxChanged: seriesAdapter.ensureSamples(xAxis.min, xAxis.max)
-                        }
-                        property XYSeries lineSeries: LineSeries {
-                            id: upperSeries
-                            onPointAdded: {
-                                var newPoint = upperSeries.at(index)
-
-                                if (newPoint.x > lowerSeries.at(0).x) {
-                                    lowerSeries.replace(0, newPoint.x, 0)
-                                }
-                                if (newPoint.x < lowerSeries.at(1).x) {
-                                    lowerSeries.replace(1, newPoint.x, 0)
-                                }
-                            }
-                        }
-                        LineSeries {
-                            id: lowerSeries
-                            XYPoint { x: xAxis.max.getTime(); y: 0 }
-                            XYPoint { x: xAxis.min.getTime(); y: 0 }
-                        }
-
-                        property AreaSeries areaSeries: null
-                        Component.onCompleted: {
-                            var indexInModel = consumers.indexOf(consumer.thing)
-                            print("creating series", consumer.thing.name, index, indexInModel)
-                            seriesAdapter.ensureSamples(xAxis.min, xAxis.max)
-                            areaSeries = chartView.createSeries(ChartView.SeriesTypeArea, consumer.thing.name, xAxis, yAxis)
-                            areaSeries.useOpenGL = true
-                            areaSeries.upperSeries = upperSeries;
-                            seriesAdapter.baseSeries = Qt.binding(function() {
-                                if (index > 0) {
-                                    return consumersRepeater.itemAt(index - 1).lineSeries
-                                } else {
-                                    return null;
-                                }
-                            })
-                            areaSeries.lowerSeries = Qt.binding(function() {
-                                if (index > 0) {
-                                    return consumersRepeater.itemAt(index - 1).lineSeries
-                                } else {
-                                    return lowerSeries;
-                                }
-                            })
-
-                            var color = Style.accentColor
-                            for (var j = 0; j <= indexInModel; j+=2) {
-                                if (indexInModel % 2 == 0) {
-                                    color = Qt.lighter(color, 1.2);
-                                } else {
-                                    color = Qt.darker(color, 1.2)
-                                }
-                            }
-                            areaSeries.color = color;
-                            areaSeries.borderColor = color;
-                            areaSeries.borderWidth = 0;
-                        }
-                        Component.onDestruction: {
-                            chartView.removeSeries(areaSeries)
-                        }
-                    }
+                ConsumersBarChart {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                    visible: consumers.count > 0
+                }
+                ConsumersHistory {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    visible: consumers.count > 0
                 }
 
-                ValueAxis {
-                    id: yAxis
-                    readonly property XYSeriesAdapter highestSeriesAdapter: consumersRepeater.count > 0 ? consumersRepeater.itemAt(consumersRepeater.count - 1).adapter : null
-                    property double rawMax: rootMeter ? rootMeterSeriesAdapter.maxValue
-                                                      : highestSeriesAdapter ? highestSeriesAdapter.maxValue : 1
-                    property double rawMin: rootMeter ? rootMeterSeriesAdapter.minValue
-                                                      : highestSeriesAdapter ? highestSeriesAdapter.minValue : 0
-                    max: Math.ceil(Math.max(rawMax * 0.9, rawMax * 1.1))
-                    min: Math.floor(Math.min(rawMin * 0.9, rawMin * 1.1))
-                    // This seems to crash occationally
-//                    onMinChanged: applyNiceNumbers();
-//                    onMaxChanged: applyNiceNumbers();
-                    labelsFont: Style.extraSmallFont
-                    labelFormat: "%d"
-                    labelsColor: Style.foregroundColor
-                    color: Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, .2)
-                    gridLineColor: color
+                PowerBalanceStats {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
                 }
-
-                DateTimeAxis {
-                    id: xAxis
-                    gridVisible: false
-                    color: Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, .2)
-                    tickCount: chartView.width / 70
-                    labelsFont: Style.extraSmallFont
-                    labelsColor: Style.foregroundColor
-                    property int timeDiff: (xAxis.max.getTime() - xAxis.min.getTime()) / 1000
-
-                    function getTimeSpanString() {
-                        var td = Math.round(timeDiff)
-                        if (td < 60) {
-                            return qsTr("%n seconds", "", td);
-                        }
-                        td = Math.round(td / 60)
-                        if (td < 60) {
-                            return qsTr("%n minutes", "", td);
-                        }
-                        td = Math.round(td / 60)
-                        if (td < 48) {
-                            return qsTr("%n hours", "", td);
-                        }
-                        td = Math.round(td / 24);
-                        if (td < 14) {
-                            return qsTr("%n days", "", td);
-                        }
-                        td = Math.round(td / 7)
-                        if (td < 9) {
-                            return qsTr("%n weeks", "", td);
-                        }
-                        td = Math.round(td * 7 / 30)
-                        if (td < 24) {
-                            return qsTr("%n months", "", td);
-                        }
-                        td = Math.round(td * 30 / 356)
-                        return qsTr("%n years", "", td)
-                    }
-
-                    titleText: {
-                        if (xAxis.min.getYear() === xAxis.max.getYear()
-                                && xAxis.min.getMonth() === xAxis.max.getMonth()
-                                && xAxis.min.getDate() === xAxis.max.getDate()) {
-                            return Qt.formatDate(xAxis.min) + " (" + getTimeSpanString() + ")"
-                        }
-                        return Qt.formatDate(xAxis.min) + " - " + Qt.formatDate(xAxis.max) + " (" + getTimeSpanString() + ")"
-                    }
-                    titleBrush: Style.foregroundColor
-                    format: {
-                        if (timeDiff < 60) { // one minute
-                            return "mm:ss"
-                        }
-                        if (timeDiff < 60 * 60) { // one hour
-                            return "hh:mm"
-                        }
-                        if (timeDiff < 60 * 60 * 24 * 2) { // two day
-                            return "hh:mm"
-                        }
-                        if (timeDiff < 60 * 60 * 24 * 7) { // one week
-                            return "ddd hh:mm"
-                        }
-                        if (timeDiff < 60 * 60 * 24 * 7 * 30) { // one month
-                            return "dd.MM."
-                        }
-                        return "MMM yy"
-                    }
-
-                    min: {
-                        var date = new Date();
-                        date.setTime(date.getTime() - (1000 * 60 * 60 * 6) + 2000);
-                        return date;
-                    }
-                    max: {
-                        var date = new Date();
-                        date.setTime(date.getTime() + 2000)
-                        return date;
-                    }
-                }
-
-                MouseArea {
-                    id: scrollMouseArea
-                    x: chartView.plotArea.x
-                    y: chartView.plotArea.y
-                    width: chartView.plotArea.width
-                    height: chartView.plotArea.height
-                    property int lastX: 0
-                    property int startX: 0
-                    preventStealing: false
-
-                    property bool autoScroll: true
-
-                    function scrollRightLimited(dx) {
-                        chartView.animationOptions = ChartView.NoAnimation
-                        var now = new Date()
-                        // if we're already at the limit, don't even start scrolling
-                        if (dx < 0 || xAxis.max < now) {
-                            chartView.scrollRight(dx)
-                        }
-                        // figure out if we scrolled too far
-                        var overshoot = xAxis.max.getTime() - now.getTime()
-                        //                    print("overshoot is:", overshoot, "oldMax", xAxis.max, "newMax", now, "oldMin", xAxis.min, "newMin", new Date(xAxis.min.getTime() - overshoot))
-                        if (overshoot > 0) {
-                            var range = xAxis.max - xAxis.min
-                            xAxis.max = now
-                            xAxis.min = new Date(xAxis.max.getTime() - range)
-                        }
-                        // If the user scrolled closer than 5 pixels to the right edge, enable autoscroll
-                        autoScroll = overshoot > -5;
-
-                        chartView.animationOptions = ChartView.SeriesAnimations
-                    }
-
-                    function zoomInLimited(dy) {
-                        chartView.animationOptions = ChartView.NoAnimation
-                        var oldMax = xAxis.max;
-                        chartView.scrollRight(dy);
-                        xAxis.min = new Date(xAxis.min.getTime() - xAxis.timeDiff * 1000 * 2)
-                        chartView.animationOptions = ChartView.SeriesAnimations
-                    }
-
-                    onPressed: {
-                        lastX = mouse.x
-                        startX = mouse.x
-                        preventStealing = true
-                    }
-                    onClicked: {
-                        //                        var pt = chartView.mapToValue(Qt.point(mouse.x + chartView.plotArea.x, mouse.y + chartView.plotArea.y), mainSeries)
-                        //                        mainSeries.markClosestPoint(pt)
-                    }
-
-                    onWheel: {
-                        scrollRightLimited(-wheel.pixelDelta.x)
-                        //                    zoomInLimited(wheel.pixelDelta.y)
-                    }
-
-                    onPositionChanged: {
-                        if (lastX !== mouse.x) {
-                            scrollRightLimited(lastX - mouseX)
-                            lastX = mouse.x
-                        }
-
-                        if (Math.abs(startX - mouse.x) > 10) {
-                            preventStealing = true;
-                        }
-                    }
-
-                    onReleased: preventStealing = false;
-
-
-                    Timer {
-                        running: scrollMouseArea.autoScroll
-                        interval: 1000
-                        repeat: true
-                        onTriggered: {
-                            scrollMouseArea.scrollRightLimited(10)
-                        }
-                    }
+                ConsumerStats {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                    visible: consumers.count > 0
                 }
             }
         }
+
     }
 
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
-        visible: !engine.thingManager.fetchingData && energyMeters.count == 0
+        visible: !engine.jsonRpcClient.experiences.hasOwnProperty("Energy")
+        title: qsTr("Energy plugin not installed installed.")
+        text: qsTr("This %1 system does not have the energy extensions installed.").arg(Configuration.systemName)
+        imageSource: "../images/smartmeter.svg"
+        buttonText: qsTr("Install energy plugin")
+        onButtonClicked: pageStack.push(Qt.resolvedUrl("../system/PackageListPage.qml"), {filter: "nymea-experience-plugin-energy"})
+    }
+    EmptyViewPlaceholder {
+        anchors.centerIn: parent
+        width: parent.width - app.margins * 2
+        visible: engine.jsonRpcClient.experiences.hasOwnProperty("Energy") && !engine.thingManager.fetchingData && energyMeters.count == 0
         title: qsTr("There are no energy meters installed.")
         text: qsTr("To get an overview of your current energy usage, install an energy meter.")
         imageSource: "../images/smartmeter.svg"

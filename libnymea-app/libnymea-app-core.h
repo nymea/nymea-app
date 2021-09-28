@@ -138,6 +138,7 @@
 #include "energy/energymanager.h"
 #include "energy/energylogs.h"
 #include "energy/powerbalancelogs.h"
+#include "energy/thingpowerlogs.h"
 
 #include <QtQml/qqml.h>
 
@@ -361,9 +362,12 @@ void registerQmlTypes() {
     qmlRegisterType<AppData>(uri, 1, 0, "AppData");
 
     qmlRegisterType<EnergyManager>(uri, 1, 0, "EnergyManager");
-    qmlRegisterType<EnergyLogs>(uri, 1, 0, "EnergyLogs");
+    qmlRegisterUncreatableType<EnergyLogEntry>(uri, 1, 0, "EnergyLogEntry", "EnergyLogentry is an abstract class");
+    qmlRegisterUncreatableType<EnergyLogs>(uri, 1, 0, "EnergyLogs", "EnergyLogs is an abstract class");
     qmlRegisterType<PowerBalanceLogs>(uri, 1, 0, "PowerBalanceLogs");
     qmlRegisterType<PowerBalanceLogEntry>(uri, 1, 0, "PowerBalanceLogEntry");
+    qmlRegisterType<ThingPowerLogEntry>(uri, 1, 0, "ThingPowerLogEntry");
+    qmlRegisterType<ThingPowerLogs>(uri, 1, 0, "ThingPowerLogs");
 
     qmlRegisterType<SortFilterProxyModel>(uri, 1, 0, "SortFilterProxyModel");
 }

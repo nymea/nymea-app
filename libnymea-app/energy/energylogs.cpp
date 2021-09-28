@@ -1,5 +1,4 @@
 #include "energylogs.h"
-#include "powerbalancelogs.h"
 
 #include <QMetaEnum>
 
@@ -7,9 +6,32 @@
 NYMEA_LOGGING_CATEGORY(dcEnergyLogs, "EnergyLogs")
 
 
-EnergyLogs::EnergyLogs(QObject *parent) : QObject(parent)
+EnergyLogEntry::EnergyLogEntry(QObject *parent): QObject(parent)
 {
-    m_powerBalanceLogs = new PowerBalanceLogs(this);
+
+}
+
+EnergyLogEntry::EnergyLogEntry(const QDateTime &timestamp, QObject *parent):
+    QObject(parent),
+    m_timestamp(timestamp)
+{
+
+}
+
+QDateTime EnergyLogEntry::timestamp() const
+{
+    return m_timestamp;
+}
+
+EnergyLogs::EnergyLogs(QObject *parent) : QAbstractListModel(parent)
+{
+}
+
+EnergyLogs::~EnergyLogs()
+{
+    if (m_engine) {
+        m_engine->jsonRpcClient()->unregisterNotificationHandler(this);
+    }
 }
 
 Engine *EnergyLogs::engine() const
@@ -26,16 +48,19 @@ void EnergyLogs::setEngine(Engine *engine)
         if (!m_engine) {
             return;
         }
-        qCDebug(dcEnergyLogs()) << "************* getting energylogs" << m_engine->jsonRpcClient()->experiences();
         if (m_engine->jsonRpcClient()->experiences().value("Energy").toString() >= "1.0") {
+            m_engine->jsonRpcClient()->registerNotificationHandler(this, "Energy", "notificationReceivedInternal");
 
-            QVariantMap params;
-            QMetaEnum metaEnum = QMetaEnum::fromType<SampleRate>();
-            params.insert("sampleRate", metaEnum.valueToKey(m_sampleRate));
-            m_engine->jsonRpcClient()->registerNotificationHandler(this, "Energy", "notificationReceived");
-            m_engine->jsonRpcClient()->sendCommand("Energy.GetPowerBalanceLogs", params, this, "powerBalanceLogsReceived");
-//            m_engine->jsonRpcClient()->sendCommand("Energy.GetThingPowerLogs", params, this, "thingPowerLogsReceived");
+            connect(engine, &Engine::destroyed, this, [=](){
+                if (engine == m_engine) {
+                    m_engine = nullptr;
+                    emit engineChanged();
+                }
+            });
 
+            if (m_ready && !m_loadingInhibited) {
+                fetchLogs();
+            }
         }
     }
 }
@@ -79,45 +104,178 @@ void EnergyLogs::setThingIds(const QList<QUuid> &thingIds)
     }
 }
 
-PowerBalanceLogs *EnergyLogs::powerBalanceLogs() const
+QDateTime EnergyLogs::startTime() const
 {
-    return m_powerBalanceLogs;
+    return m_startTime;
 }
 
-void EnergyLogs::powerBalanceLogsReceived(int commandId, const QVariantMap &params)
+void EnergyLogs::setStartTime(const QDateTime &startTime)
 {
-    Q_UNUSED(commandId)
-    foreach (const QVariant &variant, params.value("powerBalanceLogEntries").toList()) {
-        QVariantMap map = variant.toMap();
-        QDateTime timestamp = QDateTime::fromSecsSinceEpoch(map.value("timestamp").toLongLong());
-        double consumption = map.value("consumption").toDouble();
-        double production = map.value("production").toDouble();
-        double acquisition = map.value("acquisition").toDouble();
-        double storage = map.value("storage").toDouble();
-        PowerBalanceLogEntry *entry = new PowerBalanceLogEntry(timestamp, consumption, production, acquisition, storage, this);
-        m_powerBalanceLogs->addEntry(entry);
+    if (m_startTime != startTime) {
+        qCDebug(dcEnergyLogs()) << "Setting startTime";
+        m_startTime = startTime;
+        emit startTimeChanged();
     }
 }
 
-void EnergyLogs::thingPowerLogsReceived(int commandId, const QVariantMap &params)
+QDateTime EnergyLogs::endTime() const
 {
-    Q_UNUSED(commandId)
-    qCDebug(dcEnergyLogs) << "got energy logs";
+    return m_endTime;
 }
 
-void EnergyLogs::notificationReceived(const QVariantMap &data)
+void EnergyLogs::setEndTime(const QDateTime &endTime)
 {
-    QString notification = data.value("notification").toString();
-    QVariantMap params = data.value("params").toMap();
-
-    if (notification == "Energy.PowerBalanceLogEntryAdded") {
-        QVariantMap map = data.value("powerBalanceLogEntry").toMap();
-        QDateTime timestamp = QDateTime::fromSecsSinceEpoch(map.value("timestamp").toLongLong());
-        double consumption = map.value("consumption").toDouble();
-        double production = map.value("production").toDouble();
-        double acquisition = map.value("acquisition").toDouble();
-        double storage = map.value("storage").toDouble();
-        PowerBalanceLogEntry *entry = new PowerBalanceLogEntry(timestamp, consumption, production, acquisition, storage, this);
-        m_powerBalanceLogs->addEntry(entry);
+    if (m_endTime != endTime) {
+        m_endTime = endTime;
+        emit endTimeChanged();
     }
 }
+
+bool EnergyLogs::live() const
+{
+    return m_live;
+}
+
+void EnergyLogs::setLive(bool live)
+{
+    if (m_live != live) {
+        m_live = live;
+        emit liveChanged();
+    }
+}
+
+bool EnergyLogs::fetchingData() const
+{
+    return m_fetchingData;
+}
+
+bool EnergyLogs::loadingInhibited() const
+{
+    return m_loadingInhibited;
+}
+
+void EnergyLogs::setLoadingInhibited(bool loadingInhibited)
+{
+    if (m_loadingInhibited != loadingInhibited) {
+        m_loadingInhibited = loadingInhibited;
+        emit loadingInhibitedChanged();
+
+        if (!m_loadingInhibited) {
+            fetchLogs();
+        }
+    }
+}
+
+void EnergyLogs::classBegin()
+{
+
+}
+
+void EnergyLogs::componentComplete()
+{
+    m_ready = true;
+    fetchLogs();
+}
+
+int EnergyLogs::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent)
+    return m_list.count();
+}
+
+QVariant EnergyLogs::data(const QModelIndex &index, int role) const
+{
+    Q_UNUSED(index)
+    Q_UNUSED(role)
+    return QVariant();
+}
+
+EnergyLogEntry *EnergyLogs::get(int index) const
+{
+    if (index < 0 || index >= m_list.count()) {
+        return nullptr;
+    }
+    return m_list.at(index);
+}
+
+void EnergyLogs::appendEntry(EnergyLogEntry *entry)
+{
+    entry->setParent(this);
+    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    m_list.append(entry);
+    endInsertRows();
+    emit entryAdded(entry);
+    emit entriesAdded({entry});
+    emit countChanged();
+}
+
+void EnergyLogs::appendEntries(const QList<EnergyLogEntry *> &entries)
+{
+    beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + entries.count());
+    foreach (EnergyLogEntry* entry, entries) {
+        entry->setParent(this);
+        m_list.append(entry);
+        emit entryAdded(entry);
+    }
+    endInsertRows();
+    emit entriesAdded(entries);
+    emit countChanged();
+}
+
+QVariantMap EnergyLogs::fetchParams() const
+{
+    return QVariantMap();
+}
+
+void EnergyLogs::getLogsResponse(int commandId, const QVariantMap &params)
+{
+    Q_UNUSED(commandId)
+//    qCDebug(dcEnergyLogs()) << "Energy logs response:" << params;
+    logEntriesReceived(params);
+
+    m_fetchingData = false;
+    emit fetchingDataChanged();
+}
+
+void EnergyLogs::notificationReceivedInternal(const QVariantMap &data)
+{
+
+    if (!m_live) {
+        return;
+    }
+
+    if (!data.value("notification").toString().contains("Log")) {
+        return;
+    }
+
+    QMetaEnum sampleRateEnum = QMetaEnum::fromType<SampleRate>();
+    SampleRate sampleRate = static_cast<SampleRate>(sampleRateEnum.keyToValue(data.value("params").toMap().value("sampleRate").toByteArray()));
+    if (sampleRate != m_sampleRate) {
+        return;
+    }
+
+    notificationReceived(data);
+}
+
+void EnergyLogs::fetchLogs()
+{
+    if (m_loadingInhibited || !m_ready || !m_engine || m_engine->jsonRpcClient()->experiences().value("Energy").toString() < "1.0") {
+        return;
+    }
+
+    m_fetchingData = true;
+    fetchingDataChanged();
+
+    QVariantMap params = fetchParams();
+    QMetaEnum metaEnum = QMetaEnum::fromType<SampleRate>();
+    params.insert("sampleRate", metaEnum.valueToKey(m_sampleRate));
+    if (!m_startTime.isNull()) {
+        params.insert("from", m_startTime.toSecsSinceEpoch());
+    }
+    if (!m_endTime.isNull()) {
+        params.insert("to", m_endTime.toSecsSinceEpoch());
+    }
+    qCDebug(dcEnergyLogs()) << "Fetching power balance logs" << params;
+    m_engine->jsonRpcClient()->sendCommand("Energy.Get" + logsName(), params, this, "getLogsResponse");
+}
+

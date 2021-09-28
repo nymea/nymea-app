@@ -69,6 +69,21 @@ void PackagesFilterModel::setUpdatesOnly(bool updatesOnly)
     }
 }
 
+QString PackagesFilterModel::nameFilter() const
+{
+    return m_nameFilter;
+}
+
+void PackagesFilterModel::setNameFilter(const QString &nameFilter)
+{
+    if (nameFilter != m_nameFilter) {
+        m_nameFilter = nameFilter;
+        emit nameFilterChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 Package *PackagesFilterModel::get(int index) const
 {
     return m_packages->get(mapToSource(this->index(index, 0)).row());
@@ -79,6 +94,11 @@ bool PackagesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &so
     Q_UNUSED(source_parent)
     if (m_updatesOnly) {
         if (!m_packages->get(source_row)->updateAvailable()) {
+            return false;
+        }
+    }
+    if (!m_nameFilter.isEmpty()) {
+        if (!m_packages->get(source_row)->displayName().contains(m_nameFilter)) {
             return false;
         }
     }

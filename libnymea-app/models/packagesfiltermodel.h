@@ -41,6 +41,8 @@ class PackagesFilterModel : public QSortFilterProxyModel
     Q_PROPERTY(bool updatesOnly READ updatesOnly WRITE setUpdatesOnly NOTIFY updatesOnlyChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
+    Q_PROPERTY(QString nameFilter READ nameFilter WRITE setNameFilter NOTIFY nameFilterChanged)
+
 public:
     explicit PackagesFilterModel(QObject *parent = nullptr);
 
@@ -49,6 +51,9 @@ public:
 
     bool updatesOnly() const;
     void setUpdatesOnly(bool updatesOnly);
+
+    QString nameFilter() const;
+    void setNameFilter(const QString &nameFilter);
 
     Q_INVOKABLE Package* get(int index) const;
 
@@ -59,11 +64,14 @@ signals:
     void countChanged();
     void packagesChanged();
     void updatesOnlyChanged();
+    void nameFilterChanged();
 
 private:
     Packages *m_packages;
 
     bool m_updatesOnly = false;
+
+    QString m_nameFilter;
 };
 
 #endif // PACKAGESFILTERMODEL_H

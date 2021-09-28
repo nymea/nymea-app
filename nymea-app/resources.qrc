@@ -259,5 +259,15 @@
         <file>ui/devicepages/EvChargerThingPage.qml</file>
         <file>ui/components/BlurredLabel.qml</file>
         <file>ui/components/NymeaSpinBox.qml</file>
+        <file>ui/mainviews/EnergyPieChartDelegate.qml</file>
+        <file>ui/mainviews/energy/PowerConsumptionBalanceHistory.qml</file>
+        <file>ui/mainviews/energy/PowerProductionBalanceHistory.qml</file>
+        <file>ui/mainviews/energy/ConsumersBarChart.qml</file>
+        <file>ui/mainviews/energy/ConsumersHistory.qml</file>
+        <file>ui/mainviews/energy/PowerBalanceStats.qml</file>
+        <file>ui/mainviews/energy/CurrentProductionBalancePieChart.qml</file>
+        <file>ui/mainviews/energy/CurrentConsumptionBalancePieChart.qml</file>
+        <file>ui/mainviews/energy/ConsumerStats.qml</file>
+        <file>ui/system/PackageListPage.qml</file>
     </qresource>
 </RCC>

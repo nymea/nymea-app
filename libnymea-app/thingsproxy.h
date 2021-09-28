@@ -80,6 +80,12 @@ class ThingsProxy : public QSortFilterProxyModel
 
     Q_PROPERTY(bool groupByInterface READ groupByInterface WRITE setGroupByInterface NOTIFY groupByInterfaceChanged)
 
+    // If set, sorting will happen for the value of the given state. Make sure the filter is set to contain only things that have the given state
+    // Does not work in combination with groupByInterface
+    Q_PROPERTY(QString sortStateName READ sortStateName WRITE setSortStateName NOTIFY sortStateNameChanged)
+
+    Q_PROPERTY(Qt::SortOrder sortOrder READ sortOrder WRITE setSortOrder NOTIFY sortOrderChanged)
+
 public:
     explicit ThingsProxy(QObject *parent = nullptr);
 
@@ -152,6 +158,11 @@ public:
     bool groupByInterface() const;
     void setGroupByInterface(bool groupByInterface);
 
+    QString sortStateName() const;
+    void setSortStateName(const QString &sortStateName);
+
+    void setSortOrder(Qt::SortOrder sortOrder);
+
     Q_INVOKABLE Thing *get(int index) const;
     Q_INVOKABLE Thing *getThing(const QUuid &thingId) const;
     Q_INVOKABLE int indexOf(Thing *thing) const;
@@ -180,6 +191,8 @@ signals:
     void filterUpdatesChanged();
     void paramsFilterChanged();
     void groupByInterfaceChanged();
+    void sortStateNameChanged();
+    void sortOrderChanged();
     void countChanged();
 
 private:
@@ -213,6 +226,8 @@ private:
     QVariantMap m_paramsFilter;
 
     bool m_groupByInterface = false;
+
+    QString m_sortStateName;
 
 protected:
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const Q_DECL_OVERRIDE;

@@ -15,6 +15,11 @@ class EnergyManager : public QObject
     Q_PROPERTY(double currentPowerConsumption READ currentPowerConsumption NOTIFY powerBalanceChanged)
     Q_PROPERTY(double currentPowerProduction READ currentPowerProduction NOTIFY powerBalanceChanged)
     Q_PROPERTY(double currentPowerAcquisition READ currentPowerAcquisition NOTIFY powerBalanceChanged)
+    Q_PROPERTY(double currentPowerStorage READ currentPowerStorage NOTIFY powerBalanceChanged)
+    Q_PROPERTY(double totalConsumption READ totalConsumption NOTIFY powerBalanceChanged)
+    Q_PROPERTY(double totalProduction READ totalProduction NOTIFY powerBalanceChanged)
+    Q_PROPERTY(double totalAcquisition READ totalAcquisition NOTIFY powerBalanceChanged)
+    Q_PROPERTY(double totalReturn READ totalReturn NOTIFY powerBalanceChanged)
 
 public:
     explicit EnergyManager(QObject *parent = nullptr);
@@ -29,6 +34,11 @@ public:
     double currentPowerConsumption() const;
     double currentPowerProduction() const;
     double currentPowerAcquisition() const;
+    double currentPowerStorage() const;
+    double totalConsumption() const;
+    double totalProduction() const;
+    double totalAcquisition() const;
+    double totalReturn() const;
 
 signals:
     void engineChanged();
@@ -47,7 +57,11 @@ private:
     double m_currentPowerConsumption = 0;
     double m_currentPowerProduction = 0;
     double m_currentPowerAcquisition = 0;
-
+    double m_currentPowerStorage = 0;
+    double m_totalConsumption = 0;
+    double m_totalProduction = 0;
+    double m_totalAcquisition = 0;
+    double m_totalReturn = 0;
 };
 
 #endif // ENERGYMANAGER_H
