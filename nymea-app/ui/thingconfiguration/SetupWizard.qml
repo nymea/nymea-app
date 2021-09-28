@@ -67,7 +67,7 @@ Page {
             case 0:
                 if (root.thing) {
                     if (d.thingDescriptor) {
-                        engine.thingManager.reconfigureDiscoveredThing(root.thing.id, d.thingDescriptor.id, params);
+                        engine.thingManager.reconfigureDiscoveredThing(d.thingDescriptor.id, params);
                     } else {
                         engine.thingManager.reconfigureThing(root.thing.id, params);
                     }
