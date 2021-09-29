@@ -35,6 +35,7 @@
 #include <QHostAddress>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
+#include <QNetworkConfigurationManager>
 #include <QTimer>
 
 #include "../nymeahost.h"
@@ -53,9 +54,22 @@ public:
     Q_INVOKABLE void discover();
     Q_INVOKABLE void stopDiscovery();
 
+signals:
+    void discoveringChanged();
+    void availableChanged();
+    void nymeaHostsChanged();
+
+private slots:
+    void updateInterfaces();
+    void writeDiscoveryPacket();
+    void error(QAbstractSocket::SocketError error);
+    void readData();
+    void networkReplyFinished(QNetworkReply *reply);
+
 private:
-    QList<QUdpSocket*> m_sockets;
+    QHash<QHostAddress, QUdpSocket*> m_sockets;
     QNetworkAccessManager *m_networkAccessManager;
+    QNetworkConfigurationManager *m_networkConfigurationManager;
 
     QTimer m_repeatTimer;
 
@@ -64,16 +78,6 @@ private:
     QHash<QNetworkReply *, QHostAddress> m_runningReplies;
     QList<QUrl> m_foundDevices;
 
-signals:
-    void discoveringChanged();
-    void availableChanged();
-    void nymeaHostsChanged();
-
-private slots:
-    void writeDiscoveryPacket();
-    void error(QAbstractSocket::SocketError error);
-    void readData();
-    void networkReplyFinished(QNetworkReply *reply);
 };
 
 #endif // UPNPDISCOVERY_H
