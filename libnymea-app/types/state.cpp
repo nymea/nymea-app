@@ -57,7 +57,33 @@ QVariant State::value() const
 
 void State::setValue(const QVariant &value)
 {
-    m_value = value;
-    emit valueChanged();
+    if (m_value != value) {
+        m_value = value;
+        emit valueChanged();
+    }
 }
 
+QVariant State::minValue() const
+{
+    return m_minValue;
+}
+
+void State::setMinValue(const QVariant &minValue) {
+    if (m_minValue != minValue) {
+        m_minValue = minValue;
+        emit minValueChanged();
+    }
+}
+
+QVariant State::maxValue() const
+{
+    return m_maxValue;
+}
+
+void State::setMaxValue(const QVariant &maxValue)
+{
+    if (m_maxValue != maxValue) {
+        m_maxValue = maxValue;
+        emit maxValueChanged();
+    }
+}

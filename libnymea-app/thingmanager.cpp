@@ -118,18 +118,26 @@ void ThingManager::notificationReceived(const QVariantMap &data)
 {
     qCDebug(dcThingManager()) << "ThingManager notifications received:" << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
     QString notification = data.value("notification").toString();
+    QVariantMap params = data.value("params").toMap();
     if (notification == "Integrations.StateChanged") {
-        Thing *thing = m_things->getThing(data.value("params").toMap().value("thingId").toUuid());
+        Thing *thing = m_things->getThing(params.value("thingId").toUuid());
         if (!thing) {
             if (!m_fetchingData) {
                 qCWarning(dcThingManager()) << "Thing state change notification received for an unknown thing";
             }
             return;
         }
-        QUuid stateTypeId = data.value("params").toMap().value("stateTypeId").toUuid();
-        QVariant value = data.value("params").toMap().value("value");
+        QUuid stateTypeId = params.value("stateTypeId").toUuid();
+        QVariant value = params.value("value");
 //        qDebug() << "Thing state changed for:" << dev->name() << "State name:" << dev->thingClass()->stateTypes()->getStateType(stateTypeId) << "value:" << value;
-        thing->setStateValue(stateTypeId, value);
+        State *state = thing->state(stateTypeId);
+        state->setValue(value);
+        if (params.contains("minValue")) {
+            state->setMinValue(params.value("minValue"));
+        }
+        if (params.contains("maxValue")) {
+            state->setMaxValue(params.value("maxValue"));
+        }
         emit thingStateChanged(thing->id(), stateTypeId, value);
     } else if (notification == "Integrations.ThingAdded") {
         Thing *thing = unpackThing(this, data.value("params").toMap().value("thing").toMap(), m_thingClasses);
@@ -967,12 +975,24 @@ Thing* ThingManager::unpackThing(ThingManager *thingManager, const QVariantMap &
         states = new States(thing);
     }
     foreach (const QVariant &stateVariant, thingMap.value("states").toList()) {
-        State *state = states->getState(stateVariant.toMap().value("stateTypeId").toUuid());
+        QVariantMap stateMap = stateVariant.toMap();
+        State *state = states->getState(stateMap.value("stateTypeId").toUuid());
         if (!state) {
-            state = new State(thing->id(), stateVariant.toMap().value("stateTypeId").toUuid(), stateVariant.toMap().value("value"), states);
+            state = new State(thing->id(), stateMap.value("stateTypeId").toUuid(), stateMap.value("value"), states);
             states->addState(state);
         } else {
-            state->setValue(stateVariant.toMap().value("value"));
+            state->setValue(stateMap.value("value"));
+        }
+        StateType *stateType = thing->thingClass()->stateTypes()->getStateType(state->stateTypeId());
+        if (stateMap.contains("minValue")) {
+            state->setMinValue(stateMap.value("minValue"));
+        } else {
+            state->setMinValue(stateType->minValue());
+        }
+        if (stateMap.contains("maxValue")) {
+            state->setMaxValue(stateMap.value("maxValue"));
+        } else {
+            state->setMaxValue(stateType->maxValue());
         }
     }
     thing->setStates(states);
