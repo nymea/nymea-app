@@ -34,6 +34,7 @@
 #include <QUrl>
 #include <QXmlStreamReader>
 #include <QNetworkInterface>
+#include <QNetworkConfigurationManager>
 
 #include "logging.h"
 
@@ -43,46 +44,18 @@ UpnpDiscovery::UpnpDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
     QObject(parent),
     m_nymeaHosts(nymeaHosts)
 {
+    m_networkConfigurationManager = new QNetworkConfigurationManager(this);
     m_networkAccessManager = new QNetworkAccessManager(this);
     connect(m_networkAccessManager, &QNetworkAccessManager::finished, this, &UpnpDiscovery::networkReplyFinished);
 
     m_repeatTimer.setInterval(500);
     connect(&m_repeatTimer, &QTimer::timeout, this, &UpnpDiscovery::writeDiscoveryPacket);
 
-    foreach (const QNetworkInterface &iface, QNetworkInterface::allInterfaces()) {
-        if (!iface.flags().testFlag(QNetworkInterface::CanMulticast)) {
-            continue;
-        }
-        foreach (const QNetworkAddressEntry &netAddressEntry, iface.addressEntries()) {
-            if (netAddressEntry.ip().protocol() == QAbstractSocket::IPv4Protocol) {
-#ifdef Q_OS_IOS
-                // On iOS this will fail, but it's also not of interest as we won't run app and core on the same iOS host
-                if (netAddressEntry.ip() == QHostAddress::LocalHost) {
-                    continue;
-                }
+    connect(m_networkConfigurationManager, &QNetworkConfigurationManager::configurationAdded, this, &UpnpDiscovery::updateInterfaces);
+    connect(m_networkConfigurationManager, &QNetworkConfigurationManager::configurationChanged, this, &UpnpDiscovery::updateInterfaces);
+    connect(m_networkConfigurationManager, &QNetworkConfigurationManager::configurationRemoved, this, &UpnpDiscovery::updateInterfaces);
 
-#endif
-                QUdpSocket *socket = new QUdpSocket(this);
-                int port = -1;
-                for (int i = 49125; i < 65535; i++) {
-                    if(socket->bind(netAddressEntry.ip(), i, QUdpSocket::DontShareAddress)){
-                        port = i;
-                        break;
-                    }
-                }
-                if (port == 65535 || socket->state() != QUdpSocket::BoundState) {
-                    socket->deleteLater();
-                    qCWarning(dcUPnP()) << "Discovery could not bind to interface" << netAddressEntry.ip();
-                    continue;
-                }
-                bool ret = socket->joinMulticastGroup(QHostAddress("239.255.255.250"));
-                qCInfo(dcUPnP()) << "Discovering on" << netAddressEntry.ip() << port << ret;
-                m_sockets.append(socket);
-                connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
-                connect(socket, &QUdpSocket::readyRead, this, &UpnpDiscovery::readData);
-            }
-        }
-    }
+    updateInterfaces();
 }
 
 bool UpnpDiscovery::discovering() const
@@ -116,6 +89,55 @@ void UpnpDiscovery::stopDiscovery()
     emit discoveringChanged();
 }
 
+void UpnpDiscovery::updateInterfaces()
+{
+    QList<QHostAddress> existingSockets = m_sockets.keys();
+
+    // Now add all the interfaces where we don't have a socket yet
+    foreach (const QNetworkInterface &iface, QNetworkInterface::allInterfaces()) {
+        if (!iface.flags().testFlag(QNetworkInterface::CanMulticast)) {
+            continue;
+        }
+        foreach (const QNetworkAddressEntry &netAddressEntry, iface.addressEntries()) {
+            if (netAddressEntry.ip().protocol() != QAbstractSocket::IPv4Protocol) {
+                continue;
+            }
+            if (m_sockets.contains(netAddressEntry.ip())) {
+                existingSockets.removeAll(netAddressEntry.ip());
+                continue;
+            }
+
+            QUdpSocket *socket = new QUdpSocket(this);
+            int port = -1;
+            for (int i = 49125; i < 65535; i++) {
+                if(socket->bind(netAddressEntry.ip(), i, QUdpSocket::DontShareAddress)){
+                    port = i;
+                    break;
+                }
+            }
+            if (port == 65535 || socket->state() != QUdpSocket::BoundState) {
+                socket->deleteLater();
+                qCWarning(dcUPnP()) << "Discovery could not bind to interface" << netAddressEntry.ip();
+                continue;
+            }
+            qCInfo(dcUPnP()) << "Discovering on" << netAddressEntry.ip() << port;
+            m_sockets.insert(netAddressEntry.ip(), socket);
+            connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
+            connect(socket, &QUdpSocket::readyRead, this, &UpnpDiscovery::readData);
+        }
+    }
+
+    // Remove remaining existing sockets, their interface has vanished
+    foreach (const QHostAddress &address, existingSockets) {
+        if (!QNetworkInterface::allAddresses().contains(address)) {
+            QUdpSocket *socket = m_sockets.value(address);
+            qCInfo(dcUPnP()) << "Removing discovery from vanished interface" << socket->localAddress();
+            delete m_sockets.take(address);
+        }
+    }
+
+}
+
 void UpnpDiscovery::writeDiscoveryPacket()
 {
     QByteArray ssdpSearchMessage = QByteArray("M-SEARCH * HTTP/1.1\r\n"
@@ -124,7 +146,6 @@ void UpnpDiscovery::writeDiscoveryPacket()
                                               "MX:2\r\n"
                                               "ST: ssdp:all\r\n\r\n");
 
-    qCDebug(dcUPnP()) << "sending discovery packet";
     foreach (QUdpSocket* socket, m_sockets) {
         qint64 ret = socket->writeDatagram(ssdpSearchMessage, QHostAddress("239.255.255.250"), 1900);
         if (ret != ssdpSearchMessage.length()) {
@@ -137,7 +158,7 @@ void UpnpDiscovery::writeDiscoveryPacket()
 void UpnpDiscovery::error(QAbstractSocket::SocketError error)
 {
     QUdpSocket* socket = static_cast<QUdpSocket*>(sender());
-    qWarning() << "UPnP: Socket error:" << error << socket->errorString() << socket->localAddress();
+    qWarning() << "UPnP: Socket error:" << error << socket->errorString();
 }
 
 void UpnpDiscovery::readData()
@@ -270,12 +291,12 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
     foreach (const QUrl &url, connections) {
         Connection *connection = device->connections()->find(url);
         if (!connection) {
-            qCInfo(dcUPnP()) << "Adding new connection to host:" << device->name() << url;
             bool sslEnabled = url.scheme() == "nymeas" || url.scheme() == "wss";
             QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
             Connection::BearerType bearerType = QHostAddress(url.host()).isLoopback() ? Connection::BearerTypeLoopback : Connection::BearerTypeLan;
             connection = new Connection(url, bearerType, sslEnabled, displayName);
             connection->setOnline(true);
+            qCInfo(dcUPnP()) << "Adding new connection to host:" << device->name() << url << bearerType;
             device->connections()->addConnection(connection);
         } else {
             qCInfo(dcUPnP()) << "Setting connection online:" << device->name() << url.toString();

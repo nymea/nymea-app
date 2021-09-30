@@ -189,6 +189,10 @@ WizardPageBase {
                         width: parent.width
                         property var nymeaHost: hostsProxy.get(index)
                         property string defaultConnectionIndex: {
+                            if (!nymeaHost) {
+                                return -1
+                            }
+
                             var bestIndex = -1
                             var bestPriority = 0;
                             for (var i = 0; i < nymeaHost.connections.count; i++) {
@@ -201,6 +205,10 @@ WizardPageBase {
                             return bestIndex;
                         }
                         iconName: {
+                            if (!nymeaHost) {
+                                return
+                            }
+
                             switch (nymeaHost.connections.get(defaultConnectionIndex).bearerType) {
                             case Connection.BearerTypeLan:
                             case Connection.BearerTypeWan:
@@ -218,12 +226,12 @@ WizardPageBase {
                             return ""
                         }
                         text: model.name
-                        subText: nymeaHost.connections.get(defaultConnectionIndex).url
+                        subText: nymeaHost ? nymeaHost.connections.get(defaultConnectionIndex).url : ""
                         wrapTexts: false
                         prominentSubText: false
                         progressive: false
-                        property bool isSecure: nymeaHost.connections.get(defaultConnectionIndex).secure
-                        property bool isOnline: nymeaHost.connections.get(defaultConnectionIndex).bearerType !== Connection.BearerTypeWan ? nymeaHost.connections.get(defaultConnectionIndex).online : true
+                        property bool isSecure: nymeaHost && nymeaHost.connections.get(defaultConnectionIndex).secure
+                        property bool isOnline: nymeaHost && nymeaHost.connections.get(defaultConnectionIndex).bearerType !== Connection.BearerTypeWan ? nymeaHost.connections.get(defaultConnectionIndex).online : true
                         tertiaryIconName: isSecure ? "/ui/images/connections/network-secure.svg" : ""
                         secondaryIconName: !isOnline ? "/ui/images/connections/cloud-error.svg" : ""
                         secondaryIconColor: "red"
