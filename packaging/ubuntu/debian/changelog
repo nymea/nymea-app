@@ -1,3 +1,11 @@
+nymea-app (1.0.366) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for dynamic min/max state values
+  * Update UPnP discovery when the device interfaces change
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 30 Sep 2021 12:01:10 +0200
+
 nymea-app (1.0.365) bionic; urgency=medium
 
   [ Michael Zanetti ]
