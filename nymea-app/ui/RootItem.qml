@@ -134,6 +134,25 @@ Item {
                         objectName: "pageStack"
                         anchors.fill: parent
                         initialItem: Page {}
+
+                        pushEnter: Transition {
+                            id: pushEnter
+                            ParallelAnimation {
+                                NumberAnimation { property: "x"; from: root.width; to: 0; duration: 400; easing.type: Easing.OutCubic }
+                                NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 400; easing.type: Easing.OutCubic }
+                            }
+                        }
+                        pushExit: Transition {
+                            id: pushExit
+                            PropertyAction { property: "x"; value: pushExit.ViewTransition.item.pos.x }
+                            PropertyAction { property: "y"; value: pushExit.ViewTransition.item.pos.y }
+                        }
+                        popEnter: Transition {
+                            id: popEnter
+                            PropertyAction { property: "x"; value: popEnter.ViewTransition.item.pos.x }
+                            PropertyAction { property: "y"; value: popEnter.ViewTransition.item.pos.y }
+                        }
+
                     }
 
                     Component.onCompleted: {
