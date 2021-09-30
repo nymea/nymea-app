@@ -54,6 +54,7 @@ ThingPageBase {
         anchors.margins: Style.hugeMargins
         iconSource: "ventilation"
         onColor: app.interfaceToColor("ventilation")
+        showOnGradient: root.flowRateState == null
         on: (actionQueue.pendingValue || powerState.value) === true
         onClicked: {
             PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
@@ -77,6 +78,7 @@ ThingPageBase {
         height: background.contentItem.height
         width: background.contentItem.width
         visible: root.flowRateState
+        on: (actionQueue.pendingValue || powerState.value) === true
 
         thing: root.thing
         stateName: "flowRate"

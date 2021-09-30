@@ -9,6 +9,7 @@ Item {
     implicitHeight: label.implicitHeight + Style.margins * 2
 
     property alias text: label.text
+    property alias font: label.font
     property alias wrapMode: label.wrapMode
     property alias horizontalAlignment: label.horizontalAlignment
     property alias textFormat: label.textFormat

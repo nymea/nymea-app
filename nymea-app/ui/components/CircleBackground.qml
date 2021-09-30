@@ -42,6 +42,7 @@ Item {
     property alias iconSource: icon.name
     property color onColor: Style.accentColor
     property bool on: false
+    property alias showOnGradient: opacityMask.visible
 
     readonly property Item contentItem: background
 

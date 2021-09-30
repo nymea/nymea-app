@@ -160,9 +160,13 @@ ThingPageBase {
                                 }
                             }
                             if (root.isProducer) {
-                                return qsTr("Production")
+                                return qsTr("Producing")
                             }
-                            return root.currentPower < 0 ? qsTr("Return") : qsTr("Consumption")
+                            if (root.isConsumer) {
+                                return qsTr("Consuming")
+                            }
+
+                            return root.currentPower < 0 ? qsTr("Returning") : qsTr("Obtaining")
                         }
                         font: Style.smallFont
                     }
@@ -223,6 +227,7 @@ ThingPageBase {
                     horizontalAlignment: Text.AlignHCenter
                     visible: isEnergyMeter || isConsumer
                     blurred: periodConsumptionModel.busy
+                    font: Style.smallFont
                     text: isConsumer ?
                               qsTr("A total of %1 kWh has been <b>consumed</b> in the last 24 hours.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (totalPeriodConsumption).toFixed(1) + '</span>')
                             : qsTr("A total of %1 kWh has been <b>obtained</b> in the last 24 hours.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (totalPeriodConsumption).toFixed(1) + '</span>')
@@ -247,6 +252,7 @@ ThingPageBase {
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                     blurred: periodProductionModel.busy
+                    font: Style.smallFont
                     text: isProducer ?
                               qsTr("A total of %1 kWh has been <b>produced</b> in the last 24 hours.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (totalPeriodProduction).toFixed(1) + '</span>')
                             : qsTr("A total of %1 kWh has been <b>returned</b> in the last 24 hours.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (totalPeriodProduction).toFixed(1) + '</span>')

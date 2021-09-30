@@ -269,6 +269,16 @@ ThingPageBase {
                 when: !stateDelegate.valueCacheDirty && stateDelegate.pendingActionId === -1
             }
             Binding {
+                target: stateDelegateLoader.item
+                property: "from"
+                value: stateDelegate.thingState.minValue
+            }
+            Binding {
+                target: stateDelegateLoader.item
+                property: "to"
+                value: stateDelegate.thingState.maxValue
+            }
+            Binding {
                 target: stateDelegateLoader.item.hasOwnProperty("unit") ? stateDelegateLoader.item : null
                 property: "unit"
                 value: stateDelegate.stateType.unit

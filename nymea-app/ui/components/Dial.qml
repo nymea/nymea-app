@@ -42,6 +42,7 @@ Item {
     property StateType stateType: thing ? thing.thingClass.stateTypes.findByName(stateName) : null
 
     property color color: Style.accentColor
+    property bool on: true
     property int precision: 1
 
     readonly property State progressState: thing ? thing.states.getState(stateType.id) : null
@@ -49,8 +50,8 @@ Item {
 
     property int startAngle: 135
     property int maxAngle: 270
-    readonly property int steps: canvas.roundToPrecision(root.stateType.maxValue - root.stateType.minValue) / root.precision + 1
-    readonly property double stepSize: (root.stateType.maxValue - root.stateType.minValue) / steps
+    readonly property int steps: canvas.roundToPrecision(root.progressState.maxValue - root.progressState.minValue) / root.precision + 1
+    readonly property double stepSize: (root.progressState.maxValue - root.progressState.minValue) / steps
     readonly property double anglePerStep: maxAngle / steps
 
 
@@ -81,6 +82,10 @@ Item {
         width: Math.min(root.width, root.height)
         height: width
 
+        property color effectColor: root.on ? root.color : Style.iconColor
+        Behavior on effectColor { ColorAnimation { duration: Style.animationDuration } }
+        onEffectColorChanged: requestPaint()
+
         function roundToPrecision(value) {
             var tmp = Math.round(value / root.precision) * root.precision;
             return tmp;
@@ -96,7 +101,7 @@ Item {
             var currentValue = actionQueue.pendingValue || root.progressState.value
             var currentStep;
             if (root.progressState) {
-                currentStep = roundToPrecision(currentValue - root.stateType.minValue) / root.precision
+                currentStep = roundToPrecision(currentValue - root.progressState.minValue) / root.precision
             }
 
             print("* current step", currentStep, root.steps, currentValue)
@@ -106,8 +111,8 @@ Item {
                 var innerRadius = canvas.width * 0.4
                 var outerRadius = canvas.width * 0.5
 
-                if (step === currentStep) {
-                    ctx.strokeStyle = root.color
+                if (step <= currentStep) {
+                    ctx.strokeStyle = canvas.effectColor
                     innerRadius = canvas.width * 0.38
                     ctx.lineWidth = 4;
                 } else {
@@ -177,7 +182,7 @@ Item {
             if (Math.abs(valueDiff) > 0) {
                 var currentValue = actionQueue.pendingValue || root.progressState.value
                 var newValue = currentValue + valueDiff
-                newValue = Math.min(root.stateType.maxValue, Math.max(root.stateType.minValue, newValue))
+                newValue = Math.min(root.stateType.maxValue, Math.max(root.progressState.minValue, newValue))
                 if (currentValue !== newValue) {
                     actionQueue.sendValue(newValue)
                 }
