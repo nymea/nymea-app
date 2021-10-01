@@ -1,3 +1,10 @@
+nymea-app (1.0.370) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix layout issues in smart meter views
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 01 Oct 2021 12:54:49 +0200
+
 nymea-app (1.0.369) bionic; urgency=medium
 
   [ Michael Zanetti ]
