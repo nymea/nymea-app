@@ -42,6 +42,7 @@ ThingPageBase {
     readonly property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
     readonly property StateType maxChargingCurrentStateType: thing.thingClass.stateTypes.findByName("maxChargingCurrent")
     readonly property State currentPowerState: thing.stateByName("currentPower")
+    readonly property State pluggedInState: thing.stateByName("pluggedIn")
 
     ActionQueue {
         id: actionQueue
@@ -110,10 +111,12 @@ ThingPageBase {
                 property double currentPower: root.currentPowerState.value / (root.currentPowerState.value > 1000 ? 1000 : 1)
                 property string unit: root.currentPowerState.value > 1000 ? "kW" : "W"
                 font: Style.smallFont
-                text: qsTr("Currently charging at %1.")
-                    .arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">'
-                        + (currentPower.toFixed(1))
-                        + '</span>' + ' ' + unit)
+                text: root.pluggedInState.value === false
+                      ? qsTr("The car is not plugged in.")
+                      : root.powerState.value === true
+                        ?  qsTr("Currently charging at %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (currentPower.toFixed(1)) + '</span>' + ' ' + unit)
+                        : ""
+
                 textFormat: Text.RichText
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap

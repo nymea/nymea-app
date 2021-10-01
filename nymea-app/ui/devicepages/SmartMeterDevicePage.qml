@@ -218,7 +218,7 @@ ThingPageBase {
 
                 text: isCharging ? qsTr("At the current rate, the battery will be fully charged at %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
                                  : isDischarging ? qsTr("At the current rate, the battery will last until %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
-                                                 : qsTr("The battery is fully charged")
+                                                 : ""
             }
 
             BlurredLabel {
@@ -235,8 +235,7 @@ ThingPageBase {
 
                 LogsModel {
                     id: periodConsumptionModel
-                    objectName: "Root meter model"
-                    engine: root.isEnergyMeter ? _engine : null
+                    engine: root.isEnergyMeter || root.isConsumer ? _engine : null
                     thingId: root.thing.id
                     typeIds: isEnergyMeter ? [root.totalEnergyConsumedStateType.id] : []
                     viewStartTime: root.startTime
@@ -260,7 +259,7 @@ ThingPageBase {
 
                 LogsModel {
                     id: periodProductionModel
-                    engine: root.isEnergyMeter ? _engine : null
+                    engine: root.isEnergyMeter || root.isProducer ? _engine : null
                     thingId: root.thing.id
                     typeIds: isEnergyMeter ? [root.totalEnergyProducedStateType.id] : []
                     viewStartTime: root.startTime
