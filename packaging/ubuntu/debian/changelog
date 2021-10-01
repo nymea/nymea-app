@@ -1,3 +1,10 @@
+nymea-app (1.0.367) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve ev charger view and minor fixes in similar views
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 01 Oct 2021 10:07:35 +0200
+
 nymea-app (1.0.366) bionic; urgency=medium
 
   [ Michael Zanetti ]
