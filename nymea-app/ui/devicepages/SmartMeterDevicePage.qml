@@ -235,8 +235,7 @@ ThingPageBase {
 
                 LogsModel {
                     id: periodConsumptionModel
-                    objectName: "Root meter model"
-                    engine: root.isEnergyMeter ? _engine : null
+                    engine: root.isEnergyMeter || root.isConsumer ? _engine : null
                     thingId: root.thing.id
                     typeIds: isEnergyMeter ? [root.totalEnergyConsumedStateType.id] : []
                     viewStartTime: root.startTime
@@ -260,7 +259,7 @@ ThingPageBase {
 
                 LogsModel {
                     id: periodProductionModel
-                    engine: root.isEnergyMeter ? _engine : null
+                    engine: root.isEnergyMeter || root.isProducer ? _engine : null
                     thingId: root.thing.id
                     typeIds: isEnergyMeter ? [root.totalEnergyProducedStateType.id] : []
                     viewStartTime: root.startTime
