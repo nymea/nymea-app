@@ -70,19 +70,20 @@ ThingPageBase {
                 anchors.centerIn: parent
                 width: background.contentItem.width * .6
                 spacing: Style.margins
-                Label {
-                    text: qsTr("Maximum charging current")
-                    font: Style.smallFont
-                    width: parent.width
-                    horizontalAlignment: Text.AlignHCenter
-                    wrapMode: Text.WordWrap
-                }
 
                 Label {
                     font: Style.largeFont
                     text: "%1 %2".arg(root.maxChargingCurrentState.value).arg(Types.toUiUnit(root.maxChargingCurrentStateType.unit))
                     width: parent.width
                     horizontalAlignment: Text.AlignHCenter
+                }
+
+                Label {
+                    text: qsTr("Maximum charging current")
+                    font: Style.smallFont
+                    width: parent.width
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
                 }
             }
 

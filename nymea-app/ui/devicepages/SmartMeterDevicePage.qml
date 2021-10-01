@@ -140,11 +140,12 @@ ThingPageBase {
                     Label {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
-                        font: Style.hugeFont
+                        font: Style.largeFont
                         property bool toKilos: currentPower >= 1000
                         property double value: Math.abs(currentPower / (toKilos ? 1000 : 1))
                         text: "%1 %2".arg(value.toFixed(toKilos ? 2 : 1)).arg(toKilos ? "kW" : "W")
                     }
+
                     Label {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
@@ -171,10 +172,11 @@ ThingPageBase {
                         font: Style.smallFont
                     }
 
+
                     Label {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
-                        font: Style.hugeFont
+                        font: Style.bigFont
                         visible: batteryLevelState
                         text: "%1 %".arg(batteryLevelState ? batteryLevelState.value : "")
                     }
