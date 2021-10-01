@@ -85,11 +85,8 @@ ThingPageBase {
         CircleBackground {
             id: background
             Layout.fillWidth: true
-            Layout.preferredHeight: width
-            Layout.leftMargin: app.landscape ? Style.margins : Style.hugeMargins
-            Layout.rightMargin: Style.hugeMargins
-            Layout.topMargin: Style.hugeMargins
-            Layout.bottomMargin: app.landscape ? Style.hugeMargins : Style.margins
+            Layout.fillHeight: true
+            Layout.margins: Style.hugeMargins
             iconSource: ""
             onColor: batteryLevelState
                      ? currentPower < 0 ? "crimson" : "limegreen"
@@ -185,92 +182,92 @@ ThingPageBase {
             }
 
             OpacityMask {
-                anchors.fill: background
+                anchors.centerIn: parent
+                width: background.contentItem.width
+                height: background.contentItem.height
                 source: ShaderEffectSource {
                     sourceItem: juice
                     hideSource: true
+                    sourceRect: Qt.rect(background.contentItem.x, background.contentItem.y, background.contentItem.width, background.contentItem.height)
                 }
                 maskSource: mask
             }
         }
 
-        Item {
+
+        ColumnLayout {
+            id: textLayout
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.margins: Style.bigMargins
+            spacing: Style.margins
 
-            ColumnLayout {
-                id: textLayout
-                anchors.fill: parent
-                spacing: Style.margins
+            Label {
+                Layout.fillWidth: true
+                visible: isBattery
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+                textFormat: Text.RichText
+                property bool isCharging: root.chargingState && root.chargingState.value === "charging"
+                property bool isDischarging: root.chargingState && root.chargingState.value === "discharging"
+                property double availableWh: isBattery ? root.capacityState.value * 1000 * root.batteryLevelState.value / 100 : 0
+                property double remainingWh: isCharging ? root.capacityState.value - availableWh : availableWh
+                property double remainingHours: isBattery ? remainingWh / Math.abs(root.currentPower) : 0
+                property date endTime: isBattery ? new Date(new Date().getTime() + remainingHours * 60 * 60 * 1000) : new Date()
+                property int n: Math.round(remainingHours)
 
-                Label {
-                    Layout.fillWidth: true
-                    visible: isBattery
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                    textFormat: Text.RichText
-                    property bool isCharging: root.chargingState && root.chargingState.value === "charging"
-                    property bool isDischarging: root.chargingState && root.chargingState.value === "discharging"
-                    property double availableWh: isBattery ? root.capacityState.value * 1000 * root.batteryLevelState.value / 100 : 0
-                    property double remainingWh: isCharging ? root.capacityState.value - availableWh : availableWh
-                    property double remainingHours: isBattery ? remainingWh / Math.abs(root.currentPower) : 0
-                    property date endTime: isBattery ? new Date(new Date().getTime() + remainingHours * 60 * 60 * 1000) : new Date()
-                    property int n: Math.round(remainingHours)
+                text: isCharging ? qsTr("At the current rate, the battery will be fully charged at %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
+                                 : isDischarging ? qsTr("At the current rate, the battery will last until %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
+                                                 : qsTr("The battery is fully charged")
+            }
 
-                    text: isCharging ? qsTr("At the current rate, the battery will be fully charged at %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
-                                     : isDischarging ? qsTr("At the current rate, the battery will last until %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
-                                                     : qsTr("The battery is fully charged")
+            BlurredLabel {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+                visible: isEnergyMeter || isConsumer
+                blurred: periodConsumptionModel.busy
+                font: Style.smallFont
+                text: isConsumer ?
+                          qsTr("A total of %1 kWh has been <b>consumed</b> in the last 24 hours.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (totalPeriodConsumption).toFixed(1) + '</span>')
+                        : qsTr("A total of %1 kWh has been <b>obtained</b> in the last 24 hours.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (totalPeriodConsumption).toFixed(1) + '</span>')
+                textFormat: Text.RichText
+
+                LogsModel {
+                    id: periodConsumptionModel
+                    objectName: "Root meter model"
+                    engine: root.isEnergyMeter ? _engine : null
+                    thingId: root.thing.id
+                    typeIds: isEnergyMeter ? [root.totalEnergyConsumedStateType.id] : []
+                    viewStartTime: root.startTime
+                    live: true
                 }
+                property LogEntry logEntryAtStart: periodConsumptionModel.busy ? null : periodConsumptionModel.findClosest(periodConsumptionModel.viewStartTime)
+                property double totalPeriodConsumption: logEntryAtStart && totalEnergyConsumedState ? totalEnergyConsumedState.value - logEntryAtStart.value : 0
+            }
 
-                BlurredLabel {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                    visible: isEnergyMeter || isConsumer
-                    blurred: periodConsumptionModel.busy
-                    font: Style.smallFont
-                    text: isConsumer ?
-                              qsTr("A total of %1 kWh has been <b>consumed</b> in the last 24 hours.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (totalPeriodConsumption).toFixed(1) + '</span>')
-                            : qsTr("A total of %1 kWh has been <b>obtained</b> in the last 24 hours.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (totalPeriodConsumption).toFixed(1) + '</span>')
-                    textFormat: Text.RichText
+            BlurredLabel {
+                visible: isEnergyMeter || isProducer
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+                blurred: periodProductionModel.busy
+                font: Style.smallFont
+                text: isProducer ?
+                          qsTr("A total of %1 kWh has been <b>produced</b> in the last 24 hours.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (totalPeriodProduction).toFixed(1) + '</span>')
+                        : qsTr("A total of %1 kWh has been <b>returned</b> in the last 24 hours.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (totalPeriodProduction).toFixed(1) + '</span>')
+                textFormat: Text.RichText
 
-                    LogsModel {
-                        id: periodConsumptionModel
-                        objectName: "Root meter model"
-                        engine: root.isEnergyMeter ? _engine : null
-                        thingId: root.thing.id
-                        typeIds: isEnergyMeter ? [root.totalEnergyConsumedStateType.id] : []
-                        viewStartTime: root.startTime
-                        live: true
-                    }
-                    property LogEntry logEntryAtStart: periodConsumptionModel.busy ? null : periodConsumptionModel.findClosest(periodConsumptionModel.viewStartTime)
-                    property double totalPeriodConsumption: logEntryAtStart && totalEnergyConsumedState ? totalEnergyConsumedState.value - logEntryAtStart.value : 0
+                LogsModel {
+                    id: periodProductionModel
+                    engine: root.isEnergyMeter ? _engine : null
+                    thingId: root.thing.id
+                    typeIds: isEnergyMeter ? [root.totalEnergyProducedStateType.id] : []
+                    viewStartTime: root.startTime
+                    live: true
                 }
-
-                BlurredLabel {
-                    visible: isEnergyMeter || isProducer
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                    blurred: periodProductionModel.busy
-                    font: Style.smallFont
-                    text: isProducer ?
-                              qsTr("A total of %1 kWh has been <b>produced</b> in the last 24 hours.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (totalPeriodProduction).toFixed(1) + '</span>')
-                            : qsTr("A total of %1 kWh has been <b>returned</b> in the last 24 hours.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + (totalPeriodProduction).toFixed(1) + '</span>')
-                    textFormat: Text.RichText
-
-                    LogsModel {
-                        id: periodProductionModel
-                        engine: root.isEnergyMeter ? _engine : null
-                        thingId: root.thing.id
-                        typeIds: isEnergyMeter ? [root.totalEnergyProducedStateType.id] : []
-                        viewStartTime: root.startTime
-                        live: true
-                    }
-                    property LogEntry logEntryAtStart: periodProductionModel.busy ? null : periodProductionModel.findClosest(periodProductionModel.viewStartTime)
-                    property double totalPeriodProduction: logEntryAtStart && totalEnergyProducedState ? totalEnergyProducedState.value - logEntryAtStart.value : 0
-                }
+                property LogEntry logEntryAtStart: periodProductionModel.busy ? null : periodProductionModel.findClosest(periodProductionModel.viewStartTime)
+                property double totalPeriodProduction: logEntryAtStart && totalEnergyProducedState ? totalEnergyProducedState.value - logEntryAtStart.value : 0
             }
         }
     }
