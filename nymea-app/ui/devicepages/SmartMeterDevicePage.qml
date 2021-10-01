@@ -138,7 +138,7 @@ ThingPageBase {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
                         font: Style.largeFont
-                        property bool toKilos: currentPower >= 1000
+                        property bool toKilos: Math.abs(currentPower) >= 1000
                         property double value: Math.abs(currentPower / (toKilos ? 1000 : 1))
                         text: "%1 %2".arg(value.toFixed(toKilos ? 2 : 1)).arg(toKilos ? "kW" : "W")
                     }

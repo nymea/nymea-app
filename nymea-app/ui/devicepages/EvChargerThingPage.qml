@@ -74,7 +74,7 @@ ThingPageBase {
 
                 Label {
                     font: Style.largeFont
-                    text: "%1 %2".arg(root.maxChargingCurrentState.value).arg(Types.toUiUnit(root.maxChargingCurrentStateType.unit))
+                    text: "%1 %2".arg(root.maxChargingCurrentState.value.toFixed(1)).arg(Types.toUiUnit(root.maxChargingCurrentStateType.unit))
                     width: parent.width
                     horizontalAlignment: Text.AlignHCenter
                 }
