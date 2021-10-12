@@ -81,6 +81,8 @@ MainPageTile {
                     return sensorsComponent;
                 case "cleaningrobot":
                     return buttonComponent;
+                case "ventilation":
+                    return ventilationComponent;
                 }
             }
         }
@@ -125,6 +127,57 @@ MainPageTile {
                     name: thing.thingClass.interfaces.indexOf("light") >= 0
                           ? (powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg")
                           : app.interfacesToIcon(thing.thingClass.interfaces)
+                    color: powerState.value === true ? Style.accentColor : Style.iconColor
+                }
+                onClicked: {
+                    var actionType = thing.thingClass.actionTypes.findByName("power");
+                    var params = [];
+                    var powerParam = {}
+                    powerParam["paramTypeId"] = actionType.paramTypes.get(0).id;
+                    powerParam["value"] = !powerState.value;
+                    params.push(powerParam)
+                    engine.thingManager.executeAction(thing.id, actionType.id, params);
+                }
+            }
+        }
+    }
+
+    Component {
+        id: ventilationComponent
+        RowLayout {
+            property Thing thing: null
+            readonly property State powerState: thing.stateByName("power")
+            readonly property State flowRateState: thing.stateByName("flowRate")
+
+            ThrottledSlider {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins / 2
+                Layout.alignment: Qt.AlignVCenter
+                opacity: flowRateState ? 1 : 0
+                enabled: opacity > 0
+                from: 0
+                to: 100
+                value: flowRateState ? flowRateState.value : 0
+                onMoved: {
+                    var actionType = thing.thingClass.actionTypes.findByName("flowRate");
+                    var params = [];
+                    var powerParam = {}
+                    powerParam["paramTypeId"] = actionType.paramTypes.get(0).id;
+                    powerParam["value"] = value;
+                    params.push(powerParam)
+                    engine.thingManager.executeAction(thing.id, actionType.id, params);
+                }
+            }
+
+            ItemDelegate {
+                Layout.preferredWidth: Style.iconSize
+                Layout.preferredHeight: width
+                Layout.rightMargin: app.margins / 2
+                Layout.alignment: Qt.AlignVCenter
+                padding: 0; topPadding: 0; bottomPadding: 0
+
+                contentItem: ColorIcon {
+                    name: "../images/ventilation.svg"
                     color: powerState.value === true ? Style.accentColor : Style.iconColor
                 }
                 onClicked: {
@@ -208,6 +261,15 @@ MainPageTile {
                 }
                 if (thing.thingClass.interfaces.indexOf("o2sensor") >= 0) {
                     tmp.push({iface: "o2sensor", state: "o2saturation"})
+                }
+                if (thing.thingClass.interfaces.indexOf("closablesensor") >= 0) {
+                    tmp.push({iface: "closablesensor", state: "closed"})
+                }
+                if (thing.thingClass.interfaces.indexOf("watersensor") >= 0) {
+                    tmp.push({iface: "watersensor", state: "waterDetected"})
+                }
+                if (thing.thingClass.interfaces.indexOf("waterlevelsensor") >= 0) {
+                    tmp.push({iface: "waterlevelsensor", state: "waterLevel"})
                 }
 
                 if (thing.thingClass.interfaces.indexOf("weather") >= 0) {

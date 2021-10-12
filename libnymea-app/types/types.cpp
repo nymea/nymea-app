@@ -94,6 +94,9 @@ QString Types::toUiUnit(Types::Unit unit) const
         case Types::UnitBar:
             uiUnit = Types::UnitPoundsPerSquareInch;
             break;
+        case Types::UnitLiter:
+            uiUnit = Types::UnitFluidOunce;
+            break;
         default:
             uiUnit = unit;
         }
@@ -223,6 +226,16 @@ QString Types::toUiUnit(Types::Unit unit) const
         return "mph";
     case Types::UnitPoundsPerSquareInch:
         return "psi";
+    case Types::UnitNewton:
+        return "N";
+    case Types::UnitNewtonMeter:
+        return "Nm";
+    case Types::UnitRpm:
+        return "rpm";
+    case Types::UnitMilligramPerLiter:
+        return "mg/l";
+    case Types::UnitLiter:
+        return "l";
     }
 
     return "";
@@ -254,6 +267,8 @@ QVariant Types::toUiValue(const QVariant &value, Types::Unit unit) const
             return value.toDouble() * 0.01450377;
         case Types::UnitBar: // To pounds per square inch (psi)
             return value.toDouble() * 14.50377;
+        case Types::UnitLiter: // To fl. oz
+            return value.toDouble() * 33.814;
         default:
             return value;
         }

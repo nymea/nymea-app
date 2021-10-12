@@ -49,7 +49,6 @@ public:
         MinValueRole,
         MaxValueRole,
         InputTypeRole,
-        UnitStringRole,
         AllowedValuesRole,
         ReadOnlyRole
     };

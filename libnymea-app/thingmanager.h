@@ -165,7 +165,7 @@ private:
 
     static Thing::ThingError errorFromString(const QByteArray &thingErrorString);
     static ThingClass::SetupMethod stringToSetupMethod(const QString &setupMethodString);
-    static QPair<Types::Unit, QString> stringToUnit(const QString &unitString);
+    static Types::Unit stringToUnit(const QString &unitString);
     static Types::InputType stringToInputType(const QString &inputTypeString);
 
 private:

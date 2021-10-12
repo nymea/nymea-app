@@ -87,6 +87,7 @@ Item {
         "windspeedsensor": "blue",
         "ventilation": "lightblue",
         "watersensor": "aqua",
+        "waterlevelsensor": "aqua",
         "phsensor": "green",
         "o2sensor": "lightblue",
         "orpsensor": "yellow",

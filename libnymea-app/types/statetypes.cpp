@@ -83,8 +83,6 @@ QVariant StateTypes::data(const QModelIndex &index, int role) const
         return stateType->type();
     case RoleDefaultValue:
         return stateType->defaultValue();
-    case RoleUnitString:
-        return stateType->unitString();
     case RoleUnit:
         return stateType->unit();
     case RoleIOType:

@@ -120,16 +120,6 @@ void StateType::setUnit(const Types::Unit &unit)
     m_unit = unit;
 }
 
-QString StateType::unitString() const
-{
-    return m_unitString;
-}
-
-void StateType::setUnitString(const QString &unitString)
-{
-    m_unitString = unitString;
-}
-
 QVariant StateType::minValue() const
 {
     return m_minValue;

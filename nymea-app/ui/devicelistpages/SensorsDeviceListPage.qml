@@ -89,6 +89,7 @@ ThingsListPageBase {
                                 ListElement { interfaceName: "heating"; stateName: "power" }
                                 ListElement { interfaceName: "thermostat"; stateName: "targetTemperature" }
                                 ListElement { interfaceName: "watersensor"; stateName: "waterDetected" }
+                                ListElement { interfaceName: "waterlevelsensor"; stateName: "waterLevel" }
                                 ListElement { interfaceName: "o2sensor"; stateName: "o2saturation" }
                                 ListElement { interfaceName: "phsensor"; stateName: "ph" }
                                 ListElement { interfaceName: "orpsensor"; stateName: "orp" }

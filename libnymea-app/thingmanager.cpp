@@ -847,9 +847,7 @@ ParamType *ThingManager::unpackParamType(const QVariantMap &paramTypeMap, QObjec
     paramType->setAllowedValues(paramTypeMap.value("allowedValues").toList());
     paramType->setInputType(stringToInputType(paramTypeMap.value("inputType").toString()));
     paramType->setReadOnly(paramTypeMap.value("readOnly").toBool());
-    QPair<Types::Unit, QString> unit = stringToUnit(paramTypeMap.value("unit").toString());
-    paramType->setUnit(unit.first);
-    paramType->setUnitString(unit.second);
+    paramType->setUnit(stringToUnit(paramTypeMap.value("unit").toString()));
     return paramType;
 }
 
@@ -865,10 +863,7 @@ StateType *ThingManager::unpackStateType(const QVariantMap &stateTypeMap, QObjec
     stateType->setType(stateTypeMap.value("type").toString());
     stateType->setMinValue(stateTypeMap.value("minValue"));
     stateType->setMaxValue(stateTypeMap.value("maxValue"));
-
-    QPair<Types::Unit, QString> unit = stringToUnit(stateTypeMap.value("unit").toString());
-    stateType->setUnit(unit.first);
-    stateType->setUnitString(unit.second);
+    stateType->setUnit(stringToUnit(stateTypeMap.value("unit").toString()));
 
     QMetaEnum metaEnum = QMetaEnum::fromType<Types::IOType>();
     Types::IOType ioType = static_cast<Types::IOType>(metaEnum.keyToValue(stateTypeMap.value("ioType").toByteArray()));
@@ -1035,117 +1030,121 @@ ThingClass::SetupMethod ThingManager::stringToSetupMethod(const QString &setupMe
     return ThingClass::SetupMethodJustAdd;
 }
 
-QPair<Types::Unit, QString> ThingManager::stringToUnit(const QString &unitString)
+Types::Unit ThingManager::stringToUnit(const QString &unitString)
 {
-    if (unitString == "UnitNone") {
-        return QPair<Types::Unit, QString>(Types::UnitNone, "");
-    } else if (unitString == "UnitSeconds") {
-        return QPair<Types::Unit, QString>(Types::UnitSeconds, "s");
-    } else if (unitString == "UnitMinutes") {
-        return QPair<Types::Unit, QString>(Types::UnitMinutes, "m");
-    } else if (unitString == "UnitHours") {
-        return QPair<Types::Unit, QString>(Types::UnitHours, "h");
-    } else if (unitString == "UnitUnixTime") {
-        return QPair<Types::Unit, QString>(Types::UnitUnixTime, "datetime");
-    } else if (unitString == "UnitMeterPerSecond") {
-        return QPair<Types::Unit, QString>(Types::UnitMeterPerSecond, "m/s");
-    } else if (unitString == "UnitKiloMeterPerHour") {
-        return QPair<Types::Unit, QString>(Types::UnitKiloMeterPerHour, "km/h");
-    } else if (unitString == "UnitDegree") {
-        return QPair<Types::Unit, QString>(Types::UnitDegree, "°");
-    } else if (unitString == "UnitRadiant") {
-        return QPair<Types::Unit, QString>(Types::UnitRadiant, "rad");
-    } else if (unitString == "UnitDegreeCelsius") {
-        return QPair<Types::Unit, QString>(Types::UnitDegreeCelsius, "°C");
-    } else if (unitString == "UnitDegreeKelvin") {
-        return QPair<Types::Unit, QString>(Types::UnitDegreeKelvin, "°K");
-    } else if (unitString == "UnitMired") {
-        return QPair<Types::Unit, QString>(Types::UnitMired, "mir");
-    } else if (unitString == "UnitMilliBar") {
-        return QPair<Types::Unit, QString>(Types::UnitMilliBar, "mbar");
-    } else if (unitString == "UnitBar") {
-        return QPair<Types::Unit, QString>(Types::UnitBar, "bar");
-    } else if (unitString == "UnitPascal") {
-        return QPair<Types::Unit, QString>(Types::UnitPascal, "Pa");
-    } else if (unitString == "UnitHectoPascal") {
-        return QPair<Types::Unit, QString>(Types::UnitHectoPascal, "hPa");
-    } else if (unitString == "UnitAtmosphere") {
-        return QPair<Types::Unit, QString>(Types::UnitAtmosphere, "atm");
-    } else if (unitString == "UnitLumen") {
-        return QPair<Types::Unit, QString>(Types::UnitLumen, "lm");
-    } else if (unitString == "UnitLux") {
-        return QPair<Types::Unit, QString>(Types::UnitLux, "lx");
-    } else if (unitString == "UnitCandela") {
-        return QPair<Types::Unit, QString>(Types::UnitCandela, "cd");
-    } else if (unitString == "UnitMilliMeter") {
-        return QPair<Types::Unit, QString>(Types::UnitMilliMeter, "mm");
-    } else if (unitString == "UnitCentiMeter") {
-        return QPair<Types::Unit, QString>(Types::UnitCentiMeter, "cm");
-    } else if (unitString == "UnitMeter") {
-        return QPair<Types::Unit, QString>(Types::UnitMeter, "m");
-    } else if (unitString == "UnitKiloMeter") {
-        return QPair<Types::Unit, QString>(Types::UnitKiloMeter, "km");
-    } else if (unitString == "UnitGram") {
-        return QPair<Types::Unit, QString>(Types::UnitGram, "g");
-    } else if (unitString == "UnitKiloGram") {
-        return QPair<Types::Unit, QString>(Types::UnitKiloGram, "kg");
-    } else if (unitString == "UnitDezibel") {
-        return QPair<Types::Unit, QString>(Types::UnitDezibel, "db");
-    } else if (unitString == "UnitBpm") {
-        return QPair<Types::Unit, QString>(Types::UnitBpm, "bpm");
-    } else if (unitString == "UnitKiloByte") {
-        return QPair<Types::Unit, QString>(Types::UnitKiloByte, "kB");
-    } else if (unitString == "UnitMegaByte") {
-        return QPair<Types::Unit, QString>(Types::UnitMegaByte, "MB");
-    } else if (unitString == "UnitGigaByte") {
-        return QPair<Types::Unit, QString>(Types::UnitGigaByte, "GB");
-    } else if (unitString == "UnitTeraByte") {
-        return QPair<Types::Unit, QString>(Types::UnitTeraByte, "TB");
-    } else if (unitString == "UnitMilliWatt") {
-        return QPair<Types::Unit, QString>(Types::UnitMilliWatt, "mW");
-    } else if (unitString == "UnitWatt") {
-        return QPair<Types::Unit, QString>(Types::UnitWatt, "W");
-    } else if (unitString == "UnitKiloWatt") {
-        return QPair<Types::Unit, QString>(Types::UnitKiloWatt, "kW");
-    } else if (unitString == "UnitKiloWattHour") {
-        return QPair<Types::Unit, QString>(Types::UnitKiloWattHour, "kWh");
-    } else if (unitString == "UnitEuroPerMegaWattHour") {
-        return QPair<Types::Unit, QString>(Types::UnitEuroPerMegaWattHour, "€/MWh");
-    } else if (unitString == "UnitEuroCentPerKiloWattHour") {
-        return QPair<Types::Unit, QString>(Types::UnitEuroCentPerKiloWattHour, "ct/kWh");
-    } else if (unitString == "UnitPercentage") {
-        return QPair<Types::Unit, QString>(Types::UnitPercentage, "%");
-    } else if (unitString == "UnitPartsPerMillion") {
-        return QPair<Types::Unit, QString>(Types::UnitPartsPerMillion, "ppm");
-    } else if (unitString == "UnitEuro") {
-        return QPair<Types::Unit, QString>(Types::UnitEuro, "€");
-    } else if (unitString == "UnitDollar") {
-        return QPair<Types::Unit, QString>(Types::UnitDollar, "$");
-    } else if (unitString == "UnitHerz") { // legacy
-        return QPair<Types::Unit, QString>(Types::UnitHertz, "Hz");
-    } else if (unitString == "UnitHertz") {
-        return QPair<Types::Unit, QString>(Types::UnitHertz, "Hz");
-    } else if (unitString == "UnitAmpere") {
-        return QPair<Types::Unit, QString>(Types::UnitAmpere, "A");
-    } else if (unitString == "UnitMilliAmpere") {
-        return QPair<Types::Unit, QString>(Types::UnitMilliAmpere, "mA");
-    } else if (unitString == "UnitVolt") {
-        return QPair<Types::Unit, QString>(Types::UnitVolt, "V");
-    } else if (unitString == "UnitMilliVolt") {
-        return QPair<Types::Unit, QString>(Types::UnitMilliVolt, "mV");
-    } else if (unitString == "UnitVoltAmpere") {
-        return QPair<Types::Unit, QString>(Types::UnitVoltAmpere, "VA");
-    } else if (unitString == "UnitVoltAmpereReactive") {
-        return QPair<Types::Unit, QString>(Types::UnitVoltAmpereReactive, "VAR");
-    } else if (unitString == "UnitAmpereHour") {
-        return QPair<Types::Unit, QString>(Types::UnitAmpereHour, "Ah");
-    } else if (unitString == "UnitMicroSiemensPerCentimeter") {
-        return QPair<Types::Unit, QString>(Types::UnitMicroSiemensPerCentimeter, "µS/cm");
-    } else if (unitString == "UnitDuration") {
-        return QPair<Types::Unit, QString>(Types::UnitDuration, "s");
-    }
+    QMetaEnum metaEnum = QMetaEnum::fromType<Types::Unit>();
+    Types::Unit unit = static_cast<Types::Unit>(metaEnum.keyToValue(unitString.toUtf8()));
+    return unit;
 
-    return QPair<Types::Unit, QString>(Types::UnitNone, "");
+//    if (unitString == "UnitNone") {
+//        return QPair<Types::Unit, QString>(Types::UnitNone, "");
+//    } else if (unitString == "UnitSeconds") {
+//        return QPair<Types::Unit, QString>(Types::UnitSeconds, "s");
+//    } else if (unitString == "UnitMinutes") {
+//        return QPair<Types::Unit, QString>(Types::UnitMinutes, "m");
+//    } else if (unitString == "UnitHours") {
+//        return QPair<Types::Unit, QString>(Types::UnitHours, "h");
+//    } else if (unitString == "UnitUnixTime") {
+//        return QPair<Types::Unit, QString>(Types::UnitUnixTime, "datetime");
+//    } else if (unitString == "UnitMeterPerSecond") {
+//        return QPair<Types::Unit, QString>(Types::UnitMeterPerSecond, "m/s");
+//    } else if (unitString == "UnitKiloMeterPerHour") {
+//        return QPair<Types::Unit, QString>(Types::UnitKiloMeterPerHour, "km/h");
+//    } else if (unitString == "UnitDegree") {
+//        return QPair<Types::Unit, QString>(Types::UnitDegree, "°");
+//    } else if (unitString == "UnitRadiant") {
+//        return QPair<Types::Unit, QString>(Types::UnitRadiant, "rad");
+//    } else if (unitString == "UnitDegreeCelsius") {
+//        return QPair<Types::Unit, QString>(Types::UnitDegreeCelsius, "°C");
+//    } else if (unitString == "UnitDegreeKelvin") {
+//        return QPair<Types::Unit, QString>(Types::UnitDegreeKelvin, "°K");
+//    } else if (unitString == "UnitMired") {
+//        return QPair<Types::Unit, QString>(Types::UnitMired, "mir");
+//    } else if (unitString == "UnitMilliBar") {
+//        return QPair<Types::Unit, QString>(Types::UnitMilliBar, "mbar");
+//    } else if (unitString == "UnitBar") {
+//        return QPair<Types::Unit, QString>(Types::UnitBar, "bar");
+//    } else if (unitString == "UnitPascal") {
+//        return QPair<Types::Unit, QString>(Types::UnitPascal, "Pa");
+//    } else if (unitString == "UnitHectoPascal") {
+//        return QPair<Types::Unit, QString>(Types::UnitHectoPascal, "hPa");
+//    } else if (unitString == "UnitAtmosphere") {
+//        return QPair<Types::Unit, QString>(Types::UnitAtmosphere, "atm");
+//    } else if (unitString == "UnitLumen") {
+//        return QPair<Types::Unit, QString>(Types::UnitLumen, "lm");
+//    } else if (unitString == "UnitLux") {
+//        return QPair<Types::Unit, QString>(Types::UnitLux, "lx");
+//    } else if (unitString == "UnitCandela") {
+//        return QPair<Types::Unit, QString>(Types::UnitCandela, "cd");
+//    } else if (unitString == "UnitMilliMeter") {
+//        return QPair<Types::Unit, QString>(Types::UnitMilliMeter, "mm");
+//    } else if (unitString == "UnitCentiMeter") {
+//        return QPair<Types::Unit, QString>(Types::UnitCentiMeter, "cm");
+//    } else if (unitString == "UnitMeter") {
+//        return QPair<Types::Unit, QString>(Types::UnitMeter, "m");
+//    } else if (unitString == "UnitKiloMeter") {
+//        return QPair<Types::Unit, QString>(Types::UnitKiloMeter, "km");
+//    } else if (unitString == "UnitGram") {
+//        return QPair<Types::Unit, QString>(Types::UnitGram, "g");
+//    } else if (unitString == "UnitKiloGram") {
+//        return QPair<Types::Unit, QString>(Types::UnitKiloGram, "kg");
+//    } else if (unitString == "UnitDezibel") {
+//        return QPair<Types::Unit, QString>(Types::UnitDezibel, "db");
+//    } else if (unitString == "UnitBpm") {
+//        return QPair<Types::Unit, QString>(Types::UnitBpm, "bpm");
+//    } else if (unitString == "UnitKiloByte") {
+//        return QPair<Types::Unit, QString>(Types::UnitKiloByte, "kB");
+//    } else if (unitString == "UnitMegaByte") {
+//        return QPair<Types::Unit, QString>(Types::UnitMegaByte, "MB");
+//    } else if (unitString == "UnitGigaByte") {
+//        return QPair<Types::Unit, QString>(Types::UnitGigaByte, "GB");
+//    } else if (unitString == "UnitTeraByte") {
+//        return QPair<Types::Unit, QString>(Types::UnitTeraByte, "TB");
+//    } else if (unitString == "UnitMilliWatt") {
+//        return QPair<Types::Unit, QString>(Types::UnitMilliWatt, "mW");
+//    } else if (unitString == "UnitWatt") {
+//        return QPair<Types::Unit, QString>(Types::UnitWatt, "W");
+//    } else if (unitString == "UnitKiloWatt") {
+//        return QPair<Types::Unit, QString>(Types::UnitKiloWatt, "kW");
+//    } else if (unitString == "UnitKiloWattHour") {
+//        return QPair<Types::Unit, QString>(Types::UnitKiloWattHour, "kWh");
+//    } else if (unitString == "UnitEuroPerMegaWattHour") {
+//        return QPair<Types::Unit, QString>(Types::UnitEuroPerMegaWattHour, "€/MWh");
+//    } else if (unitString == "UnitEuroCentPerKiloWattHour") {
+//        return QPair<Types::Unit, QString>(Types::UnitEuroCentPerKiloWattHour, "ct/kWh");
+//    } else if (unitString == "UnitPercentage") {
+//        return QPair<Types::Unit, QString>(Types::UnitPercentage, "%");
+//    } else if (unitString == "UnitPartsPerMillion") {
+//        return QPair<Types::Unit, QString>(Types::UnitPartsPerMillion, "ppm");
+//    } else if (unitString == "UnitEuro") {
+//        return QPair<Types::Unit, QString>(Types::UnitEuro, "€");
+//    } else if (unitString == "UnitDollar") {
+//        return QPair<Types::Unit, QString>(Types::UnitDollar, "$");
+//    } else if (unitString == "UnitHerz") { // legacy
+//        return QPair<Types::Unit, QString>(Types::UnitHertz, "Hz");
+//    } else if (unitString == "UnitHertz") {
+//        return QPair<Types::Unit, QString>(Types::UnitHertz, "Hz");
+//    } else if (unitString == "UnitAmpere") {
+//        return QPair<Types::Unit, QString>(Types::UnitAmpere, "A");
+//    } else if (unitString == "UnitMilliAmpere") {
+//        return QPair<Types::Unit, QString>(Types::UnitMilliAmpere, "mA");
+//    } else if (unitString == "UnitVolt") {
+//        return QPair<Types::Unit, QString>(Types::UnitVolt, "V");
+//    } else if (unitString == "UnitMilliVolt") {
+//        return QPair<Types::Unit, QString>(Types::UnitMilliVolt, "mV");
+//    } else if (unitString == "UnitVoltAmpere") {
+//        return QPair<Types::Unit, QString>(Types::UnitVoltAmpere, "VA");
+//    } else if (unitString == "UnitVoltAmpereReactive") {
+//        return QPair<Types::Unit, QString>(Types::UnitVoltAmpereReactive, "VAR");
+//    } else if (unitString == "UnitAmpereHour") {
+//        return QPair<Types::Unit, QString>(Types::UnitAmpereHour, "Ah");
+//    } else if (unitString == "UnitMicroSiemensPerCentimeter") {
+//        return QPair<Types::Unit, QString>(Types::UnitMicroSiemensPerCentimeter, "µS/cm");
+//    } else if (unitString == "UnitDuration") {
+//        return QPair<Types::Unit, QString>(Types::UnitDuration, "s");
+//    }
+
+//    return QPair<Types::Unit, QString>(Types::UnitNone, "");
 }
 
 Types::InputType ThingManager::stringToInputType(const QString &inputTypeString)

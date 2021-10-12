@@ -107,6 +107,11 @@ public:
         UnitAmpereHour,
         UnitMicroSiemensPerCentimeter,
         UnitDuration,
+        UnitNewton,
+        UnitNewtonMeter,
+        UnitRpm,
+        UnitMilligramPerLiter,
+        UnitLiter,
 
         // Those do not exist in nymea:core at this point, Adding them for easier conversion to imperial
         UnitDegreeFahrenheit,
@@ -117,7 +122,8 @@ public:
         UnitMile,
         UnitFootPerSecond,
         UnitMilePerHour,
-        UnitPoundsPerSquareInch
+        UnitPoundsPerSquareInch,
+        UnitFluidOunce
     };
     Q_ENUM(Unit)
 
