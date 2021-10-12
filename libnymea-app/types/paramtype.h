@@ -51,7 +51,6 @@ class ParamType : public QObject
     Q_PROPERTY(QVariant maxValue READ maxValue CONSTANT)
     Q_PROPERTY(Types::InputType inputType READ inputType CONSTANT)
     Q_PROPERTY(Types::Unit unit READ unit CONSTANT)
-    Q_PROPERTY(QString unitString READ unitString CONSTANT)
     Q_PROPERTY(QVariantList allowedValues READ allowedValues CONSTANT)
     Q_PROPERTY(bool readOnly READ readOnly CONSTANT)
 
@@ -89,9 +88,6 @@ public:
     Types::Unit unit() const;
     void setUnit(const Types::Unit &unit);
 
-    QString unitString() const;
-    void setUnitString(const QString &unitString);
-
     QVariantList allowedValues() const;
     void setAllowedValues(const QList<QVariant> allowedValues);
 
@@ -109,7 +105,6 @@ private:
     QVariant m_maxValue;
     Types::InputType m_inputType;
     Types::Unit m_unit;
-    QString m_unitString;
     QVariantList m_allowedValues;
     bool m_readOnly;
 };

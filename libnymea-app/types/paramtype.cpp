@@ -135,16 +135,6 @@ void ParamType::setInputType(const Types::InputType &inputType)
     m_inputType = inputType;
 }
 
-QString ParamType::unitString() const
-{
-    return m_unitString;
-}
-
-void ParamType::setUnitString(const QString &unitString)
-{
-    m_unitString = unitString;
-}
-
 Types::Unit ParamType::unit() const
 {
     return m_unit;

@@ -96,8 +96,6 @@ QVariant ParamTypes::data(const QModelIndex &index, int role) const
         return paramType->maxValue();
     } else if (role == InputTypeRole) {
         return paramType->inputType();
-    } else if (role == UnitStringRole) {
-        return paramType->unitString();
     } else if (role == AllowedValuesRole) {
         return paramType->allowedValues();
     } else if (role == ReadOnlyRole) {
@@ -134,7 +132,6 @@ QHash<int, QByteArray> ParamTypes::roleNames() const
     roles[MinValueRole] = "minValue";
     roles[MaxValueRole] = "maxValue";
     roles[InputTypeRole] = "inputType";
-    roles[UnitStringRole] = "unitString";
     roles[AllowedValuesRole] = "allowedValues";
     roles[ReadOnlyRole] = "readOnly";
     return roles;
