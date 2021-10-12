@@ -1,3 +1,10 @@
+nymea-app (1.0.372) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for the water level interface
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 13 Oct 2021 00:03:31 +0200
+
 nymea-app (1.0.371) bionic; urgency=medium
 
   [ Michael Zanetti ]
