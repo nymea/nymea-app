@@ -60,7 +60,7 @@ ItemDelegate {
             Label {
                 id: nameLabel
                 Layout.fillWidth: parent.labelFillsWidth
-//                Layout.minimumWidth: parent.width / 2
+                //                Layout.minimumWidth: parent.width / 2
                 text: root.paramType.displayName
                 elide: Text.ElideRight
             }
@@ -212,7 +212,8 @@ ItemDelegate {
         RowLayout {
             spacing: app.margins
 
-            SpinBox {
+            NymeaSpinBox {
+                id: spinbox
                 value: root.param.value ? root.param.value : 0
                 from: root.paramType.minValue !== undefined
                       ? root.paramType.minValue
@@ -225,9 +226,9 @@ ItemDelegate {
                 editable: true
                 width: 150
                 onValueModified: root.param.value = value
-                textFromValue: function(value) {
-                    return Types.toUiValue(value, root.paramType.unit)
-                }
+
+                floatingPoint: root.paramType.type.toLowerCase() == "double"
+
                 Component.onCompleted: {
                     print("from:", from, "min", root.paramType.minValue)
                     if (root.value === undefined) {
@@ -331,10 +332,10 @@ ItemDelegate {
             minCt: root.paramType.minValue
             maxCt: root.paramType.maxValue
             ct: root.param.value !== undefined
-                  ? root.param.value
-                  : root.paramType.defaultValue
-                    ? root.paramType.defaultValue
-                    : root.paramType.minValue
+                ? root.param.value
+                : root.paramType.defaultValue
+                  ? root.paramType.defaultValue
+                  : root.paramType.minValue
 
             onCtChanged: {
                 root.param.value = ct
