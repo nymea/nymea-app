@@ -1,3 +1,10 @@
+nymea-app (1.0.373) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix double value input in paramdelegates
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 18 Oct 2021 14:35:04 +0200
+
 nymea-app (1.0.372) bionic; urgency=medium
 
   [ Michael Zanetti ]
