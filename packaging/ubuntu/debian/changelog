@@ -1,3 +1,10 @@
+nymea-app (1.0.374) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix visuals for stateful garage doors
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 19 Oct 2021 23:15:46 +0200
+
 nymea-app (1.0.373) bionic; urgency=medium
 
   [ Michael Zanetti ]
