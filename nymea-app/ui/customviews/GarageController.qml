@@ -60,9 +60,18 @@ Item {
                     anchors.centerIn: parent
                     width: parent.width
                     height: parent.height + Style.margins
-                    anchors.verticalCenterOffset: root.percentageState
-                                                  ? -height * (1 - (root.percentageState.value / 100))
-                                                  : -height / 2
+                    anchors.verticalCenterOffset: {
+                        if (root.percentageState) {
+                            return -height * (1 - (root.percentageState.value / 100))
+                        }
+                        if (root.stateState && root.stateState.value === "closed") {
+                            return 0
+                        }
+                        if (root.stateState && root.stateState.value === "open") {
+                            return -height
+                        }
+                        return -height / 2
+                    }
                     onPaint: {
                         var ctx = getContext("2d");
                         ctx.reset();
