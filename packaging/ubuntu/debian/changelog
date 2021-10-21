@@ -1,3 +1,10 @@
+nymea-app (1.0.375) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add block size param to logs model
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 21 Oct 2021 13:25:05 +0200
+
 nymea-app (1.0.374) bionic; urgency=medium
 
   [ Michael Zanetti ]
