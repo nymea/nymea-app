@@ -1,3 +1,10 @@
+nymea-app (1.0.376) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for selecting the channel on zigbee network creation
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 21 Oct 2021 23:17:15 +0200
+
 nymea-app (1.0.375) bionic; urgency=medium
 
   [ Michael Zanetti ]
