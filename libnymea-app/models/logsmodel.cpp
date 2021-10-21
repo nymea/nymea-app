@@ -209,6 +209,19 @@ void LogsModel::setViewStartTime(const QDateTime &viewStartTime)
     }
 }
 
+int LogsModel::fetchBlockSize() const
+{
+    return m_blockSize;
+}
+
+void LogsModel::setFetchBlockSize(int fetchBlockSize)
+{
+    if (m_blockSize != fetchBlockSize) {
+        m_blockSize = fetchBlockSize;
+        emit fetchBlockSizeChanged();
+    }
+}
+
 LogEntry *LogsModel::get(int index) const
 {
     if (index >= 0 && index < m_list.count()) {

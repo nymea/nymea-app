@@ -55,6 +55,7 @@ class LogsModel : public QAbstractListModel, public QQmlParserStatus
     Q_PROPERTY(QDateTime startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
     Q_PROPERTY(QDateTime endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
     Q_PROPERTY(QDateTime viewStartTime READ viewStartTime WRITE setViewStartTime NOTIFY viewStartTimeChanged)
+    Q_PROPERTY(int fetchBlockSize READ fetchBlockSize WRITE setFetchBlockSize NOTIFY fetchBlockSizeChanged)
 
 public:
     enum Roles {
@@ -99,6 +100,9 @@ public:
     QDateTime viewStartTime() const;
     void setViewStartTime(const QDateTime &viewStartTime);
 
+    int fetchBlockSize() const;
+    void setFetchBlockSize(int fetchBlockSize);
+
     Q_INVOKABLE LogEntry* get(int index) const;
     Q_INVOKABLE LogEntry* findClosest(const QDateTime &dateTime);
 
@@ -113,6 +117,7 @@ signals:
     void startTimeChanged();
     void endTimeChanged();
     void viewStartTimeChanged();
+    void fetchBlockSizeChanged();
 
     void logEntryAdded(LogEntry *entry);
 
