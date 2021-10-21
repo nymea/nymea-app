@@ -34,7 +34,7 @@
 #include <QObject>
 #include <QSortFilterProxyModel>
 
-class ZigbeeNode;
+#include "zigbeenode.h"
 class ZigbeeNodes;
 
 class ZigbeeNodesProxy : public QSortFilterProxyModel
@@ -42,6 +42,9 @@ class ZigbeeNodesProxy : public QSortFilterProxyModel
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(ZigbeeNodes *zigbeeNodes READ zigbeeNodes WRITE setZigbeeNodes NOTIFY zigbeeNodesChanged)
+    Q_PROPERTY(bool showCoordinator READ showCoordinator WRITE setShowCoordinator NOTIFY showCoordinatorChanged)
+
+    Q_PROPERTY(bool newOnTop READ newOnTop WRITE setNewOnTop NOTIFY newOnTopChanged)
 
 public:
     explicit ZigbeeNodesProxy(QObject *parent = nullptr);
@@ -49,15 +52,32 @@ public:
     ZigbeeNodes *zigbeeNodes() const;
     void setZigbeeNodes(ZigbeeNodes *zigbeeNodes);
 
+    bool showCoordinator() const;
+    void setShowCoordinator(bool showCoordinator);
+
+    bool newOnTop() const;
+    void setNewOnTop(bool newOnTop);
+
     Q_INVOKABLE ZigbeeNode *get(int index) const;
 
 signals:
     void countChanged();
     void zigbeeNodesChanged(ZigbeeNodes *zigbeeNodes);
+    void showCoordinatorChanged();
+    void newOnTopChanged();
+
+protected:
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
+    bool lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const override;
 
 private:
     ZigbeeNodes *m_zigbeeNodes = nullptr;
 
+    bool m_showCoordinator = true;
+
+    bool m_newOnTop = false;
+
+    QHash<ZigbeeNode*, QDateTime> m_newNodes;
 };
 
 #endif // ZIGBEENODESPROXY_H

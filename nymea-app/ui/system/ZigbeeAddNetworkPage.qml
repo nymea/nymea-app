@@ -38,45 +38,10 @@ import "../components"
 SettingsPageBase {
     id: root
     title: qsTr("Add a new ZigBee network")
-    busy: d.pendingCommandId != -1
 
     property ZigbeeManager zigbeeManager: null
 
-
-    QtObject {
-        id: d
-        property int pendingCommandId: -1
-
-        function addNetwork(serialPort, baudRate, backend) {
-            d.pendingCommandId = root.zigbeeManager.addNetwork(serialPort, baudRate, backend)
-        }
-    }
-
-    Connections {
-        target: root.zigbeeManager
-        onAddNetworkReply: {
-            if (commandId == d.pendingCommandId) {
-                d.pendingCommandId = -1
-                var props = {};
-                switch (error) {
-                case "ZigbeeErrorNoError":
-                    pageStack.pop();
-                    return;
-                case "ZigbeeErrorAdapterNotAvailable":
-                    props.text = qsTr("The selected adapter is not available or the selected serial port configration is incorrect.");
-                    break;
-                case "ZigbeeErrorAdapterAlreadyInUse":
-                    props.text = qsTr("The selected adapter is already in use.");
-                    break;
-                default:
-                    props.errorCode = error;
-                }
-                var comp = Qt.createComponent("../components/ErrorDialog.qml")
-                var popup = comp.createObject(app, props)
-                popup.open();
-            }
-        }
-    }
+    signal done();
 
     SettingsPageSectionHeader {
         text: qsTr("Hardware not available")
@@ -84,10 +49,10 @@ SettingsPageBase {
     }
 
     RowLayout {
-        Layout.leftMargin: app.margins
-        Layout.rightMargin: app.margins
+        Layout.leftMargin: Style.margins
+        Layout.rightMargin: Style.margins
         visible: root.zigbeeManager.adapters.count == 0
-        spacing: app.margins
+        spacing: Style.margins
         ColorIcon {
             Layout.preferredHeight: Style.iconSize
             Layout.preferredWidth: Style.iconSize
@@ -107,7 +72,7 @@ SettingsPageBase {
 
     Label {
         Layout.fillWidth: true
-        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+        Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins
         text: qsTr("Please select the ZigBee adapter on which the new network will be created.")
         font.pixelSize: app.smallFont
         wrapMode: Text.WordWrap
@@ -128,7 +93,9 @@ SettingsPageBase {
             Layout.fillWidth: true
             iconName: "../images/zigbee.svg"
             text: model.backend + " - " + model.description + " - " + model.serialPort
-            onClicked: d.addNetwork(model.serialPort, model.baudRate, model.backend)
+            onClicked: {
+                pageStack.push(addSettingsPageComponent, {serialPort: model.serialPort, baudRate: model.baudRate, backend: model.backend, allowSerialPortSettings: false})
+            }
         }
     }
 
@@ -138,7 +105,7 @@ SettingsPageBase {
     }
 
     Label {
-        Layout.fillWidth: true; Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+        Layout.fillWidth: true; Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins
         wrapMode: Text.WordWrap
         font.pixelSize: app.smallFont
         text: qsTr("Please verify that the ZigBee adapter is properly connected to a serial port and select the appropriate port.")
@@ -160,27 +127,69 @@ SettingsPageBase {
             iconName: "../images/stock_usb.svg"
             text: model.description + " - " + model.serialPort
             onClicked: {
-                var dialog = serialPortOptionsDialogComponent.createObject(app, {serialPort: model.serialPort, baudRate: model.baudRate, backend: model.backend})
-                dialog.open()
+                pageStack.push(addSettingsPageComponent, {serialPort: model.serialPort, baudRate: model.baudRate, backend: model.backend, allowSerialPortSettings: true})
             }
         }
     }
 
 
     Component {
-        id: serialPortOptionsDialogComponent
-        MeaDialog {
-            id: serialPortOptionsDialog
+        id: addSettingsPageComponent
+        SettingsPageBase {
+            id: addSettingsPage
+            title: qsTr("Add ZigBee network")
+            busy: d.pendingCommandId != -1
+
+            property bool allowSerialPortSettings: false
             property string serialPort
             property int baudRate
             property string backend
 
-            headerIcon: "../images/stock_usb.svg"
-            title: qsTr("Serial port options")
-            text: qsTr("Please select the serial port options for using the ZigBee adapter")
-            standardButtons: Dialog.Ok | Dialog.Cancel
+            QtObject {
+                id: d
+                property int pendingCommandId: -1
+            }
+
+            Connections {
+                target: root.zigbeeManager
+                onAddNetworkReply: {
+                    if (commandId == d.pendingCommandId) {
+                        d.pendingCommandId = -1
+                        var props = {};
+                        switch (error) {
+                        case "ZigbeeErrorNoError":
+                            root.done()
+                            return;
+                        case "ZigbeeErrorAdapterNotAvailable":
+                            props.text = qsTr("The selected adapter is not available or the selected serial port configration is incorrect.");
+                            break;
+                        case "ZigbeeErrorAdapterAlreadyInUse":
+                            props.text = qsTr("The selected adapter is already in use.");
+                            break;
+                        default:
+                            props.errorCode = error;
+                        }
+                        var comp = Qt.createComponent("../components/ErrorDialog.qml")
+                        var popup = comp.createObject(app, props)
+                        popup.open();
+                    }
+                }
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Serial port options")
+                visible: addSettingsPage.allowSerialPortSettings
+            }
+            Label {
+                visible: addSettingsPage.allowSerialPortSettings
+                Layout.fillWidth: true; Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("Please select the serial port options for using the ZigBee adapter")
+            }
 
             RowLayout {
+                Layout.fillWidth: true; Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins
+                visible: addSettingsPage.allowSerialPortSettings
                 Label {
                     text: qsTr("Adapter")
                     Layout.fillWidth: true
@@ -189,12 +198,14 @@ SettingsPageBase {
                     id: backendComboBox
                     model: root.zigbeeManager.availableBackends
                     Component.onCompleted: {
-                        currentIndex = backendComboBox.find(serialPortOptionsDialog.backend)
+                        currentIndex = backendComboBox.find(addSettingsPage.backend)
                     }
                 }
             }
 
             RowLayout {
+                Layout.fillWidth: true; Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins
+                visible: addSettingsPage.allowSerialPortSettings
                 Label {
                     text: qsTr("Baud rate")
                     Layout.fillWidth: true
@@ -203,13 +214,55 @@ SettingsPageBase {
                     id: baudRateComboBox
                     model: ["9600", "14400", "19200", "38400", "57600", "115200", "128000", "230400", "256000"]
                     Component.onCompleted: {
-                        currentIndex = baudRateComboBox.find(serialPortOptionsDialog.baudRate)
+                        currentIndex = baudRateComboBox.find(addSettingsPage.baudRate)
                     }
                 }
             }
 
-            onAccepted: {
-                d.addNetwork(serialPortOptionsDialog.serialPort, baudRateComboBox.currentText, backendComboBox.currentText)
+            SettingsPageSectionHeader {
+                text: qsTr("Zigbee network settings")
+            }
+
+            RowLayout {
+                Layout.fillWidth: true; Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins
+                Label {
+                    text: qsTr("Channel")
+                    Layout.fillWidth: true
+                }
+                ComboBox {
+                    id: channelCombobox
+                    model: ListModel {
+                        id: channelsModel
+                        ListElement { modelData: qsTr("Auto"); channel: ZigbeeManager.ZigbeeChannelAll }
+                        ListElement { modelData: qsTr("Auto light link"); channel: ZigbeeManager.ZigbeeChannelPrimaryLightLink }
+                        ListElement { modelData: "11"; channel: ZigbeeManager.ZigbeeChannel11 }
+                        ListElement { modelData: "12"; channel: ZigbeeManager.ZigbeeChannel12 }
+                        ListElement { modelData: "13"; channel: ZigbeeManager.ZigbeeChannel13 }
+                        ListElement { modelData: "14"; channel: ZigbeeManager.ZigbeeChannel14 }
+                        ListElement { modelData: "15"; channel: ZigbeeManager.ZigbeeChannel15 }
+                        ListElement { modelData: "16"; channel: ZigbeeManager.ZigbeeChannel16 }
+                        ListElement { modelData: "17"; channel: ZigbeeManager.ZigbeeChannel17 }
+                        ListElement { modelData: "18"; channel: ZigbeeManager.ZigbeeChannel18 }
+                        ListElement { modelData: "19"; channel: ZigbeeManager.ZigbeeChannel19 }
+                        ListElement { modelData: "20"; channel: ZigbeeManager.ZigbeeChannel20 }
+                        ListElement { modelData: "21"; channel: ZigbeeManager.ZigbeeChannel21 }
+                        ListElement { modelData: "22"; channel: ZigbeeManager.ZigbeeChannel22 }
+                        ListElement { modelData: "23"; channel: ZigbeeManager.ZigbeeChannel23 }
+                        ListElement { modelData: "24"; channel: ZigbeeManager.ZigbeeChannel24 }
+                        ListElement { modelData: "25"; channel: ZigbeeManager.ZigbeeChannel25 }
+                        ListElement { modelData: "26"; channel: ZigbeeManager.ZigbeeChannel26 }
+                    }
+                    currentIndex: 0
+                }
+            }
+
+            Button {
+                Layout.fillWidth: true; Layout.leftMargin: Style.margins; Layout.rightMargin: Style.margins
+                text: qsTr("OK")
+                onClicked: {
+                    print("adding ---", channelCombobox.currentIndex, channelsModel.get(channelCombobox.currentIndex).modelData, channelsModel.get(channelCombobox.currentIndex).channel)
+                    d.pendingCommandId = root.zigbeeManager.addNetwork(addSettingsPage.serialPort, baudRateComboBox.currentText, backendComboBox.currentText, channelsModel.get(channelCombobox.currentIndex).channel)
+                }
             }
         }
     }

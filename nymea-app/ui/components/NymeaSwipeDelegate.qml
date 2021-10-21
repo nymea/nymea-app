@@ -120,6 +120,8 @@ SwipeDelegate {
             BusyIndicator {
                 id: busyIndicator
                 anchors.centerIn: parent
+                width: Style.bigIconSize
+                height: width
                 visible: running
                 running: false
             }

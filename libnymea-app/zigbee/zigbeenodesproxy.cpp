@@ -37,7 +37,7 @@
 ZigbeeNodesProxy::ZigbeeNodesProxy(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
-
+    sort(0);
 }
 
 ZigbeeNodes *ZigbeeNodesProxy::zigbeeNodes() const
@@ -59,6 +59,12 @@ void ZigbeeNodesProxy::setZigbeeNodes(ZigbeeNodes *zigbeeNodes)
         sort(0, Qt::AscendingOrder);
         emit countChanged();
     });
+    connect(m_zigbeeNodes, &ZigbeeNodes::rowsInserted, this, [this](const QModelIndex &parent, int first, int last){
+        Q_UNUSED(parent)
+        for (int i = first; i <= last; i++) {
+            m_newNodes.insert(m_zigbeeNodes->get(i), QDateTime::currentDateTime());
+        }
+    });
 
     setSourceModel(m_zigbeeNodes);
 
@@ -69,10 +75,68 @@ void ZigbeeNodesProxy::setZigbeeNodes(ZigbeeNodes *zigbeeNodes)
     emit countChanged();
 }
 
+bool ZigbeeNodesProxy::showCoordinator() const
+{
+    return m_showCoordinator;
+}
+
+void ZigbeeNodesProxy::setShowCoordinator(bool showCoordinator)
+{
+    if (m_showCoordinator != showCoordinator) {
+        m_showCoordinator = showCoordinator;
+        emit showCoordinatorChanged();
+
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+bool ZigbeeNodesProxy::newOnTop() const
+{
+    return m_newOnTop;
+}
+
+void ZigbeeNodesProxy::setNewOnTop(bool newOnTop)
+{
+    if (m_newOnTop != newOnTop) {
+        m_newOnTop = newOnTop;
+        emit newOnTopChanged();
+        invalidate();
+    }
+}
+
 ZigbeeNode *ZigbeeNodesProxy::get(int index) const
 {
     if (index >= 0 && index < m_zigbeeNodes->rowCount()) {
         return m_zigbeeNodes->get(mapToSource(this->index(index, 0)).row());
     }
     return nullptr;
+}
+
+bool ZigbeeNodesProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+{
+    Q_UNUSED(source_parent)
+    ZigbeeNode *node = m_zigbeeNodes->get(source_row);
+    if (!m_showCoordinator && node->type() == ZigbeeNode::ZigbeeNodeTypeCoordinator) {
+        return false;
+    }
+    return true;
+}
+
+bool ZigbeeNodesProxy::lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const
+{
+    if (m_newOnTop) {
+        ZigbeeNode *left = m_zigbeeNodes->get(source_left.row());
+        ZigbeeNode *right = m_zigbeeNodes->get(source_right.row());
+        if (m_newNodes.contains(left) && !m_newNodes.contains(right)) {
+            return true;
+        }
+        if (!m_newNodes.contains(left) && !m_newNodes.contains(right)) {
+            return false;
+        }
+        if (m_newNodes.contains(left) && m_newNodes.contains(right)) {
+            return m_newNodes.value(left) > m_newNodes.value(right);
+        }
+    }
+    return QSortFilterProxyModel::lessThan(source_left, source_right);
 }

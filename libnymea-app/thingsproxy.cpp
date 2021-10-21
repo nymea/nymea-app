@@ -391,6 +391,22 @@ void ThingsProxy::setFilterUpdates(bool filterUpdates)
     }
 }
 
+QVariantMap ThingsProxy::paramsFilter() const
+{
+    return m_paramsFilter;
+}
+
+void ThingsProxy::setParamsFilter(const QVariantMap &paramsFilter)
+{
+    if (m_paramsFilter != paramsFilter) {
+        m_paramsFilter = paramsFilter;
+        emit paramsFilterChanged();
+
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 bool ThingsProxy::groupByInterface() const
 {
     return m_groupByInterface;
@@ -587,6 +603,15 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
     if (!m_requiredActionName.isEmpty()) {
         if (!thing->thingClass()->actionTypes()->findByName(m_requiredActionName)) {
             return false;
+        }
+    }
+
+    if (!m_paramsFilter.isEmpty()) {
+        foreach (const QString &paramName, m_paramsFilter.keys()) {
+            Param *param = thing->paramByName(paramName);
+            if (!param || param->value() != m_paramsFilter.value(paramName)) {
+                return false;
+            }
         }
     }
 

@@ -52,6 +52,29 @@ class ZigbeeManager : public QObject
     Q_PROPERTY(ZigbeeNetworks *networks READ networks CONSTANT)
 
 public:
+    enum ZigbeeChannel {
+        ZigbeeChannel11 = 0x00000800,
+        ZigbeeChannel12 = 0x00001000,
+        ZigbeeChannel13 = 0x00002000,
+        ZigbeeChannel14 = 0x00004000,
+        ZigbeeChannel15 = 0x00008000,
+        ZigbeeChannel16 = 0x00010000,
+        ZigbeeChannel17 = 0x00020000,
+        ZigbeeChannel18 = 0x00040000,
+        ZigbeeChannel19 = 0x00080000,
+        ZigbeeChannel20 = 0x00100000,
+        ZigbeeChannel21 = 0x00200000,
+        ZigbeeChannel22 = 0x00400000,
+        ZigbeeChannel23 = 0x00800000,
+        ZigbeeChannel24 = 0x01000000,
+        ZigbeeChannel25 = 0x02000000,
+        ZigbeeChannel26 = 0x04000000,
+        ZigbeeChannelPrimaryLightLink = 0x02108800,
+        ZigbeeChannelAll = 0x07fff800
+    };
+    Q_DECLARE_FLAGS(ZigbeeChannels, ZigbeeChannel)
+    Q_FLAG(ZigbeeChannels)
+
     explicit ZigbeeManager(QObject *parent = nullptr);
     ~ZigbeeManager();
 
@@ -63,7 +86,7 @@ public:
     ZigbeeNetworks *networks() const;
 
     // Network
-    Q_INVOKABLE int addNetwork(const QString &serialPort, uint baudRate, const QString &backend);
+    Q_INVOKABLE int addNetwork(const QString &serialPort, uint baudRate, const QString &backend, ZigbeeChannels channels);
     Q_INVOKABLE void removeNetwork(const QUuid &networkUuid);
     Q_INVOKABLE void setPermitJoin(const QUuid &networkUuid, uint duration = 120);
     Q_INVOKABLE void factoryResetNetwork(const QUuid &networkUuid);
