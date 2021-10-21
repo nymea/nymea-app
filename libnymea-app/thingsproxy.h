@@ -75,6 +75,9 @@ class ThingsProxy : public QSortFilterProxyModel
 
     Q_PROPERTY(bool filterUpdates READ filterUpdates WRITE setFilterUpdates NOTIFY filterUpdatesChanged)
 
+    // A map of paramName:value pairs, all given need to match
+    Q_PROPERTY(QVariantMap paramsFilter READ paramsFilter WRITE setParamsFilter NOTIFY paramsFilterChanged)
+
     Q_PROPERTY(bool groupByInterface READ groupByInterface WRITE setGroupByInterface NOTIFY groupByInterfaceChanged)
 
 public:
@@ -143,6 +146,9 @@ public:
     bool filterUpdates() const;
     void setFilterUpdates(bool filterUpdates);
 
+    QVariantMap paramsFilter() const;
+    void setParamsFilter(const QVariantMap &paramsFilter);
+
     bool groupByInterface() const;
     void setGroupByInterface(bool groupByInterface);
 
@@ -172,6 +178,7 @@ signals:
     void filterDisconnectedChanged();
     void filterSetupFailedChanged();
     void filterUpdatesChanged();
+    void paramsFilterChanged();
     void groupByInterfaceChanged();
     void countChanged();
 
@@ -202,6 +209,8 @@ private:
     bool m_filterDisconnected = false;
     bool m_filterSetupFailed = false;
     bool m_filterUpdates = false;
+
+    QVariantMap m_paramsFilter;
 
     bool m_groupByInterface = false;
 

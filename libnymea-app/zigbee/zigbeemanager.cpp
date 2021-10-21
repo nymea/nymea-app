@@ -93,12 +93,16 @@ ZigbeeNetworks *ZigbeeManager::networks() const
     return m_networks;
 }
 
-int ZigbeeManager::addNetwork(const QString &serialPort, uint baudRate, const QString &backend)
+int ZigbeeManager::addNetwork(const QString &serialPort, uint baudRate, const QString &backend, ZigbeeChannels channels)
 {
     QVariantMap params;
     params.insert("serialPort", serialPort);
     params.insert("baudRate", baudRate);
     params.insert("backend", backend);
+    qWarning() << "************ channel mask!" << channels;
+    if (m_engine->jsonRpcClient()->ensureServerVersion("5.8")) {
+        params.insert("channelMask", static_cast<uint>(channels));
+    }
 
     qCDebug(dcZigbee()) << "Add zigbee network" << params;
     return m_engine->jsonRpcClient()->sendCommand("Zigbee.AddNetwork", params, this, "addNetworkResponse");

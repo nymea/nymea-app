@@ -41,6 +41,8 @@ SettingsPageBase {
     property ZigbeeManager zigbeeManager: null
     property ZigbeeNetwork network: null
 
+    signal exit()
+
     header: NymeaHeader {
         text: qsTr("ZigBee network settings")
         backButtonVisible: true
@@ -144,7 +146,7 @@ SettingsPageBase {
             text: qsTr("Remove network")
             onClicked: {
                 root.zigbeeManager.removeNetwork(root.network.networkUuid)
-                pageStack.pop()
+                root.exit()
             }
         }
 

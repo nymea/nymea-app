@@ -372,16 +372,16 @@ SettingsPageBase {
                 subText: nodeInfoDialog.node.networkAddress
             }
             NymeaItemDelegate {
-                text: qsTr("Version")
-                Layout.fillWidth: true
-                progressive: false
-                subText: nodeInfoDialog.node.version
-            }
-            NymeaItemDelegate {
                 text: qsTr("Signal strength")
                 Layout.fillWidth: true
                 progressive: false
                 subText: (nodeInfoDialog.node.lqi * 100.0 / 255.0) + " %"
+            }
+            NymeaItemDelegate {
+                text: qsTr("Version")
+                Layout.fillWidth: true
+                progressive: false
+                subText: nodeInfoDialog.node.version
             }
             RowLayout {
                 Layout.fillWidth: true
