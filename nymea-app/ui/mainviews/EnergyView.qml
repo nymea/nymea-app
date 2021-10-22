@@ -245,19 +245,28 @@ MainViewBase {
                             XYPoint { x: xAxis.min.getTime(); y: 0 }
                         }
 
+                        property AreaSeries areaSeries: null
                         Component.onCompleted: {
                             var indexInModel = consumers.indexOf(consumer.thing)
                             print("creating series", consumer.thing.name, index, indexInModel)
                             seriesAdapter.ensureSamples(xAxis.min, xAxis.max)
-                            var areaSeries = chartView.createSeries(ChartView.SeriesTypeArea, consumer.thing.name, xAxis, yAxis)
+                            areaSeries = chartView.createSeries(ChartView.SeriesTypeArea, consumer.thing.name, xAxis, yAxis)
                             areaSeries.useOpenGL = true
                             areaSeries.upperSeries = upperSeries;
-                            if (index > 0) {
-                                areaSeries.lowerSeries = consumersRepeater.itemAt(index - 1).lineSeries
-                                seriesAdapter.baseSeries = consumersRepeater.itemAt(index - 1).lineSeries
-                            } else {
-                                areaSeries.lowerSeries = lowerSeries;
-                            }
+                            seriesAdapter.baseSeries = Qt.binding(function() {
+                                if (index > 0) {
+                                    return consumersRepeater.itemAt(index - 1).lineSeries
+                                } else {
+                                    return null;
+                                }
+                            })
+                            areaSeries.lowerSeries = Qt.binding(function() {
+                                if (index > 0) {
+                                    return consumersRepeater.itemAt(index - 1).lineSeries
+                                } else {
+                                    return lowerSeries;
+                                }
+                            })
 
                             var color = Style.accentColor
                             for (var j = 0; j <= indexInModel; j+=2) {
@@ -270,6 +279,9 @@ MainViewBase {
                             areaSeries.color = color;
                             areaSeries.borderColor = color;
                             areaSeries.borderWidth = 0;
+                        }
+                        Component.onDestruction: {
+                            chartView.removeSeries(areaSeries)
                         }
                     }
                 }
