@@ -322,12 +322,12 @@ SettingsPageBase {
             }
             additionalItem: ColorIcon {
                 size: Style.smallIconSize
-                visible: node && !node.rxOnWhenIdle
                 anchors.verticalCenter: parent.verticalCenter
                 name: node.type === ZigbeeNode.ZigbeeNodeTypeRouter
                   ? "/ui/images/zigbee-router.svg"
                   : "/ui/images/zigbee-enddevice.svg"
                 color: communicationIndicatorLedTimer.running ? Style.accentColor : Style.iconColor
+                Component.onCompleted: print("************+ node type", node.type)
             }
 
             onClicked: {
@@ -372,16 +372,16 @@ SettingsPageBase {
                 subText: nodeInfoDialog.node.networkAddress
             }
             NymeaItemDelegate {
-                text: qsTr("Version")
-                Layout.fillWidth: true
-                progressive: false
-                subText: nodeInfoDialog.node.version
-            }
-            NymeaItemDelegate {
                 text: qsTr("Signal strength")
                 Layout.fillWidth: true
                 progressive: false
                 subText: (nodeInfoDialog.node.lqi * 100.0 / 255.0) + " %"
+            }
+            NymeaItemDelegate {
+                text: qsTr("Version")
+                Layout.fillWidth: true
+                progressive: false
+                subText: nodeInfoDialog.node.version
             }
             RowLayout {
                 Layout.fillWidth: true
