@@ -1,3 +1,12 @@
+nymea-app (1.0.378) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Don't depend on qt5-default any more
+  * Allow renaming Zigbee devices from the zigbee network config page
+  * Fix a crash when removing smart meters
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 22 Oct 2021 20:12:52 +0200
+
 nymea-app (1.0.377) bionic; urgency=medium
 
   [ Michael Zanetti ]
