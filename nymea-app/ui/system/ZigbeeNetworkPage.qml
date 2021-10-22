@@ -343,8 +343,36 @@ SettingsPageBase {
             id: nodeInfoDialog
             property ZigbeeNode node: null
             property Thing nodeThing: null
-            headerIcon: nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "/ui/images/zigbee.svg"
-            title: nodeThing ? nodeThing.name : node.model
+            header: Item {
+                implicitHeight: headerRow.height + Style.margins
+                implicitWidth: parent.width
+                RowLayout {
+                    id: headerRow
+                    anchors { left: parent.left; right: parent.right; top: parent.top; margins: Style.margins }
+                    spacing: Style.margins
+                    ColorIcon {
+                        id: headerColorIcon
+                        Layout.preferredHeight: Style.hugeIconSize
+                        Layout.preferredWidth: height
+                        color: Style.accentColor
+                        name: nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "/ui/images/zigbee.svg"
+                        visible: name.length > 0
+                    }
+
+                    TextField {
+                        id: titleLabel
+                        Layout.fillWidth: true
+                        Layout.margins: Style.margins
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        text: nodeThing ? nodeThing.name : node.model
+                        color: Style.accentColor
+                        font.pixelSize: app.largeFont
+                        readOnly: nodeInfoDialog.nodeThing == null
+                        onEditingFinished: engine.thingManager.editThing(nodeInfoDialog.nodeThing.id, text)
+                    }
+                }
+            }
+
             standardButtons: Dialog.NoButton
 
             NymeaItemDelegate {
@@ -369,13 +397,13 @@ SettingsPageBase {
                 text: qsTr("Network address")
                 Layout.fillWidth: true
                 progressive: false
-                subText: nodeInfoDialog.node.networkAddress
+                subText: "0x" + nodeInfoDialog.node.networkAddress.toString(16)
             }
             NymeaItemDelegate {
                 text: qsTr("Signal strength")
                 Layout.fillWidth: true
                 progressive: false
-                subText: (nodeInfoDialog.node.lqi * 100.0 / 255.0) + " %"
+                subText: (nodeInfoDialog.node.lqi * 100 / 255).toFixed(0) + " %"
             }
             NymeaItemDelegate {
                 text: qsTr("Version")
