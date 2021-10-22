@@ -44,6 +44,11 @@ Item {
     property bool on: false
     property alias showOnGradient: opacityMask.visible
 
+    property bool showProgress: false
+    property double progressFrom: 0
+    property double progressTo: 100
+    property double progress: 50
+
     readonly property Item contentItem: background
 
     signal clicked()
@@ -95,7 +100,6 @@ Item {
         source: gradient
         maskSource: mask
         Behavior on opacity { NumberAnimation { duration: Style.animationDuration } }
-
     }
 
     Item {

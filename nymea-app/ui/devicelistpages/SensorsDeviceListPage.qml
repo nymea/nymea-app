@@ -90,6 +90,7 @@ ThingsListPageBase {
                                 ListElement { interfaceName: "thermostat"; stateName: "targetTemperature" }
                                 ListElement { interfaceName: "watersensor"; stateName: "waterDetected" }
                                 ListElement { interfaceName: "waterlevelsensor"; stateName: "waterLevel" }
+                                ListElement { interfaceName: "firesensor"; stateName: "fireDetected" }
                                 ListElement { interfaceName: "o2sensor"; stateName: "o2saturation" }
                                 ListElement { interfaceName: "phsensor"; stateName: "ph" }
                                 ListElement { interfaceName: "orpsensor"; stateName: "orp" }
@@ -111,6 +112,8 @@ ThingsListPageBase {
                                         switch (model.interfaceName) {
                                         case "closablesensor":
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? Style.green : Style.red;
+                                        case "firesensor":
+                                            return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? Style.red : Style.iconColor;
                                         default:
                                             return app.interfaceToColor(model.interfaceName)
                                         }
@@ -138,6 +141,8 @@ ThingsListPageBase {
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("Daytime") : qsTr("Nighttime");
                                         case "watersensor":
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("Wet") : qsTr("Dry");
+                                        case "firesensor":
+                                            return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("Fire") : qsTr("No fire");
                                         case "heating":
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("On") : qsTr("Off");
                                         default:
@@ -154,7 +159,7 @@ ThingsListPageBase {
                                 }
                                 Led {
                                     id: led
-                                    visible: sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() === "bool" && ["presencesensor", "daylightsensor", "heating", "closablesensor", "watersensor"].indexOf(model.interfaceName) < 0
+                                    visible: sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() === "bool" && ["presencesensor", "daylightsensor", "heating", "closablesensor", "watersensor", "firesensor"].indexOf(model.interfaceName) < 0
                                     state: visible && sensorValueDelegate.stateValue.value === true ? "on" : "off"
                                 }
                                 Item {

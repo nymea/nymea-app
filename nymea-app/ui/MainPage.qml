@@ -91,6 +91,7 @@ Page {
             width: visible ? implicitWidth : 0
 
             HeaderButton {
+                id: button
                 imageSource: "../images/system-update.svg"
                 color: Style.accentColor
                 visible: updatesModel.count > 0 || engine.systemController.updateRunning
@@ -101,7 +102,7 @@ Page {
                     duration: 2000
                     loops: Animation.Infinite
                     running: engine.systemController.updateRunning
-                    onStopped: icon.rotation = 0;
+                    onStopped: button.rotation = 0;
                 }
                 PackagesFilterModel {
                     id: updatesModel

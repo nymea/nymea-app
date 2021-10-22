@@ -318,6 +318,7 @@ MainPageTile {
                 ListElement { ifaceName: "lightsensor"; stateName: "lightIntensity" }
                 ListElement { ifaceName: "watersensor"; stateName: "waterDetected" }
                 ListElement { ifaceName: "waterlevelsensor"; stateName: "waterLevel" }
+                ListElement { ifaceName: "firesensor"; stateName: "fireDetected" }
                 ListElement { ifaceName: "cosensor"; stateName: "co" }
                 ListElement { ifaceName: "co2sensor"; stateName: "co2" }
                 ListElement { ifaceName: "gassensor"; stateName: "gas" }

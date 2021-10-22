@@ -111,6 +111,7 @@ Item {
         "ventilation": lightBlue,
         "watersensor": lightBlue,
         "waterlevelsensor": lightBlue,
+        "firesensor": red,
         "phsensor": green,
         "o2sensor": lightBlue,
         "orpsensor": yellow,

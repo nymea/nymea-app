@@ -311,6 +311,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/water.svg")
         case "waterlevelsensor":
             return Qt.resolvedUrl("images/sensors/water.svg")
+        case "firesensor":
+            return Qt.resolvedUrl("images/sensors/fire.svg")
         case "o2sensor":
             return Qt.resolvedUrl("images/sensors/o2.svg")
         case "phsensor":
@@ -450,14 +452,11 @@ ApplicationWindow {
 
     function interfaceToColor(name) {
         // Try to load color map from style
-        print("checking color for name", name)
         if (Style.interfaceColors[name]) {
-            print("have color for name", name, Style.interfaceColors[name])
             return Style.interfaceColors[name];
         }
 
         if (styleBase.interfaceColors[name]) {
-            print("have color for name", name, styleBase.interfaceColors[name])
             return styleBase.interfaceColors[name];
         }
 

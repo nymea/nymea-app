@@ -274,6 +274,9 @@ MainPageTile {
                 if (thing.thingClass.interfaces.indexOf("waterlevelsensor") >= 0) {
                     tmp.push({iface: "waterlevelsensor", state: "waterLevel"})
                 }
+                if (thing.thingClass.interfaces.indexOf("firesensor") >= 0) {
+                    tmp.push({iface: "firesensor", state: "fireDetected"})
+                }
 
                 if (thing.thingClass.interfaces.indexOf("weather") >= 0) {
                     tmp.push({iface: "temperaturesensor", state: "temperature"});

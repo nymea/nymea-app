@@ -316,7 +316,10 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addStateType("wirelessconnectable", "signalStrength", QVariant::UInt, false, tr("Signal strength"), tr("Signal strength changed"));
 
     addInterface("watersensor", tr("Water sensors"), {"sensor"});
-    addStateType("watersensor", "watterDetected", QVariant::Double, false, tr("Water detected"), tr("Water detected changed"));
+    addStateType("watersensor", "waterDetected", QVariant::Double, false, tr("Water detected"), tr("Water detected changed"));
+
+    addInterface("firesensor", tr("Fire sensors"), {"sensor"});
+    addStateType("firesensor", "fireDetected", QVariant::Double, false, tr("Fire detected"), tr("Fire detected changed"));
 }
 
 int Interfaces::rowCount(const QModelIndex &parent) const
