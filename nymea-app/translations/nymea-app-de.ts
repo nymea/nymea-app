@@ -2878,7 +2878,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Thermostats</source>
-        <translation>Thermostaten</translation>
+        <translation>Thermostate</translation>
     </message>
     <message>
         <source>Target temperature</source>
@@ -4813,7 +4813,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Thermostats</source>
-        <translation>Thermostaten</translation>
+        <translation>Thermostate</translation>
     </message>
     <message>
         <source>Barcode scanners</source>
