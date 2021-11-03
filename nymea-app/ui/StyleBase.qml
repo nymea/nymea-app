@@ -109,6 +109,7 @@ Item {
     property color white: "white"
     property color gray: "gray"
     property color darkGray: "darkGray"
+    property color blue: "deepskyblue"
 
     readonly property int fastAnimationDuration: 100
     readonly property int animationDuration: 150
