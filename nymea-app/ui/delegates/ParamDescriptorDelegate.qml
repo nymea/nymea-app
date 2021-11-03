@@ -32,6 +32,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
 import Nymea 1.0
+import "../components"
 
 ItemDelegate {
     id: root
@@ -69,6 +70,7 @@ ItemDelegate {
                     case "qstring":
                     case "color":
                         return false;
+                    case "uint":
                     case "int":
                     case "double":
                         return true;
@@ -116,12 +118,13 @@ ItemDelegate {
                     switch (paramType.type.toLowerCase()) {
                     case "bool":
                         return boolComponent;
+                    case "uint":
                     case "int":
                     case "double":
                         if (paramType.minValue !== undefined && paramType.maxValue !== undefined) {
                             return labelComponent;
                         }
-                        return textFieldComponent;
+                        return spinboxComponent;
                     case "string":
                     case "qstring":
                     case "color":
@@ -144,12 +147,14 @@ ItemDelegate {
         Loader {
             Layout.fillWidth: true
             sourceComponent: {
+                print("***********+ loading", paramType.type)
                 switch (paramType.type.toLowerCase()) {
                 case "int":
                 case "double":
                     if (paramType.minValue !== undefined && paramType.maxValue !== undefined) {
                         return sliderComponent
                     }
+
 
                 }
             }
@@ -204,6 +209,17 @@ ItemDelegate {
             Label { text: Types.toUiValue(root.paramType.maxValue, root.paramType.unit) }
         }
 
+    }
+
+    Component {
+        id: spinboxComponent
+        NymeaSpinBox {
+            from: paramType.minValue
+            to: paramType.maxValue
+            value: root.value != undefined ? root.value : 0
+            onValueModified: root.value = value
+            floatingPoint: root.paramType.type.toLowerCase() === "double"
+        }
     }
 
     Component {

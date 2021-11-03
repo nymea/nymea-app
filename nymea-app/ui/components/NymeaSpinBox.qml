@@ -38,6 +38,7 @@ RowLayout {
         text: root.value
         readOnly: !root.editable
         horizontalAlignment: Text.AlignHCenter
+        Layout.fillWidth: true
         onTextEdited: {
             root.value = text
             root.valueModified(root.value)
