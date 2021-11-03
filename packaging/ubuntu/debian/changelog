@@ -1,3 +1,11 @@
+nymea-app (1.0.379) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a blue color to stylebase
+  * Fix uint handling in event descriptor delegate
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 03 Nov 2021 13:58:33 +0100
+
 nymea-app (1.0.378) bionic; urgency=medium
 
   [ Michael Zanetti ]
