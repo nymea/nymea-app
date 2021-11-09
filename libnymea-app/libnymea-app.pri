@@ -21,6 +21,7 @@ INCLUDEPATH += \
 
 SOURCES += \
     $$PWD/appdata.cpp \
+    $$PWD/energy/energymanager.cpp \
     $$PWD/models/scriptsproxymodel.cpp \
     $$PWD/tagwatcher.cpp \
     $$PWD/zigbee/zigbeenode.cpp \
@@ -177,6 +178,7 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/appdata.h \
+    $$PWD/energy/energymanager.h \
     $$PWD/models/scriptsproxymodel.h \
     $$PWD/tagwatcher.h \
     $$PWD/zigbee/zigbeenode.h \

@@ -74,8 +74,8 @@ JsonRpcClient::JsonRpcClient(QObject *parent) :
 
 void JsonRpcClient::registerNotificationHandler(QObject *handler, const QString &nameSpace, const QString &method)
 {
-    if (m_notificationHandlerMethods.contains(handler)) {
-        qWarning() << "Notification handler" << handler << " already registered";
+    if (m_notificationHandlers.key(handler) == nameSpace) {
+        qWarning() << "Notification handler" << handler << " already registered for namespace" << nameSpace;
         return;
     }
     m_notificationHandlers.insert(nameSpace, handler);

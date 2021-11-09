@@ -58,7 +58,9 @@ ThingPageBase {
             id: background
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.margins: Style.hugeMargins
+            Layout.leftMargin: Style.hugeMargins
+            Layout.rightMargin: Style.hugeMargins
+            Layout.topMargin: Style.hugeMargins
     //        iconSource: "ev-charger"
             onColor: app.interfaceToColor("evcharger")
     //        on: (actionQueue.pendingValue || powerState.value) === true
