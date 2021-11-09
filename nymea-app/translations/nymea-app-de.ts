@@ -1715,7 +1715,7 @@
     </message>
     <message>
         <source>To get an overview of your current energy usage, install an energy meter.</source>
-        <translation>Installiere ein Energiemessgerät um eine Überischt über Deinen Energieverbraucht zu erhalten.</translation>
+        <translation>Installiere ein Energiemessgerät um eine Übersicht über Deinen Energieverbrauch zu erhalten.</translation>
     </message>
 </context>
 <context>
