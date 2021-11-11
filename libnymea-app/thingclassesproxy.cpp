@@ -70,6 +70,21 @@ void ThingClassesProxy::setFilterInterface(const QString &filterInterface)
     }
 }
 
+bool ThingClassesProxy::includeProvidedInterfaces() const
+{
+    return m_includeProvidedInterfaces;
+}
+
+void ThingClassesProxy::setIncludeProvidedInterfaces(bool includeProvidedInterfaces)
+{
+    if (m_includeProvidedInterfaces != includeProvidedInterfaces) {
+        m_includeProvidedInterfaces = includeProvidedInterfaces;
+        emit includeProvidedInterfacesChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 QString ThingClassesProxy::filterDisplayName() const
 {
     return m_filterDisplayName;
@@ -207,7 +222,11 @@ bool ThingClassesProxy::filterAcceptsRow(int sourceRow, const QModelIndex &sourc
         return false;
 
     if (!m_filterInterface.isEmpty() && !thingClass->interfaces().contains(m_filterInterface)) {
-        return false;
+        if (!m_includeProvidedInterfaces) {
+            return false;
+        } else if (!thingClass->providedInterfaces().contains(m_filterInterface)) {
+            return false;
+        }
     }
 
     if (!m_filterDisplayName.isEmpty() && !thingClass->displayName().toLower().contains(m_filterDisplayName.toLower())) {

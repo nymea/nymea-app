@@ -46,6 +46,7 @@ class ThingClassesProxy : public QSortFilterProxyModel
     Q_PROPERTY(Engine *engine READ engine WRITE setEngine NOTIFY engineChanged)
 
     Q_PROPERTY(QString filterInterface READ filterInterface WRITE setFilterInterface NOTIFY filterInterfaceChanged)
+    Q_PROPERTY(bool includeProvidedInterfaces READ includeProvidedInterfaces WRITE setIncludeProvidedInterfaces NOTIFY includeProvidedInterfacesChanged)
     Q_PROPERTY(QString filterDisplayName READ filterDisplayName WRITE setFilterDisplayName NOTIFY filterDisplayNameChanged)
     Q_PROPERTY(QUuid filterVendorId READ filterVendorId WRITE setFilterVendorId NOTIFY filterVendorIdChanged)
     Q_PROPERTY(QString filterVendorName READ filterVendorName WRITE setFilterVendorName NOTIFY filterVendorNameChanged)
@@ -66,6 +67,9 @@ public:
 
     QString filterInterface() const;
     void setFilterInterface(const QString &filterInterface);
+
+    bool includeProvidedInterfaces() const;
+    void setIncludeProvidedInterfaces(bool includeProvidedInterfaces);
 
     QString filterDisplayName() const;
     void setFilterDisplayName(const QString &filter);
@@ -95,6 +99,7 @@ public:
 signals:
     void engineChanged();
     void filterInterfaceChanged();
+    void includeProvidedInterfacesChanged();
     void filterDisplayNameChanged();
     void filterVendorIdChanged();
     void filterVendorNameChanged();
@@ -111,6 +116,7 @@ protected:
 private:
     Engine *m_engine = nullptr;
     QString m_filterInterface;
+    bool m_includeProvidedInterfaces = false;
     QString m_filterDisplayName;
     QUuid m_filterVendorId;
     QString m_filterVendorName;
