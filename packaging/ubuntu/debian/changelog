@@ -1,3 +1,10 @@
+nymea-app (1.0.384) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for the providedInterfaces thing class property
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 12 Nov 2021 12:14:48 +0100
+
 nymea-app (1.0.381) bionic; urgency=medium
 
   [ Michael Zanetti ]
