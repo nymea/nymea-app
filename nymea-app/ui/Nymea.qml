@@ -226,6 +226,8 @@ ApplicationWindow {
             return qsTr("Smart meters");
         case "heating":
             return qsTr("Heating");
+        case "cooling":
+            return qsTr("Cooling");
         case "thermostat":
             return qsTr("Thermostats");
         case "evcharger":
@@ -360,6 +362,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/fingerprint.svg")
         case "accesscontrol":
             return Qt.resolvedUrl("images/lock-closed.svg");
+        case "solarinverter":
+            return Qt.resolvedUrl("images/weathericons/weather-clear-day.svg")
         case "smartmeter":
         case "smartmeterconsumer":
         case "smartmeterproducer":

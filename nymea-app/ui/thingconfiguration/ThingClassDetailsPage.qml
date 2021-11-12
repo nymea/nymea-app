@@ -64,15 +64,14 @@ SettingsPageBase {
         text: qsTr("Interfaces")
     }
 
-    Repeater {
-        model: root.thingClass.interfaces
-        delegate: Label {
-            Layout.fillWidth: true
-            Layout.leftMargin: Style.margins
-            Layout.rightMargin: Style.margins
-            text: modelData
-        }
+    Label {
+        Layout.fillWidth: true
+        Layout.leftMargin: Style.margins
+        Layout.rightMargin: Style.margins
+        wrapMode: Text.WordWrap
+        text: root.thingClass.interfaces.join(", ") + (root.thingClass.providedInterfaces.length > 0 ? " (" + root.thingClass.providedInterfaces.join(", ") + ")" : "")
     }
+
 
     SettingsPageSectionHeader {
         text: qsTr("Parameters")

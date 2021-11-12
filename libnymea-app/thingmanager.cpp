@@ -774,6 +774,7 @@ ThingClass *ThingManager::unpackThingClass(const QVariantMap &thingClassMap)
     thingClass->setCreateMethods(createMethods);
     thingClass->setSetupMethod(stringToSetupMethod(thingClassMap.value("setupMethod").toString()));
     thingClass->setInterfaces(thingClassMap.value("interfaces").toStringList());
+    thingClass->setProvidedInterfaces(thingClassMap.value("providedInterfaces").toStringList());
 
     // ParamTypes
     ParamTypes *paramTypes = new ParamTypes(thingClass);

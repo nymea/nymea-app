@@ -149,12 +149,13 @@ Page {
             id: thingClassesProxy
             engine: _engine
             filterInterface: typeFilterModel.get(typeFilterComboBox.currentIndex).interfaceName
+            includeProvidedInterfaces: true
             filterVendorId: vendorFilterComboBox.currentIndex >= 0 ? vendorsFilterModel.get(vendorFilterComboBox.currentIndex).vendorId : ""
             filterString: displayNameFilterField.displayText
             groupByInterface: true
         }
 
-        delegate: NymeaSwipeDelegate {
+        delegate: NymeaItemDelegate {
             id: tingClassDelegate
             width: parent.width
             text: model.displayName

@@ -117,6 +117,16 @@ void ThingClass::setInterfaces(const QStringList &interfaces)
     m_interfaces = interfaces;
 }
 
+QStringList ThingClass::providedInterfaces() const
+{
+    return m_providedInterfaces;
+}
+
+void ThingClass::setProvidedInterfaces(const QStringList &providedInterfaces)
+{
+    m_providedInterfaces = providedInterfaces;
+}
+
 QString ThingClass::baseInterface() const
 {
     foreach (const QString &interface, m_interfaces) {

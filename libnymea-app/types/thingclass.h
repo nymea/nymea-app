@@ -52,6 +52,7 @@ class ThingClass : public QObject
     Q_PROPERTY(QStringList createMethods READ createMethods CONSTANT)
     Q_PROPERTY(SetupMethod setupMethod READ setupMethod CONSTANT)
     Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
+    Q_PROPERTY(QStringList providedInterfaces READ providedInterfaces CONSTANT)
     Q_PROPERTY(QString baseInterface READ baseInterface CONSTANT)
     Q_PROPERTY(bool browsable READ browsable CONSTANT)
     Q_PROPERTY(ParamTypes *paramTypes READ paramTypes NOTIFY paramTypesChanged)
@@ -100,6 +101,9 @@ public:
     QStringList interfaces() const;
     void setInterfaces(const QStringList &interfaces);
 
+    QStringList providedInterfaces() const;
+    void setProvidedInterfaces(const QStringList &providedInterfaces);
+
     QString baseInterface() const;
 
     bool browsable() const;
@@ -146,6 +150,7 @@ private:
     QStringList m_createMethods;
     SetupMethod m_setupMethod;
     QStringList m_interfaces;
+    QStringList m_providedInterfaces;
     bool m_browsable = false;
 
     ParamTypes *m_paramTypes = nullptr;
