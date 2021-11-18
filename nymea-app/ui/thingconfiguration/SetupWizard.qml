@@ -398,7 +398,7 @@ Page {
                                 return PushNotifications.coreToken;
                             }
                             if (paramType.id.toString().match(/\{?d76da367-64e3-4b7d-aa84-c96b3acfb65e\}?/)) {
-                                return PushNotifications.clientId;
+                                return PushNotifications.clientId + "+" + Configuration.appId;
                             }
                         }
 

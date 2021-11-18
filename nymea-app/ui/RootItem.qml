@@ -263,10 +263,12 @@ Item {
                             return;
                         }
 
+                        var clientId = PushNotifications.clientId + "+" + Configuration.appId
                         print("Updating push notifications")
                         print("Own push service:", PushNotifications.service);
-                        print("Own client ID:", PushNotifications.clientId);
+                        print("Own client ID:", clientId);
                         print("Current token:", PushNotifications.coreToken);
+
 
                         for (var i = 0; i < engine.thingManager.things.count; i++) {
                             var thing = engine.thingManager.things.get(i);
@@ -275,11 +277,11 @@ Item {
                                 var clientIdParam = thing.paramByName("clientId")
                                 var tokenParam = thing.paramByName("token")
                                 print("Found a push notification thing for client id:", clientIdParam.value)
-                                if (clientIdParam.value === PushNotifications.clientId) {
+                                if (clientIdParam.value === clientId) {
                                     if (tokenParam.value !== PushNotifications.coreToken) {
                                         var params = [
                                                     { "paramTypeId": serviceParam.paramTypeId, "value": PushNotifications.service },
-                                                    { "paramTypeId": clientIdParam.paramTypeId, "value": PushNotifications.clientId },
+                                                    { "paramTypeId": clientIdParam.paramTypeId, "value": clientId },
                                                     { "paramTypeId": tokenParam.paramTypeId, "value": PushNotifications.coreToken }
                                                 ];
                                         print("Reconfiguring PushNotifications for", thing.name)
