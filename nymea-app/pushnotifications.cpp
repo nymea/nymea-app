@@ -105,11 +105,7 @@ QString PushNotifications::service() const
 
 QString PushNotifications::clientId() const
 {
-    QString branding;
-#if defined BRANDING
-    branding = QString("-%1").arg(BRANDING);
-#endif
-    return PlatformHelper::instance()->deviceSerial() + "+io.guh.nymeaapp" + branding;
+    return PlatformHelper::instance()->deviceSerial();
 }
 
 QString PushNotifications::coreToken() const
