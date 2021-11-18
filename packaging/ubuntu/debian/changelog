@@ -1,3 +1,11 @@
+nymea-app (1.0.385) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Implement energy logger api
+  * Fix push notifications ids with branding
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 19 Nov 2021 00:04:57 +0100
+
 nymea-app (1.0.384) bionic; urgency=medium
 
   [ Michael Zanetti ]
