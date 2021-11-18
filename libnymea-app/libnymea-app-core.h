@@ -136,6 +136,8 @@
 #include "modbus/modbusrtumasters.h"
 #include "types/serialportsproxy.h"
 #include "energy/energymanager.h"
+#include "energy/energylogs.h"
+#include "energy/powerbalancelogs.h"
 
 #include <QtQml/qqml.h>
 
@@ -359,6 +361,9 @@ void registerQmlTypes() {
     qmlRegisterType<AppData>(uri, 1, 0, "AppData");
 
     qmlRegisterType<EnergyManager>(uri, 1, 0, "EnergyManager");
+    qmlRegisterType<EnergyLogs>(uri, 1, 0, "EnergyLogs");
+    qmlRegisterType<PowerBalanceLogs>(uri, 1, 0, "PowerBalanceLogs");
+    qmlRegisterType<PowerBalanceLogEntry>(uri, 1, 0, "PowerBalanceLogEntry");
 
     qmlRegisterType<SortFilterProxyModel>(uri, 1, 0, "SortFilterProxyModel");
 }

@@ -73,18 +73,25 @@ double EnergyManager::currentPowerAcquisition() const
 
 void EnergyManager::notificationReceived(const QVariantMap &data)
 {
-    qCDebug(dcEnergyExperience()) << "Energy notification received" << data;
     QString notification = data.value("notification").toString();
     QVariantMap params = data.value("params").toMap();
     if (notification == "Energy.RootMeterChanged") {
         m_rootMeterId = params.value("rootMeterThingId").toUuid();
         emit rootMeterIdChanged();
-    }
-    if (notification == "Energy.PowerBalanceChanged") {
+
+    } else if (notification == "Energy.PowerBalanceChanged") {
         m_currentPowerConsumption = params.value("currentPowerConsumption").toDouble();
         m_currentPowerProduction = params.value("currentPowerProduction").toDouble();
         m_currentPowerAcquisition = params.value("currentPowerAcquisition").toDouble();
         emit powerBalanceChanged();
+
+    } else if (notification == "Energy.PowerBalanceLogEntryAdded") {
+        // Handled in EnergyLogs
+    } else if (notification == "Energy.ThingPowerLogEntryAdded") {
+        // Handled in EnergyLogs
+
+    } else {
+        qCDebug(dcEnergyExperience()) << "Unhandled energy notification received" << data;
     }
 }
 

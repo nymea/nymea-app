@@ -217,7 +217,6 @@ void RuleManager::removeRuleResponse(int commandId, const QVariantMap &params)
     qCDebug(dcRuleManager) << "Have remove rule reply" << commandId << params;
     QMetaEnum metaEnum = QMetaEnum::fromType<RuleError>();
     RuleError ruleError = static_cast<RuleError>(metaEnum.keyToValue(params.value("ruleError").toByteArray()));
-    qCritical() << "DAFUQQQ" << commandId << ruleError;
     emit removeRuleReply(commandId, ruleError);
 }
 
