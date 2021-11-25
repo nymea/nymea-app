@@ -232,17 +232,21 @@ LogEntry *LogsModel::get(int index) const
 
 LogEntry *LogsModel::findClosest(const QDateTime &dateTime)
 {
-//    qWarning() << "********************Finding closest for:" << dateTime.time().toString();
+    qWarning() << "********************Finding closest for:" << dateTime.time().toString();
     int newest = 0;
     int oldest = m_list.count() - 1;
     LogEntry *entry = nullptr;
     int step = 0;
+    LogEntry *allTimeOldestEntry = m_list.at(oldest);
+    if (dateTime < allTimeOldestEntry->timestamp()) {
+        return nullptr;
+    }
     while (oldest > newest && step < m_list.count()) {
         LogEntry *oldestEntry = m_list.at(oldest);
         LogEntry *newestEntry = m_list.at(newest);
         int middle = (oldest - newest) / 2 + newest;
         LogEntry *middleEntry = m_list.at(middle);
-//        qWarning() << "Oldest:" << oldestEntry->timestamp().time().toString() << "Middle:" << middleEntry->timestamp().time().toString() << "Newest:" << newestEntry->timestamp().time().toString() << ":" << (oldest - newest);
+        qWarning() << "Oldest:" << oldestEntry->timestamp().time().toString() << "Middle:" << middleEntry->timestamp().time().toString() << "Newest:" << newestEntry->timestamp().time().toString() << ":" << (oldest - newest);
         if (dateTime <= oldestEntry->timestamp()) {
             return oldestEntry;
         }
