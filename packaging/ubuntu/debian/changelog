@@ -1,3 +1,11 @@
+nymea-app (1.0.389) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix LogsModel::findClosest() returning entries before logging
+    started
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 25 Nov 2021 14:11:00 +0100
+
 nymea-app (1.0.388) bionic; urgency=medium
 
   [ Michael Zanetti ]
