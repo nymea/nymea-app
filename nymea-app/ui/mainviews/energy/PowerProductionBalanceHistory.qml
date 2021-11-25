@@ -65,15 +65,13 @@ ChartView {
     ValueAxis {
         id: valueAxis
         min: 0
-        max: -Math.ceil(powerBalanceLogs.minValue / 1000) * 1000
+        max: Math.ceil(-powerBalanceLogs.minValue / 1000) * 1000
         labelFormat: ""
         gridLineColor: Style.tileOverlayColor
         labelsVisible: false
         lineVisible: false
         titleVisible: false
         shadesVisible: false
-//        visible: false
-
     }
 
     Item {

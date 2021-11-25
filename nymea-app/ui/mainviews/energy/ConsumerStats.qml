@@ -8,10 +8,10 @@ ChartView {
     id: root
     backgroundColor: "transparent"
     legend.alignment: Qt.AlignBottom
-    legend.labelColor: Style.foregroundColor
     legend.font: Style.extraSmallFont
+    legend.labelColor: !powerLogs.fetchingData && powerLogs.count > 0 ? Style.foregroundColor : Style.gray
 
-    margins.left: 0
+//    margins.left: 0
     margins.right: 0
     margins.bottom: 0
     margins.top: 0
@@ -129,6 +129,7 @@ ChartView {
                 text: ((valueAxis.max - (index * valueAxis.max / (valueAxis.tickCount - 1)))).toFixed(0) + "kWh"
                 verticalAlignment: Text.AlignTop
                 font: Style.extraSmallFont
+                color: !powerLogs.fetchingData && powerLogs.count > 0 ? Style.foregroundColor : Style.gray
             }
         }
     }
@@ -138,7 +139,7 @@ ChartView {
         axisX: BarCategoryAxis {
             id: categoryAxis
             categories: daysListNames
-            labelsColor: Style.foregroundColor
+            labelsColor: !powerLogs.fetchingData && powerLogs.count > 0 ? Style.foregroundColor : Style.gray
             labelsFont: Style.extraSmallFont
             gridVisible: false
             gridLineColor: Style.tileOverlayColor
@@ -164,5 +165,17 @@ ChartView {
                 }
             }
         }
+    }
+
+    Label {
+        x: root.plotArea.x
+        y: root.plotArea.y
+        width: root.plotArea.width
+        height: root.plotArea.height
+        wrapMode: Text.WordWrap
+        text: qsTr("No data available")
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        visible: !powerLogs.fetchingData && powerLogs.count == 0
     }
 }

@@ -169,7 +169,6 @@ ChartView {
                 font: Style.extraSmallFont
             }
         }
-
     }
 
     DateTimeAxis {

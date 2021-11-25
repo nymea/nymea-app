@@ -9,9 +9,9 @@ ChartView {
     backgroundColor: "transparent"
     legend.alignment: Qt.AlignBottom
     legend.font: Style.extraSmallFont
-    legend.labelColor: Style.foregroundColor
+    legend.labelColor: !powerBalanceLogs.fetchingData && powerBalanceLogs.count > 0 ? Style.foregroundColor : Style.gray
 
-    margins.left: 0
+//    margins.left: 0
     margins.right: 0
     margins.bottom: 0
     margins.top: 0
@@ -66,7 +66,7 @@ ChartView {
     }
 
     PowerBalanceLogs {
-        id: yearLogs
+        id: powerBalanceLogs
         engine: _engine
         sampleRate: EnergyLogs.SampleRate1Day
         startTime: root.yearStart;
@@ -74,15 +74,16 @@ ChartView {
         onFetchingDataChanged: {
             if (!fetchingData) {
                 for (var i = 0; i < daysList.length; i++) {
-                    var start = yearLogs.find(new Date(daysList[i]))
+                    var start = powerBalanceLogs.find(new Date(daysList[i]))
                     var end = null;
                     if (i+1 < daysList.length) {
-                        end = yearLogs.find(new Date(daysList[i+1]))
+                        end = powerBalanceLogs.find(new Date(daysList[i+1]))
                     }
-                    var consumptionValue = (end != null ? end.totalConsumption : root.energyManager.totalConsumption) - start.totalConsumption
-                    var productionValue = (end != null ? end.totalProduction : root.energyManager.totalProduction) - start.totalProduction
-                    var acquisitionValue = (end != null ? end.totalAcquisition : root.energyManager.totalAcquisition) - start.totalAcquisition
-                    var returnValue = (end != null ? end.totalReturn : root.energyManager.totalReturn) - start.totalReturn
+                    print("** stats for", daysList[i], new Date(daysList[i]), start.timestamp, start.totalConsumption)
+                    var consumptionValue = (end != null ? end.totalConsumption : root.energyManager.totalConsumption) - (start ? start.totalConsumption : 0)
+                    var productionValue = (end != null ? end.totalProduction : root.energyManager.totalProduction) - (start ? start.totalProduction : 0)
+                    var acquisitionValue = (end != null ? end.totalAcquisition : root.energyManager.totalAcquisition) - (start ? start.totalAcquisition : 0)
+                    var returnValue = (end != null ? end.totalReturn : root.energyManager.totalReturn) - (start ? start.totalReturn : 0)
                     consumptionSeries.append(consumptionValue)
                     productionSeries.append(productionValue)
                     acquisitionSeries.append(acquisitionValue)
@@ -103,6 +104,8 @@ ChartView {
         y: root.plotArea.y
         height: root.plotArea.height
         width: plotArea.x - x
+        enabled: !powerBalanceLogs.fetchingData && powerBalanceLogs.count > 0
+
         Repeater {
             model: valueAxis.tickCount
             delegate: Label {
@@ -120,7 +123,8 @@ ChartView {
         axisX: BarCategoryAxis {
             id: categoryAxis
             categories: daysListNames
-            labelsColor: Style.foregroundColor
+            labelsColor: !powerBalanceLogs.fetchingData && powerBalanceLogs.count > 0 ? Style.foregroundColor : Style.gray
+
             labelsFont: Style.extraSmallFont
             gridVisible: false
             gridLineColor: Style.tileOverlayColor
@@ -173,5 +177,17 @@ ChartView {
             borderWidth: 0
             borderColor: color
         }
+    }
+
+    Label {
+        x: root.plotArea.x
+        y: root.plotArea.y
+        width: root.plotArea.width
+        height: root.plotArea.height
+        wrapMode: Text.WordWrap
+        text: qsTr("No data available")
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        visible: !powerBalanceLogs.fetchingData && powerBalanceLogs.count == 0
     }
 }
