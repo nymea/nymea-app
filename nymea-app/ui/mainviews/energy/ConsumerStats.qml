@@ -21,6 +21,7 @@ ChartView {
 
     property EnergyManager energyManager: null
 
+
     readonly property date dayStart: {
         var d = new Date();
         d.setHours(0,0,0,0);

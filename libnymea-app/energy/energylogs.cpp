@@ -75,6 +75,12 @@ void EnergyLogs::setSampleRate(SampleRate sampleRate)
     if (m_sampleRate != sampleRate) {
         m_sampleRate = sampleRate;
         emit sampleRateChanged();
+
+        beginResetModel();
+        qDeleteAll(m_list);
+        m_list.clear();
+        endResetModel();
+        fetchLogs();
     }
 }
 

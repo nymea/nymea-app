@@ -97,54 +97,54 @@ MainViewBase {
                 columnSpacing: 0
 
 
-                CurrentConsumptionBalancePieChart {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: width
-                    energyManager: energyManager
-                    visible: producers.count > 0
-                }
-                CurrentProductionBalancePieChart {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: width
-                    energyManager: energyManager
-                    visible: producers.count > 0
-                }
+//                CurrentConsumptionBalancePieChart {
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: width
+//                    energyManager: energyManager
+//                    visible: producers.count > 0
+//                }
+//                CurrentProductionBalancePieChart {
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: width
+//                    energyManager: energyManager
+//                    visible: producers.count > 0
+//                }
 
-                PowerConsumptionBalanceHistory {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: width
-                    visible: producers.count > 0
-                }
+//                PowerConsumptionBalanceHistory {
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: width
+//                    visible: producers.count > 0
+//                }
 
-                PowerProductionBalanceHistory {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: width
-                    visible: producers.count > 0
-                }
+//                PowerProductionBalanceHistory {
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: width
+//                    visible: producers.count > 0
+//                }
 
-                ConsumersBarChart {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: width
-                    energyManager: energyManager
-                    visible: consumers.count > 0
-                }
-                ConsumersHistory {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: width
-                    visible: consumers.count > 0
-                }
+//                ConsumersBarChart {
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: width
+//                    energyManager: energyManager
+//                    visible: consumers.count > 0
+//                }
+//                ConsumersHistory {
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: width
+//                    visible: consumers.count > 0
+//                }
 
                 PowerBalanceStats {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
                     energyManager: energyManager
                 }
-                ConsumerStats {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: width
-                    energyManager: energyManager
-                    visible: consumers.count > 0
-                }
+//                ConsumerStats {
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: width
+//                    energyManager: energyManager
+//                    visible: consumers.count > 0
+//                }
             }
         }
 

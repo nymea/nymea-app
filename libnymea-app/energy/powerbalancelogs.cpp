@@ -121,7 +121,7 @@ void PowerBalanceLogs::addEntry(PowerBalanceLogEntry *entry)
 
 EnergyLogEntry *PowerBalanceLogs::find(const QDateTime &timestamp) const
 {
-    qWarning() << "Finding log entry for timestamp:" << timestamp;
+//    qWarning() << "Finding log entry for timestamp:" << timestamp;
     int oldest = 0;
     int newest = rowCount() - 1;
     EnergyLogEntry *entry = nullptr;
@@ -131,7 +131,7 @@ EnergyLogEntry *PowerBalanceLogs::find(const QDateTime &timestamp) const
         EnergyLogEntry *newestEntry = get(newest);
         int middle = (newest - oldest) / 2 + oldest;
         EnergyLogEntry *middleEntry = get(middle);
-        qWarning() << "Oldest:" << oldestEntry->timestamp().toString() << "Middle:" << middleEntry->timestamp().toString() << "Newest:" << newestEntry->timestamp().toString() << ":" << (newest - oldest);
+//        qWarning() << "Oldest:" << oldestEntry->timestamp().toString() << "Middle:" << middleEntry->timestamp().toString() << "Newest:" << newestEntry->timestamp().toString() << ":" << (newest - oldest);
         if (timestamp <= oldestEntry->timestamp()) {
             return oldestEntry;
         }
@@ -144,9 +144,9 @@ EnergyLogEntry *PowerBalanceLogs::find(const QDateTime &timestamp) const
         }
 
         if (timestamp < middleEntry->timestamp()) {
-            oldest = middle;
-        } else {
             newest = middle;
+        } else {
+            oldest = middle;
         }
 
         if ((newest - oldest) <= 1) {
