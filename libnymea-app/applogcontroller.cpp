@@ -207,6 +207,8 @@ void AppLogController::append(const QString &category, const QString &message, L
         return;
     }
 
+    QDateTime timestamp = QDateTime::currentDateTime();
+
     if (m_logFile.isOpen()) {
         QHash<LogLevel, QString> t = {
             {LogLevelDebug, "D"},
@@ -214,12 +216,12 @@ void AppLogController::append(const QString &category, const QString &message, L
             {LogLevelWarning, "W"},
             {LogLevelCritical, "C"}
         };
-        QString line = QString("%0: %1: %2\n").arg(t.value(level), category, message);
+        QString line = QString("%0:%1:%2: %3\n").arg(timestamp.toString("yyyy-MM-dd hh:mm:ss.zzz"), t.value(level), category, message);
         m_logFile.write(line.toUtf8());
         m_logFile.flush();
     }
 
-    emit messageAdded(category, message, level);
+    emit messageAdded(timestamp, category, message, level);
 }
 
 void AppLogController::updateFilters()
@@ -282,24 +284,20 @@ LogMessages::LogMessages(QObject *parent):
     while (!f.atEnd()) {
         QByteArray line = f.readLine().trimmed();
         QList<QByteArray> parts = line.split(':');
-        if (parts.length() < 2) {
+        if (parts.length() < 6) {
             continue;
         }
         LogMessage message;
+        QString timestampString = parts.takeFirst();
+        timestampString.append(":" + parts.takeFirst());
+        timestampString.append(":" + parts.takeFirst());
+        message.timestamp = QDateTime::fromString(timestampString, "yyyy-MM-dd hh:mm:ss.zzz");
         message.level = map.value(parts.takeFirst());
         message.category = parts.takeFirst();
         message.message = parts.join(":");
         m_messages.append(message);
     }
-    connect(AppLogController::instance(), &AppLogController::messageAdded, this, [=](const QString &category, const QString &message, AppLogController::LogLevel level){
-        beginInsertRows(QModelIndex(), m_messages.count(), m_messages.count());
-        LogMessage msg;
-        msg.category = category;
-        msg.message = message;
-        msg.level = level;
-        m_messages.append(msg);
-        endInsertRows();
-    });
+    connect(AppLogController::instance(), &AppLogController::messageAdded, this, &LogMessages::append);
 }
 
 int LogMessages::rowCount(const QModelIndex &parent) const
@@ -310,15 +308,18 @@ int LogMessages::rowCount(const QModelIndex &parent) const
 
 QVariant LogMessages::data(const QModelIndex &index, int role) const
 {
+    LogMessage message = m_messages.at(index.row());
     switch (role) {
+    case RoleTimestamp:
+        return message.timestamp;
     case RoleCategory:
-        return m_messages.at(index.row()).category;
+        return message.category;
     case RoleMessage:
-        return m_messages.at(index.row()).message;
+        return message.message;
     case RoleLevel:
-        return m_messages.at(index.row()).level;
+        return message.level;
     case RoleText:
-        return m_messages.at(index.row()).category + ": " + m_messages.at(index.row()).message;
+        return message.timestamp.toString("hh:mm:ss") + ": " + message.category + ": " + message.message;
     }
     return QVariant();
 }
@@ -326,6 +327,7 @@ QVariant LogMessages::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> LogMessages::roleNames() const
 {
     QHash<int, QByteArray> roles;
+    roles.insert(RoleTimestamp, "timestamp");
     roles.insert(RoleCategory, "category");
     roles.insert(RoleMessage, "message");
     roles.insert(RoleLevel, "level");
@@ -333,10 +335,11 @@ QHash<int, QByteArray> LogMessages::roleNames() const
     return roles;
 }
 
-void LogMessages::append(const QString &category, const QString &message, AppLogController::LogLevel level)
+void LogMessages::append(const QDateTime &timestamp, const QString &category, const QString &message, AppLogController::LogLevel level)
 {
     beginInsertRows(QModelIndex(), m_messages.count(), m_messages.count());
     LogMessage msg;
+    msg.timestamp = timestamp;
     msg.category = category;
     msg.message = message;
     msg.level = level;

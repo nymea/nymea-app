@@ -36,6 +36,7 @@
 #include <QQmlEngine>
 #include <QAbstractListModel>
 #include <QMutex>
+#include <QDateTime>
 
 class LogMessages;
 class LoggingCategories;
@@ -80,7 +81,7 @@ signals:
     void logToModelChanged();
 
     void categoryChanged(const QString &category, LogLevel level);
-    void messageAdded(const QString &category, const QString &message, LogLevel level);
+    void messageAdded(const QDateTime &timestamp, const QString &category, const QString &message, LogLevel level);
 
 private:
     explicit AppLogController(QObject *parent = nullptr);
@@ -107,6 +108,7 @@ class LogMessages: public QAbstractListModel
 
 public:
     enum Roles {
+        RoleTimestamp,
         RoleCategory,
         RoleMessage,
         RoleLevel,
@@ -115,6 +117,7 @@ public:
     Q_ENUM(Roles)
 
     struct LogMessage {
+        QDateTime timestamp;
         QString category;
         QString message;
         AppLogController::LogLevel level;
@@ -126,7 +129,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void append(const QString &category, const QString &message, AppLogController::LogLevel level);
+private slots:
+    void append(const QDateTime &timestamp, const QString &category, const QString &message, AppLogController::LogLevel level);
 
 private:
     QList<LogMessage> m_messages;

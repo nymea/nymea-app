@@ -51,6 +51,7 @@ Page {
     ListView {
         id: listView
         anchors.fill: parent
+        clip: true
 
         ScrollBar.vertical: ScrollBar {}
 
