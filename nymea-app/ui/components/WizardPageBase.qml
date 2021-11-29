@@ -37,7 +37,7 @@ Page {
                 id: titleLabel
                 Layout.fillWidth: true
                 text: root.title
-                font: Style.largeFont
+                font: Style.bigFont
                 horizontalAlignment: Text.AlignHCenter
             }
             Item {

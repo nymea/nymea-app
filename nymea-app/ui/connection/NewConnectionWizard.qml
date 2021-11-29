@@ -73,8 +73,13 @@ WizardPageBase {
             onBack: pageStack.pop()
 
             content: ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: Style.margins
+                anchors {
+                    top: parent.top;
+                    bottom: parent.bottom;
+                    horizontalCenter: parent.horizontalCenter
+                    margins: Style.margins
+                }
+                width: Math.min(500, parent.width)
 
                 BigTile {
                     Layout.fillWidth: true
@@ -132,6 +137,7 @@ WizardPageBase {
 
                 Label {
                     Layout.fillWidth: true
+                    Layout.margins: Style.smallMargins
                     wrapMode: Text.WordWrap
                     text: qsTr("If your nymea system is already connected to the network you can skip this step.")
                     horizontalAlignment: Qt.AlignHCenter
@@ -152,7 +158,12 @@ WizardPageBase {
             onBack: pageStack.pop()
 
             content: ColumnLayout {
-                anchors.fill: parent
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    horizontalCenter: parent.horizontalCenter
+                }
+                width: Math.min(500, parent.width)
 
                 ListView {
                     Layout.fillWidth: true
@@ -303,8 +314,12 @@ WizardPageBase {
             }
 
             content: ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: Style.margins
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    horizontalCenter: parent.horizontalCenter
+                }
+                width: Math.min(500, parent.width - Style.margins * 2)
                 GridLayout {
                     columns: 2
 
@@ -356,18 +371,12 @@ WizardPageBase {
             onNext: pageStack.push(selectInstanceComponent)
             onBack: pageStack.pop()
 
-            content: ColumnLayout {
+            content: Image {
                 anchors.fill: parent
                 anchors.margins: Style.margins
-
-
-                Image {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: Style.bigMargins
-                    Layout.rightMargin: Style.bigMargins
-                    Layout.preferredHeight: width * sourceSize.height / sourceSize.width
-                    source: "/ui/images/setupwizard/wired-connection.svg"
-                }
+                fillMode: Image.PreserveAspectFit
+                sourceSize.width: width
+                source: "/ui/images/setupwizard/wired-connection.svg"
             }
         }
     }
@@ -381,18 +390,12 @@ WizardPageBase {
             onNext: pageStack.push(wirelessBluetoothDiscoveryComponent)
             onBack: pageStack.pop()
 
-            content: ColumnLayout {
+            content: Image {
                 anchors.fill: parent
                 anchors.margins: Style.margins
-
-
-                Image {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: Style.bigMargins
-                    Layout.rightMargin: Style.bigMargins
-                    Layout.preferredHeight: width * sourceSize.height / sourceSize.width
-                    source: "/ui/images/setupwizard/wireless-connection.svg"
-                }
+                fillMode: Image.PreserveAspectFit
+                sourceSize.width: width
+                source: "/ui/images/setupwizard/wireless-connection.svg"
             }
         }
     }
@@ -455,7 +458,13 @@ WizardPageBase {
             }
 
             content: ListView {
-                anchors.fill: parent
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    horizontalCenter: parent.horizontalCenter
+                }
+                width: Math.min(500, parent.width)
+
                 model: BluetoothDeviceInfosProxy {
                     id: deviceInfosProxy
                     model: bluetoothDiscovery.deviceInfos
@@ -480,6 +489,30 @@ WizardPageBase {
                         pageStack.push(wirelessBluetoothConnectingComponent)
                     }
                 }
+
+                ColumnLayout {
+                    width: parent.width - Style.margins * 2
+                    anchors.centerIn: parent
+                    spacing: Style.bigMargins
+                    visible: !bluetoothDiscovery.bluetoothAvailable || !bluetoothDiscovery.bluetoothEnabled
+
+                    ColorIcon {
+                        name: "/ui/images/connections/bluetooth.svg"
+                        size: Style.iconSize * 5
+                        color: !bluetoothDiscovery.bluetoothAvailable ? Style.red : Style.gray
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WordWrap
+                        text: !bluetoothDiscovery.bluetoothAvailable
+                              ? qsTr("Bluetooth doesn't seem to be available on this system.")
+                              : qsTr("Bluetooth is turned off. Please enable Bluetooth on this device.")
+                    }
+                }
+
             }
         }
     }
@@ -507,7 +540,13 @@ WizardPageBase {
             property var wifiSetup: null
 
             content: ListView {
-                anchors.fill: parent
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    horizontalCenter: parent.horizontalCenter
+                }
+                width: Math.min(500, parent.width)
+
                 model: wifiSetup.accessPoints
                 clip: true
 
@@ -580,7 +619,7 @@ WizardPageBase {
 
             content: ColumnLayout {
                 anchors.centerIn: parent
-                width: parent.width - Style.margins * 2
+                width: Math.min(500, parent.width - Style.margins * 2)
 
                 Label {
                     Layout.fillWidth: true
@@ -670,7 +709,7 @@ WizardPageBase {
             }
 
             content: ColumnLayout {
-                width: parent.width - Style.margins * 2
+                width: Math.min(500, parent.width - Style.margins * 2)
                 anchors.centerIn: parent
                 spacing: Style.margins
                 Label {
