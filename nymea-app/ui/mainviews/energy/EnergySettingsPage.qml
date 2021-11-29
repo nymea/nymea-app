@@ -10,6 +10,11 @@ SettingsPageBase {
 
     property EnergyManager energyManager: null
 
+    property ThingsProxy allConsumers: ThingsProxy {
+        engine: _engine
+        shownInterfaces: ["smartmeterconsumer", "energymeter"]
+        hiddenThingIds: [energyManager.rootMeterId]
+    }
 
 
     SettingsPageSectionHeader {
@@ -57,10 +62,7 @@ SettingsPageBase {
     }
 
     Repeater {
-        model: ThingsProxy {
-            engine: _engine
-            shownInterfaces: ["smartmeterconsumer"]
-        }
+        model: root.allConsumers
         delegate: CheckDelegate {
             Layout.fillWidth: true
             text: model.name

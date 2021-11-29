@@ -323,8 +323,8 @@ MainPageTile {
                 ListElement { ifaceName: "gassensor"; stateName: "gas" }
                 ListElement { ifaceName: "conductivity"; stateName: "conductivity" }
                 ListElement { ifaceName: "noisesensor"; stateName: "noise" }
-                ListElement { ifaceName: "smartmeterconsumer"; stateName: "totalEnergyConsumed" }
-                ListElement { ifaceName: "smartmeterproducer"; stateName: "totalEnergyProduced" }
+                ListElement { ifaceName: "smartmeterconsumer"; stateName: "currentPower" }
+                ListElement { ifaceName: "smartmeterproducer"; stateName: "currentPower" }
                 ListElement { ifaceName: "energymeter"; stateName: "currentPower" }
                 ListElement { ifaceName: "thermostat"; stateName: "targetTemperature" }
                 ListElement { ifaceName: "heating"; stateName: "power" }

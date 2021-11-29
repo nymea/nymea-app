@@ -56,6 +56,7 @@ class ThingsProxy : public QSortFilterProxyModel
 
     Q_PROPERTY(QList<QUuid> shownThingClassIds READ shownThingClassIds WRITE setShownThingClassIds NOTIFY shownThingClassIdsChanged)
     Q_PROPERTY(QList<QUuid> hiddenThingClassIds READ hiddenThingClassIds WRITE setHiddenThingClassIds NOTIFY hiddenThingClassIdsChanged)
+    Q_PROPERTY(QList<QUuid> hiddenThingIds READ hiddenThingIds WRITE setHiddenThingIds NOTIFY hiddenThingIdsChanged)
 
     Q_PROPERTY(QString requiredEventName READ requiredEventName WRITE setRequiredEventName NOTIFY requiredEventNameChanged)
     Q_PROPERTY(QString requiredStateName READ requiredStateName WRITE setRequiredStateName NOTIFY requiredStateNameChanged)
@@ -127,6 +128,9 @@ public:
     QList<QUuid> hiddenThingClassIds() const;
     void setHiddenThingClassIds(const QList<QUuid> &hiddenThingClassIds);
 
+    QList<QUuid> hiddenThingIds() const;
+    void setHiddenThingIds(const QList<QUuid> &hiddenThingIds);
+
     QString requiredEventName() const;
     void setRequiredEventName(const QString &requiredEventName);
 
@@ -188,6 +192,7 @@ signals:
     void nameFilterChanged();
     void shownThingClassIdsChanged();
     void hiddenThingClassIdsChanged();
+    void hiddenThingIdsChanged();
     void requiredEventNameChanged();
     void requiredStateNameChanged();
     void requiredActionNameChanged();
@@ -223,6 +228,7 @@ private:
     QString m_nameFilter;
     QList<QUuid> m_shownThingClassIds;
     QList<QUuid> m_hiddenThingClassIds;
+    QList<QUuid> m_hiddenThingIds;
 
     QString m_requiredEventName;
     QString m_requiredStateName;

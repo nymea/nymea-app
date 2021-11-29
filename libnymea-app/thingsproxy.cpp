@@ -236,10 +236,23 @@ QList<QUuid> ThingsProxy::hiddenThingClassIds() const
 
 void ThingsProxy::setHiddenThingClassIds(const QList<QUuid> &hiddenThingClassIds)
 {
-    qCritical() << "SetHiddenThingClassIds" << hiddenThingClassIds;
     if (m_hiddenThingClassIds != hiddenThingClassIds) {
         m_hiddenThingClassIds = hiddenThingClassIds;
         emit hiddenThingClassIdsChanged();
+        invalidateFilterInternal();
+    }
+}
+
+QList<QUuid> ThingsProxy::hiddenThingIds() const
+{
+    return m_hiddenThingIds;
+}
+
+void ThingsProxy::setHiddenThingIds(const QList<QUuid> &hiddenThingIds)
+{
+    if (m_hiddenThingIds != hiddenThingIds) {
+        m_hiddenThingIds = hiddenThingIds;
+        emit hiddenThingIdsChanged();
         invalidateFilterInternal();
     }
 }
@@ -603,6 +616,10 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
     }
 
     if (m_hiddenThingClassIds.contains(thing->thingClassId())) {
+        return false;
+    }
+
+    if (m_hiddenThingIds.contains(thing->id())) {
         return false;
     }
 

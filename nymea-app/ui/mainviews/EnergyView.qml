@@ -73,8 +73,9 @@ MainViewBase {
     ThingsProxy {
         id: consumers
         engine: _engine
-        shownInterfaces: ["smartmeterconsumer"]
+        shownInterfaces: ["smartmeterconsumer", "energymeter"]
         hideTagId: "hiddenInEnergyView"
+        hiddenThingIds: [energyManager.rootMeterId]
     }
 
     ThingsProxy {

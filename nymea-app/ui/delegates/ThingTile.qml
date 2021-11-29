@@ -242,10 +242,13 @@ MainPageTile {
                     tmp.push({iface: "gassensor", state: "gas"});
                 }
                 if (thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
-                    tmp.push({iface: "smartmeterconsumer", state: "totalEnergyConsumed"});
+                    tmp.push({iface: "smartmeterconsumer", state: "currentPower"});
                 }
                 if (thing.thingClass.interfaces.indexOf("smartmeterproducer") >= 0) {
-                    tmp.push({iface: "smartmeterproducer", state: "totalEnergyProduced"});
+                    tmp.push({iface: "smartmeterproducer", state: "currentPower"});
+                }
+                if (thing.thingClass.interfaces.indexOf("energymeter") >= 0) {
+                    tmp.push({iface: "energymeter", state: "currentPower"});
                 }
                 if (thing.thingClass.interfaces.indexOf("daylightsensor") >= 0) {
                     tmp.push({iface: "daylightsensor", state: "daylight"});
