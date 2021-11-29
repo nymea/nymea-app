@@ -1,3 +1,10 @@
+nymea-app (1.0.390) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Tune powerbalance stats
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 29 Nov 2021 14:34:10 +0100
+
 nymea-app (1.0.389) bionic; urgency=medium
 
   [ Michael Zanetti ]
