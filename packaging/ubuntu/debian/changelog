@@ -1,3 +1,11 @@
+nymea-app (1.0.391) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add energymeters to consumers
+  * Add missing fl oz unit
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 29 Nov 2021 22:03:31 +0100
+
 nymea-app (1.0.390) bionic; urgency=medium
 
   [ Michael Zanetti ]
