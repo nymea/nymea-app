@@ -236,6 +236,8 @@ QString Types::toUiUnit(Types::Unit unit) const
         return "mg/l";
     case Types::UnitLiter:
         return "l";
+    case Types::UnitFluidOunce:
+        return "fl oz";
     }
 
     return "";
