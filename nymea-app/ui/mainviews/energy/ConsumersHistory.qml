@@ -12,12 +12,25 @@ ChartView {
     margins.bottom: 0
     margins.top: 0
 
+    property var colors: null
+
     title: qsTr("Consumers history")
     titleColor: Style.foregroundColor
 
     legend.alignment: Qt.AlignBottom
     legend.labelColor: Style.foregroundColor
     legend.font: Style.extraSmallFont
+
+    property ThingsProxy consumers: null
+
+    Connections {
+        target: consumers
+        onCountChanged: d.updateConsumers()
+    }
+    Connections {
+        target: engine.tagsManager
+        onBusyChanged: d.updateConsumers()
+    }
 
     ThingPowerLogs {
         id: thingPowerLogs
@@ -75,14 +88,14 @@ ChartView {
         }
     }
 
-    ThingsProxy {
-        id: consumers
-        engine: _engine
-        shownInterfaces: ["smartmeterconsumer"]
-    }
     Connections {
         target: engine.thingManager
         onFetchingDataChanged: d.updateConsumers()
+        onThingAdded: {
+            if (thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
+                d.updateConsumers();
+            }
+        }
     }
 
 
@@ -100,9 +113,10 @@ ChartView {
         property var thingsSeriesMap: ({})
 
         function updateConsumers() {
-            if (engine.thingManager.fetchingData) {
+            if (engine.thingManager.fetchingData || engine.tagsManager.busy) {
                 return;
             }
+            thingPowerLogs.loadingInhibited = true;
 
             for (var thingId in d.thingsSeriesMap) {
                 root.removeSeries(d.thingsSeriesMap[thingId])
@@ -116,20 +130,22 @@ ChartView {
                 var baseSeries = zeroSeries;
                 if (i > 0) {
                     baseSeries = d.thingsSeriesMap[consumerThingIds[i-1]].upperSeries
-                    print("base for:", thing.name, "is", engine.thingManager.things.getThing(consumerThingIds[i-1]).name)
+//                    print("base for:", thing.name, "is", engine.thingManager.things.getThing(consumerThingIds[i-1]).name)
                 }
 
                 var series = root.createSeries(ChartView.SeriesTypeArea, thing.name, dateTimeAxis, valueAxis)
                 series.lowerSeries = baseSeries
                 series.upperSeries = lineSeriesComponent.createObject(series)
+                series.color = root.colors[i % root.colors.length]
                 series.borderWidth = 0;
                 series.borderColor = series.color
 
-                print("Adding thingId series", thing.id, thing.name)
+//                print("Adding thingId series", thing.id, thing.name)
                 d.thingsSeriesMap[thing.id] = series
                 consumerThingIds.push(thing.id)
             }
             thingPowerLogs.thingIds = consumerThingIds;
+            thingPowerLogs.loadingInhibited = false;
         }
     }
 
@@ -197,7 +213,7 @@ ChartView {
         id: consumptionSeries
         axisX: dateTimeAxis
         axisY: valueAxis
-//        color: Style.accentColor
+        color: Style.gray
         borderWidth: 0
         borderColor: color
         name: qsTr("Unknown")

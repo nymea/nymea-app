@@ -44,10 +44,24 @@ MainViewBase {
 
     contentY: flickable.contentY + topMargin
 
+    headerButtons: [
+        {
+            iconSource: "/ui/images/configure.svg",
+            color: Style.iconColor,
+            trigger: function() {
+                pageStack.push("energy/EnergySettingsPage.qml", {energyManager: energyManager});
+            },
+            visible: true
+        }
+    ]
+
     EnergyManager {
         id: energyManager
         engine: _engine
     }
+
+    property var thingColors: [Style.blue, Style.green, Style.red, Style.yellow, Style.purple, Style.yellow, Style.lime]
+
 
     ThingsProxy {
         id: energyMeters
@@ -60,6 +74,7 @@ MainViewBase {
         id: consumers
         engine: _engine
         shownInterfaces: ["smartmeterconsumer"]
+        hideTagId: "hiddenInEnergyView"
     }
 
     ThingsProxy {
@@ -97,57 +112,60 @@ MainViewBase {
                 columnSpacing: 0
 
 
-//                CurrentConsumptionBalancePieChart {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    energyManager: energyManager
-//                    visible: producers.count > 0
-//                }
-//                CurrentProductionBalancePieChart {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    energyManager: energyManager
-//                    visible: producers.count > 0
-//                }
+                CurrentConsumptionBalancePieChart {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                }
+                CurrentProductionBalancePieChart {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                    visible: producers.count > 0
+                }
 
-//                PowerConsumptionBalanceHistory {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    visible: producers.count > 0
-//                }
+                PowerConsumptionBalanceHistory {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                }
 
-//                PowerProductionBalanceHistory {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    visible: producers.count > 0
-//                }
+                PowerProductionBalanceHistory {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    visible: producers.count > 0
+                }
 
-//                ConsumersBarChart {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    energyManager: energyManager
-//                    visible: consumers.count > 0
-//                }
-//                ConsumersHistory {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    visible: consumers.count > 0
-//                }
+                ConsumersBarChart {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                    visible: consumers.count > 0
+                    colors: root.thingColors
+                    consumers: consumers
+                }
+                ConsumersHistory {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    visible: consumers.count > 0
+                    colors: root.thingColors
+                    consumers: consumers
+                }
 
                 PowerBalanceStats {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
                     energyManager: energyManager
                 }
-//                ConsumerStats {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    energyManager: energyManager
-//                    visible: consumers.count > 0
-//                }
+                ConsumerStats {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                    visible: consumers.count > 0
+                    colors: root.thingColors
+                    consumers: consumers
+                }
             }
         }
-
     }
 
     EmptyViewPlaceholder {

@@ -98,7 +98,7 @@ bool PackagesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &so
         }
     }
     if (!m_nameFilter.isEmpty()) {
-        if (!m_packages->get(source_row)->displayName().contains(m_nameFilter)) {
+        if (!m_packages->get(source_row)->displayName().toLower().contains(m_nameFilter.toLower())) {
             return false;
         }
     }

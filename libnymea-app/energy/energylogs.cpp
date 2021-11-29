@@ -84,32 +84,6 @@ void EnergyLogs::setSampleRate(SampleRate sampleRate)
     }
 }
 
-bool EnergyLogs::fetchPowerBalance() const
-{
-    return m_fetchPowerBalance;
-}
-
-void EnergyLogs::setFetchPowerBalance(bool fetchPowerBalance)
-{
-    if (m_fetchPowerBalance != fetchPowerBalance) {
-        m_fetchPowerBalance = fetchPowerBalance;
-        emit fetchPowerBalanceChanged();
-    }
-}
-
-QList<QUuid> EnergyLogs::thingIds() const
-{
-    return m_thingIds;
-}
-
-void EnergyLogs::setThingIds(const QList<QUuid> &thingIds)
-{
-    if (m_thingIds != thingIds) {
-        m_thingIds = thingIds;
-        emit thingIdsChanged();
-    }
-}
-
 QDateTime EnergyLogs::startTime() const
 {
     return m_startTime;
@@ -118,7 +92,6 @@ QDateTime EnergyLogs::startTime() const
 void EnergyLogs::setStartTime(const QDateTime &startTime)
 {
     if (m_startTime != startTime) {
-        qCDebug(dcEnergyLogs()) << "Setting startTime";
         m_startTime = startTime;
         emit startTimeChanged();
     }

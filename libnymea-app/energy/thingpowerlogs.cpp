@@ -73,15 +73,17 @@ EnergyLogEntry *ThingPowerLogs::find(const QUuid &thingId, const QDateTime &time
 {
     // TODO: Can we do a binary search even if they key we're looking for is not unique (but still sorted)?
     // For now, 365 * consumers items is the max we'll have here which seems on the edge for doing a stupid linear search...
+//    qWarning() << "Finding item for" << thingId.toString() << timestamp.toString();
     for (int i = rowCount() - 1; i >= 0; i--) {
         ThingPowerLogEntry *entry = static_cast<ThingPowerLogEntry*>(get(i));
         if (entry->thingId() != thingId) {
             continue;
         }
+//        qWarning() << "comparing" << entry->timestamp().toString();
         if (timestamp == entry->timestamp()) {
             return entry;
         }
-        if (timestamp < entry->timestamp()) {
+        if (timestamp > entry->timestamp()) {
             return nullptr; // Giving up, entry is not here
         }
     }
@@ -130,6 +132,7 @@ void ThingPowerLogs::logEntriesReceived(const QVariantMap &params)
         double totalConsumption = map.value("totalConsumption").toDouble();
         double totalProduction = map.value("totalProduction").toDouble();
         ThingPowerLogEntry *entry = new ThingPowerLogEntry(timestamp, thingId, currentPower, totalConsumption, totalProduction, this);
+//        qWarning() << "Adding entry:" << entry->thingId() << entry->timestamp().toString() << entry->totalConsumption();
 
         if (groupForTimestamp.isEmpty()) {
             groupForTimestamp.append(entry);
@@ -156,6 +159,9 @@ void ThingPowerLogs::notificationReceived(const QVariantMap &data)
         QVariantMap map = params.value("thingPowerLogEntry").toMap();
         QDateTime timestamp = QDateTime::fromSecsSinceEpoch(map.value("timestamp").toLongLong());
         QUuid thingId = map.value("thingId").toUuid();
+        if (!m_thingIds.isEmpty() && !m_thingIds.contains(thingId)) {
+            return;
+        }
         double currentPower = map.value("currentPower").toDouble();
         double totalConsumption = map.value("totalConsumption").toDouble();
         double totalProduction = map.value("totalProduction").toDouble();

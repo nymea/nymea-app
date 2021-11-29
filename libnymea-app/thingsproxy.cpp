@@ -56,7 +56,7 @@ void ThingsProxy::setEngine(Engine *engine)
             return;
         }
 
-        connect(m_engine->tagsManager()->tags(), &Tags::countChanged, this, &ThingsProxy::invalidateFilter);
+        connect(m_engine->tagsManager()->tags(), &Tags::countChanged, this, &ThingsProxy::invalidateFilterInternal);
 
         if (!sourceModel()) {
             setSourceModel(m_engine->thingManager()->things());
@@ -65,10 +65,8 @@ void ThingsProxy::setEngine(Engine *engine)
             sort(0, sortOrder());
             connect(sourceModel(), SIGNAL(countChanged()), this, SIGNAL(countChanged()));
             connect(sourceModel(), &QAbstractItemModel::dataChanged, this, [this]() {
-                invalidateFilter();
-                emit countChanged();
+                invalidateFilterInternal();
             });
-
         }
     }
 }
@@ -92,8 +90,7 @@ void ThingsProxy::setParentProxy(ThingsProxy *parentProxy)
         connect(m_parentProxy, SIGNAL(countChanged()), this, SIGNAL(countChanged()));
         connect(m_parentProxy, &QAbstractItemModel::dataChanged, this, [this]() {
             if (m_engine) {
-                invalidateFilter();
-                emit countChanged();
+                invalidateFilterInternal();
             }
         });
 
@@ -116,8 +113,7 @@ void ThingsProxy::setFilterTagId(const QString &filterTag)
     if (m_filterTagId != filterTag) {
         m_filterTagId = filterTag;
         emit filterTagIdChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -131,8 +127,35 @@ void ThingsProxy::setFilterTagValue(const QString &tagValue)
     if (m_filterTagValue != tagValue) {
         m_filterTagValue = tagValue;
         emit filterTagValueChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
+    }
+}
+
+QString ThingsProxy::hideTagId() const
+{
+    return m_hideTagId;
+}
+
+void ThingsProxy::setHideTagId(const QString &tagId)
+{
+    if (m_hideTagId != tagId) {
+        m_hideTagId = tagId;
+        emit hideTagIdChanged();
+        invalidateFilterInternal();
+    }
+}
+
+QString ThingsProxy::hideTagValue() const
+{
+    return m_hideTagValue;
+}
+
+void ThingsProxy::setHideTagValue(const QString &tagValue)
+{
+    if (m_hideTagValue != tagValue) {
+        m_hideTagValue = tagValue;
+        emit hideTagValueChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -146,8 +169,7 @@ void ThingsProxy::setFilterThingId(const QString &filterThingId)
     if (m_filterThingId != filterThingId) {
         m_filterThingId = filterThingId;
         emit filterThingIdChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -161,8 +183,7 @@ void ThingsProxy::setShownInterfaces(const QStringList &shownInterfaces)
     if (m_shownInterfaces != shownInterfaces) {
         m_shownInterfaces = shownInterfaces;
         emit shownInterfacesChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -176,8 +197,7 @@ void ThingsProxy::setHiddenInterfaces(const QStringList &hiddenInterfaces)
     if (m_hiddenInterfaces != hiddenInterfaces) {
         m_hiddenInterfaces = hiddenInterfaces;
         emit hiddenInterfacesChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -191,8 +211,7 @@ void ThingsProxy::setNameFilter(const QString &nameFilter)
     if (m_nameFilter != nameFilter) {
         m_nameFilter = nameFilter;
         emit nameFilterChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -206,8 +225,7 @@ void ThingsProxy::setShownThingClassIds(const QList<QUuid> &shownThingClassIds)
     if (m_shownThingClassIds != shownThingClassIds) {
         m_shownThingClassIds = shownThingClassIds;
         emit shownThingClassIdsChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -222,8 +240,7 @@ void ThingsProxy::setHiddenThingClassIds(const QList<QUuid> &hiddenThingClassIds
     if (m_hiddenThingClassIds != hiddenThingClassIds) {
         m_hiddenThingClassIds = hiddenThingClassIds;
         emit hiddenThingClassIdsChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -237,8 +254,7 @@ void ThingsProxy::setRequiredEventName(const QString &requiredEventName)
     if (m_requiredEventName != requiredEventName) {
         m_requiredEventName = requiredEventName;
         emit requiredEventNameChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -252,8 +268,7 @@ void ThingsProxy::setRequiredStateName(const QString &requiredStateName)
     if (m_requiredStateName != requiredStateName) {
         m_requiredStateName = requiredStateName;
         emit requiredStateNameChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -267,8 +282,7 @@ void ThingsProxy::setRequiredActionName(const QString &requiredActionName)
     if (m_requiredActionName != requiredActionName) {
         m_requiredActionName = requiredActionName;
         emit requiredActionNameChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -282,8 +296,7 @@ void ThingsProxy::setShowDigitalInputs(bool showDigitalInputs)
     if (m_showDigitalInputs != showDigitalInputs) {
         m_showDigitalInputs = showDigitalInputs;
         emit showDigitalInputsChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -297,8 +310,7 @@ void ThingsProxy::setShowDigitalOutputs(bool showDigitalOutputs)
     if (m_showDigitalOutputs != showDigitalOutputs) {
         m_showDigitalOutputs = showDigitalOutputs;
         emit showDigitalOutputsChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -312,8 +324,7 @@ void ThingsProxy::setShowAnalogInputs(bool showAnalogInputs)
     if (m_showAnalogInputs != showAnalogInputs) {
         m_showAnalogInputs = showAnalogInputs;
         emit showAnalogInputsChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -327,8 +338,7 @@ void ThingsProxy::setShowAnalogOutputs(bool showAnalogOutputs)
     if (m_showAnalogOutputs != showAnalogOutputs) {
         m_showAnalogOutputs = showAnalogOutputs;
         emit showAnalogOutputsChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -342,8 +352,7 @@ void ThingsProxy::setFilterBatteryCritical(bool filterBatteryCritical)
     if (m_filterBatteryCritical != filterBatteryCritical) {
         m_filterBatteryCritical = filterBatteryCritical;
         emit filterBatteryCriticalChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -357,8 +366,7 @@ void ThingsProxy::setFilterDisconnected(bool filterDisconnected)
     if (m_filterDisconnected != filterDisconnected) {
         m_filterDisconnected = filterDisconnected;
         emit filterDisconnectedChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -372,8 +380,7 @@ void ThingsProxy::setFilterSetupFailed(bool filterSetupFailed)
     if (m_filterSetupFailed != filterSetupFailed) {
         m_filterSetupFailed = filterSetupFailed;
         emit filterSetupFailedChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -387,8 +394,7 @@ void ThingsProxy::setFilterUpdates(bool filterUpdates)
     if (m_filterUpdates != filterUpdates) {
         m_filterUpdates = filterUpdates;
         emit filterUpdatesChanged();
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -403,8 +409,7 @@ void ThingsProxy::setParamsFilter(const QVariantMap &paramsFilter)
         m_paramsFilter = paramsFilter;
         emit paramsFilterChanged();
 
-        invalidateFilter();
-        emit countChanged();
+        invalidateFilterInternal();
     }
 }
 
@@ -477,6 +482,15 @@ int ThingsProxy::indexOf(Thing *thing) const
     return mapFromSource(sourceIndex).row();
 }
 
+void ThingsProxy::invalidateFilterInternal()
+{
+    int oldCount = rowCount();
+    invalidateFilter();
+    if (oldCount != rowCount()) {
+        emit countChanged();
+    }
+}
+
 Thing *ThingsProxy::getInternal(int source_index) const
 {
     Things* d = qobject_cast<Things*>(sourceModel());
@@ -543,11 +557,22 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
             return false;
         }
     }
+    if (!m_hideTagId.isEmpty()) {
+        Tag *tag = m_engine->tagsManager()->tags()->findThingTag(thing->id().toString(), m_hideTagId);
+        if (tag && m_hideTagValue.isEmpty()) {
+            return false;
+        }
+        if (tag && tag->value() == m_hideTagValue) {
+            return false;
+        }
+    }
+
     if (!m_filterThingId.isEmpty()) {
         if (thing->id() != QUuid(m_filterThingId)) {
             return false;
         }
     }
+
     ThingClass *thingClass = m_engine->thingManager()->thingClasses()->getThingClass(thing->thingClassId());
 //    qDebug() << "Checking thing" << thingClass->name() << thingClass->interfaces();
     if (!m_shownInterfaces.isEmpty()) {

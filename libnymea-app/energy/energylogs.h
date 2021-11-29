@@ -57,12 +57,6 @@ public:
     SampleRate sampleRate() const;
     void setSampleRate(SampleRate sampleRate);
 
-    bool fetchPowerBalance() const;
-    void setFetchPowerBalance(bool fetchPowerBalance);
-
-    QList<QUuid> thingIds() const;
-    void setThingIds(const QList<QUuid> &thingIds);
-
     QDateTime startTime() const;
     void setStartTime(const QDateTime &startTime);
 

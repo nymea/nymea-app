@@ -126,7 +126,7 @@ EnergyLogEntry *PowerBalanceLogs::find(const QDateTime &timestamp) const
     int newest = rowCount() - 1;
     EnergyLogEntry *entry = nullptr;
     int step = 0;
-    while (oldest < newest && step < rowCount()) {
+    while (oldest <= newest && step < rowCount()) {
         EnergyLogEntry *oldestEntry = get(oldest);
         EnergyLogEntry *newestEntry = get(newest);
         int middle = (newest - oldest) / 2 + oldest;
@@ -155,7 +155,6 @@ EnergyLogEntry *PowerBalanceLogs::find(const QDateTime &timestamp) const
         step++;
     }
     return entry;
-
 }
 
 void PowerBalanceLogs::logEntriesReceived(const QVariantMap &params)
@@ -172,7 +171,7 @@ void PowerBalanceLogs::logEntriesReceived(const QVariantMap &params)
         double totalAcquisition = map.value("totalAcquisition").toDouble();
         double totalReturn = map.value("totalReturn").toDouble();
         PowerBalanceLogEntry *entry = new PowerBalanceLogEntry(timestamp, consumption, production, acquisition, storage, totalConsumption, totalProduction, totalAcquisition, totalReturn, this);
-        qCritical() << "Adding entry:" << entry->timestamp() << entry->totalConsumption();
+//        qCritical() << "Adding entry:" << entry->timestamp() << entry->totalConsumption();
 
         addEntry(entry);
     }

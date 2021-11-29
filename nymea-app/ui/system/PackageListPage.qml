@@ -40,7 +40,7 @@ SettingsPageBase {
     title: qsTr("All packages")
 
     property Packages packages: engine.systemController.packages
-    property string filter: ""
+    property alias filter: filterTextField.text
 
     ColumnLayout {
         Layout.fillWidth: true
@@ -53,8 +53,6 @@ SettingsPageBase {
             TextField {
                 id: filterTextField
                 Layout.fillWidth: true
-                text: packageListPage.filter
-                onTextChanged: packageListPage.filter = text
             }
             ColorIcon {
                 name: "close"
@@ -78,7 +76,7 @@ SettingsPageBase {
         model: PackagesFilterModel {
             id: filterModel
             packages: packageListPage.packages
-            nameFilter: packageListPage.filter
+            nameFilter: filterTextField.displayText
         }
 
         delegate: NymeaSwipeDelegate {

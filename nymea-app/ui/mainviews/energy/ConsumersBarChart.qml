@@ -10,6 +10,13 @@ Item {
 
     property EnergyManager energyManager: null
 
+    property ThingsProxy consumers: ThingsProxy {
+        engine: _engine
+        shownInterfaces: ["smartmeterconsumer"]
+    }
+
+    property var colors: null
+
     property int tickCount: 5
 
     property int labelsWidth: 40
@@ -148,13 +155,12 @@ Item {
                             ColorIcon {
                                 anchors.centerIn: parent
                                 name: consumerDelegate.thing ? app.interfacesToIcon(consumerDelegate.thing.thingClass.interfaces) : "energy"
+                                color: root.colors[index % root.colors.length]
                             }
                         }
-
                     }
                 }
             }
         }
     }
-
 }

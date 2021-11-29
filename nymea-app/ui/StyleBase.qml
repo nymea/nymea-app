@@ -110,6 +110,8 @@ Item {
     property color darkGray: "darkGray"
     property color blue: "deepskyblue"
     property color orange: "#f6a625"
+    property color purple: "#6d5fd5"
+    property color lime: "#99ca53"
 
     readonly property int fastAnimationDuration: 100
     readonly property int animationDuration: 150

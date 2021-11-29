@@ -80,7 +80,7 @@ private:
     JsonRpcClient *m_jsonClient = nullptr;
 
     Tags *m_tags = nullptr;
-    bool m_busy = false;
+    bool m_busy = true;
 };
 
 #endif // TAGSMANAGER_H

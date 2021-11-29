@@ -269,5 +269,7 @@
         <file>ui/mainviews/energy/CurrentConsumptionBalancePieChart.qml</file>
         <file>ui/mainviews/energy/ConsumerStats.qml</file>
         <file>ui/system/PackageListPage.qml</file>
+        <file>ui/mainviews/energy/StatsBase.qml</file>
+        <file>ui/mainviews/energy/EnergySettingsPage.qml</file>
     </qresource>
 </RCC>

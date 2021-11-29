@@ -48,6 +48,8 @@ class ThingsProxy : public QSortFilterProxyModel
     Q_PROPERTY(QString filterTagId READ filterTagId WRITE setFilterTagId NOTIFY filterTagIdChanged)
     Q_PROPERTY(QString filterTagValue READ filterTagValue WRITE setFilterTagValue NOTIFY filterTagValueChanged)
     Q_PROPERTY(QString filterThingId READ filterThingId WRITE setFilterThingId NOTIFY filterThingIdChanged)
+    Q_PROPERTY(QString hideTagId READ hideTagId WRITE setHideTagId NOTIFY hideTagIdChanged)
+    Q_PROPERTY(QString hideTagValue READ hideTagValue WRITE setHideTagValue NOTIFY hideTagValueChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
     Q_PROPERTY(QStringList hiddenInterfaces READ hiddenInterfaces WRITE setHiddenInterfaces NOTIFY hiddenInterfacesChanged)
     Q_PROPERTY(QString nameFilter READ nameFilter WRITE setNameFilter NOTIFY nameFilterChanged)
@@ -100,6 +102,12 @@ public:
 
     QString filterTagValue() const;
     void setFilterTagValue(const QString &tagValue);
+
+    QString hideTagId() const;
+    void setHideTagId(const QString &tagId);
+
+    QString hideTagValue() const;
+    void setHideTagValue(const QString &tagValue);
 
     QString filterThingId() const;
     void setFilterThingId(const QString &filterThingId);
@@ -172,6 +180,8 @@ signals:
     void parentProxyChanged();
     void filterTagIdChanged();
     void filterTagValueChanged();
+    void hideTagIdChanged();
+    void hideTagValueChanged();
     void filterThingIdChanged();
     void shownInterfacesChanged();
     void hiddenInterfacesChanged();
@@ -195,6 +205,9 @@ signals:
     void sortOrderChanged();
     void countChanged();
 
+private slots:
+    void invalidateFilterInternal();
+
 private:
     Thing *getInternal(int source_index) const;
 
@@ -202,6 +215,8 @@ private:
     ThingsProxy *m_parentProxy = nullptr;
     QString m_filterTagId;
     QString m_filterTagValue;
+    QString m_hideTagId;
+    QString m_hideTagValue;
     QString m_filterThingId;
     QStringList m_shownInterfaces;
     QStringList m_hiddenInterfaces;
