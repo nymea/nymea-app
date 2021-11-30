@@ -82,6 +82,7 @@ public:
     };
     Q_ENUM(ConnectionStatus)
     explicit NymeaConnection(QObject *parent = nullptr);
+    ~NymeaConnection();
 
     void registerTransport(NymeaTransportInterfaceFactory *transportFactory);
 
@@ -118,6 +119,7 @@ private slots:
     void onError(QAbstractSocket::SocketError error);
     void onConnected();
     void onDisconnected();
+    void onDataAvailable(const QByteArray &data);
 
     void updateActiveBearers();
     void hostConnectionsUpdated();
