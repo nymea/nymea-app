@@ -1,3 +1,10 @@
+nymea-app (1.0.393) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add timestamps to app logs
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 30 Nov 2021 10:39:57 +0100
+
 nymea-app (1.0.392) bionic; urgency=medium
 
   [ Michael Zanetti ]
