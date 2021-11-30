@@ -81,6 +81,17 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
     });
 }
 
+NymeaConnection::~NymeaConnection()
+{
+    QList<NymeaTransportInterfaceFactory*> deletedTransports;
+    foreach (NymeaTransportInterfaceFactory* transport, m_transportFactories) {
+        if (!deletedTransports.contains(transport)) {
+            delete transport;
+            deletedTransports.append(transport);
+        }
+    }
+}
+
 NymeaConnection::BearerTypes NymeaConnection::availableBearerTypes() const
 {
     return m_availableBearerTypes;
@@ -312,7 +323,11 @@ void NymeaConnection::onDisconnected()
         return;
     }
     m_transportCandidates.remove(m_currentTransport);
-    delete m_currentTransport;
+    disconnect(m_currentTransport);
+    disconnect(m_currentTransport, nullptr, nullptr, nullptr);
+    // FIXME: directly deleting crashes with a stack trace that never passes any of our code.
+    // Seems to happen for both, Tcp and WebSocket
+    m_currentTransport->deleteLater();
     m_currentTransport = nullptr;
 
     foreach (NymeaTransportInterface *candidate, m_transportCandidates.keys()) {
@@ -330,6 +345,7 @@ void NymeaConnection::onDisconnected()
         emit connectedChanged(false);
     }
 
+
     if (!m_currentHost) {
         return;
     }
@@ -342,6 +358,16 @@ void NymeaConnection::onDisconnected()
                 connectInternal(m_currentHost);
             }
         });
+    }
+}
+
+void NymeaConnection::onDataAvailable(const QByteArray &data)
+{
+    NymeaTransportInterface *t = static_cast<NymeaTransportInterface*>(sender());
+    if (t == m_currentTransport) {
+        emit dataAvailable(data);
+    } else {
+        qCDebug(dcNymeaConnection()) << "Received data from a transport that is not the current one:" << t->url();
     }
 }
 
@@ -502,12 +528,12 @@ bool NymeaConnection::connectInternal(Connection *connection)
     }
 
     // Create a new transport
-    NymeaTransportInterface* newTransport = m_transportFactories.value(connection->url().scheme())->createTransport();
+    NymeaTransportInterface* newTransport = m_transportFactories.value(connection->url().scheme())->createTransport(this);
     QObject::connect(newTransport, &NymeaTransportInterface::sslErrors, this, &NymeaConnection::onSslErrors);
     QObject::connect(newTransport, &NymeaTransportInterface::error, this, &NymeaConnection::onError);
     QObject::connect(newTransport, &NymeaTransportInterface::connected, this, &NymeaConnection::onConnected);
     QObject::connect(newTransport, &NymeaTransportInterface::disconnected, this, &NymeaConnection::onDisconnected);
-    QObject::connect(newTransport, &NymeaTransportInterface::dataReady, this, &NymeaConnection::dataAvailable);
+    QObject::connect(newTransport, &NymeaTransportInterface::dataReady, this, &NymeaConnection::onDataAvailable);
 
 //    // Load any certificate we might have for this url
 //    QByteArray pem;

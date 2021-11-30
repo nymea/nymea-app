@@ -258,7 +258,7 @@ bool NymeaHostsFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
     if (m_jsonRpcClient && !m_showUneachableBearers) {
         bool hasReachableConnection = false;
         for (int i = 0; i < host->connections()->rowCount(); i++) {
-            qCritical() << "checking host for available bearer" << host->name() << host->connections()->get(i)->url() << "available bearer types:" << m_jsonRpcClient->availableBearerTypes() << "hosts bearer types" << host->connections()->get(i)->bearerType();
+//            qCritical() << "checking host for available bearer" << host->name() << host->connections()->get(i)->url() << "available bearer types:" << m_jsonRpcClient->availableBearerTypes() << "hosts bearer types" << host->connections()->get(i)->bearerType();
             // Either enable a connection when the Bearer type is directly available
             switch (host->connections()->get(i)->bearerType()) {
             case Connection::BearerTypeLan:
