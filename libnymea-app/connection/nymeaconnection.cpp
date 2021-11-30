@@ -312,7 +312,7 @@ void NymeaConnection::onDisconnected()
         return;
     }
     m_transportCandidates.remove(m_currentTransport);
-    m_currentTransport->deleteLater();
+    delete m_currentTransport;
     m_currentTransport = nullptr;
 
     foreach (NymeaTransportInterface *candidate, m_transportCandidates.keys()) {
