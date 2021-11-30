@@ -1,3 +1,10 @@
+nymea-app (1.0.394) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Immediately delete a disconnected transport
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 30 Nov 2021 12:47:33 +0100
+
 nymea-app (1.0.393) bionic; urgency=medium
 
   [ Michael Zanetti ]
