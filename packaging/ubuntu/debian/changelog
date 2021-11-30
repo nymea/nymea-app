@@ -1,3 +1,10 @@
+nymea-app (1.0.395) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes in NymeaConnection
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 01 Dec 2021 00:41:49 +0100
+
 nymea-app (1.0.394) bionic; urgency=medium
 
   [ Michael Zanetti ]
