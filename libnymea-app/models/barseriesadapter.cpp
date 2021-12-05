@@ -180,7 +180,7 @@ void BarSeriesAdapter::logEntryAdded(LogEntry *entry)
 
     m_timeslots[slotIdx].entries.append(entry);
     m_set->replace(slotIdx, m_timeslots[slotIdx].value());
-    qDebug() << "Adding entry" << entry->timestamp() << "timestlot" << timeSlotStart << "at" << slotIdx << "value" << m_timeslots[slotIdx].value();
+//    qDebug() << "Adding entry" << entry->timestamp() << "timestlot" << timeSlotStart << "at" << slotIdx << "value" << m_timeslots[slotIdx].value();
 
 //    if (!m_timeslots.contains(timeSlotStart)) {
 //        TimeSlot timeslot;

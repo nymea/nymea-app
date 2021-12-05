@@ -25,7 +25,7 @@ StatsBase {
             Layout.fillWidth: true
             Layout.margins: Style.smallMargins
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("Energy consumption statistics")
+            text: qsTr("Totals")
 
         }
 
@@ -36,54 +36,56 @@ StatsBase {
             Layout.rightMargin: Style.smallMargins
             model: ListModel {
                 Component.onCompleted: {
-                    append({modelData: qsTr("Months"), config: "months" })
-                    append({modelData: qsTr("Weeks"), config: "weeks" })
-                    append({modelData: qsTr("Days"), config: "days" })
                     append({modelData: qsTr("Hours"), config: "hours" })
+                    append({modelData: qsTr("Days"), config: "days" })
+                    append({modelData: qsTr("Weeks"), config: "weeks" })
+                    append({modelData: qsTr("Months"), config: "months" })
+                    append({modelData: qsTr("Years"), config: "years" })
 //                    append({modelData: qsTr("Minutes"), config: "minutes" })
 
-                    selectionTabs.currentIndex = 2
+                    selectionTabs.currentIndex = 1
                 }
             }
             onCurrentValueChanged: {
                 var config = root.configs[currentValue.config]
-                print("config:", config.startTime(), config.sampleList(), config.sampleListNames())
+                print("config:", config.startTime(), config.sampleRate)
 
                 powerBalanceLogs.loadingInhibited = true
                 powerBalanceLogs.sampleRate = config.sampleRate
-                powerBalanceLogs.startTime = config.startTime()
-                powerBalanceLogs.sampleList = config.sampleList()
+                powerBalanceLogs.startTime = new Date(config.startTime().getTime() - config.sampleRate * 60000)
                 powerBalanceLogs.loadingInhibited = false
 
                 barSeries.clear();
 
                 d.consumptionSet = barSeries.append(qsTr("Consumed"), [])
                 d.consumptionSet.color = Style.blue
+                d.consumptionSet.borderColor = d.consumptionSet.color
                 d.consumptionSet.borderWidth = 0
                 d.productionSet = barSeries.append(qsTr("Produced"), [])
                 d.productionSet.color = Style.green
+                d.productionSet.borderColor = d.productionSet.color
                 d.productionSet.borderWidth = 0
                 d.acquisitionSet = barSeries.append(qsTr("From grid"), [])
                 d.acquisitionSet.color = Style.red
+                d.acquisitionSet.borderColor = d.acquisitionSet.color
                 d.acquisitionSet.borderWidth = 0
                 d.returnSet = barSeries.append(qsTr("To grid"), [])
                 d.returnSet.color = Style.orange
+                d.returnSet.borderColor = d.returnSet.color
                 d.returnSet.borderWidth = 0
 
 
                 valueAxis.max = 0
-                categoryAxis.categories = config.sampleListNames()
 
-                chartView.animationOptions = ChartView.SeriesAnimations
             }
         }
 
         Connections {
             target: energyManager
             onPowerBalanceChanged: {
-                var start = powerBalanceLogs.get(powerBalanceLogs.count - 1)
-    //            print("balance changed:", d.consumptionSet, powerBalanceLogs, powerBalanceLogs.count)
-    //            print("updating", start.timestamp, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
+                var start = powerBalanceLogs.get(powerBalanceLogs.count - 1 )
+//                print("balance changed:", d.consumptionSet, powerBalanceLogs, powerBalanceLogs.count)
+//                print("updating", start.timestamp, start.totalConsumption, root.energyManager.totalConsumption, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
                 d.consumptionSet.replace(d.consumptionSet.count - 1, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
                 d.productionSet.replace(d.productionSet.count - 1, root.energyManager.totalProduction - (start ? start.totalProduction : 0))
                 d.acquisitionSet.replace(d.acquisitionSet.count - 1, root.energyManager.totalAcquisition - (start ? start.totalAcquisition : 0))
@@ -96,48 +98,102 @@ StatsBase {
             engine: _engine
             loadingInhibited: true
 
-            property var sampleList: minutesList
-
             onFetchingDataChanged: {
                 if (!fetchingData) {
-                    if (powerBalanceLogs.count == 0) {
-                        valueAxis.adjustMax(root.energyManager.totalConsumption)
-                        valueAxis.adjustMax(root.energyManager.totalAcquisition)
-                        valueAxis.adjustMax(root.energyManager.totalProduction)
-                        valueAxis.adjustMax(root.energyManager.totalReturn)
+                    chartView.animationOptions = ChartView.NoAnimation
 
-                        for (var i = 0; i < sampleList.length; i++) {
-                            d.consumptionSet.append(i == sampleList.length - 1 ? root.energyManager.totalConsumption : 0)
-                            d.productionSet.append(i == sampleList.length - 1 ? root.energyManager.totalProduction : 0)
-                            d.acquisitionSet.append(i == sampleList.length - 1 ? root.energyManager.totalAcquisition : 0)
-                            d.returnSet.append(i == sampleList.length - 1 ? root.energyManager.totalReturn : 0)
+                    print("Logs fetched")
+                    var config = root.configs[selectionTabs.currentValue.config]
+
+                    var labels = []
+                    var entries = []
+
+                    var newestLogTimestamp = powerBalanceLogs.count > 0 ? powerBalanceLogs.get(powerBalanceLogs.count - 1).timestamp : new Date();
+                    for (var i = 0; i < config.count; i++) {
+                        var entry = powerBalanceLogs.get(powerBalanceLogs.count - i - 1)
+
+                        // if it's the first, let's add a generated entry which shows the total from the newest log to the current live value
+                        if (i == 0) {
+                            var liveEntry = {
+                                consumption: energyManager.totalConsumption,
+                                production: energyManager.totalProduction,
+                                acquisition: energyManager.totalAcquisition,
+                                returned: energyManager.totalReturn
+                            }
+                            if (entry) {
+                                liveEntry.consumption -= entry.totalConsumption
+                                liveEntry.production -= entry.totalProduction
+                                liveEntry.acquisition -= entry.totalAcquisition
+                                liveEntry.returned -= entry.totalReturn
+                            }
+                            print("Adding live entry:", liveEntry.consumption, root.energyManager.totalConsumption, entry ? entry.totalConsumption : 0)
+                            entries.unshift(liveEntry)
+                            valueAxis.adjustMax(liveEntry.consumption)
+                            valueAxis.adjustMax(liveEntry.production)
+                            valueAxis.adjustMax(liveEntry.acquisition)
+                            valueAxis.adjustMax(liveEntry.returned)
                         }
-                        return;
+
+                        // Add the actual entry
+                        var graphEntry = {
+                            consumption: 0,
+                            production: 0,
+                            acquisition: 0,
+                            returned: 0
+                        }
+                        var labelTime = new Date();
+                        if (entry) {
+//                            print("Have entry:", entry.timestamp, config.toLabel(entry.timestamp))
+                            var previous = powerBalanceLogs.get(powerBalanceLogs.count - i - 2)
+                            if (previous) {
+                                graphEntry.consumption = entry.totalConsumption - previous.totalConsumption
+                                graphEntry.production = entry.totalProduction - previous.totalProduction
+                                graphEntry.acquisition = entry.totalAcquisition - previous.totalAcquisition
+                                graphEntry.returned = entry.totalReturn - previous.totalReturn
+                            } else {
+                                graphEntry.consumption = entry.totalConsumption
+                                graphEntry.production = entry.totalProduction
+                                graphEntry.acquisition = entry.totalAcquisition
+                                graphEntry.returned = entry.totalReturn
+                            }
+                            labelTime = entry.timestamp
+                        } else {
+                            labelTime = new Date(newestLogTimestamp.getTime() - config.sampleRate * i * 60000)
+                        }
+
+//                        print("Adding entry:", labelTime, graphEntry.consumption, config.toLabel(labelTime))
+                        entries.unshift(graphEntry)
+                        labels.unshift(labelTime)
+
+                        // Given we've added 2 entries for the first run but only one label, we'll add the missing label
+                        // at the end. This will shift the labels by one entries but that's ok because the logs timestamp
+                        // is when the sample was created, but for the user it's better to show the the consumption values
+                        // *during* that sample, not *before* the sample
+                        if (i == config.count - 1) {
+                            labelTime = new Date(labelTime.getTime() - config.sampleRate * 60000)
+//                            print("Adding oldest entry label", labelTime, config.sampleRate, config.toLabel(labelTime))
+                            labels.unshift(labelTime)
+                        }
+
+                        valueAxis.adjustMax(graphEntry.consumption)
+                        valueAxis.adjustMax(graphEntry.production)
+                        valueAxis.adjustMax(graphEntry.acquisition)
+                        valueAxis.adjustMax(graphEntry.returned)
                     }
 
-                    for (var i = 0; i < sampleList.length; i++) {
-                        var start = powerBalanceLogs.find(new Date(sampleList[i]))
-                        var end = null;
-                        if (i+1 < sampleList.length) {
-                            end = powerBalanceLogs.find(new Date(sampleList[i+1]))
-                        }
-//                        print("** stats for:", new Date(sampleList[i]), /*start, end, */"start:", start ? start.totalConsumption : 0, "end:", end ? end.totalConsumption : root.energyManager.totalConsumption)
-                        var consumptionValue = (end != null ? end.totalConsumption : root.energyManager.totalConsumption) - (start ? start.totalConsumption : 0)
-                        var productionValue = (end != null ? end.totalProduction : root.energyManager.totalProduction) - (start ? start.totalProduction : 0)
-                        var acquisitionValue = (end != null ? end.totalAcquisition : root.energyManager.totalAcquisition) - (start ? start.totalAcquisition : 0)
-                        var returnValue = (end != null ? end.totalReturn : root.energyManager.totalReturn) - (start ? start.totalReturn : 0)
+//                    print("assigning categories:", labels)
+                    categoryAxis.timestamps = labels
 
-                        valueAxis.adjustMax(consumptionValue)
-                        valueAxis.adjustMax(productionValue)
-                        valueAxis.adjustMax(acquisitionValue)
-                        valueAxis.adjustMax(returnValue)
+                    chartView.animationOptions = ChartView.SeriesAnimations
 
-                        d.consumptionSet.append(consumptionValue)
-                        d.productionSet.append(productionValue)
-                        d.acquisitionSet.append(acquisitionValue)
-                        d.returnSet.append(returnValue)
-
+                    for (var i = 0; i < entries.length; i++) {
+//                        print("Appending to set", JSON.stringify(entries[i]))
+                        d.consumptionSet.append(entries[i].consumption)
+                        d.productionSet.append(entries[i].production)
+                        d.acquisitionSet.append(entries[i].acquisition)
+                        d.returnSet.append(entries[i].returned)
                     }
+
                 }
             }
 
@@ -146,14 +202,23 @@ StatsBase {
                     return
                 }
 
+                var config = root.configs[selectionTabs.currentValue.config]
+
+
                 var start = entry
                 var consumptionValue = root.energyManager.totalConsumption - (start ? start.totalConsumption : 0)
                 var productionValue = root.energyManager.totalProduction - (start ? start.totalProduction : 0)
                 var acquisitionValue = root.energyManager.totalAcquisition - (start ? start.totalAcquisition : 0)
                 var returnValue = root.energyManager.totalReturn - (start ? start.totalReturn : 0)
+//                print("Entry added:", entry.timestamp, entry.totalConsumption, consumptionValue)
 
                 chartView.animationOptions = ChartView.NoAnimation
-                categoryAxis.categories = configs[selectionTabs.currentValue.config].sampleListNames()
+
+                var timestamps = categoryAxis.timestamps;
+                timestamps.splice(0, 1)
+                timestamps.push(entry.timestamp)
+                categoryAxis.timestamps = timestamps
+
                 d.consumptionSet.append(consumptionValue)
                 d.productionSet.append(productionValue)
                 d.acquisitionSet.append(acquisitionValue)
@@ -171,7 +236,7 @@ StatsBase {
             id: chartView
             Layout.fillWidth: true
             Layout.fillHeight: true
-            animationOptions: ChartView.NoAnimations
+            animationOptions: ChartView.NoAnimation
 
             backgroundColor: "transparent"
             legend.alignment: Qt.AlignBottom
@@ -214,6 +279,17 @@ StatsBase {
                     lineVisible: false
                     titleVisible: false
                     shadesVisible: false
+
+                    categories: {
+                        var ret = []
+                        for (var i = 0; i < timestamps.length; i++) {
+                            ret.push(root.configs[selectionTabs.currentValue.config].toLabel(timestamps[i]))
+                        }
+                        return ret
+                    }
+
+                    property var timestamps: []
+
                 }
                 axisY: ValueAxis {
                     id: valueAxis
@@ -229,6 +305,106 @@ StatsBase {
                     function adjustMax(newValue) {
                         if (max < newValue) {
                             max = newValue // Math.ceil(newValue / 100) * 100
+                        }
+                    }
+                }
+            }
+
+            MouseArea {
+                id: mouseArea
+                anchors.fill: chartView
+                anchors.leftMargin: chartView.plotArea.x
+                anchors.topMargin: chartView.plotArea.y
+                anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
+                anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
+
+                hoverEnabled: true
+
+                Item {
+                    id: toolTip
+                    property int idx: Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)
+                    visible: mouseArea.containsMouse
+
+                    x: Math.min(idx * mouseArea.width / categoryAxis.count, mouseArea.width - width)
+                    property double setMaxValue: d.consumptionSet && d.productionSet && d.acquisitionSet && d.returnSet ?
+                                                     Math.max(d.consumptionSet.at(idx), Math.max(d.productionSet.at(idx), Math.max(d.acquisitionSet.at(idx), d.returnSet.at(idx))))
+                                                   : 0
+                    y: Math.min(Math.max(mouseArea.height - (setMaxValue * mouseArea.height / valueAxis.max) - height - Style.smallMargins, 0), mouseArea.height - height)
+                    width: tooltipLayout.implicitWidth + Style.smallMargins * 2
+                    height: tooltipLayout.implicitHeight + Style.smallMargins * 2
+
+                    Behavior on x { NumberAnimation { duration: Style.animationDuration } }
+                    Behavior on y { NumberAnimation { duration: Style.animationDuration } }
+                    Behavior on width { NumberAnimation { duration: Style.animationDuration } }
+                    Behavior on height { NumberAnimation { duration: Style.animationDuration } }
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: Style.tileOverlayColor
+                        opacity: .8
+                        radius: Style.smallCornerRadius
+                    }
+
+
+                    ColumnLayout {
+                        id: tooltipLayout
+                        anchors {
+                            left: parent.left
+                            top: parent.top
+                            margins: Style.smallMargins
+                        }
+//                        Label {
+//                            text: powerBalanceLogs.count + ":" + categoryAxis.count + ":" + toolTip.idx
+//                        }
+
+                        Label {
+                            text: categoryAxis.timestamps.length > toolTip.idx ? root.configs[selectionTabs.currentValue.config].toLongLabel(categoryAxis.timestamps[toolTip.idx]) : ""
+                            font: Style.smallFont
+                        }
+
+                        RowLayout {
+                            Rectangle {
+                                width: Style.extraSmallFont.pixelSize
+                                height: width
+                                color: Style.blue
+                            }
+                            Label {
+                                text: d.consumptionSet ? qsTr("Consumed: %1 kWh").arg(d.consumptionSet.at(toolTip.idx).toFixed(2)) : ""
+                                font: Style.extraSmallFont
+                            }
+                        }
+                        RowLayout {
+                            Rectangle {
+                                width: Style.extraSmallFont.pixelSize
+                                height: width
+                                color: Style.green
+                            }
+                            Label {
+                                text: d.productionSet ? qsTr("Produced: %1 kWh").arg(d.productionSet.at(toolTip.idx).toFixed(2)) : ""
+                                font: Style.extraSmallFont
+                            }
+                        }
+                        RowLayout {
+                            Rectangle {
+                                width: Style.extraSmallFont.pixelSize
+                                height: width
+                                color: Style.red
+                            }
+                            Label {
+                                text: d.acquisitionSet ? qsTr("From grid: %1 kWh").arg(d.acquisitionSet.at(toolTip.idx).toFixed(2)) : ""
+                                font: Style.extraSmallFont
+                            }
+                        }
+                        RowLayout {
+                            Rectangle {
+                                width: Style.extraSmallFont.pixelSize
+                                height: width
+                                color: Style.orange
+                            }
+                            Label {
+                                text: d.returnSet ? qsTr("To grid: %1 kWh").arg(d.returnSet.at(toolTip.idx).toFixed(2)) : ""
+                                font: Style.extraSmallFont
+                            }
                         }
                     }
                 }

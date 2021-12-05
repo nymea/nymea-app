@@ -95,7 +95,7 @@ MainViewBase {
         anchors.fill: parent
         anchors.margins: app.margins / 2
         contentHeight: energyGrid.childrenRect.height
-        visible: energyMeters.count > 0
+        visible: !engine.thingManager.fetchingData && engine.jsonRpcClient.experiences.hasOwnProperty("Energy")
         topMargin: root.topMargin
 
         // GridLayout directly in a flickable causes problems at initialisation
@@ -117,6 +117,7 @@ MainViewBase {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
                     energyManager: energyManager
+                    visible: producers.count > 0
                 }
                 CurrentProductionBalancePieChart {
                     Layout.fillWidth: true
@@ -128,6 +129,7 @@ MainViewBase {
                 PowerConsumptionBalanceHistory {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
+                    visible: producers.count > 0
                 }
 
                 PowerProductionBalanceHistory {
@@ -136,7 +138,7 @@ MainViewBase {
                     visible: producers.count > 0
                 }
 
-                ConsumersBarChart {
+                ConsumersPieChart {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
                     energyManager: energyManager
@@ -144,6 +146,15 @@ MainViewBase {
                     colors: root.thingColors
                     consumers: consumers
                 }
+
+//                ConsumersBarChart {
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: width
+//                    energyManager: energyManager
+//                    visible: consumers.count > 0
+//                    colors: root.thingColors
+//                    consumers: consumers
+//                }
                 ConsumersHistory {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
@@ -157,6 +168,7 @@ MainViewBase {
                     Layout.preferredHeight: width
                     energyManager: energyManager
                 }
+
                 ConsumerStats {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
@@ -172,12 +184,18 @@ MainViewBase {
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
-        visible: !engine.jsonRpcClient.experiences.hasOwnProperty("Energy")
+        visible: !engine.thingManager.fetchingData && !engine.jsonRpcClient.experiences.hasOwnProperty("Energy")
         title: qsTr("Energy plugin not installed installed.")
         text: qsTr("This %1 system does not have the energy extensions installed.").arg(Configuration.systemName)
         imageSource: "../images/smartmeter.svg"
         buttonText: qsTr("Install energy plugin")
+        buttonVisible: packagesFilterModel.count > 0
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../system/PackageListPage.qml"), {filter: "nymea-experience-plugin-energy"})
+        PackagesFilterModel {
+            id: packagesFilterModel
+            packages: engine.systemController.packages
+            nameFilter: "nymea-experience-plugin-energy"
+        }
     }
     EmptyViewPlaceholder {
         anchors.centerIn: parent

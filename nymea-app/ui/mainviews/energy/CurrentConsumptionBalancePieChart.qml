@@ -10,7 +10,7 @@ ChartView {
     id: consumptionPieChart
     backgroundColor: "transparent"
     animationOptions: ChartView.SeriesAnimations
-    title: qsTr("Current power consumption balance")
+    title: qsTr("My energy mix")
     titleColor: Style.foregroundColor
     legend.visible: false
 

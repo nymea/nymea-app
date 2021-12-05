@@ -141,7 +141,9 @@ ChartView {
                 series.borderColor = series.color
 
 //                print("Adding thingId series", thing.id, thing.name)
-                d.thingsSeriesMap[thing.id] = series
+                var map = d.thingsSeriesMap
+                map[thing.id] = series
+                d.thingsSeriesMap = map
                 consumerThingIds.push(thing.id)
             }
             thingPowerLogs.thingIds = consumerThingIds;
@@ -233,6 +235,104 @@ ChartView {
 
         function addEntry(entry) {
             consumptionUpperSeries.append(entry.timestamp.getTime(), entry.consumption)
+        }
+    }
+
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        anchors.leftMargin: root.plotArea.x
+        anchors.topMargin: root.plotArea.y
+        anchors.rightMargin: root.width - root.plotArea.width - root.plotArea.x
+        anchors.bottomMargin: root.height - root.plotArea.height - root.plotArea.y
+
+        hoverEnabled: true
+
+        Rectangle {
+            height: parent.height
+            width: 1
+            color: Style.foregroundColor
+            x: mouseArea.mouseX
+            visible: mouseArea.containsMouse
+        }
+
+        Item {
+            id: toolTip
+            visible: mouseArea.containsMouse
+
+            property int idx: consumptionUpperSeries.count - Math.floor(mouseArea.mouseX * consumptionUpperSeries.count / mouseArea.width)
+            property int seriesIndex: consumptionUpperSeries.count - idx
+
+            property int xOnRight: mouseArea.mouseX + Style.smallMargins
+            property int xOnLeft: mouseArea.mouseX - Style.smallMargins - width
+            x: xOnRight + width < mouseArea.width ? xOnRight : xOnLeft
+            property double maxValue: consumptionUpperSeries.at(seriesIndex).y
+            y: Math.min(Math.max(mouseArea.height - (maxValue * mouseArea.height / valueAxis.max) - height - Style.margins, 0), mouseArea.height - height)
+
+            width: tooltipLayout.implicitWidth + Style.smallMargins * 2
+            height: tooltipLayout.implicitHeight + Style.smallMargins * 2
+
+            property date timestamp: new Date(consumptionUpperSeries.at(seriesIndex).x)
+
+            Behavior on x { NumberAnimation { duration: Style.animationDuration } }
+            Behavior on y { NumberAnimation { duration: Style.animationDuration } }
+            Behavior on width { NumberAnimation { duration: Style.animationDuration } }
+            Behavior on height { NumberAnimation { duration: Style.animationDuration } }
+
+            Rectangle {
+                anchors.fill: parent
+                color: Style.tileOverlayColor
+                opacity: .8
+                radius: Style.smallCornerRadius
+            }
+
+            ColumnLayout {
+                id: tooltipLayout
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    margins: Style.smallMargins
+                }
+                Label {
+                    text: toolTip.timestamp.toLocaleString(Qt.locale(), Locale.ShortFormat)
+                    font: Style.smallFont
+                }
+                RowLayout {
+                    Rectangle {
+                        width: Style.extraSmallFont.pixelSize
+                        height: width
+                        color: consumptionSeries.color
+                    }
+                    Label {
+                        property double rawValue: consumptionUpperSeries.at(toolTip.seriesIndex).y
+                        property double displayValue: rawValue >= 1000 ? rawValue / 1000 : rawValue
+                        property string unit: rawValue >= 1000 ? "kW" : "W"
+                        text:  "%1: %2 %3".arg(qsTr("Total")).arg(displayValue.toFixed(2)).arg(unit)
+                        font: Style.extraSmallFont
+                    }
+                }
+
+                Repeater {
+                    model: consumers
+                    delegate: RowLayout {
+                        id: consumerToolTipDelegate
+                        Rectangle {
+                            width: Style.extraSmallFont.pixelSize
+                            height: width
+                            color: root.colors[index % root.colors.length]
+                        }
+
+                        Label {
+                            property ThingPowerLogEntry entry: thingPowerLogs.find(model.id, toolTip.timestamp)
+                            property double rawValue: entry ? entry.currentPower : 0
+                            property double displayValue: rawValue >= 1000 ? rawValue / 1000 : rawValue
+                            property string unit: rawValue >= 1000 ? "kW" : "W"
+                            text:  "%1: %2 %3".arg(model.name).arg(displayValue.toFixed(2)).arg(unit)
+                            font: Style.extraSmallFont
+                        }
+                    }
+                }
+            }
         }
     }
 }

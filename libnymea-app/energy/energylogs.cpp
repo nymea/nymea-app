@@ -183,9 +183,9 @@ void EnergyLogs::appendEntry(EnergyLogEntry *entry)
     beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
     m_list.append(entry);
     endInsertRows();
+    emit countChanged();
     emit entryAdded(entry);
     emit entriesAdded({entry});
-    emit countChanged();
 }
 
 void EnergyLogs::appendEntries(const QList<EnergyLogEntry *> &entries)

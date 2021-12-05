@@ -10,7 +10,7 @@ ChartView {
     id: productionPieChart
     backgroundColor: "transparent"
     animationOptions: ChartView.SeriesAnimations
-    title: qsTr("Current power production balance")
+    title: qsTr("My energy production")
     titleColor: Style.foregroundColor
     legend.visible: false
 

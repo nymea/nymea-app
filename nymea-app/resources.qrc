@@ -271,5 +271,6 @@
         <file>ui/system/PackageListPage.qml</file>
         <file>ui/mainviews/energy/StatsBase.qml</file>
         <file>ui/mainviews/energy/EnergySettingsPage.qml</file>
+        <file>ui/mainviews/energy/ConsumersPieChart.qml</file>
     </qresource>
 </RCC>

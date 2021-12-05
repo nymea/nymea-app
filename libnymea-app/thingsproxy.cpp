@@ -85,8 +85,6 @@ void ThingsProxy::setParentProxy(ThingsProxy *parentProxy)
         if (!m_engine) {
             return;
         }
-        setSortRole(Things::RoleName);
-        sort(0);
         connect(m_parentProxy, SIGNAL(countChanged()), this, SIGNAL(countChanged()));
         connect(m_parentProxy, &QAbstractItemModel::dataChanged, this, [this]() {
             if (m_engine) {

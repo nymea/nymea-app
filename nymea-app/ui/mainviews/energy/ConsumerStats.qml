@@ -43,14 +43,12 @@ StatsBase {
 //                print("config:", config.startTime(), config.sampleList(), config.sampleListNames())
 
         powerLogs.sampleRate = config.sampleRate
-        powerLogs.startTime = config.startTime()
-        powerLogs.sampleList = config.sampleList()
+        powerLogs.startTime = new Date(config.startTime().getTime() - config.sampleRate * 60000)
 
         barSeries.clear();
         barSeries.thingBarSetMap = ({})
 
         valueAxis.max = 0
-        categoryAxis.categories = config.sampleListNames()
 
         chartView.animationOptions = ChartView.SeriesAnimations
 
@@ -66,45 +64,132 @@ StatsBase {
 
         onFetchingDataChanged: {
             if (!fetchingData) {
-                barSeries.clear();
-                for (var j = 0; j < consumers.count; j++) {
-                    // Note: Needs to be let, not var so the lambda capture below copies it instead of capturing the reference
-                    let consumer = consumers.get(j)
-//                    print("ConsumerStats: Adding thing:", consumer.name)
-                    let totalEnergyConsumedState = consumer.stateByName("totalEnergyConsumed")
-//                    print("Adding consumer:", consumer.name, consumer.id)
-                    var consumptionValues = []
-                    for (var i = 0; i < sampleList.length; i++) {
-                        var start = powerLogs.find(consumer.id, new Date(sampleList[i]))
-                        var startValue = start !== null ? start.totalConsumption : 0
-                        var end = i < sampleList.length -1 ? powerLogs.find(consumer.id, new Date(sampleList[i+1])) : null
-                        var endValue = end !== null ? end.totalConsumption : 0
-                        if (i == sampleList.length - 1) {
-                            endValue = totalEnergyConsumedState.value
+                var config = root.configs[selectionTabs.currentValue.config]
+
+                // First grouping log entries by timestamp
+                var groupedEntries = []
+                var groupedEntry = {}
+                for (var i = powerLogs.count - 1; i >= 0; i--) {
+                    var entry = powerLogs.get(i);
+//                    print("grouping entry:", entry.timestamp, "current group entry", groupedEntry.timestamp, groupedEntry.hasOwnProperty("timestamp"))
+                    if (!groupedEntry.hasOwnProperty("timestamp")) {
+                        groupedEntry.timestamp = entry.timestamp;
+//                        print("Starting new groupentry", groupedEntry.timestamp, entry.timestamp)
+                    }
+                    if (groupedEntry.timestamp.getTime() !== entry.timestamp.getTime()) {
+                        if (groupedEntries.length > config.count) {
+                            break;
+                        }
+//                        print("finalizing grouped entry", groupedEntry.timestamp)
+                        groupedEntries.unshift(groupedEntry);
+                        groupedEntry = {
+                            timestamp: entry.timestamp
+                        }
+//                        print("Starting new groupentry", groupedEntry.timestamp, entry.timestamp)
+                    }
+                    groupedEntry[entry.thingId] = entry.totalConsumption
+                }
+                if (groupedEntry.hasOwnProperty("timestamp") && groupedEntries.length <= config.count) {
+//                    print("finalizing grouped entry", groupedEntry.timestamp)
+                    groupedEntries.unshift(groupedEntry)
+                }
+
+
+
+                chartView.animationOptions = ChartView.NoAnimation
+
+
+                var labels = []
+                var entries = []
+
+                var newestLogTimestamp = powerLogs.count > 0 ? powerLogs.get(powerLogs.count - 1).timestamp : new Date();
+
+                for (var i = 0; i < config.count; i++) {
+                    var groupedEntry = groupedEntries[groupedEntries.length - i - 1]
+//                    print("have grouped entry:", groupedEntry ? groupedEntry.timestamp : "null")
+
+                    // if it's the first, let's add a generated entry which shows the total from the newest log to the current live value
+                    if (i == 0) {
+                        var liveEntry = {}
+                        for (var j = 0; j < consumers.count; j++) {
+                            var consumer = consumers.get(j)
+//                            print("Got consumer:", consumer.id, consumer.name)
+                            var value = consumer.stateByName("totalEnergyConsumed").value;
+                            if (groupedEntry) {
+                                value -= groupedEntry.hasOwnProperty(consumer.id) ? groupedEntry[consumer.id] : 0
+                            }
+                            liveEntry[consumer.id] = value
+                            valueAxis.adjustMax(value)
                         }
 
-//                        print("adding sample", new Date(sampleList[i]), start ? start.timestamp : "X", " - ", end ? end.timestamp : "X")
-//                        print("values. start:", startValue, "end", endValue, "diff", endValue - startValue)
-                        var consumptionValue = endValue - startValue
-//                        print("Value", consumptionValue)
-                        consumptionValues.push(consumptionValue)
-                        valueAxis.adjustMax(consumptionValue)
+//                        print("Adding live entry", JSON.stringify(liveEntry))
+                        entries.unshift(liveEntry)
                     }
-                    let barSet = barSeries.append(consumer.name, consumptionValues)
-                    barSet.color = root.colors[j % root.colors.length]
-                    barSet.borderWidth = 0
-                    barSet.borderColor = barSet.color
-                    barSeries.thingBarSetMap[consumer] = barSet
 
-                    totalEnergyConsumedState.onValueChanged.connect(function() {
-                        var sampleList = root.configs[selectionTabs.currentValue.config].sampleList()
-                        var lastSample = sampleList[sampleList.length - 1]
-//                        print("sampleList:", powerLogs.sampleList)
-                        var start = powerLogs.find(consumer.id, new Date(lastSample))
-//                        print("consumer value changed:", consumer.name, totalEnergyConsumedState.value, start.timestamp, start.totalConsumption)
-                        var barSet = barSeries.thingBarSetMap[consumer]
-                        barSet.replace(barSet.count - 1, totalEnergyConsumedState.value - start.totalConsumption)
-                    })
+                    // Add the actual entry
+                    var graphEntry = {}
+                    var labelTime = new Date();
+
+                    if (groupedEntry) {
+                        var previousGroupedEntry = groupedEntries[groupedEntries.length - i - 2]
+                        for (var j = 0; j < consumers.count; j++) {
+                            var consumer = consumers.get(j)
+                            var value = groupedEntry.hasOwnProperty(consumer.id) ? groupedEntry[consumer.id] : 0
+                            if (previousGroupedEntry) {
+                                var previousValue = previousGroupedEntry.hasOwnProperty(consumer.id) ? previousGroupedEntry[consumer.id] : 0
+                                value -= previousValue
+                            }
+                            graphEntry[consumer.id] = value
+                            valueAxis.adjustMax(value)
+                        }
+                        labelTime = groupedEntry.timestamp
+                    } else {
+                        for (var j = 0; j < consumers.count; j++) {
+                            var consumer = consumers.get(j)
+                            graphEntry[consumer.id] = 0
+                        }
+                        labelTime = new Date(newestLogTimestamp.getTime() - config.sampleRate * i * 60000)
+                    }
+
+//                    print("Adding entry:", labelTime, config.toLabel(labelTime), JSON.stringify(graphEntry))
+                    entries.unshift(graphEntry)
+                    labels.unshift(labelTime)
+
+                    // Given we've added 2 entries for the first run but only one label, we'll add the missing label
+                    // at the end. This will shift the labels by one entries but that's ok because the logs timestamp
+                    // is when the sample was created, but for the user it's better to show the the consumption values
+                    // *during* that sample, not *before* the sample
+                    if (i == config.count - 1) {
+                        labelTime = new Date(labelTime.getTime() - config.sampleRate * 60000)
+//                            print("Adding oldest entry label", labelTime, config.sampleRate, config.toLabel(labelTime))
+                        labels.unshift(labelTime)
+                    }
+
+                }
+
+//                print("assigning categories:", labels)
+                categoryAxis.timestamps = labels
+
+                var map = {}
+                for (var j = 0; j < consumers.count; j++) {
+                    var consumer = consumers.get(j)
+                    var barSet = barSeries.append(consumer.name, [])
+                    barSet.color = root.colors[j % root.colors.length]
+                    barSet.borderColor = barSet.color
+                    barSet.borderWith = 0
+                    map[consumer.id] = barSet
+                }
+                barSeries.thingBarSetMap = map
+
+                chartView.animationOptions = ChartView.SeriesAnimations
+
+                for (var i = 0; i < entries.length; i++) {
+                    var entry = entries[i]
+//                    print("Adding entry", JSON.stringify(entry))
+                    for (var j = 0; j < consumers.count; j++) {
+                        var consumer = consumers.get(j)
+                        barSeries.thingBarSetMap[consumer.id].append(entry[consumer.id])
+                    }
                 }
             }
         }
@@ -143,7 +228,7 @@ StatsBase {
             Layout.fillWidth: true
             Layout.margins: Style.smallMargins
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("Consumers statistics")
+            text: qsTr("Consumers totals")
 
         }
 
@@ -155,13 +240,14 @@ StatsBase {
             currentIndex: 0
             model: ListModel {
                 Component.onCompleted: {
-                    append({modelData: qsTr("Months"), config: "months" })
-                    append({modelData: qsTr("Weeks"), config: "weeks" })
-                    append({modelData: qsTr("Days"), config: "days" })
                     append({modelData: qsTr("Hours"), config: "hours" })
+                    append({modelData: qsTr("Days"), config: "days" })
+                    append({modelData: qsTr("Weeks"), config: "weeks" })
+                    append({modelData: qsTr("Months"), config: "months" })
+                    append({modelData: qsTr("Years"), config: "years" })
 //                    append({modelData: qsTr("Minutes"), config: "minutes" })
 
-                    selectionTabs.currentIndex = 2
+                    selectionTabs.currentIndex = 1
                 }
             }
             onCurrentValueChanged: {
@@ -217,6 +303,16 @@ StatsBase {
                     lineVisible: false
                     titleVisible: false
                     shadesVisible: false
+
+                    categories: {
+                        var ret = []
+                        for (var i = 0; i < timestamps.length; i++) {
+                            ret.push(root.configs[selectionTabs.currentValue.config].toLabel(timestamps[i]))
+                        }
+                        return ret
+                    }
+
+                    property var timestamps: []
                 }
                 axisY: ValueAxis {
                     id: valueAxis
@@ -237,6 +333,78 @@ StatsBase {
                 }
 
                 property var thingBarSetMap: ({})
+            }
+
+
+            MouseArea {
+                id: mouseArea
+                anchors.fill: chartView
+                anchors.leftMargin: chartView.plotArea.x
+                anchors.topMargin: chartView.plotArea.y
+                anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
+                anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
+
+                hoverEnabled: true
+
+                Item {
+                    id: toolTip
+                    property int idx: Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)
+                    visible: mouseArea.containsMouse
+
+                    x: Math.min(idx * mouseArea.width / categoryAxis.count, mouseArea.width - width)
+                    property double setMaxValue: {
+                        var max = 0;
+                        for (var i = 0; i < consumers.count; i++) {
+                            var consumer = consumers.get(i)
+                            max = barSeries.thingBarSetMap.hasOwnProperty(consumer.id) ? Math.max(max, barSeries.thingBarSetMap[consumer.id].at(idx)) : 0
+                        }
+                        return max
+                    }
+                    y: Math.min(Math.max(mouseArea.height - (setMaxValue * mouseArea.height / valueAxis.max) - height - Style.smallMargins, 0), mouseArea.height - height)
+
+                    width: tooltipLayout.implicitWidth + Style.smallMargins * 2
+                    height: tooltipLayout.implicitHeight + Style.smallMargins * 2
+
+                    Behavior on x { NumberAnimation { duration: Style.animationDuration } }
+                    Behavior on y { NumberAnimation { duration: Style.animationDuration } }
+                    Behavior on width { NumberAnimation { duration: Style.animationDuration } }
+                    Behavior on height { NumberAnimation { duration: Style.animationDuration } }
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: Style.tileOverlayColor
+                        opacity: .8
+                        radius: Style.smallCornerRadius
+                    }
+
+                    ColumnLayout {
+                        id: tooltipLayout
+                        anchors {
+                            left: parent.left
+                            top: parent.top
+                            margins: Style.smallMargins
+                        }
+                        Label {
+                            text: categoryAxis.timestamps.length > toolTip.idx ? root.configs[selectionTabs.currentValue.config].toLongLabel(categoryAxis.timestamps[toolTip.idx]) : ""
+                            font: Style.smallFont
+                        }
+
+                        Repeater {
+                            model: consumers
+                            delegate: RowLayout {
+                                Rectangle {
+                                    width: Style.extraSmallFont.pixelSize
+                                    height: width
+                                    color: root.colors[index % root.colors.length]
+                                }
+                                Label {
+                                    text: barSeries.thingBarSetMap.hasOwnProperty(model.id) ? "%1: %2 kWh".arg(model.name).arg(barSeries.thingBarSetMap[model.id].at(toolTip.idx).toFixed(2)) : ""
+                                    font: Style.extraSmallFont
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
