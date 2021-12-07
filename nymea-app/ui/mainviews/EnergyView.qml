@@ -68,7 +68,7 @@ MainViewBase {
         engine: _engine
         shownInterfaces: ["energymeter"]
     }
-    readonly property Thing rootMeter: energyMeters.count > 0 ? energyMeters.get(0) : null
+    readonly property Thing rootMeter: engine.thingManager.fetchingData ? null : engine.thingManager.things.getThing(energyManager.rootMeterId)
 
     ThingsProxy {
         id: consumers
@@ -167,6 +167,7 @@ MainViewBase {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
                     energyManager: energyManager
+                    visible: rootMeter != null
                 }
 
                 ConsumerStats {
@@ -200,7 +201,7 @@ MainViewBase {
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
-        visible: engine.jsonRpcClient.experiences.hasOwnProperty("Energy") && !engine.thingManager.fetchingData && energyMeters.count == 0
+        visible: engine.jsonRpcClient.experiences.hasOwnProperty("Energy") && !engine.thingManager.fetchingData && energyMeters.count == 0 && consumers.count == 0
         title: qsTr("There are no energy meters installed.")
         text: qsTr("To get an overview of your current energy usage, install an energy meter.")
         imageSource: "../images/smartmeter.svg"

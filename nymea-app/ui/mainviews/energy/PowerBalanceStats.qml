@@ -47,6 +47,10 @@ StatsBase {
                 }
             }
             onCurrentValueChanged: {
+                if (currentValue === undefined) {
+                    return
+                }
+
                 var config = root.configs[currentValue.config]
                 print("config:", config.startTime(), config.sampleRate)
 
@@ -353,9 +357,6 @@ StatsBase {
                             top: parent.top
                             margins: Style.smallMargins
                         }
-//                        Label {
-//                            text: powerBalanceLogs.count + ":" + categoryAxis.count + ":" + toolTip.idx
-//                        }
 
                         Label {
                             text: categoryAxis.timestamps.length > toolTip.idx ? root.configs[selectionTabs.currentValue.config].toLongLabel(categoryAxis.timestamps[toolTip.idx]) : ""

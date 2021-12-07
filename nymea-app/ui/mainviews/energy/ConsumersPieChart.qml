@@ -47,6 +47,8 @@ ChartView {
         }
     }
 
+    Component.onCompleted: updateConsumers()
+
     QtObject {
         id: d
         property var thingsColorMap: ({})
@@ -55,6 +57,10 @@ ChartView {
 
     function updateConsumers() {
         consumersBalanceSeries.clear();
+
+        if (engine.thingManager.fetchingData) {
+            return;
+        }
 
         var unknownConsumption = energyManager.currentPowerConsumption
 
@@ -110,7 +116,6 @@ ChartView {
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
                 font: Style.bigFont
-
             }
         }
 
@@ -129,8 +134,13 @@ ChartView {
                 sortOrder: Qt.DescendingOrder
             }
             delegate: ColumnLayout {
+                id: consumerDelegate
                 width: parent.width
                 spacing: 0
+                property Thing consumer: consumers.getThing(model.id)
+                property State currentPowerState: consumer ? consumer.stateByName("currentPower") : null
+                property double value: currentPowerState ? currentPowerState.value : 0
+
                 Label {
                     text: model.name
                     Layout.fillWidth: true
@@ -138,14 +148,11 @@ ChartView {
                     font: Style.extraSmallFont
                 }
                 Label {
-                    property Thing consumer: sortedConsumers.get(index)
-                    property State currentPowerState: consumer ? consumer.stateByName("currentPower") : null
-                    property double value: currentPowerState ? currentPowerState.value : 0
 
                     color: d.thingsColorMap[consumer]
                     text: "%1 %2"
-                    .arg((value / (value > 1000 ? 1000 : 1)).toFixed(1))
-                    .arg(value > 1000 ? "kWh" : "W")
+                    .arg((consumerDelegate.value / (consumerDelegate.value > 1000 ? 1000 : 1)).toFixed(1))
+                    .arg(consumerDelegate.value > 1000 ? "kWh" : "W")
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
                     font: Style.smallFont
