@@ -153,10 +153,16 @@ void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice:
             m_discoveryAgent = nullptr;
         }
         m_deviceInfos->clearModel();
+#ifdef Q_OS_IOS
+        m_bluetoothEnabled = false;
+#endif
         emit bluetoothEnabledChanged(false);
         break;
     default:
         // Note: discovery works in all other modes
+#ifdef Q_OS_IOS
+        m_bluetoothEnabled = true;
+#endif
         emit bluetoothEnabledChanged(hostMode != QBluetoothLocalDevice::HostPoweredOff);
         if (!m_discoveryAgent) {
 #ifdef Q_OS_ANDROID
