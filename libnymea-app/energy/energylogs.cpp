@@ -227,12 +227,6 @@ void EnergyLogs::notificationReceivedInternal(const QVariantMap &data)
         return;
     }
 
-    QMetaEnum sampleRateEnum = QMetaEnum::fromType<SampleRate>();
-    SampleRate sampleRate = static_cast<SampleRate>(sampleRateEnum.keyToValue(data.value("params").toMap().value("sampleRate").toByteArray()));
-    if (sampleRate != m_sampleRate) {
-        return;
-    }
-
     notificationReceived(data);
 }
 

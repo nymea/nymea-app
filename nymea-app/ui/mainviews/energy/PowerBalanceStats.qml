@@ -47,8 +47,12 @@ StatsBase {
                 }
             }
             onCurrentValueChanged: {
+                if (currentValue === undefined) {
+                    return
+                }
+
                 var config = root.configs[currentValue.config]
-                print("config:", config.startTime(), config.sampleRate)
+//                print("config:", config.startTime(), config.sampleRate)
 
                 powerBalanceLogs.loadingInhibited = true
                 powerBalanceLogs.sampleRate = config.sampleRate
@@ -85,7 +89,7 @@ StatsBase {
             onPowerBalanceChanged: {
                 var start = powerBalanceLogs.get(powerBalanceLogs.count - 1 )
 //                print("balance changed:", d.consumptionSet, powerBalanceLogs, powerBalanceLogs.count)
-//                print("updating", start.timestamp, start.totalConsumption, root.energyManager.totalConsumption, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
+//                print("updating", start ? start.timestamp : "", start ? start.totalConsumption : 0, root.energyManager.totalConsumption, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
                 d.consumptionSet.replace(d.consumptionSet.count - 1, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
                 d.productionSet.replace(d.productionSet.count - 1, root.energyManager.totalProduction - (start ? start.totalProduction : 0))
                 d.acquisitionSet.replace(d.acquisitionSet.count - 1, root.energyManager.totalAcquisition - (start ? start.totalAcquisition : 0))
@@ -102,7 +106,7 @@ StatsBase {
                 if (!fetchingData) {
                     chartView.animationOptions = ChartView.NoAnimation
 
-                    print("Logs fetched")
+//                    print("Logs fetched")
                     var config = root.configs[selectionTabs.currentValue.config]
 
                     var labels = []
@@ -126,7 +130,7 @@ StatsBase {
                                 liveEntry.acquisition -= entry.totalAcquisition
                                 liveEntry.returned -= entry.totalReturn
                             }
-                            print("Adding live entry:", liveEntry.consumption, root.energyManager.totalConsumption, entry ? entry.totalConsumption : 0)
+//                            print("Adding live entry:", liveEntry.consumption, root.energyManager.totalConsumption, entry ? entry.totalConsumption : 0)
                             entries.unshift(liveEntry)
                             valueAxis.adjustMax(liveEntry.consumption)
                             valueAxis.adjustMax(liveEntry.production)
@@ -202,6 +206,7 @@ StatsBase {
                     return
                 }
 
+//                print("Entry added")
                 var config = root.configs[selectionTabs.currentValue.config]
 
 
@@ -215,18 +220,20 @@ StatsBase {
                 chartView.animationOptions = ChartView.NoAnimation
 
                 var timestamps = categoryAxis.timestamps;
-                timestamps.splice(0, 1)
                 timestamps.push(entry.timestamp)
+                timestamps.splice(0, 1)
                 categoryAxis.timestamps = timestamps
+
+                d.consumptionSet.remove(0, 1);
+                d.productionSet.remove(0, 1);
+                d.acquisitionSet.remove(0, 1);
+                d.returnSet.remove(0, 1);
 
                 d.consumptionSet.append(consumptionValue)
                 d.productionSet.append(productionValue)
                 d.acquisitionSet.append(acquisitionValue)
                 d.returnSet.append(returnValue)
-                d.consumptionSet.remove(0, 1);
-                d.productionSet.remove(0, 1);
-                d.acquisitionSet.remove(0, 1);
-                d.returnSet.remove(0, 1);
+
                 chartView.animationOptions = ChartView.SeriesAnimations
             }
         }
@@ -353,12 +360,9 @@ StatsBase {
                             top: parent.top
                             margins: Style.smallMargins
                         }
-//                        Label {
-//                            text: powerBalanceLogs.count + ":" + categoryAxis.count + ":" + toolTip.idx
-//                        }
 
                         Label {
-                            text: categoryAxis.timestamps.length > toolTip.idx ? root.configs[selectionTabs.currentValue.config].toLongLabel(categoryAxis.timestamps[toolTip.idx]) : ""
+                            text: toolTip.idx >= 0 && categoryAxis.timestamps.length > toolTip.idx ? root.configs[selectionTabs.currentValue.config].toLongLabel(categoryAxis.timestamps[toolTip.idx]) : ""
                             font: Style.smallFont
                         }
 

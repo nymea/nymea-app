@@ -1,5 +1,7 @@
 #include "powerbalancelogs.h"
 
+#include <QMetaEnum>
+
 PowerBalanceLogEntry::PowerBalanceLogEntry(QObject *parent): EnergyLogEntry(parent)
 {
 
@@ -180,6 +182,14 @@ void PowerBalanceLogs::notificationReceived(const QVariantMap &data)
 {
     QString notification = data.value("notification").toString();
     QVariantMap params = data.value("params").toMap();
+
+    QMetaEnum sampleRateEnum = QMetaEnum::fromType<EnergyLogs::SampleRate>();
+    SampleRate sampleRate = static_cast<SampleRate>(sampleRateEnum.keyToValue(data.value("params").toMap().value("sampleRate").toByteArray()));
+
+    if (sampleRate != this->sampleRate()) {
+        return;
+    }
+
     if (notification == "Energy.PowerBalanceLogEntryAdded") {
         QVariantMap map = params.value("powerBalanceLogEntry").toMap();
         QDateTime timestamp = QDateTime::fromSecsSinceEpoch(map.value("timestamp").toLongLong());

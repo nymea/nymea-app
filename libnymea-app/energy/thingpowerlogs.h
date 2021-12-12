@@ -44,13 +44,17 @@ public:
     double minValue() const;
     double maxValue() const;
 
-    Q_INVOKABLE EnergyLogEntry *find(const QUuid &thingId, const QDateTime &timestamp);
+    Q_INVOKABLE ThingPowerLogEntry *find(const QUuid &thingId, const QDateTime &timestamp);
+
+    Q_INVOKABLE ThingPowerLogEntry *liveEntry(const QUuid &thingId);
 
 signals:
     void thingIdsChanged();
 
     void minValueChanged();
     void maxValueChanged();
+
+    void liveEntryChanged(ThingPowerLogEntry *entry);
 
 protected:
     QString logsName() const override;
@@ -62,12 +66,16 @@ private:
     void addEntry(ThingPowerLogEntry *entry);
     void addEntries(const QList<ThingPowerLogEntry *> &entries);
 
+    ThingPowerLogEntry *unpack(const QVariantMap &map);
+
     QList<QUuid> m_thingIds;
     double m_minValue = 0;
     double m_maxValue = 0;
 
     QList<ThingPowerLogEntry*> m_cachedEntries;
     QTimer m_cacheTimer;
+
+    QHash<QUuid, ThingPowerLogEntry*> m_liveEntries;
 };
 
 #endif // THINGPOWERLOGS_H
