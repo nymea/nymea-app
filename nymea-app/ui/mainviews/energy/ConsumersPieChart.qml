@@ -135,7 +135,7 @@ ChartView {
             }
             delegate: ColumnLayout {
                 id: consumerDelegate
-                width: parent.width
+                width: parent ? parent.width : 0
                 spacing: 0
                 property Thing consumer: consumers.getThing(model.id)
                 property State currentPowerState: consumer ? consumer.stateByName("currentPower") : null

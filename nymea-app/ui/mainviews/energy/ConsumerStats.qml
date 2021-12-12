@@ -113,8 +113,9 @@ StatsBase {
                         var liveEntry = {}
                         for (var j = 0; j < consumers.count; j++) {
                             var consumer = consumers.get(j)
-//                            print("Got consumer:", consumer.id, consumer.name)
-                            var value = consumer.stateByName("totalEnergyConsumed").value;
+                            var liveLogEntry = powerLogs.liveEntry(consumer.id)
+//                            print("Got consumer:", consumer.id, consumer.name, liveLogEntry ? liveLogEntry.timestamp : "-")
+                            var value = liveLogEntry ? liveLogEntry.totalConsumption : 0;
                             if (groupedEntry) {
                                 value -= groupedEntry.hasOwnProperty(consumer.id) ? groupedEntry[consumer.id] : 0
                             }
@@ -205,19 +206,40 @@ StatsBase {
                 var entry = entries[i]
                 var thing = engine.thingManager.things.getThing(entry.thingId)
 //                print("Adding new sample. thing:", thing.name);
-//                print("Timestamp:", entry.timestamp)
-                var totalEnergyConsumedState = thing.stateByName("totalEnergyConsumed")
-//                print("current total:", entry.totalConsumption)
+//                print("Timestamp:", entry.timestamp, entry.totalConsumption)
+                // update current last
+                var barSet = barSeries.thingBarSetMap[thing.id]
+                var lastTimestamp = categoryAxis.timestamps[categoryAxis.count - 1]
+                var previous = powerLogs.find(entry.thingId, lastTimestamp)
+                var previousValue = previous ? previous.totalConsumption : 0
+//                print("previousValue:", previousValue, "newValue:", entry.totalConsumption, "diff", entry.totalConsumption - previousValue)
+                barSet.replace(barSet.count - 1, entry.totalConsumption - previousValue)
 
-                var consumptionValue = totalEnergyConsumedState.value - entry.totalConsumption
-//                print("new slot total:", consumptionValue)
+                // remove the oldest
+                barSet.remove(0, 1)
 
-                categoryAxis.categories = configs[selectionTabs.currentValue.config].sampleListNames()
-                barSeries.thingBarSetMap[thing].append(consumptionValue)
-                barSeries.thingBarSetMap[thing].remove(0, 1);
+                // and add a new one (always 0 for a start)
+                barSet.append(0)
             }
 
+            var labels = categoryAxis.timestamps
+            labels.splice(0, 1)
+            labels.push(entries[0].timestamp)
+            categoryAxis.timestamps = labels
+
             chartView.animationOptions = ChartView.SeriesAnimations
+        }
+
+        onLiveEntryChanged: {
+            if (powerLogs.fetchingData) {
+                return
+            }
+
+//            print("live entry changed", entry.thingId, entry.timestamp)
+            var previous = powerLogs.find(entry.thingId, new Date(categoryAxis.timestamps[categoryAxis.timestamps.length - 1]))
+            var previousValue = previous ? previous.totalConsumption : 0
+            var barSet = barSeries.thingBarSetMap[entry.thingId]
+            barSet.replace(barSet.count - 1, entry.totalConsumption - previousValue)
         }
     }
 
@@ -385,7 +407,7 @@ StatsBase {
                             margins: Style.smallMargins
                         }
                         Label {
-                            text: categoryAxis.timestamps.length > toolTip.idx ? root.configs[selectionTabs.currentValue.config].toLongLabel(categoryAxis.timestamps[toolTip.idx]) : ""
+                            text: toolTip.idx >= 0 && categoryAxis.timestamps.length > toolTip.idx ? root.configs[selectionTabs.currentValue.config].toLongLabel(categoryAxis.timestamps[toolTip.idx]) : ""
                             font: Style.smallFont
                         }
 
@@ -395,7 +417,7 @@ StatsBase {
                                 Rectangle {
                                     width: Style.extraSmallFont.pixelSize
                                     height: width
-                                    color: root.colors[index % root.colors.length]
+                                    color: index >= 0 ? root.colors[index % root.colors.length] : "white"
                                 }
                                 Label {
                                     text: barSeries.thingBarSetMap.hasOwnProperty(model.id) ? "%1: %2 kWh".arg(model.name).arg(barSeries.thingBarSetMap[model.id].at(toolTip.idx).toFixed(2)) : ""

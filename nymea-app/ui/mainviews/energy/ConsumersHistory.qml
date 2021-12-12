@@ -319,7 +319,7 @@ ChartView {
                         Rectangle {
                             width: Style.extraSmallFont.pixelSize
                             height: width
-                            color: root.colors[index % root.colors.length]
+                            color: index >= 0 ? root.colors[index % root.colors.length] : "white"
                         }
 
                         Label {
