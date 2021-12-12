@@ -235,6 +235,7 @@ int Thing::executeAction(const QString &actionName, const QVariantList &params)
         }
         finalParams.append(param);
     }
+//    qCritical() << "Executing action" << finalParams;
     int commandId = m_thingManager->executeAction(m_id, actionType->id(), finalParams);
     m_pendingActions.append(commandId);
     return commandId;

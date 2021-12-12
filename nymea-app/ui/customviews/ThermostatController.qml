@@ -40,14 +40,14 @@ Item {
 
         property int startAngle: 135
         property int maxAngle: 270
-        property int steps: roundToPrecision(root.targetTemperatureStateType.maxValue - root.targetTemperatureStateType.minValue) * (1/root.precision)
-        property double stepSize: (root.targetTemperatureStateType.maxValue - root.targetTemperatureStateType.minValue) / steps
+        property int steps: roundToPrecision(root.targetTemperatureState.maxValue - root.targetTemperatureState.minValue) * (1/root.precision)
+        property double stepSize: (root.targetTemperatureState.maxValue - root.targetTemperatureState.minValue) / steps
         property double anglePerStep: maxAngle / steps
 
 
         function angleToValue(angle) {
-            var from = root.targetTemperatureStateType.minValue
-            var to = root.targetTemperatureStateType.maxValue
+            var from = root.targetTemperatureState.minValue
+            var to = root.targetTemperatureState.maxValue
             return (to - from) * angle / maxAngle + from
         }
 
@@ -77,10 +77,10 @@ Item {
 
             // Step lines
             var currentValue = actionQueue.pendingValue || root.targetTemperatureState.value
-            var targetTempStep = roundToPrecision(currentValue - root.targetTemperatureStateType.minValue) * (1/root.precision)
+            var targetTempStep = roundToPrecision(currentValue - root.targetTemperatureState.minValue) * (1/root.precision)
             var currentTempStep;
             if (root.temperatureState) {
-                currentTempStep = roundToPrecision(root.temperatureState.value - root.targetTemperatureStateType.minValue) * (1/root.precision)
+                currentTempStep = roundToPrecision(root.temperatureState.value - root.targetTemperatureState.minValue) * (1/root.precision)
             }
 
             for(var step = 0; step < steps; step += root.precision) {
@@ -207,9 +207,10 @@ Item {
             var valueDiff = angleDiff / canvas.anglePerStep * canvas.stepSize
             valueDiff = canvas.roundToPrecision(valueDiff)
             if (Math.abs(valueDiff) > 0) {
-                var currentValue = actionQueue.pendingValue || root.targetTemperatureState.value
+                var currentValue = actionQueue.pendingValue ? actionQueue.pendingValue : root.targetTemperatureState.value
                 var newValue = currentValue + valueDiff
-                newValue = Math.min(root.targetTemperatureStateType.maxValue, Math.max(root.targetTemperatureStateType.minValue, newValue))
+                newValue = Math.min(root.targetTemperatureState.maxValue, Math.max(root.targetTemperatureState.minValue, newValue))
+                print("newValue:", newValue, "current:", currentValue, "diff:", valueDiff, root.targetTemperatureState.minValue)
                 if (currentValue !== newValue) {
                     actionQueue.sendValue(newValue)
                 }
