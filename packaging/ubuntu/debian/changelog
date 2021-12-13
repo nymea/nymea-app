@@ -1,3 +1,10 @@
+nymea-app (1.0.403) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Settings entries configuration
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 13 Dec 2021 17:59:47 +0100
+
 nymea-app (1.0.402) bionic; urgency=medium
 
   [ Michael Zanetti ]
