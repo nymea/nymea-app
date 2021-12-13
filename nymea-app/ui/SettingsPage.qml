@@ -92,6 +92,8 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
 
+                visible: Configuration.networkSettingsEnabled
+
                 padding: 0
                 NymeaSwipeDelegate {
                     width: parent.width
@@ -124,6 +126,8 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
 
+                visible: Configuration.apiSettingsEnabled
+
                 padding: 0
                 NymeaSwipeDelegate {
                     width: parent.width
@@ -139,7 +143,7 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
-                visible: engine.jsonRpcClient.ensureServerVersion("1.11")
+                visible: engine.jsonRpcClient.ensureServerVersion("1.11") && Configuration.mqttSettingsEnabled
 
                 padding: 0
                 NymeaSwipeDelegate {
@@ -157,6 +161,8 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
 
+                visible: Configuration.webServerSettingsEnabled
+
                 padding: 0
                 NymeaSwipeDelegate {
                     width: parent.width
@@ -167,13 +173,13 @@ Page {
                     wrapTexts: false
                     onClicked: pageStack.push(Qt.resolvedUrl("system/WebServerSettingsPage.qml"))
                 }
-
             }
 
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
-                visible: engine.jsonRpcClient.ensureServerVersion("5.3")
+                visible: engine.jsonRpcClient.ensureServerVersion("5.3") && Configuration.zigbeeSettingsEnabled
+
 
                 padding: 0
                 NymeaSwipeDelegate {
@@ -190,7 +196,7 @@ Page {
             Pane {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
-                visible: engine.jsonRpcClient.ensureServerVersion("5.6")
+                visible: engine.jsonRpcClient.ensureServerVersion("5.6") && Configuration.modbusSettingsEnabled
 
                 padding: 0
                 NymeaSwipeDelegate {
