@@ -1,3 +1,10 @@
+nymea-app (1.0.401) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the check whether the energy plugin is available or not
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 13 Dec 2021 14:48:28 +0100
+
 nymea-app (1.0.400) bionic; urgency=medium
 
   [ Michael Zanetti ]
