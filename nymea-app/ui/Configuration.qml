@@ -10,4 +10,10 @@ ConfigurationBase {
 
     showCommunityLinks: true
 
+    networkSettingsEnabled: true
+    apiSettingsEnabled: true
+    mqttSettingsEnabled: true
+    webServerSettingsEnabled: true
+    zigbeeSettingsEnabled: true
+    modbusSettingsEnabled: true
 }
