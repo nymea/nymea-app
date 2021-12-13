@@ -92,6 +92,10 @@ SettingsPageBase {
             visible: engine.systemController.deviceSerialNumber.length > 0
             progressive: false
             prominentSubText: false
+            onClicked: {
+                PlatformHelper.toClipBoard(engine.systemController.deviceSerialNumber)
+                ToolTip.show(qsTr("Serial copied to clipboard"), 500);
+            }
         }
     }
 }

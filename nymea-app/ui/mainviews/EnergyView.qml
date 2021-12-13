@@ -95,7 +95,7 @@ MainViewBase {
         anchors.fill: parent
         anchors.margins: app.margins / 2
         contentHeight: energyGrid.childrenRect.height
-        visible: !engine.thingManager.fetchingData && engine.jsonRpcClient.experiences.hasOwnProperty("Energy")
+        visible: !engine.thingManager.fetchingData && engine.jsonRpcClient.experiences.hasOwnProperty("Energy") && engine.jsonRpcClient.experiences["Energy"] >= "0.2"
         topMargin: root.topMargin
 
         // GridLayout directly in a flickable causes problems at initialisation
@@ -185,7 +185,7 @@ MainViewBase {
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
-        visible: !engine.thingManager.fetchingData && !engine.jsonRpcClient.experiences.hasOwnProperty("Energy")
+        visible: !engine.thingManager.fetchingData && (!engine.jsonRpcClient.experiences.hasOwnProperty("Energy") || engine.jsonRpcClient.experiences["Energy"] <= "0.1")
         title: qsTr("Energy plugin not installed installed.")
         text: qsTr("This %1 system does not have the energy extensions installed.").arg(Configuration.systemName)
         imageSource: "../images/smartmeter.svg"
@@ -201,7 +201,7 @@ MainViewBase {
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
-        visible: engine.jsonRpcClient.experiences.hasOwnProperty("Energy") && !engine.thingManager.fetchingData && energyMeters.count == 0 && consumers.count == 0
+        visible: engine.jsonRpcClient.experiences["Energy"] >= "0.2" && !engine.thingManager.fetchingData && energyMeters.count == 0 && consumers.count == 0
         title: qsTr("There are no energy meters installed.")
         text: qsTr("To get an overview of your current energy usage, install an energy meter.")
         imageSource: "../images/smartmeter.svg"
