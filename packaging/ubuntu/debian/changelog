@@ -1,3 +1,10 @@
+nymea-app (1.0.402) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations and translate new strings to german
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 13 Dec 2021 17:36:04 +0100
+
 nymea-app (1.0.401) bionic; urgency=medium
 
   [ Michael Zanetti ]
