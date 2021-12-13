@@ -94,37 +94,45 @@ ThingsListPageBase {
                             text: {
                                 if (dataGrid.isEnergyMeter) {
                                     if (dataGrid.isProduction) {
-                                        return qsTr("%1 %2 returning").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                        //: e.g. Returning 5kW
+                                        return qsTr("Returning %1").arg(dataGrid.cleanVale + " " + dataGrid.unit)
                                     } else {
-                                        return qsTr("%1 %2 obtaining").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                        //: e.g. Obtaining 5kW
+                                        return qsTr("Obtaining %1").arg(dataGrid.cleanVale + " " + dataGrid.unit)
                                     }
 
                                 } else if (dataGrid.isBattery || dataGrid.isEvCharger) {
                                     if (dataGrid.isProduction) {
-                                        return qsTr("%1 %2 discharging").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                        //: e.g. Discharging at 5kW
+                                        return qsTr("Discharging at %1").arg(dataGrid.cleanVale + " " + dataGrid.unit)
                                     } else {
-                                        return qsTr("%1 %2 charging").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                        //: e.g. Charging at 5kW
+                                        return qsTr("Charging at %1").arg(dataGrid.cleanVale + " "  + dataGrid.unit)
                                     }
 
                                 } else if (dataGrid.isProducer && !dataGrid.isConsumer) {
                                     if (dataGrid.isProduction) {
-                                        return qsTr("%1 %2 producing").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                        //: e.g. Producing 5kW
+                                        return qsTr("Producing %1").arg(dataGrid.cleanVale + " " + dataGrid.unit)
                                     } else {
-                                        return qsTr("%1 %2 idling").arg(Math.max(0, dataGrid.cleanVale)).arg(dataGrid.unit)
+                                        //: A producer, not producing anything
+                                        return qsTr("Idling")
                                     }
 
                                 } else if (dataGrid.isConsumer && !dataGrid.isProducer) {
                                     if (dataGrid.isProduction) {
-                                        return qsTr("%1 %2 idling").arg(Math.max(0, dataGrid.cleanVale)).arg(dataGrid.unit)
+                                        //: A consumer, not consuming anything
+                                        return qsTr("Idling")
                                     } else {
-                                        return qsTr("%1 %2 consuming").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                        //: e.g. Consuming 5kW
+                                        return qsTr("Consuming %1").arg(dataGrid.cleanVale + " " + dataGrid.unit)
                                     }
 
                                 } else {
                                     if (dataGrid.isProduction) {
-                                        return qsTr("%1 %2 producing").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                        return qsTr("Producing %1").arg(dataGrid.cleanVale + " " + dataGrid.unit)
                                     } else {
-                                        return qsTr("%1 %2 consuming").arg(dataGrid.cleanVale).arg(dataGrid.unit)
+                                        return qsTr("Consuming %1").arg(dataGrid.cleanVale + " " + dataGrid.unit)
                                     }
                                 }
                             }

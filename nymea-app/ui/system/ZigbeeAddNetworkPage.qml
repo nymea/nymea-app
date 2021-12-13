@@ -220,7 +220,7 @@ SettingsPageBase {
             }
 
             SettingsPageSectionHeader {
-                text: qsTr("Zigbee network settings")
+                text: qsTr("ZigBee network settings")
             }
 
             RowLayout {

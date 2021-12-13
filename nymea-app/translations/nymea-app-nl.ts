@@ -35,6 +35,14 @@
         <source>Device serial number</source>
         <translation>Apparaat serienummer</translation>
     </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation type="unfinished">ID gekopieerd naar clipboard</translation>
+    </message>
+    <message>
+        <source>Serial copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AboutPage</name>
@@ -561,9 +569,11 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems connected to your cloud.</source>
-        <translation><numerusform>Er is %n %1 systeem verbonden met uw cloud.</numerusform>
-        <numerusform>Er zijn %n %1 systemen verbonden met uw cloud.</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>Er is %n %1 systeem verbonden met uw cloud.</numerusform>
+            <numerusform>Er zijn %n %1 systemen verbonden met uw cloud.</numerusform>
+        </translation>
+    </message>
     <message>
         <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
         <translation type="unfinished"></translation>
@@ -790,9 +800,11 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems in your network! Which one would you like to use?</source>
-        <translation><numerusform>Er is %n %1 systeem in uw netwerk! Welke wilt u gebuiken?</numerusform>
-        <numerusform>Er zijn %n %1 systemen in uw netwerk! Welke wilt u gebuiken?</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>Er is %n %1 systeem in uw netwerk! Welke wilt u gebuiken?</numerusform>
+            <numerusform>Er zijn %n %1 systemen in uw netwerk! Welke wilt u gebuiken?</numerusform>
+        </translation>
+    </message>
     <message>
         <source>We haven&apos;t found a %1 system in your network yet.</source>
         <translation>We hebben nog geen %1 systeem in uw netwerk kunnen vinden.</translation>
@@ -931,6 +943,120 @@
     <message>
         <source>WebSocket server interfaces</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumerStats</name>
+    <message>
+        <source>Consumers totals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersBarChart</name>
+    <message>
+        <source>Consumers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersHistory</name>
+    <message>
+        <source>Consumers history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersPieChart</name>
+    <message>
+        <source>Consumers balance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CurrentConsumptionBalancePieChart</name>
+    <message>
+        <source>My energy mix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From self production</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CurrentProductionBalancePieChart</name>
+    <message>
+        <source>My energy production</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To battery</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1629,54 +1755,30 @@
     </message>
 </context>
 <context>
-    <name>EnergyView</name>
+    <name>EnergySettingsPage</name>
     <message>
-        <source>Total consumed energy</source>
-        <translation>Totaal verbruikte energie</translation>
-    </message>
-    <message>
-        <source>Power usage history</source>
-        <translation>Energieverbruik historie</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n seconds</source>
-        <translation><numerusform>%n seconde</numerusform>
-        <numerusform>%n secondes</numerusform>
-        </translation></message>
-    <message numerus="yes">
-        <source>%n minutes</source>
-        <translation><numerusform>%n minuut</numerusform>
-        <numerusform>%n minuten</numerusform>
-        </translation></message>
-    <message numerus="yes">
-        <source>%n hours</source>
-        <translation><numerusform>%n uur</numerusform>
-        <numerusform>%n uren</numerusform>
-        </translation></message>
-    <message numerus="yes">
-        <source>%n days</source>
-        <translation><numerusform>%n dag</numerusform>
-        <numerusform>%n dagen</numerusform>
-        </translation></message>
-    <message numerus="yes">
-        <source>%n weeks</source>
-        <translation><numerusform>%n week</numerusform>
-        <numerusform>%n weken</numerusform>
-        </translation></message>
-    <message numerus="yes">
-        <source>%n months</source>
-        <translation><numerusform>%n maand</numerusform>
-        <numerusform>%n maanden</numerusform>
-        </translation></message>
-    <message numerus="yes">
-        <source>%n years</source>
-        <translation><numerusform>%n jaar</numerusform>
-        <numerusform>%n jaren</numerusform>
-        </translation></message>
-    <message>
-        <source>Total produced energy</source>
+        <source>Energy settings</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple energy meters are installed in the system. Please select the one you&apos;d like to use as the root meter. That is, the one measuring the entire household.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Root meter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumers</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EnergyView</name>
     <message>
         <source>There are no energy meters installed.</source>
         <translation type="unfinished"></translation>
@@ -1686,11 +1788,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unknown</source>
+        <source>To get an overview of your current energy usage, install an energy meter.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To get an overview of your current energy usage, install an energy meter.</source>
+        <source>Energy plugin not installed installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This %1 system does not have the energy extensions installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install energy plugin</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1707,6 +1817,21 @@
     <message>
         <source>Error code: %1</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>EvChargerThingPage</name>
+    <message>
+        <source>Maximum charging current</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The car is not plugged in.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Currently charging at %1.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2015,50 +2140,50 @@ Please try again.</source>
     <message numerus="yes">
         <source>%n seconds</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n seconde</numerusform>
+            <numerusform>%n secondes</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n minutes</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n minuut</numerusform>
+            <numerusform>%n minuten</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n hours</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n uur</numerusform>
+            <numerusform>%n uren</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n days</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n dag</numerusform>
+            <numerusform>%n dagen</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n weeks</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n week</numerusform>
+            <numerusform>%n weken</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n months</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n maand</numerusform>
+            <numerusform>%n maanden</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n years</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n jaar</numerusform>
+            <numerusform>%n jaren</numerusform>
         </translation>
     </message>
 </context>
@@ -2333,10 +2458,6 @@ Please try again.</source>
     </message>
     <message>
         <source>Connected changed</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Heatings</source>
         <translation></translation>
     </message>
     <message>
@@ -3043,6 +3164,22 @@ Please try again.</source>
         <source>Total produced energy changed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cooling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cooling enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cooling enabled changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable cooling</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -3162,6 +3299,25 @@ Please try again.</source>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>LightThingPage</name>
+    <message>
+        <source>Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Power</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3449,7 +3605,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hulp</translation>
     </message>
     <message>
         <source>Forum</source>
@@ -3642,7 +3798,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fabrikant</translation>
     </message>
     <message>
         <source>Serialnumber</source>
@@ -3725,7 +3881,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fabrikant</translation>
     </message>
     <message>
         <source>Serialnumber</source>
@@ -3753,7 +3909,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toepassen</translation>
     </message>
     <message>
         <source>Select a serial port.</source>
@@ -3916,7 +4072,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Reconfigure</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Opnieuw configureren</translation>
     </message>
     <message>
         <source>Path</source>
@@ -4482,6 +4638,14 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Waiting for your nymea setup to appear in the network.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -4802,6 +4966,10 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Flammable gas level</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cooling</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -4814,6 +4982,71 @@ Use a timeout value greater or equal to 10 ms.</source>
     <name>NymeaSwipeDelegate</name>
     <message>
         <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PackageListPage</name>
+    <message>
+        <source>All packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No package found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installed version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Candidate version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Verwijderen</translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
+Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove package</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4883,7 +5116,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     <name>PluginParamsPage</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Instellingen</translation>
     </message>
 </context>
 <context>
@@ -4894,6 +5127,127 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Installed integration plugins</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PowerBalanceStats</name>
+    <message>
+        <source>Totals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Produced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Produced: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PowerConsumptionBalanceHistory</name>
+    <message>
+        <source>My consumption history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Self production</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Self production: %1 kW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From battery: %1 kW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid: %1 kW</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PowerProductionBalanceHistory</name>
+    <message>
+        <source>My production history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To battery: %1 kW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid: %1 kW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed: %1 kW</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4919,8 +5273,8 @@ Use a timeout value greater or equal to 10 ms.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Please press the button on your %1 box to authenticate this device.</source>
-        <translation></translation>
+        <source>Please press the button on your %1 gateway to authenticate this device.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5333,11 +5687,11 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aan</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uit</translation>
     </message>
 </context>
 <context>
@@ -5487,7 +5841,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>About %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Over %1</translation>
     </message>
     <message>
         <source>Modbus RTU</source>
@@ -5644,11 +5998,96 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Smart meters</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Returning %1</source>
+        <extracomment>e.g. Returning 5kW</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Obtaining %1</source>
+        <extracomment>e.g. Obtaining 5kW</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discharging at %1</source>
+        <extracomment>e.g. Discharging at 5kW</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Charging at %1</source>
+        <extracomment>e.g. Charging at 5kW</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Producing %1</source>
+        <extracomment>e.g. Producing 5kW</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Idling</source>
+        <extracomment>A producer, not producing anything
+----------
+A consumer, not consuming anything</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consuming %1</source>
+        <extracomment>e.g. Consuming 5kW</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SmartMeterDevicePage</name>
     <message>
-        <source>Total energy consumption</source>
+        <source>Idle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Charging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discharging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Producing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consuming</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Returning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Obtaining</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At the current rate, the battery will be fully charged at %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At the current rate, the battery will last until %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A total of %1 kWh has been &lt;b&gt;consumed&lt;/b&gt; in the last 24 hours.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A total of %1 kWh has been &lt;b&gt;obtained&lt;/b&gt; in the last 24 hours.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A total of %1 kWh has been &lt;b&gt;produced&lt;/b&gt; in the last 24 hours.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A total of %1 kWh has been &lt;b&gt;returned&lt;/b&gt; in the last 24 hours.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5717,38 +6156,6 @@ Use a timeout value greater or equal to 10 ms.</source>
         <translation></translation>
     </message>
     <message>
-        <source>All packages</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Installed version:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Candidate version:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Install</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Start update</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Remove package</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation></translation>
     </message>
@@ -5776,19 +6183,6 @@ Use a timeout value greater or equal to 10 ms.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Package information</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Not installed</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>
-Do you want to proceed?</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Failure adding repository.</source>
         <translation></translation>
     </message>
@@ -5801,17 +6195,6 @@ Do you want to proceed?</source>
         <source>Enabling additional software sources allows to install unreleased %1 packages.
 This can potentially break your system and lead to problems.
 Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ThermostatDevicePage</name>
-    <message>
-        <source>Boost</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5890,7 +6273,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OK</translation>
     </message>
 </context>
 <context>
@@ -6237,7 +6620,7 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Terug</translation>
     </message>
     <message>
         <source>Next</source>
@@ -6329,6 +6712,30 @@ Please only use this if you are sure you want this and consider reporting the is
         <source>Add a new ZigBee network</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add ZigBee network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto light link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>ZigBee network settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ZigbeeNetworkPage</name>
@@ -6401,10 +6808,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>network coordinator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6418,7 +6821,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verwijderen</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this node from the network?</source>
@@ -6437,15 +6840,7 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ZigBee nodes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove ZigBee node</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ZigBee network coordinator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6455,6 +6850,34 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>ZigBee end device</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished">Hulp</translation>
+    </message>
+    <message>
+        <source>Connected devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no ZigBee devices connectd yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manufacturer</source>
+        <translation type="unfinished">Fabrikant</translation>
+    </message>
+    <message>
+        <source>Signal strength</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
     </message>
 </context>
 <context>

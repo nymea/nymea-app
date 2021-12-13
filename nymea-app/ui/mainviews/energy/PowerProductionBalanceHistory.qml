@@ -288,7 +288,7 @@ ChartView {
                     }
 
                     Label {
-                        text: qsTr("consumed: %1 kW").arg(selfConsumptionUpperSeries.at(toolTip.seriesIndex).y.toFixed(2))
+                        text: qsTr("Consumed: %1 kW").arg(selfConsumptionUpperSeries.at(toolTip.seriesIndex).y.toFixed(2))
                         font: Style.extraSmallFont
                     }
                 }

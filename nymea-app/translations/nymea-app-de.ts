@@ -35,6 +35,14 @@
         <source>Device serial number</source>
         <translation>Seriennummer des Geräts</translation>
     </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation>ID in die Zwischenablage kopiert</translation>
+    </message>
+    <message>
+        <source>Serial copied to clipboard</source>
+        <translation>Seriennummer in die Zwischenablage kopiert</translation>
+    </message>
 </context>
 <context>
     <name>AboutPage</name>
@@ -938,6 +946,120 @@
     </message>
 </context>
 <context>
+    <name>ConsumerStats</name>
+    <message>
+        <source>Consumers totals</source>
+        <translation>Verbrauchersummen</translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation>Stunden</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Tage</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation>Wochen</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Monate</translation>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation>Jahre</translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersBarChart</name>
+    <message>
+        <source>Consumers</source>
+        <translation>Verbraucher</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersHistory</name>
+    <message>
+        <source>Consumers history</source>
+        <translation>Verbraucherhistorie</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>Gesamt</translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersPieChart</name>
+    <message>
+        <source>Consumers balance</source>
+        <translation>Verbraucherbilanz</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>Gesamt</translation>
+    </message>
+</context>
+<context>
+    <name>CurrentConsumptionBalancePieChart</name>
+    <message>
+        <source>My energy mix</source>
+        <translation>Mein Energiemix</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>Gesamt</translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation>Netzbezug</translation>
+    </message>
+    <message>
+        <source>From self production</source>
+        <translation>Eigenproduktion</translation>
+    </message>
+    <message>
+        <source>From battery</source>
+        <translation>Batterie</translation>
+    </message>
+</context>
+<context>
+    <name>CurrentProductionBalancePieChart</name>
+    <message>
+        <source>My energy production</source>
+        <translation>Meine Energieproduktion</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>Gesamt</translation>
+    </message>
+    <message>
+        <source>Consumed</source>
+        <translation>Verbraucht</translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation>Netzeinspeisung</translation>
+    </message>
+    <message>
+        <source>To battery</source>
+        <translation>Batterie</translation>
+    </message>
+</context>
+<context>
     <name>Dashboard</name>
     <message>
         <source>Dashboard is empty</source>
@@ -1639,19 +1761,30 @@
     </message>
 </context>
 <context>
+    <name>EnergySettingsPage</name>
+    <message>
+        <source>Energy settings</source>
+        <translation>Einergieeinstellungen</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Allgemein</translation>
+    </message>
+    <message>
+        <source>Multiple energy meters are installed in the system. Please select the one you&apos;d like to use as the root meter. That is, the one measuring the entire household.</source>
+        <translation>Mehrere Energiemessgeräte sind in Deinem System installiert. Bitte wähle den Wurzelmesser aus. Also denjenigen, der den gesamten Haushalt misst.</translation>
+    </message>
+    <message>
+        <source>Root meter</source>
+        <translation>Wuzelmesser</translation>
+    </message>
+    <message>
+        <source>Consumers</source>
+        <translation>Verbraucher</translation>
+    </message>
+</context>
+<context>
     <name>EnergyView</name>
-    <message>
-        <source>Total consumed energy</source>
-        <translation>Energieverbrauch</translation>
-    </message>
-    <message>
-        <source>Power usage history</source>
-        <translation>Verbrauchshistorie</translation>
-    </message>
-    <message>
-        <source>Total produced energy</source>
-        <translation>Erzeugte Energie</translation>
-    </message>
     <message>
         <source>There are no energy meters installed.</source>
         <translation>Es sind noch keine Stromzähler installiert.</translation>
@@ -1660,62 +1793,21 @@
         <source>Add things</source>
         <translation>&quot;Things&quot; hinzufügen</translation>
     </message>
-    <message numerus="yes">
-        <source>%n seconds</source>
-        <translation>
-            <numerusform>Eine Sekunde</numerusform>
-            <numerusform>%n Sekunden</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n minutes</source>
-        <translation>
-            <numerusform>Eine Minute</numerusform>
-            <numerusform>%n Minuten</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n hours</source>
-        <translation>
-            <numerusform>Eine Stunde</numerusform>
-            <numerusform>%n Stunden</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n days</source>
-        <translation>
-            <numerusform>Einen Tag</numerusform>
-            <numerusform>%n Tage</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n weeks</source>
-        <translation>
-            <numerusform>Eine Woche</numerusform>
-            <numerusform>%n Wochen</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n months</source>
-        <translation>
-            <numerusform>Einen Monat</numerusform>
-            <numerusform>%n Monate</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n years</source>
-        <translation>
-            <numerusform>Ein Jahr</numerusform>
-            <numerusform>%n Jahre</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Unknown</source>
-        <translation>Unbekannt</translation>
-    </message>
     <message>
         <source>To get an overview of your current energy usage, install an energy meter.</source>
         <translation>Installiere ein Energiemessgerät um eine Übersicht über Deinen Energieverbrauch zu erhalten.</translation>
+    </message>
+    <message>
+        <source>Energy plugin not installed installed.</source>
+        <translation>Das Energie-Addon ist nicht installiert.</translation>
+    </message>
+    <message>
+        <source>This %1 system does not have the energy extensions installed.</source>
+        <translation>Auf diesem %1 System ist die Energieerweiterung nicht installiert.</translation>
+    </message>
+    <message>
+        <source>Install energy plugin</source>
+        <translation>Energie-Addon installieren</translation>
     </message>
 </context>
 <context>
@@ -1731,6 +1823,21 @@
     <message>
         <source>Error code: %1</source>
         <translation>Fehler-Nummer: %1</translation>
+    </message>
+</context>
+<context>
+    <name>EvChargerThingPage</name>
+    <message>
+        <source>Maximum charging current</source>
+        <translation>Maximaler Ladestrom</translation>
+    </message>
+    <message>
+        <source>The car is not plugged in.</source>
+        <translation>Das Fahrzeug ist nicht eingesteckt.</translation>
+    </message>
+    <message>
+        <source>Currently charging at %1.</source>
+        <translation>Aktuell wird mit %1 geladen.</translation>
     </message>
 </context>
 <context>
@@ -2359,10 +2466,6 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Connected changed</source>
         <translation>Verbunden geändert</translation>
-    </message>
-    <message>
-        <source>Heatings</source>
-        <translation>Heizungen</translation>
     </message>
     <message>
         <source>Heating enabled</source>
@@ -3068,6 +3171,22 @@ Bitte versuche es erneut.</translation>
         <source>Total produced energy changed</source>
         <translation>Gesamte erzeugte Energie geändert</translation>
     </message>
+    <message>
+        <source>Cooling</source>
+        <translation>Kühlung</translation>
+    </message>
+    <message>
+        <source>Cooling enabled</source>
+        <translation>Kühlung aktivert</translation>
+    </message>
+    <message>
+        <source>Cooling enabled changed</source>
+        <translation>Kühlung aktivert oder deaktiviert</translation>
+    </message>
+    <message>
+        <source>Enable cooling</source>
+        <translation>Kühlung aktivieren</translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -3187,6 +3306,25 @@ Bitte versuche es erneut.</translation>
             <numerusform>Noch einen Tag</numerusform>
             <numerusform>Noch %n Tage</numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>LightThingPage</name>
+    <message>
+        <source>Color</source>
+        <translation>Farbe</translation>
+    </message>
+    <message>
+        <source>Temperature</source>
+        <translation>Temperatur</translation>
+    </message>
+    <message>
+        <source>Brightness</source>
+        <translation>Helligkeit</translation>
+    </message>
+    <message>
+        <source>Power</source>
+        <translation>An/Aus</translation>
     </message>
 </context>
 <context>
@@ -4511,6 +4649,14 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <source>Waiting for your nymea setup to appear in the network.</source>
         <translation>Warte bis Dein nymea System im Netzwerk auftaucht.</translation>
     </message>
+    <message>
+        <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
+        <translation>Bluetooth scheint auf diesem System nicht verfügbar zu sein.</translation>
+    </message>
+    <message>
+        <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
+        <translation>Bluetooth ist deaktiviert. Bitte aktivieren Bluetooth auf diesem Gerät.</translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -4831,6 +4977,10 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <source>Flammable gas level</source>
         <translation>Wert für entflammbare Gase</translation>
     </message>
+    <message>
+        <source>Cooling</source>
+        <translation>Kühlung</translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -4844,6 +4994,73 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     <message>
         <source>Delete</source>
         <translation>Löschen</translation>
+    </message>
+</context>
+<context>
+    <name>PackageListPage</name>
+    <message>
+        <source>All packages</source>
+        <translation>Alle Pakete</translation>
+    </message>
+    <message>
+        <source>No package found</source>
+        <translation>Keine Pakete gefunden</translation>
+    </message>
+    <message>
+        <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
+        <translation>Es tut uns leid. Wir konnten keine Pakete finden, auf denen der Suchbegriff %1 zutrifft.</translation>
+    </message>
+    <message>
+        <source>Package information</source>
+        <translation>Paket-Informationen</translation>
+    </message>
+    <message>
+        <source>Installed version:</source>
+        <translation>Installierte Version:</translation>
+    </message>
+    <message>
+        <source>Not installed</source>
+        <translation>Nicht installiert</translation>
+    </message>
+    <message>
+        <source>Candidate version:</source>
+        <translation>Kandidat-Version:</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Aktualisierung</translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation>Installieren</translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
+        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Miuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.</translation>
+    </message>
+    <message>
+        <source>
+Do you want to proceed?</source>
+        <translation>
+Möchtest Du fortfahren?</translation>
+    </message>
+    <message>
+        <source>Start update</source>
+        <translation>Aktualisierung starten</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Entfernen</translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
+Do you want to proceed?</source>
+        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Miuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.
+Möchtest Du fortfahren?</translation>
+    </message>
+    <message>
+        <source>Remove package</source>
+        <translation>Paket entfernen</translation>
     </message>
 </context>
 <context>
@@ -4927,6 +5144,127 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
 </context>
 <context>
+    <name>PowerBalanceStats</name>
+    <message>
+        <source>Totals</source>
+        <translation>Gesamt</translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation>Stunden</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Tage</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation>Wochen</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Monate</translation>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation>Jahre</translation>
+    </message>
+    <message>
+        <source>Consumed</source>
+        <translation>Verbraucht</translation>
+    </message>
+    <message>
+        <source>Produced</source>
+        <translation>Erzeugt</translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation>Netzbezug</translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation>Netzeinspeisung</translation>
+    </message>
+    <message>
+        <source>Consumed: %1 kWh</source>
+        <translation>Verbraucht: %1 kWh</translation>
+    </message>
+    <message>
+        <source>Produced: %1 kWh</source>
+        <translation>Erzeugt: %1 kWh</translation>
+    </message>
+    <message>
+        <source>From grid: %1 kWh</source>
+        <translation>Netzbezug: %1 kWh</translation>
+    </message>
+    <message>
+        <source>To grid: %1 kWh</source>
+        <translation>Netzeinspeisung: %1 kWh</translation>
+    </message>
+</context>
+<context>
+    <name>PowerConsumptionBalanceHistory</name>
+    <message>
+        <source>My consumption history</source>
+        <translation>Meine Verbrauchshistorie</translation>
+    </message>
+    <message>
+        <source>Self production</source>
+        <translation>Eigenproduktion</translation>
+    </message>
+    <message>
+        <source>From battery</source>
+        <translation>Betterie</translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation>Netzbezug</translation>
+    </message>
+    <message>
+        <source>Self production: %1 kW</source>
+        <translation>Eigenproduktion: %1 kW</translation>
+    </message>
+    <message>
+        <source>From battery: %1 kW</source>
+        <translation>Batterie: %1 kW</translation>
+    </message>
+    <message>
+        <source>From grid: %1 kW</source>
+        <translation>Netzbezug: %1 kW</translation>
+    </message>
+</context>
+<context>
+    <name>PowerProductionBalanceHistory</name>
+    <message>
+        <source>My production history</source>
+        <translation>Meine Erzeugnishistorie</translation>
+    </message>
+    <message>
+        <source>Consumed</source>
+        <translation>Verbraucht</translation>
+    </message>
+    <message>
+        <source>To battery</source>
+        <translation>Batterie</translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation>Netzeinspeisung</translation>
+    </message>
+    <message>
+        <source>To battery: %1 kW</source>
+        <translation>Batterie: %1 kW</translation>
+    </message>
+    <message>
+        <source>To grid: %1 kW</source>
+        <translation>Netzeinspeisung: %1 kW</translation>
+    </message>
+    <message>
+        <source>Consumed: %1 kW</source>
+        <translation>Verbraucht: %1 kW</translation>
+    </message>
+</context>
+<context>
     <name>PowerSocketsDeviceListPage</name>
     <message>
         <source>My %1</source>
@@ -4948,8 +5286,8 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <translation>Authentifizierung erforderlich</translation>
     </message>
     <message>
-        <source>Please press the button on your %1 box to authenticate this device.</source>
-        <translation>Bitte drücken Sie die Taste auf Ihrer %1 Box um sich zu authentifizieren.</translation>
+        <source>Please press the button on your %1 gateway to authenticate this device.</source>
+        <translation>Bitte drücke den Knopf auf deinem %1 Gateway um die Authentifizierung abzuschließen.</translation>
     </message>
 </context>
 <context>
@@ -5673,12 +6011,97 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <source>Smart meters</source>
         <translation>Intelligente Stromzähler</translation>
     </message>
+    <message>
+        <source>Returning %1</source>
+        <extracomment>e.g. Returning 5kW</extracomment>
+        <translation>%1 Netzeinspeisung</translation>
+    </message>
+    <message>
+        <source>Obtaining %1</source>
+        <extracomment>e.g. Obtaining 5kW</extracomment>
+        <translation>%1 Netzbezug</translation>
+    </message>
+    <message>
+        <source>Discharging at %1</source>
+        <extracomment>e.g. Discharging at 5kW</extracomment>
+        <translation>%1 entladend</translation>
+    </message>
+    <message>
+        <source>Charging at %1</source>
+        <extracomment>e.g. Charging at 5kW</extracomment>
+        <translation>%1 ladend</translation>
+    </message>
+    <message>
+        <source>Producing %1</source>
+        <extracomment>e.g. Producing 5kW</extracomment>
+        <translation>%1 Erzeugung</translation>
+    </message>
+    <message>
+        <source>Idling</source>
+        <extracomment>A producer, not producing anything
+----------
+A consumer, not consuming anything</extracomment>
+        <translation>Im Leerlauf</translation>
+    </message>
+    <message>
+        <source>Consuming %1</source>
+        <extracomment>e.g. Consuming 5kW</extracomment>
+        <translation>%1 Verbrauch</translation>
+    </message>
 </context>
 <context>
     <name>SmartMeterDevicePage</name>
     <message>
-        <source>Total energy consumption</source>
-        <translation>Gesamter Energieverbrauch</translation>
+        <source>Idle</source>
+        <translation>Leerlauf</translation>
+    </message>
+    <message>
+        <source>Charging</source>
+        <translation>Ladend</translation>
+    </message>
+    <message>
+        <source>Discharging</source>
+        <translation>Entladen</translation>
+    </message>
+    <message>
+        <source>Producing</source>
+        <translation>Erzeugend</translation>
+    </message>
+    <message>
+        <source>Consuming</source>
+        <translation>Verbrauchend</translation>
+    </message>
+    <message>
+        <source>Returning</source>
+        <translation>Einspeisend</translation>
+    </message>
+    <message>
+        <source>Obtaining</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>At the current rate, the battery will be fully charged at %1.</source>
+        <translation>Bei der aktuellen Rate wird die Batterie um %1 vollständig geladen sein.</translation>
+    </message>
+    <message>
+        <source>At the current rate, the battery will last until %1.</source>
+        <translation>Bei der aktuellen Rate wird die Batterie bis %1 halten.</translation>
+    </message>
+    <message>
+        <source>A total of %1 kWh has been &lt;b&gt;consumed&lt;/b&gt; in the last 24 hours.</source>
+        <translation>Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;verbraucht&lt;/b&gt;.</translation>
+    </message>
+    <message>
+        <source>A total of %1 kWh has been &lt;b&gt;obtained&lt;/b&gt; in the last 24 hours.</source>
+        <translation>Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;bezogen&lt;/b&gt;.</translation>
+    </message>
+    <message>
+        <source>A total of %1 kWh has been &lt;b&gt;produced&lt;/b&gt; in the last 24 hours.</source>
+        <translation>Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;erzeugt&lt;/b&gt;.</translation>
+    </message>
+    <message>
+        <source>A total of %1 kWh has been &lt;b&gt;returned&lt;/b&gt; in the last 24 hours.</source>
+        <translation>Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;eingespeist&lt;/b&gt;.</translation>
     </message>
 </context>
 <context>
@@ -5746,38 +6169,6 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <translation>Paket-Quelle aktivieren</translation>
     </message>
     <message>
-        <source>All packages</source>
-        <translation>Alle Pakete</translation>
-    </message>
-    <message>
-        <source>Installed version:</source>
-        <translation>Installierte Version:</translation>
-    </message>
-    <message>
-        <source>Candidate version:</source>
-        <translation>Kandidat-Version:</translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation>Aktualisierung</translation>
-    </message>
-    <message>
-        <source>Install</source>
-        <translation>Installieren</translation>
-    </message>
-    <message>
-        <source>Start update</source>
-        <translation>Aktualisierung starten</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Entfernen</translation>
-    </message>
-    <message>
-        <source>Remove package</source>
-        <translation>Paket entfernen</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
@@ -5805,20 +6196,6 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <translation>Software hinzufügen oder entfernen</translation>
     </message>
     <message>
-        <source>Package information</source>
-        <translation>Paket-Informationen</translation>
-    </message>
-    <message>
-        <source>Not installed</source>
-        <translation>Nicht installiert</translation>
-    </message>
-    <message>
-        <source>
-Do you want to proceed?</source>
-        <translation>
-Möchtest Du fortfahren?</translation>
-    </message>
-    <message>
         <source>Failure adding repository.</source>
         <translation>Fehler beim Hinzufügen der Paketquelle.</translation>
     </message>
@@ -5835,17 +6212,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation>Das Aktivieren zusätzlicher Software-Quellen erlaubt das Installieren von %1 Vorschauversionen.
 Dies kann unter Umständen Deine Installation beschädigen und zu Problemen füren.
 Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du möchtest und hilf uns Fehler zu finden indem Du uns darüber informierst.</translation>
-    </message>
-    <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
-        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Miuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.</translation>
-    </message>
-</context>
-<context>
-    <name>ThermostatDevicePage</name>
-    <message>
-        <source>Boost</source>
-        <translation>Boost</translation>
     </message>
 </context>
 <context>
@@ -6362,6 +6728,30 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <source>Add a new ZigBee network</source>
         <translation>Neues ZigBee Netzwerk erstellen</translation>
     </message>
+    <message>
+        <source>Add ZigBee network</source>
+        <translation>ZigBee Netzwerk hinzufügen</translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation>Kanal</translation>
+    </message>
+    <message>
+        <source>Auto</source>
+        <translation>Auto</translation>
+    </message>
+    <message>
+        <source>Auto light link</source>
+        <translation>Auto Light Link</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>ZigBee network settings</source>
+        <translation>ZigBee Netzwerkeinstellungen</translation>
+    </message>
 </context>
 <context>
     <name>ZigbeeNetworkPage</name>
@@ -6434,10 +6824,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Für neue Geräte öffnen</translation>
     </message>
     <message>
-        <source>network coordinator</source>
-        <translation>Netzwerkkoordinator</translation>
-    </message>
-    <message>
         <source>Version</source>
         <translation>Version</translation>
     </message>
@@ -6470,16 +6856,8 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Schlafendes Gerät</translation>
     </message>
     <message>
-        <source>ZigBee nodes</source>
-        <translation>ZigBee Knoten</translation>
-    </message>
-    <message>
         <source>Remove ZigBee node</source>
         <translation>ZigBee Knoten entfernen</translation>
-    </message>
-    <message>
-        <source>ZigBee network coordinator</source>
-        <translation>ZigBee Netzwerk Koordinator</translation>
     </message>
     <message>
         <source>ZigBee router</source>
@@ -6488,6 +6866,34 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>ZigBee end device</source>
         <translation>ZigBee Endgerät</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Hilfe</translation>
+    </message>
+    <message>
+        <source>Connected devices</source>
+        <translation>Verbundene Geräte</translation>
+    </message>
+    <message>
+        <source>There are no ZigBee devices connectd yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
+        <translation>Es sind noch keine ZigBee Geräte verbunden. Öffne das Netzwerk für neue Geräte und starte das Pairing-Verfahren auf dem ZigBee Gerät. Bitte beziehe Dich auf das Handbuch des Gerätes, um mehr Informationen über das Pairing-Verfahren des jeweiligen Gerätes zu erhalten.</translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation>Modell</translation>
+    </message>
+    <message>
+        <source>Manufacturer</source>
+        <translation>Hersteller</translation>
+    </message>
+    <message>
+        <source>Signal strength</source>
+        <translation>Signalstärke</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
 </context>
 <context>

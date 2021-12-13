@@ -35,6 +35,14 @@
         <source>Device serial number</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Serial copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AboutPage</name>
@@ -936,6 +944,120 @@
     </message>
 </context>
 <context>
+    <name>ConsumerStats</name>
+    <message>
+        <source>Consumers totals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersBarChart</name>
+    <message>
+        <source>Consumers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished">알 수 없는</translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersHistory</name>
+    <message>
+        <source>Consumers history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished">알 수 없는</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersPieChart</name>
+    <message>
+        <source>Consumers balance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished">알 수 없는</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CurrentConsumptionBalancePieChart</name>
+    <message>
+        <source>My energy mix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From self production</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CurrentProductionBalancePieChart</name>
+    <message>
+        <source>My energy production</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Dashboard</name>
     <message>
         <source>Dashboard is empty</source>
@@ -1637,19 +1759,30 @@
     </message>
 </context>
 <context>
+    <name>EnergySettingsPage</name>
+    <message>
+        <source>Energy settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation type="unfinished">일반적인</translation>
+    </message>
+    <message>
+        <source>Multiple energy meters are installed in the system. Please select the one you&apos;d like to use as the root meter. That is, the one measuring the entire household.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Root meter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumers</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>EnergyView</name>
-    <message>
-        <source>Total consumed energy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Power usage history</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Total produced energy</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>There are no energy meters installed.</source>
         <translation type="unfinished"></translation>
@@ -1658,54 +1791,20 @@
         <source>Add things</source>
         <translation type="unfinished">사물(장치) 추가</translation>
     </message>
-    <message numerus="yes">
-        <source>%n seconds</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n minutes</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n hours</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n days</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n weeks</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n months</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n years</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Unknown</source>
-        <translation type="unfinished">알 수 없는</translation>
-    </message>
     <message>
         <source>To get an overview of your current energy usage, install an energy meter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Energy plugin not installed installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This %1 system does not have the energy extensions installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install energy plugin</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1722,6 +1821,21 @@
     <message>
         <source>Error code: %1</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>EvChargerThingPage</name>
+    <message>
+        <source>Maximum charging current</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The car is not plugged in.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Currently charging at %1.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2343,10 +2457,6 @@ Please try again.</source>
     <message>
         <source>Connected changed</source>
         <translation>연결 변경됨</translation>
-    </message>
-    <message>
-        <source>Heatings</source>
-        <translation>열기구</translation>
     </message>
     <message>
         <source>Heating enabled</source>
@@ -3052,6 +3162,22 @@ Please try again.</source>
         <source>Total produced energy changed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cooling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cooling enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cooling enabled changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable cooling</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -3162,6 +3288,25 @@ Please try again.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>LightThingPage</name>
+    <message>
+        <source>Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Temperature</source>
+        <translation type="unfinished">온도</translation>
+    </message>
+    <message>
+        <source>Brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Power</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4482,6 +4627,14 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Waiting for your nymea setup to appear in the network.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -4802,6 +4955,10 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Flammable gas level</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cooling</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -4815,6 +4972,72 @@ Use a timeout value greater or equal to 10 ms.</source>
     <message>
         <source>Delete</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PackageListPage</name>
+    <message>
+        <source>All packages</source>
+        <translation type="unfinished">모든 패키지</translation>
+    </message>
+    <message>
+        <source>No package found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package information</source>
+        <translation type="unfinished">패키지 정보</translation>
+    </message>
+    <message>
+        <source>Installed version:</source>
+        <translation type="unfinished">설치된 버전:</translation>
+    </message>
+    <message>
+        <source>Not installed</source>
+        <translation type="unfinished">설치되지 않음</translation>
+    </message>
+    <message>
+        <source>Candidate version:</source>
+        <translation type="unfinished">후보 버전:</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">업데이트</translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation type="unfinished">설치</translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Do you want to proceed?</source>
+        <translation type="unfinished">
+진행 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Start update</source>
+        <translation type="unfinished">업데이트 시작</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">제거</translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
+Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove package</source>
+        <translation type="unfinished">패키지 제거</translation>
     </message>
 </context>
 <context>
@@ -4898,6 +5121,127 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
 </context>
 <context>
+    <name>PowerBalanceStats</name>
+    <message>
+        <source>Totals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Produced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Produced: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PowerConsumptionBalanceHistory</name>
+    <message>
+        <source>My consumption history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Self production</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Self production: %1 kW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From battery: %1 kW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid: %1 kW</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PowerProductionBalanceHistory</name>
+    <message>
+        <source>My production history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To battery: %1 kW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid: %1 kW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed: %1 kW</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PowerSocketsDeviceListPage</name>
     <message>
         <source>My %1</source>
@@ -4919,8 +5263,8 @@ Use a timeout value greater or equal to 10 ms.</source>
         <translation>인증 필요</translation>
     </message>
     <message>
-        <source>Please press the button on your %1 box to authenticate this device.</source>
-        <translation>%1 상자(장치)의 버튼을 눌러 이 장치를 인증하십시오.</translation>
+        <source>Please press the button on your %1 gateway to authenticate this device.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5644,11 +5988,96 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Smart meters</source>
         <translation>스마트 미터(측정기)</translation>
     </message>
+    <message>
+        <source>Returning %1</source>
+        <extracomment>e.g. Returning 5kW</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Obtaining %1</source>
+        <extracomment>e.g. Obtaining 5kW</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discharging at %1</source>
+        <extracomment>e.g. Discharging at 5kW</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Charging at %1</source>
+        <extracomment>e.g. Charging at 5kW</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Producing %1</source>
+        <extracomment>e.g. Producing 5kW</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Idling</source>
+        <extracomment>A producer, not producing anything
+----------
+A consumer, not consuming anything</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consuming %1</source>
+        <extracomment>e.g. Consuming 5kW</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SmartMeterDevicePage</name>
     <message>
-        <source>Total energy consumption</source>
+        <source>Idle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Charging</source>
+        <translation type="unfinished">충전중</translation>
+    </message>
+    <message>
+        <source>Discharging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Producing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consuming</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Returning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Obtaining</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At the current rate, the battery will be fully charged at %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At the current rate, the battery will last until %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A total of %1 kWh has been &lt;b&gt;consumed&lt;/b&gt; in the last 24 hours.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A total of %1 kWh has been &lt;b&gt;obtained&lt;/b&gt; in the last 24 hours.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A total of %1 kWh has been &lt;b&gt;produced&lt;/b&gt; in the last 24 hours.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A total of %1 kWh has been &lt;b&gt;returned&lt;/b&gt; in the last 24 hours.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5717,38 +6146,6 @@ Use a timeout value greater or equal to 10 ms.</source>
         <translation>패키지 원본 사용</translation>
     </message>
     <message>
-        <source>All packages</source>
-        <translation>모든 패키지</translation>
-    </message>
-    <message>
-        <source>Installed version:</source>
-        <translation>설치된 버전:</translation>
-    </message>
-    <message>
-        <source>Candidate version:</source>
-        <translation>후보 버전:</translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation>업데이트</translation>
-    </message>
-    <message>
-        <source>Install</source>
-        <translation>설치</translation>
-    </message>
-    <message>
-        <source>Start update</source>
-        <translation>업데이트 시작</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>제거</translation>
-    </message>
-    <message>
-        <source>Remove package</source>
-        <translation>패키지 제거</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>설정</translation>
     </message>
@@ -5775,20 +6172,6 @@ Use a timeout value greater or equal to 10 ms.</source>
         <translation>소프트웨어 설치 또는 제거</translation>
     </message>
     <message>
-        <source>Package information</source>
-        <translation>패키지 정보</translation>
-    </message>
-    <message>
-        <source>Not installed</source>
-        <translation>설치되지 않음</translation>
-    </message>
-    <message>
-        <source>
-Do you want to proceed?</source>
-        <translation>
-진행 하시겠습니까?</translation>
-    </message>
-    <message>
         <source>Failure adding repository.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5802,17 +6185,6 @@ Do you want to proceed?</source>
 This can potentially break your system and lead to problems.
 Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ThermostatDevicePage</name>
-    <message>
-        <source>Boost</source>
-        <translation type="unfinished">증가</translation>
     </message>
 </context>
 <context>
@@ -6329,6 +6701,30 @@ Please only use this if you are sure you want this and consider reporting the is
         <source>Add a new ZigBee network</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add ZigBee network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto</source>
+        <translation type="unfinished">자동</translation>
+    </message>
+    <message>
+        <source>Auto light link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">확인</translation>
+    </message>
+    <message>
+        <source>ZigBee network settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ZigbeeNetworkPage</name>
@@ -6401,10 +6797,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>network coordinator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6437,15 +6829,7 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ZigBee nodes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove ZigBee node</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ZigBee network coordinator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6455,6 +6839,34 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>ZigBee end device</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished">도움</translation>
+    </message>
+    <message>
+        <source>Connected devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no ZigBee devices connectd yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manufacturer</source>
+        <translation type="unfinished">제조자</translation>
+    </message>
+    <message>
+        <source>Signal strength</source>
+        <translation type="unfinished">신호 강도</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">확인</translation>
     </message>
 </context>
 <context>
