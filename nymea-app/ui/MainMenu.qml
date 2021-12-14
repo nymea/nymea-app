@@ -139,7 +139,7 @@ Drawer {
                     Layout.fillWidth: true
                     text: qsTr("Configure things")
                     iconName: "../images/things.svg"
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected
                     progressive: false
                     onClicked: {
                         root.openThingSettings()
@@ -151,7 +151,7 @@ Drawer {
                     text: qsTr("Magic")
                     iconName: "../images/magic.svg"
                     progressive: false
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected
                     onClicked: {
                         root.openMagicSettings();
                         root.close();
@@ -162,7 +162,7 @@ Drawer {
                     text: qsTr("Configure main view")
                     iconName: "../images/configure.svg"
                     progressive: false
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost &&
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected &&
                              !Configuration.hasOwnProperty("mainViewsFilter")
                     onClicked: {
                         root.configureMainView();
@@ -184,7 +184,7 @@ Drawer {
                     text: qsTr("System settings")
                     iconName: "../images/settings.svg"
                     progressive: false
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected
                     onClicked: {
                         root.openSystemSettings();
                         root.close();
