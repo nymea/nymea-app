@@ -1,3 +1,10 @@
+nymea-app (1.0.404) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow disabling plugin settings by configuration
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 14 Dec 2021 12:40:48 +0100
+
 nymea-app (1.0.403) bionic; urgency=medium
 
   [ Michael Zanetti ]
