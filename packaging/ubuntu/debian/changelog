@@ -1,3 +1,11 @@
+nymea-app (1.0.406) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide settings while disconnected
+  * Some minor tunings in the EnergyView
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 14 Dec 2021 16:11:35 +0100
+
 nymea-app (1.0.405) bionic; urgency=medium
 
   [ Michael Zanetti ]
