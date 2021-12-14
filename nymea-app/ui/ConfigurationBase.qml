@@ -16,4 +16,5 @@ Item {
     property bool webServerSettingsEnabled: false
     property bool zigbeeSettingsEnabled: false
     property bool modbusSettingsEnabled: false
+    property bool pluginSettingsEnabled: false
 }

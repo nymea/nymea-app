@@ -16,4 +16,5 @@ ConfigurationBase {
     webServerSettingsEnabled: true
     zigbeeSettingsEnabled: true
     modbusSettingsEnabled: true
+    pluginSettingsEnabled: true
 }

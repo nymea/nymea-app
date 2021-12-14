@@ -214,6 +214,8 @@ Page {
                 Layout.fillWidth: true
                 Material.elevation: layout.isGrid ? 1 : 0
 
+                visible: Configuration.pluginSettingsEnabled
+
                 padding: 0
                 NymeaSwipeDelegate {
                     width: parent.width
