@@ -13,6 +13,8 @@ Item {
     property color tileOverlayForegroundColor: foregroundColor
     property color tileOverlayIconColor: iconColor
 
+    property color tooltipBackgroundColor: tileOverlayColor
+
     property int cornerRadius: 6
     property int smallCornerRadius: 4
 

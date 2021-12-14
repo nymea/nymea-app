@@ -361,81 +361,72 @@ StatsBase {
 
                 property var thingBarSetMap: ({})
             }
+        }
+    }
 
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        anchors.leftMargin: chartView.x + chartView.plotArea.x
+        anchors.topMargin: chartView.y + chartView.plotArea.y
+        anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
+        anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
 
-            MouseArea {
-                id: mouseArea
-                anchors.fill: chartView
-                anchors.leftMargin: chartView.plotArea.x
-                anchors.topMargin: chartView.plotArea.y
-                anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
-                anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
+        hoverEnabled: true
 
-                hoverEnabled: true
+        Timer {
+            interval: 300
+            running: mouseArea.pressed
+            onTriggered: mouseArea.preventStealing = true
+        }
+        onReleased: mouseArea.preventStealing = false
 
-                Timer {
-                    interval: 300
-                    running: mouseArea.pressed
-                    onTriggered: mouseArea.preventStealing = true
+        NymeaToolTip {
+            id: toolTip
+
+            backgroundItem: chartView
+            backgroundRect: Qt.rect(chartView.plotArea.x + toolTip.x, chartView.plotArea.y + toolTip.y, toolTip.width, toolTip.height)
+
+            property int idx: Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)
+            visible: mouseArea.containsMouse
+
+            x: Math.min(idx * mouseArea.width / categoryAxis.count, mouseArea.width - width)
+            property double setMaxValue: {
+                var max = 0;
+                for (var i = 0; i < consumers.count; i++) {
+                    var consumer = consumers.get(i)
+                    max = barSeries.thingBarSetMap.hasOwnProperty(consumer.id) ? Math.max(max, barSeries.thingBarSetMap[consumer.id].at(idx)) : 0
                 }
-                onReleased: mouseArea.preventStealing = false
+                return max
+            }
+            y: Math.min(Math.max(mouseArea.height - (setMaxValue * mouseArea.height / valueAxis.max) - height - Style.smallMargins, 0), mouseArea.height - height)
 
-                Item {
-                    id: toolTip
-                    property int idx: Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)
-                    visible: mouseArea.containsMouse
+            width: tooltipLayout.implicitWidth + Style.smallMargins * 2
+            height: tooltipLayout.implicitHeight + Style.smallMargins * 2
 
-                    x: Math.min(idx * mouseArea.width / categoryAxis.count, mouseArea.width - width)
-                    property double setMaxValue: {
-                        var max = 0;
-                        for (var i = 0; i < consumers.count; i++) {
-                            var consumer = consumers.get(i)
-                            max = barSeries.thingBarSetMap.hasOwnProperty(consumer.id) ? Math.max(max, barSeries.thingBarSetMap[consumer.id].at(idx)) : 0
-                        }
-                        return max
-                    }
-                    y: Math.min(Math.max(mouseArea.height - (setMaxValue * mouseArea.height / valueAxis.max) - height - Style.smallMargins, 0), mouseArea.height - height)
+            ColumnLayout {
+                id: tooltipLayout
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    margins: Style.smallMargins
+                }
+                Label {
+                    text: toolTip.idx >= 0 && categoryAxis.timestamps.length > toolTip.idx ? root.configs[selectionTabs.currentValue.config].toLongLabel(categoryAxis.timestamps[toolTip.idx]) : ""
+                    font: Style.smallFont
+                }
 
-                    width: tooltipLayout.implicitWidth + Style.smallMargins * 2
-                    height: tooltipLayout.implicitHeight + Style.smallMargins * 2
-
-                    Behavior on x { NumberAnimation { duration: Style.animationDuration } }
-                    Behavior on y { NumberAnimation { duration: Style.animationDuration } }
-                    Behavior on width { NumberAnimation { duration: Style.animationDuration } }
-                    Behavior on height { NumberAnimation { duration: Style.animationDuration } }
-
-                    Rectangle {
-                        anchors.fill: parent
-                        color: Style.tileOverlayColor
-                        opacity: .8
-                        radius: Style.smallCornerRadius
-                    }
-
-                    ColumnLayout {
-                        id: tooltipLayout
-                        anchors {
-                            left: parent.left
-                            top: parent.top
-                            margins: Style.smallMargins
+                Repeater {
+                    model: consumers
+                    delegate: RowLayout {
+                        Rectangle {
+                            width: Style.extraSmallFont.pixelSize
+                            height: width
+                            color: index >= 0 ? root.colors[index % root.colors.length] : "white"
                         }
                         Label {
-                            text: toolTip.idx >= 0 && categoryAxis.timestamps.length > toolTip.idx ? root.configs[selectionTabs.currentValue.config].toLongLabel(categoryAxis.timestamps[toolTip.idx]) : ""
-                            font: Style.smallFont
-                        }
-
-                        Repeater {
-                            model: consumers
-                            delegate: RowLayout {
-                                Rectangle {
-                                    width: Style.extraSmallFont.pixelSize
-                                    height: width
-                                    color: index >= 0 ? root.colors[index % root.colors.length] : "white"
-                                }
-                                Label {
-                                    text: barSeries.thingBarSetMap.hasOwnProperty(model.id) ? "%1: %2 kWh".arg(model.name).arg(barSeries.thingBarSetMap[model.id].at(toolTip.idx).toFixed(2)) : ""
-                                    font: Style.extraSmallFont
-                                }
-                            }
+                            text: barSeries.thingBarSetMap.hasOwnProperty(model.id) ? "%1: %2 kWh".arg(model.name).arg(barSeries.thingBarSetMap[model.id].at(toolTip.idx).toFixed(2)) : ""
+                            font: Style.extraSmallFont
                         }
                     }
                 }

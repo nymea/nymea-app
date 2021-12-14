@@ -239,13 +239,17 @@ Page {
         id: contentContainer
         anchors.fill: parent
         clip: true
-//        visible: false
 
         property int headerSize: 48
 
         readonly property int scrollOffset: swipeView.currentItem.item.contentY
         readonly property int headerBlurSize: Math.min(headerSize, scrollOffset * 2)
 
+        Rectangle {
+            width: parent.width
+            height: contentContainer.headerBlurSize
+            color: Style.backgroundColor
+        }
 
         SwipeView {
             id: swipeView
