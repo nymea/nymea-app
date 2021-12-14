@@ -1,3 +1,10 @@
+nymea-app (1.0.405) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a typo in german translation
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 14 Dec 2021 15:17:05 +0100
+
 nymea-app (1.0.404) bionic; urgency=medium
 
   [ Michael Zanetti ]
