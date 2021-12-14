@@ -3,21 +3,10 @@ import QtCharts 2.3
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.3
 import Nymea 1.0
+import "qrc:/ui/components"
 
-ChartView {
+Item {
     id: root
-    backgroundColor: "transparent"
-    margins.left: 0
-    margins.right: 0
-    margins.bottom: 0
-    margins.top: 0
-
-    title: qsTr("My production history")
-    titleColor: Style.foregroundColor
-
-    legend.alignment: Qt.AlignBottom
-    legend.labelColor: Style.foregroundColor
-    legend.font: Style.extraSmallFont
 
     property PowerBalanceLogs energyLogs: PowerBalanceLogs {
         id: powerBalanceLogs
@@ -62,173 +51,192 @@ ChartView {
         }
     }
 
-    ValueAxis {
-        id: valueAxis
-        min: 0
-        max: Math.ceil(-powerBalanceLogs.minValue / 1000) * 1000
-        labelFormat: ""
-        gridLineColor: Style.tileOverlayColor
-        labelsVisible: false
-        lineVisible: false
-        titleVisible: false
-        shadesVisible: false
-    }
+    ChartView {
+        id: chartView
+        anchors.fill: parent
 
-    Item {
-        id: labelsLayout
-        x: Style.smallMargins
-        y: root.plotArea.y
-        height: root.plotArea.height
-        width: plotArea.x - x
-        Repeater {
-            model: valueAxis.tickCount
-            delegate: Label {
-                y: parent.height / (valueAxis.tickCount - 1) * index - font.pixelSize / 2
-                width: parent.width - Style.smallMargins
-                horizontalAlignment: Text.AlignRight
-                text: ((valueAxis.max - (index * valueAxis.max / (valueAxis.tickCount - 1))) / 1000).toFixed(2) + "kW"
-                verticalAlignment: Text.AlignTop
-                font: Style.extraSmallFont
-            }
-        }
-    }
+        backgroundColor: "transparent"
+        margins.left: 0
+        margins.right: 0
+        margins.bottom: 0
+        margins.top: 0
 
-    DateTimeAxis {
-        id: dateTimeAxis
-        property date now: new Date()
-        min: {
-            var date = new Date(now);
-            date.setTime(date.getTime() - (1000 * 60 * 60 * 24) + 2000);
-            return date;
-        }
-        max: {
-            var date = new Date(now);
-            date.setTime(date.getTime() + 2000)
-            return date;
-        }
-        format: "hh:mm"
-        labelsFont: Style.extraSmallFont
-        gridVisible: false
-        minorGridVisible: false
-        lineVisible: false
-        shadesVisible: false
-        labelsColor: Style.foregroundColor
-    }
+        title: qsTr("My production history")
+        titleColor: Style.foregroundColor
 
-    // For debugging, to see if the other maths line up with the plain production graph
-    AreaSeries {
-        id: productionSeries
-        axisX: dateTimeAxis
-        axisY: valueAxis
-        color: "blue"
-        borderWidth: 0
-        borderColor: color
-        opacity: .5
-        name: "Total production"
-        visible: false
+        legend.alignment: Qt.AlignBottom
+        legend.labelColor: Style.foregroundColor
+        legend.font: Style.extraSmallFont
 
-        function calculateValue(entry) {
-            return Math.abs(Math.min(0, entry.production))
-        }
-        function addEntry(entry) {
-            productionUpperSeries.append(entry.timestamp.getTime(), calculateValue(entry))
+
+        ValueAxis {
+            id: valueAxis
+            min: 0
+            max: Math.ceil(-powerBalanceLogs.minValue / 1000) * 1000
+            labelFormat: ""
+            gridLineColor: Style.tileOverlayColor
+            labelsVisible: false
+            lineVisible: false
+            titleVisible: false
+            shadesVisible: false
         }
 
-        lowerSeries: zeroSeries
-        upperSeries: LineSeries {
-            id: productionUpperSeries
-        }
-    }
-
-    AreaSeries {
-        id: selfConsumptionSeries
-        axisX: dateTimeAxis
-        axisY: valueAxis
-        color: Style.red
-        borderWidth: 0
-        borderColor: color
-        name: qsTr("Consumed")
-//        visible: false
-
-        function calculateValue(entry) {
-            return Math.abs(Math.min(0, entry.production)) - Math.abs(Math.min(0, entry.acquisition)) - Math.max(0, entry.storage)
-        }
-
-        function addEntry(entry) {
-            selfConsumptionUpperSeries.append(entry.timestamp.getTime(), calculateValue(entry))
-        }
-
-        lowerSeries: LineSeries {
-            id: zeroSeries
-            XYPoint { x: dateTimeAxis.min.getTime(); y: 0 }
-            XYPoint { x: dateTimeAxis.max.getTime(); y: 0 }
-            function update(timestamp) {
-                append(timestamp, 0);
-                removePoints(1,1);
+        Item {
+            id: labelsLayout
+            x: Style.smallMargins
+            y: chartView.plotArea.y
+            height: chartView.plotArea.height
+            width: chartView.plotArea.x - x
+            Repeater {
+                model: valueAxis.tickCount
+                delegate: Label {
+                    y: parent.height / (valueAxis.tickCount - 1) * index - font.pixelSize / 2
+                    width: parent.width - Style.smallMargins
+                    horizontalAlignment: Text.AlignRight
+                    text: ((valueAxis.max - (index * valueAxis.max / (valueAxis.tickCount - 1))) / 1000).toFixed(2) + "kW"
+                    verticalAlignment: Text.AlignTop
+                    font: Style.extraSmallFont
+                }
             }
         }
 
-        upperSeries: LineSeries {
-            id: selfConsumptionUpperSeries
-        }
-    }
-
-    AreaSeries {
-        id: storageSeries
-        axisX: dateTimeAxis
-        axisY: valueAxis
-        color: Style.orange
-        borderWidth: 0
-        borderColor: color
-//        visible: false
-        name: qsTr("To battery")
-
-
-        function calculateValue(entry) {
-            return selfConsumptionSeries.calculateValue(entry) + Math.abs(Math.max(0, entry.storage));
-        }
-
-        function addEntry(entry) {
-            storageUpperSeries.append(entry.timestamp.getTime(), calculateValue(entry))
+        DateTimeAxis {
+            id: dateTimeAxis
+            property date now: new Date()
+            min: {
+                var date = new Date(now);
+                date.setTime(date.getTime() - (1000 * 60 * 60 * 24) + 2000);
+                return date;
+            }
+            max: {
+                var date = new Date(now);
+                date.setTime(date.getTime() + 2000)
+                return date;
+            }
+            format: "hh:mm"
+            labelsFont: Style.extraSmallFont
+            gridVisible: false
+            minorGridVisible: false
+            lineVisible: false
+            shadesVisible: false
+            labelsColor: Style.foregroundColor
         }
 
-        lowerSeries: selfConsumptionUpperSeries
-        upperSeries: LineSeries {
-            id: storageUpperSeries
+        // For debugging, to see if the other maths line up with the plain production graph
+        AreaSeries {
+            id: productionSeries
+            axisX: dateTimeAxis
+            axisY: valueAxis
+            color: "blue"
+            borderWidth: 0
+            borderColor: color
+            opacity: .5
+            name: "Total production"
+            visible: false
+
+            function calculateValue(entry) {
+                return Math.abs(Math.min(0, entry.production))
+            }
+            function addEntry(entry) {
+                productionUpperSeries.append(entry.timestamp.getTime(), calculateValue(entry))
+            }
+
+            lowerSeries: zeroSeries
+            upperSeries: LineSeries {
+                id: productionUpperSeries
+            }
         }
-    }
 
+        AreaSeries {
+            id: selfConsumptionSeries
+            axisX: dateTimeAxis
+            axisY: valueAxis
+            color: Style.red
+            borderWidth: 0
+            borderColor: color
+            name: qsTr("Consumed")
+    //        visible: false
 
-    AreaSeries {
-        id: acquisitionSeries
-        axisX: dateTimeAxis
-        axisY: valueAxis
-        color: Style.green
-        borderWidth: 0
-        borderColor: color
-        name: qsTr("To grid")
-//        visible: false
+            function calculateValue(entry) {
+                return Math.abs(Math.min(0, entry.production)) - Math.abs(Math.min(0, entry.acquisition)) - Math.max(0, entry.storage)
+            }
 
-        function calculateValue(entry) {
-            return storageSeries.calculateValue(entry) + Math.abs(Math.min(0, entry.acquisition))
+            function addEntry(entry) {
+                selfConsumptionUpperSeries.append(entry.timestamp.getTime(), calculateValue(entry))
+            }
+
+            lowerSeries: LineSeries {
+                id: zeroSeries
+                XYPoint { x: dateTimeAxis.min.getTime(); y: 0 }
+                XYPoint { x: dateTimeAxis.max.getTime(); y: 0 }
+                function update(timestamp) {
+                    append(timestamp, 0);
+                    removePoints(1,1);
+                }
+            }
+
+            upperSeries: LineSeries {
+                id: selfConsumptionUpperSeries
+            }
         }
-        function addEntry(entry) {
-            acquisitionUpperSeries.append(entry.timestamp.getTime(), calculateValue(entry))
+
+        AreaSeries {
+            id: storageSeries
+            axisX: dateTimeAxis
+            axisY: valueAxis
+            color: Style.orange
+            borderWidth: 0
+            borderColor: color
+    //        visible: false
+            name: qsTr("To battery")
+
+
+            function calculateValue(entry) {
+                return selfConsumptionSeries.calculateValue(entry) + Math.abs(Math.max(0, entry.storage));
+            }
+
+            function addEntry(entry) {
+                storageUpperSeries.append(entry.timestamp.getTime(), calculateValue(entry))
+            }
+
+            lowerSeries: selfConsumptionUpperSeries
+            upperSeries: LineSeries {
+                id: storageUpperSeries
+            }
         }
 
-        lowerSeries: storageUpperSeries
-        upperSeries: LineSeries {
-            id: acquisitionUpperSeries
+
+        AreaSeries {
+            id: acquisitionSeries
+            axisX: dateTimeAxis
+            axisY: valueAxis
+            color: Style.green
+            borderWidth: 0
+            borderColor: color
+            name: qsTr("To grid")
+    //        visible: false
+
+            function calculateValue(entry) {
+                return storageSeries.calculateValue(entry) + Math.abs(Math.min(0, entry.acquisition))
+            }
+            function addEntry(entry) {
+                acquisitionUpperSeries.append(entry.timestamp.getTime(), calculateValue(entry))
+            }
+
+            lowerSeries: storageUpperSeries
+            upperSeries: LineSeries {
+                id: acquisitionUpperSeries
+            }
         }
     }
 
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        anchors.leftMargin: root.plotArea.x
-        anchors.topMargin: root.plotArea.y
-        anchors.rightMargin: root.width - root.plotArea.width - root.plotArea.x
-        anchors.bottomMargin: root.height - root.plotArea.height - root.plotArea.y
+        anchors.leftMargin: chartView.plotArea.x
+        anchors.topMargin: chartView.plotArea.y
+        anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
+        anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
 
         hoverEnabled: true
 
@@ -247,9 +255,12 @@ ChartView {
             visible: mouseArea.containsMouse
         }
 
-        Item {
+        NymeaToolTip {
             id: toolTip
             visible: mouseArea.containsMouse
+
+            backgroundItem: chartView
+            backgroundRect: Qt.rect(mouseArea.x + toolTip.x, mouseArea.y + toolTip.y, toolTip.width, toolTip.height)
 
             property int idx: productionUpperSeries.count - Math.floor(mouseArea.mouseX * productionUpperSeries.count / mouseArea.width)
             property int seriesIndex: productionUpperSeries.count - idx
@@ -262,18 +273,6 @@ ChartView {
 
             width: tooltipLayout.implicitWidth + Style.smallMargins * 2
             height: tooltipLayout.implicitHeight + Style.smallMargins * 2
-
-            Behavior on x { NumberAnimation { duration: Style.animationDuration } }
-            Behavior on y { NumberAnimation { duration: Style.animationDuration } }
-            Behavior on width { NumberAnimation { duration: Style.animationDuration } }
-            Behavior on height { NumberAnimation { duration: Style.animationDuration } }
-
-            Rectangle {
-                anchors.fill: parent
-                color: Style.tileOverlayColor
-                opacity: .8
-                radius: Style.smallCornerRadius
-            }
 
             ColumnLayout {
                 id: tooltipLayout
@@ -327,3 +326,6 @@ ChartView {
         }
     }
 }
+
+
+
