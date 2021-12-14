@@ -1776,11 +1776,15 @@
     </message>
     <message>
         <source>Root meter</source>
-        <translation>Wuzelmesser</translation>
+        <translation>Wurzelmesser</translation>
     </message>
     <message>
         <source>Consumers</source>
         <translation>Verbraucher</translation>
+    </message>
+    <message>
+        <source>Uncheck individual consumers to hide them from the energy charts.</source>
+        <translation>Entferne das Häkchen bei einzelnen Verbrauchern um diese in den Energieansichten auszublenden.</translation>
     </message>
 </context>
 <context>
@@ -5147,7 +5151,7 @@ Möchtest Du fortfahren?</translation>
     <name>PowerBalanceStats</name>
     <message>
         <source>Totals</source>
-        <translation>Gesamt</translation>
+        <translation>Gesamtsummen</translation>
     </message>
     <message>
         <source>Hours</source>
