@@ -373,6 +373,13 @@ StatsBase {
 
                 hoverEnabled: true
 
+                Timer {
+                    interval: 300
+                    running: mouseArea.pressed
+                    onTriggered: mouseArea.preventStealing = true
+                }
+                onReleased: mouseArea.preventStealing = false
+
                 Item {
                     id: toolTip
                     property int idx: Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)

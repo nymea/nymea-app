@@ -248,6 +248,13 @@ ChartView {
 
         hoverEnabled: true
 
+        Timer {
+            interval: 300
+            running: mouseArea.pressed
+            onTriggered: mouseArea.preventStealing = true
+        }
+        onReleased: mouseArea.preventStealing = false
+
         Rectangle {
             height: parent.height
             width: 1
