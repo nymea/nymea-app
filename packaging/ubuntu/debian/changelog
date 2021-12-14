@@ -1,3 +1,11 @@
+nymea-app (1.0.408) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Blur chart tooltips
+  * Fix header blur
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 15 Dec 2021 00:49:49 +0100
+
 nymea-app (1.0.407) bionic; urgency=medium
 
   [ Michael Zanetti ]
