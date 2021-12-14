@@ -1764,7 +1764,7 @@
     <name>EnergySettingsPage</name>
     <message>
         <source>Energy settings</source>
-        <translation>Einergieeinstellungen</translation>
+        <translation>Energieeinstellungen</translation>
     </message>
     <message>
         <source>General</source>
