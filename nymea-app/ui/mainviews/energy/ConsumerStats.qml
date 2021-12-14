@@ -239,6 +239,11 @@ StatsBase {
             var previous = powerLogs.find(entry.thingId, new Date(categoryAxis.timestamps[categoryAxis.timestamps.length - 1]))
             var previousValue = previous ? previous.totalConsumption : 0
             var barSet = barSeries.thingBarSetMap[entry.thingId]
+
+            if (!barSet) {
+                return
+            }
+
             barSet.replace(barSet.count - 1, entry.totalConsumption - previousValue)
         }
     }

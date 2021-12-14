@@ -51,7 +51,7 @@ MainViewBase {
             trigger: function() {
                 pageStack.push("energy/EnergySettingsPage.qml", {energyManager: energyManager});
             },
-            visible: true
+            visible: energyMeters.count > 1 || consumers.count > 0
         }
     ]
 

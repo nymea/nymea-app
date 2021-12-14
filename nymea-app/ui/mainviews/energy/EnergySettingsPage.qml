@@ -59,6 +59,16 @@ SettingsPageBase {
 
     SettingsPageSectionHeader {
         text: qsTr("Consumers")
+        visible: root.allConsumers.count > 0
+    }
+
+    Label {
+        Layout.fillWidth: true
+        Layout.leftMargin: Style.margins
+        Layout.rightMargin: Style.margins
+        wrapMode: Text.WordWrap
+        text: qsTr("Uncheck individual consumers to hide them from the energy charts.")
+        visible: root.allConsumers.count > 0
     }
 
     Repeater {
