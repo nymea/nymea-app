@@ -9,7 +9,8 @@ Item {
 
     property bool showCommunityLinks: false
 
-    // Enable/disable entries in the system settings
+    // Enable/disable certain features
+    property bool magicEnabled: false
     property bool networkSettingsEnabled: false
     property bool apiSettingsEnabled: false
     property bool mqttSettingsEnabled: false

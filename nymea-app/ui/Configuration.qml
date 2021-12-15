@@ -10,6 +10,7 @@ ConfigurationBase {
 
     showCommunityLinks: true
 
+    magicEnabled: true
     networkSettingsEnabled: true
     apiSettingsEnabled: true
     mqttSettingsEnabled: true

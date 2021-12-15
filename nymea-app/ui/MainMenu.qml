@@ -151,7 +151,7 @@ Drawer {
                     text: qsTr("Magic")
                     iconName: "../images/magic.svg"
                     progressive: false
-                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected && Configuration.magicEnabled
                     onClicked: {
                         root.openMagicSettings();
                         root.close();
