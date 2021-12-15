@@ -124,11 +124,10 @@ bool BluetoothDiscovery::discovering() const
 
 void BluetoothDiscovery::setDiscoveryEnabled(bool discoveryEnabled)
 {
-    if (m_discoveryEnabled == discoveryEnabled) {
-        return;
+    if (m_discoveryEnabled != discoveryEnabled) {
+        m_discoveryEnabled = discoveryEnabled;
+        emit discoveryEnabledChanged(m_discoveryEnabled);
     }
-    m_discoveryEnabled = discoveryEnabled;
-    emit discoveryEnabledChanged(m_discoveryEnabled);
 
     if (m_discoveryEnabled) {
         start();
@@ -171,6 +170,9 @@ void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice:
             m_discoveryAgent = new QBluetoothDeviceDiscoveryAgent(this);
 #endif
             connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered, this, &BluetoothDiscovery::deviceDiscovered);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+            connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceUpdated, this, &BluetoothDiscovery::deviceDiscovered);
+#endif
             connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this, &BluetoothDiscovery::discoveryFinished);
             connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::canceled, this, &BluetoothDiscovery::discoveryCancelled);
             connect(m_discoveryAgent, SIGNAL(error(QBluetoothDeviceDiscoveryAgent::Error)), this, SLOT(onError(QBluetoothDeviceDiscoveryAgent::Error)));
@@ -250,7 +252,10 @@ void BluetoothDiscovery::start()
         m_discoveryAgent->stop();
     }
 
-    m_deviceInfos->clearModel();
+    foreach (const QBluetoothDeviceInfo &info, m_discoveryAgent->discoveredDevices()) {
+        qCDebug(dcBtWiFiSetup()) << "Already discovered device:" << info.name();
+        deviceDiscovered(info);
+    }
 
     qCDebug(dcBtWiFiSetup) << "BluetoothDiscovery: Starting discovery.";
     m_discoveryAgent->start();
