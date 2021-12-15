@@ -232,8 +232,9 @@ LogEntry *LogsModel::get(int index) const
 
 LogEntry *LogsModel::findClosest(const QDateTime &dateTime)
 {
-    qWarning() << "********************Finding closest for:" << dateTime.time().toString();
+//    qWarning() << "********************Finding closest for:" << dateTime.time().toString();
     if (m_list.isEmpty()) {
+//        qWarning() << "No entries here...";
         return nullptr;
     }
     int newest = 0;
@@ -243,22 +244,27 @@ LogEntry *LogsModel::findClosest(const QDateTime &dateTime)
 
     LogEntry *allTimeOldestEntry = m_list.at(oldest);
     if (dateTime < allTimeOldestEntry->timestamp()) {
+//        qWarning() << "All time oldest is newer than searched";
         return nullptr;
     }
-    while (oldest > newest && step < m_list.count()) {
+//    qWarning() << "Oldest:" << oldest << "newest:" << newest << "step" << step << "count" << m_list.count();
+    while (oldest >= newest && step < m_list.count()) {
         LogEntry *oldestEntry = m_list.at(oldest);
         LogEntry *newestEntry = m_list.at(newest);
         int middle = (oldest - newest) / 2 + newest;
         LogEntry *middleEntry = m_list.at(middle);
-        qWarning() << "Oldest:" << oldestEntry->timestamp().time().toString() << "Middle:" << middleEntry->timestamp().time().toString() << "Newest:" << newestEntry->timestamp().time().toString() << ":" << (oldest - newest);
+//        qWarning() << "Oldest:" << oldest << oldestEntry->timestamp().toString() << oldestEntry->value() << "Middle:" << middle << middleEntry->timestamp().toString() << middleEntry->value() << "Newest:" << newest << newestEntry->timestamp().toString() << newestEntry->value() << ":" << (oldest - newest);
         if (dateTime <= oldestEntry->timestamp()) {
+//            qWarning() << "Returning oldest";
             return oldestEntry;
         }
         if (dateTime >= newestEntry->timestamp()) {
+//            qWarning() << "Returning newest";
             return newestEntry;
         }
 
         if (dateTime == middleEntry->timestamp()) {
+//            qWarning() << "Returning middle";
             return middleEntry;
         }
 
@@ -269,7 +275,12 @@ LogEntry *LogsModel::findClosest(const QDateTime &dateTime)
         }
 
         if (oldest - newest == 1) {
-            return newestEntry;
+//            qWarning() << "EOL. Returning middle";
+            if (oldest < middle) {
+                return oldestEntry;
+            } else {
+                return middleEntry;
+            }
         }
         step++;
     }
