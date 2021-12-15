@@ -101,27 +101,39 @@ QVariant Things::data(const QModelIndex &index, int role) const
 
 void Things::addThing(Thing *thing)
 {
-    thing->setParent(this);
-    beginInsertRows(QModelIndex(), m_things.count(), m_things.count());
-    m_things.append(thing);
+    addThings({thing});
+}
+
+void Things::addThings(const QList<Thing *> things)
+{
+    if (things.isEmpty()) {
+        return;
+    }
+    beginInsertRows(QModelIndex(), m_things.count(), m_things.count() + things.count() - 1);
+    m_things.append(things);
     endInsertRows();
-    connect(thing, &Thing::nameChanged, this, [thing, this]() {
-        int idx = m_things.indexOf(thing);
-        if (idx < 0) return;
-        emit dataChanged(index(idx), index(idx), {RoleName});
-    });
-    connect(thing, &Thing::setupStatusChanged, this, [thing, this]() {
-        int idx = m_things.indexOf(thing);
-        if (idx < 0) return;
-        emit dataChanged(index(idx), index(idx), {RoleSetupStatus, RoleSetupDisplayMessage});
-    });
-    connect(thing->states(), &States::dataChanged, this, [thing, this]() {
-        int idx = m_things.indexOf(thing);
-        if (idx < 0) return;
-        emit dataChanged(index(idx), index(idx));
-    });
+
+    foreach (Thing *thing, things) {
+        thing->setParent(this);
+        connect(thing, &Thing::nameChanged, this, [thing, this]() {
+            int idx = m_things.indexOf(thing);
+            if (idx < 0) return;
+            emit dataChanged(index(idx), index(idx), {RoleName});
+        });
+        connect(thing, &Thing::setupStatusChanged, this, [thing, this]() {
+            int idx = m_things.indexOf(thing);
+            if (idx < 0) return;
+            emit dataChanged(index(idx), index(idx), {RoleSetupStatus, RoleSetupDisplayMessage});
+        });
+        connect(thing->states(), &States::dataChanged, this, [thing, this]() {
+            int idx = m_things.indexOf(thing);
+            if (idx < 0) return;
+            emit dataChanged(index(idx), index(idx));
+        });
+        emit thingAdded(thing);
+    }
+
     emit countChanged();
-    emit thingAdded(thing);
 }
 
 void Things::removeThing(Thing *thing)
