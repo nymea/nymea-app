@@ -1,3 +1,11 @@
+nymea-app (1.0.410) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix findClosest() in logsmodel
+  * Some more fixes in the bluetooth discovery
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Dec 2021 00:02:32 +0100
+
 nymea-app (1.0.409) bionic; urgency=medium
 
   [ Michael Zanetti ]
