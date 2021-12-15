@@ -1,3 +1,10 @@
+nymea-app (1.0.411) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Optimize loading of things
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Dec 2021 00:26:01 +0100
+
 nymea-app (1.0.410) bionic; urgency=medium
 
   [ Michael Zanetti ]
