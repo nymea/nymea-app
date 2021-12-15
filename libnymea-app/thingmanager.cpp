@@ -302,6 +302,7 @@ void ThingManager::getThingsResponse(int /*commandId*/, const QVariantMap &param
 //    qCritical() << "Things received:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson(QJsonDocument::Indented));
     if (params.keys().contains("things")) {
         QVariantList thingsList = params.value("things").toList();
+        QList<Thing*> newThings;
         foreach (QVariant thingVariant, thingsList) {
             Thing *thing = unpackThing(this, thingVariant.toMap(), m_thingClasses);
             if (!thing) {
@@ -329,8 +330,9 @@ void ThingManager::getThingsResponse(int /*commandId*/, const QVariantMap &param
                 thing->setStateValue(stateTypeId, value);
 //                qDebug() << "Set thing state value:" << thing->stateValue(stateTypeId) << value;
             }
-            things()->addThing(thing);
+            newThings.append(thing);
         }
+        things()->addThings(newThings);
     }
     qDebug() << "Initializing thing manager took" << m_connectionBenchmark.msecsTo(QDateTime::currentDateTime()) << "ms";
     m_fetchingData = false;

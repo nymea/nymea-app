@@ -65,6 +65,7 @@ public:
     QVariant data(const QModelIndex & index, int role = RoleName) const override;
 
     void addThing(Thing *thing);
+    void addThings(const QList<Thing*> things);
     void removeThing(Thing *thing);
 
     void clearModel();
