@@ -343,7 +343,7 @@ StatsBase {
             backgroundRect: Qt.rect(chartView.plotArea.x + toolTip.x, chartView.plotArea.y + toolTip.y, toolTip.width, toolTip.height)
 
             property int idx: Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)
-            visible: mouseArea.containsMouse
+            visible: mouseArea.containsMouse || mouseArea.preventStealing
 
             x: Math.min(idx * mouseArea.width / categoryAxis.count, mouseArea.width - width)
             property double setMaxValue: d.consumptionSet && d.productionSet && d.acquisitionSet && d.returnSet ?
