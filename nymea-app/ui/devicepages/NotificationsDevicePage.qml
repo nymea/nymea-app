@@ -160,13 +160,6 @@ ThingPageBase {
                 readonly property string title: model.value.trim().replace(/, ?.*/, "")
                 readonly property string text: model.value.trim().replace(/.*, ?/, "")
 
-                onPressAndHold: {
-                    var contextMenuComponent = Qt.createComponent("../components/ThingContextMenu.qml");
-                    var contextMenu = contextMenuComponent.createObject(root, { thing: root.thing })
-                    contextMenu.x = Qt.binding(function() { return (root.width - contextMenu.width) / 2 })
-                    contextMenu.open()
-                }
-
                 contentItem: RowLayout {
                     ColumnLayout {
                         Label {

@@ -12,7 +12,9 @@ AutoSizeMenu {
     property bool showLogs: true
 
     Component.onCompleted: {
-        root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Magic"), iconSource: "../images/magic.svg", functionName: "openThingMagicPage"}))
+        if (Configuration.magicEnabled) {
+            root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Magic"), iconSource: "../images/magic.svg", functionName: "openThingMagicPage"}))
+        }
 
         if (root.showDetails) {
             root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Details"), iconSource: "../images/info.svg", functionName: "openGenericThingPage"}))
