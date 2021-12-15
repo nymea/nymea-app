@@ -1,3 +1,10 @@
+nymea-app (1.0.409) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add configuration option to disable magic
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 15 Dec 2021 13:30:27 +0100
+
 nymea-app (1.0.408) bionic; urgency=medium
 
   [ Michael Zanetti ]
