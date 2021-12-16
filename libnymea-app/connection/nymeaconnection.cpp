@@ -71,10 +71,10 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 
     updateActiveBearers();
 
-    m_reconnectTimer.setInterval(1000);
+    m_reconnectTimer.setInterval(500);
     m_reconnectTimer.setSingleShot(true);
     connect(&m_reconnectTimer, &QTimer::timeout, this, [this](){
-        if (m_currentHost) {
+        if (m_currentHost && !m_currentTransport) {
             qCInfo(dcNymeaConnection()) << "Reconnecting...";
             connectInternal(m_currentHost);
         }
@@ -249,13 +249,14 @@ void NymeaConnection::onError(QAbstractSocket::SocketError error)
         foreach (Connection *c, m_transportCandidates) {
             qCDebug(dcNymeaConnection()) << "Connection candidate:" << c->url();
         }
+
+        if (m_connectionStatus != ConnectionStatusSslUntrusted && !m_reconnectTimer.isActive()) {
+            m_reconnectTimer.start();
+        }
+
         if (m_transportCandidates.isEmpty()) {
             m_connectionStatus = errorStatus;
             emit connectionStatusChanged();
-
-            if (m_connectionStatus != ConnectionStatusSslUntrusted) {
-                m_reconnectTimer.start();
-            }
         }
     }
 }
