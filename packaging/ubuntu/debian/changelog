@@ -1,3 +1,11 @@
+nymea-app (1.0.412) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Drop blurred label
+  * Improve tooltip dragging in energy charts
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Dec 2021 01:33:55 +0100
+
 nymea-app (1.0.411) bionic; urgency=medium
 
   [ Michael Zanetti ]
