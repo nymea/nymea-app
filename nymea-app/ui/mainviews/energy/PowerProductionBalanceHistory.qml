@@ -252,12 +252,12 @@ Item {
             width: 1
             color: Style.foregroundColor
             x: mouseArea.mouseX
-            visible: mouseArea.containsMouse
+            visible: mouseArea.containsMouse || mouseArea.preventStealing
         }
 
         NymeaToolTip {
             id: toolTip
-            visible: mouseArea.containsMouse
+            visible: mouseArea.containsMouse || mouseArea.preventStealing
 
             backgroundItem: chartView
             backgroundRect: Qt.rect(mouseArea.x + toolTip.x, mouseArea.y + toolTip.y, toolTip.width, toolTip.height)
