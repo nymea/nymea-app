@@ -44,7 +44,6 @@ public:
     QStringList supportedSchemes() const override;
 };
 
-using namespace remoteproxyclient;
 
 class TunnelProxyTransport : public NymeaTransportInterface
 {
@@ -63,13 +62,13 @@ public:
     QSslCertificate serverCertificate() const override;
 
 private slots:
-    void onRemoteConnectionStateChanged(TunnelProxyRemoteConnection::State state);
+    void onRemoteConnectionStateChanged(remoteproxyclient::TunnelProxyRemoteConnection::State state);
     void onRemoteConnectedChanged(bool remoteConnected);
     void onRemoteConnectionErrorOccurred(QAbstractSocket::SocketError error);
 
 private:
     QUrl m_url;
-    TunnelProxyRemoteConnection *m_remoteConnection = nullptr;
+    remoteproxyclient::TunnelProxyRemoteConnection *m_remoteConnection = nullptr;
 
 };
 

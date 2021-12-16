@@ -152,6 +152,7 @@ void NymeaDiscovery::cacheHost(NymeaHost *host)
     QList<Connection*> connections;
     Connection *remoteConnection = host->connections()->bestMatch(Connection::BearerTypeCloud);
     if (remoteConnection) {
+        qCritical() << "*********** caching" << remoteConnection->url();
         connections.append(remoteConnection);
     }
     Connection *loopbackConnection = host->connections()->bestMatch(Connection::BearerTypeLoopback);

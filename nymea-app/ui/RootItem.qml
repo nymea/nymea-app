@@ -312,6 +312,7 @@ Item {
                         onConnectedChanged: {
                             print("json client connected changed", engine.jsonRpcClient.connected, engine.jsonRpcClient.serverUuid)
                             if (engine.jsonRpcClient.connected) {
+                                engine.jsonRpcClient.currentHost.addTunnelConnection();
                                 nymeaDiscovery.cacheHost(engine.jsonRpcClient.currentHost)
                                 configuredHost.uuid = engine.jsonRpcClient.serverUuid
 //                                tabSettings.lastConnectedHost = engine.jsonRpcClient.serverUuid

@@ -32,6 +32,8 @@
 
 #include <QCoreApplication>
 
+using namespace remoteproxyclient;
+
 TunnelProxyTransport::TunnelProxyTransport(QObject *parent) :
     NymeaTransportInterface(parent)
 {
@@ -110,6 +112,11 @@ QSslCertificate TunnelProxyTransport::serverCertificate() const
 {
     // FIXME: once the tunnel connection implements SSL connection trought the tunnel proxy, we need to implement this
     return QSslCertificate();
+}
+
+void TunnelProxyTransport::onRemoteConnectionStateChanged(remoteproxyclient::TunnelProxyRemoteConnection::State state)
+{
+    qCritical() << "FIXME TODO! remoteConnectionStateChanged";
 }
 
 void TunnelProxyTransport::onRemoteConnectedChanged(bool remoteConnected)

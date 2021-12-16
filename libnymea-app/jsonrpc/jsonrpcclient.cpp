@@ -37,6 +37,7 @@
 #include "connection/websockettransport.h"
 #include "connection/bluetoothtransport.h"
 #include "connection/cloudtransport.h"
+#include "connection/tunnelproxytransport.h"
 
 #include <QJsonDocument>
 #include <QVariantMap>
@@ -57,10 +58,11 @@ JsonRpcClient::JsonRpcClient(QObject *parent) :
     m_id(0)
 {
     m_connection = new NymeaConnection(this);
-    m_connection->registerTransport(new TcpSocketTransportFactory());
-    m_connection->registerTransport(new WebsocketTransportFactory());
-    m_connection->registerTransport(new BluetoothTransportFactoy());
-    m_connection->registerTransport(new CloudTransportFactory());
+//    m_connection->registerTransport(new TcpSocketTransportFactory());
+//    m_connection->registerTransport(new WebsocketTransportFactory());
+//    m_connection->registerTransport(new BluetoothTransportFactoy());
+//    m_connection->registerTransport(new CloudTransportFactory());
+    m_connection->registerTransport(new TunnelProxyTransportFactory());
 
     connect(m_connection, &NymeaConnection::availableBearerTypesChanged, this, &JsonRpcClient::availableBearerTypesChanged);
     connect(m_connection, &NymeaConnection::connectionStatusChanged, this, &JsonRpcClient::connectionStatusChanged);
