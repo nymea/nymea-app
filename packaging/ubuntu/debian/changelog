@@ -1,3 +1,11 @@
+nymea-app (1.0.413) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Another little fix in finding the closest to timestamp in a history
+    log
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Dec 2021 12:10:07 +0100
+
 nymea-app (1.0.412) bionic; urgency=medium
 
   [ Michael Zanetti ]
