@@ -232,7 +232,10 @@ LogEntry *LogsModel::get(int index) const
 
 LogEntry *LogsModel::findClosest(const QDateTime &dateTime)
 {
-//    qWarning() << "********************Finding closest for:" << dateTime.time().toString();
+//    qWarning() << "********************Finding closest for:" << dateTime.toString();
+//    foreach (LogEntry *entry, m_list) {
+//        qWarning() << "List entry:" << entry->timestamp().toString();
+//    }
     if (m_list.isEmpty()) {
 //        qWarning() << "No entries here...";
         return nullptr;
@@ -275,10 +278,11 @@ LogEntry *LogsModel::findClosest(const QDateTime &dateTime)
         }
 
         if (oldest - newest == 1) {
-//            qWarning() << "EOL. Returning middle";
-            if (oldest < middle) {
+            if (oldest > middle) {
+//                qWarning() << "EOL. Returning oldest";
                 return oldestEntry;
             } else {
+//                qWarning() << "EOL. Returning middle";
                 return middleEntry;
             }
         }
