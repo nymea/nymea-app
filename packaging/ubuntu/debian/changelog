@@ -1,3 +1,11 @@
+nymea-app (1.0.415) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix shownThingClassIds filter for older Qt versions
+  * Improve reconnecting logic even more
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 17 Dec 2021 16:00:25 +0100
+
 nymea-app (1.0.414) bionic; urgency=medium
 
   [ Michael Zanetti ]
