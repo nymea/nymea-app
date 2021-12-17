@@ -34,12 +34,17 @@
 
 using namespace remoteproxyclient;
 
+#include "logging.h"
+
+// Note: Re-registering the same category as the proxy lib offers, so we can control it in the app
+// However, as we can't link the same category twice, let's just create a dummy here with the category string matching the lib
+NYMEA_LOGGING_CATEGORY(dcTunnelProxyRemoteConnectionDummy, "TunnelProxyRemoteConnection")
+
 TunnelProxyTransport::TunnelProxyTransport(QObject *parent) :
     NymeaTransportInterface(parent)
 {
     m_remoteConnection = new TunnelProxyRemoteConnection(QUuid::createUuid(), qApp->applicationName(), this);
     QObject::connect(m_remoteConnection, &TunnelProxyRemoteConnection::stateChanged, this, &TunnelProxyTransport::onRemoteConnectionStateChanged);
-    QObject::connect(m_remoteConnection, &TunnelProxyRemoteConnection::remoteConnectedChanged, this, &TunnelProxyTransport::onRemoteConnectedChanged);
     QObject::connect(m_remoteConnection, &TunnelProxyRemoteConnection::dataReady, this, &TunnelProxyTransport::dataReady);
     QObject::connect(m_remoteConnection, &TunnelProxyRemoteConnection::errorOccurred, this, &TunnelProxyTransport::onRemoteConnectionErrorOccurred);
     QObject::connect(m_remoteConnection, &TunnelProxyRemoteConnection::sslErrors, this, [=](const QList<QSslError> &errors){
@@ -56,13 +61,13 @@ bool TunnelProxyTransport::connect(const QUrl &url)
 
     m_url = url;
 
-    // FIXME: get nymea uuid from URL somehow...
 
-    //QUrl("ssl://dev-remoteproxy.nymea.io:2213");
+    QUrl serverUrl = QUrl("ssl://dev-remoteproxy.nymea.io:2213");
+    QUuid serverUuid = url.host();
 
-    //m_remoteConnection->connectServer()
+    qCritical() << "Calling connect";
 
-    return false;
+    return m_remoteConnection->connectServer(serverUrl, serverUuid);
 }
 
 QUrl TunnelProxyTransport::url() const
@@ -116,12 +121,16 @@ QSslCertificate TunnelProxyTransport::serverCertificate() const
 
 void TunnelProxyTransport::onRemoteConnectionStateChanged(remoteproxyclient::TunnelProxyRemoteConnection::State state)
 {
-    qCritical() << "FIXME TODO! remoteConnectionStateChanged";
-}
-
-void TunnelProxyTransport::onRemoteConnectedChanged(bool remoteConnected)
-{
-    qDebug() << "Tunnel proxy remote connection" << (remoteConnected ? "connected" : "disconnected");
+    switch (state) {
+    case remoteproxyclient::TunnelProxyRemoteConnection::StateRemoteConnected:
+        emit connected();
+        break;
+    case remoteproxyclient::TunnelProxyRemoteConnection::StateDisconnected:
+        emit disconnected();
+        break;
+    default:
+        ;
+    }
 }
 
 void TunnelProxyTransport::onRemoteConnectionErrorOccurred(QAbstractSocket::SocketError error)

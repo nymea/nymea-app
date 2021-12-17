@@ -63,7 +63,6 @@ public:
 
 private slots:
     void onRemoteConnectionStateChanged(remoteproxyclient::TunnelProxyRemoteConnection::State state);
-    void onRemoteConnectedChanged(bool remoteConnected);
     void onRemoteConnectionErrorOccurred(QAbstractSocket::SocketError error);
 
 private:
