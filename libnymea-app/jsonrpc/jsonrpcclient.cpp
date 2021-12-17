@@ -67,7 +67,9 @@ JsonRpcClient::JsonRpcClient(QObject *parent) :
     connect(m_connection, &NymeaConnection::connectedChanged, this, &JsonRpcClient::onInterfaceConnectedChanged);
     connect(m_connection, &NymeaConnection::currentHostChanged, this, &JsonRpcClient:: currentHostChanged);
     connect(m_connection, &NymeaConnection::currentConnectionChanged, this, &JsonRpcClient:: currentConnectionChanged);
-    connect(m_connection, &NymeaConnection::dataAvailable, this, &JsonRpcClient::dataReceived);
+    // We'll connect this Queued, because in case of a disconnect we'll want to react on that ASAP instead of processing a queue that may be left in buffers
+    // Especially on mobile platforms (hello Android) we get a huge queue of buffers upon resume from suspend just to get a disconnect after that.
+    connect(m_connection, &NymeaConnection::dataAvailable, this, &JsonRpcClient::dataReceived, Qt::QueuedConnection);
 
     registerNotificationHandler(this, QStringLiteral("JSONRPC"), "notificationReceived");
 }
@@ -538,10 +540,11 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
 {
 
     if (!connected) {
-        qCDebug(dcJsonRpc()) << "JsonRpcClient: Transport disconnected.";
+        qCInfo(dcJsonRpc()) << "JsonRpcClient: Transport disconnected.";
         m_initialSetupRequired = false;
         m_authenticationRequired = false;
         m_authenticated = false;
+        m_receiveBuffer.clear();
         m_serverQtVersion.clear();
         m_serverQtBuildVersion.clear();
         if (m_connected) {
@@ -560,6 +563,11 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
 
 void JsonRpcClient::dataReceived(const QByteArray &data)
 {
+    if (!m_connection->connected()) {
+        // Given this slot is invoked with QueuedConnection, we might still get pending data packages after a disconnected event
+        // In that case we can discard all pending packages as we'll have to reconnect anyways.
+        return;
+    }
     //    qDebug() << "JsonRpcClient: received data:" << qUtf8Printable(data);
     m_receiveBuffer.append(data);
 

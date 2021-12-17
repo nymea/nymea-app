@@ -64,14 +64,28 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
     });
 
     QGuiApplication *app = static_cast<QGuiApplication*>(QGuiApplication::instance());
-    QObject::connect(app, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
+    QObject::connect(app, &QGuiApplication::applicationStateChanged, this, [app, this](Qt::ApplicationState state) {
         qCDebug(dcNymeaConnection()) << "Application state changed to:" << state;
+
+        // On android, when the device is suspended with display off for a while, it happens that the app is still woken up
+        // occationally and it would try to reconnect, but the WiFi is in deep sleep and the connection attempts time out in 5 seconds
+        // or so. So it happens that the device is woken up and the app would try to reconnect, but there are still ongoing
+        // connection attempts on all the transports. In order to not wait for them time out, let's abort all the currently
+        // pending attempts so we try again immediately, now that wifi should be up again.
+        if (app->applicationState() == Qt::ApplicationActive) {
+            foreach (NymeaTransportInterface *transport, m_transportCandidates.keys()) {
+                if (transport != m_currentTransport) {
+                    transport->disconnect();
+                }
+            }
+        }
+
         updateActiveBearers();
     });
 
     updateActiveBearers();
 
-    m_reconnectTimer.setInterval(500);
+    m_reconnectTimer.setInterval(100);
     m_reconnectTimer.setSingleShot(true);
     connect(&m_reconnectTimer, &QTimer::timeout, this, [this](){
         if (m_currentHost && !m_currentTransport) {
@@ -309,25 +323,18 @@ void NymeaConnection::onDisconnected()
         }
         t->deleteLater();
 
-        qCInfo(dcNymeaConnection()) << "Current transport:" << m_currentTransport << "Remaining connections:" << m_transportCandidates.count() << "Current host:" << m_currentHost;
+        qCDebug(dcNymeaConnection()) << "Current transport:" << m_currentTransport << "Remaining connections:" << m_transportCandidates.count() << "Current host:" << m_currentHost;
 
         if (!m_currentTransport && m_transportCandidates.isEmpty()) {
-            qCWarning(dcNymeaConnection()) << "Last connection dropped.";
-            QTimer::singleShot(1000, this, [this](){
-                if (m_currentHost && m_connectionStatus != ConnectionStatusSslUntrusted) {
-                    qCInfo(dcNymeaConnection()) << "Trying to reconnect..";
-                    connectInternal(m_currentHost);
-                }
-            });
+            qCInfo(dcNymeaConnection()) << "Last connection dropped.";
+            if (!m_reconnectTimer.isActive()) {
+                m_reconnectTimer.start();
+            }
         }
 
         return;
     }
     m_transportCandidates.remove(m_currentTransport);
-    disconnect(m_currentTransport);
-    disconnect(m_currentTransport, nullptr, nullptr, nullptr);
-    // FIXME: directly deleting crashes with a stack trace that never passes any of our code.
-    // Seems to happen for both, Tcp and WebSocket
     m_currentTransport->deleteLater();
     m_currentTransport = nullptr;
 
@@ -352,13 +359,9 @@ void NymeaConnection::onDisconnected()
     }
 
     // Try to reconnect, only if we're not waiting for SSL certs to be trusted.
-    if (m_connectionStatus != ConnectionStatusSslUntrusted) {
-        QTimer::singleShot(1000, this, [this](){
-            if (m_currentHost) {
-                qCInfo(dcNymeaConnection()) << "Trying to reconnect after disconnect...";
-                connectInternal(m_currentHost);
-            }
-        });
+    if (m_connectionStatus != ConnectionStatusSslUntrusted && !m_reconnectTimer.isActive()) {
+        qCInfo(dcNymeaConnection()) << "Trying to reconnect after disconnect...";
+        m_reconnectTimer.start();
     }
 }
 
@@ -366,6 +369,7 @@ void NymeaConnection::onDataAvailable(const QByteArray &data)
 {
     NymeaTransportInterface *t = static_cast<NymeaTransportInterface*>(sender());
     if (t == m_currentTransport) {
+//        qCDebug(dcNymeaConnection()) << "Data available";
         emit dataAvailable(data);
     } else {
         qCDebug(dcNymeaConnection()) << "Received data from a transport that is not the current one:" << t->url();
@@ -534,7 +538,7 @@ bool NymeaConnection::connectInternal(Connection *connection)
     QObject::connect(newTransport, &NymeaTransportInterface::error, this, &NymeaConnection::onError);
     QObject::connect(newTransport, &NymeaTransportInterface::connected, this, &NymeaConnection::onConnected);
     QObject::connect(newTransport, &NymeaTransportInterface::disconnected, this, &NymeaConnection::onDisconnected);
-    QObject::connect(newTransport, &NymeaTransportInterface::dataReady, this, &NymeaConnection::onDataAvailable);
+    QObject::connect(newTransport, &NymeaTransportInterface::dataReady, this, &NymeaConnection::onDataAvailable, Qt::QueuedConnection);
 
 //    // Load any certificate we might have for this url
 //    QByteArray pem;

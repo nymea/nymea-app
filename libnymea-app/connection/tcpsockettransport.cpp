@@ -33,6 +33,10 @@
 #include <QUrl>
 #include <QSslConfiguration>
 
+#include "logging.h"
+
+NYMEA_LOGGING_CATEGORY(dcTcpTransport, "TcpTransport")
+
 TcpSocketTransport::TcpSocketTransport(QObject *parent) : NymeaTransportInterface(parent)
 {
     QObject::connect(&m_socket, &QSslSocket::connected, this, &TcpSocketTransport::onConnected);
@@ -72,7 +76,7 @@ QSslCertificate TcpSocketTransport::serverCertificate() const
 void TcpSocketTransport::onConnected()
 {
     if (m_url.scheme() == "nymea") {
-        qDebug() << "TCP socket connected";
+        qCDebug(dcTcpTransport()) << "TCP socket connected";
         emit connected();
     }
 }
@@ -87,14 +91,14 @@ bool TcpSocketTransport::connect(const QUrl &url)
 {
     m_url = url;
     if (url.scheme() == "nymeas") {
-        qDebug() << "TCP socket connecting to" << url.host() << url.port();
+        qCDebug(dcTcpTransport()) << "TCP socket connecting to" << url.host() << url.port();
         m_socket.connectToHostEncrypted(url.host(), static_cast<quint16>(url.port()));
         return true;
     } else if (url.scheme() == "nymea") {
         m_socket.connectToHost(url.host(), static_cast<quint16>(url.port()));
         return true;
     }
-    qWarning() << "TCP socket: Unsupported scheme";
+    qCWarning(dcTcpTransport()) << "TCP socket: Unsupported scheme";
     return false;
 }
 
@@ -118,7 +122,7 @@ NymeaTransportInterface::ConnectionState TcpSocketTransport::connectionState() c
 
 void TcpSocketTransport::disconnect()
 {
-    qDebug() << "closing socket";
+    qCDebug(dcTcpTransport()) << "closing socket";
     m_socket.disconnectFromHost();
     m_socket.close();
     // QTcpSocket might endlessly wait for a timeout if we call connectToHost() for an IP which isn't
@@ -135,7 +139,7 @@ void TcpSocketTransport::socketReadyRead()
 
 void TcpSocketTransport::onSocketStateChanged(const QAbstractSocket::SocketState &state)
 {
-    qDebug() << "Socket state changed -->" << state;
+    qCDebug(dcTcpTransport()) << "Socket state changed -->" << state;
     if (state == QAbstractSocket::UnconnectedState) {
         emit disconnected();
     }
