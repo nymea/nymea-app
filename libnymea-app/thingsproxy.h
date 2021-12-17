@@ -54,9 +54,9 @@ class ThingsProxy : public QSortFilterProxyModel
     Q_PROPERTY(QStringList hiddenInterfaces READ hiddenInterfaces WRITE setHiddenInterfaces NOTIFY hiddenInterfacesChanged)
     Q_PROPERTY(QString nameFilter READ nameFilter WRITE setNameFilter NOTIFY nameFilterChanged)
 
-    Q_PROPERTY(QList<QUuid> shownThingClassIds READ shownThingClassIds WRITE setShownThingClassIds NOTIFY shownThingClassIdsChanged)
-    Q_PROPERTY(QList<QUuid> hiddenThingClassIds READ hiddenThingClassIds WRITE setHiddenThingClassIds NOTIFY hiddenThingClassIdsChanged)
-    Q_PROPERTY(QList<QUuid> hiddenThingIds READ hiddenThingIds WRITE setHiddenThingIds NOTIFY hiddenThingIdsChanged)
+    Q_PROPERTY(QStringList shownThingClassIds READ shownThingClassIds WRITE setShownThingClassIds NOTIFY shownThingClassIdsChanged)
+    Q_PROPERTY(QStringList hiddenThingClassIds READ hiddenThingClassIds WRITE setHiddenThingClassIds NOTIFY hiddenThingClassIdsChanged)
+    Q_PROPERTY(QStringList hiddenThingIds READ hiddenThingIds WRITE setHiddenThingIds NOTIFY hiddenThingIdsChanged)
 
     Q_PROPERTY(QString requiredEventName READ requiredEventName WRITE setRequiredEventName NOTIFY requiredEventNameChanged)
     Q_PROPERTY(QString requiredStateName READ requiredStateName WRITE setRequiredStateName NOTIFY requiredStateNameChanged)
@@ -122,14 +122,14 @@ public:
     QString nameFilter() const;
     void setNameFilter(const QString &nameFilter);
 
-    QList<QUuid> shownThingClassIds() const;
-    void setShownThingClassIds(const QList<QUuid> &shownThingClassIds);
+    QStringList shownThingClassIds() const;
+    void setShownThingClassIds(const QStringList &shownThingClassIds);
 
-    QList<QUuid> hiddenThingClassIds() const;
-    void setHiddenThingClassIds(const QList<QUuid> &hiddenThingClassIds);
+    QStringList hiddenThingClassIds() const;
+    void setHiddenThingClassIds(const QStringList &hiddenThingClassIds);
 
-    QList<QUuid> hiddenThingIds() const;
-    void setHiddenThingIds(const QList<QUuid> &hiddenThingIds);
+    QStringList hiddenThingIds() const;
+    void setHiddenThingIds(const QStringList &hiddenThingIds);
 
     QString requiredEventName() const;
     void setRequiredEventName(const QString &requiredEventName);

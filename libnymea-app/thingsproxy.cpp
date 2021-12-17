@@ -213,43 +213,67 @@ void ThingsProxy::setNameFilter(const QString &nameFilter)
     }
 }
 
-QList<QUuid> ThingsProxy::shownThingClassIds() const
+QStringList ThingsProxy::shownThingClassIds() const
 {
-    return m_shownThingClassIds;
+    QStringList ret;
+    foreach (const QUuid &id, m_shownThingClassIds) {
+        ret << id.toString();
+    }
+    return ret;
 }
 
-void ThingsProxy::setShownThingClassIds(const QList<QUuid> &shownThingClassIds)
+void ThingsProxy::setShownThingClassIds(const QStringList &shownThingClassIds)
 {
-    if (m_shownThingClassIds != shownThingClassIds) {
-        m_shownThingClassIds = shownThingClassIds;
+    QList<QUuid> uuids;
+    foreach (const QString &str, shownThingClassIds) {
+        uuids << QUuid(str);
+    }
+    if (m_shownThingClassIds != uuids) {
+        m_shownThingClassIds = uuids;
         emit shownThingClassIdsChanged();
         invalidateFilterInternal();
     }
 }
 
-QList<QUuid> ThingsProxy::hiddenThingClassIds() const
+QStringList ThingsProxy::hiddenThingClassIds() const
 {
-    return m_hiddenThingClassIds;
+    QStringList ret;
+    foreach (const QUuid &uuid, m_hiddenThingClassIds) {
+        ret << uuid.toString();
+    }
+    return ret;
 }
 
-void ThingsProxy::setHiddenThingClassIds(const QList<QUuid> &hiddenThingClassIds)
+void ThingsProxy::setHiddenThingClassIds(const QStringList &hiddenThingClassIds)
 {
-    if (m_hiddenThingClassIds != hiddenThingClassIds) {
-        m_hiddenThingClassIds = hiddenThingClassIds;
+    QList<QUuid> uuids;
+    foreach (const QString &str, hiddenThingClassIds) {
+        uuids << str;
+    }
+    if (m_hiddenThingClassIds != uuids) {
+        m_hiddenThingClassIds = uuids;
         emit hiddenThingClassIdsChanged();
         invalidateFilterInternal();
     }
 }
 
-QList<QUuid> ThingsProxy::hiddenThingIds() const
+QStringList ThingsProxy::hiddenThingIds() const
 {
-    return m_hiddenThingIds;
+    QStringList ret;
+    foreach (const QUuid &uuid, m_hiddenThingIds) {
+        ret << uuid.toString();
+    }
+    return ret;
 }
 
-void ThingsProxy::setHiddenThingIds(const QList<QUuid> &hiddenThingIds)
+void ThingsProxy::setHiddenThingIds(const QStringList &hiddenThingIds)
 {
-    if (m_hiddenThingIds != hiddenThingIds) {
-        m_hiddenThingIds = hiddenThingIds;
+    QList<QUuid> uuids;
+    foreach (const QString &str, hiddenThingIds) {
+        uuids << str;
+    }
+    if (m_hiddenThingIds != uuids) {
+        m_hiddenThingIds = uuids;
         emit hiddenThingIdsChanged();
         invalidateFilterInternal();
     }
