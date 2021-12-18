@@ -583,6 +583,10 @@ bool ThingsProxy::lessThan(const QModelIndex &left, const QModelIndex &right) co
 bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     Thing *thing = getInternal(source_row);
+    if (!thing) {
+        qCWarning(dcThingManager()) << "filterAcceptsRow called for a source row we can't find in the source model!";
+        return false;
+    }
     if (!m_filterTagId.isEmpty()) {
         Tag *tag = m_engine->tagsManager()->tags()->findThingTag(thing->id().toString(), m_filterTagId);
         if (!tag) {

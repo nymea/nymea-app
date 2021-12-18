@@ -31,10 +31,13 @@
 #ifndef THINGS_H
 #define THINGS_H
 
-#include <QAbstractListModel>
-
 #include "types/thing.h"
 #include "types/thingclass.h"
+
+#include <QAbstractListModel>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(dcThingManager)
 
 class Things : public QAbstractListModel
 {
