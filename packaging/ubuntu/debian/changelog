@@ -1,3 +1,10 @@
+nymea-app (1.0.416) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a crash that may happen during initial loading
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 18 Dec 2021 14:10:19 +0100
+
 nymea-app (1.0.415) bionic; urgency=medium
 
   [ Michael Zanetti ]
