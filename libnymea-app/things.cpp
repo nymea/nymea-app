@@ -111,7 +111,6 @@ void Things::addThings(const QList<Thing *> things)
     }
     beginInsertRows(QModelIndex(), m_things.count(), m_things.count() + things.count() - 1);
     m_things.append(things);
-    endInsertRows();
 
     foreach (Thing *thing, things) {
         thing->setParent(this);
@@ -132,6 +131,7 @@ void Things::addThings(const QList<Thing *> things)
         });
         emit thingAdded(thing);
     }
+    endInsertRows();
 
     emit countChanged();
 }

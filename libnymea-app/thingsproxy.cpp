@@ -65,7 +65,10 @@ void ThingsProxy::setEngine(Engine *engine)
             sort(0, sortOrder());
             connect(sourceModel(), SIGNAL(countChanged()), this, SIGNAL(countChanged()));
             connect(sourceModel(), &QAbstractItemModel::dataChanged, this, [this]() {
-                invalidateFilterInternal();
+                // Only invalidate the filter if we're actually interested in state changes
+                if (!m_sortStateName.isEmpty() || m_filterBatteryCritical || m_filterDisconnected || m_filterUpdates) {
+                    invalidateFilterInternal();
+                }
             });
         }
     }
@@ -86,8 +89,11 @@ void ThingsProxy::setParentProxy(ThingsProxy *parentProxy)
             return;
         }
         connect(m_parentProxy, SIGNAL(countChanged()), this, SIGNAL(countChanged()));
+
         connect(m_parentProxy, &QAbstractItemModel::dataChanged, this, [this]() {
-            if (m_engine) {
+            if (m_engine &&
+                    // Only invalidate the filter if we're actually interested in state changes
+                    (!m_sortStateName.isEmpty() || m_filterBatteryCritical || m_filterDisconnected || m_filterUpdates)) {
                 invalidateFilterInternal();
             }
         });
@@ -583,10 +589,6 @@ bool ThingsProxy::lessThan(const QModelIndex &left, const QModelIndex &right) co
 bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     Thing *thing = getInternal(source_row);
-    if (!thing) {
-        qCWarning(dcThingManager()) << "filterAcceptsRow called for a source row we can't find in the source model!";
-        return false;
-    }
     if (!m_filterTagId.isEmpty()) {
         Tag *tag = m_engine->tagsManager()->tags()->findThingTag(thing->id().toString(), m_filterTagId);
         if (!tag) {
@@ -634,6 +636,7 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
             }
         }
     }
+
 
     if (!m_shownThingClassIds.isEmpty()) {
         if (!m_shownThingClassIds.contains(thing->thingClassId())) {
