@@ -129,7 +129,7 @@ void TunnelProxyTransport::onRemoteConnectionStateChanged(remoteproxyclient::Tun
         emit disconnected();
         break;
     default:
-        ;
+        break;
     }
 }
 
