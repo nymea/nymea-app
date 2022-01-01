@@ -9,7 +9,7 @@ import Nymea 1.0
 ChartView {
     id: root
     backgroundColor: "transparent"
-    animationOptions: ChartView.SeriesAnimations
+    animationOptions: Qt.application.active ? ChartView.SeriesAnimations : ChartView.NoAnimation
     title: qsTr("Consumers balance")
     titleColor: Style.foregroundColor
     legend.visible: false
