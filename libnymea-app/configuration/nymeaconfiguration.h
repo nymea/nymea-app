@@ -38,6 +38,8 @@ class ServerConfiguration;
 class ServerConfigurations;
 class WebServerConfiguration;
 class WebServerConfigurations;
+class TunnelProxyServerConfiguration;
+class TunnelProxyServerConfigurations;
 class MqttPolicy;
 class MqttPolicies;
 
@@ -53,6 +55,7 @@ class NymeaConfiguration : public QObject
     Q_PROPERTY(ServerConfigurations* tcpServerConfigurations READ tcpServerConfigurations CONSTANT)
     Q_PROPERTY(ServerConfigurations* webSocketServerConfigurations READ webSocketServerConfigurations CONSTANT)
     Q_PROPERTY(WebServerConfigurations* webServerConfigurations READ webServerConfigurations CONSTANT)
+    Q_PROPERTY(TunnelProxyServerConfigurations* tunnelProxyServerConfigurations READ tunnelProxyServerConfigurations CONSTANT)
     Q_PROPERTY(ServerConfigurations* mqttServerConfigurations READ mqttServerConfigurations CONSTANT)
 
     Q_PROPERTY(MqttPolicies* mqttPolicies READ mqttPolicies CONSTANT)
@@ -80,6 +83,7 @@ public:
     ServerConfigurations *tcpServerConfigurations() const;
     ServerConfigurations *webSocketServerConfigurations() const;
     WebServerConfigurations *webServerConfigurations() const;
+    TunnelProxyServerConfigurations *tunnelProxyServerConfigurations() const;
     ServerConfigurations *mqttServerConfigurations() const;
     MqttPolicies *mqttPolicies() const;
 
@@ -90,11 +94,13 @@ public:
     Q_INVOKABLE void setTcpServerConfiguration(ServerConfiguration *configuration);
     Q_INVOKABLE void setWebSocketServerConfiguration(ServerConfiguration *configuration);
     Q_INVOKABLE void setWebServerConfiguration(WebServerConfiguration *configuration);
+    Q_INVOKABLE void setTunnelProxyServerConfiguration(TunnelProxyServerConfiguration *configuration);
     Q_INVOKABLE void setMqttServerConfiguration(ServerConfiguration *configuration);
 
     Q_INVOKABLE void deleteTcpServerConfiguration(const QString &id);
     Q_INVOKABLE void deleteWebSocketServerConfiguration(const QString &id);
     Q_INVOKABLE void deleteWebServerConfiguration(const QString &id);
+    Q_INVOKABLE void deleteTunnelProxyServerConfiguration(const QString &id);
     Q_INVOKABLE void deleteMqttServerConfiguration(const QString &id);
 
     Q_INVOKABLE void updateMqttPolicy(MqttPolicy* policy);
@@ -112,6 +118,8 @@ private:
     Q_INVOKABLE void deleteTcpConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setWebSocketConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void deleteWebSocketConfigReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setTunnelProxyServerConfigReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void deleteTunnelProxyServerConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setWebConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void deleteWebConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getMqttServerConfigsReply(int commandId, const QVariantMap &params);
@@ -138,6 +146,7 @@ private:
     ServerConfigurations *m_tcpServerConfigurations = nullptr;
     ServerConfigurations *m_webSocketServerConfigurations = nullptr;
     WebServerConfigurations* m_webServerConfigurations = nullptr;
+    TunnelProxyServerConfigurations *m_tunnelProxyServerConfigurations = nullptr;
     ServerConfigurations *m_mqttServerConfigurations = nullptr;
     MqttPolicies *m_mqttPolicies = nullptr;
 

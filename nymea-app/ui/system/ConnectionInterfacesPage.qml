@@ -136,4 +136,53 @@ SettingsPageBase {
             popup.open()
         }
     }
+    SettingsPageSectionHeader {
+        text: qsTr("Remote connection server interfaces")
+    }
+
+    Repeater {
+        model: engine.nymeaConfiguration.tunnelProxyServerConfigurations
+        delegate: ConnectionInterfaceDelegate {
+            Layout.fillWidth: true
+            text: qsTr("Server: %1").arg(model.address)
+            iconColor: inUse ? Style.accentColor : Style.iconColor
+            readonly property bool inUse: (engine.jsonRpcClient.currentConnection.hostAddress === model.address || model.address === "0.0.0.0")
+                                 && engine.jsonRpcClient.currentConnection.port === model.port
+            canDelete: !inUse
+            onClicked: {
+                var component = Qt.createComponent(Qt.resolvedUrl("ServerConfigurationDialog.qml"));
+                var popup = component.createObject(root, { serverConfiguration: engine.nymeaConfiguration.tunnelProxyServerConfigurations.get(index).clone() });
+                popup.accepted.connect(function() {
+                    print("configuring:", popup.serverConfiguration.port)
+                    engine.nymeaConfiguration.setTunnelProxyServerConfiguration(popup.serverConfiguration)
+                    popup.serverConfiguration.destroy();
+                })
+                popup.rejected.connect(function() {
+                    popup.serverConfiguration.destroy();
+                })
+                popup.open()
+            }
+            onDeleteClicked: {
+                engine.nymeaConfiguration.deleteTunnelProxyServerConfiguration(model.id)
+            }
+        }
+    }
+    Button {
+        Layout.fillWidth: true
+        Layout.margins: app.margins
+        text: qsTr("Add")
+        onClicked: {
+            var config = engine.nymeaConfiguration.createTunnelProxyServerConfiguration("0.0.0.0", 4444 + engine.nymeaConfiguration.webSocketServerConfigurations.count, false, false);
+            var component = Qt.createComponent(Qt.resolvedUrl("ServerConfigurationDialog.qml"));
+            var popup = component.createObject(root, { serverConfiguration: config });
+            popup.accepted.connect(function() {
+                engine.nymeaConfiguration.setWebSocketServerConfiguration(popup.serverConfiguration)
+                popup.serverConfiguration.destroy();
+            })
+            popup.rejected.connect(function() {
+                popup.serverConfiguration.destroy();
+            })
+            popup.open()
+        }
+    }
 }
