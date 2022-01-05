@@ -251,7 +251,7 @@ Item {
             height: parent.height
             width: 1
             color: Style.foregroundColor
-            x: mouseArea.mouseX
+            x: Math.min(mouseArea.width, Math.max(0, mouseArea.mouseX))
             visible: mouseArea.containsMouse || mouseArea.preventStealing
         }
 
@@ -263,10 +263,10 @@ Item {
             backgroundRect: Qt.rect(mouseArea.x + toolTip.x, mouseArea.y + toolTip.y, toolTip.width, toolTip.height)
 
             property int idx: productionUpperSeries.count - Math.floor(mouseArea.mouseX * productionUpperSeries.count / mouseArea.width)
-            property int seriesIndex: productionUpperSeries.count - idx
+            property int seriesIndex: Math.min(productionUpperSeries.count - 1, Math.max(0, productionUpperSeries.count - idx))
 
-            property int xOnRight: mouseArea.mouseX + Style.smallMargins
-            property int xOnLeft: mouseArea.mouseX - Style.smallMargins - width
+            property int xOnRight: Math.max(0, mouseArea.mouseX) + Style.smallMargins
+            property int xOnLeft: Math.min(mouseArea.mouseX, mouseArea.width) - Style.smallMargins - width
             x: xOnRight + width < mouseArea.width ? xOnRight : xOnLeft
             property double maxValue: productionUpperSeries.at(seriesIndex).y
             y: Math.min(Math.max(mouseArea.height - (maxValue * mouseArea.height / valueAxis.max) - height - Style.margins, 0), mouseArea.height - height)

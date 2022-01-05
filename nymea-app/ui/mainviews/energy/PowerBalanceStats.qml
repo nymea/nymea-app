@@ -59,28 +59,7 @@ StatsBase {
                 powerBalanceLogs.startTime = new Date(config.startTime().getTime() - config.sampleRate * 60000)
                 powerBalanceLogs.loadingInhibited = false
 
-                barSeries.clear();
-
-                d.consumptionSet = barSeries.append(qsTr("Consumed"), [])
-                d.consumptionSet.color = Style.blue
-                d.consumptionSet.borderColor = d.consumptionSet.color
-                d.consumptionSet.borderWidth = 0
-                d.productionSet = barSeries.append(qsTr("Produced"), [])
-                d.productionSet.color = Style.green
-                d.productionSet.borderColor = d.productionSet.color
-                d.productionSet.borderWidth = 0
-                d.acquisitionSet = barSeries.append(qsTr("From grid"), [])
-                d.acquisitionSet.color = Style.red
-                d.acquisitionSet.borderColor = d.acquisitionSet.color
-                d.acquisitionSet.borderWidth = 0
-                d.returnSet = barSeries.append(qsTr("To grid"), [])
-                d.returnSet.color = Style.orange
-                d.returnSet.borderColor = d.returnSet.color
-                d.returnSet.borderWidth = 0
-
-
-                valueAxis.max = 0
-
+                chartView.reset();
             }
         }
 
@@ -105,6 +84,8 @@ StatsBase {
             onFetchingDataChanged: {
                 if (!fetchingData) {
                     chartView.animationOptions = ChartView.NoAnimation
+
+                    chartView.reset();
 
 //                    print("Logs fetched")
                     var config = root.configs[selectionTabs.currentValue.config]
@@ -255,6 +236,27 @@ StatsBase {
             margins.bottom: 0
             margins.top: 0
 
+            function reset() {
+                barSeries.clear();
+                valueAxis.max = 0
+                d.consumptionSet = barSeries.append(qsTr("Consumed"), [])
+                d.consumptionSet.color = Style.blue
+                d.consumptionSet.borderColor = d.consumptionSet.color
+                d.consumptionSet.borderWidth = 0
+                d.productionSet = barSeries.append(qsTr("Produced"), [])
+                d.productionSet.color = Style.green
+                d.productionSet.borderColor = d.productionSet.color
+                d.productionSet.borderWidth = 0
+                d.acquisitionSet = barSeries.append(qsTr("From grid"), [])
+                d.acquisitionSet.color = Style.red
+                d.acquisitionSet.borderColor = d.acquisitionSet.color
+                d.acquisitionSet.borderWidth = 0
+                d.returnSet = barSeries.append(qsTr("To grid"), [])
+                d.returnSet.color = Style.orange
+                d.returnSet.borderColor = d.returnSet.color
+                d.returnSet.borderWidth = 0
+            }
+
             Item {
                 id: labelsLayout
                 x: Style.smallMargins
@@ -342,7 +344,7 @@ StatsBase {
             backgroundItem: chartView
             backgroundRect: Qt.rect(chartView.plotArea.x + toolTip.x, chartView.plotArea.y + toolTip.y, toolTip.width, toolTip.height)
 
-            property int idx: Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)
+            property int idx: Math.min(Math.max(0,Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)), categoryAxis.count - 1)
             visible: mouseArea.containsMouse || mouseArea.preventStealing
 
             x: Math.min(idx * mouseArea.width / categoryAxis.count, mouseArea.width - width)

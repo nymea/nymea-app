@@ -76,10 +76,6 @@ void EnergyLogs::setSampleRate(SampleRate sampleRate)
         m_sampleRate = sampleRate;
         emit sampleRateChanged();
 
-        beginResetModel();
-        qDeleteAll(m_list);
-        m_list.clear();
-        endResetModel();
         fetchLogs();
     }
 }
@@ -209,7 +205,14 @@ QVariantMap EnergyLogs::fetchParams() const
 void EnergyLogs::getLogsResponse(int commandId, const QVariantMap &params)
 {
     Q_UNUSED(commandId)
-//    qCDebug(dcEnergyLogs()) << "Energy logs response:" << params;
+    if (!m_list.isEmpty()) {
+        beginResetModel();
+        qDeleteAll(m_list);
+        m_list.clear();
+        endResetModel();
+    }
+    qCDebug(dcEnergyLogs()) << "Energy logs received";
+//    qCDebug(dcEnergyLogs()) << "Energy logs:" << params;
     logEntriesReceived(params);
 
     m_fetchingData = false;
@@ -236,6 +239,13 @@ void EnergyLogs::fetchLogs()
         return;
     }
 
+    if (!m_list.isEmpty()) {
+        beginResetModel();
+        qDeleteAll(m_list);
+        m_list.clear();
+        endResetModel();
+    }
+
     m_fetchingData = true;
     fetchingDataChanged();
 
@@ -248,7 +258,7 @@ void EnergyLogs::fetchLogs()
     if (!m_endTime.isNull()) {
         params.insert("to", m_endTime.toSecsSinceEpoch());
     }
-    qCDebug(dcEnergyLogs()) << "Fetching power balance logs" << params;
+    qCDebug(dcEnergyLogs()) << "Fetching energy logs" << params;
     m_engine->jsonRpcClient()->sendCommand("Energy.Get" + logsName(), params, this, "getLogsResponse");
 }
 

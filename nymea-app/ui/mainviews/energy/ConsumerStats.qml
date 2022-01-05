@@ -45,12 +45,7 @@ StatsBase {
         powerLogs.sampleRate = config.sampleRate
         powerLogs.startTime = new Date(config.startTime().getTime() - config.sampleRate * 60000)
 
-        barSeries.clear();
-        barSeries.thingBarSetMap = ({})
-
-        valueAxis.max = 0
-
-        chartView.animationOptions = ChartView.SeriesAnimations
+        chartView.reset();
 
         powerLogs.loadingInhibited = false
     }
@@ -65,6 +60,8 @@ StatsBase {
         onFetchingDataChanged: {
             if (!fetchingData) {
                 var config = root.configs[selectionTabs.currentValue.config]
+
+                chartView.reset()
 
                 // First grouping log entries by timestamp
                 var groupedEntries = []
@@ -93,11 +90,6 @@ StatsBase {
 //                    print("finalizing grouped entry", groupedEntry.timestamp)
                     groupedEntries.unshift(groupedEntry)
                 }
-
-
-
-                chartView.animationOptions = ChartView.NoAnimation
-
 
                 var labels = []
                 var entries = []
@@ -170,19 +162,6 @@ StatsBase {
 
 //                print("assigning categories:", labels)
                 categoryAxis.timestamps = labels
-
-                var map = {}
-                for (var j = 0; j < consumers.count; j++) {
-                    var consumer = consumers.get(j)
-                    var barSet = barSeries.append(consumer.name, [])
-                    barSet.color = root.colors[j % root.colors.length]
-                    barSet.borderColor = barSet.color
-                    barSet.borderWith = 0
-                    map[consumer.id] = barSet
-                }
-                barSeries.thingBarSetMap = map
-
-                chartView.animationOptions = ChartView.SeriesAnimations
 
                 for (var i = 0; i < entries.length; i++) {
                     var entry = entries[i]
@@ -298,6 +277,22 @@ StatsBase {
             legend.font: Style.extraSmallFont
             legend.labelColor: Style.foregroundColor
 
+            function reset() {
+                chartView.animationOptions = ChartView.NoAnimation
+                barSeries.clear();
+                valueAxis.max = 0
+                var map = {}
+                for (var j = 0; j < consumers.count; j++) {
+                    var consumer = consumers.get(j)
+                    var barSet = barSeries.append(consumer.name, [])
+                    barSet.color = root.colors[j % root.colors.length]
+                    barSet.borderColor = barSet.color
+                    barSet.borderWith = 0
+                    map[consumer.id] = barSet
+                }
+                barSeries.thingBarSetMap = map
+                chartView.animationOptions = ChartView.SeriesAnimations
+            }
 
             Item {
                 id: labelsLayout
@@ -387,7 +382,7 @@ StatsBase {
             backgroundItem: chartView
             backgroundRect: Qt.rect(chartView.plotArea.x + toolTip.x, chartView.plotArea.y + toolTip.y, toolTip.width, toolTip.height)
 
-            property int idx: Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)
+            property int idx: Math.max(0, Math.min(categoryAxis.count -1, Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)))
             visible: mouseArea.containsMouse || mouseArea.preventStealing
 
             x: Math.min(idx * mouseArea.width / categoryAxis.count, mouseArea.width - width)
@@ -417,15 +412,42 @@ StatsBase {
                 }
 
                 Repeater {
-                    model: consumers
+                    model: ListModel {
+                        id: toolTipModel
+                        property var entries: {
+                            var unsorted = []
+                            for (var i = 0; i < consumers.count; i++) {
+                                var consumer = consumers.get(i)
+                                var entry = {
+                                    name: consumer.name,
+                                    value: barSeries.thingBarSetMap[consumer.id].at(toolTip.idx).toFixed(2),
+                                    indexInModel: i
+                                }
+                                unsorted.push(entry)
+                            }
+                            return unsorted
+                        }
+                        onEntriesChanged: {
+                            clear();
+                            var unsorted = entries;
+                            for (var i = 0; i < unsorted.length; i++) {
+                                var j = 0;
+                                while (j < count && get(j).value > unsorted[i].value) {
+                                    j++;
+                                }
+                                insert(j, unsorted[i])
+                            }
+                        }
+                    }
+
                     delegate: RowLayout {
                         Rectangle {
                             width: Style.extraSmallFont.pixelSize
                             height: width
-                            color: index >= 0 ? root.colors[index % root.colors.length] : "white"
+                            color: root.colors[model.indexInModel % root.colors.length]
                         }
                         Label {
-                            text: barSeries.thingBarSetMap.hasOwnProperty(model.id) ? "%1: %2 kWh".arg(model.name).arg(barSeries.thingBarSetMap[model.id].at(toolTip.idx).toFixed(2)) : ""
+                            text: "%1: %2 kWh".arg(model.name).arg(model.value)
                             font: Style.extraSmallFont
                         }
                     }

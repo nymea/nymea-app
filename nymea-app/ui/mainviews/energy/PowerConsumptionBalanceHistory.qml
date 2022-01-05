@@ -259,7 +259,7 @@ Item {
             height: parent.height
             width: 1
             color: Style.foregroundColor
-            x: mouseArea.mouseX
+            x: Math.min(mouseArea.width - 1, Math.max(0, mouseArea.mouseX))
             visible: mouseArea.containsMouse || mouseArea.preventStealing
         }
 
@@ -273,10 +273,10 @@ Item {
 
 
             property int idx: consumptionUpperSeries.count - (Math.floor(mouseArea.mouseX * consumptionUpperSeries.count / mouseArea.width))
-            property int seriesIndex: consumptionUpperSeries.count - idx
+            property int seriesIndex: Math.min(consumptionUpperSeries.count - 1, Math.max(0, consumptionUpperSeries.count - idx))
 
-            property int xOnRight: mouseArea.mouseX + Style.smallMargins
-            property int xOnLeft: mouseArea.mouseX - Style.smallMargins - width
+            property int xOnRight: Math.max(0, mouseArea.mouseX) + Style.smallMargins
+            property int xOnLeft: Math.min(mouseArea.mouseX, mouseArea.width) - Style.smallMargins - width
             x: xOnRight + width < mouseArea.width ? xOnRight : xOnLeft
             property double maxValue: consumptionUpperSeries.at(seriesIndex).y
             y: Math.min(Math.max(mouseArea.height - (maxValue * mouseArea.height / valueAxis.max) - height - Style.margins, 0), mouseArea.height - height)
