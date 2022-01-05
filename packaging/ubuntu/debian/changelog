@@ -1,3 +1,13 @@
+nymea-app (1.0.419) bionic; urgency=medium
+
+  [ Benjamin Zeller ]
+  * Add initial packaging for openSUSE
+
+  [ Michael Zanetti ]
+  * Fixes and improvements in the energy charts
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 05 Jan 2022 01:52:50 +0100
+
 nymea-app (1.0.418) bionic; urgency=medium
 
   [ Michael Zanetti ]
