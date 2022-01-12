@@ -1,3 +1,12 @@
+nymea-app (1.0.420) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make default main view and menu links configurable
+  * Fix permissions on systems that don't require authentication
+  * Fix VCS url in debian/control
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 12 Jan 2022 14:33:53 +0100
+
 nymea-app (1.0.419) bionic; urgency=medium
 
   [ Benjamin Zeller ]
