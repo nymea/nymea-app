@@ -193,57 +193,21 @@ Drawer {
                         root.openSystemSettings();
                         root.close();
                     }
+
+                    Layout.bottomMargin: app.margins
                 }
 
 
-                NymeaItemDelegate {
-                    Layout.fillWidth: true
-                    Layout.topMargin: app.margins
-                    text: qsTr("Help")
-                    iconName: "../images/help.svg"
-                    progressive: false
-                    onClicked: Qt.openUrlExternally("https://nymea.io/documentation/users/usage/first-steps")
-                    visible: Configuration.showCommunityLinks
-                }
-                NymeaItemDelegate {
-                    Layout.fillWidth: true
-                    text: qsTr("Forum")
-                    iconName: "../images/discourse.svg"
-                    progressive: false
-                    onClicked: Qt.openUrlExternally("https://forum.nymea.io")
-                    visible: Configuration.showCommunityLinks
-                }
-                NymeaItemDelegate {
-                    Layout.fillWidth: true
-                    text: qsTr("Telegram")
-                    iconName: "../images/telegram.svg"
-                    progressive: false
-                    onClicked: Qt.openUrlExternally("https://t.me/nymeacommunity")
-                    visible: Configuration.showCommunityLinks
-                }
-                NymeaItemDelegate {
-                    Layout.fillWidth: true
-                    text: qsTr("Discord")
-                    iconName: "../images/discord.svg"
-                    progressive: false
-                    onClicked: Qt.openUrlExternally("https://discord.gg/tX9YCpD")
-                    visible: Configuration.showCommunityLinks
-                }
-                NymeaItemDelegate {
-                    Layout.fillWidth: true
-                    text: qsTr("Twitter")
-                    iconName: "../images/twitter.svg"
-                    progressive: false
-                    onClicked: Qt.openUrlExternally("https://twitter.com/nymea_io")
-                    visible: Configuration.showCommunityLinks
-                }
-                NymeaItemDelegate {
-                    Layout.fillWidth: true
-                    text: qsTr("Facebook")
-                    iconName: "../images/facebook.svg"
-                    progressive: false
-                    onClicked: Qt.openUrlExternally("https://m.facebook.com/groups/nymea")
-                    visible: Configuration.showCommunityLinks
+                Repeater {
+                    model: Configuration.mainMenuLinks
+                    delegate: NymeaItemDelegate {
+                        Layout.fillWidth: true
+                        text: model.text
+                        iconName: model.iconName
+                        progressive: false
+                        onClicked: Qt.openUrlExternally(model.url)
+                    }
+
                 }
             }
         }

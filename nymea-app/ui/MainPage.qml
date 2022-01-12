@@ -151,7 +151,7 @@ Page {
                                      Configuration.mainViewsFilter
                                    : defaultMainViewFilter.length > 0 ?
                                          defaultMainViewFilter.split(',')
-                                       : ["things"]
+                                       : [Configuration.defaultMainView]
         property int currentIndex: 0
     }
 
@@ -505,7 +505,7 @@ Page {
                                 }
                             }
                             if (newList.length === 0) {
-                                newList.push("things")
+                                newList.push(Configuration.defaultMainView)
                             }
 
                             mainViewSettings.filterList = newList

@@ -7,8 +7,6 @@ Item {
 
     property string connectionWizard: ""
 
-    property bool showCommunityLinks: false
-
     // Enable/disable certain features
     property bool magicEnabled: false
     property bool networkSettingsEnabled: false
@@ -18,4 +16,8 @@ Item {
     property bool zigbeeSettingsEnabled: false
     property bool modbusSettingsEnabled: false
     property bool pluginSettingsEnabled: false
+
+    property string defaultMainView: "things"
+
+    property ListModel mainMenuLinks: null
 }
