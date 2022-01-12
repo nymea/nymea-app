@@ -766,7 +766,7 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     }
 //    qDebug() << "Caches:" << m_cacheHashes;
 
-    if (m_jsonRpcVersion.majorVersion() >= 6) {
+    if (m_jsonRpcVersion.majorVersion() >= 6 && m_authenticationRequired) {
         m_permissionScopes = UserInfo::listToScopes(params.value("permissionScopes").toStringList());
     } else {
         m_permissionScopes = UserInfo::PermissionScopeAdmin;
