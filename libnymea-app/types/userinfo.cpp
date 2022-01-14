@@ -6,7 +6,7 @@
 UserInfo::UserInfo(QObject *parent):
     QObject(parent)
 {
-
+    qRegisterMetaType<UserInfo::PermissionScopes>("UserInfo.PermissionScopes");
 }
 
 UserInfo::UserInfo(const QString &username, QObject *parent):

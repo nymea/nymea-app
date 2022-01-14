@@ -70,14 +70,15 @@ Users *UserManager::users() const
     return m_users;
 }
 
-int UserManager::createUser(const QString &username, const QString &password, UserInfo::PermissionScopes scopes)
+int UserManager::createUser(const QString &username, const QString &password, int permissionScopes)
 {
     QVariantMap params;
     params.insert("username", username);
     params.insert("password", password);
     if (m_engine->jsonRpcClient()->ensureServerVersion("5.6")) {
-        params.insert("scopes", UserInfo::scopesToList(scopes));
+        params.insert("scopes", UserInfo::scopesToList((UserInfo::PermissionScopes)permissionScopes));
     }
+    qCDebug(dcUserManager()) << "Creating user" << username << permissionScopes;
     return m_engine->jsonRpcClient()->sendCommand("Users.CreateUser", params, this, "createUserResponse");
 }
 
@@ -103,6 +104,15 @@ int UserManager::removeUser(const QString &username)
     QVariantMap params;
     params.insert("username", username);
     return m_engine->jsonRpcClient()->sendCommand("Users.RemoveUser", params, this, "removeUserResponse");
+}
+
+int UserManager::setUserScopes(const QString &username, int scopes)
+{
+    QVariantMap params;
+    params.insert("username", username);
+    params.insert("scopes", UserInfo::scopesToList((UserInfo::PermissionScopes)scopes));
+    qCDebug(dcUserManager()) << "Setting new permission scopes for user" << username << scopes << (int)scopes;
+    return m_engine->jsonRpcClient()->sendCommand("Users.SetUserScopes", params, this, "setUserScopesResponse");
 }
 
 void UserManager::notificationReceived(const QVariantMap &data)
@@ -209,15 +219,6 @@ void UserManager::setUserScopesResponse(int commandId, const QVariantMap &params
     QMetaEnum metaEnum = QMetaEnum::fromType<UserManager::UserError>();
     UserError error = static_cast<UserError>(metaEnum.keyToValue(params.value("error").toString().toUtf8()));
     emit setUserScopesReply(commandId, error);
-}
-
-int UserManager::setUserScopes(const QString &username, UserInfo::PermissionScopes scopes)
-{
-    QVariantMap params;
-    params.insert("username", username);
-    params.insert("scopes", UserInfo::scopesToList(scopes));
-    qCDebug(dcUserManager()) << "Setting new permission scopes for user" << username << scopes << (int)scopes;
-    return m_engine->jsonRpcClient()->sendCommand("Users.SetUserScopes", params, this, "setUserScopesResponse");
 }
 
 Users::Users(QObject *parent): QAbstractListModel(parent)

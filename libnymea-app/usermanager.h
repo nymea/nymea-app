@@ -45,11 +45,13 @@ public:
     TokenInfos* tokenInfos() const;
     Users *users() const;
 
-    Q_INVOKABLE int createUser(const QString &username, const QString &password, UserInfo::PermissionScopes scopes = UserInfo::PermissionScopeAdmin);
+    // NOTE: Q_FLAG from another QObject (UserInfo::PermissionScopes) doesn't seem to work in certain Qt versions. Using int instead
+    Q_INVOKABLE int createUser(const QString &username, const QString &password, int permissionScopes = UserInfo::PermissionScopeAdmin);
     Q_INVOKABLE int changePassword(const QString &newPassword);
     Q_INVOKABLE int removeToken(const QUuid &id);
     Q_INVOKABLE int removeUser(const QString &username);
-    Q_INVOKABLE int setUserScopes(const QString &username, UserInfo::PermissionScopes scopes);
+    // NOTE: Q_FLAG from another QObject (UserInfo::PermissionScopes) doesn't seem to work in certain Qt versions. Using int instead
+    Q_INVOKABLE int setUserScopes(const QString &username, int permissionScopes);
 
 signals:
     void engineChanged();

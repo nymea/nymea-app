@@ -61,13 +61,17 @@ Page {
             var message;
             switch (error) {
             case "UserErrorInvalidUserId":
-                message = qsTr("The email you've entered isn't valid.")
+                if (engine.jsonRpcClient.ensureServerVersion("7.0")) {
+                    message = qsTr("The email you've entered isn't valid.")
+                } else {
+                    message = qsTr("The username you've entered isn't valid.")
+                }
                 break;
             case "UserErrorDuplicateUserId":
-                message = qsTr("The email you've entered is already used.")
+                message = qsTr("The username you've entered is already used.")
                 break;
             case "UserErrorBadPassword":
-                message = qsTr("The password you've chose is too weak.")
+                message = qsTr("The password you've chosen is too weak.")
                 break;
             case "UserErrorBackendError":
                 message = qsTr("An error happened with the user storage. Please make sure your %1 system is installed correctly.").arg(Configuration.systemName)
@@ -102,7 +106,7 @@ Page {
                 Label {
                     Layout.fillWidth: true
                     text: engine.jsonRpcClient.initialSetupRequired ?
-                              qsTr("In order to use your %1 system, please enter your email address and set a password for it.").arg(Configuration.systemName)
+                              qsTr("In order to use your %1 system, please create an account.").arg(Configuration.systemName)
                             : qsTr("In order to use your %1 system, please log in.").arg(Configuration.systemName)
                     wrapMode: Text.WordWrap
                 }
@@ -116,14 +120,16 @@ Page {
                 columnSpacing: app.margins
 
                 Label {
-                    text: qsTr("Your e-mail address:")
+                    text: engine.jsonRpcClient.ensureServerVersion("7.0") ? qsTr("Username:") : qsTr("Your e-mail address:")
                     Layout.fillWidth: true
                     Layout.minimumWidth: implicitWidth
                 }
                 TextField {
                     id: usernameTextField
                     Layout.fillWidth: true
-                    inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase
+                    inputMethodHints: engine.jsonRpcClient.ensureServerVersion("7.0")
+                                      ? Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
+                                      : Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
 //                    placeholderText: "john.smith@cooldomain.com"
                 }
                 Label {
@@ -146,7 +152,7 @@ Page {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
                 text: qsTr("OK")
-                enabled: passwordTextField.isValid
+                enabled: usernameTextField.displayText.length >= 3 && passwordTextField.isValid
                 onClicked: {
                     if (engine.jsonRpcClient.initialSetupRequired) {
                         print("create user")

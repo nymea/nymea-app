@@ -240,8 +240,8 @@ SettingsPageBase {
                     Layout.fillWidth: true
                     text: model.text
                     checked: (userDetailsPage.userInfo.scopes & model.scope) === model.scope
-                    enabled: model.scope === UserInfo.ScopeAdmin ||
-                             (userDetailsPage.userInfo.scopes & UserInfo.ScopeAdmin) == 0
+                    enabled: model.scope === UserInfo.PermissionScopeAdmin ||
+                             ((userDetailsPage.userInfo.scopes & UserInfo.PermissionScopeAdmin) !== UserInfo.PermissionScopeAdmin)
                     onClicked: {
                         print("scopes:", userDetailsPage.userInfo.scopes)
                         var scopes = userDetailsPage.userInfo.scopes
@@ -251,6 +251,8 @@ SettingsPageBase {
                             scopes &= ~model.scope
                             scopes |= model.resetOnUnset
                         }
+                        print("username:", userDetailsPage.userInfo.username)
+                        print("new scopes:", scopes, UserInfo.PermissionScopeAdmin)
                         userManager.setUserScopes(userDetailsPage.userInfo.username, scopes)
                     }
                 }
@@ -331,7 +333,7 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.leftMargin: Style.margins
                 Layout.rightMargin: Style.margins
-                enabled: usernameTextField.displayText.length > 3 && passwordTextField.isValid
+                enabled: usernameTextField.displayText.length >= 3 && passwordTextField.isValid
                 onClicked: {
                     userManager.createUser(usernameTextField.displayText, passwordTextField.password, createUserPage.permissionScopes)
                 }

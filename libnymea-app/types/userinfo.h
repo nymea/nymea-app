@@ -17,7 +17,6 @@ public:
         PermissionScopeConfigureRules   = 0x0030,
         PermissionScopeAdmin            = 0xFFFF,
     };
-    Q_ENUM(PermissionScope)
     Q_DECLARE_FLAGS(PermissionScopes, PermissionScope)
     Q_FLAG(PermissionScopes)
 
@@ -42,5 +41,8 @@ private:
     PermissionScopes m_scopes = PermissionScopeNone;
 
 };
+
+Q_DECLARE_METATYPE(UserInfo::PermissionScope)
+Q_DECLARE_METATYPE(UserInfo::PermissionScopes)
 
 #endif // USERINFO_H
