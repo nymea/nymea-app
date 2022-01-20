@@ -379,11 +379,15 @@ QVariantMap JsonRpcClient::experiences() const
     return m_experiences;
 }
 
-int JsonRpcClient::createUser(const QString &username, const QString &password)
+int JsonRpcClient::createUser(const QString &username, const QString &password, const QString &displayName, const QString &email)
 {
     QVariantMap params;
     params.insert("username", username);
     params.insert("password", password);
+    if (ensureServerVersion("6.0")) {
+        params.insert("displayName", displayName);
+        params.insert("email", email);
+    }
     JsonRpcReply* reply = createReply("JSONRPC.CreateUser", params, this, "processCreateUser");
     m_replies.insert(reply->commandId(), reply);
     m_connection->sendData(QJsonDocument::fromVariant(reply->requestMap()).toJson());
@@ -639,7 +643,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
     JsonRpcReply *reply = m_replies.take(commandId);
     if (reply) {
         reply->deleteLater();
-        //        qDebug() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
+        qWarning() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
 
         if (dataMap.value("status").toString() == "unauthorized") {
             qWarning() << "Something's off with the token";
@@ -767,6 +771,18 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
 //    qDebug() << "Caches:" << m_cacheHashes;
 
     if (m_jsonRpcVersion.majorVersion() >= 6 && m_authenticationRequired) {
+        if (!params.value("authenticated").toBool()) {
+            qCWarning(dcJsonRpc) << "Seems our token is not valid!";
+            m_token.clear();
+            QSettings settings;
+            settings.beginGroup("jsonTokens");
+            settings.setValue(m_serverUuid, m_token);
+            settings.endGroup();
+            emit authenticationRequiredChanged();
+            m_authenticated = false;
+            emit authenticatedChanged();
+            return;
+        }
         m_permissionScopes = UserInfo::listToScopes(params.value("permissionScopes").toStringList());
     } else {
         m_permissionScopes = UserInfo::PermissionScopeAdmin;

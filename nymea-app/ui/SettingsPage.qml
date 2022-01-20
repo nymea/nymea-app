@@ -61,7 +61,7 @@ Page {
                 iconSource: "../images/configure.svg"
                 text: qsTr("General")
                 subText: qsTr("Change system name and time zone")
-                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
                 onClicked: pageStack.push(Qt.resolvedUrl("system/GeneralSettingsPage.qml"))
             }
 
@@ -80,7 +80,7 @@ Page {
                 iconSource: "../images/connections/network-wifi.svg"
                 text: qsTr("Networking")
                 subText: qsTr("Configure the system's network connection")
-                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin) && Configuration.networkSettingsEnabled
+                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.networkSettingsEnabled
                 onClicked: pageStack.push(Qt.resolvedUrl("system/NetworkSettingsPage.qml"))
             }
 
@@ -89,7 +89,7 @@ Page {
                 iconSource: "../images/connections/cloud.svg"
                 text: qsTr("Cloud")
                 subText: qsTr("Connect this %1 system to %1:cloud").arg(Configuration.systemName)
-                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
                 onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
             }
 
@@ -98,7 +98,7 @@ Page {
                 iconSource: "../images/connections/network-vpn.svg"
                 text: qsTr("API interfaces")
                 subText: qsTr("Configure how clients interact with this system")
-                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin) && Configuration.apiSettingsEnabled
+                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.apiSettingsEnabled
                 onClicked: pageStack.push(Qt.resolvedUrl("system/ConnectionInterfacesPage.qml"))
             }
 
@@ -107,7 +107,7 @@ Page {
                 iconSource: "../images/mqtt.svg"
                 text: qsTr("MQTT broker")
                 subText: qsTr("Configure the MQTT broker")
-                visible: engine.jsonRpcClient.ensureServerVersion("1.11") && NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin) && Configuration.mqttSettingsEnabled
+                visible: engine.jsonRpcClient.ensureServerVersion("1.11") && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.mqttSettingsEnabled
                 onClicked: pageStack.push(Qt.resolvedUrl("system/MqttBrokerSettingsPage.qml"))
             }
 
@@ -116,7 +116,7 @@ Page {
                 iconSource: "../images/stock_website.svg"
                 text: qsTr("Web server")
                 subText: qsTr("Configure the web server")
-                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
                          && Configuration.webServerSettingsEnabled
                 onClicked: pageStack.push(Qt.resolvedUrl("system/WebServerSettingsPage.qml"))
             }
@@ -126,7 +126,7 @@ Page {
                 iconSource: "../images/zigbee.svg"
                 text: qsTr("ZigBee")
                 subText: qsTr("Configure ZigBee networks")
-                visible: engine.jsonRpcClient.ensureServerVersion("5.3") && NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin) && Configuration.zigbeeSettingsEnabled
+                visible: engine.jsonRpcClient.ensureServerVersion("5.3") && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.zigbeeSettingsEnabled
                 onClicked: pageStack.push(Qt.resolvedUrl("system/ZigbeeSettingsPage.qml"))
             }
 
@@ -135,7 +135,7 @@ Page {
                 iconSource: "../images/modbus.svg"
                 text: qsTr("Modbus RTU")
                 subText: qsTr("Configure Modbus RTU master interfaces")
-                visible: engine.jsonRpcClient.ensureServerVersion("5.6") && NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin) && Configuration.modbusSettingsEnabled
+                visible: engine.jsonRpcClient.ensureServerVersion("5.6") && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.modbusSettingsEnabled
                 onClicked: pageStack.push(Qt.resolvedUrl("system/ModbusRtuSettingsPage.qml"))
             }
 
@@ -144,7 +144,7 @@ Page {
                 iconSource: "../images/plugin.svg"
                 text: qsTr("Plugins")
                 subText: qsTr("List and cofigure installed plugins")
-                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin) && Configuration.pluginSettingsEnabled
+                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.pluginSettingsEnabled
                 onClicked:pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
             }
 
@@ -153,7 +153,7 @@ Page {
                 iconSource: "../images/sdk.svg"
                 text: qsTr("Developer tools")
                 subText: qsTr("Access tools for debugging and error reporting")
-                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
                 onClicked: pageStack.push(Qt.resolvedUrl("system/DeveloperTools.qml"))
             }
 
@@ -163,7 +163,7 @@ Page {
                 text: qsTr("System update")
                 subText: qsTr("Update your %1 system").arg(Configuration.systemName)
                 visible: engine.systemController.updateManagementAvailable &&
-                         NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                         NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
                 onClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
             }
 
@@ -172,7 +172,7 @@ Page {
                 iconSource: "../images/logs.svg"
                 text: qsTr("Log viewer")
                 subText: qsTr("View system log")
-                visible: NymeaUtils.hasPermissionScope(engine, UserInfo.PermissionScopeAdmin)
+                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
                 onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
             }
 

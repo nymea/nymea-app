@@ -116,7 +116,7 @@ public:
 
     Q_INVOKABLE bool ensureServerVersion(const QString &jsonRpcVersion);
 
-    Q_INVOKABLE int createUser(const QString &username, const QString &password);
+    Q_INVOKABLE int createUser(const QString &username, const QString &password, const QString &displayName, const QString &email);
     Q_INVOKABLE int authenticate(const QString &username, const QString &password, const QString &deviceName);
     Q_INVOKABLE int requestPushButtonAuth(const QString &deviceName);
     Q_INVOKABLE int setupRemoteAccess(const QString &idToken, const QString &userId);

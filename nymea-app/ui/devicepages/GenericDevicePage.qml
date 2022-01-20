@@ -272,11 +272,13 @@ ThingPageBase {
                 target: stateDelegateLoader.item
                 property: "from"
                 value: stateDelegate.thingState.minValue
+                when: stateDelegateLoader.item.hasOwnProperty("from")
             }
             Binding {
                 target: stateDelegateLoader.item
                 property: "to"
                 value: stateDelegate.thingState.maxValue
+                when: stateDelegateLoader.item.hasOwnProperty("to")
             }
             Binding {
                 target: stateDelegateLoader.item.hasOwnProperty("unit") ? stateDelegateLoader.item : null

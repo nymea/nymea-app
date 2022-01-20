@@ -8,6 +8,11 @@
 class TokenInfo : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QUuid id READ id CONSTANT)
+    Q_PROPERTY(QString username READ username CONSTANT)
+    Q_PROPERTY(QString deviceName READ deviceName CONSTANT)
+    Q_PROPERTY(QDateTime creationTime READ creationTime CONSTANT)
+
 public:
     explicit TokenInfo(const QUuid &id, const QString &username, const QString &deviceName, const QDateTime &creationTime, QObject *parent = nullptr);
 

@@ -65,15 +65,19 @@ ColumnLayout {
 
     property bool hiddenPassword: true
 
+    property bool showErrors: false
+
     RowLayout {
         Layout.fillWidth: true
 
-        TextField {
+        NymeaTextField {
             id: passwordTextField
             Layout.fillWidth: true
             echoMode: root.hiddenPassword ? TextInput.Password : TextInput.Normal
             placeholderText: root.signup ? qsTr("Pick a password") : qsTr("Password")
 
+            error: root.showErrors && !root.isValidPassword
+            palette.toolTipBase: Style.tooltipBackgroundColor
             ToolTip.visible: root.signup && focus && !root.isValidPassword
             ToolTip.delay: 1000
             ToolTip.onVisibleChanged: print("Tooltip visible changed:", ToolTip.visible, focus, root.isValidPassword)
@@ -100,7 +104,7 @@ ColumnLayout {
                 }
                 var ret = []
                 for (var i = 0; i < texts.length; i++) {
-                    var entry = "<font color=\"%1\">• ".arg(checks[i] ? "#ffffff" : Style.accentColor)
+                    var entry = "<font color=\"%1\">• ".arg(checks[i] ? "#ffffff" : Style.red)
                     entry += texts[i]
                     entry += "</font>"
                     ret.push(entry)
@@ -126,11 +130,12 @@ ColumnLayout {
     RowLayout {
         visible: root.signup
 
-        TextField {
+        NymeaTextField {
             id: confirmationPasswordTextField
             Layout.fillWidth: true
             echoMode: root.hiddenPassword ? TextInput.Password : TextInput.Normal
             placeholderText: qsTr("Confirm password")
+            error: root.showErrors && (!root.isValidPassword || !root.confirmationMatches)
         }
     }
 }

@@ -14,7 +14,7 @@ SettingsPageBase {
         engine: _engine
 
         onChangePasswordReply: {
-            if (error != UserManager.UserErrorNoError) {
+            if (error !== UserManager.UserErrorNoError) {
                 var component = Qt.createComponent("../components/ErrorDialog.qml")
                 var text;
                 switch (error) {
@@ -36,22 +36,37 @@ SettingsPageBase {
                 popup.open()
             }
         }
+
     }
 
-    SettingsPageSectionHeader {
-        text: qsTr("User info")
+    RowLayout {
+        Layout.margins: Style.margins
+        spacing: Style.margins
+        ColorIcon {
+            size: Style.hugeIconSize
+            source: "../images/account.svg"
+            color: Style.accentColor
+        }
+        ColumnLayout {
+            Label {
+                Layout.fillWidth: true
+                text: userManager.userInfo.displayName || userManager.userInfo.username
+                font: Style.bigFont
+            }
+            Label {
+                Layout.fillWidth: true
+                text: userManager.userInfo.username
+                visible: userManager.userInfo.displayName !== ""
+            }
+            Label {
+                Layout.fillWidth: true
+                text: userManager.userInfo.email
+                font: Style.smallFont
+            }
+        }
     }
 
-    NymeaSwipeDelegate {
-        Layout.fillWidth: true
-        text: userManager.userInfo.username
-        subText: qsTr("Username")
-        progressive: false
-        prominentSubText: false
-        iconName: "../images/account.svg"
-    }
-
-    NymeaSwipeDelegate {
+    NymeaItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Change password")
         iconName: "../images/key.svg"
@@ -63,15 +78,17 @@ SettingsPageBase {
         }
     }
 
-    SettingsPageSectionHeader {
-        text: qsTr("Device access")
+    NymeaItemDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Edit user information")
+        iconName: "../images/edit.svg"
+        onClicked: pageStack.push(editUserInfoComponent)
     }
 
-    Button {
+    NymeaItemDelegate {
         Layout.fillWidth: true
-        Layout.leftMargin: Style.margins
-        Layout.rightMargin: Style.margins
         text: qsTr("Manage authorized devices")
+        iconName: "../images/smartphone.svg"
         onClicked: {
             pageStack.push(manageTokensComponent)
         }
@@ -82,17 +99,67 @@ SettingsPageBase {
         visible: userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin
     }
 
-    Button {
+    NymeaItemDelegate {
         Layout.fillWidth: true
-        Layout.leftMargin: Style.margins
-        Layout.rightMargin: Style.margins
         text: qsTr("Manage users")
         visible: userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin
+        iconName: "../images/contact-group.svg"
         onClicked: {
             pageStack.push(manageUsersComponent)
         }
     }
 
+    Component {
+        id: editUserInfoComponent
+        SettingsPageBase {
+            id: editUserInfoPage
+            title: qsTr("Edit user information")
+            GridLayout {
+                Layout.margins: Style.margins
+                columnSpacing: Style.margins
+                columns: 2
+                Label {
+                    text: qsTr("Your name")
+                }
+                NymeaTextField {
+                    id: displayNameTextField
+                    Layout.fillWidth: true
+                    text: userManager.userInfo.displayName
+                }
+                Label {
+                    text: qsTr("Email")
+                }
+                NymeaTextField {
+                    id: emailTextField
+                    Layout.fillWidth: true
+                    text: userManager.userInfo.email
+                }
+            }
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                text: qsTr("OK")
+                onClicked: {
+                    editUserInfoPage.busy = true
+                    userManager.setUserInfo(userManager.userInfo.username, displayNameTextField.text, emailTextField.text)
+                }
+            }
+            Connections {
+                target: userManager
+                onSetUserInfoReply: {
+                    editUserInfoPage.busy = false
+                    if (error != UserManager.UserErrorNoError) {
+                        var component = Qt.createComponent("../components/ErrorDialog.qml")
+                        var text = qsTr("Un unexpected error happened when creating the user. We're sorry for this. (Error code: %1)").arg(error);
+                        var popup = component.createObject(app, {text: text});
+                        popup.open()
+                    } else {
+                        pageStack.pop()
+                    }
+                }
+            }
+        }
+    }
 
     Component {
         id: changePasswordComponent
@@ -146,6 +213,20 @@ SettingsPageBase {
             id: manageTokensPage
             title: qsTr("Device access")
 
+            Component {
+                id: confirmTokenDeletionComponent
+                MeaDialog {
+                    headerIcon: "../images/lock-closed.svg"
+                    title: qsTr("Remove device access")
+                    text: qsTr("Are you sure you want to remove %1 from accessing your %2 system?").arg("<b>" + tokenInfo.deviceName + "</b>").arg(Configuration.systemName)
+                    property TokenInfo tokenInfo: null
+                    standardButtons: Dialog.Yes | Dialog.No
+                    onAccepted: {
+                        userManager.removeToken(tokenInfo.id)
+                    }
+                }
+            }
+
             SettingsPageSectionHeader {
                 text: qsTr("Devices / Apps accessing %1").arg(Configuration.systemName)
             }
@@ -160,9 +241,12 @@ SettingsPageBase {
                     prominentSubText: false
                     progressive: false
                     canDelete: true
+                    iconName: "../images/smartphone.svg"
 
+                    onClicked: deleteClicked()
                     onDeleteClicked: {
-                        userManager.removeToken(model.id)
+                        var popup = confirmTokenDeletionComponent.createObject(manageTokensPage, {tokenInfo: userManager.tokenInfos.get(index)})
+                        popup.open()
                     }
                 }
             }
@@ -192,19 +276,16 @@ SettingsPageBase {
 
             Repeater {
                 model: userManager.users
-                delegate: NymeaSwipeDelegate {
+                delegate: NymeaItemDelegate {
                     Layout.fillWidth: true
-                    text: model.username
+                    text: engine.jsonRpcClient.ensureServerVersion("6.0") && model.displayName ? model.displayName : model.username
+                    subText: engine.jsonRpcClient.ensureServerVersion("6.0") && model.displayName ? model.username : ""
                     iconName: "/ui/images/account.svg"
                     iconColor: userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin ? Style.accentColor : Style.iconColor
 
                     canDelete: true
                     onClicked: {
                         pageStack.push(userDetailsComponent, {userInfo: userManager.users.get(index)})
-                    }
-
-                    onDeleteClicked: {
-                        userManager.removeUser(model.username)
                     }
                 }
             }
@@ -215,18 +296,59 @@ SettingsPageBase {
         id: userDetailsComponent
         SettingsPageBase {
             id: userDetailsPage
-            title: qsTr("Manage user")
+            title: qsTr("Manage %1").arg(userInfo.username)
 
             property UserInfo userInfo: null
 
-            SettingsPageSectionHeader {
-                text: qsTr("User info")
+            Component {
+                id: confirmUserDeletionComponent
+                MeaDialog {
+                    headerIcon: "../images/lock-closed.svg"
+                    title: qsTr("Remove user")
+                    text: qsTr("Are you sure you want to remove %1 from accessing your %2 system?").arg("<b>" + userInfo.username + "</b>").arg(Configuration.systemName)
+                    property UserInfo userInfo: null
+                    standardButtons: Dialog.Yes | Dialog.No
+                    onAccepted: {
+                        userDetailsPage.busy = true
+                        userManager.removeUser(userInfo.username)
+                    }
+                }
             }
 
-            NymeaItemDelegate {
+            SettingsPageSectionHeader {
+                text: qsTr("User information for %1").arg(userDetailsPage.userInfo.username)
+            }
+
+            GridLayout {
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
+                columnSpacing: Style.margins
+                columns: 2
+                Label {
+                    text: qsTr("Name")
+                }
+                NymeaTextField {
+                    id: displayNameTextField
+                    Layout.fillWidth: true
+                    text: userDetailsPage.userInfo.displayName
+                }
+                Label {
+                    text: qsTr("Email")
+                }
+                NymeaTextField {
+                    id: emailTextField
+                    Layout.fillWidth: true
+                    text: userDetailsPage.userInfo.email
+                }
+            }
+
+            Button {
                 Layout.fillWidth: true
-                text: userDetailsPage.userInfo.username
-                progressive: false
+                Layout.margins: Style.margins
+                text: qsTr("Save")
+                onClicked: {
+                    userManager.setUserInfo(userDetailsPage.userInfo.username, displayNameTextField.text, emailTextField.text)
+                }
             }
 
             SettingsPageSectionHeader {
@@ -268,7 +390,23 @@ SettingsPageBase {
                 Layout.rightMargin: Style.margins
                 text: qsTr("Remove this user")
                 onClicked: {
-                    userManager.removeUser(userDetailsPage.userInfo.username)
+                    var popup = confirmUserDeletionComponent.createObject(userDetailsPage, {userInfo: userDetailsPage.userInfo})
+                    popup.open()
+                }
+            }
+
+            Connections {
+                target: userManager
+                onRemoveUserReply: {
+                    userDetailsPage.busy = false
+                    if (error !== UserManager.UserErrorNoError) {
+                        var component = Qt.createComponent("../components/ErrorDialog.qml")
+                        var text = qsTr("Un unexpected error happened when creating the user. We're sorry for this. (Error code: %1)").arg(error);
+                        var popup = component.createObject(app, {text: text});
+                        popup.open()
+                    } else {
+                        pageStack.pop();
+                    }
                 }
             }
         }
@@ -284,23 +422,49 @@ SettingsPageBase {
             property var permissionScopes: UserInfo.PermissionScopeNone
 
             SettingsPageSectionHeader {
-                text: qsTr("Login information")
+                text: qsTr("USer information")
             }
 
-            TextField {
-                id: usernameTextField
+            GridLayout {
                 Layout.fillWidth: true
                 Layout.leftMargin: Style.margins
                 Layout.rightMargin: Style.margins
-                placeholderText: qsTr("Username")
-                inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase
+                columns: 2
+                Label {
+                    text: qsTr("Username:") + "*"
+                }
+                TextField {
+                    id: usernameTextField
+                    Layout.fillWidth: true
+                    inputMethodHints: Qt.ImhNoAutoUppercase
+                }
+
+                Label {
+                    text: qsTr("Password:") + "*"
+                    Layout.alignment: Qt.AlignTop
+                    Layout.topMargin: Style.smallMargins
+                }
+                PasswordTextField {
+                    id: passwordTextField
+                    Layout.fillWidth: true
+                }
+
+                Label {
+                    text: qsTr("Full name:")
+                }
+                TextField {
+                    id: displayNameTextField
+                    Layout.fillWidth: true
+                }
+                Label {
+                    text: qsTr("e-mail:")
+                }
+                TextField {
+                    id: emailTextField
+                    Layout.fillWidth: true
+                }
             }
-            PasswordTextField {
-                id: passwordTextField
-                Layout.fillWidth: true
-                Layout.leftMargin: Style.margins
-                Layout.rightMargin: Style.margins
-            }
+
 
             SettingsPageSectionHeader {
                 text: qsTr("Permissions")
@@ -335,7 +499,40 @@ SettingsPageBase {
                 Layout.rightMargin: Style.margins
                 enabled: usernameTextField.displayText.length >= 3 && passwordTextField.isValid
                 onClicked: {
-                    userManager.createUser(usernameTextField.displayText, passwordTextField.password, createUserPage.permissionScopes)
+                    createUserPage.busy = true
+                    userManager.createUser(usernameTextField.displayText, passwordTextField.password, displayNameTextField.text, emailTextField.text, createUserPage.permissionScopes)
+                }
+            }
+            Connections {
+                target: userManager
+                onCreateUserReply: {
+                    createUserPage.busy = false
+                    if (error !== UserManager.UserErrorNoError) {
+                        var component = Qt.createComponent("../components/ErrorDialog.qml")
+                        var text;
+                        switch (error) {
+                        case UserManager.UserErrorInvalidUserId:
+                            text = qsTr("The given username is not valid. It needs to be at least three characters long and not contain special characters.");
+                            break;
+                        case UserManager.UserErrorDuplicateUserId:
+                            text = qsTr("The given username is already in use. Please choose a different username.");
+                            break;
+                        case UserManager.UserErrorBadPassword:
+                            text = qsTr("The given password is not valid.");
+                            break;
+                        case UserManager.UserErrorPermissionDenied:
+                            text = qsTr("Permission denied.");
+                            break;
+                        default:
+                            text = qsTr("Un unexpected error happened when creating the user. We're sorry for this. (Error code: %1)").arg(error);
+                            break;
+                        }
+
+                        var popup = component.createObject(app, {text: text});
+                        popup.open()
+                    } else {
+                        pageStack.pop();
+                    }
                 }
             }
         }

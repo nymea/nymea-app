@@ -26,6 +26,8 @@ public:
     void addToken(TokenInfo *tokenInfo);
     void removeToken(const QUuid &tokenId);
 
+    Q_INVOKABLE TokenInfo* get(int index) const;
+
 signals:
     void countChanged();
 

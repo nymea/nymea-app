@@ -142,7 +142,7 @@ Item {
         ListElement { text: qsTr("Configure magic"); scope: UserInfo.PermissionScopeConfigureRules; resetOnUnset: UserInfo.PermissionScopeExecuteRules }
     }
 
-    function hasPermissionScope(engine, requestedScope) {
-        return (engine.jsonRpcClient.permissions & requestedScope) === requestedScope;
+    function hasPermissionScope(permissions, requestedScope) {
+        return (permissions & requestedScope) === requestedScope;
     }
 }

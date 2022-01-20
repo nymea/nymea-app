@@ -29,6 +29,32 @@ void UserInfo::setUsername(const QString &username)
     }
 }
 
+QString UserInfo::email() const
+{
+    return m_email;
+}
+
+void UserInfo::setEmail(const QString &email)
+{
+    if (m_email != email) {
+        m_email = email;
+        emit emailChanged();
+    }
+}
+
+QString UserInfo::displayName() const
+{
+    return m_displayName;
+}
+
+void UserInfo::setDisplayName(const QString &displayName)
+{
+    if (m_displayName != displayName) {
+        m_displayName = displayName;
+        emit displayNameChanged();
+    }
+}
+
 UserInfo::PermissionScopes UserInfo::scopes() const
 {
     return m_scopes;

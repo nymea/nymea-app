@@ -70,12 +70,15 @@ Users *UserManager::users() const
     return m_users;
 }
 
-int UserManager::createUser(const QString &username, const QString &password, int permissionScopes)
+
+int UserManager::createUser(const QString &username, const QString &password, const QString &displayName, const QString &email, int permissionScopes)
 {
     QVariantMap params;
     params.insert("username", username);
     params.insert("password", password);
-    if (m_engine->jsonRpcClient()->ensureServerVersion("5.6")) {
+    if (m_engine->jsonRpcClient()->ensureServerVersion("6.0")) {
+        params.insert("displayName", displayName);
+        params.insert("email", email);
         params.insert("scopes", UserInfo::scopesToList((UserInfo::PermissionScopes)permissionScopes));
     }
     qCDebug(dcUserManager()) << "Creating user" << username << permissionScopes;
@@ -115,6 +118,16 @@ int UserManager::setUserScopes(const QString &username, int scopes)
     return m_engine->jsonRpcClient()->sendCommand("Users.SetUserScopes", params, this, "setUserScopesResponse");
 }
 
+int UserManager::setUserInfo(const QString &username, const QString &displayName, const QString &email)
+{
+    QVariantMap params;
+    params.insert("username", username);
+    params.insert("displayName", displayName);
+    params.insert("email", email);
+    qCDebug(dcUserManager()) << "Setting new info for user" << username << displayName << email;
+    return m_engine->jsonRpcClient()->sendCommand("Users.SetUserInfo", params, this, "setUserInfoResponse");
+}
+
 void UserManager::notificationReceived(const QVariantMap &data)
 {
     qCDebug(dcUserManager()) << "Users notification" << data;
@@ -122,6 +135,8 @@ void UserManager::notificationReceived(const QVariantMap &data)
     if (notification == "Users.UserAdded") {
         QVariantMap userMap = data.value("params").toMap().value("userInfo").toMap();
         UserInfo *info = new UserInfo(userMap.value("username").toString());
+        info->setDisplayName(userMap.value("displayName").toString());
+        info->setEmail(userMap.value("email").toString());
         info->setScopes(UserInfo::listToScopes(userMap.value("scopes").toStringList()));
         m_users->insertUser(info);
     } else if (notification == "Users.UserRemoved") {
@@ -129,12 +144,24 @@ void UserManager::notificationReceived(const QVariantMap &data)
     } else if (notification == "Users.UserChanged") {
         QVariantMap userMap = data.value("params").toMap().value("userInfo").toMap();
         QString username = userMap.value("username").toString();
+        QString displayName = userMap.value("displayName").toString();
+        QString email = userMap.value("email").toString();
+        UserInfo::PermissionScopes scopes = UserInfo::listToScopes(userMap.value("scopes").toStringList());
+        // Update current user info
+        if (m_userInfo && m_userInfo->username() == username) {
+            m_userInfo->setDisplayName(displayName);
+            m_userInfo->setEmail(email);
+            m_userInfo->setScopes(scopes);
+        }
+        // Update user info in the list of all users.
         UserInfo *info = m_users->getUserInfo(username);
         if (!info) {
             qCWarning(dcUserManager()) << "Received a change notification for a user we don't know:" << username;
             return;
         }
-        info->setScopes(UserInfo::listToScopes(userMap.value("scopes").toStringList()));
+        info->setDisplayName(displayName);
+        info->setEmail(email);
+        info->setScopes(scopes);
     }
 }
 
@@ -145,6 +172,8 @@ void UserManager::getUsersResponse(int commandId, const QVariantMap &data)
     foreach (const QVariant &userVariant, data.value("users").toList()) {
         QVariantMap userMap = userVariant.toMap();
         UserInfo *userInfo = new UserInfo(userMap.value("username").toString());
+        userInfo->setDisplayName(userMap.value("displayName").toString());
+        userInfo->setEmail(userMap.value("email").toString());
         userInfo->setScopes(UserInfo::listToScopes(userMap.value("scopes").toStringList()));
         m_users->insertUser(userInfo);
     }
@@ -155,6 +184,8 @@ void UserManager::getUserInfoResponse(int commandId, const QVariantMap &data)
     qCDebug(dcUserManager()) << "User info reply" << commandId << data;
     QVariantMap userMap = data.value("userInfo").toMap();
     m_userInfo->setUsername(userMap.value("username").toString());
+    m_userInfo->setEmail(userMap.value("email").toString());
+    m_userInfo->setDisplayName(userMap.value("displayName").toString());
     m_userInfo->setScopes(UserInfo::listToScopes(userMap.value("scopes").toStringList()));
 }
 
@@ -203,6 +234,9 @@ void UserManager::changePasswordResponse(int commandId, const QVariantMap &param
 void UserManager::createUserResponse(int commandId, const QVariantMap &params)
 {
     qCDebug(dcUserManager()) << "Create user response:" << commandId << params;
+    QMetaEnum metaEnum = QMetaEnum::fromType<UserManager::UserError>();
+    UserError error = static_cast<UserError>(metaEnum.keyToValue(params.value("error").toString().toUtf8()));
+    emit createUserReply(commandId, error);
 }
 
 void UserManager::removeUserResponse(int commandId, const QVariantMap &params)
@@ -219,6 +253,14 @@ void UserManager::setUserScopesResponse(int commandId, const QVariantMap &params
     QMetaEnum metaEnum = QMetaEnum::fromType<UserManager::UserError>();
     UserError error = static_cast<UserError>(metaEnum.keyToValue(params.value("error").toString().toUtf8()));
     emit setUserScopesReply(commandId, error);
+}
+
+void UserManager::setUserInfoResponse(int commandId, const QVariantMap &params)
+{
+    qCDebug(dcUserManager()) << "Set user info response:" << commandId << params;
+    QMetaEnum metaEnum = QMetaEnum::fromType<UserManager::UserError>();
+    UserError error = static_cast<UserError>(metaEnum.keyToValue(params.value("error").toString().toUtf8()));
+    emit setUserInfoReply(commandId, error);
 }
 
 Users::Users(QObject *parent): QAbstractListModel(parent)

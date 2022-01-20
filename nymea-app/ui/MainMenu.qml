@@ -140,7 +140,7 @@ Drawer {
                     text: qsTr("Configure things")
                     iconName: "../images/things.svg"
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
-                             && NymeaUtils.hasPermissionScope(root.currentEngine, UserInfo.PermissionScopeConfigureThings)
+                             && NymeaUtils.hasPermissionScope(root.currentEngine.jsonRpcClient.permissions, UserInfo.PermissionScopeConfigureThings)
                              && root.currentEngine.jsonRpcClient.connected
                     progressive: false
                     onClicked: {
@@ -154,7 +154,7 @@ Drawer {
                     iconName: "../images/magic.svg"
                     progressive: false
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
-                                 && NymeaUtils.hasPermissionScope(root.currentEngine, UserInfo.PermissionScopeConfigureRules)
+                                 && NymeaUtils.hasPermissionScope(root.currentEngine.jsonRpcClient.permissions, UserInfo.PermissionScopeConfigureRules)
                                  && root.currentEngine.jsonRpcClient.connected && Configuration.magicEnabled
                     onClicked: {
                         root.openMagicSettings();
