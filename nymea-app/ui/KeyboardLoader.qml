@@ -29,16 +29,20 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import QtQuick 2.4
+import QtQuick.Window 2.15
 
 Item {
     id: root
-    implicitHeight: active ? childrenRect.height : 0
-    property bool active: d.kbd && d.kbd.active
+    implicitHeight: d.active
+                    ? d.kbd.height
+                    : (Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height / Screen.devicePixelRatio : 0)
+
 
     Behavior on implicitHeight { NumberAnimation { duration: 130; easing.type: Easing.InOutQuad } }
 
     QtObject {
         id: d
+        property bool active: d.kbd && d.kbd.active
         property var kbd: null
         property string virtualKeyboardString:
             '
