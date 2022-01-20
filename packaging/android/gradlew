@@ -1,8 +1,8 @@
 #!/bin/sh
 
 BASEDIR=$(dirname "$0")
-NYMEA_APP_VERSION=`cat $BASEDIR/../version.txt | head -n 1`
-NYMEA_APP_VERSION_CODE=`cat $BASEDIR/../version.txt | head -n 2 | tail -n 1`
+NYMEA_APP_VERSION=`cat $BASEDIR/version.txt | head -n 1`
+NYMEA_APP_VERSION_CODE=`cat $BASEDIR/version.txt | head -n 2 | tail -n 1`
 echo "Setting version to $NYMEA_APP_VERSION ($NYMEA_APP_VERSION_CODE)"
 sed -i "s/android:versionName=\"[0-9\.a-zA-Z_]*\"/android:versionName=\"$NYMEA_APP_VERSION\"/" AndroidManifest.xml
 sed -i "s/android:versionCode=\"[0-9]*\"/android:versionCode=\"$NYMEA_APP_VERSION_CODE\"/" AndroidManifest.xml
