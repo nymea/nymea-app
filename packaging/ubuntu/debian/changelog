@@ -1,3 +1,10 @@
+nymea-app (1.0.421) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix version.txt parsing in android builds with QtCreator >= 6
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 20 Jan 2022 12:07:24 +0100
+
 nymea-app (1.0.420) bionic; urgency=medium
 
   [ Michael Zanetti ]
