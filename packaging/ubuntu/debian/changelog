@@ -1,3 +1,10 @@
+nymea-app (1.0.423) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Workaround Qt.inputMethod.keyboardRectangle sometimes being negative
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 20 Jan 2022 23:40:05 +0100
+
 nymea-app (1.0.422) bionic; urgency=medium
 
   [ Michael Zanetti ]
