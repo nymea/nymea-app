@@ -30,15 +30,18 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.15
+import Nymea 1.0
 
 Item {
     id: root
+
     implicitHeight: d.active
                     ? d.kbd.height
-                    : (Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height / Screen.devicePixelRatio : 0)
+                    : Qt.inputMethod.visible
+                      ? Math.max(0, Qt.inputMethod.keyboardRectangle.height) / Screen.devicePixelRatio
+                      : 0
 
-
-    Behavior on implicitHeight { NumberAnimation { duration: 130; easing.type: Easing.InOutQuad } }
+    Behavior on implicitHeight { NumberAnimation { duration: Style.animationDuration; easing.type: Easing.InOutQuad } }
 
     QtObject {
         id: d
