@@ -58,3 +58,11 @@ void TokenInfos::removeToken(const QUuid &tokenId)
         }
     }
 }
+
+TokenInfo *TokenInfos::get(int index) const
+{
+    if (index < 0 || index >= m_list.count()) {
+        return nullptr;
+    }
+    return m_list.at(index);
+}

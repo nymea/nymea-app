@@ -45,20 +45,25 @@ public:
     TokenInfos* tokenInfos() const;
     Users *users() const;
 
-    Q_INVOKABLE int createUser(const QString &username, const QString &password, UserInfo::PermissionScopes scopes = UserInfo::PermissionScopeAdmin);
+    // NOTE: Q_FLAG from another QObject (UserInfo::PermissionScopes) doesn't seem to work in certain Qt versions. Using int instead
+    Q_INVOKABLE int createUser(const QString &username, const QString &password, const QString &displayName, const QString &email, int permissionScopes = UserInfo::PermissionScopeAdmin);
     Q_INVOKABLE int changePassword(const QString &newPassword);
     Q_INVOKABLE int removeToken(const QUuid &id);
     Q_INVOKABLE int removeUser(const QString &username);
-    Q_INVOKABLE int setUserScopes(const QString &username, UserInfo::PermissionScopes scopes);
+    // NOTE: Q_FLAG from another QObject (UserInfo::PermissionScopes) doesn't seem to work in certain Qt versions. Using int instead
+    Q_INVOKABLE int setUserScopes(const QString &username, int permissionScopes);
+    Q_INVOKABLE int setUserInfo(const QString &username, const QString &displayName, const QString &email);
 
 signals:
     void engineChanged();
     void loadingChanged();
 
+    void createUserReply(int id, UserError error);
     void removeTokenReply(int id, UserError error);
     void changePasswordReply(int id, UserError error);
     void removeUserReply(int id, UserError error);
     void setUserScopesReply(int id, UserError error);
+    void setUserInfoReply(int id, UserError error);
 
 private slots:
     void notificationReceived(const QVariantMap &data);
@@ -71,6 +76,7 @@ private slots:
     void createUserResponse(int commandId, const QVariantMap &params);
     void removeUserResponse(int commandId, const QVariantMap &params);
     void setUserScopesResponse(int commandId, const QVariantMap &params);
+    void setUserInfoResponse(int commandId, const QVariantMap &params);
 
 private:
     Engine *m_engine = nullptr;

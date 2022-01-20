@@ -21,6 +21,8 @@ Page {
     signal back();
     signal extraButtonPressed();
 
+    readonly property int visibleContentHeight: contentFlickable.height - contentContainer.y
+
     ColumnLayout {
         anchors.fill: parent
         spacing: Style.margins
@@ -46,19 +48,30 @@ Page {
             }
         }
 
-
-        Label {
-            id: textLabel
-            Layout.fillWidth: true
-            Layout.margins: Style.margins
-            wrapMode: Text.WordWrap
-            horizontalAlignment: Text.AlignHCenter
-        }
-
-        Item {
-            id: contentContainer
+        Flickable {
+            id: contentFlickable
             Layout.fillWidth: true
             Layout.fillHeight: true
+            clip: true
+            interactive: contentHeight > height
+            contentHeight: outerContentContainer.childrenRect.height
+            Column {
+                id: outerContentContainer
+                width: parent.width
+                spacing: Style.margins
+                Label {
+                    id: textLabel
+                    width: parent.width - Style.margins * 2
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignHCenter
+                }
+
+                ColumnLayout {
+                    id: contentContainer
+                    width: parent.width
+                }
+            }
         }
 
         RowLayout {

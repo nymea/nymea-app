@@ -19,51 +19,63 @@ WizardPageBase {
     }
 
     content: ColumnLayout {
-        anchors.fill: parent
-        anchors.leftMargin: Style.margins
-        anchors.rightMargin: Style.margins
+        Layout.fillWidth: true
+        Layout.leftMargin: Style.margins
+        Layout.rightMargin: Style.margins
+        Layout.preferredHeight: root.visibleContentHeight
 
-        Item {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.preferredHeight: Style.hugeIconSize * 2
-            ColorIcon {
-                anchors.centerIn: parent
-                size: Math.min(parent.width, parent.height, Style.hugeIconSize * 2)
-                name: "nymea-logo"
+        Item { Layout.fillHeight: true }
+
+        ColumnLayout {
+            Layout.fillHeight: false
+            Item {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.preferredHeight: Style.hugeIconSize * 2
+                ColorIcon {
+                    anchors.centerIn: parent
+                    size: Math.min(parent.width, parent.height, Style.hugeIconSize * 2)
+                    name: "nymea-logo"
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                horizontalAlignment: Text.AlignHCenter
+                text: "nymea"
+                font: Style.hugeFont
             }
         }
+        Item { Layout.fillHeight: true }
 
-        Label {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            horizontalAlignment: Text.AlignHCenter
-            text: "nymea"
-            font: Style.hugeFont
+        ColumnLayout {
+            Layout.fillHeight: false
+            Label {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                wrapMode: Text.WordWrap
+                font: Style.smallFont
+                text: qsTr("In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.")
+                horizontalAlignment: Text.AlignHCenter
+            }
+            Label {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                wrapMode: Text.WordWrap
+                font: Style.smallFont
+                text: qsTr("Please follow the installation instructions on %1 to install a nymea system.").arg('<a href="https://nymea.io/documentation/users/installation/core">nymea.io</a>')
+                horizontalAlignment: Text.AlignHCenter
+                onLinkActivated: Qt.openUrlExternally(link)
+            }
         }
-
-        Label {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            wrapMode: Text.WordWrap
-            font: Style.smallFont
-            text: qsTr("In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.")
-            horizontalAlignment: Text.AlignHCenter
-        }
-        Label {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            wrapMode: Text.WordWrap
-            font: Style.smallFont
-            text: qsTr("Please follow the installation instructions on %1 to install a nymea system.").arg('<a href="https://nymea.io/documentation/users/installation/core">nymea.io</a>')
-            horizontalAlignment: Text.AlignHCenter
-            onLinkActivated: Qt.openUrlExternally(link)
-        }
+        Item { Layout.fillHeight: true }
     }
 
     Component {
         id: connectionSelectionComponent
         WizardPageBase {
+            id: connectionSelectionPage
             title: qsTr("Connectivity")
             text: qsTr("How would you like to connect nymea to your network?")
 
@@ -73,13 +85,10 @@ WizardPageBase {
             onBack: pageStack.pop()
 
             content: ColumnLayout {
-                anchors {
-                    top: parent.top;
-                    bottom: parent.bottom;
-                    horizontalCenter: parent.horizontalCenter
-                    margins: Style.margins
-                }
-                width: Math.min(500, parent.width)
+                Layout.fillWidth: true
+                Layout.maximumWidth: 500
+                Layout.preferredHeight: connectionSelectionPage.visibleContentHeight
+                Layout.alignment: Qt.AlignHCenter
 
                 BigTile {
                     Layout.fillWidth: true
@@ -158,17 +167,10 @@ WizardPageBase {
             onBack: pageStack.pop()
 
             content: ColumnLayout {
-                anchors {
-                    top: parent.top
-                    bottom: parent.bottom
-                    horizontalCenter: parent.horizontalCenter
-                }
-                width: Math.min(500, parent.width)
+                Layout.maximumWidth: 500
+                Layout.alignment: Qt.AlignHCenter
 
-                ListView {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    clip: true
+                Repeater {
                     model: NymeaHostsFilterModel {
                         id: hostsProxy
                         discovery: nymeaDiscovery
@@ -197,7 +199,7 @@ WizardPageBase {
 
                     delegate: NymeaSwipeDelegate {
                         id: nymeaHostDelegate
-                        width: parent.width
+                        Layout.fillWidth: true
                         property var nymeaHost: hostsProxy.get(index)
                         property string defaultConnectionIndex: {
                             if (!nymeaHost) {
@@ -314,12 +316,11 @@ WizardPageBase {
             }
 
             content: ColumnLayout {
-                anchors {
-                    top: parent.top
-                    bottom: parent.bottom
-                    horizontalCenter: parent.horizontalCenter
-                }
-                width: Math.min(500, parent.width - Style.margins * 2)
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                Layout.maximumWidth: 500
+                Layout.alignment: Qt.AlignHCenter
+
                 GridLayout {
                     columns: 2
 
@@ -365,15 +366,17 @@ WizardPageBase {
     Component {
         id: wiredInstructionsComponent
         WizardPageBase {
+            id: wiredInstructionsPage
             title: qsTr("Wired connection")
             text: qsTr("Connect the nymea system to your network using an ethernet cable and turn it on.")
 
             onNext: pageStack.push(selectInstanceComponent)
             onBack: pageStack.pop()
 
-            content: Image {
-                anchors.fill: parent
-                anchors.margins: Style.margins
+            content:Image {
+                Layout.fillWidth: true
+                Layout.preferredHeight: wiredInstructionsPage.visibleContentHeight - Style.margins * 2
+                Layout.margins: Style.margins
                 fillMode: Image.PreserveAspectFit
                 sourceSize.width: width
                 source: "/ui/images/setupwizard/wired-connection.svg"
@@ -384,6 +387,7 @@ WizardPageBase {
     Component {
         id: wirelessInstructionsComponent
         WizardPageBase {
+            id: wirelessInstructionsPage
             title: qsTr("Wireless connection")
             text: qsTr("Turn the nymea system on by connecting the power cable and wait for it to start up.")
 
@@ -391,8 +395,9 @@ WizardPageBase {
             onBack: pageStack.pop()
 
             content: Image {
-                anchors.fill: parent
-                anchors.margins: Style.margins
+                Layout.fillWidth: true
+                Layout.preferredHeight: wirelessInstructionsPage.visibleContentHeight - Style.margins * 2
+                Layout.margins: Style.margins
                 fillMode: Image.PreserveAspectFit
                 sourceSize.width: width
                 source: "/ui/images/setupwizard/wireless-connection.svg"
@@ -458,12 +463,10 @@ WizardPageBase {
             }
 
             content: ListView {
-                anchors {
-                    top: parent.top
-                    bottom: parent.bottom
-                    horizontalCenter: parent.horizontalCenter
-                }
-                width: Math.min(500, parent.width)
+                Layout.fillWidth: true
+                Layout.preferredHeight: visibleContentHeight
+                Layout.maximumWidth: 500
+                Layout.alignment: Qt.AlignHCenter
 
                 model: BluetoothDeviceInfosProxy {
                     id: deviceInfosProxy
@@ -524,8 +527,12 @@ WizardPageBase {
             text: qsTr("Connecting to the nymea system...")
             showNextButton: false
 
-            content: BusyIndicator {
-                anchors.centerIn: parent
+            content: Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: visibleContentHeight
+                BusyIndicator {
+                    anchors.centerIn: parent
+                }
             }
         }
     }
@@ -540,12 +547,10 @@ WizardPageBase {
             property var wifiSetup: null
 
             content: ListView {
-                anchors {
-                    top: parent.top
-                    bottom: parent.bottom
-                    horizontalCenter: parent.horizontalCenter
-                }
-                width: Math.min(500, parent.width)
+                Layout.fillWidth: true
+                Layout.maximumWidth: 500
+                Layout.alignment: Qt.AlignHCenter
+                Layout.preferredHeight: visibleContentHeight
 
                 model: wifiSetup.accessPoints
                 clip: true
@@ -618,8 +623,10 @@ WizardPageBase {
             property string ssid: ""
 
             content: ColumnLayout {
-                anchors.centerIn: parent
-                width: Math.min(500, parent.width - Style.margins * 2)
+                Layout.fillWidth: true
+                Layout.maximumWidth: 500
+                Layout.alignment: Qt.AlignHCenter
+                Layout.margins: Style.margins
 
                 Label {
                     Layout.fillWidth: true
@@ -658,8 +665,12 @@ WizardPageBase {
             showNextButton: false
             onBack: pageStack.pop()
 
-            content: BusyIndicator {
-                anchors.centerIn: parent
+            content: Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: visibleContentHeight
+                BusyIndicator {
+                    anchors.centerIn: parent
+                }
             }
         }
     }
@@ -709,9 +720,10 @@ WizardPageBase {
             }
 
             content: ColumnLayout {
-                width: Math.min(500, parent.width - Style.margins * 2)
-                anchors.centerIn: parent
-                spacing: Style.margins
+                Layout.fillWidth: true
+                Layout.maximumWidth: 500
+                Layout.alignment: Qt.AlignHCenter
+                Layout.preferredHeight: visibleContentHeight
                 Label {
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap

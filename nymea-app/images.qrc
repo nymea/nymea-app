@@ -270,5 +270,6 @@
         <file>ui/images/sensors/orp.svg</file>
         <file>ui/images/sensors/co.svg</file>
         <file>ui/images/sensors/gas.svg</file>
+        <file>ui/images/contact-group.svg</file>
     </qresource>
 </RCC>

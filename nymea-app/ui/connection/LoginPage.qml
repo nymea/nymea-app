@@ -34,7 +34,7 @@ import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../components"
 
-Page {
+SettingsPageBase {
     id: root
     signal backPressed();
 
@@ -61,13 +61,17 @@ Page {
             var message;
             switch (error) {
             case "UserErrorInvalidUserId":
-                message = qsTr("The email you've entered isn't valid.")
+                if (engine.jsonRpcClient.ensureServerVersion("7.0")) {
+                    message = qsTr("The email you've entered isn't valid.")
+                } else {
+                    message = qsTr("The username you've entered isn't valid.")
+                }
                 break;
             case "UserErrorDuplicateUserId":
-                message = qsTr("The email you've entered is already used.")
+                message = qsTr("The username you've entered is already used.")
                 break;
             case "UserErrorBadPassword":
-                message = qsTr("The password you've chose is too weak.")
+                message = qsTr("The password you've chosen is too weak.")
                 break;
             case "UserErrorBackendError":
                 message = qsTr("An error happened with the user storage. Please make sure your %1 system is installed correctly.").arg(Configuration.systemName)
@@ -78,83 +82,116 @@ Page {
         }
     }
 
-    Flickable {
-        anchors.fill: parent
-        contentHeight: contentColumn.implicitHeight
+    ColumnLayout {
+        id: contentColumn
+        width: parent.width
 
-        ColumnLayout {
-            id: contentColumn
-            width: parent.width
+        spacing: app.margins
 
+        RowLayout {
+            Layout.margins: app.margins
             spacing: app.margins
 
-            RowLayout {
-                Layout.margins: app.margins
-                spacing: app.margins
-
-                ColorIcon {
-                    Layout.preferredHeight: Style.iconSize * 2
-                    Layout.preferredWidth: Style.iconSize * 2
-                    name: "../images/lock-closed.svg"
-                    color: Style.accentColor
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    text: engine.jsonRpcClient.initialSetupRequired ?
-                              qsTr("In order to use your %1 system, please enter your email address and set a password for it.").arg(Configuration.systemName)
-                            : qsTr("In order to use your %1 system, please log in.").arg(Configuration.systemName)
-                    wrapMode: Text.WordWrap
-                }
+            ColorIcon {
+                Layout.preferredHeight: Style.iconSize * 2
+                Layout.preferredWidth: Style.iconSize * 2
+                name: "../images/lock-closed.svg"
+                color: Style.accentColor
             }
 
-
-            GridLayout {
+            Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                columns: app.width > 500 ? 2 : 1
-                columnSpacing: app.margins
+                text: engine.jsonRpcClient.initialSetupRequired ?
+                          qsTr("In order to use your %1 system, please create an account.").arg(Configuration.systemName)
+                        : qsTr("In order to use your %1 system, please log in.").arg(Configuration.systemName)
+                wrapMode: Text.WordWrap
+            }
+        }
 
-                Label {
-                    text: qsTr("Your e-mail address:")
-                    Layout.fillWidth: true
-                    Layout.minimumWidth: implicitWidth
-                }
-                TextField {
-                    id: usernameTextField
-                    Layout.fillWidth: true
-                    inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase
-//                    placeholderText: "john.smith@cooldomain.com"
-                }
-                Label {
-                    Layout.fillWidth: true
-                    text: qsTr("Password:")
-                }
-                PasswordTextField {
-                    id: passwordTextField
-                    Layout.fillWidth: true
-                    minPasswordLength: 8
-                    requireLowerCaseLetter: true
-                    requireUpperCaseLetter: true
-                    requireNumber: true
-                    requireSpecialChar: false
-                    signup: engine.jsonRpcClient.initialSetupRequired
+
+        GridLayout {
+            id: loginForm
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
+            columns: app.width > 500 ? 2 : 1
+            columnSpacing: app.margins
+
+            property bool showErrors: false
+
+            Label {
+                text: (engine.jsonRpcClient.ensureServerVersion("6.0") ? qsTr("Username") : qsTr("Your e-mail address"))
+                Layout.fillWidth: true
+                Layout.minimumWidth: implicitWidth
+            }
+            NymeaTextField {
+                id: usernameTextField
+                Layout.fillWidth: true
+                placeholderText: qsTr("Required")
+                inputMethodHints: engine.jsonRpcClient.ensureServerVersion("6.0")
+                                  ? Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
+                                  : Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
+                error: loginForm.showErrors && !acceptableInput
+                validator: RegExpValidator {
+                    regExp: /[a-zA-Z0-9_\\.+-@]{3,}/
                 }
             }
-
-            Button {
+            Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
-                text: qsTr("OK")
-                enabled: passwordTextField.isValid
-                onClicked: {
-                    if (engine.jsonRpcClient.initialSetupRequired) {
-                        print("create user")
-                        engine.jsonRpcClient.createUser(usernameTextField.text, passwordTextField.password);
-                    } else {
-                        print("authenticate", usernameTextField.text, passwordTextField.text, "nymea-app")
-                        engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.password, "nymea-app (" + PlatformHelper.deviceModel + ")");
-                    }
+                text: qsTr("Password")
+            }
+            PasswordTextField {
+                id: passwordTextField
+                Layout.fillWidth: true
+                minPasswordLength: 8
+                requireLowerCaseLetter: true
+                requireUpperCaseLetter: true
+                requireNumber: true
+                requireSpecialChar: false
+                signup: engine.jsonRpcClient.initialSetupRequired
+                showErrors: loginForm.showErrors
+            }
+
+            Label {
+                text: qsTr("Your name")
+                Layout.fillWidth: true
+                visible: engine.jsonRpcClient.ensureServerVersion("6.0") && engine.jsonRpcClient.initialSetupRequired
+            }
+            TextField {
+                id: displayNameTextField
+                Layout.fillWidth: true
+                placeholderText: qsTr("Optional")
+                visible: engine.jsonRpcClient.ensureServerVersion("6.0") && engine.jsonRpcClient.initialSetupRequired
+            }
+
+            Label {
+                text: qsTr("Email")
+                Layout.fillWidth: true
+                visible: engine.jsonRpcClient.ensureServerVersion("6.0") && engine.jsonRpcClient.initialSetupRequired
+            }
+            TextField {
+                id: emailTextField
+                Layout.fillWidth: true
+                placeholderText: qsTr("Optional")
+                visible: engine.jsonRpcClient.ensureServerVersion("6.0") && engine.jsonRpcClient.initialSetupRequired
+            }
+        }
+
+        Button {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
+            text: qsTr("OK")
+            onClicked: {
+                loginForm.showErrors = true
+                if (!usernameTextField.acceptableInput || !passwordTextField.isValid) {
+                    return;
+                }
+
+                if (engine.jsonRpcClient.initialSetupRequired) {
+                    print("create user")
+                    engine.jsonRpcClient.createUser(usernameTextField.text, passwordTextField.password, displayNameTextField.text, emailTextField.text);
+                } else {
+                    print("authenticate", usernameTextField.text, passwordTextField.text, "nymea-app")
+                    engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.password, "nymea-app (" + PlatformHelper.deviceModel + ")");
                 }
             }
         }

@@ -7,6 +7,8 @@ class UserInfo : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString username READ username NOTIFY usernameChanged)
+    Q_PROPERTY(QString email READ email NOTIFY emailChanged)
+    Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
     Q_PROPERTY(PermissionScopes scopes READ scopes NOTIFY scopesChanged)
 public:
     enum PermissionScope {
@@ -17,7 +19,6 @@ public:
         PermissionScopeConfigureRules   = 0x0030,
         PermissionScopeAdmin            = 0xFFFF,
     };
-    Q_ENUM(PermissionScope)
     Q_DECLARE_FLAGS(PermissionScopes, PermissionScope)
     Q_FLAG(PermissionScopes)
 
@@ -27,6 +28,12 @@ public:
     QString username() const;
     void setUsername(const QString &username);
 
+    QString email() const;
+    void setEmail(const QString &email);
+
+    QString displayName() const;
+    void setDisplayName(const QString &displayName);
+
     PermissionScopes scopes() const;
     void setScopes(PermissionScopes scopes);
 
@@ -35,12 +42,19 @@ public:
 
 signals:
     void usernameChanged();
+    void emailChanged();
+    void displayNameChanged();
     void scopesChanged();
 
 private:
     QString m_username;
+    QString m_email;
+    QString m_displayName;
     PermissionScopes m_scopes = PermissionScopeNone;
 
 };
+
+Q_DECLARE_METATYPE(UserInfo::PermissionScope)
+Q_DECLARE_METATYPE(UserInfo::PermissionScopes)
 
 #endif // USERINFO_H

@@ -6,7 +6,7 @@
 UserInfo::UserInfo(QObject *parent):
     QObject(parent)
 {
-
+    qRegisterMetaType<UserInfo::PermissionScopes>("UserInfo.PermissionScopes");
 }
 
 UserInfo::UserInfo(const QString &username, QObject *parent):
@@ -26,6 +26,32 @@ void UserInfo::setUsername(const QString &username)
     if (m_username != username) {
         m_username = username;
         emit usernameChanged();
+    }
+}
+
+QString UserInfo::email() const
+{
+    return m_email;
+}
+
+void UserInfo::setEmail(const QString &email)
+{
+    if (m_email != email) {
+        m_email = email;
+        emit emailChanged();
+    }
+}
+
+QString UserInfo::displayName() const
+{
+    return m_displayName;
+}
+
+void UserInfo::setDisplayName(const QString &displayName)
+{
+    if (m_displayName != displayName) {
+        m_displayName = displayName;
+        emit displayNameChanged();
     }
 }
 
