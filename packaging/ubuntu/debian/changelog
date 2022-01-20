@@ -1,3 +1,10 @@
+nymea-app (1.0.422) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More work on multi-user support
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 20 Jan 2022 17:53:56 +0100
+
 nymea-app (1.0.421) bionic; urgency=medium
 
   [ Michael Zanetti ]
