@@ -445,6 +445,7 @@ void JsonRpcClient::processAuthenticate(int /*commandId*/, const QVariantMap &da
         } else {
             m_permissionScopes = UserInfo::PermissionScopeAdmin;
         }
+        emit permissionsChanged();
         QSettings settings;
         settings.beginGroup("jsonTokens");
         settings.setValue(m_serverUuid, m_token);
@@ -720,6 +721,11 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
 
     qCInfo(dcJsonRpc()) << "Handshake reply:" << "Protocol version:" << protoVersionString << "InitRequired:" << m_initialSetupRequired << "AuthRequired:" << m_authenticationRequired << "PushButtonAvailable:" << m_pushButtonAuthAvailable;
 
+    if (m_connection->currentHost()->uuid().isNull()) {
+        qCDebug(dcJsonRpc()) << "Updating Server UUID in connection:" << m_connection->currentHost()->uuid().toString() << "->" << m_serverUuid;
+        m_connection->currentHost()->setUuid(m_serverUuid);
+    }
+
     QVersionNumber minimumRequiredVersion = QVersionNumber(5, 0);
     QVersionNumber maximumMajorVersion = QVersionNumber(6);
     if (m_jsonRpcVersion < minimumRequiredVersion) {
@@ -794,11 +800,6 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     emit permissionsChanged();
 
     emit handshakeReceived();
-
-    if (m_connection->currentHost()->uuid().isNull()) {
-        qCDebug(dcJsonRpc()) << "Updating Server UUID in connection:" << m_connection->currentHost()->uuid().toString() << "->" << m_serverUuid;
-        m_connection->currentHost()->setUuid(m_serverUuid);
-    }
 
     if (m_initialSetupRequired) {
         qCInfo(dcJsonRpc()) << "Initial setup is required for this nymea instance!";

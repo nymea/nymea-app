@@ -173,7 +173,6 @@ Item {
                                 print("opening push button auth")
                                 var page = pageStack.push(Qt.resolvedUrl("PushButtonAuthPage.qml"))
                                 page.backPressed.connect(function() {
-//                                    tabSettings.lastConnectedHost = "";
                                     engine.jsonRpcClient.disconnectFromHost();
                                     init();
                                 })
@@ -182,7 +181,6 @@ Item {
                                 if (engine.jsonRpcClient.initialSetupRequired) {
                                     var page = pageStack.push(Qt.resolvedUrl("connection/SetupWizard.qml"));
                                     page.backPressed.connect(function() {
-//                                        tabSettings.lastConnectedHost = "";
                                         engine.jsonRpcClient.disconnectFromHost()
                                         init();
                                     })
@@ -191,7 +189,6 @@ Item {
 
                                 var page = pageStack.push(Qt.resolvedUrl("connection/LoginPage.qml"));
                                 page.backPressed.connect(function() {
-//                                    tabSettings.lastConnectedHost = "";
                                     engine.jsonRpcClient.disconnectFromHost()
                                     init();
                                 })
@@ -314,7 +311,6 @@ Item {
                             if (engine.jsonRpcClient.connected) {
                                 nymeaDiscovery.cacheHost(engine.jsonRpcClient.currentHost)
                                 configuredHost.uuid = engine.jsonRpcClient.serverUuid
-//                                tabSettings.lastConnectedHost = engine.jsonRpcClient.serverUuid
                             }
                             init();
                         }
@@ -333,14 +329,12 @@ Item {
                             popup.actualVersion = actualVersion;
                             popup.minVersion = minVersion;
                             popup.open()
-//                            tabSettings.lastConnectedHost = ""
                         }
                         onInvalidMaximumVersion: {
                             var popup = invalidVersionComponent.createObject(app.contentItem);
                             popup.actualVersion = actualVersion;
                             popup.maxVersion = maxVersion;
                             popup.open()
-//                            tabSettings.lastConnectedHost = ""
                         }
                     }
 
@@ -353,7 +347,7 @@ Item {
                         }
                     }
                     Connections {
-                        target: engien.nymeaConfiguration.tunnelProxyServerConfigurations
+                        target: engine.nymeaConfiguration.tunnelProxyServerConfigurations
                         onCountChanged: syncRemoteConnection();
                     }
 

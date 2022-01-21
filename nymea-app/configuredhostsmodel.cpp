@@ -21,23 +21,6 @@ ConfiguredHostsModel::ConfiguredHostsModel(QObject *parent) : QAbstractListModel
     m_currentIndex = settings.value("currentIndex", 0).toInt();
     settings.endGroup();
 
-    // If there aren't any in the config, try migrating settings from old tab model
-    if (m_list.isEmpty() && settings.contains("tabCount")) {
-        qCInfo(dcApplication()) << "Migrating tab settings to mainmenumodel";
-        int tabCount = settings.value("tabCount", 0).toInt();
-        qCDebug(dcApplication()) << "Tab count:" << tabCount;
-
-        for (int i = 0; i < tabCount; i++) {
-            settings.beginGroup(QString("tabSettings%1").arg(i));
-            QUuid uuid = settings.value("lastConnectedHost").toUuid();
-            ConfiguredHost *host = new ConfiguredHost(uuid, this);
-            addHost(host);
-            settings.endGroup();
-        }
-
-        settings.remove("tabCount");
-    }
-
     // There must be always 1 at least
     if (m_list.isEmpty()) {
         createHost();

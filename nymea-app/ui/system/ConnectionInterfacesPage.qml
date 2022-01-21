@@ -138,6 +138,7 @@ SettingsPageBase {
     }
     SettingsPageSectionHeader {
         text: qsTr("Remote connection server interfaces")
+        visible: engine.jsonRpcClient.ensureServerVersion("6.0")
     }
 
     Repeater {
@@ -171,6 +172,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.margins: app.margins
         text: qsTr("Add")
+        visible: engine.jsonRpcClient.ensureServerVersion("6.0")
         onClicked: {
             var config = engine.nymeaConfiguration.createTunnelProxyServerConfiguration("dev-remoteproxy.nymea.io", 2213, true, true, false);
             var component = Qt.createComponent(Qt.resolvedUrl("TunnelProxyServerConfigurationDialog.qml"));
