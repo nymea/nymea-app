@@ -645,7 +645,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
     JsonRpcReply *reply = m_replies.take(commandId);
     if (reply) {
         reply->deleteLater();
-        qWarning() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
+//        qWarning() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
 
         if (dataMap.value("status").toString() == "unauthorized") {
             qWarning() << "Something's off with the token";

@@ -56,11 +56,20 @@ NymeaConfiguration::NymeaConfiguration(JsonRpcClient *client, QObject *parent):
     client->registerNotificationHandler(this, "Configuration", "notificationReceived");
 }
 
+bool NymeaConfiguration::fetchingData() const
+{
+    return m_fetchingData;
+}
+
 void NymeaConfiguration::init()
 {
+    m_fetchingData = true;
+    emit fetchingDataChanged();
+
     m_tcpServerConfigurations->clear();
     m_webSocketServerConfigurations->clear();
     m_mqttServerConfigurations->clear();
+    m_tunnelProxyServerConfigurations->clear();
     m_client->sendCommand("Configuration.GetConfigurations", this, "getConfigurationsResponse");
     m_client->sendCommand("Configuration.GetMqttServerConfigurations", this, "getMqttServerConfigsReply");
     m_client->sendCommand("Configuration.GetMqttPolicies", this, "getMqttPoliciesReply");
@@ -149,6 +158,11 @@ WebServerConfiguration *NymeaConfiguration::createWebServerConfiguration(const Q
     auto ret = new WebServerConfiguration(QUuid::createUuid().toString(), address, port, authEnabled, sslEnabled);
     ret->setPublicFolder(publicFolder);
     return ret;
+}
+
+TunnelProxyServerConfiguration *NymeaConfiguration::createTunnelProxyServerConfiguration(const QString &address, int port, bool authEnabled, bool sslEnabled, bool ignoreSslErrors)
+{
+    return new TunnelProxyServerConfiguration(QUuid::createUuid().toString(), address, port, authEnabled, sslEnabled, ignoreSslErrors);
 }
 
 MqttPolicy *NymeaConfiguration::createMqttPolicy() const
@@ -318,6 +332,9 @@ void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariant
         TunnelProxyServerConfiguration *config = new TunnelProxyServerConfiguration(tunnelProxyServerConfigMap.value("id").toString(), tunnelProxyServerConfigMap.value("address").toString(), tunnelProxyServerConfigMap.value("port").toInt(), tunnelProxyServerConfigMap.value("authenticationEnabled").toBool(), tunnelProxyServerConfigMap.value("sslEnabled").toBool(), tunnelProxyServerConfigMap.value("ignoreSslErrors").toBool());
         m_tunnelProxyServerConfigurations->addConfiguration(config);
     }
+
+    m_fetchingData = false;
+    emit fetchingDataChanged();
 }
 
 void NymeaConfiguration::setServerNameResponse(int commandId, const QVariantMap &params)
@@ -436,6 +453,7 @@ void NymeaConfiguration::deleteMqttPolicyReply(int commandId, const QVariantMap 
 void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
 {
     QString notif = notification.value("notification").toString();
+    qWarning() << "Config notification received" << notif;
     if (notif == "Configuration.BasicConfigurationChanged") {
         QVariantMap params = notification.value("params").toMap().value("basicConfiguration").toMap();
         m_debugServerEnabled = params.value("debugServerEnabled").toBool();
@@ -465,6 +483,10 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
             configModel = m_webSocketServerConfigurations;
             params = notification.value("params").toMap().value("webSocketServerConfiguration").toMap();
         }
+        if (notif == "Configuration.TunnelProxyServerConfigurationChanged") {
+            configModel = m_tunnelProxyServerConfigurations;
+            params = notification.value("params").toMap().value("tunnelProxyServerConfiguration").toMap();
+        }
         if (notif == "Configuration.WebServerConfigurationChanged") {
             configModel = m_webServerConfigurations;
             params = notification.value("params").toMap().value("webServerConfiguration").toMap();
@@ -487,6 +509,8 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
         if (!serverConfig) {
             if (notif == "Configuration.WebServerConfigurationChanged") {
                 serverConfig = new WebServerConfiguration(params.value("id").toString());
+            } else if (notif == "Configuration.TunnelProxyServerConfigurationChanged") {
+                serverConfig = new TunnelProxyServerConfiguration(params.value("id").toString());
             } else {
                 serverConfig = new ServerConfiguration(params.value("id").toString());
             }
@@ -508,6 +532,10 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
     }
     if (notif == "Configuration.WebSocketServerConfigurationRemoved") {
         m_webSocketServerConfigurations->removeConfiguration(notification.value("params").toMap().value("id").toString());
+        return;
+    }
+    if (notif == "Configuration.TunnelProxyServerConfigurationRemoved") {
+        m_tunnelProxyServerConfigurations->removeConfiguration(notification.value("params").toMap().value("id").toString());
         return;
     }
     if (notif == "Configuration.WebServerConfigurationRemoved") {

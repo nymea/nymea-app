@@ -31,6 +31,7 @@
 #include "tunnelproxytransport.h"
 
 #include <QCoreApplication>
+#include <QUrlQuery>
 
 using namespace remoteproxyclient;
 
@@ -58,14 +59,15 @@ TunnelProxyTransport::TunnelProxyTransport(QObject *parent) :
 
 bool TunnelProxyTransport::connect(const QUrl &url)
 {
-
     m_url = url;
 
+    QUrl serverUrl;
+    serverUrl.setScheme(url.scheme() == "tunnels" ? "ssl" : "tcp");
+    serverUrl.setHost(url.host());
+    serverUrl.setPort(url.port());
+    QUuid serverUuid = QUrlQuery(url).queryItemValue("uuid");
 
-    QUrl serverUrl = QUrl("ssl://dev-remoteproxy.nymea.io:2213");
-    QUuid serverUuid = url.host();
-
-    qCritical() << "Calling connect";
+    qCritical() << "Calling connect on" << serverUrl << serverUuid;
 
     return m_remoteConnection->connectServer(serverUrl, serverUuid);
 }
@@ -145,5 +147,5 @@ NymeaTransportInterface *TunnelProxyTransportFactory::createTransport(QObject *p
 
 QStringList TunnelProxyTransportFactory::supportedSchemes() const
 {
-    return { "tunnel" };
+    return { "tunnel", "tunnels" };
 }

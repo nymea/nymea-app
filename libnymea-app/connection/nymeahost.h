@@ -109,13 +109,15 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
 
-    void addConnection(Connection *connection);
-    void removeConnection(Connection *connection);
-    void removeConnection(int index);
 
     Q_INVOKABLE Connection* find(const QUrl &url) const;
     Q_INVOKABLE Connection* get(int index) const;
     Q_INVOKABLE Connection* bestMatch(Connection::BearerTypes bearerTypes = Connection::BearerTypeAll) const;
+
+    void addConnection(Connection *connection);
+    Q_INVOKABLE void addConnection(const QUrl &url, Connection::BearerType bearerType, bool secure, const QString &displayName);
+    Q_INVOKABLE void removeConnection(Connection *connection);
+    Q_INVOKABLE void removeConnection(int index);
 
 signals:
     void countChanged();

@@ -247,6 +247,12 @@ Connection *Connections::bestMatch(Connection::BearerTypes bearerTypes) const
     return best;
 }
 
+void Connections::addConnection(const QUrl &url, Connection::BearerType bearerType, bool secure, const QString &displayName)
+{
+    Connection *connection = new Connection(url, bearerType, secure, displayName);
+    addConnection(connection);
+}
+
 QHash<int, QByteArray> Connections::roleNames() const
 {
     QHash<int, QByteArray> roles;
@@ -265,7 +271,7 @@ Connection::Connection(const QUrl &url, Connection::BearerType bearerType, bool 
     m_secure(secure),
     m_displayName(displayName)
 {
-
+    qRegisterMetaType<Connection::BearerType>("Connection.BearerType");
 }
 
 Connection::~Connection()

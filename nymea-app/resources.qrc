@@ -274,5 +274,6 @@
         <file>ui/components/NymeaToolTip.qml</file>
         <file>ui/components/SettingsTile.qml</file>
         <file>ui/components/NymeaTextField.qml</file>
+        <file>ui/system/TunnelProxyServerConfigurationDialog.qml</file>
     </qresource>
 </RCC>

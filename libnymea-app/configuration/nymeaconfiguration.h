@@ -47,6 +47,8 @@ class NymeaConfiguration : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
+
     Q_PROPERTY(QString serverName READ serverName WRITE setServerName NOTIFY serverNameChanged)
 
     Q_PROPERTY(bool cloudEnabled READ cloudEnabled WRITE setCloudEnabled NOTIFY cloudEnabledChanged)
@@ -62,6 +64,8 @@ class NymeaConfiguration : public QObject
 
 public:
     explicit NymeaConfiguration(JsonRpcClient* client, QObject *parent = nullptr);
+
+    bool fetchingData() const;
 
     QString serverName() const;
     void setServerName(const QString &serverName);
@@ -89,6 +93,7 @@ public:
 
     Q_INVOKABLE ServerConfiguration* createServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false);
     Q_INVOKABLE WebServerConfiguration* createWebServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false, const QString &publicFolder = QString());
+    Q_INVOKABLE TunnelProxyServerConfiguration* createTunnelProxyServerConfiguration(const QString &address, int port, bool authEnabled = true, bool sslEnabled = true, bool ignoreSslErrors = false);
     Q_INVOKABLE MqttPolicy* createMqttPolicy() const;
 
     Q_INVOKABLE void setTcpServerConfiguration(ServerConfiguration *configuration);
@@ -132,6 +137,7 @@ private:
     Q_INVOKABLE void notificationReceived(const QVariantMap &notification);
 
 signals:
+    void fetchingDataChanged();
     void debugServerEnabledChanged();
     void serverNameChanged();
     void cloudEnabledChanged();
@@ -139,6 +145,7 @@ signals:
 private:
     JsonRpcClient* m_client = nullptr;
 
+    bool m_fetchingData = false;
     bool m_debugServerEnabled = false;
     QString m_serverName;
     bool m_cloudEnabled = false;

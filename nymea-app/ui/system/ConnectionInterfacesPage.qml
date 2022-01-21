@@ -150,7 +150,7 @@ SettingsPageBase {
                                  && engine.jsonRpcClient.currentConnection.port === model.port
             canDelete: !inUse
             onClicked: {
-                var component = Qt.createComponent(Qt.resolvedUrl("ServerConfigurationDialog.qml"));
+                var component = Qt.createComponent(Qt.resolvedUrl("TunnelProxyServerConfigurationDialog.qml"));
                 var popup = component.createObject(root, { serverConfiguration: engine.nymeaConfiguration.tunnelProxyServerConfigurations.get(index).clone() });
                 popup.accepted.connect(function() {
                     print("configuring:", popup.serverConfiguration.port)
@@ -172,11 +172,11 @@ SettingsPageBase {
         Layout.margins: app.margins
         text: qsTr("Add")
         onClicked: {
-            var config = engine.nymeaConfiguration.createTunnelProxyServerConfiguration("0.0.0.0", 4444 + engine.nymeaConfiguration.webSocketServerConfigurations.count, false, false);
-            var component = Qt.createComponent(Qt.resolvedUrl("ServerConfigurationDialog.qml"));
+            var config = engine.nymeaConfiguration.createTunnelProxyServerConfiguration("dev-remoteproxy.nymea.io", 2213, true, true, false);
+            var component = Qt.createComponent(Qt.resolvedUrl("TunnelProxyServerConfigurationDialog.qml"));
             var popup = component.createObject(root, { serverConfiguration: config });
             popup.accepted.connect(function() {
-                engine.nymeaConfiguration.setWebSocketServerConfiguration(popup.serverConfiguration)
+                engine.nymeaConfiguration.setTunnelProxyServerConfiguration(popup.serverConfiguration)
                 popup.serverConfiguration.destroy();
             })
             popup.rejected.connect(function() {
