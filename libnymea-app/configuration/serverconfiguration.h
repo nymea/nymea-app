@@ -45,7 +45,7 @@ class ServerConfiguration : public QObject
     Q_PROPERTY(bool sslEnabled READ sslEnabled WRITE setSslEnabled NOTIFY sslEnabledChanged)
 
 public:
-    explicit ServerConfiguration(const QString &id, const QHostAddress &address = QHostAddress(), int port = 0, bool authEnabled = false, bool sslEnabled = false, QObject *parent = nullptr);
+    explicit ServerConfiguration(const QString &id, const QString &address = QString(), int port = 0, bool authEnabled = false, bool sslEnabled = false, QObject *parent = nullptr);
 
     QString id() const;
 
@@ -71,7 +71,7 @@ signals:
 
 private:
     QString m_id;
-    QHostAddress m_hostAddress;
+    QString m_hostAddress;
     int m_port;
     bool m_authEnabled;
     bool m_sslEnabled;
@@ -82,7 +82,7 @@ class WebServerConfiguration: public ServerConfiguration
     Q_OBJECT
     Q_PROPERTY(QString publicFolder READ publicFolder WRITE setPublicFolder NOTIFY publicFolderChanged)
 public:
-    explicit WebServerConfiguration(const QString &id, const QHostAddress &address = QHostAddress(), int port = 0, bool authEnabled = false, bool sslEnabled = false, QObject *parent = nullptr)
+    explicit WebServerConfiguration(const QString &id, const QString &address = QString(), int port = 0, bool authEnabled = false, bool sslEnabled = false, QObject *parent = nullptr)
         : ServerConfiguration(id, address, port, authEnabled, sslEnabled, parent) {}
 
     QString publicFolder() const;
@@ -95,6 +95,27 @@ signals:
 
 private:
     QString m_publicFolder;
+};
+
+class TunnelProxyServerConfiguration: public ServerConfiguration
+{
+    Q_OBJECT
+    Q_PROPERTY(bool ignoreSslErrors READ ignoreSslErrors WRITE setIgnoreSslErrors NOTIFY ignoreSslErrorsChanged)
+public:
+    explicit TunnelProxyServerConfiguration(const QString &id, const QString &address = QString(), int port = 0, bool authenticationEnabled = false, bool sslEnabled = false, bool ignoreSslErrors = false, QObject *parent = nullptr)
+        : ServerConfiguration(id, address, port, authenticationEnabled, sslEnabled, parent),
+          m_ignoreSslErrors(ignoreSslErrors) {}
+
+    bool ignoreSslErrors() const;
+    void setIgnoreSslErrors(bool ignoreSslErrors);
+
+    Q_INVOKABLE ServerConfiguration* clone() const override;
+
+signals:
+    void ignoreSslErrorsChanged();
+
+private:
+    bool m_ignoreSslErrors = false;
 };
 
 #endif // SERVERCONFIGURATION_H

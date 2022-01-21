@@ -30,7 +30,7 @@
 
 #include "serverconfiguration.h"
 
-ServerConfiguration::ServerConfiguration(const QString &id, const QHostAddress &address, int port, bool authEnabled, bool sslEnabled, QObject *parent):
+ServerConfiguration::ServerConfiguration(const QString &id, const QString &address, int port, bool authEnabled, bool sslEnabled, QObject *parent):
     QObject(parent),
     m_id(id),
     m_hostAddress(address),
@@ -48,13 +48,13 @@ QString ServerConfiguration::id() const
 
 QString ServerConfiguration::address() const
 {
-    return m_hostAddress.toString();
+    return m_hostAddress;
 }
 
 void ServerConfiguration::setAddress(const QString &address)
 {
-    if (m_hostAddress != QHostAddress(address)) {
-        m_hostAddress = QHostAddress(address);
+    if (m_hostAddress != address) {
+        m_hostAddress = address;
         emit addressChanged();
     }
 }
@@ -119,7 +119,26 @@ void WebServerConfiguration::setPublicFolder(const QString &publicFolder)
 
 ServerConfiguration *WebServerConfiguration::clone() const
 {
-    WebServerConfiguration *ret = new WebServerConfiguration(id(), QHostAddress(address()), port(), authenticationEnabled(), sslEnabled());
+    WebServerConfiguration *ret = new WebServerConfiguration(id(), address(), port(), authenticationEnabled(), sslEnabled());
     ret->setPublicFolder(m_publicFolder);
+    return ret;
+}
+
+bool TunnelProxyServerConfiguration::ignoreSslErrors() const
+{
+    return m_ignoreSslErrors;
+}
+
+void TunnelProxyServerConfiguration::setIgnoreSslErrors(bool ignoreSslErrors)
+{
+    if (m_ignoreSslErrors != ignoreSslErrors) {
+        m_ignoreSslErrors = ignoreSslErrors;
+        emit ignoreSslErrorsChanged();
+    }
+}
+
+ServerConfiguration *TunnelProxyServerConfiguration::clone() const
+{
+    TunnelProxyServerConfiguration *ret = new TunnelProxyServerConfiguration(id(), address(), port(), authenticationEnabled(), ignoreSslErrors());
     return ret;
 }

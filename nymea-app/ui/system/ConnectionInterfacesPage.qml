@@ -136,4 +136,55 @@ SettingsPageBase {
             popup.open()
         }
     }
+    SettingsPageSectionHeader {
+        text: qsTr("Remote connection server interfaces")
+        visible: engine.jsonRpcClient.ensureServerVersion("6.0")
+    }
+
+    Repeater {
+        model: engine.nymeaConfiguration.tunnelProxyServerConfigurations
+        delegate: ConnectionInterfaceDelegate {
+            Layout.fillWidth: true
+            text: qsTr("Server: %1").arg(model.address)
+            iconColor: inUse ? Style.accentColor : Style.iconColor
+            readonly property bool inUse: (engine.jsonRpcClient.currentConnection.hostAddress === model.address || model.address === "0.0.0.0")
+                                 && engine.jsonRpcClient.currentConnection.port === model.port
+            canDelete: !inUse
+            onClicked: {
+                var component = Qt.createComponent(Qt.resolvedUrl("TunnelProxyServerConfigurationDialog.qml"));
+                var popup = component.createObject(root, { serverConfiguration: engine.nymeaConfiguration.tunnelProxyServerConfigurations.get(index).clone() });
+                popup.accepted.connect(function() {
+                    print("configuring:", popup.serverConfiguration.port)
+                    engine.nymeaConfiguration.setTunnelProxyServerConfiguration(popup.serverConfiguration)
+                    popup.serverConfiguration.destroy();
+                })
+                popup.rejected.connect(function() {
+                    popup.serverConfiguration.destroy();
+                })
+                popup.open()
+            }
+            onDeleteClicked: {
+                engine.nymeaConfiguration.deleteTunnelProxyServerConfiguration(model.id)
+            }
+        }
+    }
+    Button {
+        Layout.fillWidth: true
+        Layout.margins: app.margins
+        text: qsTr("Add")
+        visible: engine.jsonRpcClient.ensureServerVersion("6.0")
+        onClicked: {
+            var config = engine.nymeaConfiguration.createTunnelProxyServerConfiguration("dev-remoteproxy.nymea.io", 2213, true, true, false);
+            var component = Qt.createComponent(Qt.resolvedUrl("TunnelProxyServerConfigurationDialog.qml"));
+            var popup = component.createObject(root, { serverConfiguration: config });
+            popup.accepted.connect(function() {
+                engine.nymeaConfiguration.setTunnelProxyServerConfiguration(popup.serverConfiguration)
+                popup.serverConfiguration.destroy();
+            })
+            popup.rejected.connect(function() {
+                popup.serverConfiguration.destroy();
+            })
+            popup.open()
+        }
+    }
 }

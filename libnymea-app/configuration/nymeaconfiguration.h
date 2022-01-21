@@ -38,12 +38,16 @@ class ServerConfiguration;
 class ServerConfigurations;
 class WebServerConfiguration;
 class WebServerConfigurations;
+class TunnelProxyServerConfiguration;
+class TunnelProxyServerConfigurations;
 class MqttPolicy;
 class MqttPolicies;
 
 class NymeaConfiguration : public QObject
 {
     Q_OBJECT
+
+    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
 
     Q_PROPERTY(QString serverName READ serverName WRITE setServerName NOTIFY serverNameChanged)
 
@@ -53,12 +57,15 @@ class NymeaConfiguration : public QObject
     Q_PROPERTY(ServerConfigurations* tcpServerConfigurations READ tcpServerConfigurations CONSTANT)
     Q_PROPERTY(ServerConfigurations* webSocketServerConfigurations READ webSocketServerConfigurations CONSTANT)
     Q_PROPERTY(WebServerConfigurations* webServerConfigurations READ webServerConfigurations CONSTANT)
+    Q_PROPERTY(TunnelProxyServerConfigurations* tunnelProxyServerConfigurations READ tunnelProxyServerConfigurations CONSTANT)
     Q_PROPERTY(ServerConfigurations* mqttServerConfigurations READ mqttServerConfigurations CONSTANT)
 
     Q_PROPERTY(MqttPolicies* mqttPolicies READ mqttPolicies CONSTANT)
 
 public:
     explicit NymeaConfiguration(JsonRpcClient* client, QObject *parent = nullptr);
+
+    bool fetchingData() const;
 
     QString serverName() const;
     void setServerName(const QString &serverName);
@@ -80,21 +87,25 @@ public:
     ServerConfigurations *tcpServerConfigurations() const;
     ServerConfigurations *webSocketServerConfigurations() const;
     WebServerConfigurations *webServerConfigurations() const;
+    TunnelProxyServerConfigurations *tunnelProxyServerConfigurations() const;
     ServerConfigurations *mqttServerConfigurations() const;
     MqttPolicies *mqttPolicies() const;
 
     Q_INVOKABLE ServerConfiguration* createServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false);
     Q_INVOKABLE WebServerConfiguration* createWebServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false, const QString &publicFolder = QString());
+    Q_INVOKABLE TunnelProxyServerConfiguration* createTunnelProxyServerConfiguration(const QString &address, int port, bool authEnabled = true, bool sslEnabled = true, bool ignoreSslErrors = false);
     Q_INVOKABLE MqttPolicy* createMqttPolicy() const;
 
     Q_INVOKABLE void setTcpServerConfiguration(ServerConfiguration *configuration);
     Q_INVOKABLE void setWebSocketServerConfiguration(ServerConfiguration *configuration);
     Q_INVOKABLE void setWebServerConfiguration(WebServerConfiguration *configuration);
+    Q_INVOKABLE void setTunnelProxyServerConfiguration(TunnelProxyServerConfiguration *configuration);
     Q_INVOKABLE void setMqttServerConfiguration(ServerConfiguration *configuration);
 
     Q_INVOKABLE void deleteTcpServerConfiguration(const QString &id);
     Q_INVOKABLE void deleteWebSocketServerConfiguration(const QString &id);
     Q_INVOKABLE void deleteWebServerConfiguration(const QString &id);
+    Q_INVOKABLE void deleteTunnelProxyServerConfiguration(const QString &id);
     Q_INVOKABLE void deleteMqttServerConfiguration(const QString &id);
 
     Q_INVOKABLE void updateMqttPolicy(MqttPolicy* policy);
@@ -112,6 +123,8 @@ private:
     Q_INVOKABLE void deleteTcpConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setWebSocketConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void deleteWebSocketConfigReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setTunnelProxyServerConfigReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void deleteTunnelProxyServerConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setWebConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void deleteWebConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getMqttServerConfigsReply(int commandId, const QVariantMap &params);
@@ -124,6 +137,7 @@ private:
     Q_INVOKABLE void notificationReceived(const QVariantMap &notification);
 
 signals:
+    void fetchingDataChanged();
     void debugServerEnabledChanged();
     void serverNameChanged();
     void cloudEnabledChanged();
@@ -131,6 +145,7 @@ signals:
 private:
     JsonRpcClient* m_client = nullptr;
 
+    bool m_fetchingData = false;
     bool m_debugServerEnabled = false;
     QString m_serverName;
     bool m_cloudEnabled = false;
@@ -138,6 +153,7 @@ private:
     ServerConfigurations *m_tcpServerConfigurations = nullptr;
     ServerConfigurations *m_webSocketServerConfigurations = nullptr;
     WebServerConfigurations* m_webServerConfigurations = nullptr;
+    TunnelProxyServerConfigurations *m_tunnelProxyServerConfigurations = nullptr;
     ServerConfigurations *m_mqttServerConfigurations = nullptr;
     MqttPolicies *m_mqttPolicies = nullptr;
 

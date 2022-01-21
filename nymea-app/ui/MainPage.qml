@@ -721,7 +721,6 @@ Page {
                     text: qsTr("Disconnect")
                     Layout.preferredWidth: Math.max(cancelButton.implicitWidth, disconnectButton.implicitWidth)
                     onClicked: {
-                        tabSettings.lastConnectedHost = "";
                         engine.jsonRpcClient.disconnectFromHost();
                     }
                 }

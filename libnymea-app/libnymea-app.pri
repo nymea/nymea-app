@@ -25,6 +25,7 @@ SOURCES += \
     $$PWD/energy/energymanager.cpp \
     $$PWD/energy/powerbalancelogs.cpp \
     $$PWD/energy/thingpowerlogs.cpp \
+    $$PWD/connection/tunnelproxytransport.cpp \
     $$PWD/models/scriptsproxymodel.cpp \
     $$PWD/tagwatcher.cpp \
     $$PWD/zigbee/zigbeenode.cpp \
@@ -185,6 +186,7 @@ HEADERS += \
     $$PWD/energy/energymanager.h \
     $$PWD/energy/powerbalancelogs.h \
     $$PWD/energy/thingpowerlogs.h \
+    $$PWD/connection/tunnelproxytransport.h \
     $$PWD/models/scriptsproxymodel.h \
     $$PWD/tagwatcher.h \
     $$PWD/zigbee/zigbeenode.h \

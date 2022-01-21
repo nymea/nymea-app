@@ -37,6 +37,7 @@
 #include "connection/websockettransport.h"
 #include "connection/bluetoothtransport.h"
 #include "connection/cloudtransport.h"
+#include "connection/tunnelproxytransport.h"
 
 #include <QJsonDocument>
 #include <QVariantMap>
@@ -61,6 +62,7 @@ JsonRpcClient::JsonRpcClient(QObject *parent) :
     m_connection->registerTransport(new WebsocketTransportFactory());
     m_connection->registerTransport(new BluetoothTransportFactoy());
     m_connection->registerTransport(new CloudTransportFactory());
+    m_connection->registerTransport(new TunnelProxyTransportFactory());
 
     connect(m_connection, &NymeaConnection::availableBearerTypesChanged, this, &JsonRpcClient::availableBearerTypesChanged);
     connect(m_connection, &NymeaConnection::connectionStatusChanged, this, &JsonRpcClient::connectionStatusChanged);
@@ -443,6 +445,7 @@ void JsonRpcClient::processAuthenticate(int /*commandId*/, const QVariantMap &da
         } else {
             m_permissionScopes = UserInfo::PermissionScopeAdmin;
         }
+        emit permissionsChanged();
         QSettings settings;
         settings.beginGroup("jsonTokens");
         settings.setValue(m_serverUuid, m_token);
@@ -643,7 +646,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
     JsonRpcReply *reply = m_replies.take(commandId);
     if (reply) {
         reply->deleteLater();
-        qWarning() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
+//        qWarning() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
 
         if (dataMap.value("status").toString() == "unauthorized") {
             qWarning() << "Something's off with the token";
@@ -717,6 +720,11 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     m_jsonRpcVersion = QVersionNumber::fromString(protoVersionString);
 
     qCInfo(dcJsonRpc()) << "Handshake reply:" << "Protocol version:" << protoVersionString << "InitRequired:" << m_initialSetupRequired << "AuthRequired:" << m_authenticationRequired << "PushButtonAvailable:" << m_pushButtonAuthAvailable;
+
+    if (m_connection->currentHost()->uuid().isNull()) {
+        qCDebug(dcJsonRpc()) << "Updating Server UUID in connection:" << m_connection->currentHost()->uuid().toString() << "->" << m_serverUuid;
+        m_connection->currentHost()->setUuid(m_serverUuid);
+    }
 
     QVersionNumber minimumRequiredVersion = QVersionNumber(5, 0);
     QVersionNumber maximumMajorVersion = QVersionNumber(6);
@@ -792,11 +800,6 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     emit permissionsChanged();
 
     emit handshakeReceived();
-
-    if (m_connection->currentHost()->uuid().isNull()) {
-        qCDebug(dcJsonRpc()) << "Updating Server UUID in connection:" << m_connection->currentHost()->uuid().toString() << "->" << m_serverUuid;
-        m_connection->currentHost()->setUuid(m_serverUuid);
-    }
 
     if (m_initialSetupRequired) {
         qCInfo(dcJsonRpc()) << "Initial setup is required for this nymea instance!";

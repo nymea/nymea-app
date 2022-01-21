@@ -173,7 +173,6 @@ Item {
                                 print("opening push button auth")
                                 var page = pageStack.push(Qt.resolvedUrl("PushButtonAuthPage.qml"))
                                 page.backPressed.connect(function() {
-//                                    tabSettings.lastConnectedHost = "";
                                     engine.jsonRpcClient.disconnectFromHost();
                                     init();
                                 })
@@ -182,7 +181,6 @@ Item {
                                 if (engine.jsonRpcClient.initialSetupRequired) {
                                     var page = pageStack.push(Qt.resolvedUrl("connection/SetupWizard.qml"));
                                     page.backPressed.connect(function() {
-//                                        tabSettings.lastConnectedHost = "";
                                         engine.jsonRpcClient.disconnectFromHost()
                                         init();
                                     })
@@ -191,7 +189,6 @@ Item {
 
                                 var page = pageStack.push(Qt.resolvedUrl("connection/LoginPage.qml"));
                                 page.backPressed.connect(function() {
-//                                    tabSettings.lastConnectedHost = "";
                                     engine.jsonRpcClient.disconnectFromHost()
                                     init();
                                 })
@@ -314,7 +311,6 @@ Item {
                             if (engine.jsonRpcClient.connected) {
                                 nymeaDiscovery.cacheHost(engine.jsonRpcClient.currentHost)
                                 configuredHost.uuid = engine.jsonRpcClient.serverUuid
-//                                tabSettings.lastConnectedHost = engine.jsonRpcClient.serverUuid
                             }
                             init();
                         }
@@ -333,15 +329,45 @@ Item {
                             popup.actualVersion = actualVersion;
                             popup.minVersion = minVersion;
                             popup.open()
-//                            tabSettings.lastConnectedHost = ""
                         }
                         onInvalidMaximumVersion: {
                             var popup = invalidVersionComponent.createObject(app.contentItem);
                             popup.actualVersion = actualVersion;
                             popup.maxVersion = maxVersion;
                             popup.open()
-//                            tabSettings.lastConnectedHost = ""
                         }
+                    }
+
+                    Connections {
+                        target: engine.nymeaConfiguration
+                        onFetchingDataChanged: {
+                            if (!engine.nymeaConfiguration.fetchingData) {
+                                syncRemoteConnection()
+                            }
+                        }
+                    }
+                    Connections {
+                        target: engine.nymeaConfiguration.tunnelProxyServerConfigurations
+                        onCountChanged: syncRemoteConnection();
+                    }
+
+                    function syncRemoteConnection() {
+                        for (var i = 0; i < engine.jsonRpcClient.currentHost.connections.count; i++) {
+                            var connection = engine.jsonRpcClient.currentHost.connections.get(i)
+                            if (connection.url.toString().startsWith("tunnel")) {
+                                engine.jsonRpcClient.currentHost.connections.removeConnection(i--);
+                            }
+                        }
+
+                        for (var i = 0; i < engine.nymeaConfiguration.tunnelProxyServerConfigurations.count; i++) {
+                            var tunnelProxyConfig = engine.nymeaConfiguration.tunnelProxyServerConfigurations.get(i);
+                            var url = tunnelProxyConfig.sslEnabled ? "tunnels://" : "tunnel://";
+                            url += tunnelProxyConfig.address
+                            url += ":" + tunnelProxyConfig.port
+                            url += "?uuid=" + engine.jsonRpcClient.currentHost.uuid
+                            engine.jsonRpcClient.currentHost.connections.addConnection(url, Connection.BearerTypeCloud, tunnelProxyConfig.sslEnabled, "Remote proxy connection");
+                        }
+                        nymeaDiscovery.cacheHost(engine.jsonRpcClient.currentHost)
                     }
 
                     Connections {

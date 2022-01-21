@@ -12,7 +12,6 @@
         <file>ui/mainviews/FavoritesView.qml</file>
         <file>ui/mainviews/ThingsView.qml</file>
         <file>ui/connection/ConnectPage.qml</file>
-        <file>ui/connection/ManualConnectPage.qml</file>
         <file>ui/connection/ConnectingPage.qml</file>
         <file>ui/connection/wifisetup/BluetoothDiscoveryPage.qml</file>
         <file>ui/connection/wifisetup/WirelessSetupPage.qml</file>
@@ -274,5 +273,6 @@
         <file>ui/components/NymeaToolTip.qml</file>
         <file>ui/components/SettingsTile.qml</file>
         <file>ui/components/NymeaTextField.qml</file>
+        <file>ui/system/TunnelProxyServerConfigurationDialog.qml</file>
     </qresource>
 </RCC>

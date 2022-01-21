@@ -101,6 +101,21 @@ bool NymeaHost::online() const
     return m_online;
 }
 
+void NymeaHost::addTunnelConnection()
+{
+    for (int i = 0; i < m_connections->rowCount(); i++) {
+        if (m_connections->get(i)->url().scheme() == "tunnel") {
+            return;
+        }
+    }
+    QUrl url;
+    url.setScheme("tunnel");
+    url.setHost(m_uuid.toString().remove(QRegExp("[{}]")));
+    qCritical() << "Adding tunnel connection" << url << m_uuid;
+    Connection *connection = new Connection(url, Connection::BearerTypeCloud, true, "foooobaaaar", this);
+    m_connections->addConnection(connection);
+}
+
 void NymeaHost::syncOnlineState()
 {
     for (int i = 0; i < m_connections->rowCount(); i++) {
@@ -217,7 +232,7 @@ Connection *Connections::bestMatch(Connection::BearerTypes bearerTypes) const
 {
     Connection *best = nullptr;
     foreach (Connection *c, m_connections) {
-//        qDebug() << "have connection:" << bearerTypes << c->url() << c->bearerType() << bearerTypes.testFlag(c->bearerType());
+//        qWarning() << "have connection:" << bearerTypes << c->url() << c->bearerType() << bearerTypes.testFlag(c->bearerType());
         if ((bearerTypes & c->bearerType()) == Connection::BearerTypeNone) {
             continue;
         }
@@ -230,6 +245,12 @@ Connection *Connections::bestMatch(Connection::BearerTypes bearerTypes) const
         }
     }
     return best;
+}
+
+void Connections::addConnection(const QUrl &url, Connection::BearerType bearerType, bool secure, const QString &displayName)
+{
+    Connection *connection = new Connection(url, bearerType, secure, displayName);
+    addConnection(connection);
 }
 
 QHash<int, QByteArray> Connections::roleNames() const
@@ -250,7 +271,7 @@ Connection::Connection(const QUrl &url, Connection::BearerType bearerType, bool 
     m_secure(secure),
     m_displayName(displayName)
 {
-
+    qRegisterMetaType<Connection::BearerType>("Connection.BearerType");
 }
 
 Connection::~Connection()
@@ -320,6 +341,9 @@ int Connection::priority() const
         break;
     case BearerTypeCloud:
         prio += 200;
+        if (m_url.scheme().startsWith("tunnel")) {
+            prio += 1;
+        }
         break;
     case BearerTypeBluetooth:
         prio += 100;

@@ -279,6 +279,10 @@ QVariant Users::data(const QModelIndex &index, int role) const
     switch (role) {
     case RoleUsername:
         return m_users.at(index.row())->username();
+    case RoleDisplayName:
+        return m_users.at(index.row())->displayName();
+    case RoleEmail:
+        return m_users.at(index.row())->email();
     case RoleScopes:
         return static_cast<int>(m_users.at(index.row())->scopes());
     }
@@ -289,6 +293,8 @@ QHash<int, QByteArray> Users::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleUsername, "username");
+    roles.insert(RoleDisplayName, "displayName");
+    roles.insert(RoleEmail, "email");
     roles.insert(RoleScopes, "scopes");
     return roles;
 }
@@ -296,6 +302,18 @@ QHash<int, QByteArray> Users::roleNames() const
 void Users::insertUser(UserInfo *userInfo)
 {
     userInfo->setParent(this);
+    connect(userInfo, &UserInfo::displayNameChanged, this, [=](){
+        int idx = m_users.indexOf(userInfo);
+        if (idx >= 0) {
+            emit dataChanged(index(idx), index(idx), {RoleDisplayName});
+        }
+    });
+    connect(userInfo, &UserInfo::emailChanged, this, [=](){
+        int idx = m_users.indexOf(userInfo);
+        if (idx >= 0) {
+            emit dataChanged(index(idx), index(idx), {RoleEmail});
+        }
+    });
     connect(userInfo, &UserInfo::scopesChanged, this, [=](){
         int idx = m_users.indexOf(userInfo);
         if (idx >= 0) {

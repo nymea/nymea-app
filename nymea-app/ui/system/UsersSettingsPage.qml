@@ -278,7 +278,7 @@ SettingsPageBase {
                 model: userManager.users
                 delegate: NymeaItemDelegate {
                     Layout.fillWidth: true
-                    text: engine.jsonRpcClient.ensureServerVersion("6.0") && model.displayName ? model.displayName : model.username
+                    text: engine.jsonRpcClient.ensureServerVersion("6.0") && model.displayName !== "" ? model.displayName : model.username
                     subText: engine.jsonRpcClient.ensureServerVersion("6.0") && model.displayName ? model.username : ""
                     iconName: "/ui/images/account.svg"
                     iconColor: userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin ? Style.accentColor : Style.iconColor

@@ -256,6 +256,8 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<ServerConfigurations>(uri, 1, 0, "ServerConfigurations", "Get it from NymeaConfiguration");
     qmlRegisterUncreatableType<WebServerConfiguration>(uri, 1, 0, "WebServerConfiguration", "Get it from NymeaConfiguration");
     qmlRegisterUncreatableType<WebServerConfigurations>(uri, 1, 0, "WebServerConfigurations", "Get it from NymeaConfiguration");
+    qmlRegisterUncreatableType<TunnelProxyServerConfiguration>(uri, 1, 0, "TunnelProxyServerConfiguration", "Get it from NymeaConfiguration");
+    qmlRegisterUncreatableType<TunnelProxyServerConfigurations>(uri, 1, 0, "TunnelProxyServerConfigurations", "Get it from NymeaConfiguration");
     qmlRegisterUncreatableType<MqttPolicy>(uri, 1, 0, "MqttPolicy", "Get it from NymeaConfiguration");
     qmlRegisterUncreatableType<MqttPolicies>(uri, 1, 0, "MqttPolicies", "Get it from NymeaConfiguration");
 

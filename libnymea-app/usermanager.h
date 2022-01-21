@@ -97,6 +97,8 @@ class Users: public QAbstractListModel {
 public:
     enum Roles {
         RoleUsername,
+        RoleDisplayName,
+        RoleEmail,
         RoleScopes
     };
     Q_ENUM(Roles)

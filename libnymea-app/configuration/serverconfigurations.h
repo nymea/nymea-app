@@ -84,4 +84,15 @@ public:
     }
 };
 
+class TunnelProxyServerConfigurations: public ServerConfigurations
+{
+    Q_OBJECT
+public:
+    TunnelProxyServerConfigurations(QObject *parent = nullptr): ServerConfigurations(parent) {}
+
+    Q_INVOKABLE TunnelProxyServerConfiguration* getTunnelProxyServerConfiguration(int index) const {
+        return dynamic_cast<TunnelProxyServerConfiguration*>(m_list.at(index));
+    }
+};
+
 #endif // SERVERCONFIGURATIONS_H
