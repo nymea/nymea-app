@@ -82,6 +82,13 @@ android {
     # https://bugreports.qt.io/browse/QTBUG-83165
     LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
     PRE_TARGETDEPS += $$top_builddir/libnymea-app/$${ANDROID_TARGET_ARCH}/libnymea-app.a
+    
+    !equals(OVERLAY_PATH, "") {
+        QMAKE_POST_LINK += $$QMAKE_COPY $$shell_path($${OVERLAY_PATH}/version.txt) $$shell_path($$top_builddir/)
+    } else {
+        QMAKE_POST_LINK += $$QMAKE_COPY $$shell_path($$top_srcdir/version.txt) $$shell_path($$top_builddir/)
+    }
+    
 
     versioninfo.files = ../version.txt
     versioninfo.path = /
