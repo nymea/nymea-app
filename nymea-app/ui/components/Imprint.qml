@@ -101,7 +101,7 @@ Item {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             font.bold: true
-            text: "Copyright (C) 2020 nymea GmbH"
+            text: "Copyright (C) %1 nymea GmbH".arg(new Date().getFullYear())
         }
 
         Label {
