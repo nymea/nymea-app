@@ -179,7 +179,7 @@ SettingsPageBase {
                     id: baudRateComboBox
                     Layout.minimumWidth: 250
                     enabled: !root.busy
-                    textRole: "text"
+                    textRole: "value"
                     model: serialPortBaudrateModel
                     onActivated: console.log("Selected baudrate", currentText, model.get(currentIndex).value)
                     Component.onCompleted: {
