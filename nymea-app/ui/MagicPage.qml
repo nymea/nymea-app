@@ -130,6 +130,7 @@ Page {
 
     ListView {
         anchors.fill: parent
+        clip: true
 
         model: RulesFilterModel {
             id: rulesProxy
