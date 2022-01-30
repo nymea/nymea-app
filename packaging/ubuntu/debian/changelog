@@ -1,3 +1,14 @@
+nymea-app (1.0.425) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update mac os certificate name to new Apple default
+  * Fix modbus baudrate selection
+  * Fix year in imprint
+  * Clip the list in the magic page
+  * Fix wrench icon in energy view missing if all consumers are disabled
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 30 Jan 2022 02:03:51 +0100
+
 nymea-app (1.0.423) bionic; urgency=medium
 
   [ Michael Zanetti ]
