@@ -51,7 +51,7 @@ MainViewBase {
             trigger: function() {
                 pageStack.push("energy/EnergySettingsPage.qml", {energyManager: energyManager});
             },
-            visible: energyMeters.count > 1 || consumers.count > 0
+            visible: energyMeters.count > 1 || allConsumers.count > 0
         }
     ]
 
@@ -71,9 +71,15 @@ MainViewBase {
     readonly property Thing rootMeter: engine.thingManager.fetchingData ? null : engine.thingManager.things.getThing(energyManager.rootMeterId)
 
     ThingsProxy {
-        id: consumers
+        id: allConsumers
         engine: _engine
         shownInterfaces: ["smartmeterconsumer", "energymeter"]
+    }
+
+    ThingsProxy {
+        id: consumers
+        engine: _engine
+        parentProxy: allConsumers
         hideTagId: "hiddenInEnergyView"
         hiddenThingIds: [energyManager.rootMeterId]
     }
