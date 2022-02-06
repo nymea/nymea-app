@@ -169,7 +169,7 @@ StatsBase {
 //                    print("assigning categories:", labels)
                     categoryAxis.timestamps = labels
 
-                    chartView.animationOptions = ChartView.SeriesAnimations
+                    chartView.animationOptions = NymeaUtils.chartsAnimationOptions
 
                     for (var i = 0; i < entries.length; i++) {
 //                        print("Appending to set", JSON.stringify(entries[i]))
@@ -215,7 +215,7 @@ StatsBase {
                 d.acquisitionSet.append(acquisitionValue)
                 d.returnSet.append(returnValue)
 
-                chartView.animationOptions = ChartView.SeriesAnimations
+                chartView.animationOptions = NymeaUtils.chartsAnimationOptions
             }
         }
 

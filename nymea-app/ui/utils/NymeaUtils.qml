@@ -1,6 +1,7 @@
 pragma Singleton
 import QtQuick 2.9
 import Nymea 1.0
+import QtCharts 2.3
 
 Item {
     id: root
@@ -145,4 +146,7 @@ Item {
     function hasPermissionScope(permissions, requestedScope) {
         return (permissions & requestedScope) === requestedScope;
     }
+
+    property bool inhibitChartsAnimation: ["SM-G950x", "SM-G955x", "SM-G892A"].indexOf(PlatformHelper.deviceModel) >= 0
+    property int chartsAnimationOptions: !inhibitChartsAnimation ? ChartView.SeriesAnimations : ChartView.NoAnimation
 }

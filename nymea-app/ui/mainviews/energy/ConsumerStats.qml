@@ -206,7 +206,7 @@ StatsBase {
             labels.push(entries[0].timestamp)
             categoryAxis.timestamps = labels
 
-            chartView.animationOptions = ChartView.SeriesAnimations
+            chartView.animationOptions = NymeaUtils.chartsAnimationOptions
         }
 
         onLiveEntryChanged: {
@@ -291,7 +291,7 @@ StatsBase {
                     map[consumer.id] = barSet
                 }
                 barSeries.thingBarSetMap = map
-                chartView.animationOptions = ChartView.SeriesAnimations
+                chartView.animationOptions = NymeaUtils.chartsAnimationOptions
             }
 
             Item {

@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     application.installTranslator(&qtTranslator);
 
-    qCInfo(dcApplication()) << application.applicationName() << APP_VERSION << "running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion();
+    qCInfo(dcApplication()) << application.applicationName() << APP_VERSION << "running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion() << PlatformHelper::instance()->deviceManufacturer() << PlatformHelper::instance()->deviceModel();
     qCInfo(dcApplication()) << "Locale info:" << QLocale() << QLocale().name() << QLocale().language() << QLocale().system();
 
     QTranslator appTranslator;
