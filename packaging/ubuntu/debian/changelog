@@ -1,3 +1,10 @@
+nymea-app (1.0.427) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Disable charts animations on Samsung S8
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 06 Feb 2022 13:08:10 +0100
+
 nymea-app (1.0.426) bionic; urgency=medium
 
   [ Michael Zanetti ]
