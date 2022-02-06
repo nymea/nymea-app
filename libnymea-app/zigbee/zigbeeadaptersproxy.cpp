@@ -94,6 +94,21 @@ void ZigbeeAdaptersProxy::setOnlyUnused(bool onlyUnused)
     }
 }
 
+QString ZigbeeAdaptersProxy::serialPortFilter() const
+{
+    return m_serialPortFilter;
+}
+
+void ZigbeeAdaptersProxy::setSerialPortFilter(const QString &serialPortFilter)
+{
+    if (m_serialPortFilter != serialPortFilter) {
+        m_serialPortFilter = serialPortFilter;
+        emit serialPortFilterChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 ZigbeeAdapter *ZigbeeAdaptersProxy::get(int index) const
 {
     if (index >= 0 && index < m_manager->adapters()->rowCount()) {
@@ -120,6 +135,10 @@ bool ZigbeeAdaptersProxy::filterAcceptsRow(int source_row, const QModelIndex &so
         if (m_manager->networks()->findBySerialPort(adapter->serialPort()) != nullptr) {
             return false;
         }
+    }
+
+    if (!m_serialPortFilter.isEmpty() && m_serialPortFilter != adapter->serialPort()) {
+        return false;
     }
 
     return true;

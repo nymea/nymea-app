@@ -85,10 +85,12 @@ SettingsPageBase {
         Repeater {
             model: zigbeeManager.networks
             delegate: BigTile {
+                id: networkDelegate
                 Layout.fillWidth: true
                 interactive: false
+                property ZigbeeNetwork network: zigbeeManager.networks.get(index)
 
-                onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { zigbeeManager: zigbeeManager, network: zigbeeManager.networks.get(index) })
+                onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { zigbeeManager: zigbeeManager, network: networkDelegate.network })
 
                 header: RowLayout {
                     ColorIcon {
@@ -152,23 +154,36 @@ SettingsPageBase {
 
                     RowLayout {
                         Label {
-                            Layout.fillWidth: true
-                            text: qsTr("MAC address:")
+                            text: qsTr("Adapter:")
                         }
+
                         Label {
-                            text: model.macAddress
+                            Layout.fillWidth: true
+                            text: adaptersProxy.count > 0 ? adaptersProxy.get(0).description : ""
+                            elide: Text.ElideRight
+
+                            ZigbeeAdaptersProxy {
+                                id: adaptersProxy
+                                manager: zigbeeManager
+                                serialPortFilter: networkDelegate.network.serialPort
+                            }
                         }
                     }
 
-                    RowLayout {
-                        Label {
-                            Layout.fillWidth: true
-                            text: qsTr("Firmware version:")
-                        }
-                        Label {
-                            text: model.firmwareVersion
+                    Label {
+                        Layout.fillWidth: true
+                        text: offlineNodes.count == 0
+                              ? qsTr("%n device(s)", "", networkDelegate.network.nodes.count)
+                              : qsTr("%n device(s) (%1 disconnected)", "", networkDelegate.network.nodes.count).arg(offlineNodes.count)
+
+                        ZigbeeNodesProxy {
+                            id: offlineNodes
+                            zigbeeNodes: networkDelegate.network.nodes
+                            showCoordinator: false
+                            showOnline: false
                         }
                     }
+
                 }
             }
         }

@@ -42,7 +42,10 @@ class ZigbeeNodesProxy : public QSortFilterProxyModel
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(ZigbeeNodes *zigbeeNodes READ zigbeeNodes WRITE setZigbeeNodes NOTIFY zigbeeNodesChanged)
+
     Q_PROPERTY(bool showCoordinator READ showCoordinator WRITE setShowCoordinator NOTIFY showCoordinatorChanged)
+    Q_PROPERTY(bool showOnline READ showOnline WRITE setShowOnline NOTIFY showOnlineChanged)
+    Q_PROPERTY(bool showOffline READ showOffline WRITE setShowOffline NOTIFY showOfflineChanged)
 
     Q_PROPERTY(bool newOnTop READ newOnTop WRITE setNewOnTop NOTIFY newOnTopChanged)
 
@@ -55,6 +58,12 @@ public:
     bool showCoordinator() const;
     void setShowCoordinator(bool showCoordinator);
 
+    bool showOnline() const;
+    void setShowOnline(bool showOnline);
+
+    bool showOffline() const;
+    void setShowOffline(bool showOffline);
+
     bool newOnTop() const;
     void setNewOnTop(bool newOnTop);
 
@@ -65,6 +74,8 @@ signals:
     void zigbeeNodesChanged(ZigbeeNodes *zigbeeNodes);
     void showCoordinatorChanged();
     void newOnTopChanged();
+    void showOnlineChanged();
+    void showOfflineChanged();
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
@@ -74,6 +85,8 @@ private:
     ZigbeeNodes *m_zigbeeNodes = nullptr;
 
     bool m_showCoordinator = true;
+    bool m_showOnline = true;
+    bool m_showOffline = true;
 
     bool m_newOnTop = false;
 

@@ -48,6 +48,7 @@ class ZigbeeAdaptersProxy : public QSortFilterProxyModel
     // Optional filtering
     Q_PROPERTY(ZigbeeAdaptersProxy::HardwareFilter hardwareFilter READ hardwareFilter WRITE setHardwareFilter NOTIFY hardwareFilterChanged)
     Q_PROPERTY(bool onlyUnused READ onlyUnused WRITE setOnlyUnused NOTIFY onlyUnusedChanged)
+    Q_PROPERTY(QString serialPortFilter READ serialPortFilter WRITE setSerialPortFilter NOTIFY serialPortFilterChanged)
 
 public:
     enum HardwareFilter {
@@ -68,6 +69,9 @@ public:
     bool onlyUnused() const;
     void setOnlyUnused(bool onlyUnused);
 
+    QString serialPortFilter() const;
+    void setSerialPortFilter(const QString &serialPortFilter);
+
     Q_INVOKABLE ZigbeeAdapter* get(int index) const;
 
 protected:
@@ -78,11 +82,13 @@ signals:
     void managerChanged();
     void hardwareFilterChanged(HardwareFilter hardwareFilter);
     void onlyUnusedChanged();
+    void serialPortFilterChanged();
 
 private:
     ZigbeeManager *m_manager = nullptr;
     HardwareFilter m_hardwareFilter = HardwareFilterNone;
     bool m_onlyUnused = false;
+    QString m_serialPortFilter;
 };
 
 #endif // ZIGBEEADAPTERSPROXY_H

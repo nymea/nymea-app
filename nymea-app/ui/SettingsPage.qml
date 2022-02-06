@@ -45,7 +45,7 @@ Page {
 
     Flickable {
         anchors.fill: parent
-        contentHeight: layout.implicitHeight + (layout.isGrid ? app.margins * 2 : 0)
+        contentHeight: layout.implicitHeight + app.margins
         clip: true
 
         GridLayout {

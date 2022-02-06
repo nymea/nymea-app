@@ -91,6 +91,36 @@ void ZigbeeNodesProxy::setShowCoordinator(bool showCoordinator)
     }
 }
 
+bool ZigbeeNodesProxy::showOnline() const
+{
+    return m_showOnline;
+}
+
+void ZigbeeNodesProxy::setShowOnline(bool showOnline)
+{
+    if (m_showOnline != showOnline) {
+        m_showOnline = showOnline;
+        emit showOnlineChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+bool ZigbeeNodesProxy::showOffline() const
+{
+    return m_showOffline;
+}
+
+void ZigbeeNodesProxy::setShowOffline(bool showOffline)
+{
+    if (m_showOffline != showOffline) {
+        m_showOffline = showOffline;
+        emit showOfflineChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
 bool ZigbeeNodesProxy::newOnTop() const
 {
     return m_newOnTop;
@@ -118,6 +148,12 @@ bool ZigbeeNodesProxy::filterAcceptsRow(int source_row, const QModelIndex &sourc
     Q_UNUSED(source_parent)
     ZigbeeNode *node = m_zigbeeNodes->get(source_row);
     if (!m_showCoordinator && node->type() == ZigbeeNode::ZigbeeNodeTypeCoordinator) {
+        return false;
+    }
+    if (!m_showOnline && node->reachable()) {
+        return false;
+    }
+    if (!m_showOffline && !node->reachable()) {
         return false;
     }
     return true;

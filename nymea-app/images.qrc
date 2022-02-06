@@ -271,5 +271,6 @@
         <file>ui/images/sensors/co.svg</file>
         <file>ui/images/sensors/gas.svg</file>
         <file>ui/images/contact-group.svg</file>
+        <file>ui/images/zigbee/TI.svg</file>
     </qresource>
 </RCC>
