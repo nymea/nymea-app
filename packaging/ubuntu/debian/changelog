@@ -1,3 +1,12 @@
+nymea-app (1.0.426) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for the TI ZigBee backend
+  * Fix crash when syncing remote connection configs via a remote
+    connection
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 06 Feb 2022 12:04:50 +0100
+
 nymea-app (1.0.425) bionic; urgency=medium
 
   [ Michael Zanetti ]
