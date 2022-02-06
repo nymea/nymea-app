@@ -9,7 +9,7 @@ import Nymea 1.0
 ChartView {
     id: productionPieChart
     backgroundColor: "transparent"
-    animationOptions: Qt.application.active ? ChartView.SeriesAnimations : ChartView.NoAnimation
+    animationOptions: Qt.application.active ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
     title: qsTr("My energy production")
     titleColor: Style.foregroundColor
     legend.visible: false

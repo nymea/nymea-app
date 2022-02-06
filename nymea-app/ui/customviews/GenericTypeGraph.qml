@@ -90,7 +90,7 @@ Item {
         titleFont.pixelSize: app.largeFont
 
         animationDuration: 300
-        animationOptions: ChartView.SeriesAnimations
+        animationOptions: NymeaUtils.chartsAnimationOptions
 
         RowLayout {
             anchors { left: parent.left; top: parent.top; right: parent.right; topMargin: app.margins / 2; leftMargin: app.margins * 1.5; rightMargin: app.margins }
@@ -296,7 +296,7 @@ Item {
                         var newMin = xAxis.min.getTime()  + diffMaxToNew;
                         xAxis.max = new Date(newPoint.x);
                         xAxis.min = new Date(newMin)
-                        chartView.animationOptions = ChartView.SeriesAnimations
+                        chartView.animationOptions = NymeaUtils.chartsAnimationOptions
                     }
 
                 }
@@ -389,7 +389,7 @@ Item {
                 // If the user scrolled closer than 5 pixels to the right edge, enable autoscroll
                 autoScroll = overshoot > -5;
 
-                chartView.animationOptions = ChartView.SeriesAnimations
+                chartView.animationOptions = NymeaUtils.chartsAnimationOptions
             }
 
             function zoomInLimited(dy) {
@@ -397,7 +397,7 @@ Item {
                 var oldMax = xAxis.max;
                 chartView.scrollRight(dy);
                 xAxis.min = new Date(xAxis.min.getTime() - xAxis.timeDiff * 1000 * 2)
-                chartView.animationOptions = ChartView.SeriesAnimations
+                chartView.animationOptions = NymeaUtils.chartsAnimationOptions
             }
 
             onPressed: {
