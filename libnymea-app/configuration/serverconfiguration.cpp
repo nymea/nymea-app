@@ -41,6 +41,10 @@ ServerConfiguration::ServerConfiguration(const QString &id, const QString &addre
 
 }
 
+ServerConfiguration::~ServerConfiguration()
+{
+}
+
 QString ServerConfiguration::id() const
 {
     return m_id;

@@ -158,8 +158,6 @@ public:
 
     bool online() const;
 
-    Q_INVOKABLE void addTunnelConnection();
-
 signals:
     void nameChanged();
     void versionChanged();

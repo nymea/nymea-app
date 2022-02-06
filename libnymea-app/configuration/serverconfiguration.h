@@ -46,6 +46,7 @@ class ServerConfiguration : public QObject
 
 public:
     explicit ServerConfiguration(const QString &id, const QString &address = QString(), int port = 0, bool authEnabled = false, bool sslEnabled = false, QObject *parent = nullptr);
+    virtual ~ServerConfiguration();
 
     QString id() const;
 

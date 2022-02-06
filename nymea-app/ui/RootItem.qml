@@ -352,6 +352,13 @@ Item {
                     }
 
                     function syncRemoteConnection() {
+                        if (engine.jsonRpcClient.currentConnection.url.toString().startsWith("tunnel")) {
+                            // Not resyncing tunnel configurations while we're connected through a tunnel ourselves
+                            // (We could, maybe even should, but currently libnymea-app borrows the "NymeaHost" pointer from
+                            // the hostsmodel and will crash if we delete the used Connection object)
+                            return;
+                        }
+
                         for (var i = 0; i < engine.jsonRpcClient.currentHost.connections.count; i++) {
                             var connection = engine.jsonRpcClient.currentHost.connections.get(i)
                             if (connection.url.toString().startsWith("tunnel")) {

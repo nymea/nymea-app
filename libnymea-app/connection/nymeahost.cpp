@@ -101,21 +101,6 @@ bool NymeaHost::online() const
     return m_online;
 }
 
-void NymeaHost::addTunnelConnection()
-{
-    for (int i = 0; i < m_connections->rowCount(); i++) {
-        if (m_connections->get(i)->url().scheme() == "tunnel") {
-            return;
-        }
-    }
-    QUrl url;
-    url.setScheme("tunnel");
-    url.setHost(m_uuid.toString().remove(QRegExp("[{}]")));
-    qCritical() << "Adding tunnel connection" << url << m_uuid;
-    Connection *connection = new Connection(url, Connection::BearerTypeCloud, true, "foooobaaaar", this);
-    m_connections->addConnection(connection);
-}
-
 void NymeaHost::syncOnlineState()
 {
     for (int i = 0; i < m_connections->rowCount(); i++) {
