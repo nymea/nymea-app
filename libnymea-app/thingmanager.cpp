@@ -471,7 +471,7 @@ int ThingManager::rePairThing(const QUuid &thingId, const QVariantList &thingPar
     if (!name.isEmpty()) {
         params.insert("name", name);
     }
-    return m_jsonClient->sendCommand("Things.PairThing", params, this, "pairThingResponse");
+    return m_jsonClient->sendCommand("Integrations.PairThing", params, this, "pairThingResponse");
 }
 
 int ThingManager::confirmPairing(const QUuid &pairingTransactionId, const QString &secret, const QString &username)
