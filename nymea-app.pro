@@ -38,14 +38,18 @@ win32: {
 # OS X installer bundle
 # Install XCode and Qt clang64, add qmake directory to PATH
 # run "make osxbundle"
+# By default
 # Note: We're dropping the QtWebEngineCore framework manually, as that's not app store compliant
 # and we're using the WebView instead anyways. (IMHO a bug that macdeployqt -appstore-compliant even adds it)
+equals(CODESIGN_IDENTITY, "") {
+  CODESIGN_IDENTITY="Apple Development"
+}
 osxbundle.depends = nymea-app
 osxbundle.commands += cd nymea-app && rm -f ../*.dmg ../*pkg *.dmg || true &&
 osxbundle.commands += hdiutil eject /Volumes/$${APPLICATION_NAME} || true &&
 osxbundle.commands += macdeployqt $${APPLICATION_NAME}.app -appstore-compliant -qmldir=$$top_srcdir/nymea-app/ui -dmg &&
 osxbundle.commands += rm -r $${APPLICATION_NAME}.app/Contents/Frameworks/QtWebEngineCore.framework &&
-osxbundle.commands += codesign -s \"Apple Development\" --entitlements $${MACX_PACKAGE_DIR}/$${APPLICATION_NAME}.entitlements --deep $${APPLICATION_NAME}.app &&
+osxbundle.commands += codesign -s \"$$CODESIGN_IDENTITY\" --entitlements $${MACX_PACKAGE_DIR}/$${APPLICATION_NAME}.entitlements --deep $${APPLICATION_NAME}.app &&
 osxbundle.commands += hdiutil convert $${APPLICATION_NAME}.dmg -format UDRW -o $${APPLICATION_NAME}_writable.dmg &&
 osxbundle.commands += hdiutil attach -readwrite -noverify $${APPLICATION_NAME}_writable.dmg && sleep 2 &&
 osxbundle.commands += tar -xpf $${MACX_PACKAGE_DIR}/template.tar -C /Volumes/$${APPLICATION_NAME}/ &&
@@ -55,10 +59,13 @@ osxbundle.commands += rm $${APPLICATION_NAME}.dmg $${APPLICATION_NAME}_writable.
 QMAKE_EXTRA_TARGETS += osxbundle
 
 # Create a .pkg osx installer.
+equals(PRODUCTSIGN_IDENTITY, "") {
+  PRODUCTSIGN_IDENTITY="3rd Party Mac Developer Installer"
+}
 osxinstaller.depends = osxbundle
 osxinstaller.commands += cd nymea-app &&
 osxinstaller.commands += productbuild --component $${APPLICATION_NAME}.app /Applications ../$${APPLICATION_NAME}-$${APP_VERSION}.pkg && cd .. &&
-osxinstaller.commands += productsign -s \"3rd Party Mac Developer Installer\" $${APPLICATION_NAME}-$${APP_VERSION}.pkg $${APPLICATION_NAME}-signed-$${APP_VERSION}.pkg
+osxinstaller.commands += productsign -s \"$$PRODUCTSIGN_IDENTITY\" $${APPLICATION_NAME}-$${APP_VERSION}.pkg $${APPLICATION_NAME}-signed-$${APP_VERSION}.pkg
 QMAKE_EXTRA_TARGETS += osxinstaller
 
 # Generic linux desktop
