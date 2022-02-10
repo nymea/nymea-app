@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2022, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -42,9 +42,7 @@ Page {
 
     readonly property Thing thing: eventDescriptor && eventDescriptor.thingId ? engine.thingManager.things.getThing(eventDescriptor.thingId) : null
     readonly property var iface: eventDescriptor && eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null
-    readonly property EventType eventType: thing ? thing.thingClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
-                                            : iface ? iface.eventTypes.findByName(eventDescriptor.interfaceEvent) : null
-    readonly property StateType stateType: thing ? thing.thingClass.stateTypes.getStateType(eventDescriptor.eventTypeId)
+    readonly property var stateType: thing ? thing.thingClass.stateTypes.getStateType(eventDescriptor.eventTypeId)
                                             : iface ? iface.eventTypes.findByName(eventDescriptor.interfaceEvent) : null
 
     signal backPressed();
@@ -57,32 +55,26 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
-        Repeater {
-            id: delegateRepeater
-            model: root.eventType ? root.eventType.paramTypes : 1
-            delegate: ColumnLayout {
+        ColumnLayout {
+            Layout.fillWidth: true
+            property alias paramType: paramDescriptorDelegate.paramType
+            property alias value: paramDescriptorDelegate.value
+            property alias considerParam: paramCheckBox.checked
+            property alias operatorType: paramDescriptorDelegate.operatorType
+            CheckBox {
+                id: paramCheckBox
+                text: qsTr("Only consider state change if")
                 Layout.fillWidth: true
-                property alias paramType: paramDescriptorDelegate.paramType
-                property alias stateType: paramDescriptorDelegate.stateType
-                property alias value: paramDescriptorDelegate.value
-                property alias considerParam: paramCheckBox.checked
-                property alias operatorType: paramDescriptorDelegate.operatorType
-                CheckBox {
-                    id: paramCheckBox
-                    text: root.eventType ? qsTr("Only consider event if") : qsTr("Only consider state change if")
-                    Layout.fillWidth: true
-                    Layout.leftMargin: app.margins
-                    Layout.rightMargin: app.margins
-                }
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+            }
 
-                ParamDescriptorDelegate {
-                    id: paramDescriptorDelegate
-                    enabled: paramCheckBox.checked
-                    Layout.fillWidth: true
-                    paramType: root.eventType ? root.eventType.paramTypes.get(index) : null
-                    stateType: root.stateType
-                    value: paramType ? paramType.defaultValue : stateType.defaultValue
-                }
+            ParamDescriptorDelegate {
+                id: paramDescriptorDelegate
+                enabled: paramCheckBox.checked
+                Layout.fillWidth: true
+                stateType: root.stateType
+                value: stateType.defaultValue
             }
         }
         Item {
@@ -95,18 +87,11 @@ Page {
             Layout.margins: app.margins
             onClicked: {
                 root.eventDescriptor.paramDescriptors.clear();
-                for (var i = 0; i < delegateRepeater.count; i++) {
-                    var paramDelegate = delegateRepeater.itemAt(i);
-                    if (paramDelegate.considerParam) {
-                        if (root.thing) {
-                            var paramTypeId = paramDelegate.paramType ? paramDelegate.paramType.id : paramDelegate.stateType.id
-                            print("setting param descriptor by id:", paramTypeId, paramDelegate.value)
-                            root.eventDescriptor.paramDescriptors.setParamDescriptor(paramTypeId, paramDelegate.value, paramDelegate.operatorType)
-                        } else if (root.iface) {
-                            var name = root.eventType ? root.eventType.paramTypes.get(i).name : root.stateType.name
-                            print("setting param descriptors by name", name, paramDelegate.value)
-                            root.eventDescriptor.paramDescriptors.setParamDescriptorByName(name, paramDelegate.value, paramDelegate.operatorType)
-                        }
+                if (paramDelegate.considerParam) {
+                    if (root.thing) {
+                        root.eventDescriptor.paramDescriptors.setParamDescriptor(root.stateType.id, paramDescriptorDelegate.value, paramDescriptorDelegate.operatorType)
+                    } else if (root.iface) {
+                        root.eventDescriptor.paramDescriptors.setParamDescriptorByName(root.stateType.name, paramDescriptorDelegate.value, paramDescriptorDelegate.operatorType)
                     }
                 }
                 root.completed()

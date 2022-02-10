@@ -39,6 +39,7 @@ SwipeDelegate {
     implicitWidth: 200
     implicitHeight: Style.smallDelegateHeight
 
+
     property string subText
     property bool progressive: true
     property bool canDelete: false
@@ -197,6 +198,15 @@ SwipeDelegate {
             Layout.preferredWidth: childrenRect.width
             visible: children.length > 0
         }
+    }
+
+    swipe.enabled: {
+        for (var i = 0; i < d.finalContextOptions.length; i++) {
+            if (d.finalContextOptions[i].visible) {
+                return true
+            }
+        }
+        return false
     }
 
     swipe.right: swipeComponent
