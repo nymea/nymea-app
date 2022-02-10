@@ -5218,7 +5218,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>From battery</source>
-        <translation>Betterie</translation>
+        <translation>Batterie</translation>
     </message>
     <message>
         <source>From grid</source>

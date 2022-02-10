@@ -162,7 +162,6 @@ Item {
         legend.labelColor: Style.foregroundColor
         legend.font: Style.extraSmallFont
 
-
         ValueAxis {
             id: valueAxis
             min: 0

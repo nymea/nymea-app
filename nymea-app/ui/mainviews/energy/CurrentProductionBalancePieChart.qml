@@ -16,6 +16,11 @@ ChartView {
 
     property EnergyManager energyManager: null
 
+    ThingsProxy {
+        id: batteries
+        engine: _engine
+        shownInterfaces: ["energystorage"]
+    }
     PieSeries {
         id: productionBalanceSeries
         size: 0.9
