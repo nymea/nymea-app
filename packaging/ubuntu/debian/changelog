@@ -1,3 +1,11 @@
+nymea-app (1.0.429) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Verbose macOS bundle signing
+  * Fixes in the energy view
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 10 Feb 2022 14:06:14 +0100
+
 nymea-app (1.0.428) bionic; urgency=medium
 
   [ Michael Zanetti ]
