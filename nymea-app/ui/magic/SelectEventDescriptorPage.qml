@@ -30,6 +30,7 @@
 
 import QtQuick 2.4
 import QtQuick.Controls 2.1
+import QtQuick.Layouts 1.2
 import "../components"
 import Nymea 1.0
 
@@ -55,11 +56,11 @@ Page {
         property bool interfacesMode: root.eventDescriptor.interfaceName !== ""
         onInterfacesModeChanged: root.buildInterface()
 
-        HeaderButton {
-            imageSource: header.interfacesMode ? "../images/view-expand.svg" : "../images/view-collapse.svg"
-            visible: root.eventDescriptor.interfaceName === ""
-            onClicked: header.interfacesMode = !header.interfacesMode
-        }
+//        HeaderButton {
+//            imageSource: header.interfacesMode ? "../images/view-expand.svg" : "../images/view-collapse.svg"
+//            visible: root.eventDescriptor.interfaceName === ""
+//            onClicked: header.interfacesMode = !header.interfacesMode
+//        }
     }
 
     ListModel {
@@ -77,6 +78,10 @@ Page {
                         for (var j = 0; j < iface.eventTypes.count; j++) {
                             var ifaceEt = iface.eventTypes.get(j);
                             var dcEt = root.thing.thingClass.eventTypes.findByName(ifaceEt.name)
+                            if (!dcEt) {
+                                dcEt = root.thing.thingClass.stateTypes.findByName(ifaceEt.name)
+                            }
+
                             generatedModel.append({displayName: ifaceEt.displayName, eventTypeId: dcEt.id})
                         }
                     }
@@ -89,7 +94,17 @@ Page {
             }
         } else {
             if (root.thing) {
-                listView.model = root.thing.thingClass.eventTypes;
+                generatedModel.clear();
+                for (var i = 0; i < root.thing.thingClass.stateTypes.count; i++) {
+                    var stateType = root.thing.thingClass.stateTypes.get(i)
+                    generatedModel.append({displayName: stateType.displayName, id: stateType.id.toString(), type: "state"})
+                }
+                for (var i = 0; i < root.thing.thingClass.eventTypes.count; i++) {
+                    var eventType = root.thing.thingClass.eventTypes.get(i)
+                    generatedModel.append({displayName: eventType.displayName, id: eventType.id.toString(), type: "event"})
+                }
+
+                listView.model = generatedModel;
             }
         }
     }
@@ -97,6 +112,12 @@ Page {
     ListView {
         id: listView
         anchors.fill: parent
+        clip: true
+
+        section.property: "type"
+        section.delegate: ListSectionHeader {
+            text: section === "state" ? qsTr("State change") : qsTr("Event")
+        }
 
         delegate: ItemDelegate {
             width: parent.width
@@ -133,20 +154,29 @@ Page {
                     }
                 } else {
                     if (root.thing) {
-                        var eventType = root.thing.thingClass.eventTypes.getEventType(model.id);
                         root.eventDescriptor.eventTypeId = model.id;
-                        if (eventType.paramTypes.count > 0) {
+
+                        if (model.type === "state") {
                             var paramsPage = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorParamsPage.qml"), {eventDescriptor: root.eventDescriptor})
                             paramsPage.onBackPressed.connect(function() {pageStack.pop()});
                             paramsPage.onCompleted.connect(function() {
                                 pageStack.pop();
                                 root.done();
                             })
-                        } else {
-                            root.done();
-                        }
 
-                        print("have type", eventType.id)
+                        } else if (model.type === "event") {
+                            var eventType = root.thing.thingClass.eventTypes.getEventType(model.id);
+                            if (eventType.paramTypes.count > 0) {
+                                var paramsPage = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorParamsPage.qml"), {eventDescriptor: root.eventDescriptor})
+                                paramsPage.onBackPressed.connect(function() {pageStack.pop()});
+                                paramsPage.onCompleted.connect(function() {
+                                    pageStack.pop();
+                                    root.done();
+                                })
+                            } else {
+                                root.done();
+                            }
+                        }
                     } else {
                         console.warn("FIXME: not implemented yet");
                     }

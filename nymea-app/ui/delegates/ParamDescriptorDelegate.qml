@@ -37,14 +37,20 @@ import "../components"
 ItemDelegate {
     id: root
 
-    property var paramType: null
+    property ParamType paramType: null
+    property StateType stateType: null
     property var value: null
     property int operatorType: ParamDescriptors.ValueOperatorEquals
 
+    readonly property string type: paramType ? paramType.type.toLowerCase() : stateType ? stateType.type.toLowerCase() : ""
+    readonly property var minValue: paramType ? paramType.minValue : stateType ? stateType.minValue : undefined
+    readonly property var maxValue: paramType ? paramType.maxValue : stateType ? stateType.maxValue : undefined
+    readonly property var allowedValues: paramType ? paramType.allowedValues : stateType ? stateType.allowedValues : undefined
+    readonly property int unit: paramType ? root.paramType.unit : root.stateType.unit
     contentItem: ColumnLayout {
         Label {
             Layout.fillWidth: true
-            text: paramType.displayName
+            text: root.paramType ? root.paramType.displayName : root.stateType.displayName
         }
         RowLayout {
             Layout.fillWidth: true
@@ -64,7 +70,7 @@ ItemDelegate {
                 }
 
                 property bool isNumeric: {
-                    switch (paramType.type.toLowerCase()) {
+                    switch (root.type) {
                     case "bool":
                     case "string":
                     case "qstring":
@@ -75,7 +81,7 @@ ItemDelegate {
                     case "double":
                         return true;
                     }
-                    console.warn("ParamDescriptorDelegate: Unhandled data type:", paramType.type.toLowerCase());
+                    console.warn("ParamDescriptorDelegate: Unhandled data type:", root.type);
                     return false;
                 }
 
@@ -114,44 +120,45 @@ ItemDelegate {
                 Layout.fillWidth: true
 
                 sourceComponent: {
-                    print("Datatye is:", paramType.name, paramType.type, paramType.minValue, paramType.maxValue, paramType.allowedValues)
-                    switch (paramType.type.toLowerCase()) {
+                    print("Datatye is:", root.type, root.minValue, root.maxValue, root.allowedValues)
+                    switch (root.type) {
                     case "bool":
                         return boolComponent;
                     case "uint":
                     case "int":
                     case "double":
-                        if (paramType.minValue !== undefined && paramType.maxValue !== undefined) {
+                        if (root.minValue !== undefined && root.maxValue !== undefined) {
                             return labelComponent;
                         }
                         return spinboxComponent;
                     case "string":
                     case "qstring":
                     case "color":
-                        if (paramType.allowedValues.length > 0) {
+                        if (root.allowedValues.length > 0) {
                             return comboBoxComponent
                         }
                         return textFieldComponent;
                     }
-                    console.warn("ParamDescriptorDelegate: Type delegate not implemented", paramType.type)
+                    console.warn("ParamDescriptorDelegate: Type delegate not implemented", root.type)
                     return null;
                 }
             }
 
             Label {
-                text: Types.toUiUnit(paramType.unit)
-                visible: paramType.unit !== Types.UnitNone
+                text: Types.toUiUnit(root.unit)
+                visible: root.unit !== Types.UnitNone
             }
         }
 
         Loader {
             Layout.fillWidth: true
             sourceComponent: {
-                print("***********+ loading", paramType.type)
-                switch (paramType.type.toLowerCase()) {
+                print("***********+ loading", root.type)
+                switch (root.type) {
+                case "uint":
                 case "int":
                 case "double":
-                    if (paramType.minValue !== undefined && paramType.maxValue !== undefined) {
+                    if (root.minValue !== undefined && root.maxValue !== undefined) {
                         return sliderComponent
                     }
 
@@ -166,11 +173,11 @@ ItemDelegate {
         id: labelComponent
         Label {
             text: {
-                switch (root.paramType.type.toLowerCase()) {
+                switch (root.type.toLowerCase()) {
                 case "double":
-                    return Math.round(Types.toUiValue(root.value, root.paramType.unit) * 10) / 10
+                    return Math.round(Types.toUiValue(root.value, root.unit) * 10) / 10
                 }
-                return Types.toUiValue(root.value, root.paramType.unit)
+                return Types.toUiValue(root.value, root.unit)
             }
         }
     }
@@ -189,13 +196,13 @@ ItemDelegate {
         id: sliderComponent
         RowLayout {
             spacing: app.margins
-            Label { text: Types.toUiValue(root.paramType.minValue, root.paramType.unit) }
+            Label { text: Types.toUiValue(root.minValue, root.unit) }
             Slider {
-                from: paramType.minValue
-                to: paramType.maxValue
+                from: root.minValue
+                to: root.maxValue
                 value: root.value
                 stepSize: {
-                    switch (root.paramType.type.toLowerCase()) {
+                    switch (root.type.toLowerCase()) {
                     case "double":
                         return 0.1
                     }
@@ -206,7 +213,7 @@ ItemDelegate {
                     root.value = value;
                 }
             }
-            Label { text: Types.toUiValue(root.paramType.maxValue, root.paramType.unit) }
+            Label { text: Types.toUiValue(root.maxValue, root.unit) }
         }
 
     }
@@ -214,11 +221,11 @@ ItemDelegate {
     Component {
         id: spinboxComponent
         NymeaSpinBox {
-            from: paramType.minValue
-            to: paramType.maxValue
+            from: root.minValue
+            to: root.maxValue
             value: root.value != undefined ? root.value : 0
             onValueModified: root.value = value
-            floatingPoint: root.paramType.type.toLowerCase() === "double"
+            floatingPoint: root.type === "double"
         }
     }
 
@@ -238,9 +245,9 @@ ItemDelegate {
     Component {
         id: comboBoxComponent
         ComboBox {
-            model: paramType.allowedValues
+            model: root.allowedValues
             onCurrentIndexChanged: {
-                root.value = paramType.allowedValues[currentIndex]
+                root.value = root.allowedValues[currentIndex]
             }
         }
     }

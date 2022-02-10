@@ -116,7 +116,10 @@ QList<int> ThingDiscovery::discoverThingsByInterface(const QString &interfaceNam
 
     for (int i = 0; i < m_engine->thingManager()->thingClasses()->rowCount(); i++) {
         ThingClass *thingClass = m_engine->thingManager()->thingClasses()->get(i);
-        if (!thingClass->interfaces().contains(interfaceName)) {
+        if (!thingClass->interfaces().contains(interfaceName) && !thingClass->providedInterfaces().contains(interfaceName)) {
+            continue;
+        }
+        if (!thingClass->createMethods().contains("CreateMethodDiscovery")) {
             continue;
         }
         pendingCommands.append(discoverThingsInternal(thingClass->id()));

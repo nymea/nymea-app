@@ -46,13 +46,16 @@ NymeaSwipeDelegate {
     readonly property Interface iface: eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null
     readonly property EventType eventType: thingClass ? thingClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
                                                  : iface ? iface.eventTypes.findByName(eventDescriptor.interfaceEvent) : null
+    readonly property StateType stateType: thingClass ? thingClass.stateTypes.getStateType(eventDescriptor.eventTypeId)
+                                                      : iface ? iface.stateTypes.findByName(eventDescriptor.interfaceEvent) : null
+    readonly property var actualEventType: eventType || stateType
 
     signal removeEventDescriptor()
 
     onDeleteClicked: root.removeEventDescriptor()
 
     iconName: root.thing ? "../images/event.svg" : "../images/event-interface.svg"
-    text: qsTr("%1 - %2").arg(root.thing ? root.thing.name : root.iface.displayName).arg(root.eventType.displayName)
+    text: "%1 - %2".arg(root.thing ? root.thing.name : root.iface.displayName).arg(root.actualEventType.displayName)
     subText: {
         var ret = qsTr("anytime");
         for (var i = 0; i < root.eventDescriptor.paramDescriptors.count; i++) {
@@ -81,9 +84,10 @@ NymeaSwipeDelegate {
                 operatorString = " ? ";
             }
 
-            var paramType = paramDescriptor.paramName
-                    ? root.eventType.paramTypes.findByName(paramDescriptor.paramName)
-                    : root.eventType.paramTypes.getParamType(paramDescriptor.paramTypeId)
+            print("**", root.eventType, root.stateType, paramDescriptor.paramName, paramDescriptor.paramTypeId)
+            var paramType = root.eventType ?
+                        (paramDescriptor.paramName ? root.eventType.paramTypes.findByName(paramDescriptor.paramName) : root.eventType.paramTypes.getParamType(paramDescriptor.paramTypeId) )
+                      : root.stateType
 
             if (i === 0) {
                 // TRANSLATORS: example: "only if temperature > 5"

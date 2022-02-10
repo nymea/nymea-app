@@ -119,7 +119,7 @@ Page {
                 print("new checked state;", newCache[thingId])
             }
 
-            delegate: NymeaSwipeDelegate {
+            delegate: NymeaItemDelegate {
                 width: parent.width
                 text: root.selectInterface ? model.displayName : model.name
                 iconName: root.selectInterface ? app.interfaceToIcon(model.name) : app.interfacesToIcon(model.interfaces)

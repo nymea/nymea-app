@@ -298,6 +298,7 @@ Page {
     Flickable {
         anchors.fill: parent
         contentHeight: contentColumn.implicitHeight + app.margins
+        clip: true
 
         ColumnLayout {
             id: contentColumn
@@ -554,7 +555,7 @@ Page {
                 wrapMode: Text.WordWrap
                 font.pixelSize: app.smallFont
                 font.italic: true
-                text: qsTr("Examples:\n• While I'm at home...\n• When the temperature is below 0...\n• Between 9 am and 6 pm...")
+                text: qsTr("Examples:\n• While I'm at home...\n• While the TV is on...\n• Between 9 am and 6 pm...")
                 visible: root.isEmpty
             }
 
@@ -750,7 +751,7 @@ Page {
                             minimumJsonRpcVersion: "1.0"
                         }
                     }
-                    delegate: NymeaSwipeDelegate {
+                    delegate: NymeaItemDelegate {
                         Layout.fillWidth: true
                         Layout.preferredHeight: Style.largeDelegateHeight
                         iconName: model.iconName
@@ -801,7 +802,7 @@ Page {
                             minimumJsonRpcVersion: "1.0"
                         }
                     }
-                    delegate: NymeaSwipeDelegate {
+                    delegate: NymeaItemDelegate {
                         Layout.fillWidth: true
                         Layout.preferredHeight: Style.largeDelegateHeight
                         iconName: model.iconName

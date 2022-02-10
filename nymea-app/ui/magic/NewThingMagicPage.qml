@@ -378,13 +378,29 @@ Page {
         function createEventDescriptor(rule, ruleTemplate, thing, eventDescriptorTemplate) {
             var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
             eventDescriptor.thingId = thing.id;
-            eventDescriptor.eventTypeId = thing.thingClass.eventTypes.findByName(eventDescriptorTemplate.eventName).id
+            var eventType = thing.thingClass.eventTypes.findByName(eventDescriptorTemplate.eventName)
+            var stateType = thing.thingClass.stateTypes.findByName(eventDescriptorTemplate.eventName)
             var needsParams = false;
+            print("Creating event descriptor from template:", eventDescriptorTemplate.interfaceName, eventDescriptorTemplate.eventName, thing.name, eventType, stateType)
+            if (eventType) {
+                eventDescriptor.eventTypeId = eventType.id
 
-            var eventType = thing.thingClass.eventTypes.getEventType(eventDescriptor.eventTypeId);
-            for (var j = 0; j < eventType.paramTypes.count; j++) {
-                var paramType = eventType.paramTypes.get(j);
-                var paramDescriptorTemplate = eventDescriptorTemplate.paramDescriptors.getParamDescriptorByName(paramType.name)
+                for (var j = 0; j < eventType.paramTypes.count; j++) {
+                    var paramType = eventType.paramTypes.get(j);
+                    var paramDescriptorTemplate = eventDescriptorTemplate.paramDescriptors.getParamDescriptorByName(paramType.name)
+                    // has the template a value for this? If so, set it, otherwise flag as needsParams
+                    print("template:", paramType.id, eventDescriptorTemplate.paramDescriptors.count)
+                    if (paramDescriptorTemplate && paramDescriptorTemplate.value !== undefined) {
+                        print("filling in param descriptor:", paramDescriptorTemplate.value)
+                        eventDescriptor.paramDescriptors.setParamDescriptorByName(paramDescriptorTemplate.paramName, paramDescriptorTemplate.value, paramDescriptorTemplate.operatorType);
+                    } else {
+                        needsParams = true;
+                    }
+                }
+            } else if (stateType) {
+                eventDescriptor.eventTypeId = stateType.id
+                var paramType = stateType.id
+                var paramDescriptorTemplate = eventDescriptorTemplate.paramDescriptors.getParamDescriptorByName(stateType.name)
                 // has the template a value for this? If so, set it, otherwise flag as needsParams
                 print("template:", paramType.id, eventDescriptorTemplate.paramDescriptors.count)
                 if (paramDescriptorTemplate && paramDescriptorTemplate.value !== undefined) {

@@ -117,15 +117,14 @@ Page {
 
                     ThinDivider { Layout.columnSpan: parent.columns }
 
-                    ParamDelegate {
+                    StateDelegate {
                         id: staticValueParamDelegate
                         Layout.fillWidth: true
                         hoverEnabled: false
                         padding: 0
-                        paramType: root.thing.thingClass.eventTypes.getEventType(root.stateType.id).paramTypes.getParamType(root.stateType.id)
+                        stateType: root.stateType
                         enabled: staticValueRadioButton.checked
                         nameVisible: false
-                        value: root.stateType.defaultValue
                         visible: staticValueRadioButton.checked
                         placeholderText: qsTr("Insert value here")
                     }
