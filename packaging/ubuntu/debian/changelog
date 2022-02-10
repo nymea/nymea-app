@@ -1,3 +1,10 @@
+nymea-app (1.0.430) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update rule editor to not use generated events for states any more
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 11 Feb 2022 00:57:54 +0100
+
 nymea-app (1.0.429) bionic; urgency=medium
 
   [ Michael Zanetti ]
