@@ -147,6 +147,6 @@ Item {
         return (permissions & requestedScope) === requestedScope;
     }
 
-    property bool inhibitChartsAnimation: ["SM-G950x", "SM-G955x", "SM-G892A"].indexOf(PlatformHelper.deviceModel) >= 0
+    property bool inhibitChartsAnimation: PlatformHelper.deviceModel.startsWith("SM-G950") // Samsung S8 has a buggy GPU driver :(
     property int chartsAnimationOptions: !inhibitChartsAnimation ? ChartView.SeriesAnimations : ChartView.NoAnimation
 }

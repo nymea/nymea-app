@@ -60,7 +60,7 @@ MainViewBase {
         engine: _engine
     }
 
-    property var thingColors: [Style.blue, Style.green, Style.red, Style.yellow, Style.purple, Style.yellow, Style.lime]
+    property var thingColors: [Style.blue, Style.green, Style.red, Style.yellow, Style.purple, Style.orange, Style.lime]
 
 
     ThingsProxy {
@@ -88,12 +88,6 @@ MainViewBase {
         id: producers
         engine: _engine
         shownInterfaces: ["smartmeterproducer"]
-    }
-
-    ThingsProxy {
-        id: batteries
-        engine: _engine
-        shownInterfaces: ["energystorage"]
     }
 
     Flickable {
