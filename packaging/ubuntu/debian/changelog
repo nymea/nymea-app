@@ -1,3 +1,11 @@
+nymea-app (1.0.428) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow overriding the macOS signing ID
+  * Fix re-pair thing call
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 10 Feb 2022 10:21:30 +0100
+
 nymea-app (1.0.427) bionic; urgency=medium
 
   [ Michael Zanetti ]
