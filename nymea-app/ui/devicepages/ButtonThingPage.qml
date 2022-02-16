@@ -38,13 +38,19 @@ import "../customviews"
 ThingPageBase {
     id: root
 
+    readonly property bool isVirtualButton: thing.thingClassId.toString().indexOf("820b2f2d-0d92-48c8-8fd4-f94ce8fc4103") >= 0
+    readonly property bool isVirtualSwitch: thing.thingClassId.toString().indexOf("8ea0a168-74ff-4445-8c13-74aab195af4e") >= 0
+    readonly property bool isVirtual: isVirtualButton || isVirtualSwitch
+
+    readonly property State powerState: thing ? thing.stateByName("power") : null
+
     EmptyViewPlaceholder {
         anchors { left: parent.left; right: parent.right; margins: app.margins }
         anchors.verticalCenter: parent.verticalCenter
 
         title: qsTr("This switch has not been used yet.")
         text: qsTr("Press a button on the switch to see logs appearing here.")
-        visible: !logsModel.busy && logsModel.count === 0
+        visible: !logsModel.busy && logsModel.count === 0 && !root.isVirtual
         buttonVisible: false
         imageSource: "../images/system-shutdown.svg"
     }
@@ -52,6 +58,7 @@ ThingPageBase {
     GenericTypeLogView {
         id: logView
         anchors.fill: parent
+        visible: !root.isVirtual
 
         logsModel: LogsModel {
             id: logsModel
@@ -85,6 +92,29 @@ ThingPageBase {
             }
             var rulePage = pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing});
             rulePage.addRule(rule);
+        }
+    }
+
+    CircleBackground {
+        id: background
+        anchors.fill: parent
+        anchors.margins: Style.hugeMargins
+        iconSource: "system-shutdown"
+        visible: root.isVirtual
+        onColor: Style.accentColor
+        on: root.isVirtualButton ? pressAnimationTimer.running : root.powerState && root.powerState.value === true
+        onClicked: {
+            PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
+            if (root.isVirtualButton) {
+                root.thing.executeAction("press", [])
+                pressAnimationTimer.start()
+            } else {
+                root.thing.executeAction("power", [{paramName: "power", value: !background.on}])
+            }
+        }
+        Timer {
+            id: pressAnimationTimer
+            interval: Style.animationDuration
         }
     }
 }
