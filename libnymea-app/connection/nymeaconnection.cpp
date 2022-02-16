@@ -132,6 +132,8 @@ void NymeaConnection::setCurrentHost(NymeaHost *host)
         return;
     }
 
+    m_preferredConnection = nullptr;
+
     if (m_currentTransport) {
         m_currentTransport = nullptr;
         emit currentConnectionChanged();
@@ -459,6 +461,10 @@ void NymeaConnection::connectToHost(NymeaHost *nymeaHost, Connection *connection
         if (nymeaHost->connections()->find(connection->url())) {
             qCInfo(dcNymeaConnection()) << "Setting preferred connection to" << connection->url();
             m_preferredConnection = connection;
+            // Unset the preferred connection when it is removed
+            connect(connection, &Connection::destroyed, this, [=](){
+                m_preferredConnection = nullptr;
+            });
         } else {
             qCWarning(dcNymeaConnection()) << "Connection" << connection << "is not a candidate for" << nymeaHost->name() << "Not setting preferred connection.";
         }
