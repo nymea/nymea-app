@@ -49,7 +49,7 @@ public:
     Q_ENUM(SampleRate)
 
     explicit EnergyLogs(QObject *parent = nullptr);
-    ~EnergyLogs();
+    virtual ~EnergyLogs();
 
     Engine *engine() const;
     void setEngine(Engine *engine);
