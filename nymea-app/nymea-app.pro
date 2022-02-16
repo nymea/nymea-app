@@ -177,6 +177,11 @@ ios: {
     IOS_ENTITLEMENTS.name = CODE_SIGN_ENTITLEMENTS
     IOS_ENTITLEMENTS.value = $$files($${IOS_PACKAGE_DIR}/app.entitlements)
     QMAKE_MAC_XCODE_SETTINGS += IOS_ENTITLEMENTS
+
+    # Enable generating debug symbols in generated xcode project
+    Q_GENERATE_DEBUGGING_SYMBOLS.name = GCC_GENERATE_DEBUGGING_SYMBOLS
+    Q_GENERATE_DEBUGGING_SYMBOLS.value = YES
+    QMAKE_MAC_XCODE_SETTINGS += Q_GENERATE_DEBUGGING_SYMBOLS
 }
 
 ubports: {
