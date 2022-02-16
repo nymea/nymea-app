@@ -1,3 +1,11 @@
+nymea-app (1.0.431) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Clean up preferred connection if it vanishes
+  * Add support for the virtual button/switch thing classes
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 16 Feb 2022 14:40:47 +0100
+
 nymea-app (1.0.430) bionic; urgency=medium
 
   [ Michael Zanetti ]
