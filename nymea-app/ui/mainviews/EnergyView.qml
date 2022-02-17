@@ -186,7 +186,7 @@ MainViewBase {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
         visible: !engine.thingManager.fetchingData && (!engine.jsonRpcClient.experiences.hasOwnProperty("Energy") || engine.jsonRpcClient.experiences["Energy"] <= "0.1")
-        title: qsTr("Energy plugin not installed installed.")
+        title: qsTr("Energy plugin not installed.")
         text: qsTr("This %1 system does not have the energy extensions installed.").arg(Configuration.systemName)
         imageSource: "../images/smartmeter.svg"
         buttonText: qsTr("Install energy plugin")
