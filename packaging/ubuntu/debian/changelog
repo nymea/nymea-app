@@ -1,3 +1,14 @@
+nymea-app (1.0.432) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Handle EnterPin setup method
+
+  [ Michael Zanetti ]
+  * Fix a crash in the charts when adding/removing things
+  * Fix a potential crash in Energy logs when disconnecting older setups
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 18 Feb 2022 12:13:58 +0100
+
 nymea-app (1.0.431) bionic; urgency=medium
 
   [ Michael Zanetti ]
