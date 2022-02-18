@@ -48,15 +48,16 @@ void EnergyLogs::setEngine(Engine *engine)
         if (!m_engine) {
             return;
         }
+
+        connect(engine, &Engine::destroyed, this, [=](){
+            if (engine == m_engine) {
+                m_engine = nullptr;
+                emit engineChanged();
+            }
+        });
+
         if (m_engine->jsonRpcClient()->experiences().value("Energy").toString() >= "1.0") {
             m_engine->jsonRpcClient()->registerNotificationHandler(this, "Energy", "notificationReceivedInternal");
-
-            connect(engine, &Engine::destroyed, this, [=](){
-                if (engine == m_engine) {
-                    m_engine = nullptr;
-                    emit engineChanged();
-                }
-            });
 
             if (m_ready && !m_loadingInhibited) {
                 fetchLogs();
