@@ -76,6 +76,7 @@ ThingPageBase {
             Layout.margins: Style.bigMargins
             size: Style.largeIconSize
             imageSource: "thermostat/heating"
+            color: Style.white
             backgroundColor: app.interfaceToColor("heating")
             visible: root.boostState
             busy: actionQueue.pendingValue ? actionQueue.pendingValue : (root.boostState && root.boostState.value === true)

@@ -56,7 +56,10 @@ ChartView {
     }
 
     function updateConsumers() {
+        root.animationOptions = ChartView.NoAnimation
+        print("clearing consumers pie chart", consumersBalanceSeries.count)
         consumersBalanceSeries.clear();
+        print("cleared consumers pie chart")
 
         if (engine.thingManager.fetchingData) {
             return;
@@ -81,6 +84,10 @@ ChartView {
         d.unknownSlice.color = Style.gray
 
         d.thingsColorMap = colorMap
+
+        root.animationOptions = Qt.binding(function() {
+            return Qt.application.active ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
+        })
     }
 
     PieSeries {
