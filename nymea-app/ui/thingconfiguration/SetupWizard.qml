@@ -176,6 +176,7 @@ Page {
             switch (setupMethod) {
             case "SetupMethodPushButton":
             case "SetupMethodDisplayPin":
+            case "SetupMethodEnterPin":
             case "SetupMethodUserAndPassword":
                 internalPageStack.push(pairingPageComponent, {text: displayMessage, setupMethod: setupMethod})
                 break;
@@ -467,7 +468,7 @@ Page {
                 id: pinTextField
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-                visible: pairingPage.setupMethod === "SetupMethodDisplayPin" || pairingPage.setupMethod === "SetupMethodUserAndPassword"
+                visible: pairingPage.setupMethod === "SetupMethodDisplayPin" || pairingPage.setupMethod === "SetupMethodEnterPin" || pairingPage.setupMethod === "SetupMethodUserAndPassword"
                 signup: false
             }
 
