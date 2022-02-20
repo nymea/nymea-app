@@ -1,3 +1,13 @@
+nymea-app (1.0.434) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make it work with Qt 5.9 again
+  * Fix initializing event descriptor params in rules wizard
+  * Fix discovery wizard if search results return instantly
+  * Update ZigbeeNodesProxy filter when a device changes reachable state
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 21 Feb 2022 00:56:06 +0100
+
 nymea-app (1.0.433) bionic; urgency=medium
 
   [ Michael Zanetti ]
