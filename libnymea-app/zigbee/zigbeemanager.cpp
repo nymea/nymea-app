@@ -78,6 +78,11 @@ Engine *ZigbeeManager::engine() const
     return m_engine;
 }
 
+bool ZigbeeManager::fetchingData() const
+{
+    return m_fetchingData;
+}
+
 QStringList ZigbeeManager::availableBackends() const
 {
     return m_availableBackends;
@@ -99,7 +104,6 @@ int ZigbeeManager::addNetwork(const QString &serialPort, uint baudRate, const QS
     params.insert("serialPort", serialPort);
     params.insert("baudRate", baudRate);
     params.insert("backend", backend);
-    qWarning() << "************ channel mask!" << channels;
     if (m_engine->jsonRpcClient()->ensureServerVersion("5.8")) {
         params.insert("channelMask", static_cast<uint>(channels));
     }
@@ -148,6 +152,9 @@ int ZigbeeManager::removeNode(const QUuid &networkUuid, const QString &ieeeAddre
 
 void ZigbeeManager::init()
 {
+    m_fetchingData = true;
+    emit fetchingDataChanged();
+
     m_adapters->clear();
     m_networks->clear();
     m_availableBackends.clear();
@@ -193,6 +200,10 @@ void ZigbeeManager::getNetworksResponse(int commandId, const QVariantMap &params
 
         // Get nodes from this network
         getNodes(network->networkUuid());
+
+        // In theory this should only change after nodes have been fetched... but this will do for now...
+        m_fetchingData = false;
+        emit fetchingDataChanged();
     }
 }
 

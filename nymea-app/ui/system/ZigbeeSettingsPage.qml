@@ -61,12 +61,20 @@ SettingsPageBase {
         engine: _engine
     }
 
+
     Item {
         Layout.fillWidth: true
         Layout.preferredHeight: root.height
-        visible: zigbeeManager.networks.count == 0
+        visible: zigbeeManager.fetchingData || zigbeeManager.networks.count == 0
+
+        BusyIndicator {
+            anchors.centerIn: parent
+            visible: zigbeeManager.fetchingData
+            running: visible
+        }
 
         EmptyViewPlaceholder {
+            visible: !zigbeeManager.fetchingData && zigbeeManager.networks.count == 0
             width: parent.width - app.margins * 2
             anchors.centerIn: parent
             title: qsTr("ZigBee")
@@ -173,8 +181,8 @@ SettingsPageBase {
                     Label {
                         Layout.fillWidth: true
                         text: offlineNodes.count == 0
-                              ? qsTr("%n device(s)", "", networkDelegate.network.nodes.count)
-                              : qsTr("%n device(s) (%1 disconnected)", "", networkDelegate.network.nodes.count).arg(offlineNodes.count)
+                              ? qsTr("%n device(s)", "", Math.max(0, networkDelegate.network.nodes.count - 1)) // -1 for coordinator node
+                              : qsTr("%n device(s) (%1 disconnected)", "", Math.max(networkDelegate.network.nodes.count - 1)).arg(offlineNodes.count)
 
                         ZigbeeNodesProxy {
                             id: offlineNodes
@@ -183,7 +191,6 @@ SettingsPageBase {
                             showOnline: false
                         }
                     }
-
                 }
             }
         }
