@@ -1,3 +1,10 @@
+nymea-app (1.0.433) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix connecting via preferred connection
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 20 Feb 2022 16:15:53 +0100
+
 nymea-app (1.0.432) bionic; urgency=medium
 
   [ Simon Stürz ]
