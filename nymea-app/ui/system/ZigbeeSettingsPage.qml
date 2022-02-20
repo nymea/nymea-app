@@ -61,12 +61,20 @@ SettingsPageBase {
         engine: _engine
     }
 
+
     Item {
         Layout.fillWidth: true
         Layout.preferredHeight: root.height
-        visible: zigbeeManager.networks.count == 0
+        visible: zigbeeManager.fetchingData || zigbeeManager.networks.count == 0
+
+        BusyIndicator {
+            anchors.centerIn: parent
+            visible: zigbeeManager.fetchingData
+            running: visible
+        }
 
         EmptyViewPlaceholder {
+            visible: !zigbeeManager.fetchingData && zigbeeManager.networks.count == 0
             width: parent.width - app.margins * 2
             anchors.centerIn: parent
             title: qsTr("ZigBee")

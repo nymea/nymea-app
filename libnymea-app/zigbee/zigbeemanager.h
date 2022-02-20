@@ -46,6 +46,7 @@ class ZigbeeManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
+    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
 
     Q_PROPERTY(QStringList availableBackends READ availableBackends NOTIFY availableBackendsChanged)
     Q_PROPERTY(ZigbeeAdapters *adapters READ adapters CONSTANT)
@@ -81,6 +82,8 @@ public:
     void setEngine(Engine *engine);
     Engine *engine() const;
 
+    bool fetchingData() const;
+
     QStringList availableBackends() const;
     ZigbeeAdapters *adapters() const;
     ZigbeeNetworks *networks() const;
@@ -95,6 +98,7 @@ public:
 
 signals:
     void engineChanged();
+    void fetchingDataChanged();
     void availableBackendsChanged();
     void addNetworkReply(int commandId, const QString &error, const QUuid &networkUuid);
     void removeNodeReply(int commandId, const QString &error);
@@ -118,6 +122,7 @@ private:
 
 private:
     Engine* m_engine = nullptr;
+    bool m_fetchingData = false;
     QStringList m_availableBackends;
     ZigbeeAdapters *m_adapters = nullptr;
     ZigbeeNetworks *m_networks = nullptr;
