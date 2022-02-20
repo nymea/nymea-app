@@ -65,6 +65,12 @@ void ZigbeeNodesProxy::setZigbeeNodes(ZigbeeNodes *zigbeeNodes)
             m_newNodes.insert(m_zigbeeNodes->get(i), QDateTime::currentDateTime());
         }
     });
+    connect(m_zigbeeNodes, &ZigbeeNodes::dataChanged, this, [this](const QModelIndex &/*topLeft*/, const QModelIndex &/*bottomRight*/, const QVector<int> &roles = QVector<int>()){
+        if (roles.contains(ZigbeeNodes::RoleReachable) && (!m_showOffline || !m_showOnline)) {
+            invalidateFilter();
+            emit countChanged();
+        }
+    });
 
     setSourceModel(m_zigbeeNodes);
 
