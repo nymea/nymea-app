@@ -77,7 +77,7 @@ ColumnLayout {
             placeholderText: root.signup ? qsTr("Pick a password") : qsTr("Password")
 
             error: root.showErrors && !root.isValidPassword
-            palette.toolTipBase: Style.tooltipBackgroundColor
+//            palette.toolTipBase: Style.tooltipBackgroundColor
             ToolTip.visible: root.signup && focus && !root.isValidPassword
             ToolTip.delay: 1000
             ToolTip.onVisibleChanged: print("Tooltip visible changed:", ToolTip.visible, focus, root.isValidPassword)

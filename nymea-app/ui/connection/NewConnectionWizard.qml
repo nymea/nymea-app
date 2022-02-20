@@ -260,6 +260,7 @@ WizardPageBase {
                                 callback: function() {
                                     var nymeaHost = hostsProxy.get(index);
                                     var connectionInfoDialog = Qt.createComponent("/ui/components/ConnectionInfoDialog.qml")
+                                    print("**", connectionInfoDialog.errorString())
                                     var popup = connectionInfoDialog.createObject(app,{nymeaHost: nymeaHost})
                                     popup.open()
                                 }
