@@ -132,7 +132,20 @@ void NymeaConnection::setCurrentHost(NymeaHost *host)
         return;
     }
 
-    m_preferredConnection = nullptr;
+    if (m_preferredConnection) {
+        if (host->connections()->find(m_preferredConnection->url())) {
+            qCInfo(dcNymeaConnection()) << "Setting preferred connection to" << m_preferredConnection->url();
+            // Unset the preferred connection when it is removed
+            connect(m_preferredConnection, &Connection::destroyed, this, [=](){
+                qCWarning(dcNymeaConnection()) << "Unsetting preferred connection as it was destroyed.";
+                m_preferredConnection = nullptr;
+            });
+        } else {
+            qCWarning(dcNymeaConnection()) << "Connection" << m_preferredConnection << "is not a candidate for" << host->name() << "Not setting preferred connection.";
+            m_preferredConnection = nullptr;
+        }
+    }
+
 
     if (m_currentTransport) {
         m_currentTransport = nullptr;
@@ -456,19 +469,7 @@ void NymeaConnection::connectToHost(NymeaHost *nymeaHost, Connection *connection
         return;
     }
 
-    m_preferredConnection = nullptr;
-    if (connection) {
-        if (nymeaHost->connections()->find(connection->url())) {
-            qCInfo(dcNymeaConnection()) << "Setting preferred connection to" << connection->url();
-            m_preferredConnection = connection;
-            // Unset the preferred connection when it is removed
-            connect(connection, &Connection::destroyed, this, [=](){
-                m_preferredConnection = nullptr;
-            });
-        } else {
-            qCWarning(dcNymeaConnection()) << "Connection" << connection << "is not a candidate for" << nymeaHost->name() << "Not setting preferred connection.";
-        }
-    }
+    m_preferredConnection = connection;
 
     setCurrentHost(nymeaHost);
 }
