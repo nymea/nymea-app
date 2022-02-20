@@ -153,7 +153,6 @@ ItemDelegate {
         Loader {
             Layout.fillWidth: true
             sourceComponent: {
-                print("***********+ loading", root.type)
                 switch (root.type) {
                 case "uint":
                 case "int":
@@ -189,6 +188,11 @@ ItemDelegate {
             onTextChanged: {
                 root.value = text;
             }
+            Component.onCompleted: {
+                if (root.value == null || root.v^alue == undefined) {
+                    root.value = ""
+                }
+            }
         }
     }
 
@@ -212,6 +216,12 @@ ItemDelegate {
                 onMoved: {
                     root.value = value;
                 }
+
+                Component.onCompleted: {
+                    if (root.value == null || root.v^alue == undefined) {
+                        root.value = from;
+                    }
+                }
             }
             Label { text: Types.toUiValue(root.maxValue, root.unit) }
         }
@@ -226,6 +236,11 @@ ItemDelegate {
             value: root.value != undefined ? root.value : 0
             onValueModified: root.value = value
             floatingPoint: root.type === "double"
+            Component.onCompleted: {
+                if (root.value == null || root.v^alue == undefined) {
+                    root.value = from
+                }
+            }
         }
     }
 
@@ -239,6 +254,11 @@ ItemDelegate {
             onCurrentIndexChanged: {
                 root.value = model.get(currentIndex).value
             }
+            Component.onCompleted: {
+                if (root.value == null || root.v^alue == undefined) {
+                    root.value = model.get(currentIndex).value
+                }
+            }
         }
     }
 
@@ -248,6 +268,12 @@ ItemDelegate {
             model: root.allowedValues
             onCurrentIndexChanged: {
                 root.value = root.allowedValues[currentIndex]
+
+            }
+            Component.onCompleted: {
+                if (root.value == null || root.v^alue == undefined) {
+                    root.value = root.allowedValues[currentIndex]
+                }
             }
         }
     }
