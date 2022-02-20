@@ -116,8 +116,8 @@ Page {
                 internalPageStack.push(discoveryParamsPage)
             } else {
                 print("Starting discovery...")
-                discovery.discoverThings(thingClass.id)
                 internalPageStack.push(discoveryPage, {thingClass: thingClass})
+                discovery.discoverThings(thingClass.id)
             }
         } else if (root.thingClass.createMethods.indexOf("CreateMethodUser") !== -1) {
             print("CreateMethodUser")
