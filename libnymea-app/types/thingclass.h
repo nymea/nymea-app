@@ -49,6 +49,7 @@ class ThingClass : public QObject
     Q_PROPERTY(QString displayName READ displayName CONSTANT)
     Q_PROPERTY(QUuid id READ id CONSTANT)
     Q_PROPERTY(QUuid vendorId READ vendorId CONSTANT)
+    Q_PROPERTY(DiscoveryType discoveryTye READ discoveryType CONSTANT)
     Q_PROPERTY(QStringList createMethods READ createMethods CONSTANT)
     Q_PROPERTY(SetupMethod setupMethod READ setupMethod CONSTANT)
     Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
@@ -64,6 +65,11 @@ class ThingClass : public QObject
     Q_PROPERTY(ActionTypes *browserItemActionTypes READ browserItemActionTypes NOTIFY browserItemActionTypesChanged)
 
 public:
+    enum DiscoveryType {
+        DiscoveryTypeWeak,
+        DiscoveryTypePrecise
+    };
+    Q_ENUM(DiscoveryType)
 
     enum SetupMethod {
         SetupMethodJustAdd,
@@ -94,6 +100,9 @@ public:
 
     QStringList createMethods() const;
     void setCreateMethods(const QStringList &createMethods);
+
+    DiscoveryType discoveryType() const;
+    void setDiscoveryType(DiscoveryType discoveryType);
 
     SetupMethod setupMethod() const;
     void setSetupMethod(SetupMethod setupMethod);
@@ -148,6 +157,7 @@ private:
     QString m_name;
     QString m_displayName;
     QStringList m_createMethods;
+    DiscoveryType m_discoveryType = DiscoveryTypePrecise;
     SetupMethod m_setupMethod;
     QStringList m_interfaces;
     QStringList m_providedInterfaces;

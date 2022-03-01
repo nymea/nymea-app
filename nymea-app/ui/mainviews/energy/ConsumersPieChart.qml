@@ -71,8 +71,8 @@ ChartView {
         for (var i = 0; i < consumers.count; i++) {
             var consumer = consumers.get(i)
             colorMap[consumer] = root.colors[i % root.colors.length]
-            var currentPowerState = consumer.stateByName("currentPower")
-            var slice = consumersBalanceSeries.append(consumer.name, currentPowerState.value)
+            let currentPowerState = consumer.stateByName("currentPower")
+            let slice = consumersBalanceSeries.append(consumer.name, currentPowerState.value)
             slice.color = root.colors[i % root.colors.length]
             currentPowerState.valueChanged.connect(function() {
                 slice.value = currentPowerState.value

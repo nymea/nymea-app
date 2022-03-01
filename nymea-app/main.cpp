@@ -70,11 +70,7 @@ int main(int argc, char *argv[])
 
     // qt.qml.connections warnings are disabled since the replace only exists
     // in Qt 5.12. Remove that once 5.12 is the minimum supported version.
-    QLoggingCategory::setFilterRules("RemoteProxyClientJsonRpcTraffic.debug=false\n"
-                                     "RemoteProxyClientJsonRpc.debug=false\n"
-                                     "RemoteProxyClientWebSocket.debug=false\n"
-                                     "RemoteProxyClientConnection.debug=false\n"
-                                     "RemoteProxyClientConnectionTraffic.debug=false\n"
+    QLoggingCategory::setFilterRules("*.debug=false\n"
                                      "qt.qml.connections.warning=false\n"
                                      );
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
