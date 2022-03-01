@@ -97,6 +97,16 @@ void ThingClass::setCreateMethods(const QStringList &createMethods)
     m_createMethods = createMethods;
 }
 
+ThingClass::DiscoveryType ThingClass::discoveryType() const
+{
+    return m_discoveryType;
+}
+
+void ThingClass::setDiscoveryType(ThingClass::DiscoveryType discoveryType)
+{
+    m_discoveryType = discoveryType;
+}
+
 ThingClass::SetupMethod ThingClass::setupMethod() const
 {
     return m_setupMethod;

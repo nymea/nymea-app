@@ -244,6 +244,7 @@ void ThingManager::getVendorsResponse(int /*commandId*/, const QVariantMap &para
 
 void ThingManager::getThingClassesResponse(int /*commandId*/, const QVariantMap &params)
 {
+    qCDebug(dcThingManager) << "GetThingClasses response:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
     if (params.keys().contains("thingClasses")) {
         QVariantList thingClassList = params.value("thingClasses").toList();
         foreach (QVariant thingClassVariant, thingClassList) {
@@ -774,6 +775,8 @@ ThingClass *ThingManager::unpackThingClass(const QVariantMap &thingClassMap)
         createMethods.append(method.toString());
     }
     thingClass->setCreateMethods(createMethods);
+    QMetaEnum metaEnum = QMetaEnum::fromType<ThingClass::DiscoveryType>();
+    thingClass->setDiscoveryType(static_cast<ThingClass::DiscoveryType>(metaEnum.keyToValue(thingClassMap.value("discoveryType").toByteArray())));
     thingClass->setSetupMethod(stringToSetupMethod(thingClassMap.value("setupMethod").toString()));
     thingClass->setInterfaces(thingClassMap.value("interfaces").toStringList());
     thingClass->setProvidedInterfaces(thingClassMap.value("providedInterfaces").toStringList());

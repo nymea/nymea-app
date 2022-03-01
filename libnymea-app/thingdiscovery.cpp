@@ -119,6 +119,9 @@ QList<int> ThingDiscovery::discoverThingsByInterface(const QString &interfaceNam
         if (!thingClass->interfaces().contains(interfaceName) && !thingClass->providedInterfaces().contains(interfaceName)) {
             continue;
         }
+        if (thingClass->discoveryType() == ThingClass::DiscoveryTypeWeak) {
+            continue;
+        }
         if (!thingClass->createMethods().contains("CreateMethodDiscovery")) {
             continue;
         }
@@ -198,7 +201,7 @@ void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &pa
                 Param* p = new Param(paramVariant.toMap().value("paramTypeId").toString(), paramVariant.toMap().value("value"));
                 descriptor->params()->addParam(p);
             }
-            qCDebug(dcThingManager()) << "Found thing. Descriptor:" << descriptor->name() << descriptor->id();
+            qCInfo(dcThingManager()) << "Found thing. Descriptor:" << descriptor->name() << descriptor->id();
             m_foundThings.append(descriptor);
             endInsertRows();
             emit countChanged();
