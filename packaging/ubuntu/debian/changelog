@@ -1,3 +1,10 @@
+nymea-app (1.0.435) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for discoveryType
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 01 Mar 2022 19:28:54 +0100
+
 nymea-app (1.0.434) bionic; urgency=medium
 
   [ Michael Zanetti ]
