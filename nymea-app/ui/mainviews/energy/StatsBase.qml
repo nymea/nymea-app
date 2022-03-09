@@ -56,6 +56,21 @@ Item {
                                }
                             })
 
+    function calculateSampleStart(sampleEnd, sampleRate, sampleCount) {
+        if (sampleCount === undefined) {
+            sampleCount = 1
+        }
+        var sampleStart = new Date(sampleEnd)
+        if (sampleRate === EnergyLogs.SampleRate1Month) {
+            sampleStart.setMonth(sampleEnd.getMonth() - sampleCount)
+        } else if (sampleRate === EnergyLogs.SampleRate1Year) {
+            sampleStart.setFullYear(sampleEnd.getFullYear() - sampleCount)
+        } else {
+            sampleStart.setTime(sampleEnd.getTime() - (sampleRate * 60000 * sampleCount))
+        }
+        return sampleStart
+    }
+
     function minutesStart() {
         var d = new Date();
         d.setMinutes(d.getMinutes() - minutesCount + 1, 0, 0)

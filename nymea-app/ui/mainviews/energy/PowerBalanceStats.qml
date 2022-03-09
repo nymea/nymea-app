@@ -143,7 +143,7 @@ StatsBase {
                             }
                             labelTime = entry.timestamp
                         } else {
-                            labelTime = new Date(newestLogTimestamp.getTime() - config.sampleRate * i * 60000)
+                            labelTime = calculateSampleStart(newestLogTimestamp, config.sampleRate, i)
                         }
 
 //                        print("Adding entry:", labelTime, graphEntry.consumption, config.toLabel(labelTime))
