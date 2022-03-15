@@ -521,6 +521,7 @@ void JsonRpcClient::setNotificationsEnabled()
     }
     JsonRpcReply *reply = createReply("JSONRPC.SetNotificationStatus", params, this, "setNotificationsEnabledResponse");
     m_replies.insert(reply->commandId(), reply);
+    qCDebug(dcJsonRpc) << "Setting notification status";
     sendRequest(reply->requestMap());
 }
 
