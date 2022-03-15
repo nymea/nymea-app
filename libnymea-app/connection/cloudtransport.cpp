@@ -38,6 +38,9 @@
 #include <QPointer>
 #include <QCoreApplication>
 
+#include <QLoggingCategory>
+Q_DECLARE_LOGGING_CATEGORY(dcCloud)
+
 using namespace remoteproxyclient;
 
 CloudTransport::CloudTransport(AWSClient *awsClient, QObject *parent):
@@ -47,27 +50,27 @@ CloudTransport::CloudTransport(AWSClient *awsClient, QObject *parent):
     m_remoteproxyConnection = new RemoteProxyConnection(QUuid::createUuid(), qApp->applicationName(), this);
 
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::remoteConnectionEstablished, this,[this]() {
-        qDebug() << "CloudTransport: Remote connection established.";
+        qCDebug(dcCloud) << "CloudTransport: Remote connection established.";
         emit connected();
     });
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::disconnected, this,[this]() {
-        qDebug() << "CloudTransport: Disconnected.";
+        qCDebug(dcCloud) << "CloudTransport: Disconnected.";
         emit disconnected();
     });
 
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::stateChanged, this,[](RemoteProxyConnection::State state) {
-        qDebug() << "Proxy state changed:" << state;
+        qCDebug(dcCloud) << "Proxy state changed:" << state;
     });
 
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::ready, this,[this]() {
-        qDebug() << "Proxy ready. Authenticating channel.";
+        qCDebug(dcCloud) << "Proxy ready. Authenticating channel.";
         m_remoteproxyConnection->authenticate(m_awsClient->idToken(), m_nonce);
     });
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::dataReady, this, [this](const QByteArray &data) {
         emit dataReady(data);
     });
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::errorOccurred, this, [] (QAbstractSocket::SocketError error) {
-        qDebug() << "Remote proxy Error:" << error;
+        qCDebug(dcCloud) << "Remote proxy Error:" << error;
 //        emit NymeaTransportInterface::error(QAbstractSocket::ConnectionRefusedError);
     });
     QObject::connect(m_remoteproxyConnection, &RemoteProxyConnection::sslErrors, this, &CloudTransport::sslErrors);
@@ -80,16 +83,16 @@ bool CloudTransport::connect(const QUrl &url)
         return false;
     }
 
-    qDebug() << "Connecting to" << url;
+    qCDebug(dcCloud) << "Connecting to" << url;
     m_url = url;
 
     m_nonce = QUuid::createUuid().toString();
     bool postResult = m_awsClient->postToMQTT(url.host(), m_nonce, QPointer<QObject>(this), [this](bool success) {
         if (success) {
-            qDebug() << "MQTT Post done. Connecting to remote proxy";
+            qCDebug(dcCloud) << "MQTT Post done. Connecting to remote proxy";
             m_remoteproxyConnection->connectServer(QUrl("wss://remoteproxy.nymea.io"));
         } else {
-            qDebug() << "Posting to MQTT failed";
+            qCDebug(dcCloud) << "Posting to MQTT failed";
             emit error(QAbstractSocket::HostNotFoundError);
         }
     });
@@ -109,7 +112,7 @@ QUrl CloudTransport::url() const
 
 void CloudTransport::disconnect()
 {
-    qDebug() << "CloudTransport: Disconnecting from server.";
+    qCDebug(dcCloud) << "CloudTransport: Disconnecting from server.";
     m_remoteproxyConnection->disconnectServer();
 }
 
@@ -135,13 +138,13 @@ NymeaTransportInterface::ConnectionState CloudTransport::connectionState() const
 
 void CloudTransport::sendData(const QByteArray &data)
 {
-//    qDebug() << "Cloud transport: Sending data:" << data;
+//    qCDebug(dcCloud) << "Cloud transport: Sending data:" << data;
     m_remoteproxyConnection->sendData(data);
 }
 
 void CloudTransport::ignoreSslErrors(const QList<QSslError> &errors)
 {
-    qDebug() << "CloudTransport: Ignoring SSL errors" << errors;
+    qCDebug(dcCloud) << "CloudTransport: Ignoring SSL errors" << errors;
     m_remoteproxyConnection->ignoreSslErrors(errors);
 }
 
