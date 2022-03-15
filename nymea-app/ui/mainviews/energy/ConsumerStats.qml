@@ -141,7 +141,7 @@ StatsBase {
                             var consumer = consumers.get(j)
                             graphEntry[consumer.id] = 0
                         }
-                        labelTime = new Date(newestLogTimestamp.getTime() - config.sampleRate * i * 60000)
+                        labelTime = calculateSampleStart(newestLogTimestamp, config.sampleRate, i)
                     }
 
 //                    print("Adding entry:", labelTime, config.toLabel(labelTime), JSON.stringify(graphEntry))
