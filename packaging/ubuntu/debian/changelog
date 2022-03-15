@@ -1,3 +1,11 @@
+nymea-app (1.0.436) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix debug category for cloud transport
+  * Fix calculation of samples for months and years
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 15 Mar 2022 13:53:02 +0100
+
 nymea-app (1.0.435) bionic; urgency=medium
 
   [ Michael Zanetti ]
