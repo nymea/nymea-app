@@ -1,3 +1,11 @@
+nymea-app (1.0.437) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix OSK size not always being correct with GBoard
+  * Fix opening package details from main update page
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 16 Mar 2022 14:48:18 +0100
+
 nymea-app (1.0.436) bionic; urgency=medium
 
   [ Michael Zanetti ]
