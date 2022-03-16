@@ -8,7 +8,7 @@ Dialog {
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
     modal: true
-    title: qsTr("Box information")
+    title: qsTr("System information")
 
     standardButtons: Dialog.Ok
 

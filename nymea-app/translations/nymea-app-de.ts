@@ -666,6 +666,33 @@
     </message>
 </context>
 <context>
+    <name>Configuration</name>
+    <message>
+        <source>Help</source>
+        <translation>Hilfe</translation>
+    </message>
+    <message>
+        <source>Forum</source>
+        <translation>Forum</translation>
+    </message>
+    <message>
+        <source>Telegram</source>
+        <translation>Telegram</translation>
+    </message>
+    <message>
+        <source>Discord</source>
+        <translation>Discord</translation>
+    </message>
+    <message>
+        <source>Twitter</source>
+        <translation>Twitter</translation>
+    </message>
+    <message>
+        <source>Facebook</source>
+        <translation>Facebook</translation>
+    </message>
+</context>
+<context>
     <name>ConfigureThingPage</name>
     <message>
         <source>Vendor:</source>
@@ -756,70 +783,70 @@
     <name>ConnectPage</name>
     <message>
         <source>Connect %1</source>
-        <translation>Verbinde %1</translation>
+        <translation type="vanished">Verbinde %1</translation>
     </message>
     <message>
         <source>Oh, look!</source>
-        <translation>Oh, sieh an!</translation>
+        <translation type="vanished">Oh, sieh an!</translation>
     </message>
     <message>
         <source>Just a moment...</source>
-        <translation>Nur einen Moment...</translation>
+        <translation type="vanished">Nur einen Moment...</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation>Oh oh</translation>
+        <translation type="vanished">Oh oh</translation>
     </message>
     <message>
         <source>Not the ones you&apos;re looking for? We&apos;re looking for more!</source>
-        <translation>Die gesuchte Box ist nicht dabei? Wir suchen nach weiteren!</translation>
+        <translation type="vanished">Die gesuchte Box ist nicht dabei? Wir suchen nach weiteren!</translation>
     </message>
     <message>
         <source>Start wireless setup</source>
-        <translation>Funk-Einrichtung starten</translation>
+        <translation type="vanished">Funk-Einrichtung starten</translation>
     </message>
     <message>
         <source>Demo mode (online)</source>
-        <translation>Demo-Modus (Online)</translation>
+        <translation type="vanished">Demo-Modus (Online)</translation>
     </message>
     <message>
         <source>Box information</source>
-        <translation>Box-Informationen</translation>
+        <translation type="vanished">Box-Informationen</translation>
     </message>
     <message>
         <source>Available connections</source>
-        <translation>Verfügbare Verbindungen</translation>
+        <translation type="vanished">Verfügbare Verbindungen</translation>
     </message>
     <message>
         <source>Cloud login</source>
-        <translation>Cloud Login</translation>
+        <translation type="vanished">Cloud Login</translation>
     </message>
     <message>
         <source>Info</source>
-        <translation>Information</translation>
+        <translation type="vanished">Information</translation>
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems in your network! Which one would you like to use?</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>Es befindet sich %n %1 System in Deinem Netzwerk.</numerusform>
             <numerusform>Es befinden sich %n %1 Systeme in Deinem Netzwerk. Auf welches möchtest Du zugreifen?</numerusform>
         </translation>
     </message>
     <message>
         <source>We haven&apos;t found a %1 system in your network yet.</source>
-        <translation>Wir konnten kein %1 System in Deinem Netzwerk finden.</translation>
+        <translation type="vanished">Wir konnten kein %1 System in Deinem Netzwerk finden.</translation>
     </message>
     <message>
         <source>There doesn&apos;t seem to be a %1 system installed in your network. Please make sure your %1 system is correctly set up and connected.</source>
-        <translation>Es scheint kein %1 System in Deinem Netzwerk installiert zu sein Bitte stelle sicher, dass Dein %1 System korrekt installiert und verbunden ist.</translation>
+        <translation type="vanished">Es scheint kein %1 System in Deinem Netzwerk installiert zu sein Bitte stelle sicher, dass Dein %1 System korrekt installiert und verbunden ist.</translation>
     </message>
     <message>
         <source>Searching for %1 systems...</source>
-        <translation>Suche nach %1 Systemen...</translation>
+        <translation type="vanished">Suche nach %1 Systemen...</translation>
     </message>
     <message>
         <source>Do you have a %1 system but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation>Hast Du bereits ein %1 System aber es ist noch nicht mit Deinem Netzwerk verbunden? Benutze die Kabellose Einrichtung um es zu verbinden.</translation>
+        <translation type="vanished">Hast Du bereits ein %1 System aber es ist noch nicht mit Deinem Netzwerk verbunden? Benutze die Kabellose Einrichtung um es zu verbinden.</translation>
     </message>
 </context>
 <context>
@@ -900,11 +927,15 @@
     <name>ConnectionInfoDialog</name>
     <message>
         <source>Box information</source>
-        <translation>Box-Informationen</translation>
+        <translation type="vanished">Box-Informationen</translation>
     </message>
     <message>
         <source>Available connections</source>
         <translation>Verfügbare Verbindungen</translation>
+    </message>
+    <message>
+        <source>System information</source>
+        <translation>Systeminformationen</translation>
     </message>
 </context>
 <context>
@@ -943,6 +974,14 @@
     <message>
         <source>WebSocket server interfaces</source>
         <translation>WebSocket server Schnittstellen</translation>
+    </message>
+    <message>
+        <source>Remote connection server interfaces</source>
+        <translation>Fernverbindungsschnittstellen</translation>
+    </message>
+    <message>
+        <source>Server: %1</source>
+        <translation>Server: %1</translation>
     </message>
 </context>
 <context>
@@ -1533,7 +1572,7 @@
 • While I&apos;m at home...
 • When the temperature is below 0...
 • Between 9 am and 6 pm...</source>
-        <translation>Beispile:
+        <translation type="vanished">Beispile:
 • Während ich zuhause bin...
 • Wenn die Temperatur unter 0 ist...
 • Zwischen 9 Uhr vormittags und 6 Uhr abends...</translation>
@@ -1629,6 +1668,16 @@
     <message>
         <source>When the condition isn&apos;t met any more, execute those actions:</source>
         <translation>Wenn die Bedingung nicht mehr erfüllt ist, führe diese Aktionen aus:</translation>
+    </message>
+    <message>
+        <source>Examples:
+• While I&apos;m at home...
+• While the TV is on...
+• Between 9 am and 6 pm...</source>
+        <translation>Beispiele:
+• Während ich zuhause bin...
+• Während der Fernseher an ist...
+• Zwischen 9 und 16 Uhr...</translation>
     </message>
 </context>
 <context>
@@ -1803,7 +1852,7 @@
     </message>
     <message>
         <source>Energy plugin not installed installed.</source>
-        <translation>Das Energie-Addon ist nicht installiert.</translation>
+        <translation type="vanished">Das Energie-Addon ist nicht installiert.</translation>
     </message>
     <message>
         <source>This %1 system does not have the energy extensions installed.</source>
@@ -1812,6 +1861,10 @@
     <message>
         <source>Install energy plugin</source>
         <translation>Energie-Addon installieren</translation>
+    </message>
+    <message>
+        <source>Energy plugin not installed.</source>
+        <translation>Das Energie-Plugin ist nicht installiert.</translation>
     </message>
 </context>
 <context>
@@ -1848,7 +1901,7 @@
     <name>EventDescriptorDelegate</name>
     <message>
         <source>%1 - %2</source>
-        <translation>%1 - %2</translation>
+        <translation type="vanished">%1 - %2</translation>
     </message>
     <message>
         <source>anytime</source>
@@ -3416,7 +3469,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>The password you&apos;ve chose is too weak.</source>
-        <translation>Das gewählte Passwort ist zu schwach.</translation>
+        <translation type="vanished">Das gewählte Passwort ist zu schwach.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please log in.</source>
@@ -3424,11 +3477,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Your e-mail address:</source>
-        <translation>Ihre E-Mail Adresse:</translation>
+        <translation type="vanished">Ihre E-Mail Adresse:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation>Passwort:</translation>
+        <translation type="vanished">Passwort:</translation>
     </message>
     <message>
         <source>OK</source>
@@ -3436,15 +3489,59 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>The email you&apos;ve entered is already used.</source>
-        <translation>Die eingegebene E-Mail Adresse ist bereits in Benutzung.</translation>
+        <translation type="vanished">Die eingegebene E-Mail Adresse ist bereits in Benutzung.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
-        <translation>Um dein %1 System zu nutzen, gib bitte Deine E-Mail Adresse ein und wähle ein Passwort dafür.</translation>
+        <translation type="vanished">Um dein %1 System zu nutzen, gib bitte Deine E-Mail Adresse ein und wähle ein Passwort dafür.</translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1 system is installed correctly.</source>
         <translation>In der Benutzerverwaltung ist ein Fehler aufgetreten. Bitte stelle sicher, dass Dein %1 System korrekt installiert ist.</translation>
+    </message>
+    <message>
+        <source>The username you&apos;ve entered isn&apos;t valid.</source>
+        <translation>Der eingegebene Benutzername ist ungültig.</translation>
+    </message>
+    <message>
+        <source>The username you&apos;ve entered is already used.</source>
+        <translation>Der eingegebene Benutzername wird bereits verwendet.</translation>
+    </message>
+    <message>
+        <source>The password you&apos;ve chosen is too weak.</source>
+        <translation>Das gewählte Passwort ist zu schwach.</translation>
+    </message>
+    <message>
+        <source>In order to use your %1 system, please create an account.</source>
+        <translation>Erstelle ein Benutzerkonto um dieses %1 System zu benutzen.</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Benutzername</translation>
+    </message>
+    <message>
+        <source>Your e-mail address</source>
+        <translation>Deine e-mail Adresse</translation>
+    </message>
+    <message>
+        <source>Required</source>
+        <translation>Erforderlich</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Passwort</translation>
+    </message>
+    <message>
+        <source>Your name</source>
+        <translation>Dein Name</translation>
+    </message>
+    <message>
+        <source>Optional</source>
+        <translation>Optional</translation>
+    </message>
+    <message>
+        <source>Email</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3616,27 +3713,27 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Hilfe</translation>
+        <translation type="vanished">Hilfe</translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation>Forum</translation>
+        <translation type="vanished">Forum</translation>
     </message>
     <message>
         <source>Telegram</source>
-        <translation>Telegram</translation>
+        <translation type="vanished">Telegram</translation>
     </message>
     <message>
         <source>Discord</source>
-        <translation>Discord</translation>
+        <translation type="vanished">Discord</translation>
     </message>
     <message>
         <source>Twitter</source>
-        <translation>Twitter</translation>
+        <translation type="vanished">Twitter</translation>
     </message>
     <message>
         <source>Facebook</source>
-        <translation>Facebook</translation>
+        <translation type="vanished">Facebook</translation>
     </message>
     <message>
         <source>New connection</source>
@@ -3710,35 +3807,35 @@ Bitte versuche es erneut.</translation>
     <name>ManualConnectPage</name>
     <message>
         <source>Manual connection</source>
-        <translation>Manuelle Verbindung</translation>
+        <translation type="vanished">Manuelle Verbindung</translation>
     </message>
     <message>
         <source>Protocol</source>
-        <translation>Protokoll</translation>
+        <translation type="vanished">Protokoll</translation>
     </message>
     <message>
         <source>TCP</source>
-        <translation>TCP</translation>
+        <translation type="vanished">TCP</translation>
     </message>
     <message>
         <source>Websocket</source>
-        <translation>Websocket</translation>
+        <translation type="vanished">Websocket</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation>Adresse:</translation>
+        <translation type="vanished">Adresse:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation>Port:</translation>
+        <translation type="vanished">Port:</translation>
     </message>
     <message>
         <source>Encrypted connection:</source>
-        <translation>Verschlüsselte Verbindung:</translation>
+        <translation type="vanished">Verschlüsselte Verbindung:</translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation>Verbinden</translation>
+        <translation type="vanished">Verbinden</translation>
     </message>
 </context>
 <context>
@@ -4551,7 +4648,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Connecting to the nymea system.</source>
-        <translation>Das nymea System wird verbunden.</translation>
+        <translation type="vanished">Das nymea System wird verbunden.</translation>
     </message>
     <message>
         <source>Manual connection</source>
@@ -4591,7 +4688,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Encrypted connection:</source>
-        <translation>Verschlüsselte Verbindung:</translation>
+        <translation type="vanished">Verschlüsselte Verbindung:</translation>
     </message>
     <message>
         <source>Wired connection</source>
@@ -4660,6 +4757,26 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     <message>
         <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
         <translation>Bluetooth ist deaktiviert. Bitte aktivieren Bluetooth auf diesem Gerät.</translation>
+    </message>
+    <message>
+        <source>Remote proxy</source>
+        <translation>Ferverbindungs-Proxy-Server</translation>
+    </message>
+    <message>
+        <source>Proxy address:</source>
+        <translation>Proxy-Adresse:</translation>
+    </message>
+    <message>
+        <source>%1 UUID:</source>
+        <translation>%1 UUID:</translation>
+    </message>
+    <message>
+        <source>SSL:</source>
+        <translation>SSL:</translation>
+    </message>
+    <message>
+        <source>Select nymea system</source>
+        <translation>Wähle das nymea System aus</translation>
     </message>
 </context>
 <context>
@@ -5001,6 +5118,29 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
 </context>
 <context>
+    <name>NymeaUtils</name>
+    <message>
+        <source>Admin</source>
+        <translation>Admin</translation>
+    </message>
+    <message>
+        <source>Control things</source>
+        <translation>&quot;Things&quot; steuern</translation>
+    </message>
+    <message>
+        <source>Configure things</source>
+        <translation>&quot;Things&quot; einrichten</translation>
+    </message>
+    <message>
+        <source>Execute magic</source>
+        <translation>Magie ausführen</translation>
+    </message>
+    <message>
+        <source>Configure magic</source>
+        <translation>Magie einrichten</translation>
+    </message>
+</context>
+<context>
     <name>PackageListPage</name>
     <message>
         <source>All packages</source>
@@ -5329,11 +5469,19 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>The version of the %1 system you are trying to connect to is too old. This app requires at least version %2 but this %1 system only supports %3. Please update your %1 system.</source>
-        <translation>Die Version dieses %1 Systems ist zu alt. Diese Anwendung benötigt mindestens Version %2, das %1 System unterstützt jedoch lediglich Version %3. Bitte update Dein %1 System.</translation>
+        <translation type="vanished">Die Version dieses %1 Systems ist zu alt. Diese Anwendung benötigt mindestens Version %2, das %1 System unterstützt jedoch lediglich Version %3. Bitte update Dein %1 System.</translation>
     </message>
     <message>
         <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to version %2 but this %1 system provides %3. Please update %4.</source>
-        <translation>Die Version dieses %1 Systems ist zu neu. Diese Anwendung unterstützt bis Version %2, dieses %1 System basiert jedoch auf Version %3. Bitte update %4.</translation>
+        <translation type="vanished">Die Version dieses %1 Systems ist zu neu. Diese Anwendung unterstützt bis Version %2, dieses %1 System basiert jedoch auf Version %3. Bitte update %4.</translation>
+    </message>
+    <message>
+        <source>The version of the %1 system you are trying to connect to is too old. This app requires at least API version %2 but this %1 system only supports API version %3. Please update your %1 system.</source>
+        <translation>Die Version dieses %1 Systems ist zu alt. Diese App benötigt mindestens API Version %2, dieses %1 System unterstützt jedoch nur API Version %3. Bitte update Dein %1 System.</translation>
+    </message>
+    <message>
+        <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to API version %2 but this %1 system provides API version %3. Please update %4.</source>
+        <translation>Die Version dieses %1 Systems ist zu neu. Diese App unterstützt nur bis zu API Version %2, dieses %1 System basiert jedoch auf API Version %3. Bitte update %4.</translation>
     </message>
 </context>
 <context>
@@ -5484,10 +5632,25 @@ Möchtest Du fortfahren?</translation>
     </message>
 </context>
 <context>
+    <name>SelectEventDescriptorPage</name>
+    <message>
+        <source>State change</source>
+        <translation>Zuständsänderung</translation>
+    </message>
+    <message>
+        <source>Event</source>
+        <translation>Ereignis</translation>
+    </message>
+</context>
+<context>
     <name>SelectEventDescriptorParamsPage</name>
     <message>
         <source>Only consider event if</source>
         <translation>Ereignis nur berücksichtigen wenn</translation>
+    </message>
+    <message>
+        <source>Only consider state change if</source>
+        <translation>Zustandsänderung nur berücksichtigen wenn</translation>
     </message>
 </context>
 <context>
@@ -6093,19 +6256,19 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message>
         <source>A total of %1 kWh has been &lt;b&gt;consumed&lt;/b&gt; in the last 24 hours.</source>
-        <translation>Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;verbraucht&lt;/b&gt;.</translation>
+        <translation type="vanished">Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;verbraucht&lt;/b&gt;.</translation>
     </message>
     <message>
         <source>A total of %1 kWh has been &lt;b&gt;obtained&lt;/b&gt; in the last 24 hours.</source>
-        <translation>Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;bezogen&lt;/b&gt;.</translation>
+        <translation type="vanished">Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;bezogen&lt;/b&gt;.</translation>
     </message>
     <message>
         <source>A total of %1 kWh has been &lt;b&gt;produced&lt;/b&gt; in the last 24 hours.</source>
-        <translation>Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;erzeugt&lt;/b&gt;.</translation>
+        <translation type="vanished">Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;erzeugt&lt;/b&gt;.</translation>
     </message>
     <message>
         <source>A total of %1 kWh has been &lt;b&gt;returned&lt;/b&gt; in the last 24 hours.</source>
-        <translation>Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;eingespeist&lt;/b&gt;.</translation>
+        <translation type="vanished">Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;eingespeist&lt;/b&gt;.</translation>
     </message>
 </context>
 <context>
@@ -6440,6 +6603,37 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
 </context>
 <context>
+    <name>TunnelProxyServerConfigurationDialog</name>
+    <message>
+        <source>Proxy server configuration</source>
+        <translation>Proxy-Server Einrichtung</translation>
+    </message>
+    <message>
+        <source>Proxy server address:</source>
+        <translation>Proxy Server Adresse:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Port:</translation>
+    </message>
+    <message>
+        <source>Require login</source>
+        <translation>Anmeldung erforderlich</translation>
+    </message>
+    <message>
+        <source>Not requiring a login for the remote connection will allow anyone on the internet to connect to your %1 system.</source>
+        <translation>Wenn keine Anmeldung erfordert wird, wird dieses %1 System für jedermann aus dem Internet zugänglich sein.</translation>
+    </message>
+    <message>
+        <source>SSL enabled</source>
+        <translation>SSL aktiviert</translation>
+    </message>
+    <message>
+        <source>Ignore SSL errors</source>
+        <translation>SSL Fehler ignorieren</translation>
+    </message>
+</context>
+<context>
     <name>UpdateRunningOverlay</name>
     <message>
         <source>System update in progress...</source>
@@ -6478,11 +6672,11 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>User info</source>
-        <translation>Benutzerinformationen</translation>
+        <translation type="vanished">Benutzerinformationen</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation>Benutzername</translation>
+        <translation type="vanished">Benutzername</translation>
     </message>
     <message>
         <source>Change password</source>
@@ -6490,7 +6684,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Devices / Apps accessing nymea:core</source>
-        <translation>Geräte/Apps welche auf nymea:core zugreifen</translation>
+        <translation type="vanished">Geräte/Apps welche auf nymea:core zugreifen</translation>
     </message>
     <message>
         <source>Created on %1</source>
@@ -6503,6 +6697,126 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+    <message>
+        <source>Edit user information</source>
+        <translation>Benutzerinformation bearbeiten</translation>
+    </message>
+    <message>
+        <source>Manage authorized devices</source>
+        <translation>Angemeldete Geräte verwalten</translation>
+    </message>
+    <message>
+        <source>Admin</source>
+        <translation>Administrator</translation>
+    </message>
+    <message>
+        <source>Manage users</source>
+        <translation>Benutzer verwalten</translation>
+    </message>
+    <message>
+        <source>Your name</source>
+        <translation>Dein Name</translation>
+    </message>
+    <message>
+        <source>Email</source>
+        <translation>E-Mail</translation>
+    </message>
+    <message>
+        <source>Un unexpected error happened when creating the user. We&apos;re sorry for this. (Error code: %1)</source>
+        <translation>Beim Erstellen des Benutzers ist ein unerwarteter Fehler aufgetreten. Wir bitten dies zu entschuldigen. (Fehler-Code: %1)</translation>
+    </message>
+    <message>
+        <source>Device access</source>
+        <translation>Gerätezugänge</translation>
+    </message>
+    <message>
+        <source>Remove device access</source>
+        <translation>Gerät entfernen</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove %1 from accessing your %2 system?</source>
+        <translation>Bist Du sicher, dass Du %1 den Zugang zu Deinem %2 System entziehen möchtest?</translation>
+    </message>
+    <message>
+        <source>Devices / Apps accessing %1</source>
+        <translation>Geräte/Anwendungen die auf %1 zugreifen</translation>
+    </message>
+    <message>
+        <source>Users</source>
+        <translation>Benutzer</translation>
+    </message>
+    <message>
+        <source>Manage users for this %1 system</source>
+        <translation>Verwalte Benutzer für dieses %1 System</translation>
+    </message>
+    <message>
+        <source>Manage %1</source>
+        <translation>Verwalte %1</translation>
+    </message>
+    <message>
+        <source>Remove user</source>
+        <translation>Benutzer entfernen</translation>
+    </message>
+    <message>
+        <source>User information for %1</source>
+        <translation>Benutzerinformationen für %1</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Speichern</translation>
+    </message>
+    <message>
+        <source>Permissions</source>
+        <translation>Berechtigungen</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Entfernen</translation>
+    </message>
+    <message>
+        <source>Remove this user</source>
+        <translation>Diesen Benutzer entfernen</translation>
+    </message>
+    <message>
+        <source>Add a user</source>
+        <translation>Benutzer hinzufügen</translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation>Benutzername:</translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation>Passwort:</translation>
+    </message>
+    <message>
+        <source>Full name:</source>
+        <translation>Vollständiger Name:</translation>
+    </message>
+    <message>
+        <source>e-mail:</source>
+        <translation>E-Mail:</translation>
+    </message>
+    <message>
+        <source>Create new user</source>
+        <translation>Neuen Benutzer erstellen</translation>
+    </message>
+    <message>
+        <source>The given username is not valid. It needs to be at least three characters long and not contain special characters.</source>
+        <translation>Der gewählte Benutzername ist nicht gültig. Der Benutzername muss aus mindestens drei Zeichen bestehen und darf keine Sonderzeichen enthalten.</translation>
+    </message>
+    <message>
+        <source>The given username is already in use. Please choose a different username.</source>
+        <translation>Der gewählte Benutzername ist bereits verwendet. Bitte wähle einen anderen Benutzernamen.</translation>
+    </message>
+    <message>
+        <source>User information</source>
+        <translation>Benutzerinformationen</translation>
     </message>
 </context>
 <context>
@@ -7023,11 +7337,29 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>MAC address:</source>
-        <translation>MAC Adresse:</translation>
+        <translation type="vanished">MAC Adresse:</translation>
     </message>
     <message>
         <source>Firmware version:</source>
-        <translation>Firmware Version:</translation>
+        <translation type="vanished">Firmware Version:</translation>
+    </message>
+    <message>
+        <source>Adapter:</source>
+        <translation>Adapter:</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s)</source>
+        <translation>
+            <numerusform>%n Gerät</numerusform>
+            <numerusform>%n Geräte</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s) (%1 disconnected)</source>
+        <translation>
+            <numerusform>%n Gerät (%1 getrennt)</numerusform>
+            <numerusform>%n Geräte (%1 getrennt)</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -7049,11 +7381,11 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <name>description for buttontemplates</name>
     <message>
         <source>Turn on a light</source>
-        <translation>Ein Licht einschalten</translation>
+        <translation type="vanished">Ein Licht einschalten</translation>
     </message>
     <message>
         <source>Turn off a light</source>
-        <translation>Ein Licht ausschalten</translation>
+        <translation type="vanished">Ein Licht ausschalten</translation>
     </message>
     <message>
         <source>Switch a light</source>
@@ -7062,6 +7394,14 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Turn off all lights</source>
         <translation>Alle Lichter ausschalten</translation>
+    </message>
+    <message>
+        <source>Turn on lights</source>
+        <translation>Beleuchtung einschalten</translation>
+    </message>
+    <message>
+        <source>Turn off lights</source>
+        <translation>Beleuchtung ausschalten</translation>
     </message>
 </context>
 <context>
@@ -7087,10 +7427,44 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
 </context>
 <context>
+    <name>description for irrigationtemplates</name>
+    <message>
+        <source>Schedule an irrigation</source>
+        <translation>Bewässerungszeitplan einrichten</translation>
+    </message>
+</context>
+<context>
+    <name>description for lighttemplates</name>
+    <message>
+        <source>Wake up with light</source>
+        <translation>Mit Licht aufwachen</translation>
+    </message>
+</context>
+<context>
     <name>description for mediatemplates</name>
     <message>
         <source>Dim light while watching TV</source>
         <translation>Licht dimmen während TV-Wiedergabe</translation>
+    </message>
+    <message>
+        <source>Automatic night mode</source>
+        <translation>Automatischer Nachtmodus</translation>
+    </message>
+    <message>
+        <source>Play/pause music by button press</source>
+        <translation>Bei Knopfdruck Musik starten/pausieren</translation>
+    </message>
+    <message>
+        <source>Toggle mute by button press</source>
+        <translation>Bei Knopfdruck Stumm umschalten</translation>
+    </message>
+    <message>
+        <source>Increase volume by button press</source>
+        <translation>Bei Knopfdruck Lautstärke erhöhen</translation>
+    </message>
+    <message>
+        <source>Decrease volume by button press</source>
+        <translation>Bei Knopfdruck Lautstärke verringern</translation>
     </message>
 </context>
 <context>
@@ -7101,15 +7475,19 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Notify me when something runs dry</source>
-        <translation>Benachrichte mich wenn etwas austrocknet</translation>
+        <translation type="vanished">Benachrichte mich wenn etwas austrocknet</translation>
     </message>
     <message>
         <source>Notify me when a thing gets disconnected</source>
-        <translation>Benachrichtuge mich wenn ein Gerät die Verbindung verliert</translation>
+        <translation>Benachrichtige mich wenn ein Gerät die Verbindung verliert</translation>
     </message>
     <message>
         <source>Notify me when a thing connects</source>
         <translation>Benachrichtige mich wenn sich ein Gerät verbindet</translation>
+    </message>
+    <message>
+        <source>Notify me when something dries out</source>
+        <translation>Benachrichtigung wenn etwas austrocknet</translation>
     </message>
 </context>
 <context>
@@ -7210,10 +7588,44 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
 </context>
 <context>
+    <name>ruleNameTemplate for irrigationtemplates</name>
+    <message>
+        <source>Schedule for %0</source>
+        <translation>Zeitplan für %0</translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for lighttemplates</name>
+    <message>
+        <source>Wake up with %0</source>
+        <translation>Mit %0 aufwachen</translation>
+    </message>
+</context>
+<context>
     <name>ruleNameTemplate for mediatemplates</name>
     <message>
         <source>%0 dims %1 for movie time</source>
         <translation>%0 dimmt %1 für Fernsehzeit</translation>
+    </message>
+    <message>
+        <source>Automatic night mode on %0</source>
+        <translation>Automatischer Nachtmodus mit %0</translation>
+    </message>
+    <message>
+        <source>%1 toggles play/pause on %0</source>
+        <translation>%1 startet/pausiert Wiedergabe auf %0</translation>
+    </message>
+    <message>
+        <source>%1 toggles mute on %0</source>
+        <translation>%1 schaltet stumm auf %0 um</translation>
+    </message>
+    <message>
+        <source>%1 increases volume on %0</source>
+        <translation>%1 erhöht Lautstärke auf %0</translation>
+    </message>
+    <message>
+        <source>%1 decreases volume on %0</source>
+        <translation>%1 verringert Lautstärke auf %0</translation>
     </message>
 </context>
 <context>
@@ -7224,7 +7636,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Notify %1 when %0 runs dry</source>
-        <translation>Benachrichtige %1 wenn %0 austrocknet</translation>
+        <translation type="vanished">Benachrichtige %1 wenn %0 austrocknet</translation>
     </message>
     <message>
         <source>Disconnect alert for %0</source>
@@ -7233,6 +7645,10 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Connection notification for %0</source>
         <translation>%0 wurde verbunden</translation>
+    </message>
+    <message>
+        <source>Notify %1 when %0 dries out</source>
+        <translation>Benachrichtige %1 wenn %0 austrocknet</translation>
     </message>
 </context>
 <context>

@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
+import Qt.labs.settings 1.1
 import "components"
 import Nymea 1.0
 
@@ -67,6 +68,7 @@ Drawer {
                 Repeater {
                     model: root.configuredHosts
                     delegate: NymeaItemDelegate {
+                        id: hostDelegate
 
                         readonly property ConfiguredHost configuredHost: root.configuredHosts.get(index)
 
@@ -90,7 +92,13 @@ Drawer {
                                 visible: topSectionLayout.configureConnections && (autoConnectHost.length === 0 || index > 0)
                                 longpressEnabled: false
                                 onClicked: {
+                                    tokenSettings.setValue(hostDelegate.configuredHost.uuid, "")
                                     configuredHostsModel.removeHost(index)
+                                }                                
+
+                                Settings {
+                                    id: tokenSettings
+                                    category: "jsonTokens"
                                 }
                             }
                         }

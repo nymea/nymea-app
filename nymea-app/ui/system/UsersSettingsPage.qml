@@ -422,7 +422,7 @@ SettingsPageBase {
             property var permissionScopes: UserInfo.PermissionScopeNone
 
             SettingsPageSectionHeader {
-                text: qsTr("USer information")
+                text: qsTr("User information")
             }
 
             GridLayout {
