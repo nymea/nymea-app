@@ -160,7 +160,7 @@ WizardPageBase {
         id: selectInstanceComponent
         WizardPageBase {
             title: qsTr("Connection")
-            text: qsTr("Connecting to the nymea system.")
+            text: qsTr("Select nymea system")
             nextButtonText: qsTr("Manual connection")
             onNext: pageStack.push(manualConnectionComponent)
 

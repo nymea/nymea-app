@@ -666,6 +666,33 @@
     </message>
 </context>
 <context>
+    <name>Configuration</name>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished">Hulp</translation>
+    </message>
+    <message>
+        <source>Forum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Telegram</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discord</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Twitter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Facebook</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConfigureThingPage</name>
     <message>
         <source>Vendor:</source>
@@ -756,70 +783,38 @@
     <name>ConnectPage</name>
     <message>
         <source>Connect %1</source>
-        <translation>Verbind %1</translation>
+        <translation type="vanished">Verbind %1</translation>
     </message>
     <message>
         <source>Oh, look!</source>
-        <translation>Oh, kijk!</translation>
+        <translation type="vanished">Oh, kijk!</translation>
     </message>
     <message>
         <source>Just a moment...</source>
-        <translation>Eén moment...</translation>
-    </message>
-    <message>
-        <source>Uh oh</source>
-        <translation></translation>
+        <translation type="vanished">Eén moment...</translation>
     </message>
     <message>
         <source>Start wireless setup</source>
-        <translation>Start draadloze installatie</translation>
+        <translation type="vanished">Start draadloze installatie</translation>
     </message>
     <message>
         <source>Cloud login</source>
-        <translation>Cloud aanmelding</translation>
-    </message>
-    <message>
-        <source>Demo mode (online)</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Not the ones you&apos;re looking for? We&apos;re looking for more!</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Box information</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Available connections</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Info</source>
-        <translation></translation>
+        <translation type="vanished">Cloud aanmelding</translation>
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems in your network! Which one would you like to use?</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>Er is %n %1 systeem in uw netwerk! Welke wilt u gebuiken?</numerusform>
             <numerusform>Er zijn %n %1 systemen in uw netwerk! Welke wilt u gebuiken?</numerusform>
         </translation>
     </message>
     <message>
         <source>We haven&apos;t found a %1 system in your network yet.</source>
-        <translation>We hebben nog geen %1 systeem in uw netwerk kunnen vinden.</translation>
-    </message>
-    <message>
-        <source>There doesn&apos;t seem to be a %1 system installed in your network. Please make sure your %1 system is correctly set up and connected.</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">We hebben nog geen %1 systeem in uw netwerk kunnen vinden.</translation>
     </message>
     <message>
         <source>Searching for %1 systems...</source>
-        <translation>Zoeken naar %1 systemen...</translation>
-    </message>
-    <message>
-        <source>Do you have a %1 system but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Zoeken naar %1 systemen...</translation>
     </message>
 </context>
 <context>
@@ -900,11 +895,15 @@
     <name>ConnectionInfoDialog</name>
     <message>
         <source>Box information</source>
-        <translation>Systeem informatie</translation>
+        <translation type="vanished">Systeem informatie</translation>
     </message>
     <message>
         <source>Available connections</source>
         <translation>Beschikbare verbindingen</translation>
+    </message>
+    <message>
+        <source>System information</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -943,6 +942,14 @@
     <message>
         <source>WebSocket server interfaces</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Remote connection server interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1526,13 +1533,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Examples:
-• While I&apos;m at home...
-• When the temperature is below 0...
-• Between 9 am and 6 pm...</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>When time is in...</source>
         <translation></translation>
     </message>
@@ -1623,6 +1623,13 @@
     <message>
         <source>When the condition isn&apos;t met any more, execute those actions:</source>
         <translation>Als de conditie niet meer geldig is, voer deze acties uit:</translation>
+    </message>
+    <message>
+        <source>Examples:
+• While I&apos;m at home...
+• While the TV is on...
+• Between 9 am and 6 pm...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1796,15 +1803,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Energy plugin not installed installed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>This %1 system does not have the energy extensions installed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Install energy plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Energy plugin not installed.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1840,10 +1847,6 @@
 </context>
 <context>
     <name>EventDescriptorDelegate</name>
-    <message>
-        <source>%1 - %2</source>
-        <translation></translation>
-    </message>
     <message>
         <source>anytime</source>
         <translation></translation>
@@ -3408,23 +3411,7 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>The email you&apos;ve entered is already used.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>The password you&apos;ve chose is too weak.</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>In order to use your %1 system, please log in.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Your e-mail address:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Password:</source>
         <translation></translation>
     </message>
     <message>
@@ -3432,11 +3419,51 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
-        <translation></translation>
+        <source>An error happened with the user storage. Please make sure your %1 system is installed correctly.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>An error happened with the user storage. Please make sure your %1 system is installed correctly.</source>
+        <source>The username you&apos;ve entered isn&apos;t valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The username you&apos;ve entered is already used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The password you&apos;ve chosen is too weak.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to use your %1 system, please create an account.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your e-mail address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Required</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished">Wachtwoord</translation>
+    </message>
+    <message>
+        <source>Your name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Optional</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3609,27 +3636,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Hulp</translation>
-    </message>
-    <message>
-        <source>Forum</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Telegram</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Discord</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Twitter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Facebook</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Hulp</translation>
     </message>
     <message>
         <source>New connection</source>
@@ -3697,41 +3704,6 @@ Please try again.</source>
     <message>
         <source>Dashboard</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ManualConnectPage</name>
-    <message>
-        <source>Manual connection</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Protocol</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>TCP</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Websocket</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Encrypted connection:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Connect</source>
-        <translation></translation>
     </message>
 </context>
 <context>
@@ -4539,10 +4511,6 @@ Use a timeout value greater or equal to 10 ms.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Connecting to the nymea system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Manual connection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4576,10 +4544,6 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Encrypted connection:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4648,6 +4612,26 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remote proxy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Proxy address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 UUID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSL:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select nymea system</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4990,6 +4974,29 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
 </context>
 <context>
+    <name>NymeaUtils</name>
+    <message>
+        <source>Admin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Control things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Execute magic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure magic</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PackageListPage</name>
     <message>
         <source>All packages</source>
@@ -5315,11 +5322,11 @@ Do you want to proceed?</source>
         <translation></translation>
     </message>
     <message>
-        <source>The version of the %1 system you are trying to connect to is too old. This app requires at least version %2 but this %1 system only supports %3. Please update your %1 system.</source>
+        <source>The version of the %1 system you are trying to connect to is too old. This app requires at least API version %2 but this %1 system only supports API version %3. Please update your %1 system.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to version %2 but this %1 system provides %3. Please update %4.</source>
+        <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to API version %2 but this %1 system provides API version %3. Please update %4.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5471,10 +5478,25 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
+    <name>SelectEventDescriptorPage</name>
+    <message>
+        <source>State change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SelectEventDescriptorParamsPage</name>
     <message>
         <source>Only consider event if</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Only consider state change if</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6078,22 +6100,6 @@ A consumer, not consuming anything</extracomment>
         <source>At the current rate, the battery will last until %1.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>A total of %1 kWh has been &lt;b&gt;consumed&lt;/b&gt; in the last 24 hours.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A total of %1 kWh has been &lt;b&gt;obtained&lt;/b&gt; in the last 24 hours.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A total of %1 kWh has been &lt;b&gt;produced&lt;/b&gt; in the last 24 hours.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A total of %1 kWh has been &lt;b&gt;returned&lt;/b&gt; in the last 24 hours.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>StateEvaluatorDelegate</name>
@@ -6424,6 +6430,37 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
 </context>
 <context>
+    <name>TunnelProxyServerConfigurationDialog</name>
+    <message>
+        <source>Proxy server configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Proxy server address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Require login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not requiring a login for the remote connection will allow anyone on the internet to connect to your %1 system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSL enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore SSL errors</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>UpdateRunningOverlay</name>
     <message>
         <source>System update in progress...</source>
@@ -6461,19 +6498,7 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation></translation>
     </message>
     <message>
-        <source>User info</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Change password</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Devices / Apps accessing nymea:core</source>
         <translation></translation>
     </message>
     <message>
@@ -6487,6 +6512,126 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>OK</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Edit user information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage authorized devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Admin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Un unexpected error happened when creating the user. We&apos;re sorry for this. (Error code: %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove device access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove %1 from accessing your %2 system?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Devices / Apps accessing %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage users for this %1 system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User information for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Naam</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Permissions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Verwijderen</translation>
+    </message>
+    <message>
+        <source>Remove this user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>e-mail:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The given username is not valid. It needs to be at least three characters long and not contain special characters.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The given username is already in use. Please choose a different username.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User information</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7006,12 +7151,22 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>MAC address:</source>
+        <source>Adapter:</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Firmware version:</source>
-        <translation type="unfinished"></translation>
+    <message numerus="yes">
+        <source>%n device(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s) (%1 disconnected)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -7032,20 +7187,20 @@ Please only use this if you are sure you want this and consider reporting the is
 <context>
     <name>description for buttontemplates</name>
     <message>
-        <source>Turn on a light</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Turn off a light</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Switch a light</source>
         <translation></translation>
     </message>
     <message>
         <source>Turn off all lights</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Turn on lights</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn off lights</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7071,10 +7226,44 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
 </context>
 <context>
+    <name>description for irrigationtemplates</name>
+    <message>
+        <source>Schedule an irrigation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>description for lighttemplates</name>
+    <message>
+        <source>Wake up with light</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>description for mediatemplates</name>
     <message>
         <source>Dim light while watching TV</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Automatic night mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play/pause music by button press</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle mute by button press</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Increase volume by button press</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decrease volume by button press</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7084,16 +7273,16 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation></translation>
     </message>
     <message>
-        <source>Notify me when something runs dry</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Notify me when a thing gets disconnected</source>
         <translation></translation>
     </message>
     <message>
         <source>Notify me when a thing connects</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Notify me when something dries out</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7194,10 +7383,44 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
 </context>
 <context>
+    <name>ruleNameTemplate for irrigationtemplates</name>
+    <message>
+        <source>Schedule for %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ruleNameTemplate for lighttemplates</name>
+    <message>
+        <source>Wake up with %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ruleNameTemplate for mediatemplates</name>
     <message>
         <source>%0 dims %1 for movie time</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Automatic night mode on %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 toggles play/pause on %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 toggles mute on %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 increases volume on %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 decreases volume on %0</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7207,16 +7430,16 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation></translation>
     </message>
     <message>
-        <source>Notify %1 when %0 runs dry</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Disconnect alert for %0</source>
         <translation></translation>
     </message>
     <message>
         <source>Connection notification for %0</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Notify %1 when %0 dries out</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
