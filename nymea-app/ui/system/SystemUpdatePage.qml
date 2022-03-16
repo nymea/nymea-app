@@ -197,7 +197,7 @@ Page {
                                ? "green"
                                  : model.installedVersion.length > 0 ? "blue" : Style.iconColor
                     onClicked: {
-                        pageStack.push(packageDetailsComponent, {pkg: updatesModel.get(index)})
+                        pageStack.push(Qt.resolvedUrl("PackageDetailsPage.qml"), {pkg: updatesModel.get(index)})
                     }
                 }
             }
