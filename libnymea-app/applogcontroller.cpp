@@ -93,7 +93,7 @@ AppLogController::AppLogController(QObject *parent) : QObject(parent)
     QSettings settings;
     settings.beginGroup("LoggingLevels");
     foreach (const QString &category, nymeaLoggingCategories()) {
-        m_logLevels[category] = static_cast<LogLevel>(settings.value(category, LogLevelInfo).toInt());
+        m_logLevels[category] = static_cast<LogLevel>(settings.value(category, LogLevelWarning).toInt());
     }
     settings.endGroup();
     updateFilters();
