@@ -84,6 +84,49 @@
     </message>
 </context>
 <context>
+    <name>AdvancedConnectionInterfacesPage</name>
+    <message>
+        <source>Connection interfaces</source>
+        <translation type="unfinished">Bağlantı arayüzleri</translation>
+    </message>
+    <message>
+        <source>TCP server interfaces</source>
+        <translation type="unfinished">TCP sunucu arayüzleri</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Ekle</translation>
+    </message>
+    <message>
+        <source>WebSocket server interfaces</source>
+        <translation type="unfinished">WebSocket sunucu arayüzleri</translation>
+    </message>
+    <message>
+        <source>Remote connection server interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>nymea:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: nymea:cloud based remote connection is deprecated and will be removed in a future version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud</source>
+        <translation type="unfinished">Bulut</translation>
+    </message>
+    <message>
+        <source>Connect this %1 system to %1:cloud</source>
+        <translation type="unfinished">Bu %1 sistemini %1:bulut&apos;a bağlayın</translation>
+    </message>
+</context>
+<context>
     <name>AppLogPage</name>
     <message>
         <source>Application logs</source>
@@ -106,7 +149,7 @@
     </message>
     <message>
         <source>Cloud login</source>
-        <translation>Bulut giriş</translation>
+        <translation type="vanished">Bulut giriş</translation>
     </message>
     <message>
         <source>Developer options</source>
@@ -126,7 +169,7 @@
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1 systems</source>
-        <translation>%1:bulutta oturum açın ve bağlı %1 sistemlerini yönetin</translation>
+        <translation type="vanished">%1:bulutta oturum açın ve bağlı %1 sistemlerini yönetin</translation>
     </message>
 </context>
 <context>
@@ -963,22 +1006,38 @@
     </message>
     <message>
         <source>TCP server interfaces</source>
-        <translation>TCP sunucu arayüzleri</translation>
+        <translation type="vanished">TCP sunucu arayüzleri</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Ekle</translation>
+        <translation type="vanished">Ekle</translation>
     </message>
     <message>
         <source>WebSocket server interfaces</source>
-        <translation>WebSocket sunucu arayüzleri</translation>
+        <translation type="vanished">WebSocket sunucu arayüzleri</translation>
     </message>
     <message>
-        <source>Remote connection server interfaces</source>
+        <source>Connection settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Server: %1</source>
+        <source>Remote connection</source>
+        <translation type="unfinished">Uzak bağlantı</translation>
+    </message>
+    <message>
+        <source>Enabling the remote connection will allow connecting to this %1 system from anywhere.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation type="unfinished">Etkin</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1336,6 +1395,22 @@
     <message>
         <source>Configure logging categories</source>
         <translation>Günlük kategorilerini yapılandırın</translation>
+    </message>
+    <message>
+        <source>nymea:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: nymea:cloud is deprecated and will be removed in a future version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log into %1:cloud and manage connected %1 systems</source>
+        <translation type="unfinished">%1:bulutta oturum açın ve bağlı %1 sistemlerini yönetin</translation>
     </message>
 </context>
 <context>
@@ -5870,11 +5945,11 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Cloud</source>
-        <translation>Bulut</translation>
+        <translation type="vanished">Bulut</translation>
     </message>
     <message>
         <source>API interfaces</source>
-        <translation>API arayüzleri</translation>
+        <translation type="vanished">API arayüzleri</translation>
     </message>
     <message>
         <source>MQTT broker</source>
@@ -5930,7 +6005,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Configure how clients interact with this system</source>
-        <translation>İstemcilerin bu sistemle nasıl etkileşime gireceğini yapılandırın</translation>
+        <translation type="vanished">İstemcilerin bu sistemle nasıl etkileşime gireceğini yapılandırın</translation>
     </message>
     <message>
         <source>User settings</source>
@@ -5950,7 +6025,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Connect this %1 system to %1:cloud</source>
-        <translation>Bu %1 sistemini %1:bulut&apos;a bağlayın</translation>
+        <translation type="vanished">Bu %1 sistemini %1:bulut&apos;a bağlayın</translation>
     </message>
     <message>
         <source>Modbus RTU</source>
@@ -5967,6 +6042,14 @@ Do you want to proceed?</source>
     <message>
         <source>About %1</source>
         <translation>Hakkında %1</translation>
+    </message>
+    <message>
+        <source>Connection settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure how applications can connect to this system</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -86,18 +86,9 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/connections/cloud.svg"
-                text: qsTr("Cloud")
-                subText: qsTr("Connect this %1 system to %1:cloud").arg(Configuration.systemName)
-                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
-                onClicked: pageStack.push(Qt.resolvedUrl("system/CloudSettingsPage.qml"))
-            }
-
-            SettingsTile {
-                Layout.fillWidth: true
                 iconSource: "../images/connections/network-vpn.svg"
-                text: qsTr("API interfaces")
-                subText: qsTr("Configure how clients interact with this system")
+                text: qsTr("Connection settings")
+                subText: qsTr("Configure how applications can connect to this system")
                 visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.apiSettingsEnabled
                 onClicked: pageStack.push(Qt.resolvedUrl("system/ConnectionInterfacesPage.qml"))
             }

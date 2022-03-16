@@ -84,6 +84,49 @@
     </message>
 </context>
 <context>
+    <name>AdvancedConnectionInterfacesPage</name>
+    <message>
+        <source>Connection interfaces</source>
+        <translation type="unfinished">연결 인터페이스</translation>
+    </message>
+    <message>
+        <source>TCP server interfaces</source>
+        <translation type="unfinished">TCP 서버 인터페이스</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">추가</translation>
+    </message>
+    <message>
+        <source>WebSocket server interfaces</source>
+        <translation type="unfinished">WebSocket 서버 인터페이스</translation>
+    </message>
+    <message>
+        <source>Remote connection server interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>nymea:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: nymea:cloud based remote connection is deprecated and will be removed in a future version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud</source>
+        <translation type="unfinished">클라우드</translation>
+    </message>
+    <message>
+        <source>Connect this %1 system to %1:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AppLogPage</name>
     <message>
         <source>Application logs</source>
@@ -106,7 +149,7 @@
     </message>
     <message>
         <source>Cloud login</source>
-        <translation>클라우드 로그인</translation>
+        <translation type="vanished">클라우드 로그인</translation>
     </message>
     <message>
         <source>Developer options</source>
@@ -123,10 +166,6 @@
     <message>
         <source>Access tools for debugging and error reporting</source>
         <translation type="unfinished">디버깅 및 오류 보고를 위한 액세스 도구</translation>
-    </message>
-    <message>
-        <source>Log into %1:cloud and manage connected %1 systems</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -933,22 +972,38 @@
     </message>
     <message>
         <source>TCP server interfaces</source>
-        <translation>TCP 서버 인터페이스</translation>
+        <translation type="vanished">TCP 서버 인터페이스</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>추가</translation>
+        <translation type="vanished">추가</translation>
     </message>
     <message>
         <source>WebSocket server interfaces</source>
-        <translation>WebSocket 서버 인터페이스</translation>
+        <translation type="vanished">WebSocket 서버 인터페이스</translation>
     </message>
     <message>
-        <source>Remote connection server interfaces</source>
+        <source>Connection settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Server: %1</source>
+        <source>Remote connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabling the remote connection will allow connecting to this %1 system from anywhere.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1305,6 +1360,22 @@
     </message>
     <message>
         <source>Configure logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>nymea:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: nymea:cloud is deprecated and will be removed in a future version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud login</source>
+        <translation type="unfinished">클라우드 로그인</translation>
+    </message>
+    <message>
+        <source>Log into %1:cloud and manage connected %1 systems</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5833,11 +5904,11 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Cloud</source>
-        <translation>클라우드</translation>
+        <translation type="vanished">클라우드</translation>
     </message>
     <message>
         <source>API interfaces</source>
-        <translation>API 인터페이스</translation>
+        <translation type="vanished">API 인터페이스</translation>
     </message>
     <message>
         <source>MQTT broker</source>
@@ -5893,7 +5964,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Configure how clients interact with this system</source>
-        <translation>클라이언트가 이 시스템과 상호 작용하는 방식 구성</translation>
+        <translation type="vanished">클라이언트가 이 시스템과 상호 작용하는 방식 구성</translation>
     </message>
     <message>
         <source>User settings</source>
@@ -5912,10 +5983,6 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Connect this %1 system to %1:cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Update your %1 system</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5929,6 +5996,14 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Configure Modbus RTU master interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure how applications can connect to this system</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

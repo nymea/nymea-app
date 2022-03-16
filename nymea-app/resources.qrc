@@ -275,5 +275,6 @@
         <file>ui/system/TunnelProxyServerConfigurationDialog.qml</file>
         <file>ui/delegates/StateDelegate.qml</file>
         <file>ui/system/PackageDetailsPage.qml</file>
+        <file>ui/system/AdvancedConnectionInterfacesPage.qml</file>
     </qresource>
 </RCC>

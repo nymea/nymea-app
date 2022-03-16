@@ -104,6 +104,7 @@ void ServerConfigurations::removeConfiguration(const QString &id)
             beginRemoveRows(QModelIndex(), i, i);
             m_list.takeAt(i)->deleteLater();
             endRemoveRows();
+            emit countChanged();
             return;
         }
     }

@@ -84,6 +84,49 @@
     </message>
 </context>
 <context>
+    <name>AdvancedConnectionInterfacesPage</name>
+    <message>
+        <source>Connection interfaces</source>
+        <translation>Verbindungs-Schnittstellen</translation>
+    </message>
+    <message>
+        <source>TCP server interfaces</source>
+        <translation>TCP Server Schnittstellen</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Hinzufügen</translation>
+    </message>
+    <message>
+        <source>WebSocket server interfaces</source>
+        <translation>WebSocket server Schnittstellen</translation>
+    </message>
+    <message>
+        <source>Remote connection server interfaces</source>
+        <translation>Fernverbindungsschnittstellen</translation>
+    </message>
+    <message>
+        <source>Server: %1</source>
+        <translation>Server: %1</translation>
+    </message>
+    <message>
+        <source>nymea:cloud</source>
+        <translation>nymea:cloud</translation>
+    </message>
+    <message>
+        <source>Note: nymea:cloud based remote connection is deprecated and will be removed in a future version.</source>
+        <translation>Hinweis: Die nymea:cloud basiere Fernverbindung ist veraltet und wird in einer zukünftigen Version entfernt.</translation>
+    </message>
+    <message>
+        <source>Cloud</source>
+        <translation>Cloud</translation>
+    </message>
+    <message>
+        <source>Connect this %1 system to %1:cloud</source>
+        <translation>Verbinde dieses %1 System mit %1:cloud</translation>
+    </message>
+</context>
+<context>
     <name>AppLogPage</name>
     <message>
         <source>Application logs</source>
@@ -102,7 +145,7 @@
     </message>
     <message>
         <source>Cloud login</source>
-        <translation>Cloud Login</translation>
+        <translation type="vanished">Cloud Login</translation>
     </message>
     <message>
         <source>Developer options</source>
@@ -126,7 +169,7 @@
     </message>
     <message>
         <source>Log into %1:cloud and manage connected %1 systems</source>
-        <translation>Logge Dich in %1:cloud ein und Verwalte verbundene %1 systeme</translation>
+        <translation type="vanished">Logge Dich in %1:cloud ein und Verwalte verbundene %1 systeme</translation>
     </message>
 </context>
 <context>
@@ -965,23 +1008,47 @@
     </message>
     <message>
         <source>TCP server interfaces</source>
-        <translation>TCP Server Schnittstellen</translation>
+        <translation type="vanished">TCP Server Schnittstellen</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Hinzufügen</translation>
+        <translation type="vanished">Hinzufügen</translation>
     </message>
     <message>
         <source>WebSocket server interfaces</source>
-        <translation>WebSocket server Schnittstellen</translation>
+        <translation type="vanished">WebSocket server Schnittstellen</translation>
     </message>
     <message>
         <source>Remote connection server interfaces</source>
-        <translation>Fernverbindungsschnittstellen</translation>
+        <translation type="vanished">Fernverbindungsschnittstellen</translation>
     </message>
     <message>
         <source>Server: %1</source>
-        <translation>Server: %1</translation>
+        <translation type="vanished">Server: %1</translation>
+    </message>
+    <message>
+        <source>Connection settings</source>
+        <translation>Verbindungseinstellungen</translation>
+    </message>
+    <message>
+        <source>Remote connection</source>
+        <translation>Fernverbindung</translation>
+    </message>
+    <message>
+        <source>Enabling the remote connection will allow connecting to this %1 system from anywhere.</source>
+        <translation>Das Aktivieren der Fernverbindung erlaubt von überall aus auf dieses %1 system zuzugreifen.</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Aktivier</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Deaktiviert</translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation>Erweitert</translation>
     </message>
 </context>
 <context>
@@ -1338,6 +1405,22 @@
     <message>
         <source>Configure logging categories</source>
         <translation>Protokollkategorien einrichten</translation>
+    </message>
+    <message>
+        <source>nymea:cloud</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Note: nymea:cloud is deprecated and will be removed in a future version.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Cloud login</source>
+        <translation>Cloud Login</translation>
+    </message>
+    <message>
+        <source>Log into %1:cloud and manage connected %1 systems</source>
+        <translation>Logge Dich in %1:cloud ein und Verwalte verbundene %1 systeme</translation>
     </message>
 </context>
 <context>
@@ -5929,7 +6012,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Cloud</source>
-        <translation>Cloud</translation>
+        <translation type="vanished">Cloud</translation>
     </message>
     <message>
         <source>General</source>
@@ -5945,7 +6028,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>API interfaces</source>
-        <translation>API Schnittstellen</translation>
+        <translation type="vanished">API Schnittstellen</translation>
     </message>
     <message>
         <source>MQTT broker</source>
@@ -5993,7 +6076,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Configure how clients interact with this system</source>
-        <translation>Richte ein, wie andere Geräte mit diesem System kommunizieren</translation>
+        <translation type="vanished">Richte ein, wie andere Geräte mit diesem System kommunizieren</translation>
     </message>
     <message>
         <source>User settings</source>
@@ -6013,7 +6096,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Connect this %1 system to %1:cloud</source>
-        <translation>Verbinde dieses %1 System mit %1:cloud</translation>
+        <translation type="vanished">Verbinde dieses %1 System mit %1:cloud</translation>
     </message>
     <message>
         <source>Update your %1 system</source>
@@ -6030,6 +6113,14 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Configure Modbus RTU master interfaces</source>
         <translation>Modbug RTU Master Schnittstellen einrichten</translation>
+    </message>
+    <message>
+        <source>Connection settings</source>
+        <translation>Verbindungseinstellungen</translation>
+    </message>
+    <message>
+        <source>Configure how applications can connect to this system</source>
+        <translation>Verwalte wie sich Anwendungen zu diesem System verbinden können</translation>
     </message>
 </context>
 <context>

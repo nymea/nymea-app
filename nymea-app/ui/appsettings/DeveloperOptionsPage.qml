@@ -84,4 +84,25 @@ SettingsPageBase {
             }
         }
     }
+
+    SettingsPageSectionHeader {
+        text: qsTr("nymea:cloud")
+    }
+
+    Label {
+        Layout.fillWidth: true
+        Layout.leftMargin: Style.margins
+        Layout.rightMargin: Style.margins
+        text: qsTr("Note: nymea:cloud is deprecated and will be removed in a future version.")
+        wrapMode: Text.WordWrap
+    }
+
+    NymeaItemDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Cloud login")
+        subText: qsTr("Log into %1:cloud and manage connected %1 systems").arg(Configuration.systemName)
+        iconName: "../images/connections/cloud.svg"
+        onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))
+    }
+
 }

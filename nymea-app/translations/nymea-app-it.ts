@@ -84,6 +84,49 @@
     </message>
 </context>
 <context>
+    <name>AdvancedConnectionInterfacesPage</name>
+    <message>
+        <source>Connection interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TCP server interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Aggiungi</translation>
+    </message>
+    <message>
+        <source>WebSocket server interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remote connection server interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>nymea:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: nymea:cloud based remote connection is deprecated and will be removed in a future version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect this %1 system to %1:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AppLogPage</name>
     <message>
         <source>Application logs</source>
@@ -106,7 +149,7 @@
     </message>
     <message>
         <source>Cloud login</source>
-        <translation>Login cloud</translation>
+        <translation type="vanished">Login cloud</translation>
     </message>
     <message>
         <source>Developer options</source>
@@ -123,10 +166,6 @@
     <message>
         <source>Access tools for debugging and error reporting</source>
         <translation>Accedi a strumenti per debug e riportare errori</translation>
-    </message>
-    <message>
-        <source>Log into %1:cloud and manage connected %1 systems</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -929,23 +968,27 @@
         <translation></translation>
     </message>
     <message>
-        <source>TCP server interfaces</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>WebSocket server interfaces</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Remote connection server interfaces</source>
+        <source>Connection settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Server: %1</source>
+        <source>Remote connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabling the remote connection will allow connecting to this %1 system from anywhere.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1302,6 +1345,22 @@
     </message>
     <message>
         <source>Configure logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>nymea:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: nymea:cloud is deprecated and will be removed in a future version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud login</source>
+        <translation type="unfinished">Login cloud</translation>
+    </message>
+    <message>
+        <source>Log into %1:cloud and manage connected %1 systems</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5775,14 +5834,6 @@ Do you want to proceed?</source>
         <translation></translation>
     </message>
     <message>
-        <source>Cloud</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>API interfaces</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>MQTT broker</source>
         <translation></translation>
     </message>
@@ -5835,10 +5886,6 @@ Do you want to proceed?</source>
         <translation></translation>
     </message>
     <message>
-        <source>Configure how clients interact with this system</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>User settings</source>
         <translation></translation>
     </message>
@@ -5855,10 +5902,6 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Connect this %1 system to %1:cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Update your %1 system</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5872,6 +5915,14 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Configure Modbus RTU master interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure how applications can connect to this system</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -65,13 +65,6 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                text: qsTr("Cloud login")
-                subText: qsTr("Log into %1:cloud and manage connected %1 systems").arg(Configuration.systemName)
-                iconSource: "../images/connections/cloud.svg"
-                onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))
-            }
-            SettingsTile {
-                Layout.fillWidth: true
                 text: qsTr("Developer options")
                 subText: qsTr("Access tools for debugging and error reporting")
                 iconSource: "../images/sdk.svg"

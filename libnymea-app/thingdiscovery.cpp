@@ -166,7 +166,7 @@ QString ThingDiscovery::displayMessage() const
 
 int ThingDiscovery::discoverThingsInternal(const QUuid &thingClassId, const QVariantList &discoveryParams)
 {
-    qCDebug(dcThingManager()) << "Starting thing discovery for thing class" << m_engine->thingManager()->thingClasses()->getThingClass(thingClassId)->name() << thingClassId;
+    qCInfo(dcThingManager()) << "Starting thing discovery for thing class" << m_engine->thingManager()->thingClasses()->getThingClass(thingClassId)->name() << thingClassId;
     QVariantMap params;
     params.insert("thingClassId", thingClassId.toString());
     if (!discoveryParams.isEmpty()) {
