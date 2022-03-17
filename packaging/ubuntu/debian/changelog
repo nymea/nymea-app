@@ -1,3 +1,11 @@
+nymea-app (1.0.439) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rework remote connection settings
+  * Set default debug level to warning
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 17 Mar 2022 10:17:40 +0100
+
 nymea-app (1.0.438) bionic; urgency=medium
 
   [ Michael Zanetti ]
