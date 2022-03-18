@@ -115,7 +115,7 @@
     </message>
     <message>
         <source>Note: nymea:cloud based remote connection is deprecated and will be removed in a future version.</source>
-        <translation>Hinweis: Die nymea:cloud basiere Fernverbindung ist veraltet und wird in einer zukünftigen Version entfernt.</translation>
+        <translation>Hinweis: Die nymea:cloud basierte Fernverbindung ist veraltet und wird in einer zukünftigen Version entfernt.</translation>
     </message>
     <message>
         <source>Cloud</source>
@@ -1040,7 +1040,7 @@
     </message>
     <message>
         <source>Enabled</source>
-        <translation>Aktivier</translation>
+        <translation>Aktiviert</translation>
     </message>
     <message>
         <source>Disabled</source>
