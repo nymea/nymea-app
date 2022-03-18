@@ -69,7 +69,7 @@ NymeaSwipeDelegate {
                 var text = ""
                 switch (paramType.type.toLowerCase()) {
                 case "bool":
-                    text = ruleActionParam.value === true ? qsTr("True") : qsTr("False")
+                    text = ruleActionParam.value === true ? qsTr("Yes") : qsTr("No")
                     break;
                 case "color":
                     text = "<font color=\"" + ruleActionParam.value + "\">⬤</font>"

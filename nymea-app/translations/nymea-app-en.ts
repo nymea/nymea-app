@@ -1373,6 +1373,14 @@
         <source>Filter by</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DoorbellDevicePage</name>
@@ -5006,19 +5014,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
 </context>
 <context>
-    <name>PackageListPage</name>
-    <message>
-        <source>All packages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No package found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
+    <name>PackageDetailsPage</name>
     <message>
         <source>Package information</source>
         <translation type="unfinished"></translation>
@@ -5067,6 +5063,21 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Remove package</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PackageListPage</name>
+    <message>
+        <source>All packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No package found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5358,11 +5369,11 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>True</source>
+        <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>False</source>
+        <source>No</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6004,11 +6015,11 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>True</source>
+        <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>False</source>
+        <source>No</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

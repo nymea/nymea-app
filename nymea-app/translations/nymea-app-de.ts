@@ -1475,6 +1475,14 @@
         <source>Filter by</source>
         <translation>Filtern nach</translation>
     </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nein</translation>
+    </message>
 </context>
 <context>
     <name>DoorbellDevicePage</name>
@@ -5224,22 +5232,10 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
 </context>
 <context>
-    <name>PackageListPage</name>
-    <message>
-        <source>All packages</source>
-        <translation>Alle Pakete</translation>
-    </message>
-    <message>
-        <source>No package found</source>
-        <translation>Keine Pakete gefunden</translation>
-    </message>
-    <message>
-        <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
-        <translation>Es tut uns leid. Wir konnten keine Pakete finden, auf denen der Suchbegriff %1 zutrifft.</translation>
-    </message>
+    <name>PackageDetailsPage</name>
     <message>
         <source>Package information</source>
-        <translation>Paket-Informationen</translation>
+        <translation>Paketinformationen</translation>
     </message>
     <message>
         <source>Installed version:</source>
@@ -5251,7 +5247,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Candidate version:</source>
-        <translation>Kandidat-Version:</translation>
+        <translation>Versionskandidat:</translation>
     </message>
     <message>
         <source>Update</source>
@@ -5263,7 +5259,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
-        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Minuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.</translation>
+        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Miuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.</translation>
     </message>
     <message>
         <source>
@@ -5288,6 +5284,73 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Remove package</source>
         <translation>Paket entfernen</translation>
+    </message>
+</context>
+<context>
+    <name>PackageListPage</name>
+    <message>
+        <source>All packages</source>
+        <translation>Alle Pakete</translation>
+    </message>
+    <message>
+        <source>No package found</source>
+        <translation>Keine Pakete gefunden</translation>
+    </message>
+    <message>
+        <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
+        <translation>Es tut uns leid. Wir konnten keine Pakete finden, auf denen der Suchbegriff %1 zutrifft.</translation>
+    </message>
+    <message>
+        <source>Package information</source>
+        <translation type="vanished">Paket-Informationen</translation>
+    </message>
+    <message>
+        <source>Installed version:</source>
+        <translation type="vanished">Installierte Version:</translation>
+    </message>
+    <message>
+        <source>Not installed</source>
+        <translation type="vanished">Nicht installiert</translation>
+    </message>
+    <message>
+        <source>Candidate version:</source>
+        <translation type="vanished">Kandidat-Version:</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="vanished">Aktualisierung</translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation type="vanished">Installieren</translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
+        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Minuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.</translation>
+    </message>
+    <message>
+        <source>
+Do you want to proceed?</source>
+        <translation type="vanished">
+Möchtest Du fortfahren?</translation>
+    </message>
+    <message>
+        <source>Start update</source>
+        <translation type="vanished">Aktualisierung starten</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="vanished">Entfernen</translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
+Do you want to proceed?</source>
+        <translation type="vanished">Diese Aktion wird ein System-Update starten. Dies kann mehrere Miuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.
+Möchtest Du fortfahren?</translation>
+    </message>
+    <message>
+        <source>Remove package</source>
+        <translation type="vanished">Paket entfernen</translation>
     </message>
 </context>
 <context>
@@ -5587,11 +5650,19 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>True</source>
-        <translation>Wahr</translation>
+        <translation type="vanished">Wahr</translation>
     </message>
     <message>
         <source>False</source>
-        <translation>Falsch</translation>
+        <translation type="vanished">Falsch</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nein</translation>
     </message>
 </context>
 <context>
@@ -6249,11 +6320,19 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>True</source>
-        <translation>Wahr</translation>
+        <translation type="vanished">Wahr</translation>
     </message>
     <message>
         <source>False</source>
-        <translation>Falsch</translation>
+        <translation type="vanished">Falsch</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nein</translation>
     </message>
 </context>
 <context>

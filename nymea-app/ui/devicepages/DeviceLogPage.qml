@@ -206,7 +206,7 @@ Page {
                             text: {
                                 switch (model.source) {
                                 case LogEntry.LoggingSourceStates:
-//                                    return entryDelegate.stateType.displayName
+                                    return entryDelegate.stateType.displayName
                                 case LogEntry.LoggingSourceEvents:
                                     return entryDelegate.eventType.displayName
                                 case LogEntry.LoggingSourceActions:
@@ -215,6 +215,7 @@ Page {
                             }
                             Layout.fillWidth: true
                             elide: Text.ElideRight
+                            font: Style.smallFont
                         }
                         Label {
                             text: Qt.formatDateTime(model.timestamp,"dd.MM.yy hh:mm:ss")
@@ -247,6 +248,10 @@ Page {
 
                                     }
                                 case LogEntry.LoggingSourceActions:
+                                    switch (entryDelegate.stateType.type.toLowerCase()) {
+                                    case "bool":
+                                        return boolComponent;
+                                    }
 
                                     break;
                                 case LogEntry.LoggingSourceEvents:
@@ -275,7 +280,7 @@ Page {
             property var value
             property string unitString
             text: value + " " + unitString
-            font.pixelSize: app.smallFont
+            font: Style.smallFont
             elide: Text.ElideRight
         }
     }
@@ -286,7 +291,7 @@ Page {
             property double value
             property string unitString
             text: value.toFixed(value > 1000 ? 0 : 2) + " " + unitString
-            font.pixelSize: app.smallFont
+            font: Style.smallFont
             elide: Text.ElideRight
         }
     }
@@ -295,18 +300,24 @@ Page {
         id: dateTimeComponent
         Label {
             property var value
+            font: Style.smallFont
             text: Qt.formatDateTime(new Date(value * 1000), Qt.DefaultLocaleShortDate)
         }
     }
 
     Component {
         id: boolComponent
-        Item {
+        RowLayout {
             id: boolLed
             property var value
             Led {
                 implicitHeight: app.smallFont
                 state: boolLed.value === "true" ? "on" : "off"
+            }
+            Label {
+                font: Style.smallFont
+                text: boolLed.value === "true" ? qsTr("Yes") : qsTr("No")
+                Layout.fillWidth: true
             }
         }
     }

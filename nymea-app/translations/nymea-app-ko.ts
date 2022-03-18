@@ -1431,6 +1431,14 @@
         <source>Filter by</source>
         <translation>필터 기준</translation>
     </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DoorbellDevicePage</name>
@@ -5121,19 +5129,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
 </context>
 <context>
-    <name>PackageListPage</name>
-    <message>
-        <source>All packages</source>
-        <translation type="unfinished">모든 패키지</translation>
-    </message>
-    <message>
-        <source>No package found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
+    <name>PackageDetailsPage</name>
     <message>
         <source>Package information</source>
         <translation type="unfinished">패키지 정보</translation>
@@ -5184,6 +5180,63 @@ Do you want to proceed?</source>
     <message>
         <source>Remove package</source>
         <translation type="unfinished">패키지 제거</translation>
+    </message>
+</context>
+<context>
+    <name>PackageListPage</name>
+    <message>
+        <source>All packages</source>
+        <translation type="unfinished">모든 패키지</translation>
+    </message>
+    <message>
+        <source>No package found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package information</source>
+        <translation type="obsolete">패키지 정보</translation>
+    </message>
+    <message>
+        <source>Installed version:</source>
+        <translation type="obsolete">설치된 버전:</translation>
+    </message>
+    <message>
+        <source>Not installed</source>
+        <translation type="obsolete">설치되지 않음</translation>
+    </message>
+    <message>
+        <source>Candidate version:</source>
+        <translation type="obsolete">후보 버전:</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="obsolete">업데이트</translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation type="obsolete">설치</translation>
+    </message>
+    <message>
+        <source>
+Do you want to proceed?</source>
+        <translation type="obsolete">
+진행 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Start update</source>
+        <translation type="obsolete">업데이트 시작</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="obsolete">제거</translation>
+    </message>
+    <message>
+        <source>Remove package</source>
+        <translation type="obsolete">패키지 제거</translation>
     </message>
 </context>
 <context>
@@ -5474,11 +5527,11 @@ Do you want to proceed?</source>
         <translation>알 수 없는 항목</translation>
     </message>
     <message>
-        <source>True</source>
+        <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>False</source>
+        <source>No</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6132,11 +6185,11 @@ Do you want to proceed?</source>
         <translation>조건을 편집하려면 누르십시오</translation>
     </message>
     <message>
-        <source>True</source>
+        <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>False</source>
+        <source>No</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

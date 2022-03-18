@@ -1465,6 +1465,14 @@
         <source>Filter by</source>
         <translation>Tarafından filtre</translation>
     </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DoorbellDevicePage</name>
@@ -5154,19 +5162,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
 </context>
 <context>
-    <name>PackageListPage</name>
-    <message>
-        <source>All packages</source>
-        <translation type="unfinished">Tüm paketler</translation>
-    </message>
-    <message>
-        <source>No package found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
+    <name>PackageDetailsPage</name>
     <message>
         <source>Package information</source>
         <translation type="unfinished">Paket Bilgileri</translation>
@@ -5217,6 +5213,68 @@ Do you want to proceed?</source>
     <message>
         <source>Remove package</source>
         <translation type="unfinished">Paketi kaldır</translation>
+    </message>
+</context>
+<context>
+    <name>PackageListPage</name>
+    <message>
+        <source>All packages</source>
+        <translation type="unfinished">Tüm paketler</translation>
+    </message>
+    <message>
+        <source>No package found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Package information</source>
+        <translation type="obsolete">Paket Bilgileri</translation>
+    </message>
+    <message>
+        <source>Installed version:</source>
+        <translation type="obsolete">Yüklü sürüm:</translation>
+    </message>
+    <message>
+        <source>Not installed</source>
+        <translation type="obsolete">Yüklü değil</translation>
+    </message>
+    <message>
+        <source>Candidate version:</source>
+        <translation type="obsolete">Aday versiyonu:</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="obsolete">Güncelleme</translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation type="obsolete">Yükle</translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
+        <translation type="obsolete">Bu bir sistem güncellemesi başlatacaktır. Güncellemenin birkaç dakika sürebileceğini ve bu süre içinde %1&apos;inizin düzgün çalışmayabileceğini veya yeniden başlamayabileceğini unutmayın.</translation>
+    </message>
+    <message>
+        <source>
+Do you want to proceed?</source>
+        <translation type="obsolete">
+Devam etmek istiyor musunuz?</translation>
+    </message>
+    <message>
+        <source>Start update</source>
+        <translation type="obsolete">Güncellemeyi Başlat</translation>
+    </message>
+    <message>
+        <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
+Do you want to proceed?</source>
+        <translation type="obsolete">Bu bir sistem güncellemesi başlatacaktır. Güncellemenin birkaç dakika sürebileceğini ve %1 sisteminizin bu süre içinde düzgün çalışmayabileceğini ve işlem sırasında yeniden başlatılabileceğini unutmayın. Devam etmek istiyor musunuz?</translation>
+    </message>
+    <message>
+        <source>Remove package</source>
+        <translation type="obsolete">Paketi kaldır</translation>
     </message>
 </context>
 <context>
@@ -5516,11 +5574,19 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>True</source>
-        <translation>Doğru</translation>
+        <translation type="vanished">Doğru</translation>
     </message>
     <message>
         <source>False</source>
-        <translation>YANLIŞ</translation>
+        <translation type="vanished">YANLIŞ</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6178,11 +6244,19 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>True</source>
-        <translation>Doğru</translation>
+        <translation type="vanished">Doğru</translation>
     </message>
     <message>
         <source>False</source>
-        <translation>Yanlış</translation>
+        <translation type="vanished">Yanlış</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -102,7 +102,7 @@ SwipeDelegate {
                         valueText = root.stateEvaluator.stateDescriptor.value;
                         switch (root.stateType.type.toLowerCase()) {
                         case "bool":
-                            valueText = root.stateEvaluator.stateDescriptor.value === true ? qsTr("True") : qsTr("False")
+                            valueText = root.stateEvaluator.stateDescriptor.value === true ? qsTr("Yes") : qsTr("No")
                             break;
                         }
                     } else {
