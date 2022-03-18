@@ -126,3 +126,13 @@ ServerConfiguration *ServerConfigurations::get(int index) const
     }
     return m_list.at(index);
 }
+
+ServerConfiguration *ServerConfigurations::getConfiguration(const QString &id) const
+{
+    for (int i = 0; i < m_list.count(); i++) {
+        if (m_list.at(i)->id() == id) {
+            return m_list.at(i);
+        }
+    }
+    return nullptr;
+}

@@ -295,7 +295,7 @@ void NymeaConfiguration::deleteMqttPolicy(const QString &clientId)
 void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariantMap &params)
 {
     Q_UNUSED(commandId)
-//    qDebug() << "have config reply" << params;
+    qCDebug(dcNymeaConfiguration) << "GetConfigurations response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
     QVariantMap basicConfig = params.value("basicConfiguration").toMap();
     m_debugServerEnabled = basicConfig.value("debugServerEnabled").toBool();
     emit debugServerEnabledChanged();
@@ -307,15 +307,16 @@ void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariant
 
     tcpServerConfigurations()->clear();
     foreach (const QVariant &tcpServerVariant, params.value("tcpServerConfigurations").toList()) {
-//        qDebug() << "tcp server config:" << tcpServerVariant;
         QVariantMap tcpConfigMap = tcpServerVariant.toMap();
         ServerConfiguration *config = new ServerConfiguration(tcpConfigMap.value("id").toString(), tcpConfigMap.value("address").toString(), tcpConfigMap.value("port").toInt(), tcpConfigMap.value("authenticationEnabled").toBool(), tcpConfigMap.value("sslEnabled").toBool());
+        qCInfo(dcNymeaConfiguration) << "TCP server config:" << config->id() << config->address() << config->port() << config->authenticationEnabled() << config->sslEnabled();
         m_tcpServerConfigurations->addConfiguration(config);
     }
     webSocketServerConfigurations()->clear();
     foreach (const QVariant &websocketServerVariant, params.value("webSocketServerConfigurations").toList()) {
         QVariantMap websocketConfigMap = websocketServerVariant.toMap();
         ServerConfiguration *config = new ServerConfiguration(websocketConfigMap.value("id").toString(), websocketConfigMap.value("address").toString(), websocketConfigMap.value("port").toInt(), websocketConfigMap.value("authenticationEnabled").toBool(), websocketConfigMap.value("sslEnabled").toBool());
+        qCInfo(dcNymeaConfiguration) << "WebSocket server config:" << config->id() << config->address() << config->port() << config->authenticationEnabled() << config->sslEnabled();
         m_webSocketServerConfigurations->addConfiguration(config);
     }
 
@@ -324,12 +325,14 @@ void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariant
         QVariantMap webServerConfigMap = webServerVariant.toMap();
         WebServerConfiguration* config = new WebServerConfiguration(webServerConfigMap.value("id").toString(), webServerConfigMap.value("address").toString(), webServerConfigMap.value("port").toInt(), webServerConfigMap.value("authenticationEnabled").toBool(), webServerConfigMap.value("sslEnabled").toBool());
         config->setPublicFolder(webServerConfigMap.value("publicFolder").toString());
+        qCInfo(dcNymeaConfiguration) << "WebServer server config:" << config->id() << config->address() << config->port() << config->authenticationEnabled() << config->sslEnabled() << config->publicFolder();
         m_webServerConfigurations->addConfiguration(config);
     }
 
     foreach (const QVariant &tunnelProxyServerVariant, params.value("tunnelProxyServerConfigurations").toList()) {
         QVariantMap tunnelProxyServerConfigMap = tunnelProxyServerVariant.toMap();
         TunnelProxyServerConfiguration *config = new TunnelProxyServerConfiguration(tunnelProxyServerConfigMap.value("id").toString(), tunnelProxyServerConfigMap.value("address").toString(), tunnelProxyServerConfigMap.value("port").toInt(), tunnelProxyServerConfigMap.value("authenticationEnabled").toBool(), tunnelProxyServerConfigMap.value("sslEnabled").toBool(), tunnelProxyServerConfigMap.value("ignoreSslErrors").toBool());
+        qCInfo(dcNymeaConfiguration) << "Tunnel server config:" << config->id() << config->address() << config->port() << config->authenticationEnabled() << config->sslEnabled() << config->ignoreSslErrors();
         m_tunnelProxyServerConfigurations->addConfiguration(config);
     }
 
@@ -339,67 +342,67 @@ void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariant
 
 void NymeaConfiguration::setServerNameResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Server name set:" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Server name set:" << commandId << params;
 }
 
 void NymeaConfiguration::setTimezoneResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Set timezone response" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Set timezone response" << commandId << params;
 }
 
 void NymeaConfiguration::getCloudConfigurationResponse(const QVariantMap &params)
 {
-    qDebug() << "Cloud config reply" << params;
+    qCDebug(dcNymeaConfiguration) << "Cloud config reply" << params;
 }
 
 void NymeaConfiguration::setCloudEnabledResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Set cloud enabled:" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Set cloud enabled:" << commandId << params;
 }
 
 void NymeaConfiguration::setDebugServerEnabledResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Debug server set:" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Debug server set:" << commandId << params;
 }
 
 void NymeaConfiguration::setTcpConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Set TCP server config reply" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Set TCP server config reply" << commandId << params;
 }
 
 void NymeaConfiguration::deleteTcpConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Deöete  TCP server config reply" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Deöete  TCP server config reply" << commandId << params;
 }
 
 void NymeaConfiguration::setWebSocketConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "set websocket config reply" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "set websocket config reply" << commandId << params;
 }
 
 void NymeaConfiguration::setWebConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "set web server config reply" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "set web server config reply" << commandId << params;
 }
 
 void NymeaConfiguration::deleteWebConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Delete web server config reply" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Delete web server config reply" << commandId << params;
 }
 
 void NymeaConfiguration::deleteWebSocketConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Delete web socket server config reply" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Delete web socket server config reply" << commandId << params;
 }
 
 void NymeaConfiguration::setTunnelProxyServerConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Set tunnel proxy server config reply" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Set tunnel proxy server config reply" << commandId << params;
 }
 
 void NymeaConfiguration::deleteTunnelProxyServerConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Delete tunnel proxy server config reply" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Delete tunnel proxy server config reply" << commandId << params;
 }
 
 void NymeaConfiguration::getMqttServerConfigsReply(int commandId, const QVariantMap &params)
@@ -415,18 +418,18 @@ void NymeaConfiguration::getMqttServerConfigsReply(int commandId, const QVariant
 
 void NymeaConfiguration::setMqttConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Set mqtt config reply" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Set mqtt config reply" << commandId << params;
 }
 
 void NymeaConfiguration::deleteMqttConfigReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Delete Mqtt Broker config reply:" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Delete Mqtt Broker config reply:" << commandId << params;
 }
 
 void NymeaConfiguration::getMqttPoliciesReply(int commandId, const QVariantMap &params)
 {
     Q_UNUSED(commandId)
-//    qDebug() << "Mqtt polices:" << params;
+//    qCDebug(dcNymeaConfiguration) << "Mqtt polices:" << params;
     m_mqttPolicies->clear();
     foreach (const QVariant &policyVariant, params.value("mqttPolicies").toList()) {
         QVariantMap policyMap = policyVariant.toMap();
@@ -442,113 +445,155 @@ void NymeaConfiguration::getMqttPoliciesReply(int commandId, const QVariantMap &
 
 void NymeaConfiguration::setMqttPolicyReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Set MQTT policy reply" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Set MQTT policy reply" << commandId << params;
 }
 
 void NymeaConfiguration::deleteMqttPolicyReply(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Delete MQTT policy reply" << commandId << params;
+    qCDebug(dcNymeaConfiguration) << "Delete MQTT policy reply" << commandId << params;
 }
 
 void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
 {
+    qCDebug(dcNymeaConfiguration()) << "Config notification received" << qUtf8Printable(QJsonDocument::fromVariant(notification).toJson());
     QString notif = notification.value("notification").toString();
-    qWarning() << "Config notification received" << notif;
+    QVariantMap params = notification.value("params").toMap();
+
     if (notif == "Configuration.BasicConfigurationChanged") {
-        QVariantMap params = notification.value("params").toMap().value("basicConfiguration").toMap();
-        m_debugServerEnabled = params.value("debugServerEnabled").toBool();
+        QVariantMap configMap = params.value("basicConfiguration").toMap();
+        m_debugServerEnabled = configMap.value("debugServerEnabled").toBool();
         emit debugServerEnabledChanged();
-        m_serverName = params.value("serverName").toString();
+        m_serverName = configMap.value("serverName").toString();
         emit serverNameChanged();
         qCDebug(dcNymeaConfiguration()) << "Basic configuration changed. Server name:" << m_serverName << "Debug server enabled:" << m_debugServerEnabled;
-        return;
-    }
-    if (notif == "Configuration.CloudConfigurationChanged") {
-        QVariantMap params = notification.value("params").toMap().value("cloudConfiguration").toMap();
-        qCDebug(dcNymeaConfiguration()) << "Cloud coniguration changed" << params;
-        m_cloudEnabled = params.value("enabled").toBool();
+    } else if (notif == "Configuration.CloudConfigurationChanged") {
+        QVariantMap configMap = params.value("cloudConfiguration").toMap();
+        qCDebug(dcNymeaConfiguration()) << "Cloud coniguration changed" << configMap;
+        m_cloudEnabled = configMap.value("enabled").toBool();
         emit cloudEnabledChanged();
-        return;
-    }
-    if (notif.endsWith("ServerConfigurationChanged")) {
-        ServerConfigurations *configModel = nullptr;
-        ServerConfiguration *serverConfig = nullptr;
+    } else if (notif == "Configuration.TcpServerConfigurationChanged") {
+        QVariantMap configMap = params.value("tcpServerConfiguration").toMap();
+        QString id = configMap.value("id").toString();
+        QString address = configMap.value("address").toString();
+        int port = configMap.value("port").toInt();
+        bool authEnabled = configMap.value("authenticationEnabled").toBool();
+        bool sslEnabled = configMap.value("sslEnabled").toBool();
 
-        QVariantMap params;
-        if (notif == "Configuration.TcpServerConfigurationChanged") {
-            configModel = m_tcpServerConfigurations;
-            params = notification.value("params").toMap().value("tcpServerConfiguration").toMap();
+        ServerConfiguration *config = m_tcpServerConfigurations->getConfiguration(id);
+        bool existing = true;
+        if (!config) {
+            existing = false;
+            config = new ServerConfiguration(id);
         }
-        if (notif == "Configuration.WebSocketServerConfigurationChanged") {
-            configModel = m_webSocketServerConfigurations;
-            params = notification.value("params").toMap().value("webSocketServerConfiguration").toMap();
+        config->setAddress(address);
+        config->setPort(port);
+        config->setAuthenticationEnabled(authEnabled);
+        config->setSslEnabled(sslEnabled);
+        if (!existing) {
+            m_tcpServerConfigurations->addConfiguration(config);
         }
-        if (notif == "Configuration.TunnelProxyServerConfigurationChanged") {
-            configModel = m_tunnelProxyServerConfigurations;
-            params = notification.value("params").toMap().value("tunnelProxyServerConfiguration").toMap();
-        }
-        if (notif == "Configuration.WebServerConfigurationChanged") {
-            configModel = m_webServerConfigurations;
-            params = notification.value("params").toMap().value("webServerConfiguration").toMap();
-        }
-        if (notif == "Configuration.MqttServerConfigurationChanged") {
-            configModel = m_mqttServerConfigurations;
-            params = notification.value("params").toMap().value("mqttServerConfiguration").toMap();
-        }
-        if (!configModel) {
-            return;
-        }
+    } else if (notif == "Configuration.WebSocketServerConfigurationChanged") {
+        QVariantMap configMap = params.value("webSocketServerConfiguration").toMap();
+        QString id = configMap.value("id").toString();
+        QString address = configMap.value("address").toString();
+        int port = configMap.value("port").toInt();
+        bool authEnabled = configMap.value("authenticationEnabled").toBool();
+        bool sslEnabled = configMap.value("sslEnabled").toBool();
 
-        for (int i = 0; i < configModel->rowCount(); i++) {
-            ServerConfiguration* config = configModel->get(i);
-            if (config->id() == params.value("id").toString()) {
-                serverConfig = config;
-            }
+        ServerConfiguration *config = m_webSocketServerConfigurations->getConfiguration(id);
+        bool existing = true;
+        if (!config) {
+            existing = false;
+            config = new ServerConfiguration(id);
         }
+        config->setAddress(address);
+        config->setPort(port);
+        config->setAuthenticationEnabled(authEnabled);
+        config->setSslEnabled(sslEnabled);
+        if (!existing) {
+            m_webSocketServerConfigurations->addConfiguration(config);
+        }
+    } else if (notif == "Configuration.TunnelProxyServerConfigurationChanged") {
+        QVariantMap configMap = params.value("tunnelProxyServerConfiguration").toMap();
+        QString id = configMap.value("id").toString();
+        QString address = configMap.value("address").toString();
+        int port = configMap.value("port").toInt();
+        bool authEnabled = configMap.value("authenticationEnabled").toBool();
+        bool sslEnabled = configMap.value("sslEnabled").toBool();
+        bool ignoreSslErrors = configMap.value("ignoreSslErrors").toBool();
 
-        if (!serverConfig) {
-            if (notif == "Configuration.WebServerConfigurationChanged") {
-                serverConfig = new WebServerConfiguration(params.value("id").toString());
-            } else if (notif == "Configuration.TunnelProxyServerConfigurationChanged") {
-                serverConfig = new TunnelProxyServerConfiguration(params.value("id").toString());
-            } else {
-                serverConfig = new ServerConfiguration(params.value("id").toString());
-            }
-            configModel->addConfiguration(serverConfig);
+        TunnelProxyServerConfiguration *config = qobject_cast<TunnelProxyServerConfiguration*>(m_tunnelProxyServerConfigurations->getConfiguration(id));
+        bool existing = true;
+        if (!config) {
+            existing = false;
+            config = new TunnelProxyServerConfiguration(id);
         }
-        serverConfig->setAddress(params.value("address").toString());
-        serverConfig->setPort(params.value("port").toInt());
-        serverConfig->setAuthenticationEnabled(params.value("authenticationEnabled").toBool());
-        serverConfig->setSslEnabled(params.value("sslEnabled").toBool());
-        if (notif == "Configuration.WebServerConfigurationChanged") {
-            qobject_cast<WebServerConfiguration*>(serverConfig)->setPublicFolder(params.value("publicFolder").toString());
+        config->setAddress(address);
+        config->setPort(port);
+        config->setAuthenticationEnabled(authEnabled);
+        config->setSslEnabled(sslEnabled);
+        config->setIgnoreSslErrors(ignoreSslErrors);
+        if (!existing) {
+            qCInfo(dcNymeaConfiguration()) << "Adding tunnel proxy connection:" << config->id() << config->address() << config->port() << config->sslEnabled() << config->authenticationEnabled() << config->ignoreSslErrors();
+            m_tunnelProxyServerConfigurations->addConfiguration(config);
         }
+    } else if (notif == "Configuration.WebServerConfigurationChanged") {
+        QVariantMap configMap = params.value("webServerConfiguration").toMap();
+        QString id = configMap.value("id").toString();
+        QString address = configMap.value("address").toString();
+        int port = configMap.value("port").toInt();
+        bool authEnabled = configMap.value("authenticationEnabled").toBool();
+        bool sslEnabled = configMap.value("sslEnabled").toBool();
+        QString publicFolder  = configMap.value("publicFolder").toString();
 
-        return;
-    }
-    if (notif == "Configuration.TcpServerConfigurationRemoved") {
-        m_tcpServerConfigurations->removeConfiguration(notification.value("params").toMap().value("id").toString());
-        return;
-    }
-    if (notif == "Configuration.WebSocketServerConfigurationRemoved") {
-        m_webSocketServerConfigurations->removeConfiguration(notification.value("params").toMap().value("id").toString());
-        return;
-    }
-    if (notif == "Configuration.TunnelProxyServerConfigurationRemoved") {
-        m_tunnelProxyServerConfigurations->removeConfiguration(notification.value("params").toMap().value("id").toString());
-        return;
-    }
-    if (notif == "Configuration.WebServerConfigurationRemoved") {
-        m_webServerConfigurations->removeConfiguration(notification.value("params").toMap().value("id").toString());
-        return;
-    }
-    if (notif == "Configuration.MqttServerConfigurationRemoved") {
-        m_mqttServerConfigurations->removeConfiguration(notification.value("params").toMap().value("id").toString());
-        return;
-    }
-    if (notif == "Configuration.MqttPolicyChanged") {
+        WebServerConfiguration *config = qobject_cast<WebServerConfiguration*>(m_webServerConfigurations->getConfiguration(id));
+        bool existing = true;
+        if (!config) {
+            existing = false;
+            config = new WebServerConfiguration(id);
+        }
+        config->setAddress(address);
+        config->setPort(port);
+        config->setAuthenticationEnabled(authEnabled);
+        config->setSslEnabled(sslEnabled);
+        config->setPublicFolder(publicFolder);
+        if (!existing) {
+            m_webServerConfigurations->addConfiguration(config);
+        }
+    } else if (notif == "Configuration.MqttServerConfigurationChanged") {
+        QVariantMap configMap = params.value("mqttServerConfiguration").toMap();
+        QString id = configMap.value("id").toString();
+        QString address = configMap.value("address").toString();
+        int port = configMap.value("port").toInt();
+        bool authEnabled = configMap.value("authenticationEnabled").toBool();
+        bool sslEnabled = configMap.value("sslEnabled").toBool();
+
+        ServerConfiguration *config = m_mqttServerConfigurations->getConfiguration(id);
+        bool existing = true;
+        if (!config) {
+            existing = false;
+            config = new WebServerConfiguration(id);
+        }
+        config->setAddress(address);
+        config->setPort(port);
+        config->setAuthenticationEnabled(authEnabled);
+        config->setSslEnabled(sslEnabled);
+        if (!existing) {
+            m_mqttServerConfigurations->addConfiguration(config);
+        }
+    } else if (notif == "Configuration.TcpServerConfigurationRemoved") {
+        m_tcpServerConfigurations->removeConfiguration(params.value("id").toString());
+    } else if (notif == "Configuration.WebSocketServerConfigurationRemoved") {
+        m_webSocketServerConfigurations->removeConfiguration(params.value("id").toString());
+    } else if (notif == "Configuration.TunnelProxyServerConfigurationRemoved") {
+        m_tunnelProxyServerConfigurations->removeConfiguration(params.value("id").toString());
+    } else if (notif == "Configuration.WebServerConfigurationRemoved") {
+        m_webServerConfigurations->removeConfiguration(params.value("id").toString());
+    } else if (notif == "Configuration.MqttServerConfigurationRemoved") {
+        m_mqttServerConfigurations->removeConfiguration(params.value("id").toString());
+    } else if (notif == "Configuration.MqttPolicyChanged") {
         MqttPolicy *policy = nullptr;
-        QVariantMap policyMap = notification.value("params").toMap().value("policy").toMap();
+        QVariantMap policyMap = params.value("policy").toMap();
         for (int i = 0; i < m_mqttPolicies->rowCount(); i++) {
             if (m_mqttPolicies->get(i)->clientId() == policyMap.value("clientId").toString()) {
                 policy = m_mqttPolicies->get(i);
@@ -563,19 +608,16 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
         policy->setPassword(policyMap.value("password").toString());
         policy->setAllowedPublishTopicFilters(policyMap.value("allowedPublishTopicFilters").toStringList());
         policy->setAllowedSubscribeTopicFilters(policyMap.value("allowedSubscribeTopicFilters").toStringList());
-        qCDebug(dcNymeaConfiguration()) << "MQTT policy changed" << policy->clientId() << policy->username() << policy->password();
-        return;
-    }
-    if (notif == "Configuration.MqttPolicyRemoved") {
-        MqttPolicy* policy = m_mqttPolicies->getPolicy(notification.value("params").toMap().value("clientId").toString());
+        qCInfo(dcNymeaConfiguration()) << "MQTT policy changed" << policy->clientId() << policy->username() << policy->password();
+    } else if (notif == "Configuration.MqttPolicyRemoved") {
+        MqttPolicy* policy = m_mqttPolicies->getPolicy(params.value("clientId").toString());
         if (!policy) {
             qCWarning(dcNymeaConfiguration()) << "Reveived a policy removed notification for apolicy we don't know";
             return;
         }
-        qCDebug(dcNymeaConfiguration()) << "MQTT policy removed" << policy->clientId() << policy->username() << policy->password();
+        qCInfo(dcNymeaConfiguration()) << "MQTT policy removed" << policy->clientId() << policy->username() << policy->password();
         m_mqttPolicies->removePolicy(policy);
-        return;
+    } else {
+        qCWarning(dcNymeaConfiguration) << "Unhandled Configuration notification" << qUtf8Printable(QJsonDocument::fromVariant(notification).toJson());
     }
-
-    qCWarning(dcNymeaConfiguration) << "Unhandled Configuration notification" << qUtf8Printable(QJsonDocument::fromVariant(notification).toJson());
 }

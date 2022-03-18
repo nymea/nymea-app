@@ -1004,7 +1004,7 @@
     <name>ConnectionInterfacesPage</name>
     <message>
         <source>Connection interfaces</source>
-        <translation>Verbindungs-Schnittstellen</translation>
+        <translation>Verbindungsschnittstellen</translation>
     </message>
     <message>
         <source>TCP server interfaces</source>
@@ -1040,7 +1040,7 @@
     </message>
     <message>
         <source>Enabled</source>
-        <translation>Aktivier</translation>
+        <translation>Aktiviert</translation>
     </message>
     <message>
         <source>Disabled</source>

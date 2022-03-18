@@ -36,6 +36,9 @@
 #include "types/repositories.h"
 
 #include <QTimeZone>
+#include <QJsonDocument>
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcSystemController, "SystemController")
 
 SystemController::SystemController(JsonRpcClient *jsonRpcClient, QObject *parent):
     QObject(parent),
@@ -229,11 +232,12 @@ void SystemController::getCapabilitiesResponse(int /*commandId*/, const QVariant
         m_jsonRpcClient->sendCommand("System.GetTime", this, "getServerTimeResponse");
     }
 
-    qDebug() << "nymea:core capabilities: Power management:" << m_powerManagementAvailable << "Update management:" << m_updateManagementAvailable << "Time management:" << m_timeManagementAvailable;
+    qCDebug(dcSystemController) << "nymea:core capabilities: Power management:" << m_powerManagementAvailable << "Update management:" << m_updateManagementAvailable << "Time management:" << m_timeManagementAvailable;
 }
 
 void SystemController::getUpdateStatusResponse(int /*commandId*/, const QVariantMap &data)
 {
+    qCDebug(dcSystemController()) << "Update status:" << qUtf8Printable(QJsonDocument::fromVariant(data).toJson(QJsonDocument::Indented));
     m_updateManagementBusy = data.value("busy").toBool();
     m_updateRunning = data.value("updateRunning").toBool();
     emit updateRunningChanged();
@@ -242,6 +246,7 @@ void SystemController::getUpdateStatusResponse(int /*commandId*/, const QVariant
 void SystemController::getPackagesResponse(int commandId, const QVariantMap &data)
 {
     Q_UNUSED(commandId)
+    qCDebug(dcSystemController) << "Packages:" << qUtf8Printable(QJsonDocument::fromVariant(data).toJson(QJsonDocument::Indented));
     foreach (const QVariant &packageVariant, data.value("packages").toList()) {
         QString id = packageVariant.toMap().value("id").toString();
         QString displayName = packageVariant.toMap().value("displayName").toString();
@@ -270,12 +275,12 @@ void SystemController::getRepositoriesResponse(int /*commandId*/, const QVariant
 
 void SystemController::removePackageResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Remove result" << commandId << params;
+    qCDebug(dcSystemController) << "Remove result" << commandId << params;
 }
 
 void SystemController::enableRepositoryResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "Enable repo response" << params;
+    qCDebug(dcSystemController) << "Enable repo response" << params;
     emit enableRepositoryFinished(commandId, params.value("success").toBool());
 }
 
@@ -297,12 +302,12 @@ void SystemController::getServerTimeResponse(int commandId, const QVariantMap &p
     emit automaticTimeAvailableChanged();
     m_automaticTime = params.value("automaticTime").toBool();
     emit automaticTimeChanged();
-    qDebug() << "Server time:" << m_serverTime << "Automatic Time available:" << m_automaticTimeAvailable << "Automatic time:" << m_automaticTime;
+    qCDebug(dcSystemController) << "Server time:" << m_serverTime << "Automatic Time available:" << m_automaticTimeAvailable << "Automatic time:" << m_automaticTime;
 }
 
 void SystemController::setTimeResponse(int commandId, const QVariantMap &params)
 {
-    qDebug() << "set time response" << commandId << params;
+    qCDebug(dcSystemController) << "set time response" << commandId << params;
 }
 
 void SystemController::restartResponse(int commandId, const QVariantMap &params)
@@ -334,7 +339,7 @@ void SystemController::notificationReceived(const QVariantMap &data)
 {
     QString notification = data.value("notification").toString();
     if (notification == "System.UpdateStatusChanged") {
-        qDebug() << "System.UpdateStatusChanged:" << data.value("params").toMap();
+        qCDebug(dcSystemController) << "System.UpdateStatusChanged:" << data.value("params").toMap();
         if (m_updateManagementBusy != data.value("params").toMap().value("busy").toBool()) {
             m_updateManagementBusy = data.value("params").toMap().value("busy").toBool();
             emit updateManagementBusyChanged();
@@ -400,7 +405,7 @@ void SystemController::notificationReceived(const QVariantMap &data)
         emit powerManagementAvailableChanged();
         emit updateManagementAvailableChanged();
     } else if (notification == "System.TimeConfigurationChanged") {
-        qDebug() << "System time configuration changed" << data.value("params").toMap().value("timeZone").toByteArray();
+        qCDebug(dcSystemController) << "System time configuration changed" << data.value("params").toMap().value("timeZone").toByteArray();
         m_serverTime = QDateTime::fromSecsSinceEpoch(data.value("params").toMap().value("time").toUInt());
 
         // NOTE: Ideally we'd just set the TimeZone of our serverTime prooperly, however, there's a bug on Android

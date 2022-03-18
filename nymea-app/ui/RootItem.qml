@@ -362,16 +362,19 @@ Item {
                         for (var i = 0; i < engine.jsonRpcClient.currentHost.connections.count; i++) {
                             var connection = engine.jsonRpcClient.currentHost.connections.get(i)
                             if (connection.url.toString().startsWith("tunnel")) {
+                                console.log("Removing tunnel proxy connection:", connection.url)
                                 engine.jsonRpcClient.currentHost.connections.removeConnection(i--);
                             }
                         }
 
                         for (var i = 0; i < engine.nymeaConfiguration.tunnelProxyServerConfigurations.count; i++) {
                             var tunnelProxyConfig = engine.nymeaConfiguration.tunnelProxyServerConfigurations.get(i);
+                            console.debug("tunnelProxyConfig:", JSON.stringify(tunnelProxyConfig))
                             var url = tunnelProxyConfig.sslEnabled ? "tunnels://" : "tunnel://";
                             url += tunnelProxyConfig.address
                             url += ":" + tunnelProxyConfig.port
                             url += "?uuid=" + engine.jsonRpcClient.currentHost.uuid
+                            console.info("Adding tunnel proxy connection:", url)
                             engine.jsonRpcClient.currentHost.connections.addConnection(url, Connection.BearerTypeCloud, tunnelProxyConfig.sslEnabled, "Remote proxy connection");
                         }
                         nymeaDiscovery.cacheHost(engine.jsonRpcClient.currentHost)
