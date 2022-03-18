@@ -1,3 +1,11 @@
+nymea-app (1.0.440) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix syncing of remote connection settings directly on activation
+  * More translation fixes
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 18 Mar 2022 20:06:10 +0100
+
 nymea-app (1.0.439) bionic; urgency=medium
 
   [ Michael Zanetti ]
