@@ -1,3 +1,10 @@
+nymea-app (1.0.441) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix thing state logs
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 19 Mar 2022 15:04:05 +0100
+
 nymea-app (1.0.440) bionic; urgency=medium
 
   [ Michael Zanetti ]
