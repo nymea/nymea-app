@@ -296,6 +296,14 @@ Item {
                     font: Style.smallFont
                 }
 
+                Label {
+                    property double value: acquisitionUpperSeries.at(toolTip.seriesIndex).y
+                    property bool translate: value >= 1000
+                    property double translatedValue: value / (translate ? 1000 : 1)
+                    text: qsTr("Total consumption: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
+                    font: Style.extraSmallFont
+                }
+
                 RowLayout {
                     Rectangle {
                         width: Style.extraSmallFont.pixelSize
@@ -304,7 +312,14 @@ Item {
                     }
 
                     Label {
-                        text: qsTr("Self production: %1 kW").arg(selfProductionUpperSeries.at(toolTip.seriesIndex).y.toFixed(2))
+                        // Workaround for Qt bug that lowerSeries is non-notifyable and throws warnings
+                        Component.onCompleted: lowerSeries = selfProductionSeries.lowerSeries
+                        property XYSeries lowerSeries: null
+
+                        property double value: selfProductionUpperSeries.at(toolTip.seriesIndex).y - lowerSeries.at(toolTip.seriesIndex).y
+                        property bool translate: value >= 1000
+                        property double translatedValue: value / (translate ? 1000 : 1)
+                        text: qsTr("Self production: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
                         font: Style.extraSmallFont
                     }
                 }
@@ -316,7 +331,14 @@ Item {
                     }
 
                     Label {
-                        text: qsTr("From battery: %1 kW").arg(storageUpperSeries.at(toolTip.seriesIndex).y.toFixed(2))
+                        // Workaround for Qt bug that lowerSeries is non-notifyable and throws warnings
+                        Component.onCompleted: lowerSeries = storageSeries.lowerSeries
+                        property XYSeries lowerSeries: null
+
+                        property double value: storageUpperSeries.at(toolTip.seriesIndex).y - lowerSeries.at(toolTip.seriesIndex).y
+                        property bool translate: value >= 1000
+                        property double translatedValue: value / (translate ? 1000 : 1)
+                        text: qsTr("From battery: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
                         font: Style.extraSmallFont
                     }
                 }
@@ -328,7 +350,14 @@ Item {
                     }
 
                     Label {
-                        text: qsTr("From grid: %1 kW").arg(acquisitionUpperSeries.at(toolTip.seriesIndex).y.toFixed(2))
+                        // Workaround for Qt bug that lowerSeries is non-notifyable and throws warnings
+                        Component.onCompleted: lowerSeries = acquisitionSeries.lowerSeries
+                        property XYSeries lowerSeries: null
+
+                        property double value: acquisitionUpperSeries.at(toolTip.seriesIndex).y - lowerSeries.at(toolTip.seriesIndex).y
+                        property bool translate: value >= 1000
+                        property double translatedValue: value / (translate ? 1000 : 1)
+                        text: qsTr("From grid: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
                         font: Style.extraSmallFont
                     }
                 }

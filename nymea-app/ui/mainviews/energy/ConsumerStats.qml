@@ -28,7 +28,7 @@ StatsBase {
     }
 
     function update() {
-        if (engine.thingManager.fetchingData || engine.tagsManager.busy) {
+        if (engine.thingManager.fetchingData || engine.tagsManager.busy || selectionTabs.currentValue === undefined) {
             return
         }
         powerLogs.loadingInhibited = true

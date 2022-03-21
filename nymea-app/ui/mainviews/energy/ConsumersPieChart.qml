@@ -155,8 +155,7 @@ ChartView {
                     font: Style.extraSmallFont
                 }
                 Label {
-
-                    color: d.thingsColorMap[consumer]
+                    color: d.thingsColorMap.hasOwnProperty(consumer) ? d.thingsColorMap[consumer] : "transparent"
                     text: "%1 %2"
                     .arg((consumerDelegate.value / (consumerDelegate.value > 1000 ? 1000 : 1)).toFixed(1))
                     .arg(consumerDelegate.value > 1000 ? "kWh" : "W")
