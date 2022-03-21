@@ -321,6 +321,28 @@ StatsBase {
         }
     }
 
+    Item {
+        anchors.fill: parent
+        anchors.leftMargin: chartView.x + chartView.plotArea.x
+        anchors.topMargin: chartView.y + chartView.plotArea.y
+        anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
+        anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
+        z: -1
+
+        Rectangle {
+            height: parent.height + Style.margins * 2
+            y: -Style.smallMargins
+            radius: Style.smallCornerRadius
+            width: chartView.plotArea.width / categoryAxis.count
+            color: Style.tileBackgroundColor
+            property int idx: Math.min(Math.max(0,Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)), categoryAxis.count - 1)
+            visible: toolTip.visible
+
+            x: idx * parent.width / categoryAxis.count
+            Behavior on x { NumberAnimation { duration: Style.animationDuration } }
+        }
+    }
+
     MouseArea {
         id: mouseArea
         anchors.fill: parent
@@ -347,7 +369,12 @@ StatsBase {
             property int idx: Math.min(Math.max(0,Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)), categoryAxis.count - 1)
             visible: mouseArea.containsMouse || mouseArea.preventStealing
 
-            x: Math.min(idx * mouseArea.width / categoryAxis.count, mouseArea.width - width)
+            property int chartWidth: chartView.plotArea.width
+            property int barWidth: chartWidth / categoryAxis.count
+
+            x: chartWidth - (idx * barWidth + barWidth + Style.smallMargins) > width ?
+                   idx * barWidth + barWidth + Style.smallMargins
+                 : idx * barWidth - Style.smallMargins - width
             property double setMaxValue: d.consumptionSet && d.productionSet && d.acquisitionSet && d.returnSet ?
                                              Math.max(d.consumptionSet.at(idx), Math.max(d.productionSet.at(idx), Math.max(d.acquisitionSet.at(idx), d.returnSet.at(idx))))
                                            : 0
