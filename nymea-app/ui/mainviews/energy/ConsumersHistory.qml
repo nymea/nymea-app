@@ -28,6 +28,14 @@ Item {
         thingIds: []
         loadingInhibited: thingIds.length === 0
 
+        onModelReset: {
+            for (var i = 0; i < consumers.count; i++) {
+                var consumer = consumers.get(i);
+                var series = d.thingsSeriesMap[consumer.id];
+                series.upperSeries.clear()
+            }
+        }
+
         onEntriesAdded: {
             var thingValues = ({})
             var timestamp = entries[0].timestamp
@@ -128,7 +136,6 @@ Item {
                 series.borderWidth = 0;
                 series.borderColor = series.color
 
-    //                print("Adding thingId series", thing.id, thing.name)
                 var map = d.thingsSeriesMap
                 map[thing.id] = series
                 d.thingsSeriesMap = map

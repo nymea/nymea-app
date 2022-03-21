@@ -330,7 +330,6 @@ Item {
                         property double translatedValue: value / (translate ? 1000 : 1)
                         text: qsTr("To battery: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
                         font: Style.extraSmallFont
-                        onValueChanged: print("value:", value, "Upper:", storageUpperSeries.at(toolTip.seriesIndex).y, "lower:", lowerSeries.at(toolTip.seriesIndex).y)
                     }
                 }
                 RowLayout {

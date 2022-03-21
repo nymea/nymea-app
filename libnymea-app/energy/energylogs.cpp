@@ -259,7 +259,7 @@ void EnergyLogs::fetchLogs()
     if (!m_endTime.isNull()) {
         params.insert("to", m_endTime.toSecsSinceEpoch());
     }
-    qCDebug(dcEnergyLogs()) << "Fetching energy logs" << params;
+    qCDebug(dcEnergyLogs()) << this << "Fetching energy logs" << params;
     m_engine->jsonRpcClient()->sendCommand("Energy.Get" + logsName(), params, this, "getLogsResponse");
 }
 
