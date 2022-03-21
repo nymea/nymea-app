@@ -5326,7 +5326,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
-        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Minuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.</translation>
+        <translation type="vanished">Diese Aktion wird ein System-Update starten. Dies kann mehrere Minuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.</translation>
     </message>
     <message>
         <source>
@@ -5512,15 +5512,31 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Self production: %1 kW</source>
-        <translation>Eigenproduktion: %1 kW</translation>
+        <translation type="vanished">Eigenproduktion: %1 kW</translation>
     </message>
     <message>
         <source>From battery: %1 kW</source>
-        <translation>Batterie: %1 kW</translation>
+        <translation type="vanished">Batterie: %1 kW</translation>
     </message>
     <message>
         <source>From grid: %1 kW</source>
-        <translation>Netzbezug: %1 kW</translation>
+        <translation type="vanished">Netzbezug: %1 kW</translation>
+    </message>
+    <message>
+        <source>Total consumption: %1 %2</source>
+        <translation>Gesamtverbrauch: %1 %2</translation>
+    </message>
+    <message>
+        <source>Self production: %1 %2</source>
+        <translation>Eigenproduktion: %1 %2</translation>
+    </message>
+    <message>
+        <source>From battery: %1 %2</source>
+        <translation>Von Batterie: %1 %2</translation>
+    </message>
+    <message>
+        <source>From grid: %1 %2</source>
+        <translation>Netzbezug: %1 %2</translation>
     </message>
 </context>
 <context>
@@ -5543,15 +5559,31 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>To battery: %1 kW</source>
-        <translation>Batterie: %1 kW</translation>
+        <translation type="vanished">Batterie: %1 kW</translation>
     </message>
     <message>
         <source>To grid: %1 kW</source>
-        <translation>Netzeinspeisung: %1 kW</translation>
+        <translation type="vanished">Netzeinspeisung: %1 kW</translation>
     </message>
     <message>
         <source>Consumed: %1 kW</source>
-        <translation>Verbraucht: %1 kW</translation>
+        <translation type="vanished">Verbraucht: %1 kW</translation>
+    </message>
+    <message>
+        <source>Total production: %1 %2</source>
+        <translation>Gesamtproduktion: %1 %2</translation>
+    </message>
+    <message>
+        <source>Consumed: %1 %2</source>
+        <translation>Verbraucht: %1 %2</translation>
+    </message>
+    <message>
+        <source>To battery: %1 %2</source>
+        <translation>Batterieladung: %1 %2</translation>
+    </message>
+    <message>
+        <source>To grid: %1 %2</source>
+        <translation>Netzeinspeisung: %1 %2</translation>
     </message>
 </context>
 <context>

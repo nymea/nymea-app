@@ -5297,15 +5297,19 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Self production: %1 kW</source>
+        <source>Total consumption: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>From battery: %1 kW</source>
+        <source>Self production: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>From grid: %1 kW</source>
+        <source>From battery: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5328,15 +5332,19 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To battery: %1 kW</source>
+        <source>Total production: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To grid: %1 kW</source>
+        <source>Consumed: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Consumed: %1 kW</source>
+        <source>To battery: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
