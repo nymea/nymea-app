@@ -1,3 +1,10 @@
+nymea-app (1.0.444) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix energy view when there is no root meter
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 22 Mar 2022 01:14:14 +0100
+
 nymea-app (1.0.443) bionic; urgency=medium
 
   [ Michael Zanetti ]
