@@ -18,6 +18,9 @@ ChartView {
     property ThingsProxy consumers: null
     property var colors: null
 
+    readonly property Thing rootMeter: engine.thingManager.fetchingData ? null : engine.thingManager.things.getThing(energyManager.rootMeterId)
+    onRootMeterChanged: updateConsumers()
+
     Connections {
         target: engine.thingManager
         onFetchingDataChanged: {
@@ -80,8 +83,10 @@ ChartView {
             unknownConsumption -= currentPowerState.value
         }
 
-        d.unknownSlice = consumersBalanceSeries.append(qsTr("Unknown"), unknownConsumption)
-        d.unknownSlice.color = Style.gray
+        if (root.rootMeter) {
+            d.unknownSlice = consumersBalanceSeries.append(qsTr("Unknown"), unknownConsumption)
+            d.unknownSlice.color = Style.gray
+        }
 
         d.thingsColorMap = colorMap
 
@@ -109,6 +114,7 @@ ChartView {
         ColumnLayout {
             Layout.fillWidth: true
             spacing: 0
+            visible: root.rootMeter
             Label {
                 text: qsTr("Total")
                 font: Style.smallFont

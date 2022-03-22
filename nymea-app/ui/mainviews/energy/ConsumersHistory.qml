@@ -54,7 +54,10 @@ Item {
                 var series = d.thingsSeriesMap[consumer.id];
                 series.upperSeries.append(timestamp, totalValue)
             }
+            thingPowerLogs.maxValue = Math.max(thingPowerLogs.maxValue, totalValue)
         }
+
+        property double maxValue: 0
     }
 
     property PowerBalanceLogs powerBalanceLogs: PowerBalanceLogs {
@@ -172,7 +175,7 @@ Item {
         ValueAxis {
             id: valueAxis
             min: 0
-            max: Math.ceil(powerBalanceLogs.maxValue / 1000) * 1000
+            max: Math.ceil(Math.max(powerBalanceLogs.maxValue, thingPowerLogs.maxValue) / 1000) * 1000
             labelFormat: ""
             gridLineColor: Style.tileOverlayColor
             labelsVisible: false
