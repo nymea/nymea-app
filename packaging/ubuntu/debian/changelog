@@ -1,3 +1,11 @@
+nymea-app (1.0.445) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve some debug prints in the things discovery
+  * Add more colors to the energy charts
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 23 Mar 2022 19:48:23 +0100
+
 nymea-app (1.0.444) bionic; urgency=medium
 
   [ Michael Zanetti ]
