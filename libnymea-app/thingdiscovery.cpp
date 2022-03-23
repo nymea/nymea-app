@@ -33,6 +33,7 @@
 #include "engine.h"
 
 #include <QMetaEnum>
+#include <QJsonDocument>
 #include <QLoggingCategory>
 
 Q_DECLARE_LOGGING_CATEGORY(dcThingManager)
@@ -179,7 +180,8 @@ int ThingDiscovery::discoverThingsInternal(const QUuid &thingClassId, const QVar
 
 void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &params)
 {
-    qCDebug(dcThingManager) << "Discovery response received" << params;
+    qCInfo(dcThingManager) << "Discovery response received for command" << commandId;
+    qCDebug(dcThingManager()) << "Discovery response data:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
     QVariantList descriptors = params.value("thingDescriptors").toList();
     foreach (const QVariant &descriptorVariant, descriptors) {
         if (!contains(descriptorVariant.toMap().value("id").toUuid())) {
