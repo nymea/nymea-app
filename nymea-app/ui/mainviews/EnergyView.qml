@@ -60,7 +60,7 @@ MainViewBase {
         engine: _engine
     }
 
-    property var thingColors: [Style.blue, Style.green, Style.red, Style.yellow, Style.purple, Style.orange, Style.lime]
+    property var thingColors: [Style.blue, Style.green, Style.red, Style.yellow, Style.purple, Style.orange, Style.lime, Style.pink, Style.darkBlue]
 
 
     ThingsProxy {
