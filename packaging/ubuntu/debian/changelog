@@ -1,3 +1,12 @@
+nymea-app (1.0.446) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide producer bars in power balance stats when there are no
+    producers
+  * Small ventilation interfaces fixes
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 25 Mar 2022 21:00:09 +0100
+
 nymea-app (1.0.445) bionic; urgency=medium
 
   [ Michael Zanetti ]
