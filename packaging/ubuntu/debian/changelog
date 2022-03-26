@@ -1,3 +1,11 @@
+nymea-app (1.0.447) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Revert "Hide producer bars in power balance stats when there are no
+    p…
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 26 Mar 2022 13:38:11 +0100
+
 nymea-app (1.0.446) bionic; urgency=medium
 
   [ Michael Zanetti ]
