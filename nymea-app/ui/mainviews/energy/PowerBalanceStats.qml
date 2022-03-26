@@ -10,37 +10,12 @@ StatsBase {
 
     property EnergyManager energyManager: null
 
-    // Can be overridden to use a shared model and spare some resources
-    property ThingsProxy producers: ThingsProxy {
-        id: producers
-        engine: _engine
-        shownInterfaces: ["smartmeterproducer"]
-    }
-    Connections { target: producers; onCountChanged: d.load() }
-    Connections { target: engine.thingManager; onFetchingDataChanged: d.load() }
-
     QtObject {
         id: d
         property BarSet consumptionSet: null
         property BarSet productionSet: null
         property BarSet acquisitionSet: null
         property BarSet returnSet: null
-
-        function load() {
-            if (selectionTabs.currentValue === undefined || engine.thingManager.fetchingData) {
-                return
-            }
-
-            var config = root.configs[selectionTabs.currentValue.config]
-            print("config:", config.startTime(), config.sampleRate)
-
-            powerBalanceLogs.loadingInhibited = true
-            powerBalanceLogs.sampleRate = config.sampleRate
-            powerBalanceLogs.startTime = new Date(config.startTime().getTime() - config.sampleRate * 60000)
-            powerBalanceLogs.loadingInhibited = false
-
-            chartView.reset();
-        }
     }
 
     ColumnLayout {
@@ -72,7 +47,19 @@ StatsBase {
                 }
             }
             onCurrentValueChanged: {
-                d.load();
+                if (currentValue === undefined) {
+                    return
+                }
+
+                var config = root.configs[currentValue.config]
+//                print("config:", config.startTime(), config.sampleRate)
+
+                powerBalanceLogs.loadingInhibited = true
+                powerBalanceLogs.sampleRate = config.sampleRate
+                powerBalanceLogs.startTime = new Date(config.startTime().getTime() - config.sampleRate * 60000)
+                powerBalanceLogs.loadingInhibited = false
+
+                chartView.reset();
             }
         }
 
@@ -83,11 +70,9 @@ StatsBase {
 //                print("balance changed:", d.consumptionSet, powerBalanceLogs, powerBalanceLogs.count)
 //                print("updating", start ? start.timestamp : "", start ? start.totalConsumption : 0, root.energyManager.totalConsumption, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
                 d.consumptionSet.replace(d.consumptionSet.count - 1, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
-                if (producers.count > 0) {
-                    d.productionSet.replace(d.productionSet.count - 1, root.energyManager.totalProduction - (start ? start.totalProduction : 0))
-                    d.acquisitionSet.replace(d.acquisitionSet.count - 1, root.energyManager.totalAcquisition - (start ? start.totalAcquisition : 0))
-                    d.returnSet.replace(d.returnSet.count - 1, root.energyManager.totalReturn - (start ? start.totalReturn : 0))
-                }
+                d.productionSet.replace(d.productionSet.count - 1, root.energyManager.totalProduction - (start ? start.totalProduction : 0))
+                d.acquisitionSet.replace(d.acquisitionSet.count - 1, root.energyManager.totalAcquisition - (start ? start.totalAcquisition : 0))
+                d.returnSet.replace(d.returnSet.count - 1, root.energyManager.totalReturn - (start ? start.totalReturn : 0))
             }
         }
 
@@ -189,12 +174,11 @@ StatsBase {
                     for (var i = 0; i < entries.length; i++) {
 //                        print("Appending to set", JSON.stringify(entries[i]))
                         d.consumptionSet.append(entries[i].consumption)
-                        if (producers.count > 0) {
-                            d.productionSet.append(entries[i].production)
-                            d.acquisitionSet.append(entries[i].acquisition)
-                            d.returnSet.append(entries[i].returned)
-                        }
+                        d.productionSet.append(entries[i].production)
+                        d.acquisitionSet.append(entries[i].acquisition)
+                        d.returnSet.append(entries[i].returned)
                     }
+
                 }
             }
 
@@ -222,16 +206,14 @@ StatsBase {
                 categoryAxis.timestamps = timestamps
 
                 d.consumptionSet.remove(0, 1);
-                d.consumptionSet.append(consumptionValue)
+                d.productionSet.remove(0, 1);
+                d.acquisitionSet.remove(0, 1);
+                d.returnSet.remove(0, 1);
 
-                if (producers.count > 0) {
-                    d.productionSet.remove(0, 1);
-                    d.productionSet.append(productionValue)
-                    d.acquisitionSet.remove(0, 1);
-                    d.acquisitionSet.append(acquisitionValue)
-                    d.returnSet.remove(0, 1);
-                    d.returnSet.append(returnValue)
-                }
+                d.consumptionSet.append(consumptionValue)
+                d.productionSet.append(productionValue)
+                d.acquisitionSet.append(acquisitionValue)
+                d.returnSet.append(returnValue)
 
                 chartView.animationOptions = NymeaUtils.chartsAnimationOptions
             }
@@ -261,20 +243,18 @@ StatsBase {
                 d.consumptionSet.color = Style.blue
                 d.consumptionSet.borderColor = d.consumptionSet.color
                 d.consumptionSet.borderWidth = 0
-                if (producers.count > 0) {
-                    d.productionSet = barSeries.append(qsTr("Produced"), [])
-                    d.productionSet.color = Style.green
-                    d.productionSet.borderColor = d.productionSet.color
-                    d.productionSet.borderWidth = 0
-                    d.acquisitionSet = barSeries.append(qsTr("From grid"), [])
-                    d.acquisitionSet.color = Style.red
-                    d.acquisitionSet.borderColor = d.acquisitionSet.color
-                    d.acquisitionSet.borderWidth = 0
-                    d.returnSet = barSeries.append(qsTr("To grid"), [])
-                    d.returnSet.color = Style.orange
-                    d.returnSet.borderColor = d.returnSet.color
-                    d.returnSet.borderWidth = 0
-                }
+                d.productionSet = barSeries.append(qsTr("Produced"), [])
+                d.productionSet.color = Style.green
+                d.productionSet.borderColor = d.productionSet.color
+                d.productionSet.borderWidth = 0
+                d.acquisitionSet = barSeries.append(qsTr("From grid"), [])
+                d.acquisitionSet.color = Style.red
+                d.acquisitionSet.borderColor = d.acquisitionSet.color
+                d.acquisitionSet.borderWidth = 0
+                d.returnSet = barSeries.append(qsTr("To grid"), [])
+                d.returnSet.color = Style.orange
+                d.returnSet.borderColor = d.returnSet.color
+                d.returnSet.borderWidth = 0
             }
 
             Item {
@@ -395,9 +375,7 @@ StatsBase {
             x: chartWidth - (idx * barWidth + barWidth + Style.smallMargins) > width ?
                    idx * barWidth + barWidth + Style.smallMargins
                  : idx * barWidth - Style.smallMargins - width
-            property double setMaxValue: producers.count == 0 && d.consumptionSet
-                                         ? d.consumptionSet.at(idx)
-                                         : d.consumptionSet && d.productionSet && d.acquisitionSet && d.returnSet ?
+            property double setMaxValue: d.consumptionSet && d.productionSet && d.acquisitionSet && d.returnSet ?
                                              Math.max(d.consumptionSet.at(idx), Math.max(d.productionSet.at(idx), Math.max(d.acquisitionSet.at(idx), d.returnSet.at(idx))))
                                            : 0
             y: Math.min(Math.max(mouseArea.height - (setMaxValue * mouseArea.height / valueAxis.max) - height - Style.smallMargins, 0), mouseArea.height - height)
@@ -429,7 +407,6 @@ StatsBase {
                     }
                 }
                 RowLayout {
-                    visible: d.productionSet
                     Rectangle {
                         width: Style.extraSmallFont.pixelSize
                         height: width
@@ -441,7 +418,6 @@ StatsBase {
                     }
                 }
                 RowLayout {
-                    visible: d.acquisitionSet
                     Rectangle {
                         width: Style.extraSmallFont.pixelSize
                         height: width
@@ -453,7 +429,6 @@ StatsBase {
                     }
                 }
                 RowLayout {
-                    visible: d.returnSet
                     Rectangle {
                         width: Style.extraSmallFont.pixelSize
                         height: width

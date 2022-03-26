@@ -168,7 +168,6 @@ MainViewBase {
                     Layout.preferredHeight: width
                     energyManager: energyManager
                     visible: rootMeter != null
-                    producers: producers
                 }
 
                 ConsumerStats {
