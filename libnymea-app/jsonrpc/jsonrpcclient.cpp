@@ -193,16 +193,16 @@ void JsonRpcClient::setNotificationsEnabledResponse(int commandId, const QVarian
 
 void JsonRpcClient::notificationReceived(const QVariantMap &data)
 {
-//    qDebug() << "Notification received:" << data;
+    qCDebug(dcJsonRpc()) << "Notification received:" << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
     if (data.value("notification").toString() == "JSONRPC.PushButtonAuthFinished") {
-        qDebug() << "Push button auth finished.";
+        qCInfo(dcJsonRpc()) << "Push button auth finished.";
         if (data.value("params").toMap().value("transactionId").toInt() != m_pendingPushButtonTransaction) {
-            qDebug() << "This push button transaction is not what we're waiting for...";
+            qCWarning(dcJsonRpc()) << "This push button transaction is not what we're waiting for...";
             return;
         }
         m_pendingPushButtonTransaction = -1;
         if (data.value("params").toMap().value("success").toBool()) {
-            qDebug() << "Push button auth succeeded";
+            qCInfo(dcJsonRpc()) << "Push button auth succeeded";
             m_token = data.value("params").toMap().value("token").toByteArray();
             QSettings settings;
             settings.beginGroup("jsonTokens");
@@ -212,6 +212,10 @@ void JsonRpcClient::notificationReceived(const QVariantMap &data)
             m_initialSetupRequired = false;
 
             emit authenticationRequiredChanged();
+
+            // Push button auth will always hand out admin tokens
+            m_permissionScopes = UserInfo::PermissionScopeAdmin;
+            emit permissionsChanged();
 
             setNotificationsEnabled();
         } else {
@@ -227,7 +231,7 @@ void JsonRpcClient::notificationReceived(const QVariantMap &data)
         return;
     }
 
-    qDebug() << "JsonRpcClient: Unhandled notification received" << data;
+    qCWarning(dcJsonRpc()) << "JsonRpcClient: Unhandled notification received" << data;
 }
 
 void JsonRpcClient::isCloudConnectedReply(int /*commandId*/, const QVariantMap &data)
@@ -629,8 +633,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
             QVariantMap userMap = dataMap.value("params").toMap().value("userInfo").toMap();
             if (userMap.value("username").toString() == m_username) {
                 m_permissionScopes = UserInfo::listToScopes(userMap.value("scopes").toStringList());
-                qCritical() << "Permissions changed for" << userMap.value("username") << userMap.value("scopes").toStringList().join(",") << m_permissionScopes;
-                qCritical() << "***" << (m_permissionScopes & UserInfo::PermissionScopeConfigureThings);
+                qCInfo(dcJsonRpc()) << "Permissions changed for" << userMap.value("username") << userMap.value("scopes").toStringList().join(",") << m_permissionScopes;
                 emit permissionsChanged();
             }
         }
@@ -650,7 +653,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 //        qWarning() << QString("JsonRpc: got response for %1.%2: %3").arg(reply->nameSpace(), reply->method(), QString::fromUtf8(jsonDoc.toJson(QJsonDocument::Indented))) << reply->callback() << reply->callback();
 
         if (dataMap.value("status").toString() == "unauthorized") {
-            qWarning() << "Something's off with the token";
+            qCWarning(dcJsonRpc()) << "Something's off with the token";
             m_authenticationRequired = true;
             m_token.clear();
             QSettings settings;
@@ -663,10 +666,10 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         }
 
         if (dataMap.value("status").toString() == "error") {
-            qWarning() << "An error happened in the JSONRPC layer:" << dataMap.value("error").toString();
-            qWarning() << "Request was:" << qUtf8Printable(QJsonDocument::fromVariant(reply->requestMap()).toJson());
+            qCWarning(dcJsonRpc()) << "An error happened in the JSONRPC layer:" << dataMap.value("error").toString();
+            qCWarning(dcJsonRpc()) << "Request was:" << qUtf8Printable(QJsonDocument::fromVariant(reply->requestMap()).toJson());
             if (reply->nameSpace() == "JSONRPC" && reply->method() == "Hello") {
-                qWarning() << "Hello call failed. Trying again without locale";
+                qCInfo(dcJsonRpc()) << "Hello call failed. Trying again without locale";
                 m_id = 0;
                 sendCommand("JSONRPC.Hello", QVariantMap(), this, "helloReply");
             }
