@@ -158,7 +158,7 @@ MainViewBase {
                 ConsumersHistory {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
-                    visible: consumers.count > 0
+                    visible: consumers.count > 0 || rootMeter != null
                     colors: root.thingColors
                     consumers: consumers
                 }
