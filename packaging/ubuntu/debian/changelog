@@ -1,3 +1,11 @@
+nymea-app (1.0.449) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make androidssl submodule shallow
+  * Show consumption history also if there's only a root meter
+
+ -- jenkins <developer@nymea.io>  Wed, 06 Apr 2022 17:16:39 +0200
+
 nymea-app (1.0.448) bionic; urgency=medium
 
   [ Michael Zanetti ]
