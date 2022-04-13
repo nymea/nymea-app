@@ -204,14 +204,14 @@ Item {
             height: Style.smallIconSize
             width: height
             name: root.isWireless ? "../images/connections/nm-signal-00.svg" : "../images/connections/network-wired-offline.svg"
-            color: root.disconnected ? "red" : "orange"
+            color: root.disconnected ? Style.red : Style.orange
             visible: root.setupStatus == Thing.ThingSetupStatusComplete && (root.disconnected || (root.isWireless && root.signalStrength < 20 && root.signalStrength >= 0))
         }
         ColorIcon {
             height: Style.smallIconSize
             width: height
             name: root.setupStatus === Thing.ThingSetupStatusFailed ? "../images/dialog-warning-symbolic.svg" : "../images/settings.svg"
-            color: root.setupStatus === Thing.ThingSetupStatusFailed ? "red" : Style.tileForegroundColor
+            color: root.setupStatus === Thing.ThingSetupStatusFailed ? Style.red : Style.tileForegroundColor
             visible: root.setupStatus === Thing.ThingSetupStatusFailed || root.setupStatus === Thing.ThingSetupStatusInProgress
         }
         ColorIcon {

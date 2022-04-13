@@ -57,6 +57,7 @@ Item {
         ProgressButton {
             imageSource: root.invert ? "../images/down.svg" : "../images/up.svg"
             backgroundColor: root.backgroundEnabled ? Style.green : "transparent"
+            color:  root.backgroundEnabled ? Style.white : Style.iconColor
             size: root.size
             busy: root.openState ? root.openState.value === "opening" : openBusyTimer.running
             onClicked: {
@@ -77,6 +78,7 @@ Item {
         ProgressButton {
             visible: root.canStop
             backgroundColor: root.backgroundEnabled ? Style.yellow : "transparent"
+            color:  root.backgroundEnabled ? Style.white : Style.iconColor
             size: root.size
             imageSource: "../images/media-playback-stop.svg"
             onClicked: {
@@ -92,6 +94,7 @@ Item {
         ProgressButton {
             imageSource: root.invert ? "../images/up.svg" : "../images/down.svg"
             backgroundColor: root.backgroundEnabled ? Style.red : "transparent"
+            color:  root.backgroundEnabled ? Style.white : Style.iconColor
             size: root.size
             busy: root.openState ? root.openState.value === "closing" : closeBusyTimer.running
             onClicked: {

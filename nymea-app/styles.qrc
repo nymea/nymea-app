@@ -3,6 +3,13 @@
         <file>styles/light/Page.qml</file>
         <file>styles/light/logo.svg</file>
         <file>styles/light/Button.qml</file>
+        <file>styles/light/Style.qml</file>
+        <file>styles/light/logo-wide.svg</file>
+        <file>styles/mellow/Page.qml</file>
+        <file>styles/mellow/logo.svg</file>
+        <file>styles/mellow/Button.qml</file>
+        <file>styles/mellow/Style.qml</file>
+        <file>styles/mellow/logo-wide.svg</file>
         <file>styles/dark/Page.qml</file>
         <file>styles/dark/logo.svg</file>
         <file>styles/dark/Button.qml</file>
@@ -22,11 +29,9 @@
         <file>styles/energize/logo.svg</file>
         <file>styles/energize/Page.qml</file>
         <file>styles/dark/Style.qml</file>
-        <file>styles/light/Style.qml</file>
         <file>styles/noir/Style.qml</file>
         <file>styles/lime/Style.qml</file>
         <file>styles/energize/Style.qml</file>
-        <file>styles/light/logo-wide.svg</file>
         <file>styles/dark/logo-wide.svg</file>
         <file>styles/energize/logo-wide.svg</file>
         <file>styles/lime/logo-wide.svg</file>
