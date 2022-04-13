@@ -201,10 +201,10 @@ void ZigbeeManager::getNetworksResponse(int commandId, const QVariantMap &params
         // Get nodes from this network
         getNodes(network->networkUuid());
 
-        // In theory this should only change after nodes have been fetched... but this will do for now...
-        m_fetchingData = false;
-        emit fetchingDataChanged();
     }
+    // In theory this should only change after nodes have been fetched... but this will do for now...
+    m_fetchingData = false;
+    emit fetchingDataChanged();
 }
 
 void ZigbeeManager::addNetworkResponse(int commandId, const QVariantMap &params)
