@@ -59,13 +59,13 @@ NymeaSwipeDelegate {
 
     tertiaryIconColor: {
         if (thing.setupStatus == Thing.ThingSetupStatusFailed) {
-            return "red"
+            return Style.red
         }
         if (thing.setupStatus == Thing.ThingSetupStatusInProgress) {
             return Style.iconColor
         }
         if (connectedState && connectedState.value === false) {
-            return "red"
+            return Style.red
         }
         return Style.iconColor
     }
