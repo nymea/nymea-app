@@ -287,7 +287,6 @@ void SystemController::enableRepositoryResponse(int commandId, const QVariantMap
 void SystemController::getServerTimeResponse(int commandId, const QVariantMap &params)
 {
     Q_UNUSED(commandId)
-    m_serverTime = QDateTime::fromSecsSinceEpoch(params.value("time").toUInt());
 
     // NOTE: Ideally we'd just set the TimeZone of our serverTime prooperly, however, there's a bug on Android
     // Which doesn't allow to create QTimeZone objects by IANA id.... So, let's keep that separated in a string
@@ -295,9 +294,16 @@ void SystemController::getServerTimeResponse(int commandId, const QVariantMap &p
 
 //    m_serverTime.setTimeZone(QTimeZone(params.value("timeZone").toString().toUtf8()));
     m_serverTimeZone = params.value("timeZone").toString();
-
-    emit serverTimeChanged();
     emit serverTimeZoneChanged();
+
+    // Additionally there is the issue that QML Date().toString() will always show LocalTime but we want to display
+    // the time in the servers time zone. So we'll be setting the time zone to the client one. This is effectively a
+    // wrong/broken DateTime object and should not be used to calculate anything.
+    m_serverTime = QDateTime::fromSecsSinceEpoch(params.value("time").toUInt());
+    m_serverTime = m_serverTime.toTimeZone(QTimeZone(m_serverTimeZone.toUtf8()));
+    m_serverTime.setTimeZone(QDateTime::currentDateTime().timeZone());
+    emit serverTimeChanged();
+
     m_automaticTimeAvailable = params.value("automaticTimeAvailable").toBool();
     emit automaticTimeAvailableChanged();
     m_automaticTime = params.value("automaticTime").toBool();
@@ -406,16 +412,22 @@ void SystemController::notificationReceived(const QVariantMap &data)
         emit updateManagementAvailableChanged();
     } else if (notification == "System.TimeConfigurationChanged") {
         qCDebug(dcSystemController) << "System time configuration changed" << data.value("params").toMap().value("timeZone").toByteArray();
-        m_serverTime = QDateTime::fromSecsSinceEpoch(data.value("params").toMap().value("time").toUInt());
 
         // NOTE: Ideally we'd just set the TimeZone of our serverTime prooperly, however, there's a bug on Android
         // Which doesn't allow to create QTimeZone objects by IANA id.... So, let's keep that separated in a string
         // https://bugreports.qt.io/browse/QTBUG-83438
         // m_serverTime.setTimeZone(QTimeZone(data.value("params").toMap().value("timeZone").toByteArray()));
         m_serverTimeZone = data.value("params").toMap().value("timeZone").toString();
-
-        emit serverTimeChanged();
         emit serverTimeZoneChanged();
+
+        // Additionally there is the issue that QML Date().toString() will always show LocalTime but we want to display
+        // the time in the servers time zone. So we'll be setting the time zone to the client one. This is effectively a
+        // wrong/broken DateTime object and should not be used to calculate anything.
+        m_serverTime = QDateTime::fromSecsSinceEpoch(data.value("params").toMap().value("time").toUInt());
+        m_serverTime = m_serverTime.toTimeZone(QTimeZone(m_serverTimeZone.toUtf8()));
+        m_serverTime.setTimeZone(QDateTime::currentDateTime().timeZone());
+        emit serverTimeChanged();
+
         m_automaticTimeAvailable = data.value("params").toMap().value("automaticTimeAvailable").toBool();
         emit automaticTimeAvailableChanged();
         m_automaticTime = data.value("params").toMap().value("automaticTime").toBool();
