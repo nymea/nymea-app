@@ -248,6 +248,8 @@ ApplicationWindow {
             return qsTr("Barcode scanners");
         case "cleaningrobot":
             return qsTr("Cleaning robots")
+        case "electricvehicle":
+            return qsTr("Electric cars");
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
@@ -407,6 +409,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/connections/network-wifi.svg")
         case "connectable":
             return Qt.resolvedUrl("images/stock_link.svg")
+        case "electricvehicle":
+            return Qt.resolvedUrl("images/car.svg")
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }
