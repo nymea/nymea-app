@@ -1,3 +1,14 @@
+nymea-app (1.0.452) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add autocompletion for minimumValue and maximumValue in script
+    editor
+  * Add icon for car interface
+  * Don't show wrong time zone in settings page
+  * Update click package for latest frameworks/clickable
+
+ -- jenkins <developer@nymea.io>  Fri, 22 Apr 2022 10:59:09 +0200
+
 nymea-app (1.0.451) bionic; urgency=medium
 
   [ Michael Zanetti ]
