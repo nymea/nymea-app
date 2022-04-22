@@ -162,7 +162,7 @@ SettingsPageBase {
             Layout.fillWidth: true
         }
         Label {
-            text: engine.systemController.serverTime.toLocaleTimeString(/*Locale.ShortTimeString*/)
+            text: engine.systemController.serverTime.toLocaleTimeString(Locale.ShortTimeString)
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignRight
         }
