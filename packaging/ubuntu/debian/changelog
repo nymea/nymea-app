@@ -1,3 +1,10 @@
+nymea-app (1.0.453) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix syncing aws devices when they don't have a uuid as id
+
+ -- jenkins <developer@nymea.io>  Fri, 22 Apr 2022 19:58:38 +0200
+
 nymea-app (1.0.452) bionic; urgency=medium
 
   [ Michael Zanetti ]
