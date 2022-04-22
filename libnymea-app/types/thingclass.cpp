@@ -206,6 +206,9 @@ QString ThingClass::baseInterface() const
         if (interface == "thermostat") {
             return "thermostat";
         }
+        if (interface == "electricvehicle") {
+            return "electricvehicle";
+        }
     }
     return "uncategorized";
 }
