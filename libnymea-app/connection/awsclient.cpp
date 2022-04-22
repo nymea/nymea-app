@@ -36,9 +36,9 @@
 #include <QUrlQuery>
 #include <QJsonDocument>
 #include <QSettings>
-#include <QUuid>
 #include <QTimer>
 #include <QPointer>
+#include <QUuid>
 
 #include "sigv4utils.h"
 #include "logging.h"
@@ -1201,7 +1201,7 @@ void AWSDevices::setBusy(bool busy)
 AWSDevice *AWSDevices::getDevice(const QString &uuid) const
 {
     for (int i = 0; i < m_list.count(); i++) {
-        if (QUuid(m_list.at(i)->id()) == QUuid(uuid)) {
+        if (m_list.at(i)->id().remove(QRegExp("[{}]")) == QString(uuid).remove(QRegExp("[{}]"))) {
             return m_list.at(i);
         }
     }
