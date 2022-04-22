@@ -44,7 +44,7 @@ CodeCompletion::CodeCompletion(QObject *parent):
 {
     m_classes.insert("Item", ClassInfo("Item", {"id"}));
     m_classes.insert("ThingAction", ClassInfo("ThingAction", {"id", "thingId", "actionTypeId", "actionName"}, {"execute"}));
-    m_classes.insert("ThingState", ClassInfo("ThingState", {"id", "thingId", "stateTypeId", "stateName", "value"}, {}, {"onValueChanged"}));
+    m_classes.insert("ThingState", ClassInfo("ThingState", {"id", "thingId", "stateTypeId", "stateName", "value", "minimumValue", "maximumValue"}, {}, {"onValueChanged"}));
     m_classes.insert("ThingEvent", ClassInfo("ThingEvent", {"id", "thingId", "eventTypeId", "eventName"}, {}, {"onTriggered"}));
     m_classes.insert("InterfaceAction", ClassInfo("InterfaceAction", {"id", "interfaceName", "actionName"}, {"execute"}));
     m_classes.insert("InterfaceEvent", ClassInfo("InterfaceEvent", {"id", "interfaceName", "eventName"}, {}, {"onTriggered"}));
