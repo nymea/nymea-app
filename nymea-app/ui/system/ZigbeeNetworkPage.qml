@@ -248,7 +248,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.margins: Style.margins
         horizontalAlignment: Text.AlignHCenter
-        text: qsTr("There are no ZigBee devices connectd yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.")
+        text: qsTr("There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.")
         wrapMode: Text.WordWrap
         visible: nodesModel.count === 0
     }

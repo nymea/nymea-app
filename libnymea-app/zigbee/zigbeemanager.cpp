@@ -31,6 +31,7 @@
 #include "zigbeemanager.h"
 
 #include <QMetaEnum>
+#include <QJsonDocument>
 
 #include "engine.h"
 #include "logging.h"
@@ -253,6 +254,7 @@ void ZigbeeManager::removeNodeResponse(int commandId, const QVariantMap &params)
 
 void ZigbeeManager::notificationReceived(const QVariantMap &notification)
 {
+    qCDebug(dcZigbee()) << "Zigbee notification" << qUtf8Printable(QJsonDocument::fromVariant(notification).toJson());
     QString notificationString = notification.value("notification").toString();
     if (notificationString == "Zigbee.AdapterAdded") {
         QVariantMap adapterMap = notification.value("params").toMap().value("adapter").toMap();
