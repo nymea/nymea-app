@@ -14,6 +14,11 @@ ChartView {
     titleColor: Style.foregroundColor
     legend.visible: false
 
+    margins.left: 0
+    margins.right: 0
+    margins.bottom: 0
+    margins.top: 0
+
     property EnergyManager energyManager: null
 
     ThingsProxy {
@@ -24,7 +29,7 @@ ChartView {
 
     PieSeries {
         id: consumptionBalanceSeries
-        size: 0.9
+        size: 0.88
         holeSize: 0.7
 
         property double fromGrid: Math.max(0, energyManager.currentPowerAcquisition)

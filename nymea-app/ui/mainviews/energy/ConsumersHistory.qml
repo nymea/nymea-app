@@ -135,7 +135,8 @@ Item {
                 var series = chartView.createSeries(ChartView.SeriesTypeArea, thing.name, dateTimeAxis, valueAxis)
                 series.lowerSeries = baseSeries
                 series.upperSeries = lineSeriesComponent.createObject(series)
-                series.color = root.colors[i % root.colors.length]
+//                series.color = root.colors[i % root.colors.length]
+                series.color = NymeaUtils.generateColor(Style.generationBaseColor, i)
                 series.borderWidth = 0;
                 series.borderColor = series.color
 
@@ -335,7 +336,8 @@ Item {
                         Rectangle {
                             width: Style.extraSmallFont.pixelSize
                             height: width
-                            color: index >= 0 ? root.colors[index % root.colors.length] : "white"
+//                            color: index >= 0 ? root.colors[index % root.colors.length] : "white"
+                            color: index >= 0 ? NymeaUtils.generateColor(Style.generationBaseColor, index) : "white"
                         }
 
                         Label {

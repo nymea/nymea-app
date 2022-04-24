@@ -149,4 +149,29 @@ Item {
 
     property bool inhibitChartsAnimation: PlatformHelper.deviceModel.startsWith("SM-G950") // Samsung S8 has a buggy GPU driver :(
     property int chartsAnimationOptions: !inhibitChartsAnimation ? ChartView.SeriesAnimations : ChartView.NoAnimation
+
+    function generateColor(baseColor, index) {
+        var stepSize = 30
+        var baseHSV = rgb2hsv(baseColor.r, baseColor.g, baseColor.b)
+        var currentHue = baseHSV[0]
+        var handledColors = [currentHue]
+        for (var i = 0; i < index; i++) {
+            while (handledColors.indexOf(currentHue) >= 0) {
+                currentHue = (currentHue + 60) % 360
+
+                if (handledColors.indexOf(currentHue) >= 0) {
+                    currentHue += /*60 + */stepSize
+                    stepSize = Math.max(1, stepSize / 2)
+                }
+            }
+            handledColors.push(currentHue)
+        }
+        return Qt.hsva(currentHue / 360, baseHSV[1], baseHSV[2], 1);
+    }
+
+    function rgb2hsv(r,g,b) {
+      var v=Math.max(r,g,b), c=v-Math.min(r,g,b);
+      var h= c && ((v==r) ? (g-b)/c : ((v==g) ? 2+(b-r)/c : 4+(r-g)/c));
+      return [60*(h<0?h+6:h), v&&c/v, v];
+    }
 }
