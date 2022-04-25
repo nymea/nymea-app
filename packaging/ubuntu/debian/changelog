@@ -1,3 +1,12 @@
+nymea-app (1.0.454) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improvements in the energy view
+  * Fix count property in zigbeedevicesproxy
+  * Add debug category for bluetooth discovery
+
+ -- jenkins <developer@nymea.io>  Mon, 25 Apr 2022 09:40:22 +0200
+
 nymea-app (1.0.453) bionic; urgency=medium
 
   [ Michael Zanetti ]
