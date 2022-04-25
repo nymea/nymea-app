@@ -64,6 +64,7 @@ void ZigbeeNodesProxy::setZigbeeNodes(ZigbeeNodes *zigbeeNodes)
         for (int i = first; i <= last; i++) {
             m_newNodes.insert(m_zigbeeNodes->get(i), QDateTime::currentDateTime());
         }
+        emit countChanged();
     });
     connect(m_zigbeeNodes, &ZigbeeNodes::dataChanged, this, [this](const QModelIndex &/*topLeft*/, const QModelIndex &/*bottomRight*/, const QVector<int> &roles = QVector<int>()){
         if (roles.contains(ZigbeeNodes::RoleReachable) && (!m_showOffline || !m_showOnline)) {
