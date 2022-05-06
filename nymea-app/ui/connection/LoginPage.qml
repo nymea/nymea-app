@@ -149,6 +149,11 @@ SettingsPageBase {
                 requireSpecialChar: false
                 signup: engine.jsonRpcClient.initialSetupRequired
                 showErrors: loginForm.showErrors
+                onAccepted: {
+                    if (!signup) {
+                        okButton.clicked()
+                    }
+                }
             }
 
             Label {
@@ -177,6 +182,7 @@ SettingsPageBase {
         }
 
         Button {
+            id: okButton
             Layout.fillWidth: true
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.bottomMargin: app.margins
             text: qsTr("OK")

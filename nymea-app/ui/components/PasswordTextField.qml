@@ -67,6 +67,8 @@ ColumnLayout {
 
     property bool showErrors: false
 
+    signal accepted()
+
     RowLayout {
         Layout.fillWidth: true
 
@@ -112,6 +114,14 @@ ColumnLayout {
                 return ret.join("<br>")
             }
 
+            onAccepted: {
+                if (!root.signup) {
+                    root.accepted()
+                } else {
+                    confirmationPasswordTextField.focus = true
+                }
+            }
+
         }
         ColorIcon {
             Layout.preferredHeight: Style.iconSize
@@ -136,6 +146,8 @@ ColumnLayout {
             echoMode: root.hiddenPassword ? TextInput.Password : TextInput.Normal
             placeholderText: qsTr("Confirm password")
             error: root.showErrors && (!root.isValidPassword || !root.confirmationMatches)
+
+            onAccepted: root.accepted()
         }
     }
 }
