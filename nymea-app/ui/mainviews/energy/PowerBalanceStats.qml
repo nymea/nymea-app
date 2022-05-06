@@ -273,10 +273,9 @@ StatsBase {
             function reset() {
                 barSeries.clear();
                 valueAxis.max = 0
-                print("********** resetting chart")
                 if (root.hasProducers) {
                     d.consumptionSet = barSeries.append(qsTr("Consumed"), [])
-                    d.consumptionSet.color = Style.darkBlue
+                    d.consumptionSet.color = Style.blue
                     d.consumptionSet.borderColor = d.consumptionSet.color
                     d.consumptionSet.borderWidth = 0
                     d.productionSet = barSeries.append(qsTr("Produced"), [])
@@ -437,7 +436,7 @@ StatsBase {
                     Rectangle {
                         width: Style.extraSmallFont.pixelSize
                         height: width
-                        color: Style.darkBlue
+                        color: Style.blue
                     }
                     Label {
                         text: d.consumptionSet ? qsTr("Consumed: %1 kWh").arg(d.consumptionSet.at(toolTip.idx).toFixed(2)) : ""
