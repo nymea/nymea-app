@@ -86,7 +86,7 @@ ApplicationWindow {
         property string units: Qt.locale().measurementSystem === Locale.MetricSystem ? "metric" : "imperial"
     }
 
-    property string privacyPolicyUrl: "https://nymea.io/privacy-statement/en/nymea_privacy.html"
+    property string privacyPolicyUrl: "https://consolinno.de/datenschutz/"
 
     Component.onCompleted: {
         styleController.setSystemFont(app.font)
