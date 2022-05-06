@@ -59,7 +59,7 @@ Page {
         id: columnLayout
         anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
         spacing: app.margins
-        BusyIndicator {needed
+        BusyIndicator {
             Layout.alignment: Qt.AlignHCenter
             running: parent.visible
         }
