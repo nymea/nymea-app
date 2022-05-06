@@ -1,3 +1,12 @@
+nymea-app (1.0.455) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve energy charts when there is a hidden producer
+  * Fix fingerprint reader setup page
+  * Confirm the login form on enter
+
+ -- jenkins <developer@nymea.io>  Fri, 06 May 2022 14:58:38 +0200
+
 nymea-app (1.0.454) bionic; urgency=medium
 
   [ Michael Zanetti ]
