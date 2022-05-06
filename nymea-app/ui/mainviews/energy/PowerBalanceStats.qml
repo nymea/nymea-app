@@ -92,11 +92,19 @@ StatsBase {
 //                print("balance changed:", d.consumptionSet, powerBalanceLogs, powerBalanceLogs.count)
 //                print("updating", start ? start.timestamp : "", start ? start.totalConsumption : 0, root.energyManager.totalConsumption, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
                 if (root.hasProducers) {
-                    d.consumptionSet.replace(d.consumptionSet.count - 1, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
-                    d.productionSet.replace(d.productionSet.count - 1, root.energyManager.totalProduction - (start ? start.totalProduction : 0))
+                    var consumption = root.energyManager.totalConsumption - (start ? start.totalConsumption : 0)
+                    d.consumptionSet.replace(d.consumptionSet.count - 1, consumption)
+                    valueAxis.adjustMax(consumption)
+                    var production = root.energyManager.totalProduction - (start ? start.totalProduction : 0)
+                    d.productionSet.replace(d.productionSet.count - 1, production)
+                    valueAxis.adjustMax(production)
                 }
-                d.acquisitionSet.replace(d.acquisitionSet.count - 1, root.energyManager.totalAcquisition - (start ? start.totalAcquisition : 0))
-                d.returnSet.replace(d.returnSet.count - 1, root.energyManager.totalReturn - (start ? start.totalReturn : 0))
+                var acquisition = root.energyManager.totalAcquisition - (start ? start.totalAcquisition : 0)
+                d.acquisitionSet.replace(d.acquisitionSet.count - 1, acquisition)
+                valueAxis.adjustMax(acquisition)
+                var ret = root.energyManager.totalReturn - (start ? start.totalReturn : 0)
+                d.returnSet.replace(d.returnSet.count - 1, ret)
+                valueAxis.adjustMax(ret)
             }
         }
 
@@ -268,11 +276,11 @@ StatsBase {
                 print("********** resetting chart")
                 if (root.hasProducers) {
                     d.consumptionSet = barSeries.append(qsTr("Consumed"), [])
-                    d.consumptionSet.color = Style.blue
+                    d.consumptionSet.color = Style.darkBlue
                     d.consumptionSet.borderColor = d.consumptionSet.color
                     d.consumptionSet.borderWidth = 0
                     d.productionSet = barSeries.append(qsTr("Produced"), [])
-                    d.productionSet.color = Style.green
+                    d.productionSet.color = Style.yellow
                     d.productionSet.borderColor = d.productionSet.color
                     d.productionSet.borderWidth = 0
                 }
@@ -281,7 +289,7 @@ StatsBase {
                 d.acquisitionSet.borderColor = d.acquisitionSet.color
                 d.acquisitionSet.borderWidth = 0
                 d.returnSet = barSeries.append(qsTr("To grid"), [])
-                d.returnSet.color = Style.orange
+                d.returnSet.color = Style.green
                 d.returnSet.borderColor = d.returnSet.color
                 d.returnSet.borderWidth = 0
             }
@@ -429,7 +437,7 @@ StatsBase {
                     Rectangle {
                         width: Style.extraSmallFont.pixelSize
                         height: width
-                        color: Style.blue
+                        color: Style.darkBlue
                     }
                     Label {
                         text: d.consumptionSet ? qsTr("Consumed: %1 kWh").arg(d.consumptionSet.at(toolTip.idx).toFixed(2)) : ""
@@ -441,7 +449,7 @@ StatsBase {
                     Rectangle {
                         width: Style.extraSmallFont.pixelSize
                         height: width
-                        color: Style.green
+                        color: Style.yellow
                     }
                     Label {
                         text: d.productionSet ? qsTr("Produced: %1 kWh").arg(d.productionSet.at(toolTip.idx).toFixed(2)) : ""
@@ -463,7 +471,7 @@ StatsBase {
                     Rectangle {
                         width: Style.extraSmallFont.pixelSize
                         height: width
-                        color: Style.orange
+                        color: Style.green
                     }
                     Label {
                         text: d.returnSet ? qsTr("To grid: %1 kWh").arg(d.returnSet.at(toolTip.idx).toFixed(2)) : ""

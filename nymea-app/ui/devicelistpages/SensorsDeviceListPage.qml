@@ -110,7 +110,7 @@ ThingsListPageBase {
                                     color: {
                                         switch (model.interfaceName) {
                                         case "closablesensor":
-                                            return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? "green" : "red";
+                                            return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? Style.green : Style.red;
                                         default:
                                             return app.interfaceToColor(model.interfaceName)
                                         }

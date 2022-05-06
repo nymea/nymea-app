@@ -66,59 +66,67 @@ Item {
     })
 
 
+    // Color definitions
+    property color white: "white"
+    property color gray: "gray"
+    property color darkGray: "darkgray"
+    property color lightGray: "lightGray"
+
+    property color red: "indianred"
+    property color yellow: "#cdcd5c"
+    property color green: "#5ccd5c"
+    property color lightBlue: "#5ccdcd"
+    property color darkBlue: "#5c5ccd"
+    property color pink: "#cd5ccd"
+    property color orange: "#cd955c"
+    property color lime: "#95cd5c"
+    property color turquoise: "#5ccd95"
+    property color blue: "#5c95cd"
+    property color purple: "#955ccd"
+    property color rose: "#cd5c95"
+
     // Icon/graph colors for various interfaces
     property var interfaceColors: {
-        "temperaturesensor": "red",
-        "humiditysensor": "deepskyblue",
-        "moisturesensor":"blue",
-        "lightsensor": "orange",
-        "conductivitysensor": "green",
-        "pressuresensor": "grey",
-        "noisesensor": "darkviolet",
-        "cosensor": "darkgray",
-        "co2sensor": "turquoise",
-        "gassensor": "yellow",
-        "daylightsensor": "gold",
-        "presencesensor": "darkblue",
-        "closablesensor": "green",
-        "smartmeterconsumer": "orange",
-        "smartmeterproducer": "lightgreen",
-        "energymeter": "deepskyblue",
-        "heating" : "crimson",
-        "cooling": "dodgerBlue",
-        "thermostat": "dodgerblue",
-        "irrigation": "lightblue",
-        "windspeedsensor": "blue",
-        "ventilation": "lightblue",
-        "watersensor": "aqua",
-        "waterlevelsensor": "aqua",
-        "phsensor": "green",
-        "o2sensor": "lightblue",
-        "orpsensor": "yellow",
-        "powersocket": "aquamarine",
-        "evcharger": "limegreen",
-        "energystorage": "limegreen"
+        "temperaturesensor": red,
+        "humiditysensor": blue,
+        "moisturesensor": lightBlue,
+        "lightsensor": yellow,
+        "conductivitysensor": green,
+        "pressuresensor": gray,
+        "noisesensor": purple,
+        "cosensor": darkGray,
+        "co2sensor": turquoise,
+        "gassensor": orange,
+        "daylightsensor": yellow,
+        "presencesensor": darkBlue,
+        "closablesensor": green,
+        "smartmeterconsumer": orange,
+        "smartmeterproducer": lime,
+        "energymeter": darkBlue,
+        "heating" : red,
+        "cooling": lightBlue,
+        "thermostat": blue,
+        "irrigation": blue,
+        "windspeedsensor": blue,
+        "ventilation": lightBlue,
+        "watersensor": lightBlue,
+        "waterlevelsensor": lightBlue,
+        "phsensor": green,
+        "o2sensor": lightBlue,
+        "orpsensor": yellow,
+        "powersocket": lime,
+        "evcharger": lime,
+        "energystorage": lime
     }
 
     property var stateColors: {
-        "totalEnergyConsumed": "orange",
-        "totalEnergyProduced": "lightgreen",
-        "currentPower": "deepskyblue",
+        "totalEnergyConsumed": red,
+        "totalEnergyProduced": yellow,
+        "currentPower": blue,
     }
 
-    property color red: "indianred"
-    property color green: "#5ccd5c"
-    property color yellow: "gold"
-    property color white: "white"
-    property color gray: "gray"
-    property color darkGray: "darkGray"
-    property color blue: "#5c5ccd"
-    property color darkBlue: "royalblue"
-    property color orange: "#cd955c"
-    property color purple: "#6d5fd5"
-    property color lime: "#99ca53"
-    property color pink: "orchid"
 
+    // Animations
     readonly property int fastAnimationDuration: 100
     readonly property int animationDuration: 150
     readonly property int slowAnimationDuration: 300
