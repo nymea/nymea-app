@@ -1,3 +1,10 @@
+nymea-app (1.0.456) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix color scheme to only use the new palette colors
+
+ -- jenkins <developer@nymea.io>  Fri, 06 May 2022 19:46:09 +0200
+
 nymea-app (1.0.455) bionic; urgency=medium
 
   [ Michael Zanetti ]
