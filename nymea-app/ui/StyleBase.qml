@@ -7,7 +7,7 @@ Item {
 
     property color accentColor: "#57baae"
     property color iconColor: "#808080"
-    property color generationBaseColor: red
+    property color generationBaseColor: blue
 
     property color tileBackgroundColor: Qt.tint(backgroundColor, Qt.rgba(foregroundColor.r, foregroundColor.g, foregroundColor.b, 0.05))
     property color tileForegroundColor: foregroundColor
@@ -112,7 +112,7 @@ Item {
     property color white: "white"
     property color gray: "gray"
     property color darkGray: "darkGray"
-    property color blue: "deepskyblue"
+    property color blue: "#5c5ccd"
     property color darkBlue: "royalblue"
     property color orange: "#cd955c"
     property color purple: "#6d5fd5"

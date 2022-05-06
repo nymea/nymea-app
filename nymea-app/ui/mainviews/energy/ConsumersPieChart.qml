@@ -48,11 +48,12 @@ ChartView {
     Connections {
         target: energyManager
         onPowerBalanceChanged: {
-            var consumption = energyManager.currentPowerConsumption
+            var consumersSummation = 0
             for (var i = 0; i < consumers.count; i++) {
-                consumption -= consumers.get(i).stateByName("currentPower").value
+                consumersSummation += consumers.get(i).stateByName("currentPower").value
             }
-            d.unknownSlice.value = consumption
+            d.consumersSummation = consumersSummation;
+            d.unknownSlice.value = Math.max(0, energyManager.currentPowerConsumption - consumersSummation)
         }
     }
 
@@ -62,6 +63,8 @@ ChartView {
         id: d
         property var thingsColorMap: ({})
         property PieSlice unknownSlice: null
+
+        property double consumersSummation: 0
     }
 
     function updateConsumers() {
@@ -74,24 +77,26 @@ ChartView {
             return;
         }
 
-        var unknownConsumption = energyManager.currentPowerConsumption
 
         var colorMap = {}
+        var consumersSummation = 0;
         for (var i = 0; i < consumers.count; i++) {
             var consumer = consumers.get(i)
             let currentPowerState = consumer.stateByName("currentPower")
             let slice = consumersBalanceSeries.append(consumer.name, currentPowerState.value)
-            print("***** slice border width", slice.borderWidth)
 //            slice.color = root.colors[i % root.colors.length]
             slice.color = NymeaUtils.generateColor(Style.generationBaseColor, i)
             colorMap[consumer] = slice.color
             currentPowerState.valueChanged.connect(function() {
                 slice.value = currentPowerState.value
             })
-            unknownConsumption -= currentPowerState.value
+            consumersSummation += currentPowerState.value
         }
+        d.consumersSummation = consumersSummation
 
         if (root.rootMeter) {
+            var unknownConsumption = Math.max(0, energyManager.currentPowerConsumption - consumersSummation)
+            print("Unknown consumption:", unknownConsumption, "consumption balance", energyManager.currentPowerConsumption, "consumers summation:", consumersSummation)
             d.unknownSlice = consumersBalanceSeries.append(qsTr("Unknown"), unknownConsumption)
             d.unknownSlice.color = Style.gray
         }
@@ -140,9 +145,14 @@ ChartView {
                 }
 
                 Label {
+                    // We're using the maximum value of the energy managers consumption, the sum of all consumers because:
+                    // * in a standard setup, the energy manager would know everything and the consumption will always be greater than the sum of all individual consumers
+                    // * if there is a producer which is unknown to nymea though, it will decrease the consumption on the root meter so it may be smaller than the
+                    //   summation of all consumers. In this particular chart that would be nonsense so in the end we'll only lose the "unknown" power consumption in such a setup
+                    property double finalTotal: Math.max(energyManager.currentPowerConsumption, d.consumersSummation)
                     text: "%1 %2"
-                    .arg((energyManager.currentPowerConsumption / (energyManager.currentPowerConsumption > 1000 ? 1000 : 1)).toFixed(1))
-                    .arg(energyManager.currentPowerConsumption > 1000 ? "kW" : "W")
+                    .arg((finalTotal / (finalTotal > 1000 ? 1000 : 1)).toFixed(1))
+                    .arg(finalTotal > 1000 ? "kW" : "W")
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
                     font: Style.bigFont

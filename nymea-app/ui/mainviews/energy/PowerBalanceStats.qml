@@ -10,12 +10,46 @@ StatsBase {
 
     property EnergyManager energyManager: null
 
+    property ThingsProxy producers: ThingsProxy {
+        engine: _engine
+        shownInterfaces: ["smartmeterproducer"]
+    }
+
+    readonly property bool hasProducers: producers.count > 0
+
     QtObject {
         id: d
         property BarSet consumptionSet: null
         property BarSet productionSet: null
         property BarSet acquisitionSet: null
         property BarSet returnSet: null
+    }
+
+    function reload() {
+        if (selectionTabs.currentValue === undefined) {
+            return
+        }
+        if (engine.thingManager.fetchingData) {
+            return;
+        }
+
+        var config = root.configs[selectionTabs.currentValue.config]
+        print("Loading Power Balance Stats with config:", config.startTime(), config.sampleRate)
+
+        powerBalanceLogs.loadingInhibited = true
+        powerBalanceLogs.sampleRate = config.sampleRate
+        powerBalanceLogs.startTime = new Date(config.startTime().getTime() - config.sampleRate * 60000)
+        powerBalanceLogs.loadingInhibited = false
+
+        chartView.reset();
+    }
+
+    Connections {
+        target: engine.thingManager
+        onFetchingDataChanged: {
+            print("Thingmanager loaded", engine.thingManager.fetchingData)
+            if (!engine.thingManager.fetchingData) root.reload()
+        }
     }
 
     ColumnLayout {
@@ -47,19 +81,7 @@ StatsBase {
                 }
             }
             onCurrentValueChanged: {
-                if (currentValue === undefined) {
-                    return
-                }
-
-                var config = root.configs[currentValue.config]
-//                print("config:", config.startTime(), config.sampleRate)
-
-                powerBalanceLogs.loadingInhibited = true
-                powerBalanceLogs.sampleRate = config.sampleRate
-                powerBalanceLogs.startTime = new Date(config.startTime().getTime() - config.sampleRate * 60000)
-                powerBalanceLogs.loadingInhibited = false
-
-                chartView.reset();
+                root.reload()
             }
         }
 
@@ -69,8 +91,10 @@ StatsBase {
                 var start = powerBalanceLogs.get(powerBalanceLogs.count - 1 )
 //                print("balance changed:", d.consumptionSet, powerBalanceLogs, powerBalanceLogs.count)
 //                print("updating", start ? start.timestamp : "", start ? start.totalConsumption : 0, root.energyManager.totalConsumption, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
-                d.consumptionSet.replace(d.consumptionSet.count - 1, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
-                d.productionSet.replace(d.productionSet.count - 1, root.energyManager.totalProduction - (start ? start.totalProduction : 0))
+                if (root.hasProducers) {
+                    d.consumptionSet.replace(d.consumptionSet.count - 1, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
+                    d.productionSet.replace(d.productionSet.count - 1, root.energyManager.totalProduction - (start ? start.totalProduction : 0))
+                }
                 d.acquisitionSet.replace(d.acquisitionSet.count - 1, root.energyManager.totalAcquisition - (start ? start.totalAcquisition : 0))
                 d.returnSet.replace(d.returnSet.count - 1, root.energyManager.totalReturn - (start ? start.totalReturn : 0))
             }
@@ -87,7 +111,7 @@ StatsBase {
 
                     chartView.reset();
 
-//                    print("Logs fetched")
+                    print("Logs fetched")
                     var config = root.configs[selectionTabs.currentValue.config]
 
                     var labels = []
@@ -172,13 +196,14 @@ StatsBase {
                     chartView.animationOptions = NymeaUtils.chartsAnimationOptions
 
                     for (var i = 0; i < entries.length; i++) {
-//                        print("Appending to set", JSON.stringify(entries[i]))
-                        d.consumptionSet.append(entries[i].consumption)
-                        d.productionSet.append(entries[i].production)
+                        print("Appending to set", JSON.stringify(entries[i]))
+                        if (root.hasProducers) {
+                            d.consumptionSet.append(entries[i].consumption)
+                            d.productionSet.append(entries[i].production)
+                        }
                         d.acquisitionSet.append(entries[i].acquisition)
                         d.returnSet.append(entries[i].returned)
                     }
-
                 }
             }
 
@@ -205,14 +230,15 @@ StatsBase {
                 timestamps.splice(0, 1)
                 categoryAxis.timestamps = timestamps
 
-                d.consumptionSet.remove(0, 1);
-                d.productionSet.remove(0, 1);
+                if (root.hasProducers) {
+                    d.consumptionSet.remove(0, 1);
+                    d.consumptionSet.append(consumptionValue)
+                    d.productionSet.remove(0, 1);
+                    d.productionSet.append(productionValue)
+                }
                 d.acquisitionSet.remove(0, 1);
-                d.returnSet.remove(0, 1);
-
-                d.consumptionSet.append(consumptionValue)
-                d.productionSet.append(productionValue)
                 d.acquisitionSet.append(acquisitionValue)
+                d.returnSet.remove(0, 1);
                 d.returnSet.append(returnValue)
 
                 chartView.animationOptions = NymeaUtils.chartsAnimationOptions
@@ -239,14 +265,17 @@ StatsBase {
             function reset() {
                 barSeries.clear();
                 valueAxis.max = 0
-                d.consumptionSet = barSeries.append(qsTr("Consumed"), [])
-                d.consumptionSet.color = Style.blue
-                d.consumptionSet.borderColor = d.consumptionSet.color
-                d.consumptionSet.borderWidth = 0
-                d.productionSet = barSeries.append(qsTr("Produced"), [])
-                d.productionSet.color = Style.green
-                d.productionSet.borderColor = d.productionSet.color
-                d.productionSet.borderWidth = 0
+                print("********** resetting chart")
+                if (root.hasProducers) {
+                    d.consumptionSet = barSeries.append(qsTr("Consumed"), [])
+                    d.consumptionSet.color = Style.blue
+                    d.consumptionSet.borderColor = d.consumptionSet.color
+                    d.consumptionSet.borderWidth = 0
+                    d.productionSet = barSeries.append(qsTr("Produced"), [])
+                    d.productionSet.color = Style.green
+                    d.productionSet.borderColor = d.productionSet.color
+                    d.productionSet.borderWidth = 0
+                }
                 d.acquisitionSet = barSeries.append(qsTr("From grid"), [])
                 d.acquisitionSet.color = Style.red
                 d.acquisitionSet.borderColor = d.acquisitionSet.color
@@ -396,6 +425,7 @@ StatsBase {
                 }
 
                 RowLayout {
+                    visible: root.hasProducers
                     Rectangle {
                         width: Style.extraSmallFont.pixelSize
                         height: width
@@ -407,6 +437,7 @@ StatsBase {
                     }
                 }
                 RowLayout {
+                    visible: root.hasProducers
                     Rectangle {
                         width: Style.extraSmallFont.pixelSize
                         height: width
