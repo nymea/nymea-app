@@ -1,3 +1,11 @@
+nymea-app (1.0.458) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More radius
+  * Improve zigbee settings when a node has multiple things
+
+ -- jenkins <developer@nymea.io>  Sun, 08 May 2022 22:12:00 +0200
+
 nymea-app (1.0.457) bionic; urgency=medium
 
   [ Michael Zanetti ]
