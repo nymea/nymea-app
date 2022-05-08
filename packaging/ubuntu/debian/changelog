@@ -1,3 +1,10 @@
+nymea-app (1.0.457) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve sensor views
+
+ -- jenkins <developer@nymea.io>  Sun, 08 May 2022 02:54:02 +0200
+
 nymea-app (1.0.456) bionic; urgency=medium
 
   [ Michael Zanetti ]
