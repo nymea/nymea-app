@@ -4,7 +4,7 @@ nymea-app (1.0.459) bionic; urgency=medium
   * Add android x86
   * Update tunnel proxy url in connection wizard
 
- -- jenkins <developer@nymea.io>  Mon, 09 May 2022 13:52:45 +0200
+ -- jenkins <developer@nymea.io>  Tue, 10 May 2022 14:42:58 +0200
 
 nymea-app (1.0.458) bionic; urgency=medium
 
