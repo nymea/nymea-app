@@ -3306,6 +3306,30 @@ Please try again.</source>
         <source>Enable cooling</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Air flow rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Air flow rate changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set air flow rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fire sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fire detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fire detected changed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -5123,6 +5147,10 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Cooling</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Electric cars</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -5908,6 +5936,14 @@ Do you want to proceed?</source>
         <source>Daytime</source>
         <translation>Gündüz</translation>
     </message>
+    <message>
+        <source>Fire</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No fire</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SensorsDeviceListPage</name>
@@ -5958,6 +5994,14 @@ Do you want to proceed?</source>
     <message>
         <source>Off</source>
         <translation>Kapalı</translation>
+    </message>
+    <message>
+        <source>Fire</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No fire</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7227,15 +7271,15 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Version</source>
-        <translation>Sürüm</translation>
+        <translation type="vanished">Sürüm</translation>
     </message>
     <message>
         <source>IEEE address</source>
-        <translation>IEEE adresi</translation>
+        <translation type="vanished">IEEE adresi</translation>
     </message>
     <message>
         <source>Network address</source>
-        <translation>Ağ adresi</translation>
+        <translation type="vanished">Ağ adresi</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -7278,23 +7322,51 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>There are no ZigBee devices connectd yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Model</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Manufacturer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Signal strength</source>
-        <translation type="unfinished">Sinyal gücü</translation>
+        <translation type="obsolete">Sinyal gücü</translation>
     </message>
     <message>
         <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Initialiazing...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unrecognized device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IEEE address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signal strength:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished">Bilinmeyen</translation>
+    </message>
+    <message>
+        <source>Associated things</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
