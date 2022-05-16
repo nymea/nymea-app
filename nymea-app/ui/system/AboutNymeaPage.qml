@@ -39,11 +39,13 @@ SettingsPageBase {
     title: qsTr("About %1").arg(Configuration.systemName)
 
 
-    Imprint {
+    ConsolinnoImprint {
         id: imprint
         Layout.fillWidth: true
         title: Configuration.systemName
-        githubLink: "https://github.com/nymea/nymea"
+        githubLink: "https://github.com/ConsolinnoEnergy/nymea-app"
+
+
 
         NymeaSwipeDelegate {
             Layout.fillWidth: true
