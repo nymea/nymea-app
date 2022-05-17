@@ -3251,6 +3251,18 @@ Please try again.</source>
         <source>Enable cooling</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Air flow rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Air flow rate changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set air flow rate</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -5020,6 +5032,10 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Cooling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Electric cars</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7084,10 +7100,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>There are no ZigBee devices connectd yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Model</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7102,6 +7114,10 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>OK</source>
         <translation type="unfinished">Ok</translation>
+    </message>
+    <message>
+        <source>There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

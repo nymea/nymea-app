@@ -71,6 +71,8 @@ Page {
         }
 
 
+
+
 //        Label {
 //            anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
 //            horizontalAlignment: Text.AlignHCenter
@@ -113,9 +115,12 @@ Page {
                 model: swipeView.currentItem.item.hasOwnProperty("headerButtons") ? swipeView.currentItem.item.headerButtons : 0
                 delegate: HeaderButton {
                     imageSource: swipeView.currentItem.item.headerButtons[index].iconSource
-                    onClicked: swipeView.currentItem.item.headerButtons[index].trigger()
+                    onClicked: {
+                        swipeView.currentItem.item.headerButtons[index].trigger()
+                    }
                     visible: swipeView.currentItem.item.headerButtons[index].visible
                     color: swipeView.currentItem.item.headerButtons[index].color
+
                 }
             }
         }
@@ -390,6 +395,7 @@ Page {
             visible: opacity > 0
 
             MainPageTabButton {
+                id: mainPageTabButton
                 height: tabBar.height
                 alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
                 text: d.configOverlay ? qsTr("Done") : qsTr("Configure")
@@ -400,6 +406,7 @@ Page {
                 checkable: false
 
                 onClicked: {
+
                     if (d.configOverlay) {
                         d.configOverlay.destroy()
                     } else {
@@ -535,7 +542,7 @@ Page {
                     }
                 }
 
-                delegate: BigTile {
+                delegate: ConsolinnoBigTile {
                     id: configDelegate
                     width: configListView.delegateWidth
                     height: configListView.height
@@ -547,15 +554,18 @@ Page {
                     topPadding: 0
                     bottomPadding: 0
 
+
                     header: RowLayout {
                         id: headerRow
                         width: parent.width
                         Label {
-                            text: model.displayName
+                            text:  model.displayName
                             Layout.fillWidth: true
                             elide: Text.ElideRight
                         }
                     }
+
+                    bottom_active: configDelegate.isEnabled
 
                     contentItem: Item {
                         Layout.fillWidth: true
@@ -700,6 +710,7 @@ Page {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
+
                             var component = Qt.createComponent(Qt.resolvedUrl("connection/CertificateDialog.qml"));
                             var popup = component.createObject(app,  {serverUuid: engine.jsonRpcClient.serverUuid, issuerInfo: engine.jsonRpcClient.certificateIssuerInfo});
                             popup.open();
