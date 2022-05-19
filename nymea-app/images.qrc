@@ -273,5 +273,6 @@
         <file>ui/images/contact-group.svg</file>
         <file>ui/images/zigbee/TI.svg</file>
         <file>ui/images/car.svg</file>
+        <file>ui/images/sensors/fire.svg</file>
     </qresource>
 </RCC>

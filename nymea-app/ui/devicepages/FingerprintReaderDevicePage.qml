@@ -197,20 +197,16 @@ ThingPageBase {
                 }
             }
 
-            ColumnLayout {
-                anchors.fill: parent
                 SwipeView {
                     id: addUserSwipeView
-                    Layout.fillWidth: true
-                    Layout.topMargin: app.margins
-                    Layout.alignment: Qt.AlignTop
+                    anchors.fill: parent
                     interactive: false
                     Item {
                         width: addUserSwipeView.width
                         height: addUserSwipeView.height
 
                         ColumnLayout {
-                            anchors.fill: parent
+                            anchors { left: parent.left; top: parent.top; right: parent.right }
                             anchors.margins: app.margins
                             Label {
                                 Layout.fillWidth: true
@@ -315,7 +311,7 @@ ThingPageBase {
                         }
                     }
                 }
-            }
+
         }
     }
 

@@ -3335,6 +3335,30 @@ Bitte versuche es erneut.</translation>
         <source>Enable cooling</source>
         <translation>Kühlung aktivieren</translation>
     </message>
+    <message>
+        <source>Air flow rate</source>
+        <translation>Luftflußrate</translation>
+    </message>
+    <message>
+        <source>Air flow rate changed</source>
+        <translation>Luftflußrate geändert</translation>
+    </message>
+    <message>
+        <source>Set air flow rate</source>
+        <translation>Setze Luftflußrate</translation>
+    </message>
+    <message>
+        <source>Fire sensors</source>
+        <translation>Feuer Sensoren</translation>
+    </message>
+    <message>
+        <source>Fire detected</source>
+        <translation>Feuer erkannt</translation>
+    </message>
+    <message>
+        <source>Fire detected changed</source>
+        <translation>Feuer erkannt geändert</translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -5193,6 +5217,10 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <source>Cooling</source>
         <translation>Kühlung</translation>
     </message>
+    <message>
+        <source>Electric cars</source>
+        <translation>Elektrische Autos</translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -6008,6 +6036,14 @@ Möchtest Du fortfahren?</translation>
         <source>Daytime</source>
         <translation>Tag</translation>
     </message>
+    <message>
+        <source>Fire</source>
+        <translation>Feuer</translation>
+    </message>
+    <message>
+        <source>No fire</source>
+        <translation>Kein Feuer</translation>
+    </message>
 </context>
 <context>
     <name>SensorsDeviceListPage</name>
@@ -6058,6 +6094,14 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Off</source>
         <translation>Aus</translation>
+    </message>
+    <message>
+        <source>Fire</source>
+        <translation>Feuer</translation>
+    </message>
+    <message>
+        <source>No fire</source>
+        <translation>Kein Feuer</translation>
     </message>
 </context>
 <context>
@@ -7345,15 +7389,15 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Version</source>
-        <translation>Version</translation>
+        <translation type="vanished">Version</translation>
     </message>
     <message>
         <source>IEEE address</source>
-        <translation>IEEE Adresse</translation>
+        <translation type="vanished">IEEE Adresse</translation>
     </message>
     <message>
         <source>Network address</source>
-        <translation>Netzwerkadresse</translation>
+        <translation type="vanished">Netzwerkadresse</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -7397,23 +7441,63 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>There are no ZigBee devices connectd yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
-        <translation>Es sind noch keine ZigBee Geräte verbunden. Öffne das Netzwerk für neue Geräte und starte das Pairing-Verfahren auf dem ZigBee Gerät. Bitte beziehe Dich auf das Handbuch des Gerätes, um mehr Informationen über das Pairing-Verfahren des jeweiligen Gerätes zu erhalten.</translation>
+        <translation type="vanished">Es sind noch keine ZigBee Geräte verbunden. Öffne das Netzwerk für neue Geräte und starte das Pairing-Verfahren auf dem ZigBee Gerät. Bitte beziehe Dich auf das Handbuch des Gerätes, um mehr Informationen über das Pairing-Verfahren des jeweiligen Gerätes zu erhalten.</translation>
     </message>
     <message>
         <source>Model</source>
-        <translation>Modell</translation>
+        <translation type="vanished">Modell</translation>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation>Hersteller</translation>
+        <translation type="vanished">Hersteller</translation>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation>Signalstärke</translation>
+        <translation type="vanished">Signalstärke</translation>
     </message>
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+    <message>
+        <source>There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
+        <translation>Es sind noch keine ZigBee Geräte verbunden. Öffne das Netzwerk für neue Geräte und beginne dein Einrichtungsprozess am ZigBee Gerät. Bitte ziehen Sie das Handbuch des Gerätes heran um zu erfahren wie dies am jeweiligen Gerät gemacht wird.</translation>
+    </message>
+    <message>
+        <source>Initialiazing...</source>
+        <translation>Initialisiere...</translation>
+    </message>
+    <message>
+        <source>%1 things</source>
+        <translation>%1 Geräte</translation>
+    </message>
+    <message>
+        <source>Unrecognized device</source>
+        <translation>Unerkanntes Gerät</translation>
+    </message>
+    <message>
+        <source>IEEE address:</source>
+        <translation>IEEE Adresse:</translation>
+    </message>
+    <message>
+        <source>Network address:</source>
+        <translation>Netzwerkadresse:</translation>
+    </message>
+    <message>
+        <source>Signal strength:</source>
+        <translation>Signalstärke:</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation>Version:</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+    </message>
+    <message>
+        <source>Associated things</source>
+        <translation>Verknüpfte Geräte</translation>
     </message>
 </context>
 <context>

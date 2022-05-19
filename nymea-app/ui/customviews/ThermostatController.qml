@@ -134,22 +134,22 @@ Item {
             }
 
             ctx.beginPath();
-            ctx.font = "" + app.hugeFont + "px " + Style.fontFamily;
+            ctx.font = "" + Style.hugeFont.pixelSize + "px " + Style.fontFamily;
             ctx.fillStyle = Style.foregroundColor;
             var roundedTargetTemp = Types.toUiValue(currentValue, root.targetTemperatureStateType.unit)
             roundedTargetTemp = roundToPrecision(roundedTargetTemp).toFixed(1) + "°"
             var size = ctx.measureText(roundedTargetTemp)
-            ctx.text(roundedTargetTemp, center.x - size.width / 2, center.y + app.hugeFont / 2);
+            ctx.text(roundedTargetTemp, center.x - size.width / 2, center.y + Style.hugeFont.pixelSize / 2);
             ctx.fill();
             ctx.closePath();
 
             if (root.temperatureState) {
                 ctx.beginPath();
-                ctx.font = "" + app.largeFont + "px " + Style.fontFamily;
+                ctx.font = "" + Style.bigFont.pixelSize + "px " + Style.fontFamily;
                 var roundedTemp = Types.toUiValue(root.temperatureState.value, root.temperatureStateType.unit)
                 roundedTemp = roundToPrecision(roundedTemp) + "°"
                 size = ctx.measureText(roundedTemp)
-                ctx.text(roundedTemp, center.x - size.width / 2, center.y + app.hugeFont + app.margins);
+                ctx.text(roundedTemp, center.x - size.width / 2, center.y + Style.hugeFont.pixelSize + Style.margins);
                 ctx.fill();
                 ctx.closePath();
             }

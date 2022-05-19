@@ -29,7 +29,7 @@ ColorIcon {
     }
 
     color: connectedState && connectedState.value === false
-           ? "red"
+           ? Style.red
            : signalStrengthState && signalStrengthState.value < 20
-             ? "orange" : Style.iconColor
+             ? Style.orange : Style.iconColor
 }
