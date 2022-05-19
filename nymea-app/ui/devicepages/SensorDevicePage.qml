@@ -38,6 +38,42 @@ import "../customviews"
 ThingPageBase {
     id: root
 
+    property var interfaceStateMap: {
+        "temperaturesensor": "temperature",
+        "humiditysensor": "humidity",
+        "pressuresensor": "pressure",
+        "moisturesensor": "moisture",
+        "lightsensor": "lightIntensity",
+        "conductivitysensor": "conductivity",
+        "noisesensor": "noise",
+        "cosensor": "co",
+        "co2sensor": "co2",
+        "gassensor": "gas",
+        "presencesensor": "isPresent",
+        "daylightsensor": "daylight",
+        "closablesensor": "closed",
+        "watersensor": "waterDetected",
+        "firesensor": "fireDetected",
+        "waterlevelsensor": "waterLevel",
+        "phsensor": "ph",
+        "o2sensor": "o2saturation",
+        "orpsensor": "orp",
+        "airquality": "airQuality",
+        "indoorairquality": "indoorAirQuality"
+    }
+
+    ListModel {
+        id: sensorsModel
+        Component.onCompleted: {
+            var supportedInterfaces = Object.keys(interfaceStateMap)
+            for (var i = 0; i < supportedInterfaces.length; i++) {
+                if (root.thingClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
+                    append({name: supportedInterfaces[i]});
+                }
+            }
+        }
+    }
+
     Flickable {
         id: listView
         anchors { fill: parent }
@@ -45,64 +81,128 @@ ThingPageBase {
         interactive: contentHeight > height
         contentHeight: contentGrid.implicitHeight
 
-        GridLayout {
+        ColumnLayout {
             id: contentGrid
-            width: parent.width - app.margins
-            anchors.horizontalCenter: parent.horizontalCenter
-            columns: Math.ceil(width / 600)
-            rowSpacing: 0
-            columnSpacing: 0
+            width: parent.width
+            spacing: Style.margins
 
-            Repeater {
-                model: ListModel {
-                    Component.onCompleted: {
-                        var supportedInterfaces = ["temperaturesensor", "humiditysensor", "pressuresensor", "moisturesensor", "lightsensor", "conductivitysensor", "noisesensor", "cosensor", "co2sensor", "gassensor", "presencesensor", "daylightsensor", "closablesensor", "watersensor", "phsensor", "o2sensor", "orpsensor", "waterlevelsensor"]
-                        for (var i = 0; i < supportedInterfaces.length; i++) {
-                            if (root.thingClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
-                                append({name: supportedInterfaces[i]});
+            Flow {
+                id: flow
+                Layout.fillWidth: true
+                Layout.leftMargin: sensorsModel.count == 1 ? Style.hugeMargins : Style.bigMargins
+                Layout.rightMargin: sensorsModel.count == 1 ? Style.hugeMargins : Style.bigMargins
+                Layout.preferredHeight: cellWidth * Math.min(400, Math.ceil(flowRepeater.count / columns))
+
+                property int columns: Math.min(flowRepeater.count, Math.floor(listView.width / 150))
+                property int cellWidth: width / columns
+                property int totalRows: flowRepeater.count / columns
+
+//                columns: 2// Math.ceil(width / 600)
+//                columnSpacing: Style.margins
+//                rowSpacing: Style.margins
+
+                Repeater {
+                    id: flowRepeater
+                    model: sensorsModel
+
+                    delegate: Item {
+                        width: Math.floor(flow.width / itemsInRow)
+                        height: Math.min(400, flow.cellWidth)
+                        property int row: Math.floor(index / flow.columns)
+                        property int itemsInRow: row < flow.totalRows ? flow.columns : (flowRepeater.count % flow.columns)
+
+                        CircleBackground {
+                            id: background
+                            anchors.centerIn: parent
+                            width: Math.min(parent.width, parent.height) - Style.margins
+                            height: width
+
+                            readonly property StateType sensorStateType: root.thing.thingClass.stateTypes.findByName(interfaceStateMap[modelData])
+                            readonly property State sensorState: root.thing.stateByName(interfaceStateMap[modelData])
+
+                            onColor: app.interfaceToColor(modelData)
+                            on: sensorStateType.type.toLowerCase() == "bool" && sensorState.value === true
+                            iconSource: [
+                                "closablesensor",
+                                "presencesensor",
+                                "daylightsensor",
+                                "firesensor",
+                                "watersensor"
+                            ].indexOf(modelData) >= 0 ? app.interfaceToIcon(modelData) : ""
+
+                            Loader {
+                                anchors.centerIn: parent
+                                width: background.contentItem.width
+                                height: background.contentItem.height
+                                property StateType stateType: root.thingClass.stateTypes.findByName(interfaceStateMap[modelData])
+                                property State state: root.thing.stateByName(interfaceStateMap[modelData])
+                                property string interfaceName: modelData
+                                property var minValue: {
+                                    if (["temperaturesensor"].indexOf(modelData) >= 0) {
+                                        return Types.toUiValue(-50, Types.UnitDegreeCelsius)
+                                    }
+                                    return state.minValue
+                                }
+                                property var maxValue: {
+                                    if (["temperaturesensor"].indexOf(modelData) >= 0) {
+                                        return Types.toUiValue(50, Types.UnitDegreeCelsius)
+                                    }
+                                    return state.maxValue
+                                }
+
+                                sourceComponent: {
+                                    var handledInterfaces = [
+                                                "humiditysensor",
+                                                "o2sensor",
+                                                "temperaturesensor",
+                                                "moisturesensor",
+                                                "co2sensor",
+                                                "conductivitysensor",
+                                                "cosensor",
+                                                "co2sensor",
+                                                "gassensor",
+                                                "lightsensor",
+                                                "orpsensor",
+                                                "phsensor",
+                                                "pressuresensor",
+                                                "waterlevelsensor",
+                                                "windspeedsensor"
+                                            ]
+                                    if (handledInterfaces.indexOf(modelData) >= 0) {
+                                        return progressComponent
+                                    }
+                                }
                             }
                         }
                     }
                 }
+            }
 
-                delegate: Loader {
-                    id: loader
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: item.implicitHeight
 
-                    property StateType stateType: root.thingClass.stateTypes.findByName(interfaceStateMap[modelData])
-                    property State state: root.thing.stateByName(interfaceStateMap[modelData])
-                    property string interfaceName: modelData
+            GridLayout {
+                columns: Math.ceil(width / 600)
+                rowSpacing: 0
+                columnSpacing: 0
 
-    //                sourceComponent: stateType && stateType.type.toLowerCase() === "bool" ? boolComponent : graphComponent
-                    sourceComponent: graphComponent
+                Repeater {
+                    model: sensorsModel
 
-                    property var interfaceStateMap: {
-                        "temperaturesensor": "temperature",
-                        "humiditysensor": "humidity",
-                        "pressuresensor": "pressure",
-                        "moisturesensor": "moisture",
-                        "lightsensor": "lightIntensity",
-                        "conductivitysensor": "conductivity",
-                        "noisesensor": "noise",
-                        "cosensor": "co",
-                        "co2sensor": "co2",
-                        "gassensor": "gas",
-                        "presencesensor": "isPresent",
-                        "daylightsensor": "daylight",
-                        "closablesensor": "closed",
-                        "watersensor": "waterDetected",
-                        "waterlevelsensor": "waterLevel",
-                        "phsensor": "ph",
-                        "o2sensor": "o2saturation",
-                        "orpsensor": "orp"
+                    delegate: Loader {
+                        id: loader
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: item.implicitHeight
+
+                        property StateType stateType: root.thingClass.stateTypes.findByName(interfaceStateMap[modelData])
+                        property State state: root.thing.stateByName(interfaceStateMap[modelData])
+                        property string interfaceName: modelData
+
+        //                sourceComponent: stateType && stateType.type.toLowerCase() === "bool" ? boolComponent : graphComponent
+                        sourceComponent: graphComponent
+
                     }
                 }
-
             }
         }
-
-
 
         Component {
             id: graphComponent
@@ -120,7 +220,7 @@ ThingPageBase {
                 Binding {
                     target: graph
                     property: "title"
-                    when: ["presencesensor", "daylightsensor", "closablesensor", "watersensor"].indexOf(graph.interfaceName) >= 0
+                    when: ["presencesensor", "daylightsensor", "closablesensor", "watersensor", "firesensor"].indexOf(graph.interfaceName) >= 0
                     value: {
                         switch (graph.interfaceName) {
                         case "presencesensor":
@@ -131,6 +231,8 @@ ThingPageBase {
                             return graph.state.value === true ? qsTr("Closed") : qsTr("Open")
                         case "watersensor":
                             return graph.state.value === true ? qsTr("Wet") : qsTr("Dry")
+                        case "firesensor":
+                            return graph.state.value === true ? qsTr("Fire") : qsTr("No fire")
                         }
                     }
                 }
@@ -225,5 +327,67 @@ ThingPageBase {
             }
         }
     }
+
+    Component {
+        id: progressComponent
+        Canvas {
+            id: progressCanvas
+            property string interfaceName: parent.interfaceName
+            property StateType stateType: parent.stateType
+            property State state: parent.state
+            property var minValue: parent.minValue
+            property var maxValue: parent.maxValue
+
+            Label {
+                anchors.centerIn: parent
+                width: parent.width * 0.6
+                text: Types.toUiValue(progressCanvas.state.value, progressCanvas.stateType.unit).toFixed(1) + " " + Types.toUiUnit(progressCanvas.stateType.unit)
+                font.pixelSize: Math.min(Style.hugeFont.pixelSize, parent.height / 6)
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            onPaint: {
+                var ctx = getContext("2d");
+                ctx.reset();
+
+                ctx.beginPath()
+                ctx.fillStyle = Style.foregroundColor
+
+                ctx.translate(width / 2, height / 2)
+                ctx.rotate(135 * Math.PI / 180)
+
+                ctx.lineCap = "round"
+                ctx.lineWidth = width * .1
+
+                ctx.beginPath()
+                ctx.strokeStyle = Style.tileOverlayColor
+                var startAngle = 0
+                var endAngle = 270
+                var radStart = startAngle * Math.PI/180;
+                var radEnd = endAngle * Math.PI/180;
+                ctx.arc(0, 0, width / 2 - ctx.lineWidth / 2, radStart, radEnd)
+                ctx.stroke()
+                ctx.closePath()
+
+                ctx.beginPath()
+                ctx.strokeStyle = app.interfaceToColor(progressCanvas.interfaceName)
+                var progress = (progressCanvas.state.value - progressCanvas.minValue) / (progressCanvas.maxValue - progressCanvas.minValue)
+                radEnd *= progress
+                ctx.arc(0, 0, width / 2 - ctx.lineWidth / 2, radStart, radEnd)
+                ctx.stroke()
+                ctx.closePath()
+            }
+
+            ColorIcon {
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset: progressCanvas.height / 2 - height
+                name: app.interfaceToIcon(progressCanvas.interfaceName)
+                size: Math.min(Style.bigIconSize, parent.height / 5)
+                color: app.interfaceToColor(progressCanvas.interfaceName)
+            }
+        }
+    }
+
 }
 

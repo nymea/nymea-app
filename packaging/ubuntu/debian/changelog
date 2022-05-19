@@ -1,3 +1,56 @@
+nymea-app (1.1.0) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump version to 1.1.0
+
+ -- jenkins <developer@nymea.io>  Thu, 12 May 2022 12:36:38 +0200
+
+nymea-app (1.0.461) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+
+ -- jenkins <developer@nymea.io>  Wed, 11 May 2022 14:04:35 +0200
+
+nymea-app (1.0.459) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add android x86
+  * Update tunnel proxy url in connection wizard
+
+ -- jenkins <developer@nymea.io>  Tue, 10 May 2022 14:42:58 +0200
+
+nymea-app (1.0.458) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More radius
+  * Improve zigbee settings when a node has multiple things
+
+ -- jenkins <developer@nymea.io>  Sun, 08 May 2022 22:12:00 +0200
+
+nymea-app (1.0.457) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve sensor views
+
+ -- jenkins <developer@nymea.io>  Sun, 08 May 2022 02:54:02 +0200
+
+nymea-app (1.0.456) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix color scheme to only use the new palette colors
+
+ -- jenkins <developer@nymea.io>  Fri, 06 May 2022 19:46:09 +0200
+
+nymea-app (1.0.455) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve energy charts when there is a hidden producer
+  * Fix fingerprint reader setup page
+  * Confirm the login form on enter
+
+ -- jenkins <developer@nymea.io>  Fri, 06 May 2022 14:58:38 +0200
+
 nymea-app (1.0.454) bionic; urgency=medium
 
   [ Michael Zanetti ]

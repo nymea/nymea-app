@@ -67,9 +67,9 @@ Page {
             color: {
                 switch (model.level) {
                 case AppLogController.LogLevelCritical:
-                    return "red";
+                    return Style.red;
                 case AppLogController.LogLevelWarning:
-                    return "orange";
+                    return Style.orange;
                 case AppLogController.LogLevelInfo:
                     return Style.foregroundColor;
                 case AppLogController.LogLevelDebug:

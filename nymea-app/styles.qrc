@@ -37,5 +37,7 @@
         <file>styles/lime/logo-wide.svg</file>
         <file>styles/noir/logo-wide.svg</file>
         <file>ui/Configuration.qml</file>
+        <file>styles/dark/Dialog.qml</file>
+        <file>styles/light/Dialog.qml</file>
     </qresource>
 </RCC>
