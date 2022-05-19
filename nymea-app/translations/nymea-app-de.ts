@@ -735,7 +735,7 @@
     </message>
     <message>
         <source>Finished</source>
-        <translation>Fertig</translation>
+        <translation type="unfinished">Abgeschlossen</translation>
     </message>
     <message>
         <source>Interrupted</source>
