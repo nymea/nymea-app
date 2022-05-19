@@ -3232,6 +3232,7 @@ Please try again.</source>
         <source>Fire detected changed</source>
         <translation type="unfinished"></translation>
     </message>
+
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -7102,6 +7103,10 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Associated things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
