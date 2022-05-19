@@ -125,6 +125,26 @@
         <source>Ok</source>
         <translation>OK</translation>
     </message>
+    <message>
+        <source>Name: </source>
+        <translation>Name:</translation>
+    </message>
+    <message>
+        <source>Minimum charging current</source>
+        <translation>Minimaler Ladestrom</translation>
+    </message>
+    <message>
+        <source>Maximum charging limit</source>
+        <translation>Maximales Ladelimit</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Retry</source>
+        <translation>Wiederholen</translation>
+    </message>
 </context>
 <context>
     <name>AdvancedConnectionInterfacesPage</name>
@@ -493,6 +513,69 @@
         <source>Please enter the battery capacity of your vehicle. You will find this in your vehicle registration document.</source>
         <translation>Bitte geben Sie die Batteriekapazität ihres Fahrzeugs ein. Sie finden diese in Ihrem Fahrzeugschein.</translation>
     </message>
+    <message>
+        <source>Charging Mode</source>
+        <translation>Lademodus</translation>
+    </message>
+    <message>
+        <source>Battery Level</source>
+        <translation>Batteriezustand</translation>
+    </message>
+</context>
+<context>
+    <name>CarInventory</name>
+    <message>
+        <source>Car inventory</source>
+        <translation type="vanished">Auto inventar</translation>
+    </message>
+    <message>
+        <source>Add new car</source>
+        <translation>Auto hinzufügen</translation>
+    </message>
+    <message>
+        <source>Thing reconfigured!</source>
+        <translation>&quot;Thing&quot; neu eingerichtet!</translation>
+    </message>
+    <message>
+        <source>All done. You can now start using %1.</source>
+        <translation>Alles erledigt. Du kannst %1 jetzt benutzen.</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Name: </source>
+        <translation>Name:</translation>
+    </message>
+    <message>
+        <source>Battery capacity</source>
+        <translation>Batteriekapazität</translation>
+    </message>
+    <message>
+        <source>Minimum charging current</source>
+        <translation>Minimaler Ladestrom</translation>
+    </message>
+    <message>
+        <source>Maximum charging limit</source>
+        <translation>Maximales Ladelimit</translation>
+    </message>
+    <message>
+        <source>delete</source>
+        <translation>Löschen</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Speichern</translation>
+    </message>
+    <message>
+        <source>Car list</source>
+        <translation>Fahrzeugliste</translation>
+    </message>
+    <message>
+        <source>edit</source>
+        <translation>bearbeiten</translation>
+    </message>
 </context>
 <context>
     <name>CertificateDialog</name>
@@ -560,7 +643,7 @@
     </message>
     <message>
         <source>Ending time: </source>
-        <translation>Endzeit</translation>
+        <translation>Endzeit: </translation>
     </message>
     <message>
         <source>Target charge: </source>
@@ -626,6 +709,46 @@
         <source>please select a car</source>
         <translation>Bitte wählen Sie ein Auto</translation>
     </message>
+    <message>
+        <source>s</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <source>min </source>
+        <translation>min</translation>
+    </message>
+    <message>
+        <source>h</source>
+        <translation>h</translation>
+    </message>
+    <message>
+        <source>Car: </source>
+        <translation>Auto</translation>
+    </message>
+    <message>
+        <source>Initialising</source>
+        <translation>Initialisierung</translation>
+    </message>
+    <message>
+        <source>Running</source>
+        <translation>Läuft</translation>
+    </message>
+    <message>
+        <source>Finished</source>
+        <translation>Fertig</translation>
+    </message>
+    <message>
+        <source>Interrupted</source>
+        <translation>Unterbrochen</translation>
+    </message>
+    <message>
+        <source>Add new car</source>
+        <translation>Auto hinzufügen</translation>
+    </message>
+    <message>
+        <source>Battery level: </source>
+        <translation>Batteriezustand: </translation>
+    </message>
 </context>
 <context>
     <name>ChargingConfigurationView</name>
@@ -645,6 +768,14 @@
 If the own electricity is not sufficient to reach the charging target, it is supplemented with grid electricity.</source>
         <translation>Der Energiemanager versucht den Verbrauch des Solarstroms zu maximieren. Dabei wird die Ladezeit und der Ladestrom so geplant, dass möglichst viel eigener Solarstrom verbraucht werden kann.
 Falls der eigene Strom nicht ausreicht, um das Ladeziel zu erreichen wird mit Netzstrom ergänzt.</translation>
+    </message>
+    <message>
+        <source>In the charging mode you set how the energy manager should charge the vehicle.</source>
+        <translation>Im Lademodus stellen Sie ein wie der Energiemanager das Fahrzeug laden soll.</translation>
+    </message>
+    <message>
+        <source>PV optimized: </source>
+        <translation>PV-optimiertes Laden</translation>
     </message>
 </context>
 <context>
@@ -1325,7 +1456,7 @@ Falls der eigene Strom nicht ausreicht, um das Ladeziel zu erreichen wird mit Ne
     </message>
     <message>
         <source>Demo mode (online)</source>
-        <translation>Demo-Modus (Online)</translation>
+        <translation type="vanished">Demo-Modus (Online)</translation>
     </message>
     <message>
         <source>Searching for your Leaflet...</source>
@@ -1367,6 +1498,10 @@ Falls der eigene Strom nicht ausreicht, um das Ladeziel zu erreichen wird mit Ne
         <source>Encrypted connection:</source>
         <translation>Verschlüsselte Verbindung:</translation>
     </message>
+    <message>
+        <source>Demo mode</source>
+        <translation>Demo-Modus</translation>
+    </message>
 </context>
 <context>
     <name>ConsolinnoImprint</name>
@@ -1401,6 +1536,17 @@ Falls der eigene Strom nicht ausreicht, um das Ladeziel zu erreichen wird mit Ne
     <message>
         <source>Visit the Qt website</source>
         <translation>Besuchen Sie die Qt Webseite</translation>
+    </message>
+    <message>
+        <source>View privacy policy</source>
+        <translation>Datenschutzerklärung anzeigen</translation>
+    </message>
+</context>
+<context>
+    <name>ConsolinnoItemDelegate</name>
+    <message>
+        <source>Delete</source>
+        <translation>Löschen</translation>
     </message>
 </context>
 <context>
@@ -2282,6 +2428,66 @@ Falls der eigene Strom nicht ausreicht, um das Ladeziel zu erreichen wird mit Ne
     </message>
 </context>
 <context>
+    <name>EnergyManagerInfo</name>
+    <message>
+        <source>Energymanager info</source>
+        <translation>Energiemanager info</translation>
+    </message>
+    <message>
+        <source>The energy manager regulates the heat pump to maximize the consumption of its own solar power.If you switch off the optimization, the energy manager no longer affects the control of the heat pump.</source>
+        <translation>Der Energiemanager steuert die Wärmepumpe so, dass der Verbrauch des eigenen Solarstroms maximiert wird.Wenn Sie die Optimerung ausschalten, greift der Energiemanager nicht mehr in die Steuerung der Wärmepumpe ein.</translation>
+    </message>
+    <message>
+        <source>Operating status: </source>
+        <translation>Betriebszustand</translation>
+    </message>
+    <message>
+        <source>The energy manager can set the heat pump to increased operation in the case of a power surplus, e.g. on a sunny day, in order to consume the own solar energy. The intervention of the energy manager is visible in the display of the operating status</source>
+        <translation>Der Energiemanager kann bei Stromüberschuss z.B. bei einem sonnigen Tag, die Wärmepumpe in verstärkten Betrieb schalten um die eigene Solar-Energie zu verbrauchen.
+Das Eingreifen des Energiemanagers ist sichtbar bei der Anzeige des Betriebzustands:</translation>
+    </message>
+    <message>
+        <source> &lt;ul style = &apos;list-style-type:circle;&apos;&gt; &lt;li&gt;Normal&lt;/li&gt;: </source>
+        <translation> &lt;ul style = &apos;list-style-type:circle;&apos;&gt; &lt;li&gt;Normal&lt;/li&gt;: </translation>
+    </message>
+    <message>
+        <source>energy manager does not intervene</source>
+        <translation>Energiemanager greift nicht ein</translation>
+    </message>
+    <message>
+        <source>&lt;ul style = &apos;list-style-type:circle;&apos;&gt; &lt;li&gt;Increased&lt;/li&gt;: </source>
+        <translation>&lt;ul style = &apos;list-style-type:circle;&apos;&gt; &lt;li&gt;Erhöht&lt;/li&gt;: </translation>
+    </message>
+    <message>
+        <source>recommendation for increased operation, the heat pump will decide if this is possible depending on the current temperature range</source>
+        <translation>Empfehlung zu erhöhtem Betrieb,die Wärmepumpe wird je nach momentanen Temperaturbereich entscheiden, ob dies möglich ist;</translation>
+    </message>
+    <message>
+        <source>&lt;ul style = &apos;list-style-type:circle;&apos;&gt; &lt;li&gt;High&lt;/li&gt;: </source>
+        <translation>&lt;ul style = &apos;list-style-type:circle;&apos;&gt; &lt;li&gt;Hoch&lt;/li&gt;: </translation>
+    </message>
+    <message>
+        <source>energy manager switches heat pump to increased operation</source>
+        <translation>Energiemanager schaltet Wärmepumpe in erhöhten Betrieb</translation>
+    </message>
+    <message>
+        <source>&lt;ul style = &apos;list-style-type:circle;&apos;&gt; &lt;li&gt;Off&lt;/li&gt;: </source>
+        <translation>&lt;ul style = &apos;list-style-type:circle;&apos;&gt; &lt;li&gt;Aus&lt;/li&gt;: </translation>
+    </message>
+    <message>
+        <source>a temporary shutdown by the network operator to avoid network overload.</source>
+        <translation>ein zeitlich berenzte Abschaltung durch den Netzbetreiber um Netzüberlastung zu vermeiden.</translation>
+    </message>
+    <message>
+        <source>Charging Mode</source>
+        <translation>Lademodus</translation>
+    </message>
+    <message>
+        <source>Battery Level</source>
+        <translation>Batteriezustand</translation>
+    </message>
+</context>
+<context>
     <name>EnergySettingsPage</name>
     <message>
         <source>Energy settings</source>
@@ -2766,6 +2972,58 @@ Bitte versuche es erneut.</translation>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
+    <message>
+        <source>Operating mode: </source>
+        <translation>Betriebsmodus</translation>
+    </message>
+    <message>
+        <source>Configuration data: </source>
+        <translation>Konfigurationsdaten</translation>
+    </message>
+    <message>
+        <source>Floor heating area</source>
+        <translation>Beheizte Fläche</translation>
+    </message>
+    <message>
+        <source>Maximal electrical power</source>
+        <translation>Maximale elektrische Energie</translation>
+    </message>
+    <message>
+        <source>Thermal storage capacity</source>
+        <translation>Wärmespeicherkapazität</translation>
+    </message>
+    <message>
+        <source>Outdoor temperature</source>
+        <translation>Außentemperatur</translation>
+    </message>
+    <message>
+        <source>Hot water temperature</source>
+        <translation>Heißwasser temperatur</translation>
+    </message>
+    <message>
+        <source>Return temperature</source>
+        <translation>Rücklauftemperatur</translation>
+    </message>
+    <message>
+        <source>Flow temperature</source>
+        <translation>Vorlauftemperatur</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation>Aus</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>Standard</translation>
+    </message>
+    <message>
+        <source>Increased</source>
+        <translation>Erhöht</translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation>Hoch</translation>
+    </message>
 </context>
 <context>
     <name>HeatingConfigurationView</name>
@@ -2906,6 +3164,17 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Additional software licenses</source>
         <translation type="vanished">Zusätzliche Software-Lizenzen</translation>
+    </message>
+</context>
+<context>
+    <name>InfoTextInterface</name>
+    <message>
+        <source>Summary:</source>
+        <translation>Zusammenfassung:</translation>
+    </message>
+    <message>
+        <source>Further Readings:</source>
+        <translation>Weitere Links</translation>
     </message>
 </context>
 <context>
@@ -4423,7 +4692,31 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Please enter here which charging limit you have set in your vehicle or in your vehicle app. This setting also specifies the maximum amount you can charge into the vehicle as a charging target in the charging modes of the energy manager. If you want to specify a higher charging target, you must change the setting in your vehicle and in the app accordingly.</source>
-        <translation>Bitte geben Sie hier an, welches Ladelimit Sie in ihrem Fahrzeug oder in ihrer Fahrzeug-App eingestellt haben. Diese Einstellung gibt auch vor, wieviel sie als Ladeziel maximal in den  Lade-Modi des Energiemanagers in das Fahrzeug laden können. Wenn Sie ein höheres Ladeziel vorgeben möchten, dann müssen Sie die Einstellung in ihrem Fahrzeug und in der App entsprechend ändern.</translation>
+        <translation type="vanished">Bitte geben Sie hier an, welches Ladelimit Sie in ihrem Fahrzeug oder in ihrer Fahrzeug-App eingestellt haben. Diese Einstellung gibt auch vor, wieviel sie als Ladeziel maximal in den  Lade-Modi des Energiemanagers in das Fahrzeug laden können. Wenn Sie ein höheres Ladeziel vorgeben möchten, dann müssen Sie die Einstellung in ihrem Fahrzeug und in der App entsprechend ändern.</translation>
+    </message>
+    <message>
+        <source>The charge limit is set in the vehicle or in the vehicle app and specifies the maximum amount that can be charged.</source>
+        <translation>Das Ladelimit wird beim Fahrzeug oder in der Fahrzeug-App eingegeben und gibt vor wieviel maximal geladen werden kann.</translation>
+    </message>
+    <message>
+        <source>Charging limit and target charge: </source>
+        <translation>Ladelimit und Ladeziel</translation>
+    </message>
+    <message>
+        <source>The charging limit also specifies how much can be charged with the energy manager, since the vehicle automatically limits the charging process. To ensure that the value is taken into account when setting the charging target, it should be entered here.</source>
+        <translation>Das Ladelimit gibt auch vor wieviel mit dem Energiemanager geladen werden kann,da das Fahrzeug den Ladevorgang automatisch abregelt. Damit der Wert bei der Eingabe des Ladeziels berücksichtigt wird, sollte er hier eingegeben werden.</translation>
+    </message>
+    <message>
+        <source>Higher target charge: </source>
+        <translation>Höheres Ladeziel</translation>
+    </message>
+    <message>
+        <source>If you want to specify a higher charging target, then you need to change the setting in your vehicle and in the energy manager accordingly.</source>
+        <translation>Wenn Sie ein höheres Ladeziel vorgeben möchten, dann müssen Sie die Einstellung in ihrem Fahrzeug und im Energiemanager entsprechend ändern.</translation>
+    </message>
+    <message>
+        <source>Target charge</source>
+        <translation>Ladeziel</translation>
     </message>
 </context>
 <context>
@@ -4482,7 +4775,27 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>For some vehicles, the charging process is not continued again after a break or interruption. This can be the case in the charging mode &apos;&apos;PV-optimized charging&apos;&apos; or &apos;&apos;solar power onl&apos;&apos; if there is not enough solar power available. Setting a minimum current ensures that the vehicle is charged with the minimum current even if no solar power is available, and thus no interruption occurs. The minimum charging current should be selected as low as possible.</source>
-        <translation>Bei einigen Fahrzeugen wird der Ladevorgang nach einer Pause bzw. Unterbrechung nicht wieder fortgesetzt. Das kann im Lademodus &quot;kostenoptimiertes Laden&quot; oder &quot;nur Solarstrom&quot; der Fall sein, wenn nicht ausreichend Solarstrom zur Verfügung steht. Die Einstellung eines Mindeststroms sorgt dafür, dass das Fahrzeug auch wenn kein Solarstrom zur Verfügung steht, mit dem Mindeststrom geladen wird, und es somit zu keiner Unterbrechung kommt. Der Mindestladestrom sollte möglichst gering gewählt werden.</translation>
+        <translation type="vanished">Bei einigen Fahrzeugen wird der Ladevorgang nach einer Pause bzw. Unterbrechung nicht wieder fortgesetzt. Das kann im Lademodus &quot;kostenoptimiertes Laden&quot; oder &quot;nur Solarstrom&quot; der Fall sein, wenn nicht ausreichend Solarstrom zur Verfügung steht. Die Einstellung eines Mindeststroms sorgt dafür, dass das Fahrzeug auch wenn kein Solarstrom zur Verfügung steht, mit dem Mindeststrom geladen wird, und es somit zu keiner Unterbrechung kommt. Der Mindestladestrom sollte möglichst gering gewählt werden.</translation>
+    </message>
+    <message>
+        <source>The minimum current defines the minimum charging current with which the vehicle must be charged.</source>
+        <translation>Der Mindeststrom legt fest mit welchem Ladestrom das Fahrzeug mindestens geladen werden muss.</translation>
+    </message>
+    <message>
+        <source>Charging interruptions: </source>
+        <translation>Ladeunterbrechungen: </translation>
+    </message>
+    <message>
+        <source>For some vehicles, the charging process is not continued again after a break or interruption. This can be the case in the charging mode &apos;PV-optimized charging&apos; or &apos;solar power only&apos; if there is not enough solar power available. Setting a minimum current ensures that the vehicle is charged with the minimum current even if no solar power is available, and thus no interruption occurs. The minimum charging current should be selected as low as possible.</source>
+        <translation>Bei einigen Fahrzeugen wird der Ladevorgang nach einer Pause bzw. Unterbrechung nicht wieder fortgesetzt. Das kann im Lademodus &quot;PV-optimiertes Laden&quot; oder &quot;nur Solarstrom&quot; der Fall sein, wenn nicht ausreichend Solarstrom zur Verfügung steht. Die Einstellung eines Mindeststroms sorgt dafür, dass das Fahrzeug auch wenn kein Solarstrom zur Verfügung steht, mit dem Mindeststrom geladen wird, und es somit zu keiner Unterbrechung kommt. Der Mindestladestrom sollte möglichst gering gewählt werden.</translation>
+    </message>
+    <message>
+        <source>Target charge</source>
+        <translation>Ladeziel</translation>
+    </message>
+    <message>
+        <source>Maximum allowed charging limit</source>
+        <translation>Maximales Ladelimit</translation>
     </message>
 </context>
 <context>
@@ -5784,6 +6097,10 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     <message>
         <source>Save</source>
         <translation>Speichern</translation>
+    </message>
+    <message>
+        <source>PV</source>
+        <translation>PV</translation>
     </message>
 </context>
 <context>
@@ -7350,7 +7667,23 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>With the charging target, you specify how full you want to charge the battery. Note that the charging limit set in the vehicle cannot be exceeded. For example, if you have preset a charging limit of 80%, you cannot charge more than 80% with the energy manager, as the vehicle automatically shuts down the charging process. To ensure that the energy manager takes this limit into account, enter the charging limit in the vehicle profile.</source>
-        <translation>Mit dem Ladeziel geben Sie an wie voll die Batterie laden möchten. Beachten Sie, dass das im Fahrzeug eingestellte Ladelimit nicht überschritten werden kann. Wenn Sie zum Beispiel ein Ladelimit von 80 % voreingestellt haben, können Sie mit dem Energiemanager nicht mehr als 80 % laden, da das Fahrzeug den Ladevorgang automatisch abregelt. Damit der Energiemanager dieses Limit berücksichtigt geben sie das Ladelimit im Fahrzeugprofil an.</translation>
+        <translation type="vanished">Mit dem Ladeziel geben Sie an wie voll die Batterie laden möchten. Beachten Sie, dass das im Fahrzeug eingestellte Ladelimit nicht überschritten werden kann. Wenn Sie zum Beispiel ein Ladelimit von 80 % voreingestellt haben, können Sie mit dem Energiemanager nicht mehr als 80 % laden, da das Fahrzeug den Ladevorgang automatisch abregelt. Damit der Energiemanager dieses Limit berücksichtigt geben sie das Ladelimit im Fahrzeugprofil an.</translation>
+    </message>
+    <message>
+        <source>With the charging target, you specify how full you want to charge the battery.</source>
+        <translation>Mit dem Ladeziel geben Sie an wie voll Sie dir Batterie laden möchten.</translation>
+    </message>
+    <message>
+        <source>Target charge and charging limit: </source>
+        <translation>Ladeziel und Ladelimit</translation>
+    </message>
+    <message>
+        <source>Note that the charging limit set in the vehicle cannot be exceeded. For example, if you have preset a charging limit of 80%, you cannot charge more than 80% with the energy manager, as the vehicle automatically shuts down the charging process. To ensure that the energy manager takes this limit into account, enter the charging limit in the vehicle profile.</source>
+        <translation>Beachten Sie, dass das im Fahrzeug eingestellte Ladelimit nicht überschritten werden kann. Wenn Sie zum Beispiel ein Ladelimit von 80 % voreingestellt haben, können Sie mit dem Energiemanager nicht mehr als 80 % laden, da das Fahrzeug den Ladevorgang automatisch abregelt. Damit der Energiemanager dieses Limit berücksichtigt geben sie das Ladelimit im Fahrzeugprofil an.</translation>
+    </message>
+    <message>
+        <source>Maximum charging limit</source>
+        <translation>Maximales Ladelimit</translation>
     </message>
 </context>
 <context>
