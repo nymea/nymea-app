@@ -127,7 +127,7 @@
     </message>
     <message>
         <source>Name: </source>
-        <translation>Name:</translation>
+        <translation type="vanished">Name:</translation>
     </message>
     <message>
         <source>Minimum charging current</source>
@@ -144,6 +144,10 @@
     <message>
         <source>Retry</source>
         <translation>Wiederholen</translation>
+    </message>
+    <message>
+        <source>Capacity: </source>
+        <translation>Kapazität</translation>
     </message>
 </context>
 <context>
