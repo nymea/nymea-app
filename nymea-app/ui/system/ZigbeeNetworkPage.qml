@@ -269,12 +269,15 @@ SettingsPageBase {
                 engine: _engine
                 paramsFilter: {"ieeeAddress": nodeDelegate.node.ieeeAddress}
             }
-            readonly property Thing nodeThing: nodeThings.count === 1 ? nodeThings.get(0) : null
+            readonly property Thing nodeThing: nodeThings.count >= 1 ? nodeThings.get(0) : null
             property int signalStrength: node ? Math.round(node.lqi * 100.0 / 255.0) : 0
 
             Layout.fillWidth: true
-            text: nodeThing ? nodeThing.name : node.model
-            subText: node.manufacturer || node.ieeeAddress
+            text: node.model + " - " + node.manufacturer// nodeThing ? nodeThing.name : node.model
+            subText: node.state == ZigbeeNode.ZigbeeNodeStateInitializing ?
+                         qsTr("Initialiazing...")
+                       : nodeThings.count == 1 ? nodeThing.name :
+                                                 nodeThings.count > 1 ? qsTr("%1 things").arg(nodeThings.count) : qsTr("Unrecognized device")
             iconName: nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "/ui/images/zigbee.svg"
             iconColor: busy
                        ? Style.tileOverlayColor
@@ -327,11 +330,10 @@ SettingsPageBase {
                   ? "/ui/images/zigbee-router.svg"
                   : "/ui/images/zigbee-enddevice.svg"
                 color: communicationIndicatorLedTimer.running ? Style.accentColor : Style.iconColor
-                Component.onCompleted: print("************+ node type", node.type)
             }
 
             onClicked: {
-                var popup = nodeInfoComponent.createObject(app, {node: node, nodeThing: nodeThing})
+                var popup = nodeInfoComponent.createObject(app, {node: node, nodeThings: nodeThings})
                 popup.open()
             }
         }
@@ -342,9 +344,10 @@ SettingsPageBase {
         MeaDialog {
             id: nodeInfoDialog
             property ZigbeeNode node: null
-            property Thing nodeThing: null
+            property ThingsProxy nodeThings: null
+            readonly property Thing nodeThing: nodeThings.count > 0 ? nodeThings.get(0) : null
             header: Item {
-                implicitHeight: headerRow.height + Style.margins
+                implicitHeight: headerRow.height
                 implicitWidth: parent.width
                 RowLayout {
                     id: headerRow
@@ -352,65 +355,98 @@ SettingsPageBase {
                     spacing: Style.margins
                     ColorIcon {
                         id: headerColorIcon
-                        Layout.preferredHeight: Style.hugeIconSize
+                        Layout.preferredHeight: Style.bigIconSize
                         Layout.preferredWidth: height
                         color: Style.accentColor
-                        name: nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "/ui/images/zigbee.svg"
-                        visible: name.length > 0
+                        name: "/ui/images/zigbee.svg"
                     }
-
-                    TextField {
-                        id: titleLabel
-                        Layout.fillWidth: true
+                    ColumnLayout {
                         Layout.margins: Style.margins
-                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        text: nodeThing ? nodeThing.name : node.model
-                        color: Style.accentColor
-                        font.pixelSize: app.largeFont
-                        readOnly: nodeInfoDialog.nodeThing == null
-                        onEditingFinished: engine.thingManager.editThing(nodeInfoDialog.nodeThing.id, text)
+                        Label {
+                            Layout.fillWidth: true
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            text: nodeInfoDialog.node.model
+                        }
+                        Label {
+                            Layout.fillWidth: true
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            text: nodeInfoDialog.node.manufacturer
+                        }
                     }
                 }
             }
 
             standardButtons: Dialog.NoButton
 
-            NymeaItemDelegate {
-                text: qsTr("Model")
-                Layout.fillWidth: true
-                progressive: false
-                subText: nodeInfoDialog.node.model
+            GridLayout {
+                columns: 2
+                Label {
+                    text: qsTr("IEEE address:")
+                    font: Style.smallFont
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: nodeInfoDialog.node.ieeeAddress
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
+                }
+                Label {
+                    text: qsTr("Network address:")
+                    font: Style.smallFont
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: "0x" + nodeInfoDialog.node.networkAddress.toString(16)
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
+                }
+                Label {
+                    text: qsTr("Signal strength:")
+                    font: Style.smallFont
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: (nodeInfoDialog.node.lqi * 100 / 255).toFixed(0) + " %"
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
+                }
+                Label {
+                    text: qsTr("Version:")
+                    font: Style.smallFont
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: nodeInfoDialog.node.version.length > 0 ? nodeInfoDialog.node.version : qsTr("Unknown")
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
+                }
             }
-            NymeaItemDelegate {
-                text: qsTr("Manufacturer")
-                Layout.fillWidth: true
-                progressive: false
-                subText: nodeInfoDialog.node.manufacturer
+
+            SettingsPageSectionHeader {
+                text: qsTr("Associated things")
+                Layout.leftMargin: 0
+                Layout.rightMargin: 0
             }
-            NymeaItemDelegate {
-                text: qsTr("IEEE address")
-                Layout.fillWidth: true
-                progressive: false
-                subText: nodeInfoDialog.node.ieeeAddress
+
+            Repeater {
+                model: nodeInfoDialog.nodeThings
+                delegate: RowLayout {
+                    id: thingDelegate
+                    property Thing thing: nodeInfoDialog.nodeThings.get(index)
+                    Layout.fillWidth: true
+                    ColorIcon {
+                        size: Style.iconSize
+                        source: app.interfacesToIcon(thing.thingClass.interfaces)
+                        color: Style.accentColor
+                    }
+                    TextField {
+                        text: thingDelegate.thing.name
+                        Layout.fillWidth: true
+                        onEditingFinished: engine.thingManager.editThing(thingDelegate.thing.id, text)
+                    }
+                }
             }
-            NymeaItemDelegate {
-                text: qsTr("Network address")
-                Layout.fillWidth: true
-                progressive: false
-                subText: "0x" + nodeInfoDialog.node.networkAddress.toString(16)
-            }
-            NymeaItemDelegate {
-                text: qsTr("Signal strength")
-                Layout.fillWidth: true
-                progressive: false
-                subText: (nodeInfoDialog.node.lqi * 100 / 255).toFixed(0) + " %"
-            }
-            NymeaItemDelegate {
-                text: qsTr("Version")
-                Layout.fillWidth: true
-                progressive: false
-                subText: nodeInfoDialog.node.version
-            }
+
             RowLayout {
                 Layout.fillWidth: true
 

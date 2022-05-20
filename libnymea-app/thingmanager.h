@@ -175,7 +175,7 @@ private:
     ThingClasses *m_thingClasses;
     IOConnections *m_ioConnections;
 
-    bool m_fetchingData = false;
+    bool m_fetchingData = true;
 
     int m_currentGetConfigIndex = 0;
 

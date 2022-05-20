@@ -49,14 +49,15 @@ Item {
             case "on":
                 return Style.accentColor
             case "green":
-                return "#73c0b3";
+                return Style.green;
             case "off":
-                return "lightgray";
+                return Style.lightGray;
             case "orange":
-                return "#fedf6f";
+                return Style.orange;
             case "red":
-                return "#dd7777"
+                return Style.red
             }
+            return "transparent"
         }
         border.width: 1
         border.color: Style.foregroundColor

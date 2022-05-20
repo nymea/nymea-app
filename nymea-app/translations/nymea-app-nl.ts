@@ -3270,6 +3270,18 @@ Please try again.</source>
         <source>Set air flow rate</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Fire sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fire detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fire detected changed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -5770,6 +5782,14 @@ Do you want to proceed?</source>
         <source>Daytime</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Fire</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No fire</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SensorsDeviceListPage</name>
@@ -5820,6 +5840,14 @@ Do you want to proceed?</source>
     <message>
         <source>Off</source>
         <translation type="unfinished">Uit</translation>
+    </message>
+    <message>
+        <source>Fire</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No fire</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7051,18 +7079,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>IEEE address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove</source>
         <translation type="unfinished">Verwijderen</translation>
     </message>
@@ -7103,20 +7119,52 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Model</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">Fabrikant</translation>
-    </message>
-    <message>
-        <source>Signal strength</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Fabrikant</translation>
     </message>
     <message>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Initialiazing...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unrecognized device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IEEE address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signal strength:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Associated things</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>

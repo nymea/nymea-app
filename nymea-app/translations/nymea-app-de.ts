@@ -735,7 +735,7 @@
     </message>
     <message>
         <source>Finished</source>
-        <translation>Fertig</translation>
+        <translation>Abgeschlossen</translation>
     </message>
     <message>
         <source>Interrupted</source>
@@ -743,11 +743,15 @@
     </message>
     <message>
         <source>Add new car</source>
-        <translation>Auto hinzufügen</translation>
+        <translation type="vanished">Auto hinzufügen</translation>
     </message>
     <message>
         <source>Battery level: </source>
         <translation>Batteriezustand: </translation>
+    </message>
+    <message>
+        <source>Select car</source>
+        <translation>Auto auswählen</translation>
     </message>
 </context>
 <context>
@@ -1908,7 +1912,7 @@ Falls der eigene Strom nicht ausreicht, um das Ladeziel zu erreichen wird mit Ne
     <name>DetailedGraphsPage</name>
     <message>
         <source>History</source>
-        <translation>Verlauf</translation>
+        <translation type="vanished">Verlauf</translation>
     </message>
 </context>
 <context>
@@ -4094,6 +4098,30 @@ Bitte versuche es erneut.</translation>
         <source>Enable cooling</source>
         <translation type="vanished">Kühlung aktivieren</translation>
     </message>
+    <message>
+        <source>Air flow rate</source>
+        <translation type="vanished">Luftflußrate</translation>
+    </message>
+    <message>
+        <source>Air flow rate changed</source>
+        <translation type="vanished">Luftflußrate geändert</translation>
+    </message>
+    <message>
+        <source>Set air flow rate</source>
+        <translation type="vanished">Setze Luftflußrate</translation>
+    </message>
+    <message>
+        <source>Fire sensors</source>
+        <translation type="vanished">Feuer Sensoren</translation>
+    </message>
+    <message>
+        <source>Fire detected</source>
+        <translation type="vanished">Feuer erkannt</translation>
+    </message>
+    <message>
+        <source>Fire detected changed</source>
+        <translation type="vanished">Feuer erkannt geändert</translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -6014,6 +6042,10 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <source>Cooling</source>
         <translation type="vanished">Kühlung</translation>
     </message>
+    <message>
+        <source>Electric cars</source>
+        <translation type="vanished">Elektrische Autos</translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -6880,6 +6912,14 @@ Möchtest Du fortfahren?</translation>
         <source>Daytime</source>
         <translation type="vanished">Tag</translation>
     </message>
+    <message>
+        <source>Fire</source>
+        <translation type="vanished">Feuer</translation>
+    </message>
+    <message>
+        <source>No fire</source>
+        <translation type="vanished">Kein Feuer</translation>
+    </message>
 </context>
 <context>
     <name>SensorsDeviceListPage</name>
@@ -6930,6 +6970,14 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Off</source>
         <translation type="vanished">Aus</translation>
+    </message>
+    <message>
+        <source>Fire</source>
+        <translation type="vanished">Feuer</translation>
+    </message>
+    <message>
+        <source>No fire</source>
+        <translation type="vanished">Kein Feuer</translation>
     </message>
 </context>
 <context>
@@ -8536,6 +8584,46 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>OK</source>
         <translation type="vanished">OK</translation>
+    </message>
+    <message>
+        <source>There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
+        <translation type="vanished">Es sind noch keine ZigBee Geräte verbunden. Öffne das Netzwerk für neue Geräte und beginne dein Einrichtungsprozess am ZigBee Gerät. Bitte ziehen Sie das Handbuch des Gerätes heran um zu erfahren wie dies am jeweiligen Gerät gemacht wird.</translation>
+    </message>
+    <message>
+        <source>Initialiazing...</source>
+        <translation type="vanished">Initialisiere...</translation>
+    </message>
+    <message>
+        <source>%1 things</source>
+        <translation type="vanished">%1 Geräte</translation>
+    </message>
+    <message>
+        <source>Unrecognized device</source>
+        <translation type="vanished">Unerkanntes Gerät</translation>
+    </message>
+    <message>
+        <source>IEEE address:</source>
+        <translation type="vanished">IEEE Adresse:</translation>
+    </message>
+    <message>
+        <source>Network address:</source>
+        <translation type="vanished">Netzwerkadresse:</translation>
+    </message>
+    <message>
+        <source>Signal strength:</source>
+        <translation type="vanished">Signalstärke:</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation type="vanished">Version:</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="vanished">Unbekannt</translation>
+    </message>
+    <message>
+        <source>Associated things</source>
+        <translation type="vanished">Verknüpfte Geräte</translation>
     </message>
 </context>
 <context>
