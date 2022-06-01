@@ -1,3 +1,10 @@
+nymea-app (1.1.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide user settings on system with push button auth
+
+ -- jenkins <developer@nymea.io>  Wed, 01 Jun 2022 23:03:48 +0200
+
 nymea-app (1.1.1) bionic; urgency=medium
 
   [ Michael Zanetti ]
