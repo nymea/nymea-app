@@ -19,5 +19,5 @@ Item {
 
     property string defaultMainView: "things"
 
-    property ListModel mainMenuLinks: null
+    property var mainMenuLinks: null
 }

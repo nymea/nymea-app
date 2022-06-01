@@ -209,13 +209,21 @@ Drawer {
                 Repeater {
                     model: Configuration.mainMenuLinks
                     delegate: NymeaItemDelegate {
+                        property var entry: Configuration.mainMenuLinks[index]
                         Layout.fillWidth: true
-                        text: model.text
-                        iconName: model.iconName
+                        text: entry.text
+                        iconName: entry.iconName
                         progressive: false
-                        onClicked: Qt.openUrlExternally(model.url)
+                        onClicked: {
+                            if (entry.func !== undefined) {
+                                entry.func(app, root.currentEngine)
+                            }
+                            if (entry.url !== undefined) {
+                                Qt.openUrlExternally(entry.url)
+                            }
+                            root.close()
+                        }
                     }
-
                 }
             }
         }
