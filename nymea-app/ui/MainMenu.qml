@@ -15,6 +15,7 @@ Drawer {
     signal openMagicSettings();
     signal openAppSettings();
     signal openSystemSettings();
+    signal openCustomPage(string page);
     signal configureMainView();
 
     signal startWirelessSetup();
@@ -215,6 +216,10 @@ Drawer {
                         iconName: entry.iconName
                         progressive: false
                         onClicked: {
+                            if (entry.page !== undefined) {
+                                root.openCustomPage(entry.page)
+                            }
+
                             if (entry.func !== undefined) {
                                 entry.func(app, root.currentEngine)
                             }

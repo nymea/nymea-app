@@ -121,6 +121,7 @@ ApplicationWindow {
         onOpenMagicSettings: rootItem.openMagicSettings();
         onOpenAppSettings: rootItem.openAppSettings();
         onOpenSystemSettings: rootItem.openSystemSettings();
+        onOpenCustomPage: rootItem.openCustomPage(page);
         onConfigureMainView: rootItem.configureMainView();
         onStartManualConnection: rootItem.startManualConnection();
         onStartWirelessSetup: rootItem.startWirelessSetup();

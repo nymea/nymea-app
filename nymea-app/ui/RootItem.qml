@@ -70,6 +70,10 @@ Item {
     function openSystemSettings() {
         d.pushSettingsPage("SettingsPage.qml")
     }
+    function openCustomPage(page) {
+        d.pushSettingsPage(page)
+    }
+
     function configureMainView() {
         swipeView.currentItem.pageStack.pop(null)
         swipeView.currentItem.pageStack.currentItem.configureViews()
