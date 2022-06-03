@@ -46,6 +46,8 @@ Item {
 
     property int orientation: Qt.Horizontal
 
+    readonly property State powerState: thing ? thing.stateByName("power") : null
+
     ActionQueue {
         id: actionQueue
         thing: root.thing
@@ -96,13 +98,20 @@ Item {
         onPositionChanged: {
             var minCt = root.brightnessStateType.minValue;
             var maxCt = root.brightnessStateType.maxValue
-            var ct;
+            var brightness;
             if (root.orientation == Qt.Horizontal) {
-                ct = Math.min(maxCt, Math.max(minCt, (mouseX * (maxCt - minCt) / (width - dragHandle.width)) + minCt))
+                brightness = Math.min(maxCt, Math.max(minCt, (mouseX * (maxCt - minCt) / (width - dragHandle.width)) + minCt))
             } else {
-                ct = Math.min(maxCt, Math.max(minCt, ((height - mouseY) * (maxCt - minCt) / (height - dragHandle.height)) + minCt))
+                brightness = Math.min(maxCt, Math.max(minCt, ((height - mouseY) * (maxCt - minCt) / (height - dragHandle.height)) + minCt))
             }
-            actionQueue.sendValue(ct);
+            if (brightness > 0 && root.powerState && root.powerState.value === false) {
+                root.thing.executeAction("power", [{paramName: "power", value: true}])
+            }
+            if (brightness === 0 && root.powerState && root.powerState.value === true) {
+                root.thing.executeAction("power", [{paramName: "power", value: false}])
+            }
+
+            actionQueue.sendValue(brightness);
         }
     }
 }
