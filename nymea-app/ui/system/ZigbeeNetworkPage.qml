@@ -275,7 +275,7 @@ SettingsPageBase {
             Layout.fillWidth: true
             text: node.model + " - " + node.manufacturer// nodeThing ? nodeThing.name : node.model
             subText: node.state == ZigbeeNode.ZigbeeNodeStateInitializing ?
-                         qsTr("Initialiazing...")
+                         qsTr("Initializing...")
                        : nodeThings.count == 1 ? nodeThing.name :
                                                  nodeThings.count > 1 ? qsTr("%1 things").arg(nodeThings.count) : qsTr("Unrecognized device")
             iconName: nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "/ui/images/zigbee.svg"
