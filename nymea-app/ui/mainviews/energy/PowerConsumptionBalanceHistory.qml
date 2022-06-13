@@ -16,6 +16,11 @@ Item {
         sampleRate: EnergyLogs.SampleRate15Mins
     }
 
+    property ThingsProxy batteries: ThingsProxy {
+        engine: _engine
+        shownInterfaces: ["energystorage"]
+    }
+
     Component.onCompleted: {
         for (var i = 0; i < powerBalanceLogs.count; i++) {
             var entry = energyLogs.powerBalanceLogs.get(i);
@@ -196,7 +201,7 @@ Item {
             borderWidth: 0
             borderColor: color
             name: qsTr("From battery")
-    //      visible: false
+            visible: root.batteries.count > 0
 
             lowerSeries: selfProductionUpperSeries
             upperSeries: LineSeries {
@@ -324,6 +329,7 @@ Item {
                     }
                 }
                 RowLayout {
+                    visible: root.batteries.count > 0
                     Rectangle {
                         width: Style.extraSmallFont.pixelSize
                         height: width
