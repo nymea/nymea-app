@@ -275,12 +275,11 @@ ThingPageBase {
         GridLayout {
             id: basicItems
             Layout.fillWidth: !app.landscape
-            Layout.fillHeight: app.landscape
+            Layout.fillHeight: app.landscape && (powerButton.visible || brightnessSlider.visible)
             Layout.alignment: Qt.AlignHCenter
             columnSpacing: app.margins
             rowSpacing: app.margins
             columns: app.landscape ? 1 : 2
-            visible: powerButton.visible || brightnessSlider.visible
 
             ProgressButton {
                 id: powerButton

@@ -106,7 +106,7 @@ Item {
                 return
             }
 
-            print("current color:", shownColor.r, shownColor.g, shownColor.b)
+//            print("current color:", shownColor.r, shownColor.g, shownColor.b)
 
             var whitePart = Math.min(Math.min(shownColor.r, shownColor.g), shownColor.b)
 
@@ -143,17 +143,17 @@ Item {
             var stopBefore = g.stops[stopIndex]
             var stopAfter = g.stops[stopIndex+1]
 
-            print("stopIndex", stopIndex)
-            print("stopBefore:", stopBefore.color.r, stopBefore.color.g, stopBefore.color.b)
-            print("stopAfter:", stopAfter.color.r, stopAfter.color.g, stopAfter.color.b)
-            print("progressInStop", progressInStop)
+//            print("stopIndex", stopIndex)
+//            print("stopBefore:", stopBefore.color.r, stopBefore.color.g, stopBefore.color.b)
+//            print("stopAfter:", stopAfter.color.r, stopAfter.color.g, stopAfter.color.b)
+//            print("progressInStop", progressInStop)
 
 
-            print("beforePosition", stopBefore.position)
+//            print("beforePosition", stopBefore.position)
 
             var positionInGradient = stopBefore.position + (stopAfter.position - stopBefore.position) * progressInStop
 
-            print("positionInGradient", positionInGradient)
+//            print("positionInGradient", positionInGradient)
 
             var degrees = 360 * positionInGradient;
             degrees -= 90;
@@ -166,10 +166,10 @@ Item {
             var x = radius * Math.cos(radian)
             var y = radius * Math.sin(radian)
 
-            print("degrees", degrees)
-            print("radius", radius)
+//            print("degrees", degrees)
+//            print("radius", radius)
 
-            print("Setting point to", x, y)
+//            print("Setting point to", x, y)
             point = Qt.point(x, y)
         }
     }
