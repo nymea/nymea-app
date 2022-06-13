@@ -439,7 +439,7 @@ StatsBase {
                         color: Style.blue
                     }
                     Label {
-                        text: d.consumptionSet ? qsTr("Consumed: %1 kWh").arg(d.consumptionSet.at(toolTip.idx).toFixed(2)) : ""
+                        text: toolTip.visible && d.consumptionSet ? qsTr("Consumed: %1 kWh").arg(d.consumptionSet.at(toolTip.idx).toFixed(2)) : ""
                         font: Style.extraSmallFont
                     }
                 }
@@ -451,7 +451,7 @@ StatsBase {
                         color: Style.yellow
                     }
                     Label {
-                        text: d.productionSet ? qsTr("Produced: %1 kWh").arg(d.productionSet.at(toolTip.idx).toFixed(2)) : ""
+                        text: toolTip.visible && d.productionSet ? qsTr("Produced: %1 kWh").arg(d.productionSet.at(toolTip.idx).toFixed(2)) : ""
                         font: Style.extraSmallFont
                     }
                 }
@@ -462,7 +462,7 @@ StatsBase {
                         color: Style.red
                     }
                     Label {
-                        text: d.acquisitionSet ? qsTr("From grid: %1 kWh").arg(d.acquisitionSet.at(toolTip.idx).toFixed(2)) : ""
+                        text: toolTip.visible && d.acquisitionSet ? qsTr("From grid: %1 kWh").arg(d.acquisitionSet.at(toolTip.idx).toFixed(2)) : ""
                         font: Style.extraSmallFont
                     }
                 }
@@ -473,7 +473,7 @@ StatsBase {
                         color: Style.green
                     }
                     Label {
-                        text: d.returnSet ? qsTr("To grid: %1 kWh").arg(d.returnSet.at(toolTip.idx).toFixed(2)) : ""
+                        text: toolTip.visible && d.returnSet ? qsTr("To grid: %1 kWh").arg(d.returnSet.at(toolTip.idx).toFixed(2)) : ""
                         font: Style.extraSmallFont
                     }
                 }
