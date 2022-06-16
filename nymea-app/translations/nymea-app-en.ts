@@ -604,9 +604,9 @@
     </message>
     <message numerus="yes">
         <source>There are %n %1 systems connected to your cloud.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>There is %n %1 system connected to your cloud.</numerusform>
+            <numerusform>There are %n %1 systems connected to your cloud.</numerusform>
         </translation>
     </message>
     <message>
@@ -6243,7 +6243,7 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message numerus="yes">
         <source>%n update(s) available</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n update available</numerusform>
             <numerusform>%n updates available</numerusform>
         </translation>
@@ -7069,10 +7069,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Initialiazing...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%1 things</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7102,6 +7098,10 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Associated things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Initializing...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7232,16 +7232,16 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message numerus="yes">
         <source>%n device(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n device</numerusform>
+            <numerusform>%n devices</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n device(s) (%1 disconnected)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n device (%1 disconnected)</numerusform>
+            <numerusform>%n devices (%1 disconnected)</numerusform>
         </translation>
     </message>
 </context>
