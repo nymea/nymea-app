@@ -1,3 +1,11 @@
+nymea-app (1.2.0) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump version
+  * Update translations
+
+ -- jenkins <developer@nymea.io>  Thu, 16 Jun 2022 23:11:10 +0200
+
 nymea-app (1.1.6) bionic; urgency=medium
 
   [ Michael Zanetti ]
