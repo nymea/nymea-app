@@ -265,11 +265,15 @@
     <name>BatteryLevel</name>
     <message>
         <source>BatteryLevel info</source>
-        <translation>Batteriezustandsinfo</translation>
+        <translation type="vanished">Batteriezustandsinfo</translation>
     </message>
     <message>
         <source>The energy manager requires information on the battery level for the optimized charging process. This information is not transmitted by the vehicle and must therefore be entered manually.</source>
         <translation>Der Energiemanager benötigt für den optimierten Ladevorgang die Angabe des Füllstandes der Batterie. Diese Information wird vom Fahrzeug nicht übermittelt und muss daher manuell eingetragen werden.</translation>
+    </message>
+    <message>
+        <source>BatteryLevel</source>
+        <translation>Batteriezustand</translation>
     </message>
 </context>
 <context>
@@ -511,7 +515,7 @@
     <name>Capacity</name>
     <message>
         <source>Capacity info</source>
-        <translation>Kapazitätsinfo</translation>
+        <translation type="vanished">Kapazitätsinfo</translation>
     </message>
     <message>
         <source>Please enter the battery capacity of your vehicle. You will find this in your vehicle registration document.</source>
@@ -524,6 +528,10 @@
     <message>
         <source>Battery Level</source>
         <translation>Batteriezustand</translation>
+    </message>
+    <message>
+        <source>Capacity</source>
+        <translation>Kapazität</translation>
     </message>
 </context>
 <context>
@@ -627,7 +635,7 @@
     </message>
     <message>
         <source>No car is connected at the moment. Please connect a car</source>
-        <translation>Im Moment ist kein Auto angesteckt. Bitte stecken Sie ein Auto an</translation>
+        <translation type="vanished">Im Moment ist kein Auto angesteckt. Bitte stecken Sie ein Auto an</translation>
     </message>
     <message>
         <source>Charging configuration</source>
@@ -757,6 +765,22 @@
         <source>Select car</source>
         <translation>Auto auswählen</translation>
     </message>
+    <message>
+        <source>No car is connected at the moment. Please connect a car.</source>
+        <translation>Im Moment ist kein Auto angesteckt. Bitte stecken Sie ein Auto an</translation>
+    </message>
+    <message>
+        <source>Activate simulated car: </source>
+        <translation>Aktiviere Autosimulation</translation>
+    </message>
+    <message>
+        <source>PV only</source>
+        <translation>Nur Solar</translation>
+    </message>
+    <message>
+        <source>Ending time:</source>
+        <translation>Zielzeit</translation>
+    </message>
 </context>
 <context>
     <name>ChargingConfigurationView</name>
@@ -769,7 +793,7 @@
     <name>ChargingModeInfo</name>
     <message>
         <source>Charging mode Info</source>
-        <translation>Lademodusinfo</translation>
+        <translation type="vanished">Lademodusinfo</translation>
     </message>
     <message>
         <source>The energy manager tries to maximize the consumption of the solar power. The charging time and the charging current are planned in such a way that as much of the solar power as possible can be consumed.
@@ -784,6 +808,18 @@ Falls der eigene Strom nicht ausreicht, um das Ladeziel zu erreichen wird mit Ne
     <message>
         <source>PV optimized: </source>
         <translation>PV-optimiertes Laden</translation>
+    </message>
+    <message>
+        <source>Charging mode </source>
+        <translation>Lademodus</translation>
+    </message>
+    <message>
+        <source>PV only: </source>
+        <translation>Nur Solar: </translation>
+    </message>
+    <message>
+        <source>The vehicle is charged with solar power only. (To avoid charging interruptions, the charging process is continued with a minimum current if there is not enough own solar power available.)</source>
+        <translation>Das Fahrzeu wird nur mit solarenergie geladen. (Um Ladeunterbrechungen zu vermeiden, wird bei zu niedriger solar energie mit dem minimal notwendigen Strom geladen.)</translation>
     </message>
 </context>
 <context>
@@ -1044,6 +1080,69 @@ Falls der eigene Strom nicht ausreicht, um das Ladeziel zu erreichen wird mit Ne
     <message>
         <source>A group of things</source>
         <translation type="vanished">Eine Gruppe von &quot;Things&quot;</translation>
+    </message>
+</context>
+<context>
+    <name>ConEMSObserver</name>
+    <message>
+        <source>Charging Controller</source>
+        <translation>Laderegler</translation>
+    </message>
+    <message>
+        <source>Heatpump Controller</source>
+        <translation>Wärmepumpenregler</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+    </message>
+    <message>
+        <source>Running</source>
+        <translation>Läuft</translation>
+    </message>
+    <message>
+        <source>Optimizer Busy</source>
+        <translation>Optimierer läuft</translation>
+    </message>
+    <message>
+        <source>Restarting</source>
+        <translation>startet neu</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Fehler</translation>
+    </message>
+    <message>
+        <source>s</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <source>min </source>
+        <translation>min </translation>
+    </message>
+    <message>
+        <source>h</source>
+        <translation>h</translation>
+    </message>
+    <message>
+        <source>ConEMS Observer</source>
+        <translation>ConEMS Beobachter</translation>
+    </message>
+    <message>
+        <source>:  Current State: </source>
+        <translation>:  Momentaner Status</translation>
+    </message>
+    <message>
+        <source>    started: </source>
+        <translation>    ist vor: </translation>
+    </message>
+    <message>
+        <source> ago.</source>
+        <translation> gestartet</translation>
+    </message>
+    <message>
+        <source>Active controller: </source>
+        <translation>Active Regler</translation>
     </message>
 </context>
 <context>
@@ -1431,16 +1530,8 @@ Falls der eigene Strom nicht ausreicht, um das Ladeziel zu erreichen wird mit Ne
 <context>
     <name>ConnectionWizard</name>
     <message>
-        <source>Leaflet CLS</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Make sure that the Leaflet is operational and connected to the network.</source>
         <translation>Stellen Sie sicher, dass das Leaflet funktionsfähig und mit dem Netzwerk verbunden ist.</translation>
-    </message>
-    <message>
-        <source>Start setup</source>
-        <translation></translation>
     </message>
     <message>
         <source>Privacy policy and license agreement</source>
@@ -1510,6 +1601,14 @@ Falls der eigene Strom nicht ausreicht, um das Ladeziel zu erreichen wird mit Ne
         <source>Demo mode</source>
         <translation>Demo-Modus</translation>
     </message>
+    <message>
+        <source>Leaflet CLS</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Start setup</source>
+        <translation>Startsetup</translation>
+    </message>
 </context>
 <context>
     <name>ConsolinnoImprint</name>
@@ -1573,7 +1672,7 @@ Falls der eigene Strom nicht ausreicht, um das Ladeziel zu erreichen wird mit Ne
     </message>
     <message>
         <source>Start setup</source>
-        <translation></translation>
+        <translation>Startsetup</translation>
     </message>
 </context>
 <context>
@@ -2439,11 +2538,11 @@ Falls der eigene Strom nicht ausreicht, um das Ladeziel zu erreichen wird mit Ne
     <name>EnergyManagerInfo</name>
     <message>
         <source>Energymanager info</source>
-        <translation>Energiemanager info</translation>
+        <translation type="vanished">Energiemanager info</translation>
     </message>
     <message>
         <source>The energy manager regulates the heat pump to maximize the consumption of its own solar power.If you switch off the optimization, the energy manager no longer affects the control of the heat pump.</source>
-        <translation>Der Energiemanager steuert die Wärmepumpe so, dass der Verbrauch des eigenen Solarstroms maximiert wird.Wenn Sie die Optimerung ausschalten, greift der Energiemanager nicht mehr in die Steuerung der Wärmepumpe ein.</translation>
+        <translation type="vanished">Der Energiemanager steuert die Wärmepumpe so, dass der Verbrauch des eigenen Solarstroms maximiert wird.Wenn Sie die Optimerung ausschalten, greift der Energiemanager nicht mehr in die Steuerung der Wärmepumpe ein.</translation>
     </message>
     <message>
         <source>Operating status: </source>
@@ -2493,6 +2592,14 @@ Das Eingreifen des Energiemanagers ist sichtbar bei der Anzeige des Betriebzusta
     <message>
         <source>Battery Level</source>
         <translation>Batteriezustand</translation>
+    </message>
+    <message>
+        <source>Energymanager</source>
+        <translation>Energiemanager</translation>
+    </message>
+    <message>
+        <source>The energy manager regulates the heat pump to maximize the consumption of its own solar power. If you switch off the optimization, the energy manager no longer affects the control of the heat pump.</source>
+        <translation>Der Energiemanager steuert die Wärmepumpe so, dass der Verbrauch des eigenen Solarstroms maximiert wird. Wenn Sie die Optimerung ausschalten, greift der Energiemanager nicht mehr in die Steuerung der Wärmepumpe ein.</translation>
     </message>
 </context>
 <context>
@@ -3060,36 +3167,36 @@ Bitte versuche es erneut.</translation>
         <translation>Beheizte Fläche</translation>
     </message>
     <message>
-        <source>m²</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Maximal electrical power</source>
         <translation>Maximale elektrische Energie</translation>
-    </message>
-    <message>
-        <source>kW</source>
-        <translation></translation>
     </message>
     <message>
         <source>Thermal storage capacity</source>
         <translation>Wärmespeicherkapazität</translation>
     </message>
     <message>
-        <source>kWh</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>For a better optimization you can assign a heat meter which is measuring the produced heat energy of this heat pump.</source>
-        <translation>Für eine bessere Optimierung können Sie ein Heatmeter einrichten, welches die produzierte Wärme der Wärmepumpe berechnet</translation>
-    </message>
-    <message>
-        <source>TODO: Assign heat meter</source>
-        <translation></translation>
+        <translation type="vanished">Für eine bessere Optimierung können Sie ein Heatmeter einrichten, welches die produzierte Wärme der Wärmepumpe berechnet</translation>
     </message>
     <message>
         <source>Save</source>
         <translation>Speichern</translation>
+    </message>
+    <message>
+        <source>m²</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>kW</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>kWh</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Testing</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3121,6 +3228,18 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Optimizations will be available once the required things have been added to the system.</source>
         <translation>Optimierungen sind verfügbar, wenn die benötigten &quot;Things&quot; zum System hinzugefügt wurden.</translation>
+    </message>
+    <message>
+        <source>CarSimulation</source>
+        <translation>Auto Simulation</translation>
+    </message>
+    <message>
+        <source>ConEMS Observer</source>
+        <translation>ConEMS Beobachter</translation>
+    </message>
+    <message>
+        <source>ConEMS Default Page</source>
+        <translation>ConEMS User Konfiguration</translation>
     </message>
 </context>
 <context>
@@ -4682,6 +4801,37 @@ Bitte versuche es erneut.</translation>
     </message>
 </context>
 <context>
+    <name>MainviewInfo</name>
+    <message>
+        <source>Dashboard</source>
+        <translation>Dashboard</translation>
+    </message>
+    <message>
+        <source>Energy flow</source>
+        <translation>Energiefluss</translation>
+    </message>
+    <message>
+        <source>The dashboard illustrates the energy flow in your house. The lines indicate by their thickness and direction where the current is flowing. At the top you can see the energy sources: Electricity can come from either their grid connection (red) or solar production (yellow). If more solar power is produced than consumed, it is fed into the grid (grid connection changes color from red to blue).  At the bottom, your consumers and their current consumption are displayed.</source>
+        <translation>Das Dashboard veranschaulicht den Energiefluss in ihrem Haus. Die Linien zeigen durch ihre Dicke und Richtung an wohin gerade der Strom fließt. Oben werden Ihnen die Energiequellen angezeigt: Der Strom kann entweder von ihrem Netzanschluss (rot) oder der Solarproduktion (gelb) kommen. Wird mehr Solarstrom produziert als verbraucht wird er ins Netz eingespeist (Wechselrichter verändert Farbe von rot zu blau).  Unten werden ihre Verbraucher und ihr aktueller Bezug angezeigt.</translation>
+    </message>
+    <message>
+        <source>Consumption of the last 24 hours</source>
+        <translation>Verbrauch der letzten 24 Stunden</translation>
+    </message>
+    <message>
+        <source>In the center of the dashboard you can see the consumption of the last 24 hours. The yellow area shows your produced energy. If more is produced than consumed, power is fed into the grid visible by the blue area. If more energy is consumed than produced, energy is drawn from the grid visible on the red area. The other colored areas stand for the consumption of the different consumers.</source>
+        <translation>In der Mitte des Dashboards sehen Sie den Verbrauch der letzten 24 Stunden. Die gelbe Fläche zeigt ihre produzierte Energie an. Wird mehr produziert als verbraucht, wird Strom ins Netz eingespeist sichtbar an der blauen Fläche. Wenn mehr verbraucht wird als produziert wird Energie vom Netz bezogen sichtbar an der roten Fläche. Die anderen farbigen Flächen stehen für den Bezug der unterschiedlichen Verbraucher.</translation>
+    </message>
+    <message>
+        <source>Interaction</source>
+        <translation>Interaktion</translation>
+    </message>
+    <message>
+        <source>By tapping on the consumers, you can access the settings, e.g. the charging of the e-car. If you tap on the evaluation of the last 24 hours, further statistics are displayed.</source>
+        <translation>Durch Tippen auf die Verbraucher gelangen Sie zu den Einstellungen z.B. dem Laden des E-Autos. Wenn Sie auf die Auswertung der letzten 24 Stunden tippen, werden Ihnen weitere Statistiken angezeigt.</translation>
+    </message>
+</context>
+<context>
     <name>ManualConnectPage</name>
     <message>
         <source>Manual connection</source>
@@ -4720,7 +4870,7 @@ Bitte versuche es erneut.</translation>
     <name>MaximumAllowedChargingLimit</name>
     <message>
         <source>Maximum Allowed Charging Limit info</source>
-        <translation>Maximales Ladelimitinfo</translation>
+        <translation type="vanished">Maximales Ladelimitinfo</translation>
     </message>
     <message>
         <source>Please enter here which charging limit you have set in your vehicle or in your vehicle app. This setting also specifies the maximum amount you can charge into the vehicle as a charging target in the charging modes of the energy manager. If you want to specify a higher charging target, you must change the setting in your vehicle and in the app accordingly.</source>
@@ -4749,6 +4899,10 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Target charge</source>
         <translation>Ladeziel</translation>
+    </message>
+    <message>
+        <source>Maximum Allowed Charging Limit </source>
+        <translation>Maximales Ladelimit</translation>
     </message>
 </context>
 <context>
@@ -4803,7 +4957,7 @@ Bitte versuche es erneut.</translation>
     <name>MinimumChargingCurrent</name>
     <message>
         <source>Minimum Charging Current info</source>
-        <translation>Minimaler Ladestrominfo</translation>
+        <translation type="vanished">Minimaler Ladestrominfo</translation>
     </message>
     <message>
         <source>For some vehicles, the charging process is not continued again after a break or interruption. This can be the case in the charging mode &apos;&apos;PV-optimized charging&apos;&apos; or &apos;&apos;solar power onl&apos;&apos; if there is not enough solar power available. Setting a minimum current ensures that the vehicle is charged with the minimum current even if no solar power is available, and thus no interruption occurs. The minimum charging current should be selected as low as possible.</source>
@@ -4828,6 +4982,10 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Maximum allowed charging limit</source>
         <translation>Maximales Ladelimit</translation>
+    </message>
+    <message>
+        <source>Minimum Charging Current </source>
+        <translation>Minimaler Ladestrom</translation>
     </message>
 </context>
 <context>
@@ -6107,10 +6265,6 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <translation>Breitengrad</translation>
     </message>
     <message>
-        <source>°</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Longitude</source>
         <translation>Längengrad</translation>
     </message>
@@ -6127,16 +6281,20 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <translation>Spitzenleistung</translation>
     </message>
     <message>
-        <source>kW</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
         <source>PV</source>
         <translation>PV</translation>
+    </message>
+    <message>
+        <source>°</source>
+        <translation>°</translation>
+    </message>
+    <message>
+        <source>kW</source>
+        <translation>kW</translation>
     </message>
 </context>
 <context>
@@ -7715,7 +7873,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <name>TargetChargeInfo</name>
     <message>
         <source>Targetcharge Info</source>
-        <translation>Ladezielinfo</translation>
+        <translation type="vanished">Ladezielinfo</translation>
     </message>
     <message>
         <source>With the charging target, you specify how full you want to charge the battery. Note that the charging limit set in the vehicle cannot be exceeded. For example, if you have preset a charging limit of 80%, you cannot charge more than 80% with the energy manager, as the vehicle automatically shuts down the charging process. To ensure that the energy manager takes this limit into account, enter the charging limit in the vehicle profile.</source>
@@ -7736,6 +7894,10 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Maximum charging limit</source>
         <translation>Maximales Ladelimit</translation>
+    </message>
+    <message>
+        <source>Targetcharge </source>
+        <translation>Ladeziel</translation>
     </message>
 </context>
 <context>
@@ -8776,6 +8938,21 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
             <numerusform>%n Gerät (%1 getrennt)</numerusform>
             <numerusform>%n Geräte (%1 getrennt)</numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>carSimulation</name>
+    <message>
+        <source>car Simulation</source>
+        <translation>Auto Simulation</translation>
+    </message>
+    <message>
+        <source>switch on</source>
+        <translation>anschalten von: </translation>
+    </message>
+    <message>
+        <source>plug in car: </source>
+        <translation>Auto anstecken: </translation>
     </message>
 </context>
 <context>
