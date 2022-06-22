@@ -44,9 +44,14 @@ Item {
     property bool isCurrentItem: false
 
     property int topMargin: 40
+    property int bottomMargin: 64
     property int contentY: 0 // Relative to topMargin
 
     property var headerButtons: []
+
+    Background {
+        anchors.fill: parent
+    }
 
     // Prevent scroll events to swipe left/right in case they fall through the grid
     MouseArea {

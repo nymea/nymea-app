@@ -157,6 +157,7 @@ int main(int argc, char *argv[])
     }
 
     qmlRegisterSingletonType(QUrl("qrc:///styles/" + styleController.currentStyle() + "/Style.qml"), "Nymea", 1, 0, "Style" );
+    qmlRegisterType(QUrl("qrc:///styles/" + styleController.currentStyle() + "/Background.qml"), "Nymea", 1, 0, "Background" );
     qmlRegisterSingletonType(QUrl("qrc:///ui/Configuration.qml"), "Nymea", 1, 0, "Configuration");
 
     engine->rootContext()->setContextProperty("styleController", &styleController);

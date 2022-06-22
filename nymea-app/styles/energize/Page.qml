@@ -33,11 +33,5 @@ import QtQuick.Templates 2.2
 import QtQuick.Controls.Material 2.2
 
 Page {
-
-    background: Rectangle {
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: "#e3eae4" }
-                GradientStop { position: 1.0; color: "#cde2d8" }
-            }
-        }
+    background: Background {}
 }

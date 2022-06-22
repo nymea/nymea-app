@@ -54,6 +54,11 @@ Page {
         d.configOverlay = configComponent.createObject(contentContainer)
     }
 
+    // Removing the background from this page only because the MainViewBase adds it again in
+    // a deepter layer as we need to include it in the blurring of the header and footer.
+    // We don't want to paint the background on the entire screen twice (overdraw is costly)
+    background: null
+
     header: Item {
         id: mainHeader
         height: 0
@@ -69,20 +74,6 @@ Page {
                 app.mainMenu.open()
             }
         }
-
-
-//        Label {
-//            anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
-//            horizontalAlignment: Text.AlignHCenter
-//            leftPadding: Math.max(menuButton.width, additionalIcons.width)
-//            rightPadding: leftPadding
-//            elide: Text.ElideRight
-//            font: Style.bigFont
-//            text: d.configOverlay !== null ?
-//                      qsTr("Configure main view")
-//                    : swipeView.currentItem.item.title.length > 0 ? swipeView.currentItem.item.title : filteredContentModel.modelData(swipeView.currentIndex, "displayName")
-//        }
-
 
         Row {
             id: additionalIcons
@@ -222,8 +213,7 @@ Page {
                 }
             }
 
-            tabBar.currentIndex = Qt.binding(function() { return mainViewSettings.currentIndex; })
-            swipeView.currentIndex = Qt.binding(function() { return tabBar.currentIndex; })
+            swipeView.currentIndex = mainViewSettings.currentIndex
             mainViewSettings.currentIndex = Qt.binding(function() { return swipeView.currentIndex; })
         }
     }
@@ -242,15 +232,10 @@ Page {
         clip: true
 
         property int headerSize: 48
+        property int footerSize: app.landscape ? 48 : 64
 
-        readonly property int scrollOffset: swipeView.currentItem.item.contentY
+        readonly property int scrollOffset: swipeView.currentItem ? swipeView.currentItem.item.contentY : 0
         readonly property int headerBlurSize: Math.min(headerSize, scrollOffset * 2)
-
-        Rectangle {
-            width: parent.width
-            height: contentContainer.headerBlurSize
-            color: Style.backgroundColor
-        }
 
         SwipeView {
             id: swipeView
@@ -276,6 +261,12 @@ Page {
                         value: swipeView.currentIndex == index
                     }
 
+                    Binding {
+                        target: mainViewLoader.item
+                        property: "bottomMargin"
+                        value: footer.visible ? contentContainer.footerSize : 0
+                    }
+
                     Image {
                         source: "qrc:/styles/%1/logo-wide.svg".arg(styleController.currentStyle)
                         anchors {
@@ -287,11 +278,12 @@ Page {
                         height: 28
                         sourceSize.height: height
                         antialiasing: true
+                        z: 2
                     }
-
                 }
             }
         }
+
 
         ColumnLayout {
             anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
@@ -314,9 +306,9 @@ Page {
     ShaderEffectSource {
         id: headerBlurSource
         width: contentContainer.width
-        height: contentContainer.headerBlurSize
+        height: d.configOverlay ? contentContainer.headerSize : contentContainer.headerBlurSize
         sourceItem: contentContainer
-        sourceRect: Qt.rect(0, 0, contentContainer.width, contentContainer.headerBlurSize)
+        sourceRect: Qt.rect(0, 0, contentContainer.width, d.configOverlay ? contentContainer.headerSize : contentContainer.headerBlurSize)
         visible: false
     }
 
@@ -326,7 +318,7 @@ Page {
             top: parent.top;
             right: parent.right;
         }
-        height: contentContainer.headerBlurSize
+        height: d.configOverlay ? contentContainer.headerSize : contentContainer.headerBlurSize
         radius: 40
         transparentBorder: true
         source: headerBlurSource
@@ -339,7 +331,7 @@ Page {
             top: parent.top
             right: parent.right
         }
-        height:  contentContainer.headerBlurSize
+        height: d.configOverlay ? contentContainer.headerSize : contentContainer.headerBlurSize
 
         gradient: Gradient {
             GradientStop { position: 0.1; color: Style.backgroundColor }
@@ -348,17 +340,53 @@ Page {
         }
     }
 
-    footer: Item {
-        readonly property bool shown: tabsRepeater.count > 1 || d.configOverlay
-        implicitHeight: shown ? 64 + (app.landscape ? -20 : 0) : 0
-        Behavior on implicitHeight { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }}
+    ShaderEffectSource {
+        id: footerBlurSource
+        width: contentContainer.width
+        height: contentContainer.footerSize
+        sourceItem: contentContainer
+        sourceRect: Qt.rect(0, contentContainer.height - height, contentContainer.width, contentContainer.footerSize)
+        visible: false
+        enabled: footer.shown
+    }
 
-        TabBar {
-            id: tabBar
-            anchors { left: parent.left; top: parent.top; right: parent.right }
-            height: 64 + (app.landscape ? -20 : 0)
-            Material.elevation: 3
-            position: TabBar.Footer
+    FastBlur {
+        anchors {
+            left: parent.left;
+            bottom: parent.bottom;
+            right: parent.right;
+        }
+        height: contentContainer.footerSize
+        radius: 40
+        transparentBorder: false
+        source: footerBlurSource
+        visible: footer.shown
+    }
+
+    Rectangle {
+        id: footer
+        readonly property bool shown: tabsRepeater.count > 1 || d.configOverlay
+        visible: shown
+        anchors {
+            left: parent.left
+            bottom: parent.bottom
+            right: parent.right
+        }
+        height:  contentContainer.footerSize
+        Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }}
+
+//        color: "transparent"
+
+        gradient: Gradient {
+            GradientStop { position: 0; color: "transparent" }
+            GradientStop { position: 0.4; color: Qt.rgba(Style.backgroundColor.r, Style.backgroundColor.g, Style.backgroundColor.b, 0.7) }
+            GradientStop { position: 1; color: Style.backgroundColor }
+        }
+
+        RowLayout {
+            id: tabsLayout
+            anchors.fill: parent
+            spacing: 0
 
             opacity: d.configOverlay ? 0 : 1
             Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
@@ -366,14 +394,18 @@ Page {
             Repeater {
                 id: tabsRepeater
                 model: d.configOverlay != null ? null : filteredContentModel
-
+//                model: filteredContentModel
                 delegate: MainPageTabButton {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                     alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
+                    checked: index === swipeView.currentIndex
                     height: tabBar.height
-                    anchors.verticalCenter: parent.verticalCenter
+//                    anchors.verticalCenter: parent.verticalCenter
                     text: model.displayName
                     iconSource: "../images/" + model.icon + ".svg"
 
+                    onClicked: swipeView.currentIndex = index
                     onPressAndHold: {
                         root.configureViews();
                     }
@@ -381,79 +413,82 @@ Page {
             }
         }
 
-        TabBar {
-            anchors.fill: tabBar
-            Material.elevation: 3
-            position: TabBar.Footer
+
+        MainPageTabButton {
+            anchors.fill: parent
+            alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
+            text: d.configOverlay ? qsTr("Done") : qsTr("Configure")
+            iconSource: "../images/configure.svg"
 
             opacity: d.configOverlay ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
             visible: opacity > 0
 
-            MainPageTabButton {
-                height: tabBar.height
-                alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
-                text: d.configOverlay ? qsTr("Done") : qsTr("Configure")
-                iconSource: "../images/configure.svg"
-                anchors.verticalCenter: parent.verticalCenter
+            checked: true
 
-                checked: false
-                checkable: false
-
-                onClicked: {
-                    if (d.configOverlay) {
-                        d.configOverlay.destroy()
-                    } else {
-                        PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
-                        d.configOverlay = configComponent.createObject(contentContainer)
-                    }
+            onClicked: {
+                if (d.configOverlay) {
+                    d.configOverlay.destroy()
+                } else {
+                    PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
+                    d.configOverlay = configComponent.createObject(contentContainer)
                 }
             }
         }
-
     }
 
     Component {
         id: configComponent
-        Item {
+        Background {
             id: configOverlay
             width: contentContainer.width
             height: contentContainer.height
 
-            NumberAnimation {
-                target: configOverlay
-                property: "scale"
-                duration: 200
-                easing.type: Easing.InOutQuad
-                from: 2
-                to: 1
-                running: true
-            }
-            NumberAnimation {
-                target: configOverlay
-                property: "opacity"
-                duration: 200
-                easing.type: Easing.InOutQuad
-                from: 0
-                to: 1
-                running: true
-            }
-
             ListView {
                 id: configListView
+                anchors.fill: parent
                 model: mainMenuModel
-                width: parent.width
-                height: parent.height / 3
-                anchors.centerIn: parent
-                orientation: ListView.Horizontal
-                moveDisplaced: Transition {
-                    NumberAnimation { properties: "x,y"; duration: 200 }
-                }
-
-                property int delegateWidth: width / 3
+                topMargin: contentContainer.headerSize
+                bottomMargin: contentContainer.footerSize
 
                 property bool dragging: draggingIndex >= 0
                 property int draggingIndex : -1
+
+                moveDisplaced: Transition { NumberAnimation { properties: "y" } }
+
+                delegate: NymeaItemDelegate {
+                    id: viewConfigDelegate
+                    width: parent.width
+                    text: model.displayName
+                    iconName: Qt.resolvedUrl("images/" + model.icon + ".svg")
+                    progressive: false
+                    checked: mainViewSettings.filterList.indexOf(model.name) >= 0
+                    visible: index !== configListView.draggingIndex
+                    additionalItem: CheckBox {
+                        checked: viewConfigDelegate.checked
+                        anchors.verticalCenter: parent.verticalCenter
+                        onClicked: {
+                            var newList = []
+                            for (var i = 0; i < mainMenuModel.count; i++) {
+                                var entry = mainMenuModel.get(i).name;
+                                if (entry === model.name) {
+                                    if (!isEnabled) {
+                                        newList.push(model.name)
+                                    }
+                                } else {
+                                    if (mainViewSettings.filterList.indexOf(entry) >= 0) {
+                                        newList.push(entry)
+                                    }
+                                }
+                            }
+                            if (newList.length === 0) {
+                                newList.push(Configuration.defaultMainView)
+                            }
+
+                            mainViewSettings.filterList = newList
+                        }
+                    }
+                }
 
                 MouseArea {
                     id: dndArea
@@ -463,22 +498,28 @@ Page {
 
                     onPressAndHold: {
                         mouse.accepted = true
-                        var mouseXInListView = configListView.contentItem.mapFromItem(dndArea, mouseX, mouseY).x;
-                        configListView.draggingIndex = configListView.indexAt(mouseXInListView, mouseY)
+                        var mouseYInListView = configListView.contentItem.mapFromItem(dndArea, mouseX, mouseY).y;
+                        configListView.draggingIndex = configListView.indexAt(mouseX, mouseYInListView)
                         var item = mainMenuModel.get(configListView.draggingIndex)
-                        dndItem.displayName = item.displayName
-                        dndItem.icon = item.icon
-                        var visualItem = configListView.itemAt(mouseXInListView, mouseY)
-                        dndItem.isEnabled = visualItem.isEnabled
-                        dndArea.dragOffset = configListView.mapToItem(visualItem, mouseX, mouseY).x
+                        print("draggingIndex", configListView.draggingIndex)
+                        dndItem.text = item.displayName
+                        dndItem.iconName = item.icon
+                        var visualItem = configListView.itemAt(mouseX, mouseYInListView)
+                        dndItem.checked = visualItem.checked
+                        dndArea.dragOffset = configListView.mapToItem(visualItem, mouseX, mouseY).y
                         PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackImpact)
                     }
                     onMouseYChanged: {
                         if (configListView.dragging) {
-                            var mouseXInListView = configListView.contentItem.mapFromItem(dndArea, mouseX, mouseY).x;
-                            var indexUnderMouse = configListView.indexAt(mouseXInListView - dndArea.dragOffset / 2, mouseY)
+                            var mouseYInListView = configListView.contentItem.mapFromItem(dndArea, mouseX, mouseY).y;
+                            var indexUnderMouse = configListView.indexAt(mouseX, mouseYInListView - dndArea.dragOffset / 2)
+                            if (indexUnderMouse < 0) {
+                                return;
+                            }
+
                             indexUnderMouse = Math.min(Math.max(0, indexUnderMouse), configListView.count - 1)
                             if (configListView.draggingIndex !== indexUnderMouse) {
+                                print("moving to", indexUnderMouse)
                                 PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
                                 mainMenuModel.move(configListView.draggingIndex, indexUnderMouse, 1)
                                 configListView.draggingIndex = indexUnderMouse;
@@ -487,8 +528,8 @@ Page {
                     }
                     onReleased: {
                         print("released!")
-                        var mouseXInListView = configListView.contentItem.mapFromItem(dndArea, mouseX, mouseY).x;
-                        var clickedIndex = configListView.indexAt(mouseXInListView, mouseY)
+                        var mouseYInListView = configListView.contentItem.mapFromItem(dndArea, mouseX, mouseY).y;
+                        var clickedIndex = configListView.indexAt(mouseX, mouseYInListView)
                         var item = mainMenuModel.get(clickedIndex)
                         var isEnabled = mainViewSettings.filterList.indexOf(item.name) >= 0;
                         if (!configListView.dragging) {
@@ -519,114 +560,244 @@ Page {
                         }
                         mainViewSettings.sortOrder = newSortOrder;
                     }
-                    Timer {
-                        id: scroller
-                        interval: 2
-                        repeat: true
-                        running: direction != 0
-                        property int direction: {
-                            if (!configListView.dragging) {
-                                return 0;
-                            }
-                            return dndArea.mouseX < 50 ? -2 : dndArea.mouseX > dndArea.width - 50 ? 2 : 0
-                        }
-                        onTriggered: {
-                            configListView.contentX = Math.min(Math.max(0, configListView.contentX + direction), configListView.contentWidth - configListView.width)
-                        }
-                    }
+//                    Timer {
+//                        id: scroller
+//                        interval: 2
+//                        repeat: true
+//                        running: direction != 0
+//                        property int direction: {
+//                            if (!configListView.dragging) {
+//                                return 0;
+//                            }
+//                            return dndArea.mouseY < 50 ? -2 : dndArea.mouseY > dndArea.height - 50 ? 2 : 0
+//                        }
+//                        onTriggered: {
+//                            configListView.contentY = Math.min(Math.max(0, configListView.contentY + direction), configListView.contentHeight - configListView.height)
+//                        }
+//                    }
                 }
 
-                delegate: BigTile {
-                    id: configDelegate
-                    width: configListView.delegateWidth
-                    height: configListView.height
-                    property bool isEnabled: mainViewSettings.filterList.indexOf(model.name) >= 0
-                    visible: configListView.draggingIndex !== index
-
-                    leftPadding: 0
-                    rightPadding: 0
-                    topPadding: 0
-                    bottomPadding: 0
-
-                    header: RowLayout {
-                        id: headerRow
-                        width: parent.width
-                        Label {
-                            text: model.displayName
-                            Layout.fillWidth: true
-                            elide: Text.ElideRight
-                        }
-                    }
-
-                    contentItem: Item {
-                        Layout.fillWidth: true
-                        implicitHeight: configListView.height - headerRow.height - Style.margins * 2
-
-                        ColorIcon {
-                            anchors.centerIn: parent
-                            width: Math.min(parent.width, parent.height) * .6
-                            height: width
-                            name: Qt.resolvedUrl("images/" + model.icon + ".svg")
-                            color: configDelegate.isEnabled ? Style.accentColor : Style.iconColor
-                        }
-                    }
-                }
-                Item {
+                NymeaItemDelegate {
                     id: dndItem
-                    width: configListView.delegateWidth
-                    height: configListView.height
-                    property bool isEnabled: false
-                    property string displayName: ""
-                    property string icon: "things"
                     visible: configListView.dragging
-                    x: dndArea.mouseX - dndArea.dragOffset
-                    onVisibleChanged: {
-                        if (visible) {
-                            dragStartAnimation.start();
-                        }
+                    y: dndArea.mouseY - dndArea.dragOffset
+                    width: configListView.width
+                    progressive: false
+                    additionalItem: CheckBox {
+                        checked: dndItem.checked
+                        anchors.verticalCenter: parent.verticalCenter
                     }
 
-                    NumberAnimation {
-                        id: dragStartAnimation
-                        target: dndItem
-                        property: "scale"
-                        from: 1
-                        to: 0.95
-                        duration: 200
-                    }
-
-                    BigTile {
-                        id: dndTile
-                        anchors.fill: parent
-                        //                        anchors.margins: app.margins / 2
-                        Material.elevation: 2
-
-                        leftPadding: 0
-                        rightPadding: 0
-                        topPadding: 0
-                        bottomPadding: 0
-
-                        header: RowLayout {
-                            Label {
-                                text: dndItem.displayName
-                            }
-                        }
-
-                        contentItem: Item {
-                            Layout.fillWidth: true
-                            implicitHeight: configListView.height - header.height
-
-                            ColorIcon {
-                                anchors.centerIn: parent
-                                width: Math.min(parent.width, parent.height) * .6
-                                height: width
-                                name: Qt.resolvedUrl("images/" + dndItem.icon + ".svg")
-                                color: dndItem.isEnabled ? Style.accentColor : Style.iconColor
-                            }
-                        }
-                    }
                 }
             }
+
+//            NumberAnimation {
+//                target: configOverlay
+//                property: "scale"
+//                duration: 200
+//                easing.type: Easing.InOutQuad
+//                from: 2
+//                to: 1
+//                running: true
+//            }
+//            NumberAnimation {
+//                target: configOverlay
+//                property: "opacity"
+//                duration: 200
+//                easing.type: Easing.InOutQuad
+//                from: 0
+//                to: 1
+//                running: true
+//            }
+
+//            ListView {
+//                id: configListView
+//                model: mainMenuModel
+//                width: parent.width
+//                height: parent.height / 3
+//                anchors.centerIn: parent
+//                orientation: ListView.Horizontal
+//                moveDisplaced: Transition {
+//                    NumberAnimation { properties: "x,y"; duration: 200 }
+//                }
+
+//                property int delegateWidth: width / 3
+
+//                property bool dragging: draggingIndex >= 0
+//                property int draggingIndex : -1
+
+//                MouseArea {
+//                    id: dndArea
+//                    anchors.fill: parent
+//                    preventStealing: configListView.dragging
+//                    property int dragOffset: 0
+
+//                    onPressAndHold: {
+//                        mouse.accepted = true
+//                        var mouseXInListView = configListView.contentItem.mapFromItem(dndArea, mouseX, mouseY).x;
+//                        configListView.draggingIndex = configListView.indexAt(mouseXInListView, mouseY)
+//                        var item = mainMenuModel.get(configListView.draggingIndex)
+//                        dndItem.displayName = item.displayName
+//                        dndItem.icon = item.icon
+//                        var visualItem = configListView.itemAt(mouseXInListView, mouseY)
+//                        dndItem.isEnabled = visualItem.isEnabled
+//                        dndArea.dragOffset = configListView.mapToItem(visualItem, mouseX, mouseY).x
+//                        PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackImpact)
+//                    }
+//                    onMouseYChanged: {
+//                        if (configListView.dragging) {
+//                            var mouseXInListView = configListView.contentItem.mapFromItem(dndArea, mouseX, mouseY).x;
+//                            var indexUnderMouse = configListView.indexAt(mouseXInListView - dndArea.dragOffset / 2, mouseY)
+//                            indexUnderMouse = Math.min(Math.max(0, indexUnderMouse), configListView.count - 1)
+//                            if (configListView.draggingIndex !== indexUnderMouse) {
+//                                PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
+//                                mainMenuModel.move(configListView.draggingIndex, indexUnderMouse, 1)
+//                                configListView.draggingIndex = indexUnderMouse;
+//                            }
+//                        }
+//                    }
+//                    onReleased: {
+//                        print("released!")
+//                        var mouseXInListView = configListView.contentItem.mapFromItem(dndArea, mouseX, mouseY).x;
+//                        var clickedIndex = configListView.indexAt(mouseXInListView, mouseY)
+//                        var item = mainMenuModel.get(clickedIndex)
+//                        var isEnabled = mainViewSettings.filterList.indexOf(item.name) >= 0;
+//                        if (!configListView.dragging) {
+//                            var newList = []
+//                            for (var i = 0; i < mainMenuModel.count; i++) {
+//                                var entry = mainMenuModel.get(i).name;
+//                                if (entry === item.name) {
+//                                    if (!isEnabled) {
+//                                        newList.push(item.name)
+//                                    }
+//                                } else {
+//                                    if (mainViewSettings.filterList.indexOf(entry) >= 0) {
+//                                        newList.push(entry)
+//                                    }
+//                                }
+//                            }
+//                            if (newList.length === 0) {
+//                                newList.push(Configuration.defaultMainView)
+//                            }
+
+//                            mainViewSettings.filterList = newList
+//                        }
+//                        configListView.draggingIndex = -1;
+
+//                        var newSortOrder = []
+//                        for (var i = 0; i < mainMenuModel.count; i++) {
+//                            newSortOrder.push(mainMenuModel.get(i).name)
+//                        }
+//                        mainViewSettings.sortOrder = newSortOrder;
+//                    }
+//                    Timer {
+//                        id: scroller
+//                        interval: 2
+//                        repeat: true
+//                        running: direction != 0
+//                        property int direction: {
+//                            if (!configListView.dragging) {
+//                                return 0;
+//                            }
+//                            return dndArea.mouseX < 50 ? -2 : dndArea.mouseX > dndArea.width - 50 ? 2 : 0
+//                        }
+//                        onTriggered: {
+//                            configListView.contentX = Math.min(Math.max(0, configListView.contentX + direction), configListView.contentWidth - configListView.width)
+//                        }
+//                    }
+//                }
+
+//                delegate: BigTile {
+//                    id: configDelegate
+//                    width: configListView.delegateWidth
+//                    height: configListView.height
+//                    property bool isEnabled: mainViewSettings.filterList.indexOf(model.name) >= 0
+//                    visible: configListView.draggingIndex !== index
+
+//                    leftPadding: 0
+//                    rightPadding: 0
+//                    topPadding: 0
+//                    bottomPadding: 0
+
+//                    header: RowLayout {
+//                        id: headerRow
+//                        width: parent.width
+//                        Label {
+//                            text: model.displayName
+//                            Layout.fillWidth: true
+//                            elide: Text.ElideRight
+//                        }
+//                    }
+
+//                    contentItem: Item {
+//                        Layout.fillWidth: true
+//                        implicitHeight: configListView.height - headerRow.height - Style.margins * 2
+
+//                        ColorIcon {
+//                            anchors.centerIn: parent
+//                            width: Math.min(parent.width, parent.height) * .6
+//                            height: width
+//                            name: Qt.resolvedUrl("images/" + model.icon + ".svg")
+//                            color: configDelegate.isEnabled ? Style.accentColor : Style.iconColor
+//                        }
+//                    }
+//                }
+//                Item {
+//                    id: dndItem
+//                    width: configListView.delegateWidth
+//                    height: configListView.height
+//                    property bool isEnabled: false
+//                    property string displayName: ""
+//                    property string icon: "things"
+//                    visible: configListView.dragging
+//                    x: dndArea.mouseX - dndArea.dragOffset
+//                    onVisibleChanged: {
+//                        if (visible) {
+//                            dragStartAnimation.start();
+//                        }
+//                    }
+
+//                    NumberAnimation {
+//                        id: dragStartAnimation
+//                        target: dndItem
+//                        property: "scale"
+//                        from: 1
+//                        to: 0.95
+//                        duration: 200
+//                    }
+
+//                    BigTile {
+//                        id: dndTile
+//                        anchors.fill: parent
+//                        //                        anchors.margins: app.margins / 2
+//                        Material.elevation: 2
+
+//                        leftPadding: 0
+//                        rightPadding: 0
+//                        topPadding: 0
+//                        bottomPadding: 0
+
+//                        header: RowLayout {
+//                            Label {
+//                                text: dndItem.displayName
+//                            }
+//                        }
+
+//                        contentItem: Item {
+//                            Layout.fillWidth: true
+//                            implicitHeight: configListView.height - header.height
+
+//                            ColorIcon {
+//                                anchors.centerIn: parent
+//                                width: Math.min(parent.width, parent.height) * .6
+//                                height: width
+//                                name: Qt.resolvedUrl("images/" + dndItem.icon + ".svg")
+//                                color: dndItem.isEnabled ? Style.accentColor : Style.iconColor
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 

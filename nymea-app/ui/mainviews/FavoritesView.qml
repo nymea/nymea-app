@@ -53,6 +53,8 @@ MainViewBase {
         anchors.fill: parent
         anchors.margins: app.margins / 2
         topMargin: root.topMargin
+        bottomMargin: root.bottomMargin
+
         readonly property int minTileWidth: 172
         readonly property int tilesPerRow: root.width / minTileWidth
 

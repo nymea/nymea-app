@@ -51,7 +51,7 @@ MainViewBase {
         id: swipeView
         anchors.fill: parent
         anchors.topMargin: root.topMargin
-        anchors.bottomMargin: pageIndicator.visible ? pageIndicator.height : 0
+        anchors.bottomMargin: root.bottomMargin + (pageIndicator.visible ? pageIndicator.height : 0)
 
         Repeater {
             model: garagesFilterModel
