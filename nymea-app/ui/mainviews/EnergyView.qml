@@ -97,6 +97,7 @@ MainViewBase {
         contentHeight: energyGrid.childrenRect.height
         visible: !engine.thingManager.fetchingData && engine.jsonRpcClient.experiences.hasOwnProperty("Energy") && engine.jsonRpcClient.experiences["Energy"] >= "0.2"
         topMargin: root.topMargin
+        bottomMargin: root.bottomMargin
 
         // GridLayout directly in a flickable causes problems at initialisation
         Item {

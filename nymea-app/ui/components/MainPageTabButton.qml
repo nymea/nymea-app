@@ -47,18 +47,20 @@ TabButton {
             spacing: root.alignment == Qt.Horizontal ? app.margins : app.margins / 2
             horizontalItemAlignment: Grid.AlignHCenter
             verticalItemAlignment: Grid.AlignVCenter
+            opacity: root.checked ? 1 : .4
+            Behavior on opacity { NumberAnimation { duration: Style.animationDuration; easing.type: Easing.InOutQuad } }
 
             ColorIcon {
                 width: Style.iconSize
                 height: Style.iconSize
                 name: root.iconSource
-                color: root.checked ? Style.accentColor : Style.iconColor
+                color: Style.foregroundColor
             }
             Label {
                 id: textLabel
                 text: root.text
                 font.pixelSize: app.smallFont
-                color: root.checked ? Style.accentColor : Material.foreground
+                color: Style.foregroundColor
             }
         }
     }

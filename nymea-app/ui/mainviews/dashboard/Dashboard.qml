@@ -37,7 +37,7 @@ import Nymea 1.0
 import "../../components"
 import "../../delegates"
 
-Item {
+MainViewBase {
     id: root
 
     property var model: null
@@ -75,9 +75,10 @@ Item {
     Flickable {
         id: flickable
         anchors.fill: parent
-        anchors.margins: app.margins / 2
+        anchors.margins: Style.smallMargins
         contentHeight: Math.max(layout.implicitHeight, height)
         contentWidth: width
+        bottomMargin: root.bottomMargin
 
         MouseArea {
             width: flickable.contentWidth

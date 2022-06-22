@@ -39,5 +39,11 @@
         <file>ui/Configuration.qml</file>
         <file>styles/dark/Dialog.qml</file>
         <file>styles/light/Dialog.qml</file>
+        <file>styles/dark/Background.qml</file>
+        <file>styles/light/Background.qml</file>
+        <file>styles/energize/Background.qml</file>
+        <file>styles/lime/Background.qml</file>
+        <file>styles/mellow/Background.qml</file>
+        <file>styles/noir/Background.qml</file>
     </qresource>
 </RCC>

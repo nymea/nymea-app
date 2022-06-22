@@ -57,6 +57,7 @@ MainViewBase {
         anchors.fill: parent
         anchors.margins: app.margins / 2
         topMargin: root.topMargin
+        bottomMargin: root.bottomMargin
         model: mainModel
 
         readonly property int minTileWidth: 172

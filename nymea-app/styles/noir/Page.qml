@@ -34,7 +34,5 @@ import QtQuick.Controls.Material 2.2
 import Nymea 1.0
 
 Page {
-    background: Rectangle {
-        color: Style.backgroundColor
-    }
+    background: Background {}
 }

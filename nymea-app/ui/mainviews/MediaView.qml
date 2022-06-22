@@ -50,7 +50,7 @@ MainViewBase {
 
     SwipeView {
         id: swipeView
-        anchors { left: parent.left; top: parent.top; right: parent.right; bottom: parent.bottom }
+        anchors { left: parent.left; top: parent.top; right: parent.right; bottom: parent.bottom; bottomMargin: root.bottomMargin }
         currentIndex: pageIndicator.currentIndex
 
         Repeater {
@@ -67,6 +67,7 @@ MainViewBase {
         currentIndex: swipeView.currentIndex
         interactive: true
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: root.bottomMargin
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
