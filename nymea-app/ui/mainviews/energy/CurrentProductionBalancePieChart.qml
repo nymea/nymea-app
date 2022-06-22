@@ -37,22 +37,26 @@ ChartView {
 
         PieSlice {
             color: Style.red
-            borderColor: Style.foregroundColor
+            borderColor: color
+            borderWidth: 0
             value: productionBalanceSeries.toConsumers
         }
         PieSlice {
             color: Style.green
-            borderColor: Style.foregroundColor
+            borderColor: color
+            borderWidth: 0
             value: productionBalanceSeries.toGrid
         }
         PieSlice {
             color: Style.orange
-            borderColor: Style.foregroundColor
+            borderColor: color
+            borderWidth: 0
             value: productionBalanceSeries.toStorage
         }
         PieSlice {
-            color: Style.backgroundColor
-            borderColor: Style.foregroundColor
+            color: Style.tooltipBackgroundColor
+            borderColor: color
+            borderWidth: 0
             value: productionBalanceSeries.toConsumers == 0 && productionBalanceSeries.toGrid == 0 && productionBalanceSeries.toStorage == 0 ? 1 : 0
         }
     }

@@ -53,7 +53,9 @@ ChartView {
                 consumersSummation += consumers.get(i).stateByName("currentPower").value
             }
             d.consumersSummation = consumersSummation;
-            d.unknownSlice.value = Math.max(0, energyManager.currentPowerConsumption - consumersSummation)
+            if (d.unknownSlice) {
+                d.unknownSlice.value = Math.max(0, energyManager.currentPowerConsumption - consumersSummation)
+            }
         }
     }
 
@@ -84,8 +86,9 @@ ChartView {
             var consumer = consumers.get(i)
             let currentPowerState = consumer.stateByName("currentPower")
             let slice = consumersBalanceSeries.append(consumer.name, currentPowerState.value)
-//            slice.color = root.colors[i % root.colors.length]
             slice.color = NymeaUtils.generateColor(Style.generationBaseColor, i)
+            slice.borderWidth = 0
+            slice.borderColor = slice.color
             colorMap[consumer] = slice.color
             currentPowerState.valueChanged.connect(function() {
                 slice.value = currentPowerState.value
@@ -99,6 +102,8 @@ ChartView {
             print("Unknown consumption:", unknownConsumption, "consumption balance", energyManager.currentPowerConsumption, "consumers summation:", consumersSummation)
             d.unknownSlice = consumersBalanceSeries.append(qsTr("Unknown"), unknownConsumption)
             d.unknownSlice.color = Style.gray
+            d.unknownSlice.borderColor = Style.gray
+            d.unknownSlice.borderWidth = 0
         }
 
         d.thingsColorMap = colorMap
@@ -230,6 +235,4 @@ ChartView {
         name: "down"
         visible: !centerLayout.atYEnd
     }
-
-
 }
