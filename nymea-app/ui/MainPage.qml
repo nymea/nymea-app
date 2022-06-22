@@ -400,7 +400,6 @@ Page {
                     Layout.fillHeight: true
                     alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
                     checked: index === swipeView.currentIndex
-                    height: tabBar.height
 //                    anchors.verticalCenter: parent.verticalCenter
                     text: model.displayName
                     iconSource: "../images/" + model.icon + ".svg"

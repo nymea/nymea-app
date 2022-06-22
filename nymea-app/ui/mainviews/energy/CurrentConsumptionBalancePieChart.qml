@@ -38,22 +38,26 @@ ChartView {
 
         PieSlice {
             color: Style.red
-            borderColor: Style.foregroundColor
+            borderColor: color
+            borderWidth: 0
             value: consumptionBalanceSeries.fromGrid
         }
         PieSlice {
             color: Style.green
-            borderColor: Style.foregroundColor
+            borderColor: color
+            borderWidth: 0
             value: consumptionBalanceSeries.fromProduction
         }
         PieSlice {
             color: Style.orange
-            borderColor: Style.foregroundColor
+            borderColor: color
+            borderWidth: 0
             value: consumptionBalanceSeries.fromStorage
         }
         PieSlice {
-            color: Style.backgroundColor
-            borderColor: Style.foregroundColor
+            color: Style.tileBackgroundColor
+            borderColor: color
+            borderWidth: 0
             value: consumptionBalanceSeries.fromGrid == 0 && consumptionBalanceSeries.fromProduction == 0 && consumptionBalanceSeries.fromStorage == 0 ? 1 : 0
         }
     }

@@ -100,10 +100,14 @@ StatsBase {
                     valueAxis.adjustMax(production)
                 }
                 var acquisition = root.energyManager.totalAcquisition - (start ? start.totalAcquisition : 0)
-                d.acquisitionSet.replace(d.acquisitionSet.count - 1, acquisition)
+                if (d.acquisitionSet) {
+                    d.acquisitionSet.replace(d.acquisitionSet.count - 1, acquisition)
+                }
                 valueAxis.adjustMax(acquisition)
                 var ret = root.energyManager.totalReturn - (start ? start.totalReturn : 0)
-                d.returnSet.replace(d.returnSet.count - 1, ret)
+                if (d.returnSet) {
+                    d.returnSet.replace(d.returnSet.count - 1, ret)
+                }
                 valueAxis.adjustMax(ret)
             }
         }

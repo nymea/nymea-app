@@ -15,7 +15,7 @@ Item {
 
     Rectangle {
         id: blurSource
-        anchors.fill: toolTip
+        anchors.fill: parent
         color: Style.backgroundColor
         visible: false
         radius: Style.smallCornerRadius
@@ -27,10 +27,10 @@ Item {
     }
 
     FastBlur {
-        anchors.fill: toolTip
+        anchors.fill: parent
         source: blurSource
         radius: 32
-        visible: toolTip.visible
+        visible: root.visible
     }
 
     Rectangle {
