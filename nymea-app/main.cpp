@@ -37,6 +37,9 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
+#if !defined Q_OS_ANDROID && !defined Q_OS_IOS && !defined UBPORTS
+#include <QtWebView>
+#endif
 
 #include "libnymea-app-core.h"
 
@@ -66,11 +69,15 @@ int main(int argc, char *argv[])
 
 #ifdef Q_OS_OSX
     qputenv("QT_WEBVIEW_PLUGIN", "native");
+#elif !defined Q_OS_ANDROID && !defined Q_OS_IOS && !defined UBPORTS
+    // FIXME: Platformhelper should be split into parts that shall run before initialisation and parts that require a UI context already running
+    QtWebView::initialize();
 #endif
 
     // qt.qml.connections warnings are disabled since the replace only exists
     // in Qt 5.12. Remove that once 5.12 is the minimum supported version.
     QLoggingCategory::setFilterRules("*.debug=false\n"
+                                     "Application.debug=true\n"
                                      "qt.qml.connections.warning=false\n"
                                      );
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -95,10 +102,7 @@ int main(int argc, char *argv[])
     parser.addOption(splashOption);
     parser.process(application);
 
-    // Initialize app log controller as early as possible, but after setting app name etc
-    AppLogController::instance();
-
-    qCDebug(dcApplication()) << "*** nymea:app starting ***" << QDateTime::currentDateTime().toString();
+    qCInfo(dcApplication()) << "*** nymea:app starting ***" << QDateTime::currentDateTime().toString();
 
     QTranslator qtTranslator;    
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
@@ -106,6 +110,9 @@ int main(int argc, char *argv[])
 
     qCInfo(dcApplication()) << application.applicationName() << APP_VERSION << "running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion() << PlatformHelper::instance()->deviceManufacturer() << PlatformHelper::instance()->deviceModel();
     qCInfo(dcApplication()) << "Locale info:" << QLocale() << QLocale().name() << QLocale().language() << QLocale().system();
+
+    // Initialize app log controller as early as possible, but after setting app name and printing initial startup info
+    AppLogController::instance();
 
     QTranslator appTranslator;
     bool translationResult = appTranslator.load("nymea-app-" + QLocale().name(), ":/translations/");

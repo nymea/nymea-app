@@ -125,6 +125,7 @@ Page {
     }
     QtObject {
         id: d
+        property bool blurEnabled: PlatformHelper.deviceManufacturer !== "raspbian"
         property var editRulePage: null
         property var configOverlay: null
     }
@@ -243,8 +244,6 @@ Page {
             opacity: d.configOverlay === null ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
 
-
-
             Repeater {
                 model: d.configOverlay != null ? null : filteredContentModel
 
@@ -254,6 +253,8 @@ Page {
                     height: swipeView.height
                     clip: true
                     source: "mainviews/" + model.source + ".qml"
+//                    visible: SwipeView.isCurrentItem
+                    active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
 
                     Binding {
                         target: mainViewLoader.item
@@ -307,7 +308,7 @@ Page {
         id: headerBlurSource
         width: contentContainer.width
         height: d.configOverlay ? contentContainer.headerSize : contentContainer.headerBlurSize
-        sourceItem: contentContainer
+        sourceItem: d.blurEnabled ? contentContainer : null
         sourceRect: Qt.rect(0, 0, contentContainer.width, d.configOverlay ? contentContainer.headerSize : contentContainer.headerBlurSize)
         visible: false
     }
@@ -321,7 +322,8 @@ Page {
         height: d.configOverlay ? contentContainer.headerSize : contentContainer.headerBlurSize
         radius: 40
         transparentBorder: true
-        source: headerBlurSource
+        source: d.blurEnabled ? headerBlurSource : null
+        visible: d.blurEnabled
     }
 
     Rectangle {
@@ -344,10 +346,10 @@ Page {
         id: footerBlurSource
         width: contentContainer.width
         height: contentContainer.footerSize
-        sourceItem: contentContainer
+        sourceItem: d.blurEnabled ? contentContainer : null
         sourceRect: Qt.rect(0, contentContainer.height - height, contentContainer.width, contentContainer.footerSize)
         visible: false
-        enabled: footer.shown
+        enabled: d.blurEnabled && footer.shown
     }
 
     FastBlur {
@@ -359,8 +361,8 @@ Page {
         height: contentContainer.footerSize
         radius: 40
         transparentBorder: false
-        source: footerBlurSource
-        visible: footer.shown
+        source: d.blurEnabled ? footerBlurSource : null
+        visible: d.blurEnabled && footer.shown
     }
 
     Rectangle {

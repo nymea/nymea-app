@@ -101,9 +101,8 @@ MainViewBase {
 
         // GridLayout directly in a flickable causes problems at initialisation
         Item {
-            width: parent.width
+            width: flickable.width
             height: energyGrid.implicitHeight
-
 
             GridLayout {
                 id: energyGrid
@@ -119,12 +118,14 @@ MainViewBase {
                     Layout.preferredHeight: width
                     energyManager: energyManager
                     visible: producers.count > 0
+                    animationsEnabled: Qt.application.active && root.isCurrentItem
                 }
                 CurrentProductionBalancePieChart {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
                     energyManager: energyManager
                     visible: producers.count > 0
+                    animationsEnabled: Qt.application.active && root.isCurrentItem
                 }
 
                 PowerConsumptionBalanceHistory {
@@ -146,6 +147,7 @@ MainViewBase {
                     visible: consumers.count > 0
                     colors: root.thingColors
                     consumers: consumers
+                    animationsEnabled: Qt.application.active && root.isCurrentItem
                 }
 
 //                ConsumersBarChart {

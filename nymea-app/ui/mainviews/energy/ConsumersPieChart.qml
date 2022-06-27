@@ -10,7 +10,7 @@ import "qrc:/ui/components"
 ChartView {
     id: root
     backgroundColor: "transparent"
-    animationOptions: Qt.application.active ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
+    animationOptions: animationsEnabled ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
     title: qsTr("Consumers balance")
     titleColor: Style.foregroundColor
     legend.visible: false
@@ -23,6 +23,7 @@ ChartView {
     property EnergyManager energyManager: null
     property ThingsProxy consumers: null
     property var colors: null
+    property bool animationsEnabled: true
 
     readonly property Thing rootMeter: engine.thingManager.fetchingData ? null : engine.thingManager.things.getThing(energyManager.rootMeterId)
     onRootMeterChanged: updateConsumers()
@@ -109,7 +110,7 @@ ChartView {
         d.thingsColorMap = colorMap
 
         root.animationOptions = Qt.binding(function() {
-            return Qt.application.active ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
+            return root.animationsEnabled ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
         })
     }
 
