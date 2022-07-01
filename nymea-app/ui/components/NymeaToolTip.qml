@@ -8,10 +8,31 @@ Item {
     property alias backgroundItem: blurEffectSource.sourceItem
     property alias backgroundRect: blurEffectSource.sourceRect
 
-    Behavior on x { NumberAnimation { duration: Style.animationDuration } }
-    Behavior on y { NumberAnimation { duration: Style.animationDuration } }
-    Behavior on width { NumberAnimation { duration: Style.animationDuration } }
-    Behavior on height { NumberAnimation { duration: Style.animationDuration } }
+    Behavior on x { enabled: d.animationsEnabled; NumberAnimation { duration: Style.animationDuration } }
+    Behavior on y { enabled: d.animationsEnabled; NumberAnimation { duration: Style.animationDuration } }
+    Behavior on width { enabled: d.animationsEnabled; NumberAnimation { duration: Style.animationDuration } }
+    Behavior on height { enabled: d.animationsEnabled; NumberAnimation { duration: Style.animationDuration } }
+
+    readonly property alias animationsEnabled: d.animationsEnabled
+
+    Timer {
+        running: visible
+        repeat: false
+        interval: 1
+        onTriggered: {
+            d.animationsEnabled = true
+        }
+    }
+    onVisibleChanged: {
+        if (!visible) {
+            d.animationsEnabled = false
+        }
+    }
+
+    QtObject {
+        id: d
+        property bool animationsEnabled: false
+    }
 
     Rectangle {
         id: blurSource

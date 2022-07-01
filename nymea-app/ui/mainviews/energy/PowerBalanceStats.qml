@@ -379,7 +379,7 @@ StatsBase {
             visible: toolTip.visible
 
             x: idx * parent.width / categoryAxis.count
-            Behavior on x { NumberAnimation { duration: Style.animationDuration } }
+            Behavior on x { enabled: toolTip.animationsEnabled; NumberAnimation { duration: Style.animationDuration } }
         }
     }
 
@@ -415,9 +415,10 @@ StatsBase {
             x: chartWidth - (idx * barWidth + barWidth + Style.smallMargins) > width ?
                    idx * barWidth + barWidth + Style.smallMargins
                  : idx * barWidth - Style.smallMargins - width
-            property double setMaxValue: d.consumptionSet && d.productionSet && d.acquisitionSet && d.returnSet ?
-                                             Math.max(d.consumptionSet.at(idx), Math.max(d.productionSet.at(idx), Math.max(d.acquisitionSet.at(idx), d.returnSet.at(idx))))
-                                           : 0
+            property double setMaxValue: Math.max(d.consumptionSet ? d.consumptionSet.at(idx) : 0,
+                                                  d.productionSet ? d.productionSet.at(idx) : 0,
+                                                  d.acquisitionSet ? d.acquisitionSet.at(idx) : 0,
+                                                  d.returnSet ? d.returnSet.at(idx) : 0)
             y: Math.min(Math.max(mouseArea.height - (setMaxValue * mouseArea.height / valueAxis.max) - height - Style.smallMargins, 0), mouseArea.height - height)
             width: tooltipLayout.implicitWidth + Style.smallMargins * 2
             height: tooltipLayout.implicitHeight + Style.smallMargins * 2
