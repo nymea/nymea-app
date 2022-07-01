@@ -1,3 +1,10 @@
+nymea-app (1.2.9) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve energy tooltips a little more
+
+ -- jenkins <developer@nymea.io>  Fri, 01 Jul 2022 17:56:48 +0200
+
 nymea-app (1.2.8) bionic; urgency=medium
 
   [ Michael Zanetti ]
