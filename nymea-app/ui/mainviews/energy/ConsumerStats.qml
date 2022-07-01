@@ -378,7 +378,7 @@ StatsBase {
             visible: toolTip.visible
 
             x: idx * parent.width / categoryAxis.count
-            Behavior on x { NumberAnimation { duration: Style.animationDuration } }
+            Behavior on x { enabled: toolTip.animationsEnabled; NumberAnimation { duration: Style.animationDuration } }
         }
     }
 
