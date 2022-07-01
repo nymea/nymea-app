@@ -1,3 +1,10 @@
+nymea-app (1.2.8) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Revert early initialisation of the web engine
+
+ -- jenkins <developer@nymea.io>  Fri, 01 Jul 2022 08:34:32 +0200
+
 nymea-app (1.2.5) bionic; urgency=medium
 
   [ Michael Zanetti ]
