@@ -565,6 +565,12 @@ bool ThingsProxy::lessThan(const QModelIndex &left, const QModelIndex &right) co
             leftThing = m_engine->thingManager()->things()->get(left.row());
             rightThing = m_engine->thingManager()->things()->get(right.row());
         }
+        if (!leftThing || !rightThing) {
+            // This should never happen, but apparently some very rare stack traces indicate it does happen. Bug in Qt?
+            qCWarning(dcThingManager()) << "Thing not found in source model!" << leftThing << rightThing << m_parentProxy << m_parentProxy->rowCount() << left << right;
+            Q_ASSERT(false);
+            return false;
+        }
         State *leftState = leftThing->stateByName(m_sortStateName);
         State *rightState = rightThing->stateByName(m_sortStateName);
         QVariant leftStateValue = leftState ? leftState->value() : 0;

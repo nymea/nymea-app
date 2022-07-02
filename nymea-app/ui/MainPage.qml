@@ -254,7 +254,7 @@ Page {
                     clip: true
                     source: "mainviews/" + model.source + ".qml"
 //                    visible: SwipeView.isCurrentItem
-                    active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+//                    active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
 
                     Binding {
                         target: mainViewLoader.item
