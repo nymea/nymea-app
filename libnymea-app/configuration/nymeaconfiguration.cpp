@@ -329,6 +329,7 @@ void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariant
         m_webServerConfigurations->addConfiguration(config);
     }
 
+    tunnelProxyServerConfigurations()->clear();
     foreach (const QVariant &tunnelProxyServerVariant, params.value("tunnelProxyServerConfigurations").toList()) {
         QVariantMap tunnelProxyServerConfigMap = tunnelProxyServerVariant.toMap();
         TunnelProxyServerConfiguration *config = new TunnelProxyServerConfiguration(tunnelProxyServerConfigMap.value("id").toString(), tunnelProxyServerConfigMap.value("address").toString(), tunnelProxyServerConfigMap.value("port").toInt(), tunnelProxyServerConfigMap.value("authenticationEnabled").toBool(), tunnelProxyServerConfigMap.value("sslEnabled").toBool(), tunnelProxyServerConfigMap.value("ignoreSslErrors").toBool());
