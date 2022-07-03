@@ -1,3 +1,12 @@
+nymea-app (1.3.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix tunnel proxy configurations being messed up on reconnects during
+    runtime
+  * Fix android navigation panel color
+
+ -- jenkins <developer@nymea.io>  Sun, 03 Jul 2022 15:13:49 +0200
+
 nymea-app (1.3.1) bionic; urgency=medium
 
   [ Michael Zanetti ]
