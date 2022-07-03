@@ -345,6 +345,7 @@ Item {
                     Connections {
                         target: engine.nymeaConfiguration
                         onFetchingDataChanged: {
+                            print("fetching NymeaConfigration:", engine.nymeaConfiguration.fetchingData)
                             if (!engine.nymeaConfiguration.fetchingData) {
                                 syncRemoteConnection()
                             }
@@ -352,7 +353,12 @@ Item {
                     }
                     Connections {
                         target: engine.nymeaConfiguration.tunnelProxyServerConfigurations
-                        onCountChanged: syncRemoteConnection();
+                        onCountChanged: {
+                            print("tunnel proxy count changed:", engine.nymeaConfiguration.tunnelProxyServerConfigurations.count)
+                            if (!engine.nymeaConfiguration.fetchingData) {
+                                syncRemoteConnection();
+                            }
+                        }
                     }
 
                     function syncRemoteConnection() {
