@@ -61,6 +61,7 @@ public:
     void setTopPanelColor(const QColor &color) override;
     void setTopPanelTheme(Theme theme);
     void setBottomPanelColor(const QColor &color) override;
+    void setBottomPanelTheme(Theme theme);
 
     bool darkModeEnabled() const override;
 

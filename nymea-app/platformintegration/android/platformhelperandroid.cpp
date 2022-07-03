@@ -38,9 +38,11 @@
 
 // WindowManager.LayoutParams
 #define FLAG_TRANSLUCENT_STATUS 0x04000000
+#define FLAG_TRANSLUCENT_NAVIGATION 0x08000000
 #define FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS 0x80000000
 // View
 #define SYSTEM_UI_FLAG_LIGHT_STATUS_BAR 0x00002000
+#define SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR 0x00000010
 
 static PlatformHelperAndroid *m_instance = nullptr;
 
@@ -197,6 +199,53 @@ void PlatformHelperAndroid::setBottomPanelColor(const QColor &color)
 
     if (QtAndroid::androidSdkVersion() < 21)
         return;
+
+    QtAndroid::runOnAndroidThread([=]() {
+        QAndroidJniObject window = getAndroidWindow();
+        window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_NAVIGATION);
+        window.callMethod<void>("setNavigationBarColor", "(I)V", color.rgba());
+
+        if (((color.red() * 299 + color.green() * 587 + color.blue() * 114) / 1000) > 123) {
+            setBottomPanelTheme(Light);
+        } else {
+            setBottomPanelTheme(Dark);
+        }
+    });
+}
+
+void PlatformHelperAndroid::setTopPanelTheme(PlatformHelperAndroid::Theme theme)
+{
+    if (QtAndroid::androidSdkVersion() < 23)
+        return;
+
+    QtAndroid::runOnAndroidThread([=]() {
+        QAndroidJniObject window = getAndroidWindow();
+        QAndroidJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
+        int visibility = view.callMethod<int>("getSystemUiVisibility", "()I");
+        if (theme == Theme::Light)
+            visibility |= SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        else
+            visibility &= ~SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        view.callMethod<void>("setSystemUiVisibility", "(I)V", visibility);
+    });
+}
+
+void PlatformHelperAndroid::setBottomPanelTheme(Theme theme)
+{
+    if (QtAndroid::androidSdkVersion() < 23)
+        return;
+
+    QtAndroid::runOnAndroidThread([=]() {
+        QAndroidJniObject window = getAndroidWindow();
+        QAndroidJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
+        int visibility = view.callMethod<int>("getSystemUiVisibility", "()I");
+        if (theme == Theme::Light)
+            visibility |= SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+        else
+            visibility &= ~SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+        view.callMethod<void>("setSystemUiVisibility", "(I)V", visibility);
+    });
+
 }
 
 bool PlatformHelperAndroid::darkModeEnabled() const
@@ -224,21 +273,4 @@ void PlatformHelperAndroid::darkModeEnabledChangedJNI()
     if (m_instance) {
         emit m_instance->darkModeEnabledChanged();
     }
-}
-
-void PlatformHelperAndroid::setTopPanelTheme(PlatformHelperAndroid::Theme theme)
-{
-    if (QtAndroid::androidSdkVersion() < 23)
-        return;
-
-    QtAndroid::runOnAndroidThread([=]() {
-        QAndroidJniObject window = getAndroidWindow();
-        QAndroidJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
-        int visibility = view.callMethod<int>("getSystemUiVisibility", "()I");
-        if (theme == Theme::Light)
-            visibility |= SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-        else
-            visibility &= ~SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-        view.callMethod<void>("setSystemUiVisibility", "(I)V", visibility);
-    });
 }
