@@ -1,3 +1,11 @@
+nymea-app (1.3.4) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for deep linking through push notification data
+  * Add encryption declaration for macOS to Info.plist
+
+ -- jenkins <developer@nymea.io>  Fri, 08 Jul 2022 15:17:57 +0200
+
 nymea-app (1.3.3) bionic; urgency=medium
 
   [ Michael Zanetti ]
