@@ -123,6 +123,15 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
+                iconSource: "../images/z-wave.svg"
+                text: qsTr("Z-Wave")
+                subText: qsTr("Configure Z-Wave networks")
+                visible: engine.jsonRpcClient.ensureServerVersion("6.1") && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.zigbeeSettingsEnabled
+                onClicked: pageStack.push(Qt.resolvedUrl("system/zwave/ZWaveSettingsPage.qml"))
+            }
+
+            SettingsTile {
+                Layout.fillWidth: true
                 iconSource: "../images/modbus.svg"
                 text: qsTr("Modbus RTU")
                 subText: qsTr("Configure Modbus RTU master interfaces")

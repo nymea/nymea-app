@@ -44,7 +44,7 @@ int SerialPorts::rowCount(const QModelIndex &parent) const
 QVariant SerialPorts::data(const QModelIndex &index, int role) const
 {
     switch (role) {
-    case RoleSystmLocation:
+    case RoleSystemLocation:
         return m_serialPorts.at(index.row())->systemLocation();
     case RoleManufacturer:
         return m_serialPorts.at(index.row())->manufacturer();
@@ -59,7 +59,7 @@ QVariant SerialPorts::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> SerialPorts::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles.insert(RoleSystmLocation, "systemLocation");
+    roles.insert(RoleSystemLocation, "systemLocation");
     roles.insert(RoleManufacturer, "manufacturer");
     roles.insert(RoleDescription, "description");
     roles.insert(RoleSerialNumber, "serialNumber");

@@ -276,5 +276,9 @@
         <file>ui/delegates/StateDelegate.qml</file>
         <file>ui/system/PackageDetailsPage.qml</file>
         <file>ui/system/AdvancedConnectionInterfacesPage.qml</file>
+        <file>ui/system/zwave/ZWaveSettingsPage.qml</file>
+        <file>ui/system/zwave/ZWaveAddNetworkPage.qml</file>
+        <file>ui/system/zwave/ZWaveNetworkPage.qml</file>
+        <file>ui/system/zwave/ZWaveNetworkSettingsPage.qml</file>
     </qresource>
 </RCC>

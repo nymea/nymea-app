@@ -37,6 +37,8 @@ Item {
     id: icon
     width: size
     height: size
+    implicitHeight: image.implicitHeight
+    implicitWidth: image.implicitWidth
 
     property alias name: icon.source
     property string source

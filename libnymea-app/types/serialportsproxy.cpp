@@ -45,7 +45,10 @@ void SerialPortsProxy::setSerialPorts(SerialPorts *serialPorts)
     if (m_serialPorts == serialPorts)
         return;
 
+    setSourceModel(serialPorts);
     m_serialPorts = serialPorts;
+    emit serialPortsChanged();
+
     connect(m_serialPorts, &SerialPorts::countChanged, this, [this](){
         emit countChanged();
     });
@@ -53,8 +56,7 @@ void SerialPortsProxy::setSerialPorts(SerialPorts *serialPorts)
         sort(0, Qt::DescendingOrder);
     });
 
-    setSourceModel(serialPorts);
-    setSortRole(SerialPorts::RoleSystmLocation);
+    setSortRole(SerialPorts::RoleSystemLocation);
     sort(0, Qt::DescendingOrder);
     emit countChanged();
 }
@@ -65,5 +67,36 @@ SerialPort *SerialPortsProxy::get(int index) const
         return m_serialPorts->get(mapToSource(this->index(index, 0)).row());
     }
     return nullptr;
+}
+
+QString SerialPortsProxy::systemLocationFilter() const
+{
+    return m_systemLocationFilter;
+}
+
+void SerialPortsProxy::setSystemLocationFilter(const QString &systemLocationFilter)
+{
+    if (m_systemLocationFilter != systemLocationFilter) {
+        m_systemLocationFilter = systemLocationFilter;
+        emit systemLocationFilterChanged();
+        invalidateFilter();
+        emit countChanged();
+    }
+}
+
+bool SerialPortsProxy::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+{
+    Q_UNUSED(sourceParent)
+    if (!m_serialPorts) {
+        return false;
+    }
+
+    if (!m_systemLocationFilter.isEmpty()) {
+        SerialPort *serialPort = m_serialPorts->get(sourceRow);
+        if (serialPort->systemLocation() != m_systemLocationFilter) {
+            return false;
+        }
+    }
+    return true;
 }
 

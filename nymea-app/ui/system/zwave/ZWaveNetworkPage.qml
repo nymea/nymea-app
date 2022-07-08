@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2021, nymea GmbH
+* Copyright 2013 - 2022, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -32,17 +32,17 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.3
-import "../components"
+import "qrc:/ui/components"
 import Nymea 1.0
 
 SettingsPageBase {
     id: root
 
-    property ZigbeeManager zigbeeManager: null
-    property ZigbeeNetwork network: null
+    property ZWaveManager zwaveManager: null
+    property ZWaveNetwork network: null
 
     header: NymeaHeader {
-        text: qsTr("ZigBee network")
+        text: qsTr("Z-Wave network")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
 
@@ -59,7 +59,7 @@ SettingsPageBase {
             imageSource: "/ui/images/configure.svg"
             text: qsTr("Network settings")
             onClicked: {
-                var page = pageStack.push(Qt.resolvedUrl("ZigbeeNetworkSettingsPage.qml"), { zigbeeManager: zigbeeManager, network: network })
+                var page = pageStack.push(Qt.resolvedUrl("ZWaveNetworkSettingsPage.qml"), { zwaveManager: zwaveManager, network: network })
                 page.exit.connect(function() {
                     pageStack.pop(root, StackView.Immediate)
                     pageStack.pop()
@@ -72,33 +72,82 @@ SettingsPageBase {
 
     QtObject {
         id: d
+        property var addRemoveNodeDialog: null
         property int pendingCommandId: -1
-        function removeNode(networkUuid, ieeeAddress) {
-            d.pendingCommandId = root.zigbeeManager.removeNode(networkUuid, ieeeAddress)
+        function removeFailedNode(networkUuid, nodeId) {
+            d.pendingCommandId = root.zwaveManager.removeFailedNode(networkUuid, nodeId)
         }
     }
 
     Connections {
-        target: root.zigbeeManager
+        target: root.zwaveManager
+        onAddNodeReply: {
+            if (commandId == d.pendingCommandId) {
+                d.pendingCommandId = -1
+                processStatusCode(error)
+            }
+        }
         onRemoveNodeReply: {
             if (commandId == d.pendingCommandId) {
                 d.pendingCommandId = -1
-                var props = {};
-                switch (error) {
-                case "ZigbeeErrorNoError":
-                    return;
-                case "ZigbeeErrorAdapterNotAvailable":
-                    props.text = qsTr("The selected adapter is not available or the selected serial port configration is incorrect.");
-                    break;
-                case "ZigbeeErrorAdapterAlreadyInUse":
-                    props.text = qsTr("The selected adapter is already in use.");
-                    break;
-                default:
-                    props.errorCode = error;
+                processStatusCode(error)
+            }
+        }
+        onRemoveFailedNodeReply: {
+            if (commandId == d.pendingCommandId) {
+                d.pendingCommandId = -1
+                processStatusCode(error)
+            }
+        }
+        function processStatusCode(error) {
+            var props = {};
+            switch (error) {
+            case ZWaveManager.ZWaveErrorNoError:
+                return;
+            case ZWaveManager.ZWaveErrorBackendError:
+                props.text = qsTr("Un unexpected error happened in the Z-Wave backend.");
+                break;
+            case ZWaveManager.ZWaveErrorInUse:
+                props.text = qsTr("The operation could not be started because the Z-Wave network is busy. Please try again later.");
+                break;
+            default:
+                props.text = qsTr("An unexpected error happened. Status code: %1").arg(error);
+                props.errorCode = error;
+            }
+            var comp = Qt.createComponent("/ui/components/ErrorDialog.qml")
+            var popup = comp.createObject(app, props)
+            popup.open();
+        }
+    }
+
+    Connections {
+        target: root.network
+        onWaitingForNodeAdditionChanged: {
+            if (root.network.waitingForNodeAddition) {
+                var props = {
+                    title: qsTr("Include Z-Wave device"),
+                    text: qsTr("The Z-Wave network is now accepting new devices for inclusion. Please start the pairing procedure from the Z-Wave device you want to add to the network. Check the device manual for further details.")
                 }
-                var comp = Qt.createComponent("../components/ErrorDialog.qml")
-                var popup = comp.createObject(app, props)
-                popup.open();
+                d.addRemoveNodeDialog = addRemoveNodeDialogComponent.createObject(app, props)
+                d.addRemoveNodeDialog.open();
+            } else {
+                if (d.addRemoveNodeDialog) {
+                    d.addRemoveNodeDialog.close()
+                }
+            }
+        }
+        onWaitingForNodeRemovalChanged: {
+            if (root.network.waitingForNodeRemoval) {
+                var props = {
+                    title: qsTr("Exclude Z-Wave device"),
+                    text: qsTr("The Z-Wave network is now accepting devices for exclusion. Please start the pairing procedure from the Z-Wave device you want to remove from the network. Check the device manual for further details.")
+                }
+                d.addRemoveNodeDialog = addRemoveNodeDialogComponent.createObject(app, props)
+                d.addRemoveNodeDialog.open();
+            } else {
+                if (d.addRemoveNodeDialog) {
+                    d.addRemoveNodeDialog.close()
+                }
             }
         }
     }
@@ -123,15 +172,13 @@ SettingsPageBase {
             Label {
                 text: {
                     switch (network.networkState) {
-                    case ZigbeeNetwork.ZigbeeNetworkStateOnline:
+                    case ZWaveNetwork.ZWaveNetworkStateOnline:
                         return qsTr("Online")
-                    case ZigbeeNetwork.ZigbeeNetworkStateOffline:
+                    case ZWaveNetwork.ZWaveNetworkStateOffline:
                         return qsTr("Offline")
-                    case ZigbeeNetwork.ZigbeeNetworkStateStarting:
+                    case ZWaveNetwork.ZWaveNetworkStateStarting:
                         return qsTr("Starting")
-                    case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
-                        return qsTr("Updating")
-                    case ZigbeeNetwork.ZigbeeNetworkStateError:
+                    case ZWaveNetwork.ZWaveNetworkStateError:
                         return qsTr("Error")
                     }
                 }
@@ -142,15 +189,13 @@ SettingsPageBase {
                 Layout.preferredWidth: Style.iconSize
                 state: {
                     switch (network.networkState) {
-                    case ZigbeeNetwork.ZigbeeNetworkStateOnline:
+                    case ZWaveNetwork.ZWaveNetworkStateOnline:
                         return "on"
-                    case ZigbeeNetwork.ZigbeeNetworkStateOffline:
+                    case ZWaveNetwork.ZWaveNetworkStateOffline:
                         return "off"
-                    case ZigbeeNetwork.ZigbeeNetworkStateStarting:
+                    case ZWaveNetwork.ZWaveNetworkStateStarting:
                         return "orange"
-                    case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
-                        return "orange"
-                    case ZigbeeNetwork.ZigbeeNetworkStateError:
+                    case ZWaveNetwork.ZWaveNetworkStateError:
                         return "red"
                     }
                 }
@@ -162,81 +207,43 @@ SettingsPageBase {
 
             Label {
                 Layout.fillWidth: true
-                text: qsTr("Channel")
+                text: qsTr("Controller type")
             }
 
             Label {
-                text: network.channel
+                text: network.isPrimaryController ? qsTr("Primary") : qsTr("Secondary") + (network.isStaticUpdateController ? ", " + qsTr("Static") : "")
             }
         }
+    }
 
-        RowLayout {
-            Layout.fillWidth: true
+    SettingsPageSectionHeader {
+        text: qsTr("Device management")
+        visible: network.isPrimaryController
+    }
 
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Permit new devices:")
-            }
-
-            Label {
-                text: network.permitJoiningEnabled ? qsTr("Open for %0 s").arg(network.permitJoiningRemaining) : qsTr("Closed")
-            }
-
-            ColorIcon {
-                Layout.preferredHeight: Style.iconSize
-                Layout.preferredWidth: Style.iconSize
-                name: network.permitJoiningEnabled ? "/ui/images/lock-open.svg" : "/ui/images/lock-closed.svg"
-                visible: !network.permitJoiningEnabled
-            }
-
-            Canvas {
-                id: canvas
-                Layout.preferredHeight: Style.iconSize
-                Layout.preferredWidth: Style.iconSize
-                rotation: -90
-                visible: network.permitJoiningEnabled
-
-                property real progress: network.permitJoiningRemaining / network.permitJoiningDuration
-                onProgressChanged: {
-                    canvas.requestPaint()
-                }
-
-                onPaint: {
-                    var ctx = canvas.getContext("2d");
-                    ctx.save();
-                    ctx.reset();
-                    var data = [1 - progress, progress];
-                    var myTotal = 0;
-
-                    for(var e = 0; e < data.length; e++) {
-                        myTotal += data[e];
-                    }
-
-                    ctx.fillStyle = Style.accentColor
-                    ctx.strokeStyle = Style.accentColor
-                    ctx.lineWidth = 1;
-
-                    ctx.beginPath();
-                    ctx.moveTo(canvas.width/2,canvas.height/2);
-                    ctx.arc(canvas.width/2,canvas.height/2,canvas.height/2,0,(Math.PI*2*((1-progress)/myTotal)),false);
-                    ctx.lineTo(canvas.width/2,canvas.height/2);
-                    ctx.fill();
-                    ctx.closePath();
-                    ctx.beginPath();
-                    ctx.arc(canvas.width/2,canvas.height/2,canvas.height/2 - 1,0,Math.PI*2,false);
-                    ctx.closePath();
-                    ctx.stroke();
-
-                    ctx.restore();
-                }
-            }
-        }
+    ColumnLayout {
+        spacing: Style.margins
+        Layout.leftMargin: Style.margins
+        Layout.rightMargin: Style.margins
+        visible: network.isPrimaryController
 
         Button {
             Layout.fillWidth: true
-            text: network.permitJoiningEnabled ? qsTr("Extend open duration") : qsTr("Open for new devices")
-            enabled: network.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline
-            onClicked: zigbeeManager.setPermitJoin(network.networkUuid)
+            text: qsTr("Add a new device")
+            enabled: network.networkState === ZWaveNetwork.ZWaveNetworkStateOnline
+            onClicked: {
+                zwaveManager.cancelPendingOperation(network.networkUuid)
+                d.pendingCommandId = zwaveManager.addNode(network.networkUuid)
+            }
+        }
+        Button {
+            Layout.fillWidth: true
+            text: qsTr("Remove a device")
+            enabled: network.networkState === ZWaveNetwork.ZWaveNetworkStateOnline
+            onClicked: {
+                zwaveManager.cancelPendingOperation(network.networkUuid)
+                d.pendingCommandId = zwaveManager.removeNode(network.networkUuid)
+            }
         }
     }
 
@@ -254,45 +261,46 @@ SettingsPageBase {
     }
 
     Repeater {
-        model: ZigbeeNodesProxy {
+        model: ZWaveNodesProxy {
             id: nodesModel
-            zigbeeNodes: root.network.nodes
-            showCoordinator: false
+            zwaveNodes: root.network.nodes
+            showController: false
             newOnTop: true
         }
         delegate: NymeaSwipeDelegate {
             id: nodeDelegate
-            readonly property ZigbeeNode node: nodesModel.get(index)
+            readonly property ZWaveNode node: nodesModel.get(index)
 
             ThingsProxy {
                 id: nodeThings
                 engine: _engine
-                paramsFilter: {"ieeeAddress": nodeDelegate.node.ieeeAddress}
+                paramsFilter: {"networkUuid": nodeDelegate.node.networkUuid, "nodeId": nodeDelegate.node.nodeId}
             }
             readonly property Thing nodeThing: nodeThings.count >= 1 ? nodeThings.get(0) : null
             property int signalStrength: node ? Math.round(node.lqi * 100.0 / 255.0) : 0
 
             Layout.fillWidth: true
-            text: node.model + " - " + node.manufacturer// nodeThing ? nodeThing.name : node.model
+            text: node.productName + " - " + node.manufacturerName// nodeThing ? nodeThing.name : node.model
             subText: node.state == ZigbeeNode.ZigbeeNodeStateInitializing ?
                          qsTr("Initializing...")
                        : nodeThings.count == 1 ? nodeThing.name :
                                                  nodeThings.count > 1 ? qsTr("%1 things").arg(nodeThings.count) : qsTr("Unrecognized device")
-            iconName: nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "/ui/images/zigbee.svg"
-            iconColor: busy
-                       ? Style.tileOverlayColor
-                       : nodeThing != null ? Style.accentColor : Style.iconColor
+            iconName: nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "/ui/images/z-wave.svg"
+            iconColor: busy ? Style.tileOverlayColor
+                            : node.failed ? Style.red
+                                     : nodeThing != null ? Style.accentColor
+                                                         : Style.iconColor
             progressive: false
 
-            busy: node.state !== ZigbeeNode.ZigbeeNodeStateInitialized
+            busy: !node.initialized
 
-            canDelete: true
+            canDelete: node.failed
             onDeleteClicked: {
-                var dialog = removeZigbeeNodeDialogComponent.createObject(app, {zigbeeNode: node})
+                var dialog = removeZWaveNodeDialogComponent.createObject(app, {zwaveNode: node})
                 dialog.open()
             }
 
-            secondaryIconName: node && !node.rxOnWhenIdle ? "/ui/images/system-suspend.svg" : ""
+            secondaryIconName: node && !node.sleeping ? "/ui/images/system-suspend.svg" : ""
 
             tertiaryIconName: {
                 if (!node || !node.reachable)
@@ -326,9 +334,18 @@ SettingsPageBase {
             additionalItem: ColorIcon {
                 size: Style.smallIconSize
                 anchors.verticalCenter: parent.verticalCenter
-                name: node.type === ZigbeeNode.ZigbeeNodeTypeRouter
-                  ? "/ui/images/zigbee-router.svg"
-                  : "/ui/images/zigbee-enddevice.svg"
+                name: {
+                    print("node type:", node.nodeType)
+                    switch (node.nodeType) {
+                    case ZWaveNode.ZWaveNodeTypeController:
+                    case ZWaveNode.ZWaveNodeTypeStaticController:
+                        return "/ui/images/z-wave.svg"
+                    case ZWaveNode.ZWaveNodeTypeRoutingSlave:
+                        return "/ui/images/zigbee-router.svg"
+                    case ZWaveNode.ZWaveNodeTypeSlave:
+                        return "/ui/images/zigbee-enddevice.svg"
+                    }
+                }
                 color: communicationIndicatorLedTimer.running ? Style.accentColor : Style.iconColor
             }
 
@@ -343,7 +360,7 @@ SettingsPageBase {
         id: nodeInfoComponent
         MeaDialog {
             id: nodeInfoDialog
-            property ZigbeeNode node: null
+            property ZWaveNode node: null
             property ThingsProxy nodeThings: null
             readonly property Thing nodeThing: nodeThings.count > 0 ? nodeThings.get(0) : null
             header: Item {
@@ -352,25 +369,24 @@ SettingsPageBase {
                 RowLayout {
                     id: headerRow
                     anchors { left: parent.left; right: parent.right; top: parent.top; margins: Style.margins }
-                    spacing: Style.margins
                     ColorIcon {
                         id: headerColorIcon
                         Layout.preferredHeight: Style.bigIconSize
-                        Layout.preferredWidth: height
+                        Layout.preferredWidth: Style.bigIconSize * 1.5
                         color: Style.accentColor
-                        name: "/ui/images/zigbee.svg"
+                        name: nodeInfoDialog.node.isZWavePlus ? "/ui/images/zwave/z-wave-plus-wide.svg" : "/ui/images/zwave/z-wave-wide.svg"
                     }
                     ColumnLayout {
                         Layout.margins: Style.margins
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                            text: nodeInfoDialog.node.model
+                            text: nodeInfoDialog.node.productName
                         }
                         Label {
                             Layout.fillWidth: true
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                            text: nodeInfoDialog.node.manufacturer
+                            text: nodeInfoDialog.node.manufacturerName
                         }
                     }
                 }
@@ -381,22 +397,32 @@ SettingsPageBase {
             GridLayout {
                 columns: 2
                 Label {
-                    text: qsTr("IEEE address:")
+                    text: qsTr("Node ID:")
                     font: Style.smallFont
                 }
                 Label {
                     Layout.fillWidth: true
-                    text: nodeInfoDialog.node.ieeeAddress
+                    text: nodeInfoDialog.node.nodeId
                     font: Style.smallFont
                     horizontalAlignment: Text.AlignRight
                 }
                 Label {
-                    text: qsTr("Network address:")
+                    text: qsTr("Device type:")
                     font: Style.smallFont
                 }
                 Label {
                     Layout.fillWidth: true
-                    text: "0x" + nodeInfoDialog.node.networkAddress.toString(16)
+                    text: nodeInfoDialog.node.deviceTypeString.replace(/ZWaveDeviceType/, "")
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
+                }
+                Label {
+                    text: qsTr("Z-Wave plus:")
+                    font: Style.smallFont
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: nodeInfoDialog.node.isZWavePlus ? qsTr("Yes") : qsTr("No")
                     font: Style.smallFont
                     horizontalAlignment: Text.AlignRight
                 }
@@ -416,7 +442,7 @@ SettingsPageBase {
                 }
                 Label {
                     Layout.fillWidth: true
-                    text: nodeInfoDialog.node.version.length > 0 ? nodeInfoDialog.node.version : qsTr("Unknown")
+                    text: nodeInfoDialog.node.version
                     font: Style.smallFont
                     horizontalAlignment: Text.AlignRight
                 }
@@ -476,15 +502,15 @@ SettingsPageBase {
     }
 
     Component {
-        id: removeZigbeeNodeDialogComponent
+        id: removeZWaveNodeDialogComponent
 
         MeaDialog {
-            id: removeZigbeeNodeDialog
+            id: removeZWaveNodeDialog
 
-            property ZigbeeNode zigbeeNode
+            property ZWaveNode zwaveNode
 
             headerIcon: "/ui/images/zigbee.svg"
-            title: qsTr("Remove ZigBee node") + " " + (zigbeeNode ? zigbeeNode.model : "")
+            title: qsTr("Remove Z-Wave node") + " " + (zwaveNode ? zwaveNode.name != "" ? zwaveNode.name : zwaveNode.productName : "")
             text: qsTr("Are you sure you want to remove this node from the network?")
             standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -495,7 +521,8 @@ SettingsPageBase {
             }
 
             onAccepted: {
-                d.removeNode(zigbeeNode.networkUuid, zigbeeNode.ieeeAddress)
+                zwaveManager.cancelPendingOperation(network.networkUuid)
+                d.removeFailedNode(zwaveNode.networkUuid, zwaveNode.nodeId)
             }
         }
     }
@@ -544,6 +571,16 @@ SettingsPageBase {
                 Label {
                     text: qsTr("Sleepy device")
                 }
+            }
+        }
+    }
+
+    Component {
+        id: addRemoveNodeDialogComponent
+        MeaDialog {
+            standardButtons: Dialog.Cancel
+            onRejected: {
+                zwaveManager.cancelPendingOperation(network.networkUuid)
             }
         }
     }

@@ -41,6 +41,8 @@ class SerialPortsProxy : public QSortFilterProxyModel
     Q_OBJECT
 
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+    Q_PROPERTY(SerialPorts* serialPorts READ serialPorts WRITE setSerialPorts NOTIFY serialPortsChanged)
+    Q_PROPERTY(QString systemLocationFilter READ systemLocationFilter WRITE setSystemLocationFilter NOTIFY systemLocationFilterChanged)
 
 public:
     explicit SerialPortsProxy(QObject *parent = nullptr);
@@ -50,11 +52,21 @@ public:
 
     Q_INVOKABLE SerialPort* get(int index) const;
 
+    QString systemLocationFilter() const;
+    void setSystemLocationFilter(const QString &systemLocationFilter);
+
 signals:
+    void serialPortsChanged();
     void countChanged();
+    void systemLocationFilterChanged();
+
+protected:
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
 private:
     SerialPorts *m_serialPorts = nullptr;
+
+    QString m_systemLocationFilter;
 
 };
 

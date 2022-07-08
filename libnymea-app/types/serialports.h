@@ -43,7 +43,7 @@ class SerialPorts : public QAbstractListModel
 
 public:
     enum Roles {
-        RoleSystmLocation,
+        RoleSystemLocation,
         RoleManufacturer,
         RoleDescription,
         RoleSerialNumber

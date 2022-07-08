@@ -140,6 +140,9 @@
 #include "energy/powerbalancelogs.h"
 #include "energy/thingpowerlogs.h"
 #include "pluginconfigmanager.h"
+#include "zwave/zwavemanager.h"
+#include "zwave/zwavenetwork.h"
+#include "zwave/zwavenode.h"
 
 #include <QtQml/qqml.h>
 
@@ -328,6 +331,13 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<ZigbeeNode>(uri, 1, 0, "ZigbeeNode", "Get it from the ZigbeeNodes");
     qmlRegisterUncreatableType<ZigbeeNodes>(uri, 1, 0, "ZigbeeNodes", "Get it from the ZigbeeNetwork");
     qmlRegisterType<ZigbeeNodesProxy>(uri, 1, 0, "ZigbeeNodesProxy");
+
+    qmlRegisterType<ZWaveManager>(uri, 1, 0, "ZWaveManager");
+    qmlRegisterUncreatableType<ZWaveNetworks>(uri, 1, 0, "ZWaveNetworks", "Get it from ZWaveManager");
+    qmlRegisterUncreatableType<ZWaveNetwork>(uri, 1, 0, "ZWaveNetwork", "Get it from ZWaveNetworks");
+    qmlRegisterUncreatableType<ZWaveNodes>(uri, 1, 0, "ZWaveNodes", "Get it from ZWaveNetwork");
+    qmlRegisterUncreatableType<ZWaveNode>(uri, 1, 0, "ZWaveNode", "Get it from ZWaveNodes");
+    qmlRegisterType<ZWaveNodesProxy>(uri, 1, 0, "ZWaveNodesProxy");
 
     qmlRegisterType<ModbusRtuManager>(uri, 1, 0, "ModbusRtuManager");
     qmlRegisterUncreatableType<ModbusRtuMaster>(uri, 1, 0, "ModbusRtuMaster", "Get it from the ModbusRtuMasters");

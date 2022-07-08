@@ -274,5 +274,8 @@
         <file>ui/images/zigbee/TI.svg</file>
         <file>ui/images/car.svg</file>
         <file>ui/images/sensors/fire.svg</file>
+        <file>ui/images/z-wave.svg</file>
+        <file>ui/images/zwave/z-wave-plus-wide.svg</file>
+        <file>ui/images/zwave/z-wave-wide.svg</file>
     </qresource>
 </RCC>
