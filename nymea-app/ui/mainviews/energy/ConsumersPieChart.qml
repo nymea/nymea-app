@@ -192,7 +192,7 @@ ChartView {
                         color: d.thingsColorMap.hasOwnProperty(consumer) ? d.thingsColorMap[consumer] : "transparent"
                         text: "%1 %2"
                         .arg((consumerDelegate.value / (consumerDelegate.value > 1000 ? 1000 : 1)).toFixed(1))
-                        .arg(consumerDelegate.value > 1000 ? "kWh" : "W")
+                        .arg(consumerDelegate.value > 1000 ? "kW" : "W")
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
                         font: Style.smallFont
