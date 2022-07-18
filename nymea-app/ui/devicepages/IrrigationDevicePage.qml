@@ -77,9 +77,8 @@ ThingPageBase {
 
         var ruleAction = rule.actions.createNewRuleAction();
         ruleAction.thingId = root.thing.id;
-        ruleAction.interfaceName = "power";
-        ruleAction.interfaceAction = "power"
-        ruleAction.ruleActionParams.setRuleActionParamByName("power", false);
+        ruleAction.actionTypeId = root.thing.thingClass.actionTypes.findByName("power").id;
+        ruleAction.ruleActionParams.setRuleActionParam(ruleAction.actionTypeId, false);
         rule.actions.addRuleAction(ruleAction)
 
         d.pendingRuleCreationId = engine.ruleManager.addRule(rule);
