@@ -56,7 +56,7 @@ ChartView {
             value: consumptionBalanceSeries.fromStorage
         }
         PieSlice {
-            color: Style.tileBackgroundColor
+            color: Style.tooltipBackgroundColor
             borderColor: color
             borderWidth: 0
             value: consumptionBalanceSeries.fromGrid == 0 && consumptionBalanceSeries.fromProduction == 0 && consumptionBalanceSeries.fromStorage == 0 ? 1 : 0
