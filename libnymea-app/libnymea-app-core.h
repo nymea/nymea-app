@@ -139,6 +139,7 @@
 #include "energy/energylogs.h"
 #include "energy/powerbalancelogs.h"
 #include "energy/thingpowerlogs.h"
+#include "pluginconfigmanager.h"
 
 #include <QtQml/qqml.h>
 
@@ -250,6 +251,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<Plugin>(uri, 1, 0, "Plugin", "Can't create this in QML. Get it from the Plugins.");
     qmlRegisterUncreatableType<Plugins>(uri, 1, 0, "Plugins", "Can't create this in QML. Get it from the ThingManager.");
     qmlRegisterType<PluginsProxy>(uri, 1, 0, "PluginsProxy");
+    qmlRegisterType<PluginConfigManager>(uri, 1, 0, "PluginConfigManager");
 
     qmlRegisterUncreatableType<NymeaConfiguration>(uri, 1, 0, "NymeaConfiguration", "Get it from Engine");
     qmlRegisterUncreatableType<ServerConfiguration>(uri, 1, 0, "ServerConfiguration", "Get it from NymeaConfiguration");

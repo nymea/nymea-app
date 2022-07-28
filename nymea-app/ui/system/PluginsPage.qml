@@ -51,6 +51,22 @@ SettingsPageBase {
         }
     }
 
+    Button {
+        Layout.fillWidth: true
+        Layout.margins: Style.margins
+        text: qsTr("Install more plugins")
+        visible: packagesFilterModel.count > 0
+        onClicked: {
+            pageStack.push(Qt.resolvedUrl("PackageListPage.qml"), {filter: "nymea-plugin"})
+        }
+        PackagesFilterModel {
+            id: packagesFilterModel
+            packages: engine.systemController.packages
+            nameFilter: "nymea-plugin"
+        }
+
+    }
+
     SettingsPageSectionHeader {
         text: qsTr("Installed integration plugins")
     }

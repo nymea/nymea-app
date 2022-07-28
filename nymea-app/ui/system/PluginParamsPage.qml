@@ -48,7 +48,7 @@ SettingsPageBase {
         HeaderButton {
             imageSource: "../images/tick.svg"
             onClicked: {
-                engine.thingManager.savePluginConfig(root.plugin.pluginId)
+                pluginConfigManager.savePluginConfig()
             }
         }
     }
@@ -66,17 +66,23 @@ SettingsPageBase {
         }
     }
 
+    PluginConfigManager {
+        id: pluginConfigManager
+        engine: _engine
+        plugin: root.plugin
+    }
+
     SettingsPageSectionHeader {
         text: qsTr("Settings")
     }
 
     Repeater {
-        model: plugin.paramTypes
+        model: pluginConfigManager.params
 
         delegate: ParamDelegate {
             Layout.fillWidth: true
-            paramType: root.plugin.paramTypes.get(index)
-            param: root.plugin.params.getParam(model.id)
+            paramType: root.plugin.paramTypes.getParamType(model.id)
+            param: pluginConfigManager.params.getParam(model.id)
         }
     }
 

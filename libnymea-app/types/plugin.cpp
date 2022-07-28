@@ -32,7 +32,7 @@
 
 Plugin::Plugin(QObject *parent) : QObject(parent)
 {
-    m_params = new Params(this);
+
 }
 
 QString Plugin::name() const
@@ -64,14 +64,3 @@ void Plugin::setParamTypes(ParamTypes *paramTypes)
 {
     m_paramTypes = paramTypes;
 }
-
-Params *Plugin::params()
-{
-    return m_params;
-}
-
-void Plugin::setParams(Params *params)
-{
-    m_params = params;
-}
-

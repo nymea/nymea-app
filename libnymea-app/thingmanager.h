@@ -107,7 +107,6 @@ private:
     Q_INVOKABLE void getVendorsResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getThingClassesResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getPluginsResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void getPluginConfigResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getThingsResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void addThingResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void removeThingResponse(int commandId, const QVariantMap &params);
@@ -126,8 +125,6 @@ private:
     Q_INVOKABLE void disconnectIOResponse(int commandId, const QVariantMap &params);
 
 public slots:
-    int savePluginConfig(const QUuid &pluginId);
-
     ThingGroup* createGroup(Interface *interface, ThingsProxy *things);
 
 signals:
@@ -176,8 +173,6 @@ private:
     IOConnections *m_ioConnections;
 
     bool m_fetchingData = true;
-
-    int m_currentGetConfigIndex = 0;
 
     JsonRpcClient *m_jsonClient = nullptr;
 
