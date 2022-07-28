@@ -41,6 +41,7 @@ class PluginsProxy : public QSortFilterProxyModel
     Q_OBJECT
     Q_PROPERTY(Plugins* plugins READ plugins WRITE setPlugins NOTIFY pluginsChanged)
     Q_PROPERTY(bool showOnlyConfigurable READ showOnlyConfigurable WRITE setShowOnlyConfigurable NOTIFY showOnlyConfigurableChanged)
+    Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
 public:
     explicit PluginsProxy(QObject *parent = nullptr);
 
@@ -50,6 +51,9 @@ public:
     bool showOnlyConfigurable() const;
     void setShowOnlyConfigurable(bool showOnlyConfigurable);
 
+    QString filter() const;
+    void setFilter(const QString &filter);
+
     Q_INVOKABLE Plugin* get(int index) const;
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
@@ -57,10 +61,12 @@ protected:
 signals:
     void pluginsChanged();
     void showOnlyConfigurableChanged();
+    void filterChanged();
 
 private:
     Plugins *m_plugins = nullptr;
     bool m_showOnlyConfigurable = false;
+    QString m_filter;
 };
 
 #endif // PLUGINSPROXY_H

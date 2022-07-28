@@ -266,36 +266,6 @@ void ThingManager::getPluginsResponse(int /*commandId*/, const QVariantMap &para
         }
     }
     m_jsonClient->sendCommand("Integrations.GetVendors", this, "getVendorsResponse");
-
-    if (m_plugins->count() > 0) {
-        m_currentGetConfigIndex = 0;
-        QVariantMap configRequestParams;
-        configRequestParams.insert("pluginId", m_plugins->get(m_currentGetConfigIndex)->pluginId());
-        m_jsonClient->sendCommand("Integrations.GetPluginConfiguration", configRequestParams, this, "getPluginConfigResponse");
-    }
-}
-
-void ThingManager::getPluginConfigResponse(int /*commandId*/, const QVariantMap &params)
-{
-//    qDebug() << "plugin config response" << params;
-    Plugin *p = m_plugins->get(m_currentGetConfigIndex);
-    if (!p) {
-        qDebug() << "Received a plugin config for a plugin we don't know";
-        return;
-    }
-    QVariantList pluginParams = params.value("configuration").toList();
-    foreach (const QVariant &paramVariant, pluginParams) {
-        Param* param = new Param();
-        unpackParam(paramVariant.toMap(), param);
-        p->params()->addParam(param);
-    }
-
-    m_currentGetConfigIndex++;
-    if (m_plugins->count() > m_currentGetConfigIndex) {
-        QVariantMap configRequestParams;
-        configRequestParams.insert("pluginId", m_plugins->get(m_currentGetConfigIndex)->pluginId());
-        m_jsonClient->sendCommand("Integrations.GetPluginConfiguration", configRequestParams, this, "getPluginConfigResponse");
-    }
 }
 
 void ThingManager::getThingsResponse(int /*commandId*/, const QVariantMap &params)
@@ -408,23 +378,6 @@ void ThingManager::reconfigureThingResponse(int commandId, const QVariantMap &pa
 {
     qDebug() << "Reconfigure device response" << params;
     emit reconfigureThingReply(commandId, errorFromString(params.value("thingError").toByteArray()), params.value("displayMessage").toString());
-}
-
-int ThingManager::savePluginConfig(const QUuid &pluginId)
-{
-    Plugin *p = m_plugins->getPlugin(pluginId);
-    if (!p) {
-        qWarning()<< "Error: can't find plugin with id" << pluginId;
-        return -1;
-    }
-    QVariantMap params;
-    params.insert("pluginId", pluginId);
-    QVariantList pluginParams;
-    for (int i = 0; i < p->params()->rowCount(); i++) {
-        pluginParams.append(packParam(p->params()->get(i)));
-    }
-    params.insert("configuration", pluginParams);
-    return m_jsonClient->sendCommand("Integrations.SetPluginConfiguration", params, this, "setPluginConfigResponse");
 }
 
 ThingGroup *ThingManager::createGroup(Interface *interface, ThingsProxy *things)

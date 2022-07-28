@@ -59,6 +59,19 @@ void PluginsProxy::setShowOnlyConfigurable(bool showOnlyConfigurable)
     if (m_showOnlyConfigurable != showOnlyConfigurable) {
         m_showOnlyConfigurable = showOnlyConfigurable;
         emit showOnlyConfigurableChanged();
+    }
+}
+
+QString PluginsProxy::filter() const
+{
+    return m_filter;
+}
+
+void PluginsProxy::setFilter(const QString &filter)
+{
+    if (m_filter != filter) {
+        m_filter = filter;
+        emit filterChanged();
         invalidateFilter();
     }
 }
@@ -75,6 +88,12 @@ bool PluginsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_pa
     Plugin *plugin = m_plugins->get(source_row);
     if (m_showOnlyConfigurable) {
         if (plugin->paramTypes()->rowCount() == 0) {
+            return false;
+        }
+    }
+
+    if (!m_filter.isEmpty()) {
+        if (!plugin->name().toLower().contains(m_filter.toLower())) {
             return false;
         }
     }

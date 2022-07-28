@@ -43,7 +43,6 @@ class Plugin : public QObject
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QUuid pluginId READ pluginId CONSTANT)
     Q_PROPERTY(ParamTypes *paramTypes READ paramTypes CONSTANT)
-    Q_PROPERTY(Params *params READ params CONSTANT)
 
 public:
     explicit Plugin(QObject *parent = 0);
@@ -57,14 +56,10 @@ public:
     ParamTypes *paramTypes();
     void setParamTypes(ParamTypes *paramTypes);
 
-    Params *params();
-    void setParams(Params *params);
-
 private:
     QString m_name;
     QUuid m_pluginId;
     ParamTypes *m_paramTypes = nullptr;
-    Params *m_params = nullptr;
 };
 
 #endif // PLUGIN_H
