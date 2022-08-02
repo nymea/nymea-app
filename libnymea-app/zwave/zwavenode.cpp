@@ -32,6 +32,31 @@ void ZWaveNode::setNodeType(ZWaveNodeType nodeType)
     }
 }
 
+QString ZWaveNode::nodeTypeString() const
+{
+    QMetaEnum metaEnum = QMetaEnum::fromType<ZWaveNode::ZWaveNodeType>();
+    return QString(metaEnum.valueToKey(m_nodeType)).remove(QRegExp("^ZWaveNodeType"));
+}
+
+ZWaveNode::ZWaveNodeRole ZWaveNode::role() const
+{
+    return m_role;
+}
+
+void ZWaveNode::setRole(ZWaveNodeRole role)
+{
+    if (m_role != role) {
+        m_role = role;
+        emit roleChanged();
+    }
+}
+
+QString ZWaveNode::roleString() const
+{
+    QMetaEnum metaEnum = QMetaEnum::fromType<ZWaveNode::ZWaveNodeRole>();
+    return QString(metaEnum.valueToKey(m_role)).remove(QRegExp("^ZWaveNodeRole"));
+}
+
 ZWaveNode::ZWaveDeviceType ZWaveNode::deviceType() const
 {
     return m_deviceType;
@@ -45,7 +70,7 @@ void ZWaveNode::setDeviceType(ZWaveDeviceType deviceType)
 QString ZWaveNode::deviceTypeString() const
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<ZWaveNode::ZWaveDeviceType>();
-    return metaEnum.valueToKey(m_deviceType);
+    return QString(metaEnum.valueToKey(m_deviceType)).remove(QRegExp("^ZWaveDeviceType"));
 }
 
 quint16 ZWaveNode::manufacturerId() const
@@ -188,6 +213,19 @@ void ZWaveNode::setSleeping(bool sleeping)
     if (m_sleeping != sleeping) {
         m_sleeping = sleeping;
         emit sleepingChanged();
+    }
+}
+
+quint8 ZWaveNode::linkQuality() const
+{
+    return m_linkQuality;
+}
+
+void ZWaveNode::setLinkQuality(quint8 linkQuality)
+{
+    if (m_linkQuality != linkQuality) {
+        m_linkQuality = linkQuality;
+        emit linkQualityChanged();
     }
 }
 

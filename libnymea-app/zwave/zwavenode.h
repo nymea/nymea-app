@@ -15,7 +15,11 @@ class ZWaveNode : public QObject
     Q_PROPERTY(bool reachable READ reachable NOTIFY reachableChanged)
     Q_PROPERTY(bool failed READ failed NOTIFY failedChanged)
     Q_PROPERTY(bool sleeping READ sleeping NOTIFY sleepingChanged)
+    Q_PROPERTY(quint8 linkQuality READ linkQuality NOTIFY linkQualityChanged)
     Q_PROPERTY(ZWaveNodeType nodeType READ nodeType NOTIFY nodeTypeChanged)
+    Q_PROPERTY(QString nodeTypeString READ nodeTypeString NOTIFY nodeTypeChanged)
+    Q_PROPERTY(ZWaveNodeRole role READ role NOTIFY roleChanged)
+    Q_PROPERTY(QString roleString READ roleString NOTIFY roleChanged)
     Q_PROPERTY(ZWaveDeviceType deviceType READ deviceType NOTIFY deviceTypeChanged)
     Q_PROPERTY(QString deviceTypeString READ deviceTypeString NOTIFY deviceTypeChanged)
     Q_PROPERTY(quint16 manufacturerId READ manufacturerId NOTIFY manufacturerIdChanged)
@@ -36,6 +40,19 @@ public:
         ZWaveNodeTypeRoutingSlave = 0x04,
     };
     Q_ENUM(ZWaveNodeType)
+
+    enum ZWaveNodeRole {
+        ZWaveNodeRoleUnknown = -0x01,
+        ZWaveNodeRoleCentralController = 0x00,
+        ZWaveNodeRoleSubController = 0x01,
+        ZWaveNodeRolePortableController = 0x02,
+        ZWaveNodeRolePortableReportingController = 0x03,
+        ZWaveNodeRolePortableSlave = 0x04,
+        ZWaveNodeRoleAlwaysOnSlabe = 0x05,
+        ZWaveNodeRoleReportingSleepingSlave = 0x06,
+        ZWaveNodeRoleListeningSleepingSlave = 0x07
+    };
+    Q_ENUM(ZWaveNodeRole)
 
     enum ZWaveDeviceType {
         ZWaveDeviceTypeUnknown = 0x0000,
@@ -133,12 +150,19 @@ public:
     bool sleeping() const;
     void setSleeping(bool sleeping);
 
+    quint8 linkQuality() const;
+    void setLinkQuality(quint8 linkQuality);
+
     ZWaveNodeType nodeType() const;
     void setNodeType(ZWaveNodeType nodeType);
+    QString nodeTypeString() const;
+
+    ZWaveNodeRole role() const;
+    void setRole(ZWaveNodeRole role);
+    QString roleString() const;
 
     ZWaveDeviceType deviceType() const;
     void setDeviceType(ZWaveDeviceType deviceType);
-
     QString deviceTypeString() const;
 
 //    PlusDeviceType plusDeviceType() const;
@@ -172,8 +196,10 @@ signals:
     void reachableChanged();
     void failedChanged();
     void sleepingChanged();
+    void linkQualityChanged();
     void nodeTypeChanged();
     void deviceTypeChanged();
+    void roleChanged();
     void plusDeviceTypeChanged();
     void manufacturerIdChanged();
 
@@ -193,8 +219,10 @@ private:
     bool m_reachable = false;
     bool m_failed = false;
     bool m_sleeping = false;
+    quint8 m_linkQuality = 0;
 
     ZWaveNodeType m_nodeType = ZWaveNodeTypeUnknown;
+    ZWaveNodeRole m_role = ZWaveNodeRoleUnknown;
     ZWaveDeviceType m_deviceType = ZWaveDeviceTypeUnknown;
     quint16 m_manufacturerId = 0;
     QString m_manufacturerName;

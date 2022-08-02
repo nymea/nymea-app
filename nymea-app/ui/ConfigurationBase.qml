@@ -14,6 +14,7 @@ Item {
     property bool mqttSettingsEnabled: false
     property bool webServerSettingsEnabled: false
     property bool zigbeeSettingsEnabled: false
+    property bool zwaveSettingsEnabled: false
     property bool modbusSettingsEnabled: false
     property bool pluginSettingsEnabled: false
 

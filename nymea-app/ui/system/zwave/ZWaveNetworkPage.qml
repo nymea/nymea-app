@@ -277,19 +277,25 @@ SettingsPageBase {
                 paramsFilter: {"networkUuid": nodeDelegate.node.networkUuid, "nodeId": nodeDelegate.node.nodeId}
             }
             readonly property Thing nodeThing: nodeThings.count >= 1 ? nodeThings.get(0) : null
-            property int signalStrength: node ? Math.round(node.lqi * 100.0 / 255.0) : 0
 
             Layout.fillWidth: true
             text: node.productName + " - " + node.manufacturerName// nodeThing ? nodeThing.name : node.model
             subText: node.state == ZigbeeNode.ZigbeeNodeStateInitializing ?
                          qsTr("Initializing...")
                        : nodeThings.count == 1 ? nodeThing.name :
-                                                 nodeThings.count > 1 ? qsTr("%1 things").arg(nodeThings.count) : qsTr("Unrecognized device")
+                                                 nodeThings.count > 1 ? qsTr("%1 things").arg(nodeThings.count)
+                                                                      : node.nodeType == ZWaveNode.ZWaveNodeTypeStaticController || node.nodeType == ZWaveNode.ZWaveNodeTypeController
+                                                                        ? qsTr("Network controller") : qsTr("Unrecognized device")
             iconName: nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "/ui/images/z-wave.svg"
-            iconColor: busy ? Style.tileOverlayColor
-                            : node.failed ? Style.red
-                                     : nodeThing != null ? Style.accentColor
-                                                         : Style.iconColor
+            iconColor: busy
+                       ? Style.tileOverlayColor
+                       : node.nodeType == ZWaveNode.ZWaveNodeTypeController || node.nodeType == ZWaveNode.ZWaveNodeTypeStaticController
+                         ? Style.green
+                         : node.failed
+                           ? Style.red
+                           : nodeThing != null
+                             ? Style.accentColor
+                             : Style.iconColor
             progressive: false
 
             busy: !node.initialized
@@ -300,22 +306,22 @@ SettingsPageBase {
                 dialog.open()
             }
 
-            secondaryIconName: node && !node.sleeping ? "/ui/images/system-suspend.svg" : ""
+            secondaryIconName: node && node.sleeping ? "/ui/images/system-suspend.svg" : ""
 
             tertiaryIconName: {
                 if (!node || !node.reachable)
                     return "/ui/images/connections/nm-signal-00.svg"
 
-                if (signalStrength <= 25)
+                if (node.linkQuality <= 25)
                     return "/ui/images/connections/nm-signal-25.svg"
 
-                if (signalStrength <= 50)
+                if (node.linkQuality <= 50)
                     return "/ui/images/connections/nm-signal-50.svg"
 
-                if (signalStrength <= 75)
+                if (node.linkQuality <= 75)
                     return "/ui/images/connections/nm-signal-75.svg"
 
-                if (signalStrength <= 100)
+                if (node.linkQuality <= 100)
                     return "/ui/images/connections/nm-signal-100.svg"
             }
 
@@ -412,10 +418,31 @@ SettingsPageBase {
                 }
                 Label {
                     Layout.fillWidth: true
-                    text: nodeInfoDialog.node.deviceTypeString.replace(/ZWaveDeviceType/, "")
+                    text: nodeInfoDialog.node.deviceTypeString
                     font: Style.smallFont
                     horizontalAlignment: Text.AlignRight
                 }
+                Label {
+                    text: qsTr("Node type:")
+                    font: Style.smallFont
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: nodeInfoDialog.node.nodeTypeString
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
+                }
+                Label {
+                    text: qsTr("Role:")
+                    font: Style.smallFont
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: nodeInfoDialog.node.roleString
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
+                }
+
                 Label {
                     text: qsTr("Z-Wave plus:")
                     font: Style.smallFont
@@ -432,7 +459,7 @@ SettingsPageBase {
                 }
                 Label {
                     Layout.fillWidth: true
-                    text: (nodeInfoDialog.node.lqi * 100 / 255).toFixed(0) + " %"
+                    text: nodeInfoDialog.node.linkQuality + " %"
                     font: Style.smallFont
                     horizontalAlignment: Text.AlignRight
                 }
@@ -477,13 +504,11 @@ SettingsPageBase {
                 Layout.fillWidth: true
 
                 Button {
-    //                    size: Style.iconSize
-                    visible: node && node.type !== ZigbeeNode.ZigbeeNodeTypeCoordinator
-    //                    imageSource: "/ui/images/delete.svg"
+                    visible: node && node.nodeType !== ZWaveNode.ZWaveNodeTypeController && node.failed
                     text: qsTr("Remove")
                     Layout.alignment: Qt.AlignLeft
                     onClicked: {
-                        var dialog = removeZigbeeNodeDialogComponent.createObject(app, {zigbeeNode: node})
+                        var dialog = removeZWaveNodeDialogComponent.createObject(app, {zwaveNode: node})
                         dialog.open()
                         nodeInfoDialog.close()
                     }
