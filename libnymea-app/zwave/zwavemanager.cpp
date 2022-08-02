@@ -315,9 +315,12 @@ ZWaveNode *ZWaveManager::unpackNode(const QVariantMap &nodeMap, ZWaveNode *node)
     node->setReachable(nodeMap.value("reachable").toBool());
     node->setFailed(nodeMap.value("failed").toBool());
     node->setSleeping(nodeMap.value("sleeping").toBool());
+    node->setLinkQuality(nodeMap.value("linkQuality").toUInt());
 
     QMetaEnum nodeTypeEnum = QMetaEnum::fromType<ZWaveNode::ZWaveNodeType>();
     node->setNodeType(static_cast<ZWaveNode::ZWaveNodeType>(nodeTypeEnum.keyToValue(nodeMap.value("nodeType").toByteArray())));
+    QMetaEnum roleEnum = QMetaEnum::fromType<ZWaveNode::ZWaveNodeRole>();
+    node->setRole(static_cast<ZWaveNode::ZWaveNodeRole>(roleEnum.keyToValue(nodeMap.value("role").toByteArray())));
     QMetaEnum deviceTypeEnum = QMetaEnum::fromType<ZWaveNode::ZWaveDeviceType>();
     node->setDeviceType(static_cast<ZWaveNode::ZWaveDeviceType>(deviceTypeEnum.keyToValue(nodeMap.value("deviceType").toByteArray())));
 

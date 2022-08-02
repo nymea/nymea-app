@@ -14,6 +14,7 @@ ConfigurationBase {
     mqttSettingsEnabled: true
     webServerSettingsEnabled: true
     zigbeeSettingsEnabled: true
+    zwaveSettingsEnabled: true
     modbusSettingsEnabled: true
     pluginSettingsEnabled: true
 
