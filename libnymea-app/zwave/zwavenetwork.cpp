@@ -72,6 +72,19 @@ void ZWaveNetwork::setIsStaticUpdateController(bool isStaticUpdateController)
     }
 }
 
+bool ZWaveNetwork::isBridgeController() const
+{
+    return m_isBridgeController;
+}
+
+void ZWaveNetwork::setIsBridgeController(bool isBridgeController)
+{
+    if (m_isBridgeController != isBridgeController) {
+        m_isBridgeController = isBridgeController;
+        emit isBridgeControllerChanged();
+    }
+}
+
 bool ZWaveNetwork::waitingForNodeAddition() const
 {
     return m_waitingForNodeAddition;

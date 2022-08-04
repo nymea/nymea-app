@@ -201,19 +201,6 @@ SettingsPageBase {
                 }
             }
         }
-
-        RowLayout {
-            Layout.fillWidth: true
-
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Controller type")
-            }
-
-            Label {
-                text: network.isPrimaryController ? qsTr("Primary") : qsTr("Secondary") + (network.isStaticUpdateController ? ", " + qsTr("Static") : "")
-            }
-        }
     }
 
     SettingsPageSectionHeader {
@@ -255,7 +242,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.margins: Style.margins
         horizontalAlignment: Text.AlignHCenter
-        text: qsTr("There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.")
+        text: qsTr("There are no Z-Wave devices connected yet. Open the network for new devices to join and start the pairing procedure from the Z-Wave device. Please refer to the devices manual for more information on how to start the pairing.")
         wrapMode: Text.WordWrap
         visible: nodesModel.count === 0
     }
@@ -301,6 +288,7 @@ SettingsPageBase {
             busy: !node.initialized
 
             canDelete: node.failed
+//            canDelete: true
             onDeleteClicked: {
                 var dialog = removeZWaveNodeDialogComponent.createObject(app, {zwaveNode: node})
                 dialog.open()
