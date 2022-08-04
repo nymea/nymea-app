@@ -131,6 +131,15 @@ SettingsPageBase {
         progressive: false
     }
 
+    NymeaItemDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Controller type")
+        subText: network.isPrimaryController ? qsTr("Primary") : qsTr("Secondary")
+                                               + (network.isStaticUpdateController ? ", " + qsTr("Static") : "")
+                                               + (network.isBridgeController ? ", " + qsTr("Bridge") : "")
+        progressive: false
+    }
+
     SettingsPageSectionHeader {
         text: qsTr("Hardware information")
     }

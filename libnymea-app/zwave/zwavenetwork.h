@@ -17,6 +17,7 @@ class ZWaveNetwork : public QObject
     Q_PROPERTY(bool isZWavePlus READ isZWavePlus NOTIFY isZWavePlusChanged)
     Q_PROPERTY(bool isPrimaryController READ isPrimaryController NOTIFY isPrimaryControllerChanged)
     Q_PROPERTY(bool isStaticUpdateController READ isStaticUpdateController NOTIFY isStaticUpdateControllerChanged)
+    Q_PROPERTY(bool isBridgeController READ isBridgeController NOTIFY isBridgeControllerChanged)
     Q_PROPERTY(bool waitingForNodeAddition READ waitingForNodeAddition NOTIFY waitingForNodeAdditionChanged)
     Q_PROPERTY(bool waitingForNodeRemoval READ waitingForNodeRemoval NOTIFY waitingForNodeRemovalChanged)
     Q_PROPERTY(ZWaveNetworkState networkState READ networkState NOTIFY networkStateChanged)
@@ -47,6 +48,9 @@ public:
     bool isStaticUpdateController() const;
     void setIsStaticUpdateController(bool isStaticUpdateController);
 
+    bool isBridgeController() const;
+    void setIsBridgeController(bool isBridgeController);
+
     bool waitingForNodeAddition() const;
     void setWaitingForNodeAddition(bool waitingForNodeAddition);
 
@@ -67,6 +71,7 @@ signals:
     void isZWavePlusChanged();
     void isPrimaryControllerChanged();
     void isStaticUpdateControllerChanged();
+    void isBridgeControllerChanged();
     void waitingForNodeAdditionChanged();
     void waitingForNodeRemovalChanged();
 
@@ -77,6 +82,7 @@ private:
     bool m_isZWavePlus = false;
     bool m_isPrimaryController = false;
     bool m_isStaticUpdateController = false;
+    bool m_isBridgeController = false;
     bool m_waitingForNodeAddition = false;
     bool m_waitingForNodeRemoval = false;
     ZWaveNetworkState m_networkState = ZWaveNetworkStateOffline;
