@@ -84,12 +84,6 @@ void ZWaveManager::cancelPendingOperation(const QUuid &networkUuid)
     m_engine->jsonRpcClient()->sendCommand("ZWave.CancelPendingOperation", {{"networkUuid", networkUuid}}, this, "cancelPendingOperationResponse");
 }
 
-int ZWaveManager::softResetController(const QUuid &networkUuid)
-{
-    QVariantMap params = {{"networkUuid", networkUuid}};
-    return m_engine->jsonRpcClient()->sendCommand("ZWave.SoftResetController", params, this, "softResetControllerResponse");
-}
-
 int ZWaveManager::factoryResetNetwork(const QUuid &networkUuid)
 {
     QVariantMap params = {{"networkUuid", networkUuid}};
@@ -333,6 +327,8 @@ ZWaveNode *ZWaveManager::unpackNode(const QVariantMap &nodeMap, ZWaveNode *node)
     node->setVersion(nodeMap.value("version").toUInt());
 
     node->setIsZWavePlus(nodeMap.value("isZWavePlus").toBool());
+    node->setIsSecure(nodeMap.value("isSecure").toBool());
+    node->setIsBeaming(nodeMap.value("isBeaming").toBool());
 
 
     return node;

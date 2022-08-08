@@ -30,6 +30,8 @@ class ZWaveNode : public QObject
     Q_PROPERTY(quint16 productType READ productType NOTIFY productTypeChanged)
     Q_PROPERTY(quint8 version READ version NOTIFY versionChanged)
     Q_PROPERTY(bool isZWavePlus READ isZWavePlus NOTIFY isZWavePlusChanged)
+    Q_PROPERTY(bool isSecure READ isSecure NOTIFY isSecureChanged)
+    Q_PROPERTY(bool isBeaming READ isBeaming NOTIFY isBeamingChanged)
 
 public:
     enum ZWaveNodeType {
@@ -191,6 +193,12 @@ public:
     bool isZWavePlus() const;
     void setIsZWavePlus(bool isZWavePlus);
 
+    bool isSecure() const;
+    void setIsSecure(bool isSecure);
+
+    bool isBeaming() const;
+    void setIsBeaming(bool isBeaming);
+
 signals:
     void initializedChanged();
     void reachableChanged();
@@ -210,6 +218,8 @@ signals:
     void productTypeChanged();
     void versionChanged();
     void isZWavePlusChanged();
+    void isSecureChanged();
+    void isBeamingChanged();
 
 private:
     quint8 m_nodeId = 0;
@@ -232,6 +242,8 @@ private:
     quint16 m_productType = 0;
     quint8 m_version = 0;
     bool m_isZWavePlus = false;
+    bool m_isSecure = false;
+    bool m_isBeaming = false;
 };
 
 class ZWaveNodes: public QAbstractListModel

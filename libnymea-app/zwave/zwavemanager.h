@@ -76,7 +76,6 @@ public:
     Q_INVOKABLE int removeNetwork(const QUuid &networkUuid);
     Q_INVOKABLE void addNode(const QUuid &networkUuid);
     Q_INVOKABLE void cancelPendingOperation(const QUuid &networkUuid);
-    Q_INVOKABLE int softResetController(const QUuid &networkUuid);
     Q_INVOKABLE int factoryResetNetwork(const QUuid &networkUuid);
 //    Q_INVOKABLE void getNodes(const QUuid &networkUuid);
     Q_INVOKABLE int removeNode(const QUuid &networkUuid);

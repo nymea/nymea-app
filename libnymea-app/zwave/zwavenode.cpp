@@ -177,6 +177,32 @@ void ZWaveNode::setIsZWavePlus(bool isZWavePlus)
     }
 }
 
+bool ZWaveNode::isSecure() const
+{
+    return m_isSecure;
+}
+
+void ZWaveNode::setIsSecure(bool isSecure)
+{
+    if (m_isSecure != isSecure) {
+        m_isSecure = isSecure;
+        emit isSecureChanged();
+    }
+}
+
+bool ZWaveNode::isBeaming() const
+{
+    return m_isBeaming;
+}
+
+void ZWaveNode::setIsBeaming(bool isBeaming)
+{
+    if (m_isBeaming != isBeaming) {
+        m_isBeaming = isBeaming;
+        emit isBeamingChanged();
+    }
+}
+
 bool ZWaveNode::reachable() const
 {
     return m_reachable;
