@@ -163,16 +163,6 @@ SettingsPageBase {
             Layout.fillWidth: true
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
-            text: qsTr("Reboot controller")
-            onClicked: {
-                d.pendingCommandId = root.zwaveManager.softResetController(root.network.networkUuid)
-            }
-        }
-
-        Button {
-            Layout.fillWidth: true
-            Layout.leftMargin: app.margins
-            Layout.rightMargin: app.margins
             text: qsTr("Remove network")
             onClicked: {
                 d.pendingCommandId = root.zwaveManager.removeNetwork(root.network.networkUuid)

@@ -297,22 +297,21 @@ SettingsPageBase {
             secondaryIconName: node && node.sleeping ? "/ui/images/system-suspend.svg" : ""
 
             tertiaryIconName: {
-                if (!node || !node.reachable)
-                    return "/ui/images/connections/nm-signal-00.svg"
+                var signalStrength = "00";
 
-                if (node.linkQuality <= 25)
-                    return "/ui/images/connections/nm-signal-25.svg"
-
-                if (node.linkQuality <= 50)
-                    return "/ui/images/connections/nm-signal-50.svg"
-
-                if (node.linkQuality <= 75)
-                    return "/ui/images/connections/nm-signal-75.svg"
-
-                if (node.linkQuality <= 100)
-                    return "/ui/images/connections/nm-signal-100.svg"
+                if (!node || !node.reachable) {
+                    signalStrength = "00";
+                } else if (node.linkQuality <= 25) {
+                    signalStrength = "25"
+                } else if (node.linkQuality <= 50) {
+                    signalStrength = "50"
+                } else if (node.linkQuality <= 75) {
+                    signalStrength = "75"
+                } else {
+                    signalStrength = "100"
+                }
+                return "/ui/images/connections/nm-signal-" + signalStrength + (node.isSecure ? "-secure" : "") +".svg"
             }
-
 
             tertiaryIconColor: node.reachable ? Style.iconColor : Style.red
 
@@ -438,6 +437,26 @@ SettingsPageBase {
                 Label {
                     Layout.fillWidth: true
                     text: nodeInfoDialog.node.isZWavePlus ? qsTr("Yes") : qsTr("No")
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
+                }
+                Label {
+                    text: qsTr("Security supported:")
+                    font: Style.smallFont
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: nodeInfoDialog.node.isSecure ? qsTr("Yes") : qsTr("No")
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
+                }
+                Label {
+                    text: qsTr("Beaming supported:")
+                    font: Style.smallFont
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: nodeInfoDialog.node.isBeaming ? qsTr("Yes") : qsTr("No")
                     font: Style.smallFont
                     horizontalAlignment: Text.AlignRight
                 }
