@@ -46,6 +46,7 @@ class ZWaveManager : public QObject
     Q_OBJECT
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
     Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
+    Q_PROPERTY(bool zwaveAvailable READ zwaveAvailable NOTIFY zwaveAvailableChanged)
 
     Q_PROPERTY(SerialPorts *serialPorts READ serialPorts CONSTANT)
     Q_PROPERTY(ZWaveNetworks *networks READ networks CONSTANT)
@@ -68,6 +69,7 @@ public:
     Engine *engine() const;
 
     bool fetchingData() const;
+    bool zwaveAvailable() const;
 
     SerialPorts *serialPorts() const;
     ZWaveNetworks *networks() const;
@@ -84,6 +86,7 @@ public:
 signals:
     void engineChanged();
     void fetchingDataChanged();
+    void zwaveAvailableChanged();
     void addNetworkReply(int commandId, ZWaveManager::ZWaveError error, const QUuid &networkUuid);
     void removeNetworkReply(int commandId, ZWaveManager::ZWaveError error);
     void cancelPendingOperationReply(int commandId, ZWaveManager::ZWaveError error);
@@ -96,6 +99,7 @@ signals:
 private:
     void init();
 
+    Q_INVOKABLE void isZWaveAvailableResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getSerialPortsResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getNetworksResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void getNodesResponse(int commandId, const QVariantMap &params);
@@ -115,6 +119,7 @@ private:
 private:
     Engine* m_engine = nullptr;
     bool m_fetchingData = false;
+    bool m_zwaveAvailable = false;
     SerialPorts *m_serialPorts = nullptr;
     ZWaveNetworks *m_networks = nullptr;
 
