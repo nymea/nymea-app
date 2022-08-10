@@ -1,3 +1,10 @@
+nymea-app (1.3.13) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Show an appropriate message if Z-Wave is not available on the system
+
+ -- jenkins <developer@nymea.io>  Wed, 10 Aug 2022 10:39:41 +0200
+
 nymea-app (1.3.12) bionic; urgency=medium
 
   [ Michael Zanetti ]
