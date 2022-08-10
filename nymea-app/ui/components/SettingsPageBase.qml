@@ -48,7 +48,7 @@ Page {
 
     Flickable {
         anchors.fill: parent
-        contentHeight: contentColumn.height + app.margins
+        contentHeight: contentColumn.height + Style.margins
         interactive: contentHeight > height
         clip: true
 

@@ -50,6 +50,11 @@ bool ZWaveManager::fetchingData() const
     return m_fetchingData;
 }
 
+bool ZWaveManager::zwaveAvailable() const
+{
+    return m_zwaveAvailable;
+}
+
 SerialPorts *ZWaveManager::serialPorts() const
 {
     return m_serialPorts;
@@ -103,6 +108,9 @@ int ZWaveManager::removeFailedNode(const QUuid &networkUuid, int nodeId)
 
 void ZWaveManager::init()
 {
+    m_zwaveAvailable = false;
+    emit zwaveAvailableChanged();
+
     m_fetchingData = true;
     emit fetchingDataChanged();
 
@@ -111,9 +119,16 @@ void ZWaveManager::init()
 
     m_engine->jsonRpcClient()->registerNotificationHandler(this, "ZWave", "notificationReceived");
 
+    m_engine->jsonRpcClient()->sendCommand("ZWave.IsZWaveAvailable", this, "isZWaveAvailableResponse");
     m_engine->jsonRpcClient()->sendCommand("ZWave.GetSerialPorts", this, "getSerialPortsResponse");
-    m_engine->jsonRpcClient()->sendCommand("ZWave.GetNetworks", this, "getNetworksResponse");
+    m_engine->jsonRpcClient()->sendCommand("ZWave.GetNetworks", this, "getNetworksResponse");    
+}
 
+void ZWaveManager::isZWaveAvailableResponse(int commandId, const QVariantMap &params)
+{
+    Q_UNUSED(commandId)
+    m_zwaveAvailable = params.value("available").toBool();
+    emit zwaveAvailableChanged();
 }
 
 void ZWaveManager::getSerialPortsResponse(int commandId, const QVariantMap &params)

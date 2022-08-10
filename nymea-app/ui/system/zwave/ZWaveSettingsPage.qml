@@ -64,8 +64,8 @@ SettingsPageBase {
 
     Item {
         Layout.fillWidth: true
-        Layout.preferredHeight: root.height
-        visible: zwaveManager.fetchingData || zwaveManager.networks.count == 0
+        Layout.preferredHeight: root.height - root.header.height - Style.margins
+        visible: !zwaveManager.fetchingData || !zwaveManager.zwaveAvailable || zwaveManager.networks.count == 0
 
         BusyIndicator {
             anchors.centerIn: parent
@@ -74,12 +74,15 @@ SettingsPageBase {
         }
 
         EmptyViewPlaceholder {
-            visible: !zwaveManager.fetchingData && zwaveManager.networks.count == 0
+            visible: !zwaveManager.fetchingData
             width: parent.width - app.margins * 2
             anchors.centerIn: parent
             title: qsTr("Z-Wave")
-            text: qsTr("There are no Z-Wave networks set up yet. In order to use Z-Wave, create a Z-Wave network.")
+            text: zwaveManager.zwaveAvailable
+                  ? qsTr("There are no Z-Wave networks set up yet. In order to use Z-Wave, create a Z-Wave network.")
+                  : qsTr("Z-Wave is not available on this system as no Z-Wave backend is installed.")
             imageSource: "/ui/images/z-wave.svg"
+            buttonVisible: zwaveManager.zwaveAvailable
             buttonText: qsTr("Add network")
             onButtonClicked: {
                 addNetwork()
@@ -90,6 +93,7 @@ SettingsPageBase {
 
     ColumnLayout {
         Layout.margins: app.margins / 2
+        visible: !zwaveManager.fetchingData && zwaveManager.zwaveAvailable && zwaveManager.networks.count > 0
         Repeater {
             model: zwaveManager.networks
             delegate: BigTile {
