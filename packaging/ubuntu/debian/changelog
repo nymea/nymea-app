@@ -1,3 +1,10 @@
+nymea-app (1.3.14) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes in the Energy View if there is only a producer
+
+ -- jenkins <developer@nymea.io>  Fri, 12 Aug 2022 00:18:40 +0200
+
 nymea-app (1.3.13) bionic; urgency=medium
 
   [ Michael Zanetti ]
