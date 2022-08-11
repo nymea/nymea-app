@@ -1939,7 +1939,7 @@
     </message>
     <message>
         <source>To get an overview of your current energy usage, install an energy meter.</source>
-        <translation>Installiere ein Energiemessgerät um eine Übersicht über Deinen Energieverbrauch zu erhalten.</translation>
+        <translation type="vanished">Installiere ein Energiemessgerät um eine Übersicht über Deinen Energieverbrauch zu erhalten.</translation>
     </message>
     <message>
         <source>Energy plugin not installed installed.</source>
@@ -1947,7 +1947,7 @@
     </message>
     <message>
         <source>This %1 system does not have the energy extensions installed.</source>
-        <translation>Auf diesem %1 System ist die Energieerweiterung nicht installiert.</translation>
+        <translation type="vanished">Auf diesem %1 System ist die Energieerweiterung nicht installiert.</translation>
     </message>
     <message>
         <source>Install energy plugin</source>
@@ -1956,6 +1956,14 @@
     <message>
         <source>Energy plugin not installed.</source>
         <translation>Das Energie-Plugin ist nicht installiert.</translation>
+    </message>
+    <message>
+        <source>To get an overview of your current energy usage, install the energy plugin.</source>
+        <translation>Um einen Überblick über Deinen Energieverbrauch zu bekommen, installiere das Energy-Plugin.</translation>
+    </message>
+    <message>
+        <source>To get an overview of your current energy usage, set up an energy meter.</source>
+        <translation>Um einen Überblick über deinen Energieverbrauch zu bekommen, richte einen Stromgzähler ein.</translation>
     </message>
 </context>
 <context>
@@ -5459,6 +5467,10 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Installed integration plugins</source>
         <translation>Installierte Integrationen</translation>
+    </message>
+    <message>
+        <source>Install more plugins</source>
+        <translation>Weitere Plugins installieren</translation>
     </message>
 </context>
 <context>

@@ -170,7 +170,7 @@ MainViewBase {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
                     energyManager: energyManager
-                    visible: rootMeter != null
+                    visible: rootMeter != null || producers.count > 0
                     producers: producers
                 }
 
@@ -191,7 +191,7 @@ MainViewBase {
         width: parent.width - app.margins * 2
         visible: !engine.thingManager.fetchingData && (!engine.jsonRpcClient.experiences.hasOwnProperty("Energy") || engine.jsonRpcClient.experiences["Energy"] <= "0.1")
         title: qsTr("Energy plugin not installed.")
-        text: qsTr("This %1 system does not have the energy extensions installed.").arg(Configuration.systemName)
+        text: qsTr("To get an overview of your current energy usage, install the energy plugin.")
         imageSource: "../images/smartmeter.svg"
         buttonText: qsTr("Install energy plugin")
         buttonVisible: packagesFilterModel.count > 0
@@ -205,9 +205,9 @@ MainViewBase {
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
-        visible: engine.jsonRpcClient.experiences["Energy"] >= "0.2" && !engine.thingManager.fetchingData && energyMeters.count == 0 && consumers.count == 0
+        visible: engine.jsonRpcClient.experiences["Energy"] >= "0.2" && !engine.thingManager.fetchingData && energyMeters.count == 0 && consumers.count == 0 && producers.count == 0
         title: qsTr("There are no energy meters installed.")
-        text: qsTr("To get an overview of your current energy usage, install an energy meter.")
+        text: qsTr("To get an overview of your current energy usage, set up an energy meter.")
         imageSource: "../images/smartmeter.svg"
         buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))

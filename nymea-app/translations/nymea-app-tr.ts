@@ -1926,11 +1926,7 @@
     </message>
     <message>
         <source>To get an overview of your current energy usage, install an energy meter.</source>
-        <translation>Mevcut enerji kullanımınıza genel bir bakış için bir enerji sayacı kurun.</translation>
-    </message>
-    <message>
-        <source>This %1 system does not have the energy extensions installed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Mevcut enerji kullanımınıza genel bir bakış için bir enerji sayacı kurun.</translation>
     </message>
     <message>
         <source>Install energy plugin</source>
@@ -1938,6 +1934,14 @@
     </message>
     <message>
         <source>Energy plugin not installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get an overview of your current energy usage, install the energy plugin.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get an overview of your current energy usage, set up an energy meter.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5383,6 +5387,10 @@ Do you want to proceed?</source>
     <message>
         <source>Installed integration plugins</source>
         <translation>Yüklü entegrasyon eklentileri</translation>
+    </message>
+    <message>
+        <source>Install more plugins</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
