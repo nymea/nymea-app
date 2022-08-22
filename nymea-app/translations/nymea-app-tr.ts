@@ -7436,6 +7436,18 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <source>Factory reset controller</source>
         <translation type="unfinished">Fabrika ayarlarına sıfırlama denetleyicisi</translation>
     </message>
+    <message>
+        <source>Are you sure you want to factory reset the controller? This will recreate the network and remove all associated devices from the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove the network and all associated devices from the system?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ZWaveSettingsPage</name>
@@ -7831,6 +7843,18 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>Factory reset controller</source>
         <translation>Fabrika ayarlarına sıfırlama denetleyicisi</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to factory reset the controller? This will recreate the network and remove all associated devices from the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove the network and all associated devices from the system?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

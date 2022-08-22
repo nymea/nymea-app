@@ -7344,6 +7344,18 @@ Please only use this if you are sure you want this and consider reporting the is
         <source>Factory reset controller</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Are you sure you want to factory reset the controller? This will recreate the network and remove all associated devices from the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove the network and all associated devices from the system?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ZWaveSettingsPage</name>
@@ -7730,6 +7742,18 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Factory reset controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to factory reset the controller? This will recreate the network and remove all associated devices from the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove the network and all associated devices from the system?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

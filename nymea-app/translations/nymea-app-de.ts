@@ -7558,6 +7558,18 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <source>Factory reset controller</source>
         <translation>Adapter zurücksetzen</translation>
     </message>
+    <message>
+        <source>Are you sure you want to factory reset the controller? This will recreate the network and remove all associated devices from the system.</source>
+        <translation>Bist Du sicher, dass der Controller zurückgesetzt werden soll? Das Netzwerk wird dabei neu erstellt und alle verknüpften Geräte werden aus dem System entfernt.</translation>
+    </message>
+    <message>
+        <source>Reset controller</source>
+        <translation>Controller zurücksetzen</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove the network and all associated devices from the system?</source>
+        <translation>Bist Du sicher, dass das Netzwerk und alle verknüpften Geräte aus dem System enfernt werden sollen?</translation>
+    </message>
 </context>
 <context>
     <name>ZWaveSettingsPage</name>
@@ -7971,6 +7983,18 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Factory reset controller</source>
         <translation>Adapter zurücksetzen</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to factory reset the controller? This will recreate the network and remove all associated devices from the system.</source>
+        <translation>Bist Du sicher, dass der Controller zurückgesetzt werden soll? Das Netzwerk wird dabei neu erstellt und alle verknüpften Geräte werden aus dem System entfernt.</translation>
+    </message>
+    <message>
+        <source>Reset controller</source>
+        <translation>Controller zurücksetzen</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove the network and all associated devices from the system?</source>
+        <translation>Bist Du sicher, dass das Netzwerk und alle verknüpften Geräte aus dem System enfernt werden sollen?</translation>
     </message>
 </context>
 <context>
