@@ -165,11 +165,11 @@ SettingsPageBase {
             Layout.rightMargin: app.margins
             text: qsTr("Remove network")
             onClicked: {
-                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                var dialog = Qt.createComponent(Qt.resolvedUrl("/ui/components/MeaDialog.qml"));
                 var text = qsTr("Are you sure you want to remove the network and all associated devices from the system?")
                 var popup = dialog.createObject(app,
                                                 {
-                                                    headerIcon: "../images/dialog-warning-symbolic.svg",
+                                                    headerIcon: "/ui/images/dialog-warning-symbolic.svg",
                                                     title: qsTr("Remove network"),
                                                     text: text,
                                                     standardButtons: Dialog.Ok | Dialog.Cancel
@@ -187,11 +187,11 @@ SettingsPageBase {
             Layout.rightMargin: app.margins
             text: qsTr("Factory reset controller")
             onClicked: {
-                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                var dialog = Qt.createComponent(Qt.resolvedUrl("/ui/components/MeaDialog.qml"));
                 var text = qsTr("Are you sure you want to factory reset the controller? This will recreate the network and remove all associated devices from the system.")
                 var popup = dialog.createObject(app,
                                                 {
-                                                    headerIcon: "../images/dialog-warning-symbolic.svg",
+                                                    headerIcon: "/ui/images/dialog-warning-symbolic.svg",
                                                     title: qsTr("Reset controller"),
                                                     text: text,
                                                     standardButtons: Dialog.Ok | Dialog.Cancel

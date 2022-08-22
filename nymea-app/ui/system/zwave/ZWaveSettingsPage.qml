@@ -65,7 +65,7 @@ SettingsPageBase {
     Item {
         Layout.fillWidth: true
         Layout.preferredHeight: root.height - root.header.height - Style.margins
-        visible: !zwaveManager.fetchingData || !zwaveManager.zwaveAvailable || zwaveManager.networks.count == 0
+        visible: !zwaveManager.fetchingData && (!zwaveManager.zwaveAvailable || zwaveManager.networks.count == 0)
 
         BusyIndicator {
             anchors.centerIn: parent

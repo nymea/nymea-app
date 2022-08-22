@@ -78,10 +78,10 @@ int ZWaveManager::removeNetwork(const QUuid &networkUuid)
     return m_engine->jsonRpcClient()->sendCommand("ZWave.RemoveNetwork", params, this, "removeNetworkResponse");
 }
 
-void ZWaveManager::addNode(const QUuid &networkUuid)
+int ZWaveManager::addNode(const QUuid &networkUuid)
 {
     QVariantMap params = {{"networkUuid", networkUuid}};
-    m_engine->jsonRpcClient()->sendCommand("ZWave.AddNode", params, this, "addNodeResponse");
+    return m_engine->jsonRpcClient()->sendCommand("ZWave.AddNode", params, this, "addNodeResponse");
 }
 
 void ZWaveManager::cancelPendingOperation(const QUuid &networkUuid)

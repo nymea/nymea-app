@@ -76,7 +76,7 @@ public:
 
     Q_INVOKABLE int addNetwork(const QString &serialPort);
     Q_INVOKABLE int removeNetwork(const QUuid &networkUuid);
-    Q_INVOKABLE void addNode(const QUuid &networkUuid);
+    Q_INVOKABLE int addNode(const QUuid &networkUuid);
     Q_INVOKABLE void cancelPendingOperation(const QUuid &networkUuid);
     Q_INVOKABLE int factoryResetNetwork(const QUuid &networkUuid);
 //    Q_INVOKABLE void getNodes(const QUuid &networkUuid);
