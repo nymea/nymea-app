@@ -6281,6 +6281,14 @@ Möchtest Du fortfahren?</translation>
         <source>Configure how applications can connect to this system</source>
         <translation>Verwalte wie sich Anwendungen zu diesem System verbinden können</translation>
     </message>
+    <message>
+        <source>Z-Wave</source>
+        <translation>Z-Wave</translation>
+    </message>
+    <message>
+        <source>Configure Z-Wave networks</source>
+        <translation>Z-Wave Netzwerke einrichten</translation>
+    </message>
 </context>
 <context>
     <name>SetupWizard</name>
@@ -7248,6 +7256,376 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Add action</source>
         <translation>Aktion hinzufügen</translation>
+    </message>
+</context>
+<context>
+    <name>ZWaveAddNetworkPage</name>
+    <message>
+        <source>Add a new Z-Wave network</source>
+        <translation>Z-Wave Netzwerk hinzufügen</translation>
+    </message>
+    <message>
+        <source>The selected adapter is already in use.</source>
+        <translation>Der ausgewählte Adapter ist bereits in Benutzung.</translation>
+    </message>
+    <message>
+        <source>An error happened in the ZWave backend.</source>
+        <translation>Im Z-Wave Backend ist ein Fehler aufgetreten.</translation>
+    </message>
+    <message>
+        <source>Available serial ports</source>
+        <translation>Verfügbare serielle Schnittstellen</translation>
+    </message>
+    <message>
+        <source>Please verify that the Z-Wave adapter is properly connected to a serial port and select the appropriate port.</source>
+        <translation>Bitte überprüfe ob der Z-Wave Adapter ordnungsgemäß an einer seriellen Schnittstelle verbunden ist und wähle die entsprechende Schnittstelle aus.</translation>
+    </message>
+</context>
+<context>
+    <name>ZWaveNetworkPage</name>
+    <message>
+        <source>Z-Wave network</source>
+        <translation>Z-Wave Netzwerk</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Hilfe</translation>
+    </message>
+    <message>
+        <source>Network settings</source>
+        <translation>Netzwerkeinstellungen</translation>
+    </message>
+    <message>
+        <source>Un unexpected error happened in the Z-Wave backend.</source>
+        <translation>Im Z-Wave Backend ist ein unerwarteter Fehler aufgetreten.</translation>
+    </message>
+    <message>
+        <source>The operation could not be started because the Z-Wave network is busy. Please try again later.</source>
+        <translation>Die Operation konnte nicht gestartet werden weil das Z-Wave Netzwerk gerade beschäftigt ist. Bitte versuche es später wieder.</translation>
+    </message>
+    <message>
+        <source>An unexpected error happened. Status code: %1</source>
+        <translation>Ein unerwarteter Fehler ist aufgetreten. Status-Code: %1</translation>
+    </message>
+    <message>
+        <source>Include Z-Wave device</source>
+        <translation>Z-Wave Gerät hinzufügen</translation>
+    </message>
+    <message>
+        <source>The Z-Wave network is now accepting new devices for inclusion. Please start the pairing procedure from the Z-Wave device you want to add to the network. Check the device manual for further details.</source>
+        <translation>Das Z-Wave Netzwerk akzeptiert jetzt neue Geräte. Bitte starte die Verbindungs-Prozedur am Z-Wave Gerät welches in das Netzwerk eingebunden werden soll. Weitere Information findest Du im Handbuch des Gerätes.</translation>
+    </message>
+    <message>
+        <source>Exclude Z-Wave device</source>
+        <translation>Z-Wave Gerät entfernen</translation>
+    </message>
+    <message>
+        <source>The Z-Wave network is now accepting devices for exclusion. Please start the pairing procedure from the Z-Wave device you want to remove from the network. Check the device manual for further details.</source>
+        <translation>Z-Wave Geräte können jetzt vom Netzwerk abgemeldet werden. Bitte start die Verbindungsprozedur am Z-Wave Gerät welches aus dem Netzwerk entfernt werden soll. Weitere Informationen findest Du im Handbuch der Geräts.</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Netzwerk</translation>
+    </message>
+    <message>
+        <source>Network state:</source>
+        <translation>Netzwerkstatus:</translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation>Online</translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation>Offline</translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation>Wird gestartet</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Fehler</translation>
+    </message>
+    <message>
+        <source>Device management</source>
+        <translation>Geräteverwaltung</translation>
+    </message>
+    <message>
+        <source>Add a new device</source>
+        <translation>Gerät hinzufügen</translation>
+    </message>
+    <message>
+        <source>Remove a device</source>
+        <translation>Gerät entfernen</translation>
+    </message>
+    <message>
+        <source>Connected devices</source>
+        <translation>Verbundene Geräte</translation>
+    </message>
+    <message>
+        <source>There are no Z-Wave devices connected yet. Open the network for new devices to join and start the pairing procedure from the Z-Wave device. Please refer to the devices manual for more information on how to start the pairing.</source>
+        <translation>Es sind noch keine Z-Wave Geräte verbunden. Öffne das Netzwerk für neue Geräte und starte die Verbindungsprozedur am Z-Wave Gerät. Weitere Information findest Du im Handbuch des jeweiligen Gerätes.</translation>
+    </message>
+    <message>
+        <source>Initializing...</source>
+        <translation>Initialisiere...</translation>
+    </message>
+    <message>
+        <source>%1 things</source>
+        <translation>%1 Geräte</translation>
+    </message>
+    <message>
+        <source>Network controller</source>
+        <translation>Netzwerk-Controller</translation>
+    </message>
+    <message>
+        <source>Unrecognized device</source>
+        <translation>Unerkanntes Gerät</translation>
+    </message>
+    <message>
+        <source>Node ID:</source>
+        <translation>Node ID:</translation>
+    </message>
+    <message>
+        <source>Device type:</source>
+        <translation>Gerätetyp:</translation>
+    </message>
+    <message>
+        <source>Node type:</source>
+        <translation>Node-Typ:</translation>
+    </message>
+    <message>
+        <source>Role:</source>
+        <translation>Rolle:</translation>
+    </message>
+    <message>
+        <source>Z-Wave plus:</source>
+        <translation>Z-Wave Plus:</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nein</translation>
+    </message>
+    <message>
+        <source>Security supported:</source>
+        <translation>Sichere Verbindung:</translation>
+    </message>
+    <message>
+        <source>Beaming supported:</source>
+        <translation>Beaming unterstützt:</translation>
+    </message>
+    <message>
+        <source>Signal strength:</source>
+        <translation>Signalstärke:</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation>Version:</translation>
+    </message>
+    <message>
+        <source>Associated things</source>
+        <translation>Verknüpfte Geräte</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Entfernen</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Remove Z-Wave node</source>
+        <translation>Z-Wave Knoten entfernen</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this node from the network?</source>
+        <translation>Bist Du sicher, dass dieser Knoten aus dem Netzwerk entfernt werden soll?</translation>
+    </message>
+    <message>
+        <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
+        <translation>Bitte beachte, dass mit diesem Knoten verknüpfte &quot;Things&quot; auch entfernt werden.</translation>
+    </message>
+    <message>
+        <source>ZigBee network help</source>
+        <translation type="vanished">ZigBee Netzwerk Hilfe</translation>
+    </message>
+    <message>
+        <source>ZigBee router</source>
+        <translation type="obsolete">ZigBee Router</translation>
+    </message>
+    <message>
+        <source>ZigBee end device</source>
+        <translation type="obsolete">ZigBee Endgerät</translation>
+    </message>
+    <message>
+        <source>Sleepy device</source>
+        <translation>Schlafendes Gerät</translation>
+    </message>
+    <message>
+        <source>Z-Wave network help</source>
+        <translation>Z-Wave Hilfe</translation>
+    </message>
+    <message>
+        <source>Z-Wave router</source>
+        <translation>Z-Wave Router</translation>
+    </message>
+    <message>
+        <source>Z-Wave end device</source>
+        <translation>Z-Wave Endgerät</translation>
+    </message>
+</context>
+<context>
+    <name>ZWaveNetworkSettingsPage</name>
+    <message>
+        <source>Z-Wave network settings</source>
+        <translation>Z-Wave Netzwerkeinstellungen</translation>
+    </message>
+    <message>
+        <source>An error happened in the ZWave backend.</source>
+        <translation>Im Z-Wave Backend ist ein Fehler aufgetreten.</translation>
+    </message>
+    <message>
+        <source>Network information</source>
+        <translation>Netzwerkinformation</translation>
+    </message>
+    <message>
+        <source>Network state</source>
+        <translation>Netzwerk-Status</translation>
+    </message>
+    <message>
+        <source>The network is online</source>
+        <translation>Das Netzwerk ist online</translation>
+    </message>
+    <message>
+        <source>The network is offline</source>
+        <translation>Das Netzwerk ist offline</translation>
+    </message>
+    <message>
+        <source>The network is starting...</source>
+        <translation>Das Netzwerk startet...</translation>
+    </message>
+    <message>
+        <source>The network is in an error state.</source>
+        <translation>Das Netzwerk ist in einem fehlerhaften Zustand.</translation>
+    </message>
+    <message>
+        <source>Home ID:</source>
+        <translation>Home ID:</translation>
+    </message>
+    <message>
+        <source>Controller type</source>
+        <translation>Controller Typ</translation>
+    </message>
+    <message>
+        <source>Primary</source>
+        <translation>Primär</translation>
+    </message>
+    <message>
+        <source>Secondary</source>
+        <translation>Sekundär</translation>
+    </message>
+    <message>
+        <source>Static</source>
+        <translation>Statisch</translation>
+    </message>
+    <message>
+        <source>Bridge</source>
+        <translation>Bridge</translation>
+    </message>
+    <message>
+        <source>Hardware information</source>
+        <translation>Geräteinformationen</translation>
+    </message>
+    <message>
+        <source>Serial port</source>
+        <translation>Serielle Schnittstelle</translation>
+    </message>
+    <message>
+        <source>Manage network</source>
+        <translation>Netzwerke verwalten</translation>
+    </message>
+    <message>
+        <source>Remove network</source>
+        <translation>Netzwerk entfernen</translation>
+    </message>
+    <message>
+        <source>Factory reset controller</source>
+        <translation>Adapter zurücksetzen</translation>
+    </message>
+</context>
+<context>
+    <name>ZWaveSettingsPage</name>
+    <message>
+        <source>Z-Wave</source>
+        <translation>Z-Wave</translation>
+    </message>
+    <message>
+        <source>Add Z-Wave network</source>
+        <translation>Z-Wave Netzwerk hinzufügen</translation>
+    </message>
+    <message>
+        <source>There are no Z-Wave networks set up yet. In order to use Z-Wave, create a Z-Wave network.</source>
+        <translation>Es sind noch keine Z-Wave Netzwerke eingerichtet. Erstelle ein Z-Wave Netzwerk um Z-Wave zu nutzen.</translation>
+    </message>
+    <message>
+        <source>Z-Wave is not available on this system as no Z-Wave backend is installed.</source>
+        <translation>Z-Wave ist auf diesem System nicht verfügbar da kein Z-Wave Backend installiert ist.</translation>
+    </message>
+    <message>
+        <source>Add network</source>
+        <translation>Netzwerk hinzufügen</translation>
+    </message>
+    <message>
+        <source>Z-Wave Plus network</source>
+        <translation>Z-Wave Plus Netzwerk</translation>
+    </message>
+    <message>
+        <source>Z-Wave network</source>
+        <translation>Z-Wave Netzwerk</translation>
+    </message>
+    <message>
+        <source>Network state:</source>
+        <translation>Netzwerkstatus:</translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation>Online</translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation>Offline</translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation>Wird gestartet</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Fehler</translation>
+    </message>
+    <message>
+        <source>Adapter:</source>
+        <translation>Adapter:</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s)</source>
+        <translation>
+            <numerusform>%n Gerät</numerusform>
+            <numerusform>%n Geräte</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s) (%1 disconnected)</source>
+        <translation>
+            <numerusform>%n Gerät (%1 getrennt)</numerusform>
+            <numerusform>%n Geräte (%1 getrennt)</numerusform>
+        </translation>
     </message>
 </context>
 <context>

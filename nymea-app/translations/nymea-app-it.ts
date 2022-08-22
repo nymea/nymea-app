@@ -5992,6 +5992,14 @@ Do you want to proceed?</source>
         <source>Configure how applications can connect to this system</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Z-Wave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure Z-Wave networks</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SetupWizard</name>
@@ -6928,6 +6936,364 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>Add action</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZWaveAddNetworkPage</name>
+    <message>
+        <source>Add a new Z-Wave network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected adapter is already in use.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An error happened in the ZWave backend.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available serial ports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please verify that the Z-Wave adapter is properly connected to a serial port and select the appropriate port.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZWaveNetworkPage</name>
+    <message>
+        <source>Z-Wave network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished">Aiuto</translation>
+    </message>
+    <message>
+        <source>Network settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Un unexpected error happened in the Z-Wave backend.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The operation could not be started because the Z-Wave network is busy. Please try again later.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An unexpected error happened. Status code: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Include Z-Wave device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Z-Wave network is now accepting new devices for inclusion. Please start the pairing procedure from the Z-Wave device you want to add to the network. Check the device manual for further details.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exclude Z-Wave device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Z-Wave network is now accepting devices for exclusion. Please start the pairing procedure from the Z-Wave device you want to remove from the network. Check the device manual for further details.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network state:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device management</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove a device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no Z-Wave devices connected yet. Open the network for new devices to join and start the pairing procedure from the Z-Wave device. Please refer to the devices manual for more information on how to start the pairing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Initializing...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unrecognized device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node ID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Role:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Z-Wave plus:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Security supported:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Beaming supported:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signal strength:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Associated things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">Ok</translation>
+    </message>
+    <message>
+        <source>Remove Z-Wave node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this node from the network?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sleepy device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Z-Wave network help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Z-Wave router</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Z-Wave end device</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZWaveNetworkSettingsPage</name>
+    <message>
+        <source>Z-Wave network settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An error happened in the ZWave backend.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is starting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network is in an error state.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Home ID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controller type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Primary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Secondary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Static</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bridge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hardware information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Serial port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Factory reset controller</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZWaveSettingsPage</name>
+    <message>
+        <source>Z-Wave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add Z-Wave network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no Z-Wave networks set up yet. In order to use Z-Wave, create a Z-Wave network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Z-Wave is not available on this system as no Z-Wave backend is installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Z-Wave Plus network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Z-Wave network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network state:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Starting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adapter:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s) (%1 disconnected)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>

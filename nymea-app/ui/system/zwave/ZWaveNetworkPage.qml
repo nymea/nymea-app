@@ -564,7 +564,7 @@ SettingsPageBase {
 
         MeaDialog {
             id: dialog
-            title: qsTr("ZigBee network help")
+            title: qsTr("Z-Wave network help")
 
             RowLayout {
                 spacing: Style.margins
@@ -575,7 +575,7 @@ SettingsPageBase {
                 }
 
                 Label {
-                    text: qsTr("ZigBee router")
+                    text: qsTr("Z-Wave router")
                 }
             }
 
@@ -588,7 +588,7 @@ SettingsPageBase {
                 }
 
                 Label {
-                    text: qsTr("ZigBee end device")
+                    text: qsTr("Z-Wave end device")
                 }
             }
 
