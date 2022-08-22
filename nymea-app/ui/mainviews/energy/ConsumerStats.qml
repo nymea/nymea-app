@@ -13,229 +13,156 @@ StatsBase {
 
     property ThingsProxy consumers: null
 
-    Connections {
-        target: consumers
-        onCountChanged: root.update()
-    }
+    QtObject {
+        id: d
 
-    Connections {
-        target: engine.thingManager
-        onFetchingDataChanged: root.update()
-    }
-    Connections {
-        target: engine.tagsManager
-        onBusyChanged: root.update()
-    }
+        property var config: root.configs[selectionTabs.currentValue.config]
 
-    function update() {
-        if (engine.thingManager.fetchingData || engine.tagsManager.busy || selectionTabs.currentValue === undefined) {
-            return
+        property int startOffset: 0
+
+        property date startTime: root.calculateTimestamp(config.startTime(), config.sampleRate, startOffset)
+        property date endTime: root.calculateTimestamp(config.startTime(), config.sampleRate, startOffset + config.count)
+
+        property bool fetchPending: false
+        property bool loading: d.fetchPending || wheelStopTimer.running || logsLoader.fetchingData
+
+        onConfigChanged: {
+            for (var i = 0; i < consumersRepeater.count; i++) {
+                consumersRepeater.itemAt(i).refreshLabels()
+            }
+
+            valueAxis.max = 1
         }
-        powerLogs.loadingInhibited = true
 
-        var thingIds = []
-        for (var i = 0; i < consumers.count; i++) {
-            thingIds.push(consumers.get(i).id)
+        onLoadingChanged: {
+            if (!loading) {
+                refresh()
+            }
         }
-        powerLogs.thingIds = thingIds
 
-        var config = root.configs[selectionTabs.currentValue.config]
-//                print("config:", config.startTime(), config.sampleList(), config.sampleListNames())
-
-        powerLogs.sampleRate = config.sampleRate
-        powerLogs.startTime = new Date(config.startTime().getTime() - config.sampleRate * 60000)
-
-        chartView.reset();
-
-        powerLogs.loadingInhibited = false
+        function refresh() {
+            for (var i = 0; i < consumersRepeater.count; i++) {
+                consumersRepeater.itemAt(i).refresh()
+            }
+        }
     }
 
-    ThingPowerLogs {
-        id: powerLogs
+    ThingPowerLogsLoader {
+        id: logsLoader
         engine: _engine
-        loadingInhibited: true
-
-        property var sampleList: null
+        startTime: root.calculateTimestamp(d.startTime, d.config.sampleRate, -d.config.count)
+        endTime: root.calculateTimestamp(d.startTime, d.config.sampleRate, d.config.count)
+        sampleRate: d.config.sampleRate
 
         onFetchingDataChanged: {
             if (!fetchingData) {
-                var config = root.configs[selectionTabs.currentValue.config]
+                print("Logs fetched")
+                d.fetchPending = false
+            }
+        }
+    }
 
-                chartView.reset()
+    Repeater {
+        id: consumersRepeater
+        model: root.consumers
+        onCountChanged: {
+            if (count == root.consumers.count) {
+                logsLoader.fetchLogs();
+            }
+        }
 
-                // First grouping log entries by timestamp
-                var groupedEntries = []
-                var groupedEntry = {}
-                for (var i = powerLogs.count - 1; i >= 0; i--) {
-                    var entry = powerLogs.get(i);
-//                    print("grouping entry:", entry.timestamp, "current group entry", groupedEntry.timestamp, groupedEntry.hasOwnProperty("timestamp"))
-                    if (!groupedEntry.hasOwnProperty("timestamp")) {
-                        groupedEntry.timestamp = entry.timestamp;
-//                        print("Starting new groupentry", groupedEntry.timestamp, entry.timestamp)
-                    }
-                    if (groupedEntry.timestamp.getTime() !== entry.timestamp.getTime()) {
-                        if (groupedEntries.length > config.count) {
-                            break;
-                        }
-//                        print("finalizing grouped entry", groupedEntry.timestamp)
-                        groupedEntries.unshift(groupedEntry);
-                        groupedEntry = {
-                            timestamp: entry.timestamp
-                        }
-//                        print("Starting new groupentry", groupedEntry.timestamp, entry.timestamp)
-                    }
-                    groupedEntry[entry.thingId] = entry.totalConsumption
+        delegate: Item {
+            id: consumerDelegate
+            readonly property Thing thing: root.consumers.get(index)
+            property BarSet barSet: null
+
+
+            Connections {
+                target: d
+                onStartOffsetChanged: refresh()
+            }
+
+            function refreshLabels() {
+                var values = []
+                for (var i = 0; i < d.config.count; i++) {
+                    values.push(0)
                 }
-                if (groupedEntry.hasOwnProperty("timestamp") && groupedEntries.length <= config.count) {
-//                    print("finalizing grouped entry", groupedEntry.timestamp)
-                    groupedEntries.unshift(groupedEntry)
-                }
+                barSet.values = values;
+            }
 
-                var labels = []
-                var entries = []
-
-                var newestLogTimestamp = powerLogs.count > 0 ? powerLogs.get(powerLogs.count - 1).timestamp : new Date();
-
-                for (var i = 0; i < config.count; i++) {
-                    var groupedEntry = groupedEntries[groupedEntries.length - i - 1]
-//                    print("have grouped entry:", groupedEntry ? groupedEntry.timestamp : "null")
-
-                    // if it's the first, let's add a generated entry which shows the total from the newest log to the current live value
-                    if (i == 0) {
-                        var liveEntry = {}
-                        for (var j = 0; j < consumers.count; j++) {
-                            var consumer = consumers.get(j)
-                            var liveLogEntry = powerLogs.liveEntry(consumer.id)
-//                            print("Got consumer:", consumer.id, consumer.name, liveLogEntry ? liveLogEntry.timestamp : "-")
-                            var value = liveLogEntry ? liveLogEntry.totalConsumption : 0;
-                            if (groupedEntry) {
-                                value -= groupedEntry.hasOwnProperty(consumer.id) ? groupedEntry[consumer.id] : 0
-                            }
-                            liveEntry[consumer.id] = value
-                            valueAxis.adjustMax(value)
+            function refresh() {
+                var upcomingTimestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.config.count)
+//                print("refreshing", consumerDelegate.thing.name ,"config start", d.config.startTime(), "upcoming:", upcomingTimestamp, "fetchPending", d.fetchPending, d.loading)
+                for (var i = 0; i < d.config.count; i++) {
+                    var timestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + i + 1)
+                    var previousTimestamp = root.calculateTimestamp(timestamp, d.config.sampleRate, -1)
+//                    print("timestamp:", timestamp, "previous:", previousTimestamp)
+                    var entry = thingPowerLogs.find(timestamp)
+                    var previousEntry = thingPowerLogs.find(previousTimestamp);
+                    if (entry && (previousEntry || !d.loading)) {
+//                        print("found entry:", entry.timestamp, previousEntry)
+                        var consumption = entry.totalConsumption
+                        if (previousEntry) {
+                            consumption -= previousEntry.totalConsumption
                         }
+                        barSet.replace(i, consumption)
+                        valueAxis.adjustMax(consumption)
 
-//                        print("Adding live entry", JSON.stringify(liveEntry))
-                        entries.unshift(liveEntry)
-                    }
-
-                    // Add the actual entry
-                    var graphEntry = {}
-                    var labelTime = new Date();
-
-                    if (groupedEntry) {
-                        var previousGroupedEntry = groupedEntries[groupedEntries.length - i - 2]
-                        for (var j = 0; j < consumers.count; j++) {
-                            var consumer = consumers.get(j)
-                            var value = groupedEntry.hasOwnProperty(consumer.id) ? groupedEntry[consumer.id] : 0
-                            if (previousGroupedEntry) {
-                                var previousValue = previousGroupedEntry.hasOwnProperty(consumer.id) ? previousGroupedEntry[consumer.id] : 0
-                                value -= previousValue
-                            }
-                            graphEntry[consumer.id] = value
-                            valueAxis.adjustMax(value)
+                    } else if (timestamp.getTime() == upcomingTimestamp.getTime() && (previousEntry || !d.loading)) {
+                        var consumption = thingPowerLogs.liveEntry().totalConsumption
+//                        print("it's today for thing", thing.name, consumption, previousEntry)
+                        if (previousEntry) {
+//                            print("previous timestamp", previousEntry.timestamp, previousEntry.totalConsumption)
+                            consumption -= previousEntry.totalConsumption
                         }
-                        labelTime = groupedEntry.timestamp
+                        barSet.replace(i, consumption)
+                        valueAxis.adjustMax(consumption)
                     } else {
-                        for (var j = 0; j < consumers.count; j++) {
-                            var consumer = consumers.get(j)
-                            graphEntry[consumer.id] = 0
-                        }
-                        labelTime = calculateSampleStart(newestLogTimestamp, config.sampleRate, i)
-                    }
-
-//                    print("Adding entry:", labelTime, config.toLabel(labelTime), JSON.stringify(graphEntry))
-                    entries.unshift(graphEntry)
-                    labels.unshift(labelTime)
-
-                    // Given we've added 2 entries for the first run but only one label, we'll add the missing label
-                    // at the end. This will shift the labels by one entries but that's ok because the logs timestamp
-                    // is when the sample was created, but for the user it's better to show the the consumption values
-                    // *during* that sample, not *before* the sample
-                    if (i == config.count - 1) {
-                        labelTime = new Date(labelTime.getTime() - config.sampleRate * 60000)
-//                            print("Adding oldest entry label", labelTime, config.sampleRate, config.toLabel(labelTime))
-                        labels.unshift(labelTime)
-                    }
-
-                }
-
-//                print("assigning categories:", labels)
-                categoryAxis.timestamps = labels
-
-                for (var i = 0; i < entries.length; i++) {
-                    var entry = entries[i]
-//                    print("Adding entry", JSON.stringify(entry))
-                    for (var j = 0; j < consumers.count; j++) {
-                        var consumer = consumers.get(j)
-                        barSeries.thingBarSetMap[consumer.id].append(entry[consumer.id])
+                        barSet.replace(i, 0)
                     }
                 }
             }
-        }
 
-        onEntriesAdded: {
-            if (fetchingData) {
-                return
+            readonly property ThingPowerLogs logs: ThingPowerLogs {
+                id: thingPowerLogs
+                engine: _engine
+                startTime: root.calculateTimestamp(d.startTime, d.config.sampleRate, -d.config.count)
+                endTime: root.calculateTimestamp(d.startTime, d.config.sampleRate, d.config.count)
+                thingId: consumerDelegate.thing.id
+                sampleRate: d.config.sampleRate
+                loader: logsLoader
+
+                onFetchingDataChanged: {
+                    if (fetchingData) {
+                        return;
+                    }
+                    consumerDelegate.refresh()
+                }
             }
 
-            chartView.animationOptions = ChartView.NoAnimation
+            Component.onCompleted: {
+                var values = []
+                for (var i = 0; i < d.config.count; i++) {
+                    values.push(0)
+                }
 
-            for (var i = 0; i < entries.length; i++) {
-                var entry = entries[i]
-                var thing = engine.thingManager.things.getThing(entry.thingId)
-//                print("Adding new sample. thing:", thing.name);
-//                print("Timestamp:", entry.timestamp, entry.totalConsumption)
-                // update current last
-                var barSet = barSeries.thingBarSetMap[thing.id]
-                var lastTimestamp = categoryAxis.timestamps[categoryAxis.count - 1]
-                var previous = powerLogs.find(entry.thingId, lastTimestamp)
-                var previousValue = previous ? previous.totalConsumption : 0
-//                print("previousValue:", previousValue, "newValue:", entry.totalConsumption, "diff", entry.totalConsumption - previousValue)
-                barSet.replace(barSet.count - 1, entry.totalConsumption - previousValue)
-
-                // remove the oldest
-                barSet.remove(0, 1)
-
-                // and add a new one (always 0 for a start)
-                barSet.append(0)
+                barSet = barSeries.append(consumerDelegate.thing.name, values)
+                barSet.color = NymeaUtils.generateColor(Style.generationBaseColor, index)
+                barSet.borderColor = barSet.color
+                barSet.borderWith = 0
             }
-
-            var labels = categoryAxis.timestamps
-            labels.splice(0, 1)
-            labels.push(entries[0].timestamp)
-            categoryAxis.timestamps = labels
-
-            chartView.animationOptions = NymeaUtils.chartsAnimationOptions
-        }
-
-        onLiveEntryChanged: {
-            if (powerLogs.fetchingData) {
-                return
-            }
-
-//            print("live entry changed", entry.thingId, entry.timestamp)
-            var previous = powerLogs.find(entry.thingId, new Date(categoryAxis.timestamps[categoryAxis.timestamps.length - 1]))
-            var previousValue = previous ? previous.totalConsumption : 0
-            var barSet = barSeries.thingBarSetMap[entry.thingId]
-
-            if (!barSet) {
-                return
-            }
-
-            barSet.replace(barSet.count - 1, entry.totalConsumption - previousValue)
         }
     }
 
     ColumnLayout {
         anchors.fill: parent
+        spacing: 0
 
         Label {
             Layout.fillWidth: true
             Layout.margins: Style.smallMargins
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("Consumers totals")
-
         }
 
         SelectionTabs {
@@ -243,246 +170,347 @@ StatsBase {
             Layout.fillWidth: true
             Layout.leftMargin: Style.smallMargins
             Layout.rightMargin: Style.smallMargins
-            currentIndex: 0
+            currentIndex: 1
             model: ListModel {
-                Component.onCompleted: {
-                    append({modelData: qsTr("Hours"), config: "hours" })
-                    append({modelData: qsTr("Days"), config: "days" })
-                    append({modelData: qsTr("Weeks"), config: "weeks" })
-                    append({modelData: qsTr("Months"), config: "months" })
-                    append({modelData: qsTr("Years"), config: "years" })
-//                    append({modelData: qsTr("Minutes"), config: "minutes" })
-
-                    selectionTabs.currentIndex = 1
-                }
+                ListElement { modelData: qsTr("Hours"); config: "hours" }
+                ListElement { modelData: qsTr("Days"); config: "days" }
+                ListElement { modelData: qsTr("Weeks"); config: "weeks" }
+                ListElement { modelData: qsTr("Months"); config: "months" }
+                ListElement { modelData: qsTr("Years"); config: "years" }
+//                ListElement { modelData: qsTr("Minutes"); config: "minutes" }
             }
-            onCurrentValueChanged: {
-                root.update()
+            onTabSelected: {
+                d.startOffset = 0
+                logsLoader.fetchLogs();
             }
         }
 
-
-        ChartView {
-            id: chartView
+        Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            //    margins.left: 0
-            margins.right: 0
-            margins.bottom: 0
-            margins.top: 0
+            Label {
+                x: chartView.x + chartView.plotArea.x + (chartView.plotArea.width - width) / 2
+                y: chartView.y + chartView.plotArea.y + Style.smallMargins
+                text: d.config.toRangeLabel(d.startTime)
+                font: Style.smallFont
+                opacity: d.startOffset < -d.config.count ? .5 : 0
+                Behavior on opacity { NumberAnimation {} }
+            }
 
-            backgroundColor: "transparent"
-            legend.alignment: Qt.AlignBottom
-            legend.font: Style.extraSmallFont
-            legend.labelColor: Style.foregroundColor
+            ChartView {
+                id: chartView
+                anchors.fill: parent
 
-            function reset() {
-                chartView.animationOptions = ChartView.NoAnimation
-                barSeries.clear();
-                valueAxis.max = 0
-                var map = {}
-                for (var j = 0; j < consumers.count; j++) {
-                    var consumer = consumers.get(j)
-                    var barSet = barSeries.append(consumer.name, [])
-//                    barSet.color = root.colors[j % root.colors.length]
-                    barSet.color = NymeaUtils.generateColor(Style.generationBaseColor, j)
-                    barSet.borderColor = barSet.color
-                    barSet.borderWith = 0
-                    map[consumer.id] = barSet
+                backgroundColor: "transparent"
+                //    margins.left: 0
+                margins.right: 0
+                margins.bottom: 0
+                margins.top: 0
+
+                legend.alignment: Qt.AlignBottom
+                legend.font: Style.extraSmallFont
+                legend.labelColor: Style.foregroundColor
+
+                ActivityIndicator {
+                    x: chartView.plotArea.x + (chartView.plotArea.width - width) / 2
+                    y: chartView.plotArea.y + (chartView.plotArea.height - height) / 2 + (chartView.plotArea.height / 8)
+                    visible: logsLoader.fetchingData
+                    opacity: .5
                 }
-                barSeries.thingBarSetMap = map
-                chartView.animationOptions = NymeaUtils.chartsAnimationOptions
+                Label {
+                    x: chartView.plotArea.x + (chartView.plotArea.width - width) / 2
+                    y: chartView.plotArea.y + (chartView.plotArea.height - height) / 2 + (chartView.plotArea.height / 8)
+                    text: qsTr("No data available")
+                    opacity: {
+                        if (logsLoader.fetchingData || d.startOffset == 0) {
+                            return 0
+                        }
+                        var oldestEntry = new Date().getTime();
+                        var haveItems = false;
+                        for (var i = 0; i < consumersRepeater.count; i++) {
+                            var logsModel = consumersRepeater.itemAt(i).logs
+                            var firstEntry = logsModel.get(0)
+                            if (firstEntry) {
+                                haveItems = true;
+                                oldestEntry = Math.min(oldestEntry, firstEntry.timestamp.getTime())
+                            }
+                        }
+
+                        print("oldestEntry", new Date(oldestEntry), haveItems)
+                        if (!haveItems || oldestEntry >= d.endTime.getTime()) {
+                            return 0.5
+                        }
+                        return 0;
+                    }
+                    font: Style.smallFont
+                    Behavior on opacity { NumberAnimation {}}
+                }
+
+                Item {
+                    id: labelsLayout
+                    x: Style.smallMargins
+                    y: chartView.plotArea.y
+                    height: chartView.plotArea.height
+                    width: chartView.plotArea.x - x
+                    Repeater {
+                        model: valueAxis.tickCount
+                        delegate: Label {
+                            y: parent.height / (valueAxis.tickCount - 1) * index - font.pixelSize / 2
+                            width: parent.width - Style.smallMargins
+                            horizontalAlignment: Text.AlignRight
+                            text: ((valueAxis.max - (index * valueAxis.max / (valueAxis.tickCount - 1)))).toFixed(1) + "kWh"
+                            verticalAlignment: Text.AlignTop
+                            font: Style.extraSmallFont
+                            color: Style.foregroundColor
+                        }
+                    }
+                }
+
+                BarSeries {
+                    id: barSeries
+                    axisX: BarCategoryAxis {
+                        id: categoryAxis
+                        labelsColor: Style.foregroundColor
+                        labelsFont: Style.extraSmallFont
+                        gridVisible: false
+                        gridLineColor: Style.tileOverlayColor
+                        lineVisible: false
+                        titleVisible: false
+                        shadesVisible: false
+
+                        categories: {
+                            var ret = []
+                            print("Updating categories from", d.config.startTime())
+                            for (var i = 0; i < d.config.count; i++) {
+                                var timestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + i);
+                                print("*** adding", timestamp, d.startOffset, i)
+                                ret.push(d.config.toLabel(timestamp))
+                            }
+                            return ret;
+                        }
+                    }
+                    axisY: ValueAxis {
+                        id: valueAxis
+                        min: 0
+                        gridLineColor: Style.tileOverlayColor
+                        labelsVisible: false
+                        labelsColor: Style.foregroundColor
+                        labelsFont: Style.extraSmallFont
+                        lineVisible: false
+                        titleVisible: false
+                        shadesVisible: false
+
+                        function adjustMax(newValue) {
+                            if (max < newValue) {
+                                max = Math.ceil(newValue)
+                            }
+                        }
+                    }
+                }
             }
 
             Item {
-                id: labelsLayout
-                x: Style.smallMargins
-                y: chartView.plotArea.y
-                height: chartView.plotArea.height
-                width: chartView.plotArea.x - x
-                Repeater {
-                    model: valueAxis.tickCount
-                    delegate: Label {
-                        y: parent.height / (valueAxis.tickCount - 1) * index - font.pixelSize / 2
-                        width: parent.width - Style.smallMargins
-                        horizontalAlignment: Text.AlignRight
-                        text: ((valueAxis.max - (index * valueAxis.max / (valueAxis.tickCount - 1)))).toFixed(1) + "kWh"
-                        verticalAlignment: Text.AlignTop
-                        font: Style.extraSmallFont
-                        color: Style.foregroundColor
-                    }
+                anchors.fill: parent
+                anchors.leftMargin: chartView.x + chartView.plotArea.x
+                anchors.topMargin: chartView.y + chartView.plotArea.y
+                anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
+                anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
+                z: -1
+
+                Rectangle {
+                    height: parent.height + Style.margins * 2
+                    y: -Style.smallMargins
+                    radius: Style.smallCornerRadius
+                    width: chartView.plotArea.width / categoryAxis.count
+                    color: Style.tileBackgroundColor
+                    property int idx: Math.max(0, Math.min(categoryAxis.count -1, Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)))
+                    visible: toolTip.visible
+
+                    x: idx * parent.width / categoryAxis.count
+                    Behavior on x { enabled: toolTip.animationsEnabled; NumberAnimation { duration: Style.animationDuration } }
                 }
             }
 
-            BarSeries {
-                id: barSeries
-                axisX: BarCategoryAxis {
-                    id: categoryAxis
-                    labelsColor: Style.foregroundColor
-                    labelsFont: Style.extraSmallFont
-                    gridVisible: false
-                    gridLineColor: Style.tileOverlayColor
-                    lineVisible: false
-                    titleVisible: false
-                    shadesVisible: false
 
-                    categories: {
-                        var ret = []
-                        for (var i = 0; i < timestamps.length; i++) {
-                            ret.push(root.configs[selectionTabs.currentValue.config].toLabel(timestamps[i]))
-                        }
-                        return ret
-                    }
+            MouseArea {
+                id: mouseArea
+                anchors.fill: parent
+                anchors.leftMargin: chartView.x + chartView.plotArea.x
+                anchors.topMargin: chartView.y + chartView.plotArea.y
+                anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
+                anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
 
-                    property var timestamps: []
-                }
-                axisY: ValueAxis {
-                    id: valueAxis
-                    min: 0
-                    gridLineColor: Style.tileOverlayColor
-                    labelsVisible: false
-                    labelsColor: Style.foregroundColor
-                    labelsFont: Style.extraSmallFont
-                    lineVisible: false
-                    titleVisible: false
-                    shadesVisible: false
+                hoverEnabled: true
+                preventStealing: tooltipping || dragging
 
-                    function adjustMax(newValue) {
-                        if (max < newValue) {
-                            max = Math.ceil(newValue)
+                property int startMouseX: 0
+                property bool dragging: false
+                property bool tooltipping: false
+                property int dragStartOffset: 0
+
+                Timer {
+                    interval: 300
+                    running: mouseArea.pressed
+                    onTriggered: {
+                        if (!mouseArea.dragging) {
+                            mouseArea.tooltipping = true
                         }
                     }
                 }
 
-                property var thingBarSetMap: ({})
-            }
-        }
-    }
-
-    Item {
-        anchors.fill: parent
-        anchors.leftMargin: chartView.x + chartView.plotArea.x
-        anchors.topMargin: chartView.y + chartView.plotArea.y
-        anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
-        anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
-        z: -1
-
-        Rectangle {
-            height: parent.height + Style.margins * 2
-            y: -Style.smallMargins
-            radius: Style.smallCornerRadius
-            width: chartView.plotArea.width / categoryAxis.count
-            color: Style.tileBackgroundColor
-            property int idx: Math.max(0, Math.min(categoryAxis.count -1, Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)))
-            visible: toolTip.visible
-
-            x: idx * parent.width / categoryAxis.count
-            Behavior on x { enabled: toolTip.animationsEnabled; NumberAnimation { duration: Style.animationDuration } }
-        }
-    }
-
-
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        anchors.leftMargin: chartView.x + chartView.plotArea.x
-        anchors.topMargin: chartView.y + chartView.plotArea.y
-        anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
-        anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
-
-        hoverEnabled: true
-
-        Timer {
-            interval: 300
-            running: mouseArea.pressed
-            onTriggered: mouseArea.preventStealing = true
-        }
-        onReleased: mouseArea.preventStealing = false
-
-
-        NymeaToolTip {
-            id: toolTip
-
-            backgroundItem: chartView
-            backgroundRect: Qt.rect(chartView.plotArea.x + toolTip.x, chartView.plotArea.y + toolTip.y, toolTip.width, toolTip.height)
-
-            property int idx: Math.max(0, Math.min(categoryAxis.count -1, Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)))
-            visible: mouseArea.containsMouse || mouseArea.preventStealing
-
-            property int chartWidth: chartView.plotArea.width
-            property int barWidth: chartWidth / categoryAxis.count
-            x: chartWidth - (idx * barWidth + barWidth + Style.smallMargins) > width ?
-                   idx * barWidth + barWidth + Style.smallMargins
-                 : idx * barWidth - Style.smallMargins - width
-            property double setMaxValue: {
-                var max = 0;
-                for (var i = 0; i < consumers.count; i++) {
-                    var consumer = consumers.get(i)
-                    max = barSeries.thingBarSetMap.hasOwnProperty(consumer.id) ? Math.max(max, barSeries.thingBarSetMap[consumer.id].at(idx)) : 0
-                }
-                return max
-            }
-            y: Math.min(Math.max(mouseArea.height - (setMaxValue * mouseArea.height / valueAxis.max) - height - Style.smallMargins, 0), mouseArea.height - height)
-
-            width: tooltipLayout.implicitWidth + Style.smallMargins * 2
-            height: tooltipLayout.implicitHeight + Style.smallMargins * 2
-
-            ColumnLayout {
-                id: tooltipLayout
-                anchors {
-                    left: parent.left
-                    top: parent.top
-                    margins: Style.smallMargins
-                }
-                Label {
-                    text: toolTip.idx >= 0 && categoryAxis.timestamps.length > toolTip.idx ? root.configs[selectionTabs.currentValue.config].toLongLabel(categoryAxis.timestamps[toolTip.idx]) : ""
-                    font: Style.smallFont
-                }
-
-                Repeater {
-                    model: ListModel {
-                        id: toolTipModel
-                        property var entries: {
-                            var unsorted = []
-                            for (var i = 0; i < consumers.count; i++) {
-                                var consumer = consumers.get(i)
-                                var entry = {
-                                    name: consumer.name,
-                                    value: barSeries.thingBarSetMap[consumer.id].at(toolTip.idx).toFixed(2),
-                                    indexInModel: i
-                                }
-                                unsorted.push(entry)
-                            }
-                            return unsorted
-                        }
-                        onEntriesChanged: {
-                            clear();
-                            var unsorted = entries;
-                            for (var i = 0; i < unsorted.length; i++) {
-                                var j = 0;
-                                while (j < count && get(j).value > unsorted[i].value) {
-                                    j++;
-                                }
-                                insert(j, unsorted[i])
-                            }
-                        }
+                onReleased: {
+                    if (mouseArea.dragging) {
+                        logsLoader.fetchLogs();
+                        d.refresh()
+                        mouseArea.dragging = false;
                     }
+                    mouseArea.tooltipping = false;
+                }
 
-                    delegate: RowLayout {
-                        Rectangle {
-                            width: Style.extraSmallFont.pixelSize
-                            height: width
-//                            color: root.colors[model.indexInModel % root.colors.length]
-                            color: NymeaUtils.generateColor(Style.generationBaseColor, model.indexInModel)
+                onPressed: {
+                    startMouseX = mouseX
+                    dragStartOffset = d.startOffset
+                }
+
+                onDoubleClicked: {
+                    var idx = Math.ceil(mouseArea.mouseX * d.config.count / mouseArea.width) - 1
+                    var timestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + idx)
+                    selectionTabs.currentIndex--
+                    var startTime = d.config.startTime()
+                    d.startOffset = (timestamp.getTime() - startTime.getTime()) / (d.config.sampleRate * 60 * 1000)
+                    logsLoader.fetchLogs();
+                }
+
+                onMouseXChanged: {
+                    if (!pressed || mouseArea.tooltipping) {
+                        return;
+                    }
+                    if (Math.abs(startMouseX - mouseX) < 10) {
+                        return;
+                    }
+                    dragging = true
+
+                    var dragDelta = startMouseX - mouseX
+                    var slotWidth = mouseArea.width / d.config.count
+                    var offset = Math.floor(dragDelta / slotWidth);
+                    d.startOffset = Math.min(dragStartOffset + offset, 0)
+                    d.fetchPending = true;
+                }
+
+                property int wheelDelta: 0
+                onWheel: {
+                    wheelDelta += wheel.pixelDelta.x
+                    var slotWidth = mouseArea.width / d.config.count
+                    while (wheelDelta > slotWidth) {
+                        d.startOffset--
+                        wheelDelta -= slotWidth
+                    }
+                    while (wheelDelta < -slotWidth) {
+                        d.startOffset = Math.min(d.startOffset + 1, 0)
+                        wheelDelta += slotWidth
+                    }
+                    d.fetchPending = true;
+                    wheelStopTimer.restart()
+                }
+
+                Timer {
+                    id: wheelStopTimer
+                    interval: 300
+                    repeat: false
+                    onTriggered: {
+                        logsLoader.fetchLogs()
+                        d.refresh()
+                    }
+                }
+
+                NymeaToolTip {
+                    id: toolTip
+
+                    backgroundItem: chartView
+                    backgroundRect: Qt.rect(chartView.plotArea.x + toolTip.x, chartView.plotArea.y + toolTip.y, toolTip.width, toolTip.height)
+
+                    property int idx: Math.ceil(mouseArea.mouseX * d.config.count / mouseArea.width) - 1
+                    property date timestamp: root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + idx)
+
+                    visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
+
+                    property int chartWidth: chartView.plotArea.width
+                    property int barWidth: chartWidth / categoryAxis.count
+                    x: chartWidth - (idx * barWidth + barWidth + Style.smallMargins) > width ?
+                           idx * barWidth + barWidth + Style.smallMargins
+                         : idx * barWidth - Style.smallMargins - width
+                    property double setMaxValue: {
+                        var max = 0;
+                        for (var i = 0; i < consumersRepeater.count; i++) {
+                            max = Math.max(max, consumersRepeater.itemAt(i).barSet.at(idx))
+                        }
+                        return max
+                    }
+                    y: Math.min(Math.max(mouseArea.height - (setMaxValue * mouseArea.height / valueAxis.max) - height - Style.smallMargins, 0), mouseArea.height - height)
+
+                    width: tooltipLayout.implicitWidth + Style.smallMargins * 2
+                    height: tooltipLayout.implicitHeight + Style.smallMargins * 2
+
+                    ColumnLayout {
+                        id: tooltipLayout
+                        anchors {
+                            left: parent.left
+                            top: parent.top
+                            margins: Style.smallMargins
                         }
                         Label {
-                            text: "%1: %2 kWh".arg(model.name).arg(model.value)
-                            font: Style.extraSmallFont
+                            text: d.config.toLongLabel(toolTip.timestamp)
+                            font: Style.smallFont
+                        }
+
+                        Repeater {
+                            model: ListModel {
+                                id: toolTipModel
+                                property var entries: {
+                                    var unsorted = []
+                                    for (var i = 0; i < consumers.count; i++) {
+                                        var consumer = consumers.get(i)
+                                        var entry = {
+                                            name: consumer.name,
+                                            value: consumersRepeater.itemAt(i).barSet.at(toolTip.idx).toFixed(2),
+                                            indexInModel: i
+                                        }
+                                        unsorted.push(entry)
+                                    }
+                                    return unsorted
+                                }
+                                onEntriesChanged: {
+                                    clear();
+                                    var unsorted = entries;
+                                    for (var i = 0; i < unsorted.length; i++) {
+                                        var j = 0;
+                                        while (j < count && get(j).value > unsorted[i].value) {
+                                            j++;
+                                        }
+                                        insert(j, unsorted[i])
+                                    }
+                                }
+                            }
+
+                            delegate: RowLayout {
+                                Rectangle {
+                                    width: Style.extraSmallFont.pixelSize
+                                    height: width
+        //                            color: root.colors[model.indexInModel % root.colors.length]
+                                    color: NymeaUtils.generateColor(Style.generationBaseColor, model.indexInModel)
+                                }
+                                Label {
+                                    text: "%1: %2 kWh".arg(model.name).arg(model.value)
+                                    font: Style.extraSmallFont
+                                }
+                            }
                         }
                     }
                 }
             }
         }
+
     }
+
 }

@@ -150,14 +150,6 @@ MainViewBase {
                     animationsEnabled: Qt.application.active && root.isCurrentItem
                 }
 
-//                ConsumersBarChart {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    energyManager: energyManager
-//                    visible: consumers.count > 0
-//                    colors: root.thingColors
-//                    consumers: consumers
-//                }
                 ConsumersHistory {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width

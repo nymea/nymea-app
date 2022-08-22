@@ -46,30 +46,13 @@ private:
 class PowerBalanceLogs : public EnergyLogs
 {
     Q_OBJECT
-    Q_PROPERTY(double minValue READ minValue NOTIFY minValueChanged)
-    Q_PROPERTY(double maxValue READ maxValue NOTIFY maxValueChanged)
 public:
     explicit PowerBalanceLogs(QObject *parent = nullptr);
 
-    double minValue() const;
-    double maxValue() const;
-
-    Q_INVOKABLE EnergyLogEntry* find(const QDateTime &timestamp) const;
-
-signals:
-    void minValueChanged();
-    void maxValueChanged();
-
 protected:
     QString logsName() const override;
-    void logEntriesReceived(const QVariantMap &params) override;
+    QList<EnergyLogEntry*> unpackEntries(const QVariantMap &params, double *minValue, double *maxValue) override;
     void notificationReceived(const QVariantMap &data) override;
-
-private:
-    void addEntry(PowerBalanceLogEntry *entry);
-
-    double m_minValue = 0;
-    double m_maxValue = 0;
 };
 
 

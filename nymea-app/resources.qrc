@@ -280,5 +280,6 @@
         <file>ui/system/zwave/ZWaveAddNetworkPage.qml</file>
         <file>ui/system/zwave/ZWaveNetworkPage.qml</file>
         <file>ui/system/zwave/ZWaveNetworkSettingsPage.qml</file>
+        <file>ui/components/ActivityIndicator.qml</file>
     </qresource>
 </RCC>

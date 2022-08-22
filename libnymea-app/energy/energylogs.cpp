@@ -1,6 +1,7 @@
 #include "energylogs.h"
 
 #include <QMetaEnum>
+#include <QJsonDocument>
 
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcEnergyLogs, "EnergyLogs")
@@ -59,9 +60,9 @@ void EnergyLogs::setEngine(Engine *engine)
         if (m_engine->jsonRpcClient()->experiences().value("Energy").toString() >= "1.0") {
             m_engine->jsonRpcClient()->registerNotificationHandler(this, "Energy", "notificationReceivedInternal");
 
-            if (m_ready && !m_loadingInhibited) {
-                fetchLogs();
-            }
+//            if (m_ready && !m_loadingInhibited) {
+//                fetchLogs();
+//            }
         }
     }
 }
@@ -76,8 +77,7 @@ void EnergyLogs::setSampleRate(SampleRate sampleRate)
     if (m_sampleRate != sampleRate) {
         m_sampleRate = sampleRate;
         emit sampleRateChanged();
-
-        fetchLogs();
+        clear();
     }
 }
 
@@ -136,9 +136,9 @@ void EnergyLogs::setLoadingInhibited(bool loadingInhibited)
         m_loadingInhibited = loadingInhibited;
         emit loadingInhibitedChanged();
 
-        if (!m_loadingInhibited) {
-            fetchLogs();
-        }
+//        if (!m_loadingInhibited) {
+//            fetchLogs();
+//        }
     }
 }
 
@@ -150,7 +150,7 @@ void EnergyLogs::classBegin()
 void EnergyLogs::componentComplete()
 {
     m_ready = true;
-    fetchLogs();
+//    fetchLogs();
 }
 
 int EnergyLogs::rowCount(const QModelIndex &parent) const
@@ -166,6 +166,16 @@ QVariant EnergyLogs::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+double EnergyLogs::minValue() const
+{
+    return m_minValue;
+}
+
+double EnergyLogs::maxValue() const
+{
+    return m_maxValue;
+}
+
 EnergyLogEntry *EnergyLogs::get(int index) const
 {
     if (index < 0 || index >= m_list.count()) {
@@ -174,27 +184,54 @@ EnergyLogEntry *EnergyLogs::get(int index) const
     return m_list.at(index);
 }
 
-void EnergyLogs::appendEntry(EnergyLogEntry *entry)
+EnergyLogEntry *EnergyLogs::find(const QDateTime &timestamp)
+{
+    if (m_list.isEmpty()) {
+        return nullptr;
+    }
+    QDateTime first = m_list.first()->timestamp();
+    if (timestamp < first || timestamp > m_list.last()->timestamp()) {
+        return nullptr;
+    }
+    int index = qRound(1.0 * first.secsTo(timestamp) / (m_sampleRate * 60));
+    if (index < 0 || index >= m_list.count()) {
+        return nullptr;
+    }
+    return m_list.at(index);
+}
+
+void EnergyLogs::appendEntry(EnergyLogEntry *entry, double minValue, double maxValue)
 {
     entry->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    int index = m_list.count();
+    beginInsertRows(QModelIndex(), index, index);
     m_list.append(entry);
     endInsertRows();
     emit countChanged();
-    emit entryAdded(entry);
-    emit entriesAdded({entry});
+    emit entryAdded(index, entry);
+    emit entriesAdded(index, {entry});
+    if (minValue < m_minValue) {
+        m_minValue = minValue;
+        emit minValueChanged();
+    }
+    if (maxValue > m_maxValue) {
+        m_maxValue = maxValue;
+        emit maxValueChanged();
+    }
 }
 
 void EnergyLogs::appendEntries(const QList<EnergyLogEntry *> &entries)
 {
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + entries.count());
-    foreach (EnergyLogEntry* entry, entries) {
+    int index = m_list.count();
+    beginInsertRows(QModelIndex(), index, index + entries.count());
+    for (int i = 0; i < entries.count(); i++) {
+        EnergyLogEntry* entry = entries.at(i);
         entry->setParent(this);
         m_list.append(entry);
-        emit entryAdded(entry);
+        emit entryAdded(index + i, entry);
     }
     endInsertRows();
-    emit entriesAdded(entries);
+    emit entriesAdded(index, entries);
     emit countChanged();
 }
 
@@ -206,18 +243,92 @@ QVariantMap EnergyLogs::fetchParams() const
 void EnergyLogs::getLogsResponse(int commandId, const QVariantMap &params)
 {
     Q_UNUSED(commandId)
-    if (!m_list.isEmpty()) {
-        beginResetModel();
-        qDeleteAll(m_list);
-        m_list.clear();
-        endResetModel();
+
+    double minValue = 0, maxValue = 0;
+//    qCDebug(dcEnergyLogs()) << "Logs response:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    QList<EnergyLogEntry*> entries = unpackEntries(params, &minValue, &maxValue);
+
+    if (!entries.isEmpty()) {
+        if (m_list.isEmpty()) {
+            qCDebug(dcEnergyLogs()) << "Energy logs received";
+            beginInsertRows(QModelIndex(), 0, entries.count());
+            m_list.append(entries);
+            endInsertRows();
+            emit entriesAdded(0, entries);
+            m_minValue = minValue;
+            emit minValueChanged();
+            m_maxValue = maxValue;
+            emit maxValueChanged();
+
+        } else if (entries.first()->timestamp() < m_list.first()->timestamp()) {
+
+            if (entries.last()->timestamp().addSecs(m_sampleRate * 60) == m_list.first()->timestamp()) {
+                beginInsertRows(QModelIndex(), 0, entries.count());
+                m_list = entries + m_list;
+                endInsertRows();
+                emit entriesAdded(0, entries);
+                if (minValue < m_minValue) {
+                    m_minValue = minValue;
+                    emit minValueChanged();
+                }
+                if (maxValue > m_maxValue) {
+                    m_maxValue = maxValue;
+                    emit maxValueChanged();
+                }
+            } else {
+                // End of fetched entries does not line up with start of existing entries. Discarding existing entries
+                qCDebug(dcEnergyLogs()) << "End of fetched entries does not line up with start of existing entries. Discarding existing entries" << entries.last()->timestamp().addSecs(m_sampleRate * 60).toString() << " - " << m_list.first()->timestamp().toString();
+                clear();
+                beginInsertRows(QModelIndex(), 0, entries.count());
+                m_list.append(entries);
+                endInsertRows();
+                emit entriesAdded(0, entries);
+                m_minValue = minValue;
+                emit minValueChanged();
+                m_maxValue = maxValue;
+                emit maxValueChanged();
+            }
+
+        } else if (entries.first()->timestamp().addSecs(-m_sampleRate * 60) == m_list.last()->timestamp()) {
+            int index = m_list.count();
+            beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + entries.count());
+            m_list.append(entries);
+            endInsertRows();
+            emit entriesAdded(index, entries);
+            if (minValue < m_minValue) {
+                m_minValue = minValue;
+                emit minValueChanged();
+            }
+            if (maxValue > m_maxValue) {
+                m_maxValue = maxValue;
+                emit maxValueChanged();
+            }
+        } else {
+            // Start of fetched entries does not line up with end of existing entries. Discarding existing entries
+            clear();
+            beginInsertRows(QModelIndex(), 0, entries.count());
+            m_list.append(entries);
+            endInsertRows();
+            emit entriesAdded(0, entries);
+            m_minValue = minValue;
+            emit minValueChanged();
+            m_maxValue = maxValue;
+            emit maxValueChanged();
+        }
+
+    } else {
+        qCDebug(dcEnergyLogs()) << "Received empty log entries set.";
     }
-    qCDebug(dcEnergyLogs()) << "Energy logs received";
-//    qCDebug(dcEnergyLogs()) << "Energy logs:" << params;
-    logEntriesReceived(params);
 
     m_fetchingData = false;
-    emit fetchingDataChanged();
+
+    if (m_fetchAgain) {
+        qCDebug(dcEnergyLogs()) << "Fetching again...";
+        m_fetchAgain = false;
+        fetchLogs();
+    } else {
+        emit fetchingDataChanged();
+    }
 }
 
 void EnergyLogs::notificationReceivedInternal(const QVariantMap &data)
@@ -234,32 +345,72 @@ void EnergyLogs::notificationReceivedInternal(const QVariantMap &data)
     notificationReceived(data);
 }
 
+void EnergyLogs::clear()
+{
+    int count = m_list.count();
+    beginResetModel();
+    qDeleteAll(m_list);
+    m_list.clear();
+    endResetModel();
+    emit countChanged();
+    emit entriesRemoved(0, count);
+    m_minValue = 0;
+    emit minValueChanged();
+    m_maxValue = 0;
+    emit maxValueChanged();
+}
+
 void EnergyLogs::fetchLogs()
 {
     if (m_loadingInhibited || !m_ready || !m_engine || m_engine->jsonRpcClient()->experiences().value("Energy").toString() < "1.0") {
         return;
     }
 
-    if (!m_list.isEmpty()) {
-        beginResetModel();
-        qDeleteAll(m_list);
-        m_list.clear();
-        endResetModel();
+    if (m_fetchingData) {
+        qCDebug(dcEnergyLogs()) << "Already busy.. queing up call";
+        m_fetchAgain = true;
+        return;
+    }
+
+    QVariantMap params = fetchParams();
+    QMetaEnum metaEnum = QMetaEnum::fromType<SampleRate>();
+    params.insert("sampleRate", metaEnum.valueToKey(m_sampleRate));
+
+    if (!m_startTime.isNull() && !m_endTime.isNull()) {
+        QDateTime startTime;
+        QDateTime endTime;
+
+        QDateTime oldestExisting = m_list.count() > 0 ? m_list.first()->timestamp() : QDateTime();
+        QDateTime newestExisting = m_list.count() > 0 ? m_list.last()->timestamp() : QDateTime();
+        qCDebug(dcEnergyLogs()) << "request timeframe: " << m_startTime.toString() << " - " << m_endTime.toString();
+        qCDebug(dcEnergyLogs()) << "existing timeframe:" << oldestExisting.toString() << "- " << newestExisting.toString();
+
+        if (oldestExisting.isNull() || newestExisting.isNull()) {
+            startTime = m_startTime;
+            endTime = m_endTime;
+        } else {
+
+            if (m_startTime < oldestExisting) {
+                startTime = m_startTime;
+                endTime = qMin(m_endTime, oldestExisting.addSecs(-m_sampleRate * 60));
+            } else if (newestExisting < m_endTime) {
+                startTime = qMax(m_startTime, newestExisting.addSecs(m_sampleRate * 60));
+                endTime = m_endTime;
+            } else {
+                // Nothing to do...
+                return;
+            }
+        }
+
+        params.insert("from", startTime.toSecsSinceEpoch());
+        params.insert("to", endTime.toSecsSinceEpoch());
+        qCDebug(dcEnergyLogs()) << "Fetching from" << startTime.toString() << "to" << endTime.toString() << "with sample rate" << m_sampleRate;
     }
 
     m_fetchingData = true;
     fetchingDataChanged();
 
-    QVariantMap params = fetchParams();
-    QMetaEnum metaEnum = QMetaEnum::fromType<SampleRate>();
-    params.insert("sampleRate", metaEnum.valueToKey(m_sampleRate));
-    if (!m_startTime.isNull()) {
-        params.insert("from", m_startTime.toSecsSinceEpoch());
-    }
-    if (!m_endTime.isNull()) {
-        params.insert("to", m_endTime.toSecsSinceEpoch());
-    }
-    qCDebug(dcEnergyLogs()) << this << "Fetching energy logs" << params;
+    qCDebug(dcEnergyLogs()) << "Fetching" << m_startTime << m_endTime;
     m_engine->jsonRpcClient()->sendCommand("Energy.Get" + logsName(), params, this, "getLogsResponse");
 }
 
