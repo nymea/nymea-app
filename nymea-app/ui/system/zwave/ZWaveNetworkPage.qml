@@ -315,11 +315,6 @@ SettingsPageBase {
 
             tertiaryIconColor: node.reachable ? Style.iconColor : Style.red
 
-            Connections {
-                target: node
-                onLastSeenChanged: communicationIndicatorLedTimer.start()
-            }
-
             Timer {
                 id: communicationIndicatorLedTimer
                 interval: 200
@@ -429,6 +424,16 @@ SettingsPageBase {
                     font: Style.smallFont
                     horizontalAlignment: Text.AlignRight
                 }
+                Label {
+                    text: qsTr("Security mode:")
+                    font: Style.smallFont
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: nodeInfoDialog.node.securityMode
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
+                }
 
                 Label {
                     text: qsTr("Z-Wave plus:")
@@ -441,7 +446,7 @@ SettingsPageBase {
                     horizontalAlignment: Text.AlignRight
                 }
                 Label {
-                    text: qsTr("Security supported:")
+                    text: qsTr("Security device:")
                     font: Style.smallFont
                 }
                 Label {

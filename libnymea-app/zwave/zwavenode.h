@@ -16,6 +16,7 @@ class ZWaveNode : public QObject
     Q_PROPERTY(bool failed READ failed NOTIFY failedChanged)
     Q_PROPERTY(bool sleeping READ sleeping NOTIFY sleepingChanged)
     Q_PROPERTY(quint8 linkQuality READ linkQuality NOTIFY linkQualityChanged)
+    Q_PROPERTY(quint8 securityMode READ securityMode NOTIFY securityModeChanged)
     Q_PROPERTY(ZWaveNodeType nodeType READ nodeType NOTIFY nodeTypeChanged)
     Q_PROPERTY(QString nodeTypeString READ nodeTypeString NOTIFY nodeTypeChanged)
     Q_PROPERTY(ZWaveNodeRole role READ role NOTIFY roleChanged)
@@ -29,9 +30,9 @@ class ZWaveNode : public QObject
     Q_PROPERTY(QString productName READ productName NOTIFY productNameChanged)
     Q_PROPERTY(quint16 productType READ productType NOTIFY productTypeChanged)
     Q_PROPERTY(quint8 version READ version NOTIFY versionChanged)
-    Q_PROPERTY(bool isZWavePlus READ isZWavePlus NOTIFY isZWavePlusChanged)
-    Q_PROPERTY(bool isSecure READ isSecure NOTIFY isSecureChanged)
-    Q_PROPERTY(bool isBeaming READ isBeaming NOTIFY isBeamingChanged)
+    Q_PROPERTY(bool isZWavePlusDevice READ isZWavePlusDevice NOTIFY isZWavePlusDeviceChanged)
+    Q_PROPERTY(bool isSecurityDevice READ isSecurityDevice NOTIFY isSecurityDeviceChanged)
+    Q_PROPERTY(bool isBeamingDevice READ isBeamingDevice NOTIFY isBeamingDeviceChanged)
 
 public:
     enum ZWaveNodeType {
@@ -155,6 +156,9 @@ public:
     quint8 linkQuality() const;
     void setLinkQuality(quint8 linkQuality);
 
+    quint8 securityMode() const;
+    void setSecurityMode(quint8 securityMode);
+
     ZWaveNodeType nodeType() const;
     void setNodeType(ZWaveNodeType nodeType);
     QString nodeTypeString() const;
@@ -190,14 +194,14 @@ public:
     quint8 version() const;
     void setVersion(quint8 version);
 
-    bool isZWavePlus() const;
-    void setIsZWavePlus(bool isZWavePlus);
+    bool isZWavePlusDevice() const;
+    void setIsZWavePlusDevice(bool isZWavePlusDevice);
 
-    bool isSecure() const;
-    void setIsSecure(bool isSecure);
+    bool isSecurityDevice() const;
+    void setIsSecurityDevice(bool isSecurityDevice);
 
-    bool isBeaming() const;
-    void setIsBeaming(bool isBeaming);
+    bool isBeamingDevice() const;
+    void setIsBeamingDevice(bool isBeamingDevice);
 
 signals:
     void initializedChanged();
@@ -205,6 +209,7 @@ signals:
     void failedChanged();
     void sleepingChanged();
     void linkQualityChanged();
+    void securityModeChanged();
     void nodeTypeChanged();
     void deviceTypeChanged();
     void roleChanged();
@@ -217,9 +222,9 @@ signals:
     void productNameChanged();
     void productTypeChanged();
     void versionChanged();
-    void isZWavePlusChanged();
-    void isSecureChanged();
-    void isBeamingChanged();
+    void isZWavePlusDeviceChanged();
+    void isSecurityDeviceChanged();
+    void isBeamingDeviceChanged();
 
 private:
     quint8 m_nodeId = 0;
@@ -230,6 +235,7 @@ private:
     bool m_failed = false;
     bool m_sleeping = false;
     quint8 m_linkQuality = 0;
+    quint8 m_securityMode = 0;
 
     ZWaveNodeType m_nodeType = ZWaveNodeTypeUnknown;
     ZWaveNodeRole m_role = ZWaveNodeRoleUnknown;
@@ -241,9 +247,9 @@ private:
     QString m_productName;
     quint16 m_productType = 0;
     quint8 m_version = 0;
-    bool m_isZWavePlus = false;
-    bool m_isSecure = false;
-    bool m_isBeaming = false;
+    bool m_isZWavePlusDevice = false;
+    bool m_isSecurityDevice = false;
+    bool m_isBeamingDevice = false;
 };
 
 class ZWaveNodes: public QAbstractListModel

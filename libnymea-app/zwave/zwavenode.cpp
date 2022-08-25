@@ -164,42 +164,42 @@ void ZWaveNode::setVersion(quint8 version)
     }
 }
 
-bool ZWaveNode::isZWavePlus() const
+bool ZWaveNode::isZWavePlusDevice() const
 {
-    return m_isZWavePlus;;
+    return m_isZWavePlusDevice;
 }
 
-void ZWaveNode::setIsZWavePlus(bool isZWavePlus)
+void ZWaveNode::setIsZWavePlusDevice(bool isZWavePlusDevice)
 {
-    if (m_isZWavePlus != isZWavePlus) {
-        m_isZWavePlus = isZWavePlus;
-        emit isZWavePlusChanged();
+    if (m_isZWavePlusDevice != isZWavePlusDevice) {
+        m_isZWavePlusDevice = isZWavePlusDevice;
+        emit isZWavePlusDeviceChanged();
     }
 }
 
-bool ZWaveNode::isSecure() const
+bool ZWaveNode::isSecurityDevice() const
 {
-    return m_isSecure;
+    return m_isSecurityDevice;
 }
 
-void ZWaveNode::setIsSecure(bool isSecure)
+void ZWaveNode::setIsSecurityDevice(bool isSecurityDevice)
 {
-    if (m_isSecure != isSecure) {
-        m_isSecure = isSecure;
-        emit isSecureChanged();
+    if (m_isSecurityDevice != isSecurityDevice) {
+        m_isSecurityDevice = isSecurityDevice;
+        emit isSecurityDeviceChanged();
     }
 }
 
-bool ZWaveNode::isBeaming() const
+bool ZWaveNode::isBeamingDevice() const
 {
-    return m_isBeaming;
+    return m_isBeamingDevice;
 }
 
-void ZWaveNode::setIsBeaming(bool isBeaming)
+void ZWaveNode::setIsBeamingDevice(bool isBeamingDevice)
 {
-    if (m_isBeaming != isBeaming) {
-        m_isBeaming = isBeaming;
-        emit isBeamingChanged();
+    if (m_isBeamingDevice != isBeamingDevice) {
+        m_isBeamingDevice = isBeamingDevice;
+        emit isBeamingDeviceChanged();
     }
 }
 
@@ -252,6 +252,19 @@ void ZWaveNode::setLinkQuality(quint8 linkQuality)
     if (m_linkQuality != linkQuality) {
         m_linkQuality = linkQuality;
         emit linkQualityChanged();
+    }
+}
+
+quint8 ZWaveNode::securityMode() const
+{
+    return m_securityMode;
+}
+
+void ZWaveNode::setSecurityMode(quint8 securityMode)
+{
+    if (m_securityMode != securityMode) {
+        m_securityMode = securityMode;
+        emit securityModeChanged();
     }
 }
 

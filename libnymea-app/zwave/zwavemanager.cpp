@@ -325,6 +325,7 @@ ZWaveNode *ZWaveManager::unpackNode(const QVariantMap &nodeMap, ZWaveNode *node)
     node->setFailed(nodeMap.value("failed").toBool());
     node->setSleeping(nodeMap.value("sleeping").toBool());
     node->setLinkQuality(nodeMap.value("linkQuality").toUInt());
+    node->setSecurityMode(nodeMap.value("securityMode").toUInt());
 
     QMetaEnum nodeTypeEnum = QMetaEnum::fromType<ZWaveNode::ZWaveNodeType>();
     node->setNodeType(static_cast<ZWaveNode::ZWaveNodeType>(nodeTypeEnum.keyToValue(nodeMap.value("nodeType").toByteArray())));
@@ -341,9 +342,9 @@ ZWaveNode *ZWaveManager::unpackNode(const QVariantMap &nodeMap, ZWaveNode *node)
     node->setProductType(nodeMap.value("productType").toUInt());
     node->setVersion(nodeMap.value("version").toUInt());
 
-    node->setIsZWavePlus(nodeMap.value("isZWavePlus").toBool());
-    node->setIsSecure(nodeMap.value("isSecure").toBool());
-    node->setIsBeaming(nodeMap.value("isBeaming").toBool());
+    node->setIsZWavePlusDevice(nodeMap.value("isZWavePlusDevice").toBool());
+    node->setIsSecurityDevice(nodeMap.value("isSecurityDevice").toBool());
+    node->setIsBeamingDevice(nodeMap.value("isBeamingDevice").toBool());
 
 
     return node;
