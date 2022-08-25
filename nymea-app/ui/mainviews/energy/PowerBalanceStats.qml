@@ -106,12 +106,12 @@ StatsBase {
         anchors.fill: parent
         spacing: 0
 
-        Label {
-            Layout.fillWidth: true
-            Layout.margins: Style.smallMargins
-            horizontalAlignment: Text.AlignHCenter
-            text: qsTr("Totals")
-        }
+//        Label {
+//            Layout.fillWidth: true
+//            Layout.margins: Style.smallMargins
+//            horizontalAlignment: Text.AlignHCenter
+//            text: qsTr("Totals")
+//        }
 
         SelectionTabs {
             id: selectionTabs
@@ -186,13 +186,15 @@ StatsBase {
                 anchors.fill: parent
 
                 backgroundColor: "transparent"
+
+                legend.visible: false
                 legend.alignment: Qt.AlignBottom
                 legend.font: Style.extraSmallFont
                 legend.labelColor: Style.foregroundColor
 
             //    margins.left: 0
                 margins.right: 0
-                margins.bottom: 0
+                margins.bottom: Style.smallIconSize + Style.margins
                 margins.top: 0
 
                 ActivityIndicator {
@@ -290,7 +292,7 @@ StatsBase {
                     BarSet {
                         id: productionSet
                         label: qsTr("Produced")
-                        color: Style.yellow
+                        color: Style.green
                         borderColor: color
                         borderWidth: 0
                         values: {
@@ -301,7 +303,6 @@ StatsBase {
                             return ret
                         }
                     }
-
                     BarSet {
                         id: acquisitionSet
                         label: qsTr("From grid")
@@ -319,7 +320,7 @@ StatsBase {
                     BarSet {
                         id: returnSet
                         label: qsTr("To grid")
-                        color: Style.green
+                        color: Style.yellow
                         borderColor: color
                         borderWidth: 0
                         values: {
@@ -332,6 +333,71 @@ StatsBase {
                     }
                 }
             }
+
+            RowLayout {
+                anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
+                anchors.leftMargin: chartView.plotArea.x
+                height: Style.smallIconSize
+                anchors.margins: Style.margins
+
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    ColorIcon {
+                        name: "powersocket"
+                        size: Style.smallIconSize
+                        color: Style.blue
+                        anchors.centerIn: parent
+                    }
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    ColorIcon {
+                        name: "weathericons/weather-clear-day"
+                        size: Style.smallIconSize
+                        color: Style.green
+                        anchors.centerIn: parent
+                    }
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Row {
+                        anchors.centerIn: parent
+                        ColorIcon {
+                            name: "power-grid"
+                            size: Style.smallIconSize
+                            color: Style.red
+                        }
+                        ColorIcon {
+                            name: "arrow-down"
+                            size: Style.smallIconSize
+                            color: Style.red
+                        }
+                    }
+                }
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Row {
+                        anchors.centerIn: parent
+                        ColorIcon {
+                            name: "power-grid"
+                            size: Style.smallIconSize
+                            color: Style.yellow
+                        }
+                        ColorIcon {
+                            name: "arrow-up"
+                            size: Style.smallIconSize
+                            color: Style.yellow
+                        }
+                    }
+                }
+            }
+
 
             Item {
                 anchors.fill: parent

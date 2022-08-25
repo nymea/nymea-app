@@ -160,12 +160,12 @@ StatsBase {
         anchors.fill: parent
         spacing: 0
 
-        Label {
-            Layout.fillWidth: true
-            Layout.margins: Style.smallMargins
-            horizontalAlignment: Text.AlignHCenter
-            text: qsTr("Consumers totals")
-        }
+//        Label {
+//            Layout.fillWidth: true
+//            Layout.margins: Style.smallMargins
+//            horizontalAlignment: Text.AlignHCenter
+//            text: qsTr("Consumers totals")
+//        }
 
         SelectionTabs {
             id: selectionTabs
@@ -207,9 +207,10 @@ StatsBase {
                 backgroundColor: "transparent"
                 //    margins.left: 0
                 margins.right: 0
-                margins.bottom: 0
                 margins.top: 0
+                margins.bottom: Style.smallIconSize + Style.margins
 
+                legend.visible: false
                 legend.alignment: Qt.AlignBottom
                 legend.font: Style.extraSmallFont
                 legend.labelColor: Style.foregroundColor
@@ -304,6 +305,29 @@ StatsBase {
                             if (max < newValue) {
                                 max = Math.ceil(newValue)
                             }
+                        }
+                    }
+                }
+            }
+
+            RowLayout {
+                anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
+                anchors.leftMargin: chartView.plotArea.x
+                height: Style.smallIconSize
+                anchors.margins: Style.margins
+
+                Repeater {
+                    model: root.consumers
+                    delegate: Item {
+                        id: legendDelegate
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        readonly property Thing thing: root.consumers.get(index)
+                        ColorIcon {
+                            name: app.interfacesToIcon(legendDelegate.thing.thingClass.interfaces)
+                            size: Style.smallIconSize
+                            color: index >= 0 ? NymeaUtils.generateColor(Style.generationBaseColor, index) : "white"
+                            anchors.centerIn: parent
                         }
                     }
                 }

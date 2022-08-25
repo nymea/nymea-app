@@ -108,37 +108,58 @@ MainViewBase {
                 id: energyGrid
                 width: parent.width
                 property int rawColumns: Math.floor(flickable.width / 300)
-                columns: Math.max(1, rawColumns - (rawColumns % 2))
+                columns: Math.min(3, Math.max(1, rawColumns /*- (rawColumns % 2)*/))
                 rowSpacing: 0
                 columnSpacing: 0
 
 
-                CurrentConsumptionBalancePieChart {
+//                CurrentConsumptionBalancePieChart {
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: width
+//                    energyManager: energyManager
+//                    visible: producers.count > 0
+//                    animationsEnabled: Qt.application.active && root.isCurrentItem
+//                }
+//                CurrentProductionBalancePieChart {
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: width
+//                    energyManager: energyManager
+//                    visible: producers.count > 0
+//                    animationsEnabled: Qt.application.active && root.isCurrentItem
+//                }
+                CurrentPowerBalancePieChart {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
                     energyManager: energyManager
-                    visible: producers.count > 0
+                    visible: rootMeter != null || producers.count > 0
                     animationsEnabled: Qt.application.active && root.isCurrentItem
                 }
-                CurrentProductionBalancePieChart {
+
+                PowerBalanceHistory {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    visible: rootMeter != null || producers.count > 0
+                }
+
+                PowerBalanceStats {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
                     energyManager: energyManager
-                    visible: producers.count > 0
-                    animationsEnabled: Qt.application.active && root.isCurrentItem
+                    visible: rootMeter != null || producers.count > 0
+                    producers: producers
                 }
 
-                PowerConsumptionBalanceHistory {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: width
-                    visible: producers.count > 0
-                }
+//                PowerConsumptionBalanceHistory {
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: width
+//                    visible: producers.count > 0
+//                }
 
-                PowerProductionBalanceHistory {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: width
-                    visible: producers.count > 0
-                }
+//                PowerProductionBalanceHistory {
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: width
+//                    visible: producers.count > 0
+//                }
 
                 ConsumersPieChart {
                     Layout.fillWidth: true
@@ -153,17 +174,9 @@ MainViewBase {
                 ConsumersHistory {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
-                    visible: consumers.count > 0 || rootMeter != null
+                    visible: consumers.count > 0
                     colors: root.thingColors
                     consumers: consumers
-                }
-
-                PowerBalanceStats {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: width
-                    energyManager: energyManager
-                    visible: rootMeter != null || producers.count > 0
-                    producers: producers
                 }
 
                 ConsumerStats {

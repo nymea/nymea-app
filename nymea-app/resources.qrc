@@ -252,7 +252,6 @@
         <file>ui/devicepages/CoolingThingPage.qml</file>
         <file>ui/devicepages/EvChargerThingPage.qml</file>
         <file>ui/components/NymeaSpinBox.qml</file>
-        <file>ui/mainviews/EnergyPieChartDelegate.qml</file>
         <file>ui/mainviews/energy/PowerConsumptionBalanceHistory.qml</file>
         <file>ui/mainviews/energy/PowerProductionBalanceHistory.qml</file>
         <file>ui/mainviews/energy/ConsumersBarChart.qml</file>
@@ -279,5 +278,7 @@
         <file>ui/components/ActivityIndicator.qml</file>
         <file>ui/system/zigbee/ZigbeeNodePage.qml</file>
         <file>ui/utils/AirQualityIndex.qml</file>
+        <file>ui/mainviews/energy/PowerBalanceHistory.qml</file>
+        <file>ui/mainviews/energy/CurrentPowerBalancePieChart.qml</file>
     </qresource>
 </RCC>
