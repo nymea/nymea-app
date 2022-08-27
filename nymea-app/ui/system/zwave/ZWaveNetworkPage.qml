@@ -441,7 +441,7 @@ SettingsPageBase {
                 }
                 Label {
                     Layout.fillWidth: true
-                    text: nodeInfoDialog.node.isZWavePlus ? qsTr("Yes") : qsTr("No")
+                    text: nodeInfoDialog.node.isZWavePlusDevice ? qsTr("Yes") : qsTr("No")
                     font: Style.smallFont
                     horizontalAlignment: Text.AlignRight
                 }
@@ -451,7 +451,7 @@ SettingsPageBase {
                 }
                 Label {
                     Layout.fillWidth: true
-                    text: nodeInfoDialog.node.isSecure ? qsTr("Yes") : qsTr("No")
+                    text: nodeInfoDialog.node.isSecurityDevice ? qsTr("Yes") : qsTr("No")
                     font: Style.smallFont
                     horizontalAlignment: Text.AlignRight
                 }
@@ -461,7 +461,7 @@ SettingsPageBase {
                 }
                 Label {
                     Layout.fillWidth: true
-                    text: nodeInfoDialog.node.isBeaming ? qsTr("Yes") : qsTr("No")
+                    text: nodeInfoDialog.node.isBeamingDevice ? qsTr("Yes") : qsTr("No")
                     font: Style.smallFont
                     horizontalAlignment: Text.AlignRight
                 }
