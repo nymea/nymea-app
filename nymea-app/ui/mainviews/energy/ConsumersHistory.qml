@@ -11,142 +11,62 @@ Item {
     property var colors: null
     property ThingsProxy consumers: null
 
-    Connections {
-        target: consumers
-        onCountChanged: d.updateConsumers()
-    }
-    Connections {
-        target: engine.tagsManager
-        onBusyChanged: d.updateConsumers()
-    }
-
-    ThingPowerLogs {
-        id: thingPowerLogs
+    PowerBalanceLogs {
+        id: powerBalanceLogs
         engine: _engine
-        startTime: dateTimeAxis.min
-        sampleRate: EnergyLogs.SampleRate15Mins
-        thingIds: []
-        loadingInhibited: thingIds.length === 0
-
-        onModelReset: {
-            for (var i = 0; i < consumers.count; i++) {
-                var consumer = consumers.get(i);
-                var series = d.thingsSeriesMap[consumer.id];
-                series.upperSeries.clear()
-            }
-        }
+        startTime: new Date(d.startTime.getTime() - d.range * 60000)
+        endTime: new Date(d.endTime.getTime() + d.range * 60000)
+        sampleRate: d.sampleRate
+        Component.onCompleted: fetchLogs()
 
         onEntriesAdded: {
-            var thingValues = ({})
-            var timestamp = entries[0].timestamp
+            print("entries added", index, entries.length)
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i]
-                var thing = engine.thingManager.things.getThing(entries[i].thingId)
-                thingValues[entry.thingId] = entry.currentPower
-            }
+//                print("got entry", entry.timestamp)
 
-            // Add them in the order of the chart (same as proxy), summing it up
-            var totalValue = 0;
-            for (var i = 0; i < consumers.count; i++) {
-                var consumer = consumers.get(i);
-                var value = thingValues.hasOwnProperty(consumer.id) ? thingValues[consumer.id] : 0
-                totalValue += thingValues.hasOwnProperty(consumer.id) ? thingValues[consumer.id] : 0;
-                var series = d.thingsSeriesMap[consumer.id];
-                series.upperSeries.append(timestamp, totalValue)
+                zeroSeries.ensureValue(entry.timestamp)
+                valueAxis.adjustMax(entry.consumption)
+                consumptionSeries.insertEntry(index + i, entry)
+                if (entry.timestamp > d.now && new Date().getTime() - d.now.getTime() < 120000) {
+                    d.now = entry.timestamp
+                }
             }
-            thingPowerLogs.maxValue = Math.max(thingPowerLogs.maxValue, totalValue)
         }
 
-        property double maxValue: 0
+        onEntriesRemoved: {
+            consumptionUpperSeries.removePoints(index, count)
+            zeroSeries.shrink()
+        }
     }
 
-    property PowerBalanceLogs powerBalanceLogs: PowerBalanceLogs {
+    ThingPowerLogsLoader {
+        id: logsLoader
         engine: _engine
-        startTime: dateTimeAxis.min
-        sampleRate: EnergyLogs.SampleRate15Mins
-
-        onEntryAdded: {
-            consumptionSeries.addEntry(entry)
-
-            if (dateTimeAxis.now < entry.timestamp) {
-                dateTimeAxis.now = entry.timestamp
-                zeroSeries.update(entry.timestamp)
-            }
-        }
-    }
-
-    Timer {
-        interval: 60000
-        repeat: true
-        onTriggered: {
-            var now = new Date()
-            if (dateTimeAxis.now < now) {
-                dateTimeAxis.now = now
-                zeroSeries.update(now)
-            }
-        }
-    }
-
-    Connections {
-        target: engine.thingManager
-        onFetchingDataChanged: d.updateConsumers()
-        onThingAdded: {
-            if (thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
-                d.updateConsumers();
-            }
-        }
-    }
-
-
-    Component.onCompleted: {
-        for (var i = 0; i < powerBalanceLogs.count; i++) {
-            var entry = powerBalanceLogs.get(i);
-            consumptionSeries.addEntry(entry)
-        }
-
-        d.updateConsumers();
+        startTime: new Date(d.startTime.getTime() - d.range * 60000)
+        endTime: new Date(d.endTime.getTime() + d.range * 60000)
+        sampleRate: d.sampleRate
     }
 
     QtObject {
         id: d
-        property var thingsSeriesMap: ({})
 
-        function updateConsumers() {
-            if (engine.thingManager.fetchingData || engine.tagsManager.busy) {
-                return;
-            }
-            thingPowerLogs.loadingInhibited = true;
+        property date now: new Date()
 
-            for (var thingId in d.thingsSeriesMap) {
-                chartView.removeSeries(d.thingsSeriesMap[thingId])
-            }
-            d.thingsSeriesMap = ({})
+        readonly property int range: selectionTabs.currentValue.range
+        readonly property int sampleRate: selectionTabs.currentValue.sampleRate
+        readonly property int visibleValues: range / sampleRate
 
-            var consumerThingIds = []
-            for (var i = 0; i < consumers.count; i++) {
-                var thing = consumers.get(i);
+        readonly property var startTime: {
+            var date = new Date(now);
+            date.setTime(date.getTime() - range * 60000 + 2000);
+            return date;
+        }
 
-                var baseSeries = zeroSeries;
-                if (i > 0) {
-                    baseSeries = d.thingsSeriesMap[consumerThingIds[i-1]].upperSeries
-    //                    print("base for:", thing.name, "is", engine.thingManager.things.getThing(consumerThingIds[i-1]).name)
-                }
-
-                var series = chartView.createSeries(ChartView.SeriesTypeArea, thing.name, dateTimeAxis, valueAxis)
-                series.lowerSeries = baseSeries
-                series.upperSeries = lineSeriesComponent.createObject(series)
-//                series.color = root.colors[i % root.colors.length]
-                series.color = NymeaUtils.generateColor(Style.generationBaseColor, i)
-                series.borderWidth = 0;
-                series.borderColor = series.color
-
-                var map = d.thingsSeriesMap
-                map[thing.id] = series
-                d.thingsSeriesMap = map
-                consumerThingIds.push(thing.id)
-            }
-            thingPowerLogs.thingIds = consumerThingIds;
-            thingPowerLogs.loadingInhibited = false;
+        readonly property var endTime: {
+            var date = new Date(now);
+            date.setTime(date.getTime() + 2000)
+            return date;
         }
     }
 
@@ -155,202 +75,497 @@ Item {
         LineSeries { }
     }
 
-    ChartView {
-        id: chartView
+    ColumnLayout {
         anchors.fill: parent
+        spacing: 0
 
-        backgroundColor: "transparent"
-        margins.left: 0
-        margins.right: 0
-        margins.bottom: 0
-        margins.top: 0
+        Label {
+            Layout.fillWidth: true
+            Layout.margins: Style.smallMargins
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("Consumers history")
+        }
 
-
-        title: qsTr("Consumers history")
-        titleColor: Style.foregroundColor
-
-        legend.alignment: Qt.AlignBottom
-        legend.labelColor: Style.foregroundColor
-        legend.font: Style.extraSmallFont
-
-        ValueAxis {
-            id: valueAxis
-            min: 0
-            max: Math.ceil(Math.max(powerBalanceLogs.maxValue, thingPowerLogs.maxValue) / 1000) * 1000
-            labelFormat: ""
-            gridLineColor: Style.tileOverlayColor
-            labelsVisible: false
-            lineVisible: false
-            titleVisible: false
-            shadesVisible: false
-            //        visible: false
-
+        SelectionTabs {
+            id: selectionTabs
+            Layout.fillWidth: true
+            Layout.leftMargin: Style.smallMargins
+            Layout.rightMargin: Style.smallMargins
+            currentIndex: 1
+            model: ListModel {
+                ListElement {
+                    modelData: qsTr("Hours")
+                    sampleRate: EnergyLogs.SampleRate1Min
+                    range: 180 // 3 Hours: 3 * 60
+                }
+                ListElement {
+                    modelData: qsTr("Days")
+                    sampleRate: EnergyLogs.SampleRate15Mins
+                    range: 1440 // 1 Day: 24 * 60
+                }
+                ListElement {
+                    modelData: qsTr("Weeks")
+                    sampleRate: EnergyLogs.SampleRate1Hour
+                    range: 10080 // 7 Days: 7 * 24 * 60
+                }
+                ListElement {
+                    modelData: qsTr("Months")
+                    sampleRate: EnergyLogs.SampleRate3Hours
+                    range: 43200 // 30 Days: 30 * 24 * 60
+                }
+            }
+            onTabSelected: {
+                d.now = new Date()
+                powerBalanceLogs.fetchLogs()
+                logsLoader.fetchLogs();
+            }
         }
 
         Item {
-            id: labelsLayout
-            x: Style.smallMargins
-            y: chartView.plotArea.y
-            height: chartView.plotArea.height
-            width: chartView.plotArea.x - x
-            Repeater {
-                model: valueAxis.tickCount
-                delegate: Label {
-                    y: parent.height / (valueAxis.tickCount - 1) * index - font.pixelSize / 2
-                    width: parent.width - Style.smallMargins
-                    horizontalAlignment: Text.AlignRight
-                    text: ((valueAxis.max - (index * valueAxis.max / (valueAxis.tickCount - 1))) / 1000).toFixed(2) + "kW"
-                    verticalAlignment: Text.AlignTop
-                    font: Style.extraSmallFont
-                }
-            }
-        }
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-        DateTimeAxis {
-            id: dateTimeAxis
-            property date now: new Date()
-            min: {
-                var date = new Date(now);
-                date.setTime(date.getTime() - (1000 * 60 * 60 * 24) + 2000);
-                return date;
-            }
-            max: {
-                var date = new Date(now);
-                date.setTime(date.getTime() + 2000)
-                return date;
-            }
-            format: "hh:mm"
-            labelsFont: Style.extraSmallFont
-            gridVisible: false
-            minorGridVisible: false
-            lineVisible: false
-            shadesVisible: false
-            labelsColor: Style.foregroundColor
-        }
-
-        AreaSeries {
-            id: consumptionSeries
-            axisX: dateTimeAxis
-            axisY: valueAxis
-            color: Style.gray
-            borderWidth: 0
-            borderColor: color
-            name: qsTr("Unknown")
-
-            lowerSeries: LineSeries {
-                id: zeroSeries
-                XYPoint { x: dateTimeAxis.min.getTime(); y: 0 }
-                XYPoint { x: dateTimeAxis.max.getTime(); y: 0 }
-                function update(timestamp) {
-                    append(timestamp, 0);
-                    removePoints(1,1);
-                }
-            }
-            upperSeries: LineSeries {
-                id: consumptionUpperSeries
+            Label {
+                x: chartView.x + chartView.plotArea.x + (chartView.plotArea.width - width) / 2
+                y: chartView.y + chartView.plotArea.y + Style.smallMargins
+                text: d.startTime.toLocaleDateString(Qt.locale(), Locale.LongFormat)
+                font: Style.smallFont
+                opacity: ((new Date().getTime() - d.now.getTime()) / d.sampleRate / 60000) > d.visibleValues ? .5 : 0
+                Behavior on opacity { NumberAnimation {} }
             }
 
-            function addEntry(entry) {
-                consumptionUpperSeries.append(entry.timestamp.getTime(), entry.consumption)
-            }
-        }
+            ChartView {
+                id: chartView
+                anchors.fill: parent
 
-    }
+                backgroundColor: "transparent"
+                margins.left: 0
+                margins.right: 0
+                margins.bottom: 0
+                margins.top: 0
 
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        anchors.leftMargin: chartView.plotArea.x
-        anchors.topMargin: chartView.plotArea.y
-        anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
-        anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
+                legend.alignment: Qt.AlignBottom
+                legend.font: Style.extraSmallFont
+                legend.labelColor: Style.foregroundColor
 
-        hoverEnabled: true
-
-        Timer {
-            interval: 300
-            running: mouseArea.pressed
-            onTriggered: mouseArea.preventStealing = true
-        }
-        onReleased: mouseArea.preventStealing = false
-
-        Rectangle {
-            height: parent.height
-            width: 1
-            color: Style.foregroundColor
-            x: Math.min(mouseArea.width - 1, Math.max(0, mouseArea.mouseX))
-            visible: mouseArea.containsMouse || mouseArea.preventStealing
-        }
-
-        NymeaToolTip {
-            id: toolTip
-            visible: mouseArea.containsMouse || mouseArea.preventStealing
-
-            backgroundItem: chartView
-            backgroundRect: Qt.rect(mouseArea.x + toolTip.x, mouseArea.y + toolTip.y, toolTip.width, toolTip.height)
-
-            property int idx: consumptionUpperSeries.count - Math.floor(mouseArea.mouseX * consumptionUpperSeries.count / mouseArea.width)
-            property int seriesIndex: Math.min(consumptionUpperSeries.count - 1, Math.max(0, consumptionUpperSeries.count - idx))
-
-            property int xOnRight: Math.max(0, mouseArea.mouseX) + Style.smallMargins
-            property int xOnLeft: Math.min(mouseArea.width, mouseArea.mouseX) - Style.smallMargins - width
-            x: xOnRight + width < mouseArea.width ? xOnRight : xOnLeft
-            property double maxValue: consumptionUpperSeries.at(seriesIndex).y
-            y: Math.min(Math.max(mouseArea.height - (maxValue * mouseArea.height / valueAxis.max) - height - Style.margins, 0), mouseArea.height - height)
-
-            width: tooltipLayout.implicitWidth + Style.smallMargins * 2
-            height: tooltipLayout.implicitHeight + Style.smallMargins * 2
-
-            property date timestamp: new Date(consumptionUpperSeries.at(seriesIndex).x)
-
-            ColumnLayout {
-                id: tooltipLayout
-                anchors {
-                    left: parent.left
-                    top: parent.top
-                    margins: Style.smallMargins
+                ActivityIndicator {
+                    x: chartView.plotArea.x + (chartView.plotArea.width - width) / 2
+                    y: chartView.plotArea.y + (chartView.plotArea.height - height) / 2 + (chartView.plotArea.height / 8)
+                    visible: powerBalanceLogs.fetchingData || logsLoader.fetchingData
+                    opacity: .5
                 }
                 Label {
-                    text: toolTip.timestamp.toLocaleString(Qt.locale(), Locale.ShortFormat)
+                    x: chartView.plotArea.x + (chartView.plotArea.width - width) / 2
+                    y: chartView.plotArea.y + (chartView.plotArea.height - height) / 2 + (chartView.plotArea.height / 8)
+                    text: qsTr("No data available")
+                    visible: !powerBalanceLogs.fetchingData && !logsLoader.fetchingData && (powerBalanceLogs.count == 0 || powerBalanceLogs.get(0).timestamp > d.now)
                     font: Style.smallFont
+                    opacity: .5
                 }
-                RowLayout {
-                    Rectangle {
-                        width: Style.extraSmallFont.pixelSize
-                        height: width
-                        color: consumptionSeries.color
-                    }
-                    Label {
-                        property double rawValue: consumptionUpperSeries.at(toolTip.seriesIndex).y
-                        property double displayValue: rawValue >= 1000 ? rawValue / 1000 : rawValue
-                        property string unit: rawValue >= 1000 ? "kW" : "W"
-                        text:  "%1: %2 %3".arg(qsTr("Total")).arg(displayValue.toFixed(2)).arg(unit)
-                        font: Style.extraSmallFont
+
+
+                ValueAxis {
+                    id: valueAxis
+                    min: 0
+                    max: 1
+                    labelFormat: ""
+                    gridLineColor: Style.tileOverlayColor
+                    labelsVisible: false
+                    lineVisible: false
+                    titleVisible: false
+                    shadesVisible: false
+                    //        visible: false
+
+                    function adjustMax(value) {
+                        max = Math.max(max, Math.ceil(value / 100) * 100)
                     }
                 }
 
-                Repeater {
-                    model: consumers
-                    delegate: RowLayout {
-                        id: consumerToolTipDelegate
-                        Rectangle {
-                            width: Style.extraSmallFont.pixelSize
-                            height: width
-//                            color: index >= 0 ? root.colors[index % root.colors.length] : "white"
-                            color: index >= 0 ? NymeaUtils.generateColor(Style.generationBaseColor, index) : "white"
-                        }
-
-                        Label {
-                            property ThingPowerLogEntry entry: thingPowerLogs.find(model.id, toolTip.timestamp)
-                            property double rawValue: entry ? entry.currentPower : 0
-                            property double displayValue: rawValue >= 1000 ? rawValue / 1000 : rawValue
-                            property string unit: rawValue >= 1000 ? "kW" : "W"
-                            text:  "%1: %2 %3".arg(model.name).arg(displayValue.toFixed(2)).arg(unit)
+                Item {
+                    id: labelsLayout
+                    x: Style.smallMargins
+                    y: chartView.plotArea.y
+                    height: chartView.plotArea.height
+                    width: chartView.plotArea.x - x
+                    Repeater {
+                        model: valueAxis.tickCount
+                        delegate: Label {
+                            y: parent.height / (valueAxis.tickCount - 1) * index - font.pixelSize / 2
+                            width: parent.width - Style.smallMargins
+                            horizontalAlignment: Text.AlignRight
+                            text: ((valueAxis.max - (index * valueAxis.max / (valueAxis.tickCount - 1))) / 1000).toFixed(2) + "kW"
+                            verticalAlignment: Text.AlignTop
                             font: Style.extraSmallFont
                         }
                     }
                 }
+
+                DateTimeAxis {
+                    id: dateTimeAxis
+                    min: d.startTime
+                    max: d.endTime
+                    format: {
+                        switch (selectionTabs.currentValue.sampleRate) {
+                        case EnergyLogs.SampleRate1Min:
+                        case EnergyLogs.SampleRate15Mins:
+                            return "hh:mm"
+                        case EnergyLogs.SampleRate1Hour:
+                        case EnergyLogs.SampleRate3Hours:
+                        case EnergyLogs.SampleRate1Day:
+                            return "dd.MM."
+                        }
+                    }
+                    tickCount: {
+                        switch (selectionTabs.currentValue.sampleRate) {
+                        case EnergyLogs.SampleRate1Min:
+                        case EnergyLogs.SampleRate15Mins:
+                            return root.width > 500 ? 13 : 7
+                        case EnergyLogs.SampleRate1Hour:
+                            return 7
+                        case EnergyLogs.SampleRate3Hours:
+                        case EnergyLogs.SampleRate1Day:
+                            return root.width > 500 ? 12 : 6
+                        }
+                    }
+                    labelsFont: Style.extraSmallFont
+                    gridVisible: false
+                    minorGridVisible: false
+                    lineVisible: false
+                    shadesVisible: false
+                    labelsColor: Style.foregroundColor
+                }
+
+                AreaSeries {
+                    id: consumptionSeries
+                    axisX: dateTimeAxis
+                    axisY: valueAxis
+                    color: Style.gray
+                    borderWidth: 0
+                    borderColor: color
+                    name: qsTr("Unknown")
+//                    visible: false
+                    opacity: .2
+
+                    lowerSeries: LineSeries {
+                        id: zeroSeries
+                        XYPoint { x: dateTimeAxis.min.getTime(); y: 0 }
+                        XYPoint { x: dateTimeAxis.max.getTime(); y: 0 }
+                        function ensureValue(timestamp) {
+                            if (count == 0) {
+                                append(timestamp, 0)
+                            } else if (count == 1) {
+                                if (timestamp.getTime() < at(0).x) {
+                                    insert(0, timestamp, 0)
+                                } else {
+                                    append(timestamp, 0)
+                                }
+                            } else {
+                                if (timestamp.getTime() < at(0).x) {
+                                    remove(0)
+                                    insert(0, timestamp, 0)
+                                } else if (timestamp.getTime() > at(1).x) {
+                                    remove(1)
+                                    append(timestamp, 0)
+                                }
+                            }
+                        }
+                        function shrink() {
+                            clear();
+                            if (powerBalanceLogs.count > 0) {
+                                ensureValue(powerBalanceLogs.get(0).timestamp)
+                                ensureValue(powerBalanceLogs.get(powerBalanceLogs.count - 1).timestamp)
+                            }
+                        }
+                    }
+                    upperSeries: LineSeries {
+                        id: consumptionUpperSeries
+                    }
+
+                    function addEntry(entry) {
+                        consumptionUpperSeries.append(entry.timestamp.getTime(), entry.consumption)
+                    }
+                    function insertEntry(index, entry) {
+                        consumptionUpperSeries.insert(index, entry.timestamp.getTime(), entry.consumption)
+                    }
+                }
+
+                Repeater {
+                    id: consumersRepeater
+                    model: consumers
+
+                    onCountChanged: {
+                        if (count == consumers.count) {
+                            logsLoader.fetchLogs()
+                        }
+                    }
+
+                    delegate: Item {
+                        id: consumerDelegate
+
+                        readonly property Thing thing: consumers.get(index)
+                        property AreaSeries series: null
+
+
+                        function getBaseValue(timestamp) {
+                            var ret = 0
+                            if (index > 0) {
+                                ret = consumersRepeater.itemAt(index - 1).getBaseValue(timestamp)
+                            }
+
+                            var entry = logs.find(timestamp)
+                            if (entry) {
+                                ret += entry.currentPower;
+                            }
+                            return ret
+                        }
+
+                        function insertEntry(idx, entry) {
+                            var baseValue = 0;
+                            if (index > 0) {
+                                baseValue = consumersRepeater.itemAt(index - 1).getBaseValue(entry.timestamp)
+                            }
+                            series.upperSeries.insert(idx, entry.timestamp.getTime(), entry.currentPower + baseValue)
+                        }
+
+                        readonly property ThingPowerLogs logs: ThingPowerLogs {
+                            engine: _engine
+                            startTime: new Date(d.startTime.getTime() - d.range * 60000)
+                            endTime: new Date(d.endTime.getTime() + d.range * 60000)
+                            sampleRate: d.sampleRate
+                            thingId: consumerDelegate.thing.id
+                            loader: logsLoader
+
+                            Component.onCompleted: print("thingpowerlogs completed")
+
+                            onLoadingInhibitedChanged: print("Loading...", consumerDelegate.thing.name)
+
+                            onEntriesAdded: {
+                                print("Thing entries added", consumerDelegate.thing.name, index, entries.length)
+                                for (var i = 0; i < entries.length; i++) {
+                                    var entry = entries[i]
+//                                    print("got thing entry", thing.name, entry.timestamp, entry.currentPower, index + i)
+
+                                    zeroSeries.ensureValue(entry.timestamp)
+                                    valueAxis.adjustMax(entry.currentPower)
+
+                                    consumerDelegate.insertEntry(index + i, entry)
+                                    if (entry.timestamp > d.now && new Date().getTime() - d.now.getTime() < 120000) {
+                                        d.now = entry.timestamp
+                                    }
+                                }
+                            }
+
+                            onEntriesRemoved: {
+                                consumerDelegate.series.upperSeries.removePoints(index, count)
+                                zeroSeries.shrink()
+                            }
+                        }
+
+                        Component.onCompleted: {
+                            series = chartView.createSeries(ChartView.SeriesTypeArea, thing.name, dateTimeAxis, valueAxis)
+                            series.lowerSeries = index == 0 ? zeroSeries : consumersRepeater.itemAt(index - 1).series.upperSeries
+                            series.upperSeries = lineSeriesComponent.createObject(series)
+                            series.color = NymeaUtils.generateColor(Style.generationBaseColor, index)
+                            series.borderWidth = 0;
+                            series.borderColor = series.color
+
+                        }
+                    }
+                }
+            }
+
+            MouseArea {
+                id: mouseArea
+                anchors.fill: parent
+                anchors.leftMargin: chartView.plotArea.x
+                anchors.topMargin: chartView.plotArea.y
+                anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
+                anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
+
+                hoverEnabled: true
+                preventStealing: tooltipping || dragging
+
+                property int startMouseX: 0
+                property bool dragging: false
+                property bool tooltipping: false
+
+                property var startDatetime: null
+
+                Timer {
+                    interval: 300
+                    running: mouseArea.pressed
+                    onTriggered: {
+                        if (!mouseArea.dragging) {
+                            mouseArea.tooltipping = true
+                        }
+                    }
+                }
+                onReleased: {
+                    mouseArea.tooltipping = false;
+
+                    if (mouseArea.dragging) {
+                        mouseArea.dragging = false;
+
+                        for (var i = 0; i < consumersRepeater.count; i++) {
+                            if (consumersRepeater.itemAt(i).logs.fetchingData) {
+                                wheelStopTimer.start()
+                                return;
+                            }
+                        }
+
+                        powerBalanceLogs.fetchLogs()
+                        logsLoader.fetchLogs()
+//                        for (var i = 0; i < consumersRepeater.count; i++) {
+//                            consumersRepeater.itemAt(i).logs.fetchLogs()
+//                        }
+                    }
+                }
+
+                onPressed: {
+                    startMouseX = mouseX
+                    startDatetime = d.now
+                }
+
+
+                onDoubleClicked: {
+                    if (selectionTabs.currentIndex == 0) {
+                        return;
+                    }
+
+                    var idx = Math.ceil(mouseArea.mouseX * d.visibleValues / mouseArea.width)
+                    var timestamp = new Date(d.startTime.getTime() + (idx * d.sampleRate * 60000))
+                    selectionTabs.currentIndex--
+                    d.now = new Date(timestamp.getTime() + (d.visibleValues / 2) * d.sampleRate * 60000)
+                    powerBalanceLogs.fetchLogs()
+                    logsLoader.fetchLogs()
+                }
+
+                onMouseXChanged: {
+                    if (!pressed || mouseArea.tooltipping) {
+                        return;
+                    }
+                    if (Math.abs(startMouseX - mouseX) < 10) {
+                        return;
+                    }
+                    dragging = true
+
+                    var dragDelta = startMouseX - mouseX
+                    var totalTime = d.endTime.getTime() - d.startTime.getTime()
+                    // dragDelta : timeDelta = width : totalTime
+                    var timeDelta = dragDelta * totalTime / mouseArea.width
+                    print("dragging", dragDelta, totalTime, mouseArea.width)
+                    d.now = new Date(Math.min(new Date(), new Date(startDatetime.getTime() + timeDelta)))
+                }
+
+                onWheel: {
+                    startDatetime = d.now
+                    var totalTime = d.endTime.getTime() - d.startTime.getTime()
+                    // pixelDelta : timeDelta = width : totalTime
+                    var timeDelta = wheel.pixelDelta.x * totalTime / mouseArea.width
+                    print("wheeling", wheel.pixelDelta.x, totalTime, mouseArea.width)
+                    d.now = new Date(Math.min(new Date(), new Date(startDatetime.getTime() - timeDelta)))
+                    wheelStopTimer.restart()
+                }
+                Timer {
+                    id: wheelStopTimer
+                    interval: 300
+                    repeat: false
+                    onTriggered: {
+                        for (var i = 0; i < consumersRepeater.count; i++) {
+                            if (consumersRepeater.itemAt(i).logs.fetchingData) {
+                                wheelStopTimer.start()
+                                return;
+                            }
+                        }
+
+                        powerBalanceLogs.fetchLogs()
+                        logsLoader.fetchLogs()
+//                        for (var i = 0; i < consumersRepeater.count; i++) {
+//                            consumersRepeater.itemAt(i).logs.fetchLogs()
+//                        }
+                    }
+                }
+
+                Rectangle {
+                    height: parent.height
+                    width: 1
+                    color: Style.foregroundColor
+                    x: Math.min(mouseArea.width - 1, Math.max(0, mouseArea.mouseX))
+                    visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
+                }
+
+                NymeaToolTip {
+                    id: toolTip
+                    visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
+
+                    backgroundItem: chartView
+                    backgroundRect: Qt.rect(mouseArea.x + toolTip.x, mouseArea.y + toolTip.y, toolTip.width, toolTip.height)
+
+                    property int idx: Math.ceil(mouseArea.mouseX * d.visibleValues / mouseArea.width)
+                    property date timestamp: new Date(d.startTime.getTime() + (idx * d.sampleRate * 60000))
+                    property PowerBalanceLogEntry entry: powerBalanceLogs.find(timestamp)
+
+                    property int xOnRight: Math.max(0, mouseArea.mouseX) + Style.smallMargins
+                    property int xOnLeft: Math.min(mouseArea.width, mouseArea.mouseX) - Style.smallMargins - width
+                    x: xOnRight + width < mouseArea.width ? xOnRight : xOnLeft
+                    property double maxValue: toolTip.entry ? Math.max(0, entry.consumption) : 0
+                    y: Math.min(Math.max(mouseArea.height - (maxValue * mouseArea.height / valueAxis.max) - height - Style.margins, 0), mouseArea.height - height)
+
+                    width: tooltipLayout.implicitWidth + Style.smallMargins * 2
+                    height: tooltipLayout.implicitHeight + Style.smallMargins * 2
+
+                    ColumnLayout {
+                        id: tooltipLayout
+                        anchors {
+                            left: parent.left
+                            top: parent.top
+                            margins: Style.smallMargins
+                        }
+                        Label {
+                            text: toolTip.timestamp.toLocaleString(Qt.locale(), Locale.ShortFormat)
+                            font: Style.smallFont
+                        }
+                        RowLayout {
+                            Rectangle {
+                                width: Style.extraSmallFont.pixelSize
+                                height: width
+                                color: consumptionSeries.color
+                            }
+                            Label {
+                                property double rawValue: toolTip.entry ? toolTip.entry.consumption : 0
+                                property double displayValue: rawValue >= 1000 ? rawValue / 1000 : rawValue
+                                property string unit: rawValue >= 1000 ? "kW" : "W"
+                                text:  "%1: %2 %3".arg(qsTr("Total")).arg(displayValue.toFixed(2)).arg(unit)
+                                font: Style.extraSmallFont
+                            }
+                        }
+
+                        Repeater {
+                            model: consumers
+                            delegate: RowLayout {
+                                id: consumerToolTipDelegate
+                                Rectangle {
+                                    width: Style.extraSmallFont.pixelSize
+                                    height: width
+        //                            color: index >= 0 ? root.colors[index % root.colors.length] : "white"
+                                    color: index >= 0 ? NymeaUtils.generateColor(Style.generationBaseColor, index) : "white"
+                                }
+
+                                Label {
+                                    property ThingPowerLogEntry entry: toolTip.idx >= 0 ? consumersRepeater.itemAt(index).logs.find(toolTip.timestamp) : null
+                                    property double rawValue: entry ? entry.currentPower : 0
+                                    property double displayValue: rawValue >= 1000 ? rawValue / 1000 : rawValue
+                                    property string unit: rawValue >= 1000 ? "kW" : "W"
+                                    text:  "%1: %2 %3".arg(model.name).arg(displayValue.toFixed(2)).arg(unit)
+                                    font: Style.extraSmallFont
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
+
+
 }

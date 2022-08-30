@@ -2,6 +2,9 @@
 
 #include <QMetaEnum>
 
+#include <QLoggingCategory>
+Q_DECLARE_LOGGING_CATEGORY(dcEnergyLogs)
+
 ThingPowerLogEntry::ThingPowerLogEntry(QObject *parent):
     EnergyLogEntry(parent)
 {
@@ -39,67 +42,46 @@ double ThingPowerLogEntry::totalProduction() const
 
 ThingPowerLogs::ThingPowerLogs(QObject *parent) : EnergyLogs(parent)
 {
-    m_cacheTimer.setInterval(2000);
-    connect(&m_cacheTimer, &QTimer::timeout, this, [=](){
-        if (m_cachedEntries.count() > 0) {
-            addEntries(m_cachedEntries);
-            m_cachedEntries.clear();
+}
+
+QUuid ThingPowerLogs::thingId() const
+{
+    return m_thingId;
+}
+
+void ThingPowerLogs::setThingId(const QUuid &thingId)
+{
+    if (m_thingId != thingId) {
+        m_thingId = thingId;
+        emit thingIdChanged();
+        if (m_loader) {
+            m_loader->addThingId(thingId);
         }
-    });
+    }
 }
 
-QList<QUuid> ThingPowerLogs::thingIds() const
+ThingPowerLogsLoader *ThingPowerLogs::loader() const
 {
-    return m_thingIds;
+    return m_loader;
 }
 
-void ThingPowerLogs::setThingIds(const QList<QUuid> &thingIds)
+void ThingPowerLogs::setLoader(ThingPowerLogsLoader *loader)
 {
-    if (m_thingIds != thingIds) {
-        m_thingIds = thingIds;
-        emit thingIdsChanged();
+    if (m_loader != loader) {
+        m_loader = loader;
+        emit loaderChanged();
+
+        loader->addThingId(m_thingId);
+        connect(loader, &ThingPowerLogsLoader::fetched, this, [=](int commandId, const QVariantMap &params){
+            qCDebug(dcEnergyLogs()) << "Loader fetched data.";
+            getLogsResponse(commandId, params);
+        });
     }
 }
 
-double ThingPowerLogs::minValue() const
+ThingPowerLogEntry *ThingPowerLogs::liveEntry()
 {
-    return m_minValue;
-}
-
-double ThingPowerLogs::maxValue() const
-{
-    return m_maxValue;
-}
-
-ThingPowerLogEntry *ThingPowerLogs::find(const QUuid &thingId, const QDateTime &timestamp)
-{
-    // TODO: Can we do a binary search even if they key we're looking for is not unique (but still sorted)?
-    // For now, 365 * consumers items is the max we'll have here which seems on the edge for doing a stupid linear search...
-//    qWarning() << "Finding item for" << thingId.toString() << timestamp.toString();
-    for (int i = rowCount() - 1; i >= 0; i--) {
-        ThingPowerLogEntry *entry = static_cast<ThingPowerLogEntry*>(get(i));
-        if (entry->thingId() != thingId) {
-            continue;
-        }
-//        qWarning() << "comparing" << entry->timestamp().toString();
-        if (timestamp == entry->timestamp()) {
-            return entry;
-        }
-        if (timestamp > entry->timestamp()) {
-            return nullptr; // Giving up, entry is not here
-        }
-    }
-    return nullptr;
-}
-
-ThingPowerLogEntry *ThingPowerLogs::liveEntry(const QUuid &thingId)
-{
-    return m_liveEntries.value(thingId);
-}
-
-void ThingPowerLogs::addEntry(ThingPowerLogEntry *entry)
-{
-    appendEntry(entry);
+    return m_liveEntry;
 }
 
 void ThingPowerLogs::addEntries(const QList<ThingPowerLogEntry *> &entries)
@@ -128,32 +110,33 @@ QString ThingPowerLogs::logsName() const
 
 QVariantMap ThingPowerLogs::fetchParams() const
 {
-    QVariantList thingIdsStrings;
-    foreach (const QUuid &id, m_thingIds) {
-        thingIdsStrings.append(id.toString());
-    }
     QVariantMap ret;
-    ret.insert("thingIds", thingIdsStrings);
+    ret.insert("thingIds", QVariantList{m_thingId});
     ret.insert("includeCurrent", true);
     return ret;
 }
 
-void ThingPowerLogs::logEntriesReceived(const QVariantMap &params)
+QList<EnergyLogEntry *> ThingPowerLogs::unpackEntries(const QVariantMap &params, double *minValue, double *maxValue)
 {
     foreach (const QVariant &variant, params.value("currentEntries").toList()) {
         QVariantMap map = variant.toMap();
-        ThingPowerLogEntry *entry = unpack(map);
-        if (m_liveEntries.contains(entry->thingId())) {
-            m_liveEntries[entry->thingId()]->deleteLater();
+        if (map.value("thingId").toUuid() != m_thingId) {
+            continue;
         }
-        m_liveEntries[entry->thingId()] = entry;
-        emit liveEntryChanged(entry);
+        if (m_liveEntry) {
+            m_liveEntry->deleteLater();
+        }
+        m_liveEntry = unpack(map);
+        emit liveEntryChanged(m_liveEntry);
+        break;
     }
 
-    // Grouping them so when the UI gets entriesAdded, the whole set for this timstamp will be available at once
-    QList<ThingPowerLogEntry*> groupForTimestamp;
+    QList<EnergyLogEntry*> ret;
     foreach (const QVariant &variant, params.value("thingPowerLogEntries").toList()) {
         QVariantMap map = variant.toMap();
+        if (map.value("thingId").toUuid() != m_thingId) {
+            continue;
+        }
         QDateTime timestamp = QDateTime::fromSecsSinceEpoch(map.value("timestamp").toLongLong());
         QUuid thingId = map.value("thingId").toUuid();
         double currentPower = map.value("currentPower").toDouble();
@@ -162,21 +145,13 @@ void ThingPowerLogs::logEntriesReceived(const QVariantMap &params)
         ThingPowerLogEntry *entry = new ThingPowerLogEntry(timestamp, thingId, currentPower, totalConsumption, totalProduction, this);
 //        qWarning() << "Adding entry:" << entry->thingId() << entry->timestamp().toString() << entry->totalConsumption();
 
-        if (groupForTimestamp.isEmpty()) {
-            groupForTimestamp.append(entry);
-        } else if (groupForTimestamp.first()->timestamp() == timestamp) {
-            groupForTimestamp.append(entry);
-        } else {
-            // Finalize previous group and start a new one
-            addEntries(groupForTimestamp);
-            groupForTimestamp.clear();
-            groupForTimestamp.append(entry);
-        }
+        *minValue = qMin(*minValue, currentPower);
+        *maxValue = qMax(*maxValue, currentPower);
+
+        ret.append(entry);
     }
 
-    if (!groupForTimestamp.isEmpty()) {
-        addEntries(groupForTimestamp);
-    }
+    return ret;
 }
 
 void ThingPowerLogs::notificationReceived(const QVariantMap &data)
@@ -189,52 +164,193 @@ void ThingPowerLogs::notificationReceived(const QVariantMap &data)
     QVariantMap entryMap = params.value("thingPowerLogEntry").toMap();
     QUuid thingId = entryMap.value("thingId").toUuid();
 
-    if (!m_thingIds.isEmpty() && !m_thingIds.contains(thingId)) {
+    if (m_thingId != thingId) {
         // Not watching this thing...
+        return;
+    }
+
+    if (sampleRate != this->sampleRate()) {
         return;
     }
 
     // We'll use 1 Min samples in any case for the live value
     if (sampleRate == EnergyLogs::SampleRate1Min) {
         ThingPowerLogEntry *liveEntry = unpack(params.value("thingPowerLogEntry").toMap());
-        if (m_liveEntries.contains(thingId)) {
-            m_liveEntries.value(thingId)->deleteLater();
+        if (m_liveEntry) {
+            m_liveEntry->deleteLater();
         }
-        m_liveEntries[thingId] = liveEntry;
+        m_liveEntry = liveEntry;
         emit liveEntryChanged(liveEntry);
-    }
-
-    // And append the sample rate we're interested in
-    if (sampleRate != this->sampleRate()) {
-        return;
     }
 
     if (notification == "Energy.ThingPowerLogEntryAdded") {
         QVariantMap map = params.value("thingPowerLogEntry").toMap();
         QDateTime timestamp = QDateTime::fromSecsSinceEpoch(map.value("timestamp").toLongLong());
         QUuid thingId = map.value("thingId").toUuid();
-        if (!m_thingIds.isEmpty() && !m_thingIds.contains(thingId)) {
-            return;
-        }
         double currentPower = map.value("currentPower").toDouble();
         double totalConsumption = map.value("totalConsumption").toDouble();
         double totalProduction = map.value("totalProduction").toDouble();
         ThingPowerLogEntry *entry = new ThingPowerLogEntry(timestamp, thingId, currentPower, totalConsumption, totalProduction, this);
-
-        // In order to be easier on resources, we'll batch notifications by grouping them by timestamp
-        // While the timestamp is the same, just cache the changes. Once the timestamp changes, we'll finalize the
-        // batch and actually append them.
-        // Also if we're not getting any more notification for a while and still have cached entries, we'll process the batch
-        if (m_cachedEntries.isEmpty()) {
-            m_cachedEntries.append(entry);
-        } else if (entry->timestamp() == m_cachedEntries.first()->timestamp()) {
-            m_cachedEntries.append(entry);
-        } else {
-            addEntries(m_cachedEntries);
-            m_cachedEntries.clear();
-            m_cachedEntries.append(entry);
-        }
-        m_cacheTimer.start();
+        appendEntry(entry, currentPower, currentPower);
     }
 }
 
+
+ThingPowerLogsLoader::ThingPowerLogsLoader(QObject *parent):
+    QObject(parent)
+{
+
+}
+
+Engine *ThingPowerLogsLoader::engine() const
+{
+    return m_engine;
+}
+
+void ThingPowerLogsLoader::setEngine(Engine *engine)
+{
+    if (m_engine != engine) {
+        m_engine = engine;
+        emit engineChanged();
+
+        if (!m_engine) {
+            return;
+        }
+
+        connect(engine, &Engine::destroyed, this, [=](){
+            if (engine == m_engine) {
+                m_engine = nullptr;
+                emit engineChanged();
+            }
+        });
+    }
+}
+
+EnergyLogs::SampleRate ThingPowerLogsLoader::sampleRate() const
+{
+    return m_sampleRate;
+}
+
+void ThingPowerLogsLoader::setSampleRate(EnergyLogs::SampleRate sampleRate)
+{
+    if (m_sampleRate != sampleRate) {
+        m_sampleRate = sampleRate;
+        emit sampleRateChanged();
+
+        m_lastStartTime = QDateTime();
+        m_lastEndTime = QDateTime();
+    }
+}
+
+QDateTime ThingPowerLogsLoader::startTime() const
+{
+    return m_startTime;
+}
+
+void ThingPowerLogsLoader::setStartTime(const QDateTime &startTime)
+{
+    if (m_startTime != startTime) {
+        m_startTime = startTime;
+        emit startTimeChanged();
+    }
+}
+
+QDateTime ThingPowerLogsLoader::endTime() const
+{
+    return m_endTime;
+}
+
+void ThingPowerLogsLoader::setEndTime(const QDateTime &endTime)
+{
+    if (m_endTime != endTime) {
+        m_endTime = endTime;
+        emit endTimeChanged();
+    }
+}
+
+bool ThingPowerLogsLoader::fetchingData() const
+{
+    return m_fetchingData;
+}
+
+void ThingPowerLogsLoader::addThingId(const QUuid &thingId)
+{
+    if (!m_thingIds.contains(thingId)) {
+        m_thingIds.append(thingId);
+    }
+}
+
+void ThingPowerLogsLoader::fetchLogs()
+{
+    if (!m_engine || m_engine->jsonRpcClient()->experiences().value("Energy").toString() < "1.0") {
+        return;
+    }
+
+    if (m_fetchingData) {
+        qCDebug(dcEnergyLogs()) << "Already busy.. queing up call";
+        m_fetchAgain = true;
+        return;
+    }
+
+    QVariantMap params;
+    QVariantList thingIds;
+    foreach (const QUuid &thingId, m_thingIds) {
+        thingIds.append(thingId);
+    }
+    params.insert("thingIds", thingIds);
+    params.insert("includeCurrent", true);
+
+    QMetaEnum metaEnum = QMetaEnum::fromType<EnergyLogs::SampleRate>();
+    params.insert("sampleRate", metaEnum.valueToKey(m_sampleRate));
+
+    if (!m_startTime.isNull() && !m_endTime.isNull()) {
+        QDateTime startTime;
+        QDateTime endTime;
+        if (m_lastStartTime.isNull() || m_lastEndTime.isNull()) {
+            startTime = m_startTime;
+            endTime = m_endTime;
+            m_lastStartTime = m_startTime;
+            m_lastEndTime = m_endTime;
+        } else {
+            if (m_startTime < m_lastStartTime) {
+                startTime = m_startTime;
+                endTime = m_lastStartTime;
+                m_lastStartTime = m_startTime;
+            } else if (m_lastEndTime < m_endTime) {
+                startTime = m_lastEndTime;
+                endTime = m_endTime;
+                m_lastEndTime = m_endTime;
+            } else {
+                // Nothing to do...
+                m_fetchingData = false;
+                emit fetchingDataChanged();
+                return;
+            }
+
+        }
+
+        params.insert("from", startTime.toSecsSinceEpoch());
+        params.insert("to", endTime.addSecs(-1).toSecsSinceEpoch());
+        qCDebug(dcEnergyLogs()) << "Fetching from" << startTime.toString() << "to" << endTime.toString() << "with sample rate" << m_sampleRate;
+    }
+
+    m_fetchingData = true;
+    fetchingDataChanged();
+
+    m_engine->jsonRpcClient()->sendCommand("Energy.GetThingPowerLogs", params, this, "getLogsResponse");
+}
+
+void ThingPowerLogsLoader::getLogsResponse(int commandId, const QVariantMap &params)
+{
+    qCDebug(dcEnergyLogs()) << "Logs loader response!";
+    emit fetched(commandId, params);
+
+    m_fetchingData = false;
+
+    if (m_fetchAgain) {
+        m_fetchAgain = false;
+        fetchLogs();
+    } else {
+        emit fetchingDataChanged();
+    }
+}

@@ -66,100 +66,14 @@ PowerBalanceLogs::PowerBalanceLogs(QObject *parent) : EnergyLogs(parent)
 
 }
 
-double PowerBalanceLogs::minValue() const
-{
-    return m_minValue;
-}
-
-double PowerBalanceLogs::maxValue() const
-{
-    return m_maxValue;
-}
-
 QString PowerBalanceLogs::logsName() const
 {
     return "PowerBalanceLogs";
 }
 
-void PowerBalanceLogs::addEntry(PowerBalanceLogEntry *entry)
+QList<EnergyLogEntry *> PowerBalanceLogs::unpackEntries(const QVariantMap &params, double *minValue, double *maxValue)
 {
-    if (entry->consumption() < m_minValue) {
-        m_minValue = entry->consumption();
-        emit minValueChanged();
-    }
-    if (entry->consumption() > m_maxValue) {
-        m_maxValue = entry->consumption();
-        emit maxValueChanged();
-    }
-
-    if (entry->production() < m_minValue) {
-        m_minValue = entry->production();
-        emit minValueChanged();
-    }
-    if (entry->production() > m_maxValue) {
-        m_maxValue = entry->production();
-        emit maxValueChanged();
-    }
-    if (entry->acquisition() < m_minValue) {
-        m_minValue = entry->acquisition();
-        emit minValueChanged();
-    }
-    if (entry->acquisition() > m_maxValue) {
-        m_maxValue = entry->acquisition();
-        emit maxValueChanged();
-    }
-    if (entry->storage() < m_minValue) {
-        m_minValue = entry->storage();
-        emit minValueChanged();
-    }
-    if (entry->storage() > m_maxValue) {
-        m_maxValue = entry->storage();
-        emit maxValueChanged();
-    }
-
-    appendEntry(entry);
-}
-
-EnergyLogEntry *PowerBalanceLogs::find(const QDateTime &timestamp) const
-{
-    qWarning() << "Finding log entry for timestamp:" << timestamp;
-    int oldest = 0;
-    int newest = rowCount() - 1;
-    EnergyLogEntry *entry = nullptr;
-    int step = 0;
-    while (oldest <= newest && step < rowCount()) {
-        EnergyLogEntry *oldestEntry = get(oldest);
-        EnergyLogEntry *newestEntry = get(newest);
-        int middle = (newest - oldest) / 2 + oldest;
-        EnergyLogEntry *middleEntry = get(middle);
-        qWarning() << "Oldest:" << oldestEntry->timestamp().toString() << "Middle:" << middleEntry->timestamp().toString() << "Newest:" << newestEntry->timestamp().toString() << ":" << (newest - oldest);
-        if (timestamp <= oldestEntry->timestamp()) {
-            return oldestEntry;
-        }
-        if (timestamp >= newestEntry->timestamp()) {
-            return newestEntry;
-        }
-
-        if (timestamp == middleEntry->timestamp()) {
-            return middleEntry;
-        }
-
-        if (timestamp < middleEntry->timestamp()) {
-            newest = middle;
-        } else {
-            oldest = middle;
-        }
-
-        if ((newest - oldest) <= 1) {
-            return newestEntry;
-        }
-        step++;
-    }
-    return entry;
-}
-
-void PowerBalanceLogs::logEntriesReceived(const QVariantMap &params)
-{
+    QList<EnergyLogEntry*> ret;
     foreach (const QVariant &variant, params.value("powerBalanceLogEntries").toList()) {
         QVariantMap map = variant.toMap();
         QDateTime timestamp = QDateTime::fromSecsSinceEpoch(map.value("timestamp").toLongLong());
@@ -172,10 +86,13 @@ void PowerBalanceLogs::logEntriesReceived(const QVariantMap &params)
         double totalAcquisition = map.value("totalAcquisition").toDouble();
         double totalReturn = map.value("totalReturn").toDouble();
         PowerBalanceLogEntry *entry = new PowerBalanceLogEntry(timestamp, consumption, production, acquisition, storage, totalConsumption, totalProduction, totalAcquisition, totalReturn, this);
-//        qCritical() << "Adding entry:" << entry->timestamp() << entry->totalConsumption();
 
-        addEntry(entry);
+        *minValue = qMin(qMin(qMin(qMin(*minValue, consumption), production), acquisition), storage);
+        *maxValue = qMax(qMax(qMax(qMax(*maxValue, consumption), production), acquisition), storage);
+
+        ret.append(entry);
     }
+    return ret;
 }
 
 void PowerBalanceLogs::notificationReceived(const QVariantMap &data)
@@ -202,7 +119,9 @@ void PowerBalanceLogs::notificationReceived(const QVariantMap &data)
         double totalAcquisition = map.value("totalAcquisition").toDouble();
         double totalReturn = map.value("totalReturn").toDouble();
         PowerBalanceLogEntry *entry = new PowerBalanceLogEntry(timestamp, consumption, production, acquisition, storage, totalConsumption, totalProduction, totalAcquisition, totalReturn, this);
-        addEntry(entry);
+        double minValue = qMin(qMin(qMin(consumption, production), acquisition), storage);
+        double maxValue = qMax(qMax(qMax(consumption, production), acquisition), storage);
+        appendEntry(entry, minValue, maxValue);
     }
 }
 

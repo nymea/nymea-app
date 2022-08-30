@@ -34,6 +34,10 @@ class EnergyLogs : public QAbstractListModel, public QQmlParserStatus
     Q_PROPERTY(bool live READ live WRITE setLive NOTIFY liveChanged)
     Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
     Q_PROPERTY(bool loadingInhibited READ loadingInhibited WRITE setLoadingInhibited NOTIFY loadingInhibitedChanged)
+    Q_PROPERTY(double minValue READ minValue NOTIFY minValueChanged)
+    Q_PROPERTY(double maxValue READ maxValue NOTIFY maxValueChanged)
+
+    friend class ThingPowerLogs;
 
 public:
     enum SampleRate {
@@ -77,13 +81,19 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
+    double minValue() const;
+    double maxValue() const;
+
     Q_INVOKABLE EnergyLogEntry* get(int index) const;
+    Q_INVOKABLE EnergyLogEntry* find(const QDateTime &timestamp);
+
+public slots:
+    void clear();
+    void fetchLogs();
 
 signals:
     void engineChanged();
     void sampleRateChanged();
-    void fetchPowerBalanceChanged();
-    void thingIdsChanged();
     void startTimeChanged();
     void endTimeChanged();
     void liveChanged();
@@ -91,34 +101,40 @@ signals:
     void loadingInhibitedChanged();
 
     void countChanged();
-    void entryAdded(EnergyLogEntry *entry);
-    void entriesAdded(const QList<EnergyLogEntry*> entries);
+    void entryAdded(int index, EnergyLogEntry *entry);
+    void entriesAdded(int index, const QList<EnergyLogEntry*> entries);
+    void entriesRemoved(int index, int count);
+
+    void minValueChanged();
+    void maxValueChanged();
 
 protected:
     virtual QString logsName() const = 0;
     virtual QVariantMap fetchParams() const;
-    virtual void logEntriesReceived(const QVariantMap &params) = 0;
+    virtual QList<EnergyLogEntry*> unpackEntries(const QVariantMap &params, double *minValue, double *maxValue) = 0;
     virtual void notificationReceived(const QVariantMap &data) = 0;
 
-    void appendEntry(EnergyLogEntry *entry);
+    void appendEntry(EnergyLogEntry *entry, double minValue, double maxValue);
     void appendEntries(const QList<EnergyLogEntry *> &entries);
 
-private slots:
+protected slots:
     void getLogsResponse(int commandId, const QVariantMap &params);
     void notificationReceivedInternal(const QVariantMap &data);
 
-    void fetchLogs();
 private:
     Engine *m_engine = nullptr;
     SampleRate m_sampleRate = SampleRate15Mins;
     bool m_fetchPowerBalance = true;
-    QList<QUuid> m_thingIds;
     QDateTime m_startTime;
     QDateTime m_endTime;
     bool m_live = true;
     bool m_fetchingData = false;
     bool m_loadingInhibited = false;
     bool m_ready = false;
+    bool m_fetchAgain = false;
+
+    double m_minValue = 0;
+    double m_maxValue = 0;
 
     QList<EnergyLogEntry*> m_list;
 };

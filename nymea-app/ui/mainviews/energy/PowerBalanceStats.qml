@@ -19,48 +19,98 @@ StatsBase {
 
     QtObject {
         id: d
-        property BarSet consumptionSet: null
-        property BarSet productionSet: null
-        property BarSet acquisitionSet: null
-        property BarSet returnSet: null
-    }
+        property var config: root.configs[selectionTabs.currentValue.config]
+        property int startOffset: 0
 
-    function reload() {
-        if (selectionTabs.currentValue === undefined) {
-            return
+        property date startTime: root.calculateTimestamp(config.startTime(), config.sampleRate, startOffset)
+        property date endTime: root.calculateTimestamp(config.startTime(), config.sampleRate, startOffset + config.count)
+
+        property bool fetchPending: false
+        property bool loading: fetchPending || wheelStopTimer.running || powerBalanceLogs.fetchingData
+        onLoadingChanged: {
+            if (!loading) {
+                refresh()
+            }
         }
-        if (engine.thingManager.fetchingData) {
-            return;
+
+        onConfigChanged: valueAxis.max = 1
+        onStartOffsetChanged: {
+//            print("updating because of offset change. fetchingData", powerBalanceLogs.fetchingData, "fetchPending", d.fetchPending)
+            refresh()
         }
+        function refresh() {
+            if (powerBalanceLogs.loadingInhibited) {
+                return;
+            }
 
-        var config = root.configs[selectionTabs.currentValue.config]
-        print("Loading Power Balance Stats with config:", config.startTime(), config.sampleRate)
-
-        powerBalanceLogs.loadingInhibited = true
-        powerBalanceLogs.sampleRate = config.sampleRate
-        powerBalanceLogs.startTime = new Date(config.startTime().getTime() - config.sampleRate * 60000)
-        powerBalanceLogs.loadingInhibited = false
-
-        chartView.reset();
-    }
-
-    Connections {
-        target: engine.thingManager
-        onFetchingDataChanged: {
-            print("Thingmanager loaded", engine.thingManager.fetchingData)
-            if (!engine.thingManager.fetchingData) root.reload()
+            var upcomingTimestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.config.count)
+//            print("refreshing config start", d.config.startTime(), "upcoming:", upcomingTimestamp, "fetchPending", d.fetchPending)
+            for (var i = 0; i < d.config.count; i++) {
+                var timestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + i + 1)
+                var previousTimestamp = root.calculateTimestamp(timestamp, d.config.sampleRate, -1)
+//                print("timestamp:", timestamp)
+                var entry = powerBalanceLogs.find(timestamp)
+                var previousEntry = powerBalanceLogs.find(previousTimestamp);
+                if (entry && (previousEntry || !d.loading)) {
+//                    print("found entry:", entry.timestamp, previousEntry)
+//                    print("Acquisition", entry.totalAcquisition)
+                    var consumption = entry.totalConsumption
+                    var production = entry.totalProduction
+                    var acquisition = entry.totalAcquisition
+                    var returned = entry.totalReturn
+                    if (previousEntry) {
+                        consumption -= previousEntry.totalConsumption
+                        production -= previousEntry.totalProduction
+                        acquisition -= previousEntry.totalAcquisition
+                        returned -= previousEntry.totalReturn
+                    }
+                    consumptionSet.replace(i, consumption)
+                    productionSet.replace(i, production)
+                    acquisitionSet.replace(i, acquisition)
+                    returnSet.replace(i, returned)
+                    valueAxis.adjustMax(consumption)
+                    valueAxis.adjustMax(production)
+                    valueAxis.adjustMax(acquisition)
+                    valueAxis.adjustMax(returned)
+                } else if (timestamp.getTime() == upcomingTimestamp.getTime() && (previousEntry || !d.loading)) {
+//                    print("it's today!")
+                    var consumption = energyManager.totalConsumption
+                    var production = energyManager.totalProduction
+                    var acquisition = energyManager.totalAcquisition
+                    var returned = energyManager.totalReturn
+                    if (previousEntry) {
+                        consumption -= previousEntry.totalConsumption
+                        production -= previousEntry.totalProduction
+                        acquisition -= previousEntry.totalAcquisition
+                        returned -= previousEntry.totalReturn
+                    }
+                    consumptionSet.replace(i, consumption)
+                    productionSet.replace(i, production)
+                    acquisitionSet.replace(i, acquisition)
+                    returnSet.replace(i, returned)
+                    valueAxis.adjustMax(consumption)
+                    valueAxis.adjustMax(production)
+                    valueAxis.adjustMax(acquisition)
+                    valueAxis.adjustMax(returned)
+                } else {
+                    consumptionSet.replace(i, 0)
+                    productionSet.replace(i, 0)
+                    acquisitionSet.replace(i, 0)
+                    returnSet.replace(i, 0)
+                }
+            }
         }
     }
 
     ColumnLayout {
         anchors.fill: parent
+        spacing: 0
 
         Label {
             Layout.fillWidth: true
             Layout.margins: Style.smallMargins
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("Totals")
-
         }
 
         SelectionTabs {
@@ -68,422 +118,419 @@ StatsBase {
             Layout.fillWidth: true
             Layout.leftMargin: Style.smallMargins
             Layout.rightMargin: Style.smallMargins
+            currentIndex: 1
             model: ListModel {
-                Component.onCompleted: {
-                    append({modelData: qsTr("Hours"), config: "hours" })
-                    append({modelData: qsTr("Days"), config: "days" })
-                    append({modelData: qsTr("Weeks"), config: "weeks" })
-                    append({modelData: qsTr("Months"), config: "months" })
-                    append({modelData: qsTr("Years"), config: "years" })
-//                    append({modelData: qsTr("Minutes"), config: "minutes" })
-
-                    selectionTabs.currentIndex = 1
-                }
+                ListElement { modelData: qsTr("Hours"); config: "hours" }
+                ListElement { modelData: qsTr("Days"); config: "days" }
+                ListElement { modelData: qsTr("Weeks"); config: "weeks" }
+                ListElement { modelData: qsTr("Months"); config: "months" }
+                ListElement { modelData: qsTr("Years"); config: "years" }
+//                ListElement { modelData: qsTr("Minutes"); config: "minutes" }
             }
-            onCurrentValueChanged: {
-                root.reload()
+            onTabSelected: {
+                d.startOffset = 0
+                powerBalanceLogs.fetchLogs()
             }
         }
 
         Connections {
             target: energyManager
             onPowerBalanceChanged: {
-                var start = powerBalanceLogs.get(powerBalanceLogs.count - 1 )
-//                print("balance changed:", d.consumptionSet, powerBalanceLogs, powerBalanceLogs.count)
-//                print("updating", start ? start.timestamp : "", start ? start.totalConsumption : 0, root.energyManager.totalConsumption, root.energyManager.totalConsumption - (start ? start.totalConsumption : 0))
-                if (root.hasProducers) {
-                    var consumption = root.energyManager.totalConsumption - (start ? start.totalConsumption : 0)
-                    d.consumptionSet.replace(d.consumptionSet.count - 1, consumption)
-                    valueAxis.adjustMax(consumption)
-                    var production = root.energyManager.totalProduction - (start ? start.totalProduction : 0)
-                    d.productionSet.replace(d.productionSet.count - 1, production)
-                    valueAxis.adjustMax(production)
-                }
-                var acquisition = root.energyManager.totalAcquisition - (start ? start.totalAcquisition : 0)
-                if (d.acquisitionSet) {
-                    d.acquisitionSet.replace(d.acquisitionSet.count - 1, acquisition)
-                }
-                valueAxis.adjustMax(acquisition)
-                var ret = root.energyManager.totalReturn - (start ? start.totalReturn : 0)
-                if (d.returnSet) {
-                    d.returnSet.replace(d.returnSet.count - 1, ret)
-                }
-                valueAxis.adjustMax(ret)
+//                print("updating because of power balance change. fetchingData", powerBalanceLogs.fetchingData, "fetchPending", d.fetchPending)
+                d.refresh();
             }
         }
 
         PowerBalanceLogs {
             id: powerBalanceLogs
             engine: _engine
-            loadingInhibited: true
+            startTime: root.calculateTimestamp(d.startTime, d.config.sampleRate, -d.config.count)
+            endTime: root.calculateTimestamp(d.startTime, d.config.sampleRate, d.config.count)
+            sampleRate: d.config.sampleRate
+            Component.onCompleted: fetchLogs()
 
             onFetchingDataChanged: {
                 if (!fetchingData) {
-                    chartView.animationOptions = ChartView.NoAnimation
-
-                    chartView.reset();
-
                     print("Logs fetched")
-                    var config = root.configs[selectionTabs.currentValue.config]
-
-                    var labels = []
-                    var entries = []
-
-                    var newestLogTimestamp = powerBalanceLogs.count > 0 ? powerBalanceLogs.get(powerBalanceLogs.count - 1).timestamp : new Date();
-                    for (var i = 0; i < config.count; i++) {
-                        var entry = powerBalanceLogs.get(powerBalanceLogs.count - i - 1)
-
-                        // if it's the first, let's add a generated entry which shows the total from the newest log to the current live value
-                        if (i == 0) {
-                            var liveEntry = {
-                                consumption: energyManager.totalConsumption,
-                                production: energyManager.totalProduction,
-                                acquisition: energyManager.totalAcquisition,
-                                returned: energyManager.totalReturn
-                            }
-                            if (entry) {
-                                liveEntry.consumption -= entry.totalConsumption
-                                liveEntry.production -= entry.totalProduction
-                                liveEntry.acquisition -= entry.totalAcquisition
-                                liveEntry.returned -= entry.totalReturn
-                            }
-//                            print("Adding live entry:", liveEntry.consumption, root.energyManager.totalConsumption, entry ? entry.totalConsumption : 0)
-                            entries.unshift(liveEntry)
-                            valueAxis.adjustMax(liveEntry.consumption)
-                            valueAxis.adjustMax(liveEntry.production)
-                            valueAxis.adjustMax(liveEntry.acquisition)
-                            valueAxis.adjustMax(liveEntry.returned)
-                        }
-
-                        // Add the actual entry
-                        var graphEntry = {
-                            consumption: 0,
-                            production: 0,
-                            acquisition: 0,
-                            returned: 0
-                        }
-                        var labelTime = new Date();
-                        if (entry) {
-//                            print("Have entry:", entry.timestamp, config.toLabel(entry.timestamp))
-                            var previous = powerBalanceLogs.get(powerBalanceLogs.count - i - 2)
-                            if (previous) {
-                                graphEntry.consumption = entry.totalConsumption - previous.totalConsumption
-                                graphEntry.production = entry.totalProduction - previous.totalProduction
-                                graphEntry.acquisition = entry.totalAcquisition - previous.totalAcquisition
-                                graphEntry.returned = entry.totalReturn - previous.totalReturn
-                            } else {
-                                graphEntry.consumption = entry.totalConsumption
-                                graphEntry.production = entry.totalProduction
-                                graphEntry.acquisition = entry.totalAcquisition
-                                graphEntry.returned = entry.totalReturn
-                            }
-                            labelTime = entry.timestamp
-                        } else {
-                            labelTime = calculateSampleStart(newestLogTimestamp, config.sampleRate, i)
-                        }
-
-//                        print("Adding entry:", labelTime, graphEntry.consumption, config.toLabel(labelTime))
-                        entries.unshift(graphEntry)
-                        labels.unshift(labelTime)
-
-                        // Given we've added 2 entries for the first run but only one label, we'll add the missing label
-                        // at the end. This will shift the labels by one entries but that's ok because the logs timestamp
-                        // is when the sample was created, but for the user it's better to show the the consumption values
-                        // *during* that sample, not *before* the sample
-                        if (i == config.count - 1) {
-                            labelTime = new Date(labelTime.getTime() - config.sampleRate * 60000)
-//                            print("Adding oldest entry label", labelTime, config.sampleRate, config.toLabel(labelTime))
-                            labels.unshift(labelTime)
-                        }
-
-                        valueAxis.adjustMax(graphEntry.consumption)
-                        valueAxis.adjustMax(graphEntry.production)
-                        valueAxis.adjustMax(graphEntry.acquisition)
-                        valueAxis.adjustMax(graphEntry.returned)
-                    }
-
-//                    print("assigning categories:", labels)
-                    categoryAxis.timestamps = labels
-
-                    chartView.animationOptions = NymeaUtils.chartsAnimationOptions
-
-                    for (var i = 0; i < entries.length; i++) {
-                        print("Appending to set", JSON.stringify(entries[i]))
-                        if (root.hasProducers) {
-                            d.consumptionSet.append(entries[i].consumption)
-                            d.productionSet.append(entries[i].production)
-                        }
-                        d.acquisitionSet.append(entries[i].acquisition)
-                        d.returnSet.append(entries[i].returned)
-                    }
+                    d.fetchPending = false
+                    d.refresh()
                 }
             }
 
-            onEntryAdded: {
+            onEntriesAdded: {
                 if (fetchingData) {
                     return
                 }
-
-//                print("Entry added")
-                var config = root.configs[selectionTabs.currentValue.config]
-
-
-                var start = entry
-                var consumptionValue = root.energyManager.totalConsumption - (start ? start.totalConsumption : 0)
-                var productionValue = root.energyManager.totalProduction - (start ? start.totalProduction : 0)
-                var acquisitionValue = root.energyManager.totalAcquisition - (start ? start.totalAcquisition : 0)
-                var returnValue = root.energyManager.totalReturn - (start ? start.totalReturn : 0)
-//                print("Entry added:", entry.timestamp, entry.totalConsumption, consumptionValue)
-
-                chartView.animationOptions = ChartView.NoAnimation
-
-                var timestamps = categoryAxis.timestamps;
-                timestamps.push(entry.timestamp)
-                timestamps.splice(0, 1)
-                categoryAxis.timestamps = timestamps
-
-                if (root.hasProducers) {
-                    d.consumptionSet.remove(0, 1);
-                    d.consumptionSet.append(consumptionValue)
-                    d.productionSet.remove(0, 1);
-                    d.productionSet.append(productionValue)
-                }
-                d.acquisitionSet.remove(0, 1);
-                d.acquisitionSet.append(acquisitionValue)
-                d.returnSet.remove(0, 1);
-                d.returnSet.append(returnValue)
-
-                chartView.animationOptions = NymeaUtils.chartsAnimationOptions
+                // Update the timeline by faking a left/right scroll
+                d.startOffset--
+                d.startOffset++
+                //d.refresh()
             }
         }
 
-
-        ChartView {
-            id: chartView
+        Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            animationOptions: ChartView.NoAnimation
 
-            backgroundColor: "transparent"
-            legend.alignment: Qt.AlignBottom
-            legend.font: Style.extraSmallFont
-            legend.labelColor: Style.foregroundColor
+            Label {
+                x: chartView.x + chartView.plotArea.x + (chartView.plotArea.width - width) / 2
+                y: chartView.y + chartView.plotArea.y + Style.smallMargins
+                text: d.config.toRangeLabel(d.startTime)
+                font: Style.smallFont
+                opacity: d.startOffset < -d.config.count ? .5 : 0
+                Behavior on opacity { NumberAnimation {} }
+            }
 
-        //    margins.left: 0
-            margins.right: 0
-            margins.bottom: 0
-            margins.top: 0
+            ChartView {
+                id: chartView
+                animationOptions: ChartView.NoAnimation
+                anchors.fill: parent
 
-            function reset() {
-                barSeries.clear();
-                valueAxis.max = 0
-                if (root.hasProducers) {
-                    d.consumptionSet = barSeries.append(qsTr("Consumed"), [])
-                    d.consumptionSet.color = Style.blue
-                    d.consumptionSet.borderColor = d.consumptionSet.color
-                    d.consumptionSet.borderWidth = 0
-                    d.productionSet = barSeries.append(qsTr("Produced"), [])
-                    d.productionSet.color = Style.yellow
-                    d.productionSet.borderColor = d.productionSet.color
-                    d.productionSet.borderWidth = 0
+                backgroundColor: "transparent"
+                legend.alignment: Qt.AlignBottom
+                legend.font: Style.extraSmallFont
+                legend.labelColor: Style.foregroundColor
+
+            //    margins.left: 0
+                margins.right: 0
+                margins.bottom: 0
+                margins.top: 0
+
+                ActivityIndicator {
+                    x: chartView.plotArea.x + (chartView.plotArea.width - width) / 2
+                    y: chartView.plotArea.y + (chartView.plotArea.height - height) / 2 + (chartView.plotArea.height / 8)
+                    visible: powerBalanceLogs.fetchingData
+                    opacity: .5
                 }
-                d.acquisitionSet = barSeries.append(qsTr("From grid"), [])
-                d.acquisitionSet.color = Style.red
-                d.acquisitionSet.borderColor = d.acquisitionSet.color
-                d.acquisitionSet.borderWidth = 0
-                d.returnSet = barSeries.append(qsTr("To grid"), [])
-                d.returnSet.color = Style.green
-                d.returnSet.borderColor = d.returnSet.color
-                d.returnSet.borderWidth = 0
+                Label {
+                    x: chartView.plotArea.x + (chartView.plotArea.width - width) / 2
+                    y: chartView.plotArea.y + (chartView.plotArea.height - height) / 2 + (chartView.plotArea.height / 8)
+                    text: qsTr("No data available")
+                    visible: !powerBalanceLogs.fetchingData && (powerBalanceLogs.count == 0 || powerBalanceLogs.get(0).timestamp > d.endTime) && d.startOffset != 0
+                    font: Style.smallFont
+                    opacity: .5
+                    Behavior on opacity { NumberAnimation {}}
+                }
+
+                Item {
+                    id: labelsLayout
+                    x: Style.smallMargins
+                    y: chartView.plotArea.y
+                    height: chartView.plotArea.height
+                    width: chartView.plotArea.x - x
+
+                    Repeater {
+                        model: valueAxis.tickCount
+                        delegate: Label {
+                            y: parent.height / (valueAxis.tickCount - 1) * index - font.pixelSize / 2
+                            width: parent.width - Style.smallMargins
+                            horizontalAlignment: Text.AlignRight
+                            text: ((valueAxis.max - (index * valueAxis.max / (valueAxis.tickCount - 1)))).toFixed(1) + "kWh"
+                            verticalAlignment: Text.AlignTop
+                            font: Style.extraSmallFont
+                        }
+                    }
+                }
+
+                BarSeries {
+                    id: barSeries
+                    axisX: BarCategoryAxis {
+                        id: categoryAxis
+                        labelsColor: Style.foregroundColor
+                        labelsFont: Style.extraSmallFont
+                        gridVisible: false
+                        gridLineColor: Style.tileOverlayColor
+                        lineVisible: false
+                        titleVisible: false
+                        shadesVisible: false
+
+                        categories: {
+                            var ret = []
+                            print("Updating categories from", d.config.startTime())
+                            for (var i = 0; i < d.config.count; i++) {
+                                var timestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + i);
+                                print("*** adding", timestamp, d.startOffset, i)
+                                ret.push(d.config.toLabel(timestamp))
+                            }
+                            return ret;
+                        }
+                    }
+                    axisY: ValueAxis {
+                        id: valueAxis
+                        min: 0
+                        gridLineColor: Style.tileOverlayColor
+                        labelsVisible: false
+                        labelsColor: Style.foregroundColor
+                        labelsFont: Style.extraSmallFont
+                        lineVisible: false
+                        titleVisible: false
+                        shadesVisible: false
+
+                        function adjustMax(newValue) {
+                            if (max < newValue) {
+                                print("adjusting to new max", newValue)
+                                max = newValue // Math.ceil(newValue / 100) * 100
+                            }
+                        }
+                    }
+
+                    BarSet {
+                        id: consumptionSet
+                        label: qsTr("Consumed")
+                        color: Style.blue
+                        borderColor: color
+                        borderWidth: 0
+                        values: {
+                            var ret = []
+                            for (var i = 0; i < d.config.count; i++) {
+                                ret.push(0)
+                            }
+                            return ret
+                        }
+                    }
+                    BarSet {
+                        id: productionSet
+                        label: qsTr("Produced")
+                        color: Style.yellow
+                        borderColor: color
+                        borderWidth: 0
+                        values: {
+                            var ret = []
+                            for (var i = 0; i < d.config.count; i++) {
+                                ret.push(0)
+                            }
+                            return ret
+                        }
+                    }
+
+                    BarSet {
+                        id: acquisitionSet
+                        label: qsTr("From grid")
+                        color: Style.red
+                        borderColor: color
+                        borderWidth: 0
+                        values: {
+                            var ret = []
+                            for (var i = 0; i < d.config.count; i++) {
+                                ret.push(0)
+                            }
+                            return ret
+                        }
+                    }
+                    BarSet {
+                        id: returnSet
+                        label: qsTr("To grid")
+                        color: Style.green
+                        borderColor: color
+                        borderWidth: 0
+                        values: {
+                            var ret = []
+                            for (var i = 0; i < d.config.count; i++) {
+                                ret.push(0)
+                            }
+                            return ret
+                        }
+                    }
+                }
             }
 
             Item {
-                id: labelsLayout
-                x: Style.smallMargins
-                y: chartView.plotArea.y
-                height: chartView.plotArea.height
-                width: chartView.plotArea.x - x
+                anchors.fill: parent
+                anchors.leftMargin: chartView.x + chartView.plotArea.x
+                anchors.topMargin: chartView.y + chartView.plotArea.y
+                anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
+                anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
+                z: -1
 
-                Repeater {
-                    model: valueAxis.tickCount
-                    delegate: Label {
-                        y: parent.height / (valueAxis.tickCount - 1) * index - font.pixelSize / 2
-                        width: parent.width - Style.smallMargins
-                        horizontalAlignment: Text.AlignRight
-                        text: ((valueAxis.max - (index * valueAxis.max / (valueAxis.tickCount - 1)))).toFixed(1) + "kWh"
-                        verticalAlignment: Text.AlignTop
-                        font: Style.extraSmallFont
-                    }
+                Rectangle {
+                    height: parent.height + Style.margins * 2
+                    y: -Style.smallMargins
+                    radius: Style.smallCornerRadius
+                    width: chartView.plotArea.width / categoryAxis.count
+                    color: Style.tileBackgroundColor
+                    property int idx: Math.min(Math.max(0,Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)), categoryAxis.count - 1)
+                    visible: toolTip.visible
+
+                    x: idx * parent.width / categoryAxis.count
+                    Behavior on x { enabled: toolTip.animationsEnabled; NumberAnimation { duration: Style.animationDuration } }
                 }
             }
 
-            BarSeries {
-                id: barSeries
-                axisX: BarCategoryAxis {
-                    id: categoryAxis
-                    labelsColor: Style.foregroundColor
-                    labelsFont: Style.extraSmallFont
-                    gridVisible: false
-                    gridLineColor: Style.tileOverlayColor
-                    lineVisible: false
-                    titleVisible: false
-                    shadesVisible: false
+            MouseArea {
+                id: mouseArea
+                anchors.fill: parent
+                anchors.leftMargin: chartView.x + chartView.plotArea.x
+                anchors.topMargin: chartView.y + chartView.plotArea.y
+                anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
+                anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
 
-                    categories: {
-                        var ret = []
-                        for (var i = 0; i < timestamps.length; i++) {
-                            ret.push(root.configs[selectionTabs.currentValue.config].toLabel(timestamps[i]))
-                        }
-                        return ret
-                    }
+                hoverEnabled: true
+                preventStealing: tooltipping || dragging
 
-                    property var timestamps: []
+                property int startMouseX: 0
+                property bool dragging: false
+                property bool tooltipping: false
+                property int dragStartOffset: 0
 
-                }
-                axisY: ValueAxis {
-                    id: valueAxis
-                    min: 0
-                    gridLineColor: Style.tileOverlayColor
-                    labelsVisible: false
-                    labelsColor: Style.foregroundColor
-                    labelsFont: Style.extraSmallFont
-                    lineVisible: false
-                    titleVisible: false
-                    shadesVisible: false
-
-                    function adjustMax(newValue) {
-                        if (max < newValue) {
-                            max = newValue // Math.ceil(newValue / 100) * 100
+                Timer {
+                    interval: 300
+                    running: mouseArea.pressed
+                    onTriggered: {
+                        if (!mouseArea.dragging) {
+                            mouseArea.tooltipping = true
                         }
                     }
                 }
-            }
-        }
-    }
 
-    Item {
-        anchors.fill: parent
-        anchors.leftMargin: chartView.x + chartView.plotArea.x
-        anchors.topMargin: chartView.y + chartView.plotArea.y
-        anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
-        anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
-        z: -1
+                onReleased: {
+                    if (mouseArea.dragging) {
+                        powerBalanceLogs.fetchLogs()
+                        mouseArea.dragging = false;
+                    }
 
-        Rectangle {
-            height: parent.height + Style.margins * 2
-            y: -Style.smallMargins
-            radius: Style.smallCornerRadius
-            width: chartView.plotArea.width / categoryAxis.count
-            color: Style.tileBackgroundColor
-            property int idx: Math.min(Math.max(0,Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)), categoryAxis.count - 1)
-            visible: toolTip.visible
-
-            x: idx * parent.width / categoryAxis.count
-            Behavior on x { enabled: toolTip.animationsEnabled; NumberAnimation { duration: Style.animationDuration } }
-        }
-    }
-
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        anchors.leftMargin: chartView.x + chartView.plotArea.x
-        anchors.topMargin: chartView.y + chartView.plotArea.y
-        anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
-        anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
-
-        hoverEnabled: true
-
-        Timer {
-            interval: 300
-            running: mouseArea.pressed
-            onTriggered: mouseArea.preventStealing = true
-        }
-        onReleased: mouseArea.preventStealing = false
-
-        NymeaToolTip {
-            id: toolTip
-
-            backgroundItem: chartView
-            backgroundRect: Qt.rect(chartView.plotArea.x + toolTip.x, chartView.plotArea.y + toolTip.y, toolTip.width, toolTip.height)
-
-            property int idx: Math.min(Math.max(0,Math.floor(mouseArea.mouseX * categoryAxis.count / mouseArea.width)), categoryAxis.count - 1)
-            visible: mouseArea.containsMouse || mouseArea.preventStealing
-
-            property int chartWidth: chartView.plotArea.width
-            property int barWidth: chartWidth / categoryAxis.count
-
-            x: chartWidth - (idx * barWidth + barWidth + Style.smallMargins) > width ?
-                   idx * barWidth + barWidth + Style.smallMargins
-                 : idx * barWidth - Style.smallMargins - width
-            property double setMaxValue: Math.max(d.consumptionSet ? d.consumptionSet.at(idx) : 0,
-                                                  d.productionSet ? d.productionSet.at(idx) : 0,
-                                                  d.acquisitionSet ? d.acquisitionSet.at(idx) : 0,
-                                                  d.returnSet ? d.returnSet.at(idx) : 0)
-            y: Math.min(Math.max(mouseArea.height - (setMaxValue * mouseArea.height / valueAxis.max) - height - Style.smallMargins, 0), mouseArea.height - height)
-            width: tooltipLayout.implicitWidth + Style.smallMargins * 2
-            height: tooltipLayout.implicitHeight + Style.smallMargins * 2
-
-            ColumnLayout {
-                id: tooltipLayout
-                anchors {
-                    left: parent.left
-                    top: parent.top
-                    margins: Style.smallMargins
+                    mouseArea.tooltipping = false;
                 }
 
-                Label {
-                    text: toolTip.idx >= 0 && categoryAxis.timestamps.length > toolTip.idx ? root.configs[selectionTabs.currentValue.config].toLongLabel(categoryAxis.timestamps[toolTip.idx]) : ""
-                    font: Style.smallFont
+                onPressed: {
+                    startMouseX = mouseX
+                    dragStartOffset = d.startOffset
                 }
 
-                RowLayout {
-                    visible: root.hasProducers
-                    Rectangle {
-                        width: Style.extraSmallFont.pixelSize
-                        height: width
-                        color: Style.blue
-                    }
-                    Label {
-                        text: toolTip.visible && d.consumptionSet ? qsTr("Consumed: %1 kWh").arg(d.consumptionSet.at(toolTip.idx).toFixed(2)) : ""
-                        font: Style.extraSmallFont
-                    }
+                onDoubleClicked: {
+                    var idx = Math.ceil(mouseArea.mouseX * d.config.count / mouseArea.width) - 1
+                    var timestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + idx)
+                    selectionTabs.currentIndex--
+                    var startTime = d.config.startTime()
+                    d.startOffset = (timestamp.getTime() - startTime.getTime()) / (d.config.sampleRate * 60 * 1000)
+                    powerBalanceLogs.fetchLogs();
                 }
-                RowLayout {
-                    visible: root.hasProducers
-                    Rectangle {
-                        width: Style.extraSmallFont.pixelSize
-                        height: width
-                        color: Style.yellow
+
+                onMouseXChanged: {
+                    if (!pressed || mouseArea.tooltipping) {
+                        return;
                     }
-                    Label {
-                        text: toolTip.visible && d.productionSet ? qsTr("Produced: %1 kWh").arg(d.productionSet.at(toolTip.idx).toFixed(2)) : ""
-                        font: Style.extraSmallFont
+                    if (Math.abs(startMouseX - mouseX) < 10) {
+                        return;
                     }
+                    dragging = true
+
+                    var dragDelta = startMouseX - mouseX
+                    var slotWidth = mouseArea.width / d.config.count
+                    var offset = Math.floor(dragDelta / slotWidth);
+                    d.startOffset = Math.min(dragStartOffset + offset, 0)
+                    d.fetchPending = true;
                 }
-                RowLayout {
-                    Rectangle {
-                        width: Style.extraSmallFont.pixelSize
-                        height: width
-                        color: Style.red
+
+                property int wheelDelta: 0
+                onWheel: {
+                    wheelDelta += wheel.pixelDelta.x
+                    var slotWidth = mouseArea.width / d.config.count
+                    while (wheelDelta > slotWidth) {
+                        d.startOffset--
+                        wheelDelta -= slotWidth
                     }
-                    Label {
-                        text: toolTip.visible && d.acquisitionSet ? qsTr("From grid: %1 kWh").arg(d.acquisitionSet.at(toolTip.idx).toFixed(2)) : ""
-                        font: Style.extraSmallFont
+                    while (wheelDelta < -slotWidth) {
+                        d.startOffset = Math.min(d.startOffset + 1, 0)
+                        wheelDelta += slotWidth
                     }
+                    d.fetchPending = true;
+                    wheelStopTimer.restart()
                 }
-                RowLayout {
-                    Rectangle {
-                        width: Style.extraSmallFont.pixelSize
-                        height: width
-                        color: Style.green
-                    }
-                    Label {
-                        text: toolTip.visible && d.returnSet ? qsTr("To grid: %1 kWh").arg(d.returnSet.at(toolTip.idx).toFixed(2)) : ""
-                        font: Style.extraSmallFont
+
+                Timer {
+                    id: wheelStopTimer
+                    interval: 300
+                    repeat: false
+                    onTriggered: powerBalanceLogs.fetchLogs()
+                }
+
+                NymeaToolTip {
+                    id: toolTip
+
+                    backgroundItem: chartView
+                    backgroundRect: Qt.rect(chartView.plotArea.x + toolTip.x, chartView.plotArea.y + toolTip.y, toolTip.width, toolTip.height)
+
+                    property int idx: Math.ceil(mouseArea.mouseX * d.config.count / mouseArea.width) - 1
+                    property date timestamp: root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + idx)
+
+                    visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
+
+                    property int chartWidth: chartView.plotArea.width
+                    property int barWidth: chartWidth / categoryAxis.count
+
+                    x: chartWidth - (idx * barWidth + barWidth + Style.smallMargins) > width ?
+                           idx * barWidth + barWidth + Style.smallMargins
+                         : idx * barWidth - Style.smallMargins - width
+                    property double setMaxValue: d.startOffset !== undefined ? Math.max(consumptionSet.at(idx),
+                                                          productionSet.at(idx),
+                                                          acquisitionSet.at(idx),
+                                                          returnSet.at(idx)) : 0
+                    y: Math.min(Math.max(mouseArea.height - (setMaxValue * mouseArea.height / valueAxis.max) - height - Style.smallMargins, 0), mouseArea.height - height)
+                    width: tooltipLayout.implicitWidth + Style.smallMargins * 2
+                    height: tooltipLayout.implicitHeight + Style.smallMargins * 2
+
+                    ColumnLayout {
+                        id: tooltipLayout
+                        anchors {
+                            left: parent.left
+                            top: parent.top
+                            margins: Style.smallMargins
+                        }
+
+                        Label {
+                            text: d.config.toLongLabel(toolTip.timestamp)
+                            font: Style.smallFont
+                        }
+
+                        RowLayout {
+                            visible: root.hasProducers
+                            Rectangle {
+                                width: Style.extraSmallFont.pixelSize
+                                height: width
+                                color: Style.blue
+                            }
+                            Label {
+                                text: d.startOffset !== undefined ? qsTr("Consumed: %1 kWh").arg(consumptionSet.at(toolTip.idx).toFixed(2)) : ""
+                                font: Style.extraSmallFont
+                            }
+                        }
+                        RowLayout {
+                            visible: root.hasProducers
+                            Rectangle {
+                                width: Style.extraSmallFont.pixelSize
+                                height: width
+                                color: Style.yellow
+                            }
+                            Label {
+                                text: d.startOffset !== undefined ? qsTr("Produced: %1 kWh").arg(productionSet.at(toolTip.idx).toFixed(2)) : ""
+                                font: Style.extraSmallFont
+                            }
+                        }
+                        RowLayout {
+                            Rectangle {
+                                width: Style.extraSmallFont.pixelSize
+                                height: width
+                                color: Style.red
+                            }
+                            Label {
+                                text: d.startOffset !== undefined ? qsTr("From grid: %1 kWh").arg(acquisitionSet.at(toolTip.idx).toFixed(2)) :""
+                                font: Style.extraSmallFont
+                            }
+                        }
+                        RowLayout {
+                            Rectangle {
+                                width: Style.extraSmallFont.pixelSize
+                                height: width
+                                color: Style.green
+                            }
+                            Label {
+                                text: d.startOffset !== undefined ? qsTr("To grid: %1 kWh").arg(returnSet.at(toolTip.idx).toFixed(2)) : ""
+                                font: Style.extraSmallFont
+                            }
+                        }
                     }
                 }
             }
         }
     }
 }
-

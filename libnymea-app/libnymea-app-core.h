@@ -383,6 +383,7 @@ void registerQmlTypes() {
     qmlRegisterType<PowerBalanceLogEntry>(uri, 1, 0, "PowerBalanceLogEntry");
     qmlRegisterType<ThingPowerLogEntry>(uri, 1, 0, "ThingPowerLogEntry");
     qmlRegisterType<ThingPowerLogs>(uri, 1, 0, "ThingPowerLogs");
+    qmlRegisterType<ThingPowerLogsLoader>(uri, 1, 0, "ThingPowerLogsLoader");
 
     qmlRegisterType<SortFilterProxyModel>(uri, 1, 0, "SortFilterProxyModel");
 }

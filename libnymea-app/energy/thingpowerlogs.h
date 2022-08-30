@@ -29,53 +29,98 @@ private:
     double m_totalProduction = 0;
 };
 
+class ThingPowerLogsLoader;
+
 class ThingPowerLogs : public EnergyLogs
 {
     Q_OBJECT
-    Q_PROPERTY(QList<QUuid> thingIds READ thingIds WRITE setThingIds NOTIFY thingIdsChanged)
-    Q_PROPERTY(double minValue READ minValue NOTIFY minValueChanged)
-    Q_PROPERTY(double maxValue READ maxValue NOTIFY maxValueChanged)
+    Q_PROPERTY(QUuid thingId READ thingId WRITE setThingId NOTIFY thingIdChanged)
+    Q_PROPERTY(ThingPowerLogsLoader* loader READ loader WRITE setLoader NOTIFY loaderChanged)
 public:
     explicit ThingPowerLogs(QObject *parent = nullptr);
 
-    QList<QUuid> thingIds() const;
-    void setThingIds(const QList<QUuid> &thingIds);
+    QUuid thingId() const;
+    void setThingId(const QUuid &thingId);
 
-    double minValue() const;
-    double maxValue() const;
+    ThingPowerLogsLoader *loader() const;
+    void setLoader(ThingPowerLogsLoader *loader);
 
-    Q_INVOKABLE ThingPowerLogEntry *find(const QUuid &thingId, const QDateTime &timestamp);
-
-    Q_INVOKABLE ThingPowerLogEntry *liveEntry(const QUuid &thingId);
+    Q_INVOKABLE ThingPowerLogEntry *liveEntry();
 
 signals:
-    void thingIdsChanged();
-
-    void minValueChanged();
-    void maxValueChanged();
-
-    void liveEntryChanged(ThingPowerLogEntry *entry);
+    void thingIdChanged();
+    void loaderChanged();
+    void liveEntryChanged(ThingPowerLogEntry *liveEntry);
 
 protected:
     QString logsName() const override;
     QVariantMap fetchParams() const override;
-    void logEntriesReceived(const QVariantMap &params) override;
+    QList<EnergyLogEntry*> unpackEntries(const QVariantMap &params, double *minValue, double *maxValue) override;
     void notificationReceived(const QVariantMap &data) override;
 
 private:
-    void addEntry(ThingPowerLogEntry *entry);
     void addEntries(const QList<ThingPowerLogEntry *> &entries);
 
     ThingPowerLogEntry *unpack(const QVariantMap &map);
 
+    QUuid m_thingId;
+    ThingPowerLogEntry* m_liveEntry = nullptr;
+    ThingPowerLogsLoader* m_loader = nullptr;
+};
+
+class ThingPowerLogsLoader: public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(Engine *engine READ engine WRITE setEngine NOTIFY engineChanged)
+    Q_PROPERTY(EnergyLogs::SampleRate sampleRate READ sampleRate WRITE setSampleRate NOTIFY sampleRateChanged)
+    Q_PROPERTY(QDateTime startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
+    Q_PROPERTY(QDateTime endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
+    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
+
+public:
+    ThingPowerLogsLoader(QObject *parent = nullptr);
+
+    Engine *engine() const;
+    void setEngine(Engine *engine);
+
+    EnergyLogs::SampleRate sampleRate() const;
+    void setSampleRate(EnergyLogs::SampleRate sampleRate);
+
+    QDateTime startTime() const;
+    void setStartTime(const QDateTime &startTime);
+
+    QDateTime endTime() const;
+    void setEndTime(const QDateTime &endTime);
+
+    bool fetchingData() const;
+
+    void addThingId(const QUuid &thingId);
+
+public slots:
+    void fetchLogs();
+
+signals:
+    void engineChanged();
+    void sampleRateChanged();
+    void startTimeChanged();
+    void endTimeChanged();
+    void fetchingDataChanged();
+    void fetched(int commandId, const QVariantMap &params);
+
+private slots:
+    void getLogsResponse(int commandId, const QVariantMap &params);
+
+private:
+    Engine *m_engine = nullptr;
+    EnergyLogs::SampleRate m_sampleRate = EnergyLogs::SampleRate15Mins;
+    QDateTime m_startTime;
+    QDateTime m_endTime;
     QList<QUuid> m_thingIds;
-    double m_minValue = 0;
-    double m_maxValue = 0;
+    bool m_fetchingData = false;
+    bool m_fetchAgain = false;
+    QDateTime m_lastStartTime;
+    QDateTime m_lastEndTime;
 
-    QList<ThingPowerLogEntry*> m_cachedEntries;
-    QTimer m_cacheTimer;
-
-    QHash<QUuid, ThingPowerLogEntry*> m_liveEntries;
 };
 
 #endif // THINGPOWERLOGS_H

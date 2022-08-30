@@ -13,6 +13,8 @@ Rectangle {
     property alias model: repeater.model
     readonly property var currentValue: model.hasOwnProperty("get") ? model.get(currentIndex) : model[currentIndex]
 
+    signal tabSelected(int index)
+
 
     Rectangle {
         x: repeater.count > 0 ? repeater.itemAt(root.currentIndex).x + 1 : 0
@@ -45,6 +47,7 @@ Rectangle {
                     onClicked: {
                         print("current index:", index)
                         root.currentIndex = index
+                        root.tabSelected(index)
                     }
                 }
             }
