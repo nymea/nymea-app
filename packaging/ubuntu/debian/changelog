@@ -1,3 +1,10 @@
+nymea-app (1.4.3) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make the energy charts scrollable
+
+ -- jenkins <developer@nymea.io>  Tue, 30 Aug 2022 16:55:42 +0200
+
 nymea-app (1.4.2) bionic; urgency=medium
 
   [ Michael Zanetti ]
