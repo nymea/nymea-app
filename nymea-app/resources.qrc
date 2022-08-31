@@ -12,11 +12,6 @@
         <file>ui/mainviews/FavoritesView.qml</file>
         <file>ui/mainviews/ThingsView.qml</file>
         <file>ui/connection/ConnectingPage.qml</file>
-        <file>ui/connection/wifisetup/BluetoothDiscoveryPage.qml</file>
-        <file>ui/connection/wifisetup/WirelessSetupPage.qml</file>
-        <file>ui/connection/wifisetup/ConnectWiFiPage.qml</file>
-        <file>ui/connection/wifisetup/NetworkSettingsPage.qml</file>
-        <file>ui/connection/wifisetup/BoxInfoPage.qml</file>
         <file>ui/components/NymeaHeader.qml</file>
         <file>ui/components/HeaderButton.qml</file>
         <file>ui/components/ColorPickerPre510.qml</file>
@@ -247,7 +242,7 @@
         <file>ui/system/ModbusRtuSettingsPage.qml</file>
         <file>ui/system/ModbusRtuAddMasterPage.qml</file>
         <file>ui/system/ModbusRtuReconfigureMasterPage.qml</file>
-        <file>ui/connection/NewConnectionWizard.qml</file>
+        <file>ui/connection/ConnectionWizard.qml</file>
         <file>ui/components/WizardPageBase.qml</file>
         <file>ui/system/ZigbeeNetworkPage.qml</file>
         <file>ui/components/ConnectionInfoDialog.qml</file>

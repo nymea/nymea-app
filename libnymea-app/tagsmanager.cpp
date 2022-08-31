@@ -164,7 +164,6 @@ void TagsManager::getTagsResponse(int /*commandId*/, const QVariantMap &params)
     m_tags->addTags(tags);
 
     m_busy = false;
-    qWarning() << "Tags busy changed to false";
     emit busyChanged();
 }
 

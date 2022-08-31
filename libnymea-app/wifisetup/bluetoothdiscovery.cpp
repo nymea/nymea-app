@@ -36,7 +36,7 @@
 #include <QBluetoothUuid>
 #include <QLoggingCategory>
 
-Q_DECLARE_LOGGING_CATEGORY(dcBtWiFiSetup);
+Q_DECLARE_LOGGING_CATEGORY(dcBluetoothDiscovery);
 
 BluetoothDiscovery::BluetoothDiscovery(QObject *parent) :
     QObject(parent),
@@ -47,13 +47,13 @@ BluetoothDiscovery::BluetoothDiscovery(QObject *parent) :
     // Check if bluetooth is available
     QBluetoothLocalDevice localDevice;
     if (!localDevice.isValid()) {
-        qCWarning(dcBtWiFiSetup) << "BluetoothDiscovery: there is no bluetooth device available.";
+        qCWarning(dcBluetoothDiscovery) << "No bluetooth device available.";
         m_bluetoothAvailable = false;
         return;
     }
 
     if (localDevice.allDevices().isEmpty()) {
-        qCWarning(dcBtWiFiSetup) << "BluetoothDiscovery: there is no bluetooth device available currently.";
+        qCWarning(dcBluetoothDiscovery) << "No bluetooth device available currently.";
         m_bluetoothAvailable = false;
         return;
     }
@@ -77,7 +77,7 @@ BluetoothDiscovery::BluetoothDiscovery(QObject *parent) :
     // Always start with assuming BT is enabled
     m_bluetoothEnabled = true;
 
-    qCDebug(dcBtWiFiSetup) << "Initializing Bluetooth";
+    qCDebug(dcBluetoothDiscovery) << "Initializing Bluetooth";
     onBluetoothHostModeChanged(QBluetoothLocalDevice::HostConnectable);
 #endif
 
@@ -94,7 +94,7 @@ bool BluetoothDiscovery::bluetoothEnabled() const
 #ifdef Q_OS_IOS
     return m_bluetoothAvailable && m_bluetoothEnabled;
 #endif
-    qCDebug(dcBtWiFiSetup) << "bluetoothEnabled(): m_bluetoothAvailable:" << m_bluetoothAvailable;
+    qCDebug(dcBluetoothDiscovery) << "bluetoothEnabled(): m_bluetoothAvailable:" << m_bluetoothAvailable;
     return m_bluetoothAvailable && m_localDevice->hostMode() != QBluetoothLocalDevice::HostPoweredOff;
 }
 void BluetoothDiscovery::setBluetoothEnabled(bool bluetoothEnabled) {
@@ -143,7 +143,7 @@ BluetoothDeviceInfos *BluetoothDiscovery::deviceInfos()
 
 void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice::HostMode &hostMode)
 {
-    qCDebug(dcBtWiFiSetup) << "BluetoothDiscovery: host mode changed" << hostMode;
+    qCDebug(dcBluetoothDiscovery) << "Host mode changed" << hostMode;
     switch (hostMode) {
     case QBluetoothLocalDevice::HostPoweredOff:
         if (m_discoveryAgent) {
@@ -186,20 +186,20 @@ void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice:
 
 void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo)
 {
-    qCDebug(dcBtWiFiSetup()) << "BluetoothDiscovery: Device discovered:" << deviceInfo.name() << deviceInfo.address().toString() << deviceInfo.deviceUuid() << deviceInfo.serviceUuids();
+    qCDebug(dcBluetoothDiscovery()) << "Device discovered:" << deviceInfo.name() << deviceInfo.address().toString() << deviceInfo.deviceUuid() << deviceInfo.serviceUuids();
     foreach (BluetoothDeviceInfo *di, m_deviceInfos->deviceInfos()) {
         // Some platforms only provide device UUID (e.g. Apple) and MAC address is 00:00:00:00:00
         // Others provide only a MAC address and the UUID is null.
         // If we have a UUID, use that, otherwise use the MAC for comparison
         if (!deviceInfo.deviceUuid().isNull()) {
             if (di->bluetoothDeviceInfo().deviceUuid() == deviceInfo.deviceUuid()) {
-                qCDebug(dcBtWiFiSetup()) << "Updating discovery result (UUID)";
+                qCDebug(dcBluetoothDiscovery()) << "Updating discovery result (UUID)";
                 di->setBluetoothDeviceInfo(deviceInfo);
                 return;
             }
         } else {
             if (di->bluetoothDeviceInfo().address() == deviceInfo.address()) {
-                qCDebug(dcBtWiFiSetup()) << "Updating discovery result (MAC)";
+                qCDebug(dcBluetoothDiscovery()) << "Updating discovery result (MAC)";
                 di->setBluetoothDeviceInfo(deviceInfo);
                 return;
             }
@@ -207,27 +207,27 @@ void BluetoothDiscovery::deviceDiscovered(const QBluetoothDeviceInfo &deviceInfo
     }
 
     BluetoothDeviceInfo *deviceInformation = new BluetoothDeviceInfo(deviceInfo);
-    qCDebug(dcBtWiFiSetup) << "BluetoothDiscovery: [+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (deviceInformation->isLowEnergy() ? "LE" : "") << deviceInfo.serviceUuids();
+    qCDebug(dcBluetoothDiscovery) << "[+]" << deviceInformation->name() << "(" << deviceInformation->address() << ")" << (deviceInformation->isLowEnergy() ? "LE" : "") << deviceInfo.serviceUuids();
     m_deviceInfos->addBluetoothDeviceInfo(deviceInformation);
 }
 
 void BluetoothDiscovery::discoveryFinished()
 {
-    qCDebug(dcBtWiFiSetup) << "BluetoothDiscovery: Discovery finished" << m_discoveryEnabled << this;
+    qCDebug(dcBluetoothDiscovery) << "Discovery finished" << m_discoveryEnabled << this;
     if (m_discoveryEnabled) {
-        qCDebug(dcBtWiFiSetup) << "BluetoothDiscovery: Restarting discovery";
+        qCDebug(dcBluetoothDiscovery) << "Restarting discovery";
         m_discoveryAgent->start();
     }
 }
 
 void BluetoothDiscovery::discoveryCancelled()
 {
-    qCDebug(dcBtWiFiSetup) << "BluetoothDiscovery: Discovery cancelled";
+    qCDebug(dcBluetoothDiscovery) << "Discovery cancelled";
 }
 
 void BluetoothDiscovery::onError(const QBluetoothDeviceDiscoveryAgent::Error &error)
 {
-    qCWarning(dcBtWiFiSetup) << "BluetoothDiscovery: Discovery error:" << error << m_discoveryAgent->errorString();
+    qCWarning(dcBluetoothDiscovery) << "Discovery error:" << error << m_discoveryAgent->errorString();
 #ifdef Q_OS_IOS
     if (error == QBluetoothDeviceDiscoveryAgent::PoweredOffError) {
         m_bluetoothEnabled = false;
@@ -253,11 +253,11 @@ void BluetoothDiscovery::start()
     }
 
     foreach (const QBluetoothDeviceInfo &info, m_discoveryAgent->discoveredDevices()) {
-        qCDebug(dcBtWiFiSetup()) << "Already discovered device:" << info.name();
+        qCDebug(dcBluetoothDiscovery()) << "Already discovered device:" << info.name();
         deviceDiscovered(info);
     }
 
-    qCDebug(dcBtWiFiSetup) << "BluetoothDiscovery: Starting discovery.";
+    qCDebug(dcBluetoothDiscovery) << "Starting discovery.";
     m_discoveryAgent->start();
     emit discoveringChanged();
 }
@@ -268,7 +268,7 @@ void BluetoothDiscovery::stop()
         return;
     }
 
-    qCDebug(dcBtWiFiSetup) << "BluetoothDiscovery: Stop discovering.";
+    qCDebug(dcBluetoothDiscovery) << "Stopping discovering.";
     m_discoveryAgent->stop();
     emit discoveringChanged();
 }

@@ -12,6 +12,8 @@ class WirelessAccessPoint;
 class BtWiFiSetup : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(int wirelessServiceVersion READ wirelessServiceVersion NOTIFY wirelessServiceVersionChanged)
+
     Q_PROPERTY(BluetoothStatus bluetoothStatus READ bluetoothStatus NOTIFY bluetoothStatusChanged)
 
     Q_PROPERTY(QString modelNumber READ modelNumber NOTIFY modelNumberChanged)
@@ -122,13 +124,25 @@ public:
     };
     Q_ENUM(SystemServiceResponse)
 
+    enum AuthAlgorithm {
+        AuthAlgorithmOpen
+    };
+    Q_ENUM(AuthAlgorithm)
+
+    enum KeyManagement {
+        KeyManagementWpaPsk
+    };
+    Q_ENUM(KeyManagement)
+
 
     explicit BtWiFiSetup(QObject *parent = nullptr);
     ~BtWiFiSetup() override;
 
+    int wirelessServiceVersion() const;
+
     Q_INVOKABLE void connectToDevice(const BluetoothDeviceInfo *device);
     Q_INVOKABLE void disconnectFromDevice();
-    Q_INVOKABLE void connectDeviceToWiFi(const QString &ssid, const QString &password);
+    Q_INVOKABLE void connectDeviceToWiFi(const QString &ssid, const QString &password, bool hidden = false);
     Q_INVOKABLE void disconnectDeviceFromWiFi();
     Q_INVOKABLE void scanWiFi();
     Q_INVOKABLE bool pressPushButton();
@@ -153,6 +167,7 @@ public:
     WirelessAccessPoint *currentConnection() const;
 
 signals:
+    void wirelessServiceVersionChanged();
     void bluetoothStatusChanged(BluetoothStatus status);
     void bluetoothConnectionError();
     void wifiSetupError();
@@ -191,6 +206,8 @@ private:
     QLowEnergyService *m_systemService = nullptr;
 
     QHash<QUuid, QByteArray> m_inputBuffers;
+
+    int m_wirelessServiceVersion = 1;
 
     QString m_modelNumber;
     QString m_manufacturer;

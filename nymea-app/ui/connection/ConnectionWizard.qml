@@ -570,61 +570,132 @@ WizardPageBase {
 
             property var wifiSetup: null
 
-            content: ListView {
+            Component.onCompleted: {
+                wifiSetup.scanWiFi()
+            }
+
+            content: ColumnLayout {
                 Layout.fillWidth: true
                 Layout.maximumWidth: 500
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredHeight: visibleContentHeight
 
-                model: wifiSetup.accessPoints
-                clip: true
+                ListView {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
 
-                delegate: NymeaItemDelegate {
-                    width: parent.width
+                    model: wifiSetup.accessPoints
+                    clip: true
 
-                    text: model.ssid !== "" ? model.ssid : qsTr("Hidden Network")
-                    subText: model.hostAddress
+                    delegate: NymeaItemDelegate {
+                        width: parent.width
 
-                    iconColor: model.selectedNetwork ? Style.accentColor : "#808080"
-                    iconName:  {
-                        if (model.protected) {
-                            if (model.signalStrength <= 25)
-                                return  Qt.resolvedUrl("/ui/images/connections/nm-signal-25-secure.svg")
+                        text: model.ssid !== "" ? model.ssid : qsTr("Hidden Network")
+                        subText: model.hostAddress
 
-                            if (model.signalStrength <= 50)
-                                return  Qt.resolvedUrl("/ui/images/connections/nm-signal-50-secure.svg")
+                        iconColor: model.selectedNetwork ? Style.accentColor : "#808080"
+                        iconName:  {
+                            if (model.protected) {
+                                if (model.signalStrength <= 25)
+                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-25-secure.svg")
 
-                            if (model.signalStrength <= 75)
-                                return  Qt.resolvedUrl("/ui/images/connections/nm-signal-75-secure.svg")
+                                if (model.signalStrength <= 50)
+                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-50-secure.svg")
 
-                            if (model.signalStrength <= 100)
-                                return  Qt.resolvedUrl("/ui/images/connections/nm-signal-100-secure.svg")
+                                if (model.signalStrength <= 75)
+                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-75-secure.svg")
 
-                        } else {
+                                if (model.signalStrength <= 100)
+                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-100-secure.svg")
 
-                            if (model.signalStrength <= 25)
-                                return  Qt.resolvedUrl("/ui/images/connections/nm-signal-25.svg")
+                            } else {
 
-                            if (model.signalStrength <= 50)
-                                return  Qt.resolvedUrl("/ui/images/connections/nm-signal-50.svg")
+                                if (model.signalStrength <= 25)
+                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-25.svg")
 
-                            if (model.signalStrength <= 75)
-                                return  Qt.resolvedUrl("/ui/images/connections/nm-signal-75.svg")
+                                if (model.signalStrength <= 50)
+                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-50.svg")
 
-                            if (model.signalStrength <= 100)
-                                return  Qt.resolvedUrl("/ui/images/connections/nm-signal-100.svg")
+                                if (model.signalStrength <= 75)
+                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-75.svg")
 
+                                if (model.signalStrength <= 100)
+                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-100.svg")
+
+                            }
+                        }
+
+                        onClicked: {
+                            print("Connect to ", model.ssid, " --> ", model.macAddress)
+                            if (model.selectedNetwork) {
+                                pageStack.push(networkInformationPage, { ssid: model.ssid})
+                            } else {
+                                pageStack.push(wirelessAuthenticationComponent, { wifiSetup: wifiSetup, ssid: model.ssid })
+                            }
                         }
                     }
+                }
 
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Hidden WiFi")
+                    visible: wifiSetup.wirelessServiceVersion >= 2
                     onClicked: {
-                        print("Connect to ", model.ssid, " --> ", model.macAddress)
-                        if (model.selectedNetwork) {
-                            pageStack.push(networkInformationPage, { ssid: model.ssid})
-                        } else {
-                            pageStack.push(wirelessAuthenticationComponent, { wifiSetup: wifiSetup, ssid: model.ssid })
-                        }
+                        pageStack.push(hiddenWifiComponent, {wifiSetup: wifiSetup})
+
                     }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: hiddenWifiComponent
+        WizardPageBase {
+            title: qsTr("Hidden WiFi")
+            text: qsTr("Enter the information for the hidden WiFi")
+
+            property var wifiSetup: null
+
+            onBack: pageStack.pop();
+
+            onNext: {
+                print("connecting to", ssidTextField.text, passwordTextField.password)
+                wifiSetup.connectDeviceToWiFi(ssidTextField.text, passwordTextField.password, true)
+                pageStack.push(wirelessConnectingWiFiComponent)
+            }
+
+            content: ColumnLayout {
+                Layout.fillWidth: true
+                Layout.maximumWidth: 500
+                Layout.alignment: Qt.AlignHCenter
+                Layout.margins: Style.margins
+
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("SSID")
+                }
+
+                NymeaTextField {
+                    id: ssidTextField
+                    Layout.fillWidth: true
+
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("Password")
+                }
+
+                PasswordTextField {
+                    id: passwordTextField
+                    Layout.fillWidth: true
+                    signup: false
+                    requireLowerCaseLetter: false
+                    requireUpperCaseLetter: false
+                    requireNumber: false
+                    requireSpecialChar: false
+                    minPasswordLength: 8
                 }
             }
         }

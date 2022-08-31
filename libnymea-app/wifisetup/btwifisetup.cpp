@@ -13,6 +13,7 @@ static QBluetoothUuid wifiCommanderCharacteristicUuid = QBluetoothUuid(QUuid("e0
 static QBluetoothUuid wifiResponseCharacteristicUuid =  QBluetoothUuid(QUuid("e081fec2-f757-4449-b9c9-bfa83133f7fc"));
 static QBluetoothUuid wifiStatusCharacteristicUuid =    QBluetoothUuid(QUuid("e081fec3-f757-4449-b9c9-bfa83133f7fc"));
 static QBluetoothUuid wifiModeCharacteristicUuid =      QBluetoothUuid(QUuid("e081fec4-f757-4449-b9c9-bfa83133f7fc"));
+static QBluetoothUuid wifiServiceVersionCharacteristicUuid = QBluetoothUuid(QUuid("e081fec5-f757-4449-b9c9-bfa83133f7fc"));
 
 static QBluetoothUuid networkServiceUuid =                  QBluetoothUuid(QUuid("ef6d6610-b8af-49e0-9eca-ab343513641c"));
 static QBluetoothUuid networkStatusCharacteristicUuid =     QBluetoothUuid(QUuid("ef6d6611-b8af-49e0-9eca-ab343513641c"));
@@ -36,6 +37,11 @@ BtWiFiSetup::~BtWiFiSetup()
     qCDebug(dcBtWiFiSetup()) << "Destroying BtWifiSetup";
 }
 
+int BtWiFiSetup::wirelessServiceVersion() const
+{
+    return m_wirelessServiceVersion;
+}
+
 void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
 {
     qCDebug(dcBtWiFiSetup()) << "Connecting to device" << device->address() << device->name();
@@ -46,6 +52,8 @@ void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
         m_accessPoints->clearModel();
         m_bluetoothStatus = BluetoothStatusDisconnected;
         emit bluetoothStatusChanged(m_bluetoothStatus);
+        m_wirelessServiceVersion = 1;
+        emit wirelessServiceVersionChanged();
     }
 
     m_btController = QLowEnergyController::createCentral(device->bluetoothDeviceInfo(), this);
@@ -90,7 +98,7 @@ void BtWiFiSetup::disconnectFromDevice()
     }
 }
 
-void BtWiFiSetup::connectDeviceToWiFi(const QString &ssid, const QString &password)
+void BtWiFiSetup::connectDeviceToWiFi(const QString &ssid, const QString &password, bool hidden)
 {
     if (m_bluetoothStatus < BluetoothStatusConnectedToBluetooth) {
         qCWarning(dcBtWiFiSetup()) << "Cannot connect to wifi in state" << m_bluetoothStatus;
@@ -102,6 +110,9 @@ void BtWiFiSetup::connectDeviceToWiFi(const QString &ssid, const QString &passwo
     QVariantMap parameters;
     parameters.insert("e", ssid);
     parameters.insert("p", password);
+    if (hidden) {
+        parameters.insert("h", true);
+    }
     request.insert("p", parameters);
     streamData(m_wifiService, wifiCommanderCharacteristicUuid, request);
 }
@@ -290,7 +301,9 @@ void BtWiFiSetup::setupServices()
         if (state != QLowEnergyService::ServiceDiscovered)
             return;
 
-        qCDebug(dcBtWiFiSetup()) << "Wifi service discovered";
+        qCDebug(dcBtWiFiSetup()) << "Wifi service discovered" << m_wifiService->characteristic(wifiServiceVersionCharacteristicUuid).value();
+
+        m_wifiService->readCharacteristic(m_wifiService->characteristic(wifiServiceVersionCharacteristicUuid));
 
         // Enable notifations
         m_wifiService->writeDescriptor(m_wifiService->characteristic(wifiResponseCharacteristicUuid).descriptor(QBluetoothUuid::ClientCharacteristicConfiguration), QByteArray::fromHex("0100"));
@@ -299,6 +312,7 @@ void BtWiFiSetup::setupServices()
         qCDebug(dcBtWiFiSetup()) << "Fetching networks after init";
         loadNetworks();
     });
+    connect(m_wifiService, &QLowEnergyService::characteristicRead, this, &BtWiFiSetup::characteristicChanged);
     connect(m_wifiService, &QLowEnergyService::characteristicChanged, this, &BtWiFiSetup::characteristicChanged);
     m_wifiService->discoverDetails();
 
@@ -370,9 +384,10 @@ void BtWiFiSetup::processWiFiPacket(const QVariantMap &data)
     case WirelessServiceCommandConnect:
         qCDebug(dcBtWiFiSetup()) << "Connect call succeeded";
         break;
-    case WirelessServiceCommandGetCurrentConnection:
+    case WirelessServiceCommandGetCurrentConnection: {
         // Find current network
-        if (!data.value("p").toMap().value("m").toString().isEmpty() && data.value("p").toMap().value("i").toString().isEmpty()) {
+        QVariantMap currentConnection = data.value("p").toMap();
+        if (!currentConnection.value("m").toString().isEmpty() && currentConnection.value("i").toString().isEmpty()) {
             // There's a bug in libnymea-networkmanager that sometimes it emits current connection before it actually obtained the IP address
             qCDebug(dcBtWiFiSetup()) << "Retring to fetch the current connection because IP is not set yet.";
             loadCurrentConnection();
@@ -380,7 +395,6 @@ void BtWiFiSetup::processWiFiPacket(const QVariantMap &data)
         }
         m_currentConnection = nullptr;
         foreach (WirelessAccessPoint *accessPoint, m_accessPoints->wirelessAccessPoints()) {
-            QVariantMap currentConnection = data.value("p").toMap();
             QString macAddress = currentConnection.value("m").toString();
             if (accessPoint->macAddress() == macAddress) {
                 // Set the current network
@@ -388,6 +402,18 @@ void BtWiFiSetup::processWiFiPacket(const QVariantMap &data)
 
                 accessPoint->setHostAddress(currentConnection.value("i").toString());
             }
+        }
+        if (!m_currentConnection && !currentConnection.value("m").toString().isEmpty()) {
+            // There's a currentConnection, but we don't know it in our AP list yet. Creating it.
+            // (This happens for example when connecting to a hidden wifi)
+            WirelessAccessPoint *newAP = new WirelessAccessPoint(this);
+            newAP->setSsid(currentConnection.value("e").toString());
+            newAP->setMacAddress(currentConnection.value("m").toString());
+            newAP->setSignalStrength(currentConnection.value("s").toInt());
+            newAP->setProtected(currentConnection.value("p").toBool());
+            newAP->setHostAddress(currentConnection.value("i").toString());
+            m_accessPoints->addWirelessAccessPoint(newAP);
+            m_currentConnection = newAP;
         }
         qCDebug(dcBtWiFiSetup()) << "current connection is:" << m_currentConnection;
         emit currentConnectionChanged();
@@ -398,6 +424,7 @@ void BtWiFiSetup::processWiFiPacket(const QVariantMap &data)
         }
 
         break;
+    }
     case WirelessServiceCommandScan:
         if (responseCode == WirelessServiceResponseSuccess) {
             qCDebug(dcBtWiFiSetup()) << "Fetching networks after wifi scan";
@@ -425,7 +452,12 @@ void BtWiFiSetup::loadCurrentConnection()
 
 void BtWiFiSetup::characteristicChanged(const QLowEnergyCharacteristic &characteristic, const QByteArray &value)
 {    
-    if (characteristic.uuid() == wifiResponseCharacteristicUuid) {
+    if (characteristic.uuid() == wifiServiceVersionCharacteristicUuid) {
+        qCDebug(dcBtWiFiSetup()) << "Wireless service version received:" << value;
+        m_wirelessServiceVersion = value.toInt();
+        emit wirelessServiceVersionChanged();
+
+    } else  if (characteristic.uuid() == wifiResponseCharacteristicUuid) {
 
         m_inputBuffers[characteristic.uuid()].append(value);
         if (!m_inputBuffers[characteristic.uuid()].endsWith("\n")) {

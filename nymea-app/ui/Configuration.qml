@@ -6,7 +6,7 @@ ConfigurationBase {
     appName: "nymea:app"
     appId: "io.guh.nymeaapp"
 
-    connectionWizard: "/ui/connection/NewConnectionWizard.qml"
+    connectionWizard: "/ui/connection/ConnectionWizard.qml"
 
     magicEnabled: true
     networkSettingsEnabled: true
