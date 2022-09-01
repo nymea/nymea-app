@@ -133,6 +133,7 @@ private:
 
     void fillNetworkData(ZigbeeNetwork *network, const QVariantMap &networkMap);
     void addOrUpdateNode(ZigbeeNetwork *network, const QVariantMap &nodeMap);
+    void updateNodeProperties(ZigbeeNode *node, const QVariantMap &nodeMap);
 };
 
 #endif // ZIGBEEMANAGER_H

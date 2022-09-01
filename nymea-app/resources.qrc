@@ -210,9 +210,9 @@
         <file>ui/components/ThingStatusIcons.qml</file>
         <file>ui/components/InfoPaneBase.qml</file>
         <file>ui/components/ThingInfoPane.qml</file>
-        <file>ui/system/ZigbeeSettingsPage.qml</file>
-        <file>ui/system/ZigbeeAddNetworkPage.qml</file>
-        <file>ui/system/ZigbeeNetworkSettingsPage.qml</file>
+        <file>ui/system/zigbee/ZigbeeSettingsPage.qml</file>
+        <file>ui/system/zigbee/ZigbeeAddNetworkPage.qml</file>
+        <file>ui/system/zigbee/ZigbeeNetworkSettingsPage.qml</file>
         <file>ui/MainMenu.qml</file>
         <file>ui/components/NymeaItemDelegate.qml</file>
         <file>ui/components/NymeaSwipeDelegate.qml</file>
@@ -244,7 +244,8 @@
         <file>ui/system/ModbusRtuReconfigureMasterPage.qml</file>
         <file>ui/connection/ConnectionWizard.qml</file>
         <file>ui/components/WizardPageBase.qml</file>
-        <file>ui/system/ZigbeeNetworkPage.qml</file>
+        <file>ui/system/zigbee/ZigbeeNetworkPage.qml</file>
+        <file>ui/system/zigbee/ZigbeeTopologyPage.qml</file>
         <file>ui/components/ConnectionInfoDialog.qml</file>
         <file>ui/components/ButtonControls.qml</file>
         <file>ui/components/CircleBackground.qml</file>

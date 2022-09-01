@@ -118,7 +118,7 @@ Page {
                 text: qsTr("ZigBee")
                 subText: qsTr("Configure ZigBee networks")
                 visible: engine.jsonRpcClient.ensureServerVersion("5.3") && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.zigbeeSettingsEnabled
-                onClicked: pageStack.push(Qt.resolvedUrl("system/ZigbeeSettingsPage.qml"))
+                onClicked: pageStack.push(Qt.resolvedUrl("system/zigbee/ZigbeeSettingsPage.qml"))
             }
 
             SettingsTile {

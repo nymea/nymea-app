@@ -72,6 +72,7 @@ public:
 
     Q_INVOKABLE virtual ZigbeeNode *get(int index) const;
     Q_INVOKABLE ZigbeeNode *getNode(const QString &ieeeAddress) const;
+    Q_INVOKABLE ZigbeeNode *getNodeByNetworkAddress(quint16 networkAddress) const;
 
 signals:
     void countChanged();

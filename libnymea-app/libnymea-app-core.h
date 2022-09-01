@@ -329,6 +329,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<ZigbeeNetwork>(uri, 1, 0, "ZigbeeNetwork", "Get it from the ZigbeeManager");
     qmlRegisterUncreatableType<ZigbeeNetworks>(uri, 1, 0, "ZigbeeNetworks", "Get it from the ZigbeeManager");
     qmlRegisterUncreatableType<ZigbeeNode>(uri, 1, 0, "ZigbeeNode", "Get it from the ZigbeeNodes");
+    qmlRegisterUncreatableType<ZigbeeNodeNeighbor>(uri, 1, 0, "ZigbeeNodeNeighbor", "Get it from the ZigbeeNode");
     qmlRegisterUncreatableType<ZigbeeNodes>(uri, 1, 0, "ZigbeeNodes", "Get it from the ZigbeeNetwork");
     qmlRegisterType<ZigbeeNodesProxy>(uri, 1, 0, "ZigbeeNodesProxy");
 

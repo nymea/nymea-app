@@ -46,6 +46,7 @@ class ZigbeeNodesProxy : public QSortFilterProxyModel
     Q_PROPERTY(bool showCoordinator READ showCoordinator WRITE setShowCoordinator NOTIFY showCoordinatorChanged)
     Q_PROPERTY(bool showOnline READ showOnline WRITE setShowOnline NOTIFY showOnlineChanged)
     Q_PROPERTY(bool showOffline READ showOffline WRITE setShowOffline NOTIFY showOfflineChanged)
+//    Q_PROPERTY(quint16 filterByParentNeighbor READ filterByParentNeighbor WRITE setFilterByParentNeighbor NOTIFY filterByParentNeighborChanged)
 
     Q_PROPERTY(bool newOnTop READ newOnTop WRITE setNewOnTop NOTIFY newOnTopChanged)
 
@@ -89,6 +90,7 @@ private:
     bool m_showOffline = true;
 
     bool m_newOnTop = false;
+    bool m_sortByRelationship = false;
 
     QHash<ZigbeeNode*, QDateTime> m_newNodes;
 };

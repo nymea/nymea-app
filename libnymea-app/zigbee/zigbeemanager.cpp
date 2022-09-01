@@ -231,7 +231,7 @@ void ZigbeeManager::factoryResetNetworkResponse(int commandId, const QVariantMap
 
 void ZigbeeManager::getNodesResponse(int commandId, const QVariantMap &params)
 {
-    qCDebug(dcZigbee()) << "Zigbee get nodes response" << commandId << params;
+    qCDebug(dcZigbee()) << "Zigbee get nodes response" << commandId << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 
     foreach (const QVariant &nodeVariant, params.value("zigbeeNodes").toList()) {
         QVariantMap nodeMap = nodeVariant.toMap();
@@ -254,7 +254,7 @@ void ZigbeeManager::removeNodeResponse(int commandId, const QVariantMap &params)
 
 void ZigbeeManager::notificationReceived(const QVariantMap &notification)
 {
-    qCDebug(dcZigbee()) << "Zigbee notification" << qUtf8Printable(QJsonDocument::fromVariant(notification).toJson());
+//    qCDebug(dcZigbee()) << "Zigbee notification" << qUtf8Printable(QJsonDocument::fromVariant(notification).toJson());
     QString notificationString = notification.value("notification").toString();
     if (notificationString == "Zigbee.AdapterAdded") {
         QVariantMap adapterMap = notification.value("params").toMap().value("adapter").toMap();
@@ -360,7 +360,7 @@ ZigbeeNode *ZigbeeManager::unpackNode(const QVariantMap &nodeMap)
     QUuid networkUuid = nodeMap.value("networkUuid").toUuid();
     QString ieeeAddress = nodeMap.value("ieeeAddress").toString();
     ZigbeeNode *node = new ZigbeeNode(networkUuid, ieeeAddress, this);
-    node->updateNodeProperties(nodeMap);
+    updateNodeProperties(node, nodeMap);
     return node;
 }
 
@@ -386,9 +386,35 @@ void ZigbeeManager::addOrUpdateNode(ZigbeeNetwork *network, const QVariantMap &n
     QString ieeeAddress = nodeMap.value("ieeeAddress").toString();
     ZigbeeNode *node = network->nodes()->getNode(ieeeAddress);
     if (node) {
-        node->updateNodeProperties(nodeMap);
+        updateNodeProperties(node, nodeMap);
     } else {
         network->nodes()->addNode(unpackNode(nodeMap));
     }
 }
 
+void ZigbeeManager::updateNodeProperties(ZigbeeNode *node, const QVariantMap &nodeMap)
+{
+    node->setNetworkAddress(nodeMap.value("networkAddress").toUInt());
+    node->setType(ZigbeeNode::stringToNodeType(nodeMap.value("type").toString()));
+    node->setState(ZigbeeNode::stringToNodeState(nodeMap.value("state").toString()));
+    node->setManufacturer(nodeMap.value("manufacturer").toString());
+    node->setModel(nodeMap.value("model").toString());
+    node->setVersion(nodeMap.value("version").toString());
+    node->setRxOnWhenIdle(nodeMap.value("receiverOnWhileIdle").toBool());
+    node->setReachable(nodeMap.value("reachable").toBool());
+    node->setLqi(nodeMap.value("lqi").toUInt());
+    node->setLastSeen(QDateTime::fromMSecsSinceEpoch(nodeMap.value("lastSeen").toUInt() * 1000));
+    QList<quint16> neighbors;
+    foreach (const QVariant &neighbor, nodeMap.value("neighborTableRecords").toList()) {
+        QVariantMap neighborMap = neighbor.toMap();
+        quint16 networkAddress = neighborMap.value("networkAddress").toUInt();
+//        qWarning() << "*********** adding neighbor" << networkAddress;
+        QMetaEnum relationshipEnum = QMetaEnum::fromType<ZigbeeNode::ZigbeeNodeRelationship>();
+        ZigbeeNode::ZigbeeNodeRelationship relationship = static_cast<ZigbeeNode::ZigbeeNodeRelationship>(relationshipEnum.keyToValue(neighborMap.value("relationship").toByteArray().data()));
+        quint8 lqi = neighborMap.value("lqi").toUInt();
+        quint8 depth = neighborMap.value("depth").toUInt();
+        node->addOrUpdateNeighbor(networkAddress, relationship, lqi, depth);
+        neighbors.append(networkAddress);
+    }
+    node->commitNeighbors(neighbors);
+}

@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2022, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -32,7 +32,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.3
-import "../components"
+import "qrc:/ui/components"
 import Nymea 1.0
 
 SettingsPageBase {
@@ -43,7 +43,7 @@ SettingsPageBase {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/add.svg"
+            imageSource: "/ui/images/add.svg"
             text: qsTr("Add ZigBee network")
             onClicked: {
                 addNetwork()

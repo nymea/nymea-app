@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2021, nymea GmbH
+* Copyright 2013 - 2022, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -32,7 +32,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.3
-import "../components"
+import "qrc:/ui/components"
 import Nymea 1.0
 
 SettingsPageBase {
@@ -96,7 +96,7 @@ SettingsPageBase {
                 default:
                     props.errorCode = error;
                 }
-                var comp = Qt.createComponent("../components/ErrorDialog.qml")
+                var comp = Qt.createComponent("/ui/components/ErrorDialog.qml")
                 var popup = comp.createObject(app, props)
                 popup.open();
             }
@@ -326,9 +326,11 @@ SettingsPageBase {
             additionalItem: ColorIcon {
                 size: Style.smallIconSize
                 anchors.verticalCenter: parent.verticalCenter
-                name: node.type === ZigbeeNode.ZigbeeNodeTypeRouter
-                  ? "/ui/images/zigbee-router.svg"
-                  : "/ui/images/zigbee-enddevice.svg"
+                name: node.type === ZigbeeNode.ZigbeeNodeTypeCoordinator
+                      ? "/ui/images/zigbee-coordinator.svg"
+                      : node.type === ZigbeeNode.ZigbeeNodeTypeRouter
+                        ? "/ui/images/zigbee-router.svg"
+                        : "/ui/images/zigbee-enddevice.svg"
                 color: communicationIndicatorLedTimer.running ? Style.accentColor : Style.iconColor
             }
 

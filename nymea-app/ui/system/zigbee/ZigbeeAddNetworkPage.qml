@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2022, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -33,7 +33,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import Nymea 1.0
 
-import "../components"
+import "qrc:/ui/components"
 
 SettingsPageBase {
     id: root
@@ -56,7 +56,7 @@ SettingsPageBase {
         ColorIcon {
             Layout.preferredHeight: Style.iconSize
             Layout.preferredWidth: Style.iconSize
-            name: "../images/connections/network-wifi-offline.svg"
+            name: "/ui/images/connections/network-wifi-offline.svg"
         }
         Label {
             Layout.fillWidth: true
@@ -91,7 +91,7 @@ SettingsPageBase {
 
         delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
-            iconName: "../images/zigbee.svg"
+            iconName: "/ui/images/zigbee.svg"
             text: model.backend + " - " + model.description + " - " + model.serialPort
             onClicked: {
                 pageStack.push(addSettingsPageComponent, {serialPort: model.serialPort, baudRate: model.baudRate, backend: model.backend, allowSerialPortSettings: false})
@@ -124,7 +124,7 @@ SettingsPageBase {
         delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
             property ZigbeeAdapter adapter: root.zigbeeManager.adapters.get(index)
-            iconName: "../images/stock_usb.svg"
+            iconName: "/ui/images/stock_usb.svg"
             text: model.description + " - " + model.serialPort
             onClicked: {
                 pageStack.push(addSettingsPageComponent, {serialPort: model.serialPort, baudRate: model.baudRate, backend: model.backend, allowSerialPortSettings: true})
@@ -169,7 +169,7 @@ SettingsPageBase {
                         default:
                             props.errorCode = error;
                         }
-                        var comp = Qt.createComponent("../components/ErrorDialog.qml")
+                        var comp = Qt.createComponent("/ui/components/ErrorDialog.qml")
                         var popup = comp.createObject(app, props)
                         popup.open();
                     }

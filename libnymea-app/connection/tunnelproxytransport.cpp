@@ -49,9 +49,9 @@ TunnelProxyTransport::TunnelProxyTransport(QObject *parent) :
     QObject::connect(m_remoteConnection, &TunnelProxyRemoteConnection::dataReady, this, &TunnelProxyTransport::dataReady);
     QObject::connect(m_remoteConnection, &TunnelProxyRemoteConnection::errorOccurred, this, &TunnelProxyTransport::onRemoteConnectionErrorOccurred);
     QObject::connect(m_remoteConnection, &TunnelProxyRemoteConnection::sslErrors, this, [=](const QList<QSslError> &errors){
-        qWarning() << "Remote tunnel proxy server SSL errors occurred:";
+        qCWarning(dcTunnelProxyRemoteConnectionDummy) << "Remote tunnel proxy server SSL errors occurred:";
         foreach (const QSslError &sslError, errors) {
-            qWarning() << "  --> " << sslError.errorString();
+            qCWarning(dcTunnelProxyRemoteConnectionDummy) << "  --> " << sslError.errorString();
         }
     });
 
@@ -66,8 +66,6 @@ bool TunnelProxyTransport::connect(const QUrl &url)
     serverUrl.setHost(url.host());
     serverUrl.setPort(url.port());
     QUuid serverUuid = QUrlQuery(url).queryItemValue("uuid");
-
-    qCritical() << "Calling connect on" << serverUrl << serverUuid;
 
     return m_remoteConnection->connectServer(serverUrl, serverUuid);
 }
@@ -137,7 +135,7 @@ void TunnelProxyTransport::onRemoteConnectionStateChanged(remoteproxyclient::Tun
 
 void TunnelProxyTransport::onRemoteConnectionErrorOccurred(QAbstractSocket::SocketError error)
 {
-    qWarning() << "Tunnel proxy socket error occurred" << error;
+    qCWarning(dcTunnelProxyRemoteConnectionDummy) << "Tunnel proxy socket error occurred" << error;
 }
 
 NymeaTransportInterface *TunnelProxyTransportFactory::createTransport(QObject *parent) const

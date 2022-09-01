@@ -36,6 +36,8 @@
 #include <QDateTime>
 #include <QVariantMap>
 
+class ZigbeeNodeNeighbor;
+
 class ZigbeeNode : public QObject
 {
     Q_OBJECT
@@ -51,6 +53,7 @@ class ZigbeeNode : public QObject
     Q_PROPERTY(bool reachable READ reachable WRITE setReachable NOTIFY reachableChanged)
     Q_PROPERTY(uint lqi READ lqi WRITE setLqi NOTIFY lqiChanged)
     Q_PROPERTY(QDateTime lastSeen READ lastSeen WRITE setLastSeen NOTIFY lastSeenChanged)
+    Q_PROPERTY(QList<ZigbeeNodeNeighbor*> neighbors READ neighbors NOTIFY neighborsChanged)
 
 public:
     enum ZigbeeNodeType {
@@ -67,6 +70,15 @@ public:
         ZigbeeNodeStateHandled
     };
     Q_ENUM(ZigbeeNodeState)
+
+    enum ZigbeeNodeRelationship {
+        ZigbeeNodeRelationshipParent,
+        ZigbeeNodeRelationshipChild,
+        ZigbeeNodeRelationshipSibling,
+        ZigbeeNodeRelationshipNone,
+        ZigbeeNodeRelationshipPreviousChild
+    };
+    Q_ENUM(ZigbeeNodeRelationship)
 
     explicit ZigbeeNode(const QUuid &networkUuid, const QString &ieeeAddress, QObject *parent = nullptr);
 
@@ -103,10 +115,12 @@ public:
     QDateTime lastSeen() const;
     void setLastSeen(const QDateTime &lastSeen);
 
+    QList<ZigbeeNodeNeighbor*> neighbors() const;
+    void addOrUpdateNeighbor(quint16 networkAddress, ZigbeeNodeRelationship relationship, quint8 lqi, quint8 depth);
+    void commitNeighbors(QList<quint16> toBeKept);
+
     static ZigbeeNodeState stringToNodeState(const QString &nodeState);
     static ZigbeeNodeType stringToNodeType(const QString &nodeType);
-
-    void updateNodeProperties(const QVariantMap &nodeMap);
 
 signals:
     void networkAddressChanged(quint16 networkAddress);
@@ -119,6 +133,7 @@ signals:
     void reachableChanged(bool reachable);
     void lqiChanged(uint lqi);
     void lastSeenChanged(const QDateTime &lastSeen);
+    void neighborsChanged();
 
 private:
     QUuid m_networkUuid;
@@ -133,6 +148,42 @@ private:
     bool m_reachable = false;
     uint m_lqi = 0;
     QDateTime m_lastSeen;
+    QList<ZigbeeNodeNeighbor*> m_neighbors;
+    bool m_neighborsDirty = false;
+};
+
+class ZigbeeNodeNeighbor: public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(quint16 networkAddress READ networkAddress CONSTANT)
+    Q_PROPERTY(ZigbeeNode::ZigbeeNodeRelationship relationship READ relationship NOTIFY relationshipChanged)
+    Q_PROPERTY(quint8 lqi READ lqi NOTIFY lqiChanged)
+    Q_PROPERTY(quint8 depth READ depth NOTIFY depthChanged)
+
+public:
+    ZigbeeNodeNeighbor(quint16 networkAddress, QObject *parent);
+
+    quint16 networkAddress() const;
+
+    ZigbeeNode::ZigbeeNodeRelationship relationship() const;
+    void setRelationship(ZigbeeNode::ZigbeeNodeRelationship relationship);
+
+    quint8 lqi() const;
+    void setLqi(quint8 lqi);
+
+    quint8 depth() const;
+    void setDepth(quint8 depth);
+
+signals:
+    void relationshipChanged();
+    void lqiChanged();
+    void depthChanged();
+
+private:
+    quint16 m_networkAddress;
+    ZigbeeNode::ZigbeeNodeRelationship m_relationship;
+    quint8 m_lqi = 0;
+    quint8 m_depth = 0;
 };
 
 #endif // ZIGBEENODE_H

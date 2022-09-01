@@ -189,6 +189,51 @@ void ZigbeeNode::setLastSeen(const QDateTime &lastSeen)
     emit lastSeenChanged(m_lastSeen);
 }
 
+QList<ZigbeeNodeNeighbor *> ZigbeeNode::neighbors() const
+{
+    return m_neighbors;
+}
+
+void ZigbeeNode::addOrUpdateNeighbor(quint16 networkAddress, ZigbeeNodeRelationship relationship, quint8 lqi, quint8 depth)
+{
+    foreach (ZigbeeNodeNeighbor *neighbor, m_neighbors) {
+        if (neighbor->networkAddress() == networkAddress) {
+            if (neighbor->relationship() != relationship) {
+                neighbor->setRelationship(relationship);
+                m_neighborsDirty = true;
+            }
+            if (neighbor->lqi() != lqi) {
+                neighbor->setLqi(lqi);
+                m_neighborsDirty = true;
+            }
+            return;
+        }
+    }
+    ZigbeeNodeNeighbor *neighbor = new ZigbeeNodeNeighbor(networkAddress, this);
+    neighbor->setRelationship(relationship);
+    neighbor->setLqi(lqi);
+    neighbor->setDepth(depth);
+    m_neighbors.append(neighbor);
+}
+
+void ZigbeeNode::commitNeighbors(QList<quint16> toBeKept)
+{
+    QMutableListIterator<ZigbeeNodeNeighbor*> iter(m_neighbors);
+
+    while (iter.hasNext()) {
+        ZigbeeNodeNeighbor *neighbor = iter.next();
+        if (!toBeKept.contains(neighbor->networkAddress())) {
+            iter.remove();
+            neighbor->deleteLater();
+            m_neighborsDirty = true;
+        }
+    }
+    if (m_neighborsDirty) {
+        emit neighborsChanged();
+        m_neighborsDirty = false;
+    }
+}
+
 ZigbeeNode::ZigbeeNodeState ZigbeeNode::stringToNodeState(const QString &nodeState)
 {
     if (nodeState == "ZigbeeNodeStateUninitialized") {
@@ -213,16 +258,53 @@ ZigbeeNode::ZigbeeNodeType ZigbeeNode::stringToNodeType(const QString &nodeType)
     }
 }
 
-void ZigbeeNode::updateNodeProperties(const QVariantMap &nodeMap)
+ZigbeeNodeNeighbor::ZigbeeNodeNeighbor(quint16 networkAddress, QObject *parent):
+    QObject(parent),
+    m_networkAddress(networkAddress)
 {
-    setNetworkAddress(nodeMap.value("networkAddress").toUInt());
-    setType(ZigbeeNode::stringToNodeType(nodeMap.value("type").toString()));
-    setState(ZigbeeNode::stringToNodeState(nodeMap.value("state").toString()));
-    setManufacturer(nodeMap.value("manufacturer").toString());
-    setModel(nodeMap.value("model").toString());
-    setVersion(nodeMap.value("version").toString());
-    setRxOnWhenIdle(nodeMap.value("receiverOnWhileIdle").toBool());
-    setReachable(nodeMap.value("reachable").toBool());
-    setLqi(nodeMap.value("lqi").toUInt());
-    setLastSeen(QDateTime::fromMSecsSinceEpoch(nodeMap.value("lastSeen").toUInt() * 1000));
+
+}
+
+quint16 ZigbeeNodeNeighbor::networkAddress() const
+{
+    return m_networkAddress;
+}
+
+ZigbeeNode::ZigbeeNodeRelationship ZigbeeNodeNeighbor::relationship() const
+{
+    return m_relationship;
+}
+
+void ZigbeeNodeNeighbor::setRelationship(ZigbeeNode::ZigbeeNodeRelationship relationship)
+{
+    if (m_relationship != relationship) {
+        m_relationship = relationship;
+        emit relationshipChanged();
+    }
+}
+
+quint8 ZigbeeNodeNeighbor::lqi() const
+{
+    return m_lqi;
+}
+
+void ZigbeeNodeNeighbor::setLqi(quint8 lqi)
+{
+    if (m_lqi != lqi) {
+        m_lqi = lqi;
+        emit lqiChanged();
+    }
+}
+
+quint8 ZigbeeNodeNeighbor::depth() const
+{
+    return m_depth;
+}
+
+void ZigbeeNodeNeighbor::setDepth(quint8 depth)
+{
+    if (m_depth != depth) {
+        m_depth = depth;
+        emit depthChanged();
+    }
 }

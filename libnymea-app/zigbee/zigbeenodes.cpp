@@ -191,3 +191,13 @@ ZigbeeNode *ZigbeeNodes::getNode(const QString &ieeeAddress) const
 
     return nullptr;
 }
+
+ZigbeeNode *ZigbeeNodes::getNodeByNetworkAddress(quint16 networkAddress) const
+{
+    foreach (ZigbeeNode *node, m_nodes) {
+        if (node->networkAddress() == networkAddress) {
+            return node;
+        }
+    }
+    return nullptr;
+}

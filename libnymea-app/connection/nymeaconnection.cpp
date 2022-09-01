@@ -85,7 +85,7 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 
     updateActiveBearers();
 
-    m_reconnectTimer.setInterval(100);
+    m_reconnectTimer.setInterval(500);
     m_reconnectTimer.setSingleShot(true);
     connect(&m_reconnectTimer, &QTimer::timeout, this, [this](){
         if (m_currentHost && !m_currentTransport) {
