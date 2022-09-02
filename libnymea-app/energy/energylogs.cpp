@@ -190,10 +190,7 @@ EnergyLogEntry *EnergyLogs::find(const QDateTime &timestamp)
         return nullptr;
     }
     QDateTime first = m_list.first()->timestamp();
-    if (timestamp < first || timestamp > m_list.last()->timestamp()) {
-        return nullptr;
-    }
-    int index = qRound(1.0 * first.secsTo(timestamp) / (m_sampleRate * 60));
+    int index = 1.0 * first.secsTo(timestamp) / (m_sampleRate * 60);
     if (index < 0 || index >= m_list.count()) {
         return nullptr;
     }

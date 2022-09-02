@@ -125,7 +125,20 @@ Item {
             Label {
                 x: chartView.x + chartView.plotArea.x + (chartView.plotArea.width - width) / 2
                 y: chartView.y + chartView.plotArea.y + Style.smallMargins
-                text: d.startTime.toLocaleDateString(Qt.locale(), Locale.LongFormat)
+                text: {
+                    switch (d.sampleRate) {
+                    case EnergyLogs.SampleRate1Min:
+                        return d.startTime.toLocaleDateString(Qt.locale(), Locale.LongFormat)
+                    case EnergyLogs.SampleRate15Mins:
+                    case EnergyLogs.SampleRate1Hour:
+                    case EnergyLogs.SampleRate3Hours:
+                    case EnergyLogs.SampleRate1Day:
+                    case EnergyLogs.SampleRate1Week:
+                    case EnergyLogs.SampleRate1Month:
+                    case EnergyLogs.SampleRate1Year:
+                        return d.startTime.toLocaleDateString(Qt.locale(), Locale.ShortFormat) + " - " + d.endTime.toLocaleDateString(Qt.locale(), Locale.ShortFormat)
+                    }
+                }
                 font: Style.smallFont
                 opacity: ((new Date().getTime() - d.now.getTime()) / d.sampleRate / 60000) > d.visibleValues ? .5 : 0
                 Behavior on opacity { NumberAnimation {} }
@@ -415,7 +428,7 @@ Item {
                     var idx = Math.ceil(mouseArea.mouseX * d.visibleValues / mouseArea.width)
                     var timestamp = new Date(d.startTime.getTime() + (idx * d.sampleRate * 60000))
                     selectionTabs.currentIndex--
-                    d.now = new Date(timestamp.getTime() + (d.visibleValues / 2) * d.sampleRate * 60000)
+                    d.now = new Date(Math.min(new Date().getTime(), timestamp.getTime() + (d.visibleValues / 2) * d.sampleRate * 60000))
                     powerBalanceLogs.fetchLogs()
                 }
 
@@ -467,7 +480,7 @@ Item {
                     backgroundItem: chartView
                     backgroundRect: Qt.rect(mouseArea.x + toolTip.x, mouseArea.y + toolTip.y, toolTip.width, toolTip.height)
 
-                    property int idx: Math.ceil(mouseArea.mouseX * d.visibleValues / mouseArea.width)
+                    property int idx: Math.min(d.visibleValues, Math.max(0, Math.ceil(mouseArea.mouseX * d.visibleValues / mouseArea.width)))
                     property var timestamp: new Date(d.startTime.getTime() + (idx * d.sampleRate * 60000))
                     property PowerBalanceLogEntry entry: powerBalanceLogs.find(timestamp)
 
@@ -488,7 +501,7 @@ Item {
                             margins: Style.smallMargins
                         }
                         Label {
-                            text: toolTip.timestamp.toLocaleString(Qt.locale(), Locale.ShortFormat)
+                            text: toolTip.entry.timestamp.toLocaleString(Qt.locale(), Locale.ShortFormat)
                             font: Style.smallFont
                         }
 
