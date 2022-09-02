@@ -450,7 +450,7 @@ StatsBase {
                     backgroundItem: chartView
                     backgroundRect: Qt.rect(chartView.plotArea.x + toolTip.x, chartView.plotArea.y + toolTip.y, toolTip.width, toolTip.height)
 
-                    property int idx: Math.ceil(mouseArea.mouseX * d.config.count / mouseArea.width) - 1
+                    property int idx: Math.min(d.config.count -1, Math.max(0, Math.ceil(mouseArea.mouseX * d.config.count / mouseArea.width) - 1))
                     property date timestamp: root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + idx)
 
                     visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
