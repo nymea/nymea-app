@@ -66,7 +66,7 @@ void ThingsProxy::setEngine(Engine *engine)
             connect(sourceModel(), SIGNAL(countChanged()), this, SIGNAL(countChanged()));
             connect(sourceModel(), &QAbstractItemModel::dataChanged, this, [this]() {
                 // Only invalidate the filter if we're actually interested in state changes
-                if (!m_sortStateName.isEmpty() || m_filterBatteryCritical || m_filterDisconnected || m_filterUpdates) {
+                if (!m_sortStateName.isEmpty() || m_filterBatteryCritical || m_filterDisconnected || m_filterUpdates || m_filterSetupFailed) {
                     invalidateFilterInternal();
                 }
             });
@@ -93,7 +93,7 @@ void ThingsProxy::setParentProxy(ThingsProxy *parentProxy)
         connect(m_parentProxy, &QAbstractItemModel::dataChanged, this, [this]() {
             if (m_engine &&
                     // Only invalidate the filter if we're actually interested in state changes
-                    (!m_sortStateName.isEmpty() || m_filterBatteryCritical || m_filterDisconnected || m_filterUpdates)) {
+                    (!m_sortStateName.isEmpty() || m_filterBatteryCritical || m_filterDisconnected || m_filterUpdates || m_filterSetupFailed)) {
                 invalidateFilterInternal();
             }
         });
