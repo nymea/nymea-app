@@ -1,3 +1,11 @@
+nymea-app (1.4.5) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix tooltips in energy charts
+  * Fix setup status warning not always updating in ThingsView
+
+ -- jenkins <developer@nymea.io>  Fri, 02 Sep 2022 15:57:52 +0200
+
 nymea-app (1.4.4) bionic; urgency=medium
 
   [ Michael Zanetti ]
