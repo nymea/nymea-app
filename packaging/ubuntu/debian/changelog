@@ -1,3 +1,10 @@
+nymea-app (1.4.6) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a zigbee network topology map
+
+ -- jenkins <developer@nymea.io>  Sat, 03 Sep 2022 02:13:08 +0200
+
 nymea-app (1.4.5) bionic; urgency=medium
 
   [ Michael Zanetti ]
