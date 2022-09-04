@@ -418,6 +418,10 @@ Item {
                             // Add a first point at 0 value
                             series.upperSeries.insert(0, new Date().getTime(), 0)
                         }
+
+                        Component.onDestruction: {
+                            chartView.removeSeries(series)
+                        }
                     }
                 }
             }

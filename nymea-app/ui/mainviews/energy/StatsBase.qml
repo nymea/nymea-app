@@ -124,7 +124,12 @@ Item {
     function weeksStart() {
         var d = new Date();
         d.setHours(0, 0, 0, 0);
-        d.setDate(d.getDate() - d.getDay() + 1 - (weeksCount - 1) * 7);
+        print("now is:", d, "weeksCount:", weeksCount)
+        // We'll start the week on Monday for now, given that's international ISO standard. For US and Canada we may want to introduce a setting at some point.
+        // JS Date starts on Sunday though, so we'll have to adjust
+        var dayOfWeek = (d.getDay() + 6) % 7
+        print("getDay", d.getDay(), "dayOfWeek", dayOfWeek, "getDate", d.getDate())
+        d.setDate(d.getDate() - dayOfWeek - (weeksCount - 1) * 7);
         return d
     }
     function weekLabel(date) {

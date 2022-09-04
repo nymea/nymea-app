@@ -162,7 +162,7 @@ Item {
                 ActivityIndicator {
                     x: chartView.plotArea.x + (chartView.plotArea.width - width) / 2
                     y: chartView.plotArea.y + (chartView.plotArea.height - height) / 2 + (chartView.plotArea.height / 8)
-                    visible: powerBalanceLogs.fetchingData
+                    visible: powerBalanceLogs.fetchingData && powerBalanceLogs.get(0).timestamp > d.startTime
                     opacity: .5
                 }
                 Label {

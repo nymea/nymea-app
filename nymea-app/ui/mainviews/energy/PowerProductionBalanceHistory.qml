@@ -160,7 +160,7 @@ Item {
                 ActivityIndicator {
                     x: chartView.plotArea.x + (chartView.plotArea.width - width) / 2
                     y: chartView.plotArea.y + (chartView.plotArea.height - height) / 2 + (chartView.plotArea.height / 8)
-                    visible: powerBalanceLogs.fetchingData
+                    visible: powerBalanceLogs.fetchingData && powerBalanceLogs.get(0).timestamp > d.startTime
                     opacity: .5
                 }
                 Label {
@@ -525,7 +525,7 @@ Item {
                                 Component.onCompleted: lowerSeries = selfConsumptionSeries.lowerSeries
                                 property XYSeries lowerSeries: null
 
-                                property double value: toolTip.entry ? Math.max(0, toolTip.entry.consumption) : 0
+                                property double value: toolTip.entry ? Math.min(Math.max(0, toolTip.entry.consumption), -toolTip.entry.production) : 0
                                 property bool translate: value >= 1000
                                 property double translatedValue: value / (translate ? 1000 : 1)
                                 text: qsTr("Consumed: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
