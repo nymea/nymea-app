@@ -151,6 +151,11 @@ int ZigbeeManager::removeNode(const QUuid &networkUuid, const QString &ieeeAddre
     return m_engine->jsonRpcClient()->sendCommand("Zigbee.RemoveNode", params, this, "removeNodeResponse");
 }
 
+void ZigbeeManager::refreshNeighborTables(const QUuid &networkUuid)
+{
+    m_engine->jsonRpcClient()->sendCommand("Zigbee.RefreshNeighborTables", {{"networkUuid", networkUuid}});
+}
+
 void ZigbeeManager::init()
 {
     m_fetchingData = true;
@@ -378,7 +383,8 @@ void ZigbeeManager::fillNetworkData(ZigbeeNetwork *network, const QVariantMap &n
     network->setPermitJoiningDuration(networkMap.value("permitJoiningDuration").toUInt());
     network->setPermitJoiningRemaining(networkMap.value("permitJoiningRemaining").toUInt());
     network->setBackend(networkMap.value("backend").toString());
-    network->setNetworkState(ZigbeeNetwork::stringToZigbeeNetworkState(networkMap.value("networkState").toString()));
+    QMetaEnum networkStateEnum = QMetaEnum::fromType<ZigbeeNetwork::ZigbeeNetworkState>();
+    network->setNetworkState(static_cast<ZigbeeNetwork::ZigbeeNetworkState>(networkStateEnum.keyToValue(networkMap.value("networkState").toByteArray())));
 }
 
 void ZigbeeManager::addOrUpdateNode(ZigbeeNetwork *network, const QVariantMap &nodeMap)
@@ -413,7 +419,8 @@ void ZigbeeManager::updateNodeProperties(ZigbeeNode *node, const QVariantMap &no
         ZigbeeNode::ZigbeeNodeRelationship relationship = static_cast<ZigbeeNode::ZigbeeNodeRelationship>(relationshipEnum.keyToValue(neighborMap.value("relationship").toByteArray().data()));
         quint8 lqi = neighborMap.value("lqi").toUInt();
         quint8 depth = neighborMap.value("depth").toUInt();
-        node->addOrUpdateNeighbor(networkAddress, relationship, lqi, depth);
+        bool permitJoining = neighborMap.value("permitJoining").toBool();
+        node->addOrUpdateNeighbor(networkAddress, relationship, lqi, depth, permitJoining);
         neighbors.append(networkAddress);
     }
     node->commitNeighbors(neighbors);

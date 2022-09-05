@@ -194,7 +194,7 @@ QList<ZigbeeNodeNeighbor *> ZigbeeNode::neighbors() const
     return m_neighbors;
 }
 
-void ZigbeeNode::addOrUpdateNeighbor(quint16 networkAddress, ZigbeeNodeRelationship relationship, quint8 lqi, quint8 depth)
+void ZigbeeNode::addOrUpdateNeighbor(quint16 networkAddress, ZigbeeNodeRelationship relationship, quint8 lqi, quint8 depth, bool permitJoining)
 {
     foreach (ZigbeeNodeNeighbor *neighbor, m_neighbors) {
         if (neighbor->networkAddress() == networkAddress) {
@@ -206,6 +206,10 @@ void ZigbeeNode::addOrUpdateNeighbor(quint16 networkAddress, ZigbeeNodeRelations
                 neighbor->setLqi(lqi);
                 m_neighborsDirty = true;
             }
+            if (neighbor->permitJoining() != permitJoining) {
+                neighbor->setPermitJoining(permitJoining);
+                m_neighborsDirty = true;
+            }
             return;
         }
     }
@@ -214,6 +218,7 @@ void ZigbeeNode::addOrUpdateNeighbor(quint16 networkAddress, ZigbeeNodeRelations
     neighbor->setLqi(lqi);
     neighbor->setDepth(depth);
     m_neighbors.append(neighbor);
+    m_neighborsDirty = true;
 }
 
 void ZigbeeNode::commitNeighbors(QList<quint16> toBeKept)
@@ -306,5 +311,18 @@ void ZigbeeNodeNeighbor::setDepth(quint8 depth)
     if (m_depth != depth) {
         m_depth = depth;
         emit depthChanged();
+    }
+}
+
+bool ZigbeeNodeNeighbor::permitJoining() const
+{
+    return m_permitJoining;
+}
+
+void ZigbeeNodeNeighbor::setPermitJoining(bool permitJoining)
+{
+    if (m_permitJoining != permitJoining) {
+        m_permitJoining = permitJoining;
+        emit permitJoiningChanged();
     }
 }

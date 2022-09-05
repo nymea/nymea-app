@@ -92,7 +92,9 @@ SettingsPageBase {
     NymeaItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Network topology")
-        onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeTopologyPage.qml"), {network: root.network})
+        onClicked: {
+            pageStack.push(Qt.resolvedUrl("ZigbeeTopologyPage.qml"), {zigbeeManager: root.zigbeeManager, network: root.network})
+        }
     }
 
     SettingsPageSectionHeader {

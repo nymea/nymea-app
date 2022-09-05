@@ -95,6 +95,7 @@ public:
     Q_INVOKABLE void factoryResetNetwork(const QUuid &networkUuid);
     Q_INVOKABLE void getNodes(const QUuid &networkUuid);
     Q_INVOKABLE int removeNode(const QUuid &networkUuid, const QString &ieeeAddress);
+    Q_INVOKABLE void refreshNeighborTables(const QUuid &networkUuid);
 
 signals:
     void engineChanged();

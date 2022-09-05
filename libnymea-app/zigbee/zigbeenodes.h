@@ -76,6 +76,8 @@ public:
 
 signals:
     void countChanged();
+    void nodeAdded(ZigbeeNode *node);
+    void nodeRemoved(const QString &ieeeAddress);
 
 protected:
     QList<ZigbeeNode *> m_nodes;

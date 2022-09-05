@@ -253,22 +253,3 @@ void ZigbeeNetwork::setNetworkState(ZigbeeNetwork::ZigbeeNetworkState networkSta
     m_networkState = networkState;
     emit networkStateChanged();
 }
-
-ZigbeeNetwork::ZigbeeNetworkState ZigbeeNetwork::stringToZigbeeNetworkState(const QString &networkStateString)
-{
-    if (networkStateString == "ZigbeeNetworkStateOffline") {
-        return ZigbeeNetworkStateOffline;
-    } else if (networkStateString == "ZigbeeNetworkStateStarting") {
-        return ZigbeeNetworkStateStarting;
-    } else if (networkStateString == "ZigbeeNetworkStateUpdating") {
-        return ZigbeeNetworkStateUpdating;
-    } else if (networkStateString == "ZigbeeNetworkStateOnline") {
-        return ZigbeeNetworkStateOnline;
-    } else if (networkStateString == "ZigbeeNetworkStateError") {
-        return ZigbeeNetworkStateError;
-    } else {
-        return ZigbeeNetworkStateError;
-    }
-}
-
-

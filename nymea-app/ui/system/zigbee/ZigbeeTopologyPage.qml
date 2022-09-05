@@ -13,6 +13,7 @@ Page {
         onBackPressed: pageStack.pop()
     }
 
+    property ZigbeeManager zigbeeManager: null
     property ZigbeeNetwork network: null
 
     readonly property int nodeDistance: 150
@@ -21,13 +22,24 @@ Page {
 
 
     Component.onCompleted: {
-        generateNodeList()
-        canvas.requestPaint()
-        flickable.contentX = (flickable.contentWidth - flickable.width) / 2
-        flickable.contentY = (flickable.contentHeight - flickable.height) / 2
+        zigbeeManager.refreshNeighborTables(network.networkUuid)
+
+        reload();
+        for (var i = 0; i < network.nodes.count; i++) {
+            network.nodes.get(i).neighborsChanged.connect(function() {root.reload()})
+        }
+    }
+
+    Connections {
+        target: root.network.nodes
+        onNodeAdded: {
+            root.reload()
+            node.neighborsChanged.connect(function() {root.reload()});
+        }
     }
 
     function generateNodeList() {
+        d.nodeItems = []
         var coordinator = {}
         var routers = []
         var endDevices = []
@@ -88,6 +100,30 @@ Page {
                 }
             }
         }
+
+        var unconnectedNodes = []
+        for (var i = 0; i < network.nodes.count; i++) {
+            var node = network.nodes.get(i)
+            if (node.type == ZigbeeNode.ZigbeeNodeTypeEndDevice && handledEndDevices.indexOf(node.networkAddress) < 0) {
+                print("Adding unconnected node:","0x" + node.networkAddress.toString(16))
+                unconnectedNodes.push(node)
+            }
+        }
+        var cellWidth = root.nodeSize * 2
+        var cellHeight = root.nodeSize * 2
+        var maxColumns = (root.width - Style.bigMargins * 2) / cellWidth
+        var columns = Math.min(unconnectedNodes.length, maxColumns)
+        var rowWidth = columns * cellWidth
+        print("columns:", columns, "maxCols", maxColumns)
+        for (var i = 0; i < unconnectedNodes.length; i++) {
+            var node = unconnectedNodes[i]
+            var column = i % columns;
+            var row = Math.floor(i / columns)
+            var x = cellWidth * column + cellWidth / 2 - rowWidth / 2
+            var y = Style.margins + cellHeight * row + root.nodeSize - root.height / 3
+            var point = root.mapToItem(canvas, x, y)
+            d.nodeItems.push(createNodeItem(node, point.x, point.y, 0))
+        }
     }
 
 
@@ -126,19 +162,35 @@ Page {
             thing: thing
 
         }
-        print("creared node", thing ? thing.name : "", " at", x, y)
+//        print("creared node", thing ? thing.name : "", " at", x, y)
         d.adjustSize(x, y)
         return nodeItem
     }
 
+    function reload() {
+        print("Reloading network map")
+        while (d.nodeItems.length > 0) {
+            var nodeItem = d.nodeItems.shift()
+            nodeItem.image.destroy();
+        }
+//        d.selectedNodeItem= null
+        d.minX = 0
+        d.minY = 0
+        d.maxX = 0
+        d.maxY = 0
+        d.size = 0
+        generateNodeList();
+        canvas.requestPaint()
+        flickable.contentX = (flickable.contentWidth - flickable.width) / 2
+        flickable.contentY = (flickable.contentHeight - flickable.height) / 2
+    }
+
     QtObject {
         id: d
-        property var nodeTree: ({})
-        property var handledNodes: []
-
         property var nodeItems: []
 
-        property var selectedNodeItem: null
+        property int selectedNodeAddress: -1
+        readonly property ZigbeeNode selectedNode: selectedNodeAddress >= 0 ? network.nodes.getNodeByNetworkAddress(selectedNodeAddress) : null
 
         property int minX: 0
         property int minY: 0
@@ -180,7 +232,7 @@ Page {
             clip: true
 
             onPaint: {
-                print("**** height:", canvas.height, "width", canvas.width)
+//                print("**** height:", canvas.height, "width", canvas.width)
                 var ctx = getContext("2d");
                 ctx.reset();
 
@@ -209,7 +261,7 @@ Page {
                     for (var k = 0; k < d.nodeItems.length; k++) {
                         if (d.nodeItems[k].node.networkAddress == neighbor.networkAddress) {
                             var toNodeItem = d.nodeItems[k]
-                            if (nodeItem === d.selectedNodeItem || toNodeItem === d.selectedNodeItem) {
+                            if (nodeItem.node.networkAddress === d.selectedNodeAddress || toNodeItem.node.networkAddress === d.selectedNodeAddress) {
                                 if (selected) {
                                     paintEdge(ctx, nodeItem, d.nodeItems[k], neighbor.lqi, true)
                                 }
@@ -227,11 +279,11 @@ Page {
             function paintNode(ctx, nodeItem) {
                 ctx.save()
                 ctx.beginPath();
-                ctx.fillStyle = Style.tileBackgroundColor
-                ctx.strokeStyle = nodeItem === d.selectedNodeItem ? Style.accentColor : Style.foregroundColor
+                ctx.fillStyle = nodeItem.node.networkAddress === d.selectedNodeAddress ? Style.tileOverlayColor : Style.tileBackgroundColor
+                ctx.strokeStyle = nodeItem.node.networkAddress === d.selectedNodeAddress ? Style.accentColor : Style.tileBackgroundColor
                 ctx.arc(root.scale * nodeItem.x, root.scale * nodeItem.y, root.scale * root.nodeSize / 2, 0, 2 * Math.PI);
                 ctx.fill();
-                //            ctx.stroke();
+//                ctx.stroke();
                 ctx.fillStyle = Style.foregroundColor
                 ctx.font = "" + Style.extraSmallFont.pixelSize + "px Ubuntu";
                 var text = ""
@@ -267,7 +319,7 @@ Page {
                     ctx.strokeStyle = Qt.rgba(resultRed, resultGreen, resultBlue, 1)
                 } else {
                     ctx.lineWidth = 1
-                    var alpha = d.selectedNodeItem ? .2 : 1
+                    var alpha = d.selectedNodeAddress >= 0 ? .2 : 1
                     ctx.strokeStyle = Qt.rgba(resultRed, resultGreen, resultBlue, alpha)
                 }
                 ctx.beginPath();
@@ -287,13 +339,13 @@ Page {
                     print("clicked:", mouseX, mouseY)
                     var translatedMouseX = mouseX - canvas.width / 2
                     var translatedMouseY = mouseY - canvas.height / 2
-                    d.selectedNodeItem = null
+                    d.selectedNodeAddress = -1
                     for (var i = 0; i < d.nodeItems.length; i++) {
                         var nodeItem = d.nodeItems[i]
                         //                    print("nodeItem at:", root.scale * nodeItem.x, root.scale * nodeItem.y)
                         if (Math.abs(root.scale * nodeItem.x - translatedMouseX) < (root.scale * root.nodeSize / 2)
                                 && Math.abs(root.scale * nodeItem.y - translatedMouseY) < (root.scale * root.nodeSize / 2)) {
-                            d.selectedNodeItem = nodeItem;
+                            d.selectedNodeAddress = nodeItem.node.networkAddress;
                             print("sleecting", nodeItem.node.networkAddress)
                         }
                     }
@@ -302,33 +354,37 @@ Page {
                 }
             }
         }
-
-
     }
 
 
     BigTile {
-        visible: d.selectedNodeItem
+        visible: d.selectedNodeAddress >= 0
         anchors {
             top: parent.top
             right: parent.right
             margins: Style.margins
         }
 
-        width: 200
+        width: 260
         header: RowLayout {
             width: parent.width - Style.smallMargins
             spacing: Style.smallMargins
             Label {
                 Layout.fillWidth: true
                 elide: Text.ElideRight
-                text: !d.selectedNodeItem
+                ThingsProxy {
+                    id: selectedThingsProxy
+                    engine: _engine
+                    paramsFilter: {"ieeeAddress": d.selectedNode ? d.selectedNode.ieeeAddress : "---"}
+                }
+
+                text: d.selectedNodeAddress < 0
                       ? ""
-                      : d.selectedNodeItem.node.networkAddress === 0
+                      : d.selectedNodeAddress === 0
                         ? Configuration.systemName
-                        : d.selectedNodeItem.thing
-                          ? d.selectedNodeItem.thing.name
-                          : d.selectedNodeItem.node.model
+                        : selectedThingsProxy.count > 0
+                          ? selectedThingsProxy.get(0).name
+                          : network.nodes.getNodeByNetworkAddress(d.selectedNode).model
             }
             ColorIcon {
                 size: Style.smallIconSize
@@ -354,18 +410,23 @@ Page {
                 size: Style.smallIconSize
                 name: "/ui/images/things.svg"
             }
+            ColorIcon {
+                size: Style.smallIconSize
+                name: "/ui/images/add.svg"
+            }
         }
 
         contentItem: ListView {
+            id: tableListView
             spacing: app.margins
             implicitHeight: Math.min(root.height / 4, count * Style.smallIconSize)
             clip: true
-            model: d.selectedNodeItem ? d.selectedNodeItem.node.neighbors.length : 0
+            model: d.selectedNode ? d.selectedNode.neighbors.length : 0
 
             delegate: RowLayout {
                 id: neighborTableDelegate
-                width: parent.width
-                property ZigbeeNodeNeighbor neighbor: d.selectedNodeItem.node.neighbors[index]
+                width: tableListView.width
+                property ZigbeeNodeNeighbor neighbor: d.selectedNode.neighbors[index]
                 property ZigbeeNode neighborNode: root.network.nodes.getNodeByNetworkAddress(neighbor.networkAddress)
                 property Thing neighborNodeThing: {
                     for (var i = 0; i < engine.thingManager.things.count; i++) {
@@ -401,9 +462,12 @@ Page {
                     text: neighborTableDelegate.neighbor.depth
                     horizontalAlignment: Text.AlignRight
                 }
+                ColorIcon {
+                    size: Style.smallIconSize
+                    name: "add"
+                    opacity: neighborTableDelegate.neighbor.permitJoining ? 1 : 0
+                }
             }
-
         }
     }
-
 }

@@ -149,6 +149,8 @@ void ZigbeeNodes::addNode(ZigbeeNode *node)
 
     endInsertRows();
     emit countChanged();
+
+    emit nodeAdded(node);
 }
 
 void ZigbeeNodes::removeNode(const QString &ieeeAddress)
@@ -159,6 +161,7 @@ void ZigbeeNodes::removeNode(const QString &ieeeAddress)
             m_nodes.takeAt(i)->deleteLater();
             endRemoveRows();
             emit countChanged();
+            emit nodeRemoved(ieeeAddress);
             return;
         }
     }

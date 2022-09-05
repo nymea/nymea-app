@@ -115,8 +115,6 @@ public:
     ZigbeeNetworkState networkState() const;
     void setNetworkState(ZigbeeNetworkState networkState);
 
-    static ZigbeeNetworkState stringToZigbeeNetworkState(const QString &networkStateString);
-
 signals:
     void networkUuidChanged();
     void enabledChanged();

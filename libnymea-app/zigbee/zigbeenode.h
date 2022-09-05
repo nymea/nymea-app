@@ -116,7 +116,7 @@ public:
     void setLastSeen(const QDateTime &lastSeen);
 
     QList<ZigbeeNodeNeighbor*> neighbors() const;
-    void addOrUpdateNeighbor(quint16 networkAddress, ZigbeeNodeRelationship relationship, quint8 lqi, quint8 depth);
+    void addOrUpdateNeighbor(quint16 networkAddress, ZigbeeNodeRelationship relationship, quint8 lqi, quint8 depth, bool permitJoining);
     void commitNeighbors(QList<quint16> toBeKept);
 
     static ZigbeeNodeState stringToNodeState(const QString &nodeState);
@@ -159,6 +159,7 @@ class ZigbeeNodeNeighbor: public QObject
     Q_PROPERTY(ZigbeeNode::ZigbeeNodeRelationship relationship READ relationship NOTIFY relationshipChanged)
     Q_PROPERTY(quint8 lqi READ lqi NOTIFY lqiChanged)
     Q_PROPERTY(quint8 depth READ depth NOTIFY depthChanged)
+    Q_PROPERTY(bool permitJoining READ permitJoining NOTIFY permitJoiningChanged)
 
 public:
     ZigbeeNodeNeighbor(quint16 networkAddress, QObject *parent);
@@ -174,16 +175,21 @@ public:
     quint8 depth() const;
     void setDepth(quint8 depth);
 
+    bool permitJoining() const;
+    void setPermitJoining(bool permitJoining);
+
 signals:
     void relationshipChanged();
     void lqiChanged();
     void depthChanged();
+    void permitJoiningChanged();
 
 private:
     quint16 m_networkAddress;
     ZigbeeNode::ZigbeeNodeRelationship m_relationship;
     quint8 m_lqi = 0;
     quint8 m_depth = 0;
+    bool m_permitJoining = false;
 };
 
 #endif // ZIGBEENODE_H
