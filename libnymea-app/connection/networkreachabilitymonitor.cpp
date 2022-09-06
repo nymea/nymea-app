@@ -37,6 +37,13 @@ NetworkReachabilityMonitor::NetworkReachabilityMonitor(QObject *parent)
 
 }
 
+NetworkReachabilityMonitor::~NetworkReachabilityMonitor()
+{
+#ifdef Q_OS_IOS
+    teardownIOS();
+#endif
+}
+
 NymeaConnection::BearerTypes NetworkReachabilityMonitor::availableBearerTypes() const
 {
     return m_availableBearerTypes;

@@ -16,6 +16,7 @@ class NetworkReachabilityMonitor : public QObject
     Q_PROPERTY(NymeaConnection::BearerTypes availableBearerTypes READ availableBearerTypes NOTIFY availableBearerTypesChanged)
 public:
     explicit NetworkReachabilityMonitor(QObject *parent = nullptr);
+    ~NetworkReachabilityMonitor();
 
     NymeaConnection::BearerTypes availableBearerTypes() const;
 
@@ -34,7 +35,8 @@ private:
 
 #ifdef Q_OS_IOS
     void setupIOS();
-    SCNetworkReachabilityRef _reachabilityRef;
+    void teardownIOS();
+    SCNetworkReachabilityRef m_reachabilityRef;
     static NymeaConnection::BearerType flagsToBearerType(SCNetworkReachabilityFlags flags);
     static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info);
 #endif

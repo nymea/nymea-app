@@ -10,7 +10,8 @@
 #import <netinet/in.h>
 #import <CoreFoundation/CoreFoundation.h>
 
-#include <QDebug>
+#include <QLoggingCategory>
+Q_DECLARE_LOGGING_CATEGORY(dcNymeaConnection)
 
 void NetworkReachabilityMonitor::ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info)
 {
@@ -19,9 +20,9 @@ void NetworkReachabilityMonitor::ReachabilityCallback(SCNetworkReachabilityRef t
 
     NetworkReachabilityMonitor* thiz = (__bridge NetworkReachabilityMonitor *)info;
     // Post a notification to notify the client that the network reachability changed.
-    qCritical() << "******* network reachability changed";
     NymeaConnection::BearerTypes old = thiz->m_availableBearerTypes;
     thiz->m_availableBearerTypes = flagsToBearerType(flags);
+    qCDebug(dcNymeaConnection()) << "Network reachability changed. Old bearers:" << old << "New bearers:" << thiz->m_availableBearerTypes << "(Flags:" << flags << ")";
     if (thiz->m_availableBearerTypes != old) {
         emit thiz->availableBearerTypesChanged();
     }
@@ -35,32 +36,29 @@ void NetworkReachabilityMonitor::setupIOS()
     zeroAddress.sin_len = sizeof(zeroAddress);
     zeroAddress.sin_family = AF_INET;
 
-    SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr *)&zeroAddress);
-    if (reachability != NULL) {
-        _reachabilityRef = reachability;
+    m_reachabilityRef = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr *)&zeroAddress);
+    if (m_reachabilityRef == NULL) {
+        qCCritical(dcNymeaConnection()) << "Error setting up reachability monitor";
+        return;
     }
 
     SCNetworkReachabilityContext context = {0, (__bridge void *)(this), NULL, NULL, NULL};
-    qCritical() << "Registering callback";
-    if (SCNetworkReachabilitySetCallback(_reachabilityRef, ReachabilityCallback, &context)) {
-        qCritical() << "Callback registered";
-        if (SCNetworkReachabilityScheduleWithRunLoop(_reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode)) {
-            qCritical() << "******* reachability callback set up";
+    if (SCNetworkReachabilitySetCallback(m_reachabilityRef, ReachabilityCallback, &context)) {
+        if (SCNetworkReachabilityScheduleWithRunLoop(m_reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode)) {
         } else {
-            qCritical() << "******** Error setting up reachability callback";
+            qCCritical(dcNymeaConnection()) << "Error setting up reachability callback";
         }
     }
 
-
     SCNetworkReachabilityFlags flags;
-
-    if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags)) {
+    if (SCNetworkReachabilityGetFlags(m_reachabilityRef, &flags)) {
         m_availableBearerTypes = flagsToBearerType(flags);
     }
+}
 
-    // TODO: unregister
-//    SCNetworkReachabilityUnscheduleFromRunLoop(_reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
-
+void NetworkReachabilityMonitor::teardownIOS()
+{
+    SCNetworkReachabilityUnscheduleFromRunLoop(m_reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 }
 
 NymeaConnection::BearerType NetworkReachabilityMonitor::flagsToBearerType(SCNetworkReachabilityFlags flags)
