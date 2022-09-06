@@ -21,6 +21,7 @@ INCLUDEPATH += \
 
 SOURCES += \
     $$PWD/appdata.cpp \
+    $$PWD/connection/networkreachabilitymonitor.cpp \
     $$PWD/energy/energylogs.cpp \
     $$PWD/energy/energymanager.cpp \
     $$PWD/energy/powerbalancelogs.cpp \
@@ -186,6 +187,7 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/appdata.h \
+    $$PWD/connection/networkreachabilitymonitor.h \
     $$PWD/energy/energylogs.h \
     $$PWD/energy/energymanager.h \
     $$PWD/energy/powerbalancelogs.h \
@@ -355,4 +357,8 @@ ubports: {
 # https://bugreports.qt.io/browse/QTBUG-83165
 android: {
     DESTDIR = $${ANDROID_TARGET_ARCH}
+}
+
+ios: {
+    OBJECTIVE_SOURCES += $${PWD}/connection/networkreachabilitymonitorios.mm
 }

@@ -43,6 +43,7 @@
 
 class NymeaTransportInterface;
 class NymeaTransportInterfaceFactory;
+class NetworkReachabilityMonitor;
 
 class NymeaConnection : public QObject
 {
@@ -121,20 +122,17 @@ private slots:
     void onDisconnected();
     void onDataAvailable(const QByteArray &data);
 
-    void updateActiveBearers();
+    void onAvailableBearerTypesUpdated();
     void hostConnectionsUpdated();
 private:
     void connectInternal(NymeaHost *host);
     bool connectInternal(Connection *connection);
 
-    NymeaConnection::BearerType qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type) const;
-
     bool isConnectionBearerAvailable(Connection::BearerType connectionBearerType) const;
 
 private:
     ConnectionStatus m_connectionStatus = ConnectionStatusUnconnected;
-    QNetworkConfigurationManager *m_networkConfigManager = nullptr;
-    NymeaConnection::BearerTypes m_availableBearerTypes = BearerTypeNone;
+    NetworkReachabilityMonitor *m_networkReachabilityMonitor = nullptr;
 
     QHash<QString, NymeaTransportInterfaceFactory*> m_transportFactories;
     QHash<NymeaTransportInterface*, Connection*> m_transportCandidates;
