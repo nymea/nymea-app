@@ -55,6 +55,14 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
     connect(m_networkReachabilityMonitor, &NetworkReachabilityMonitor::availableBearerTypesChanged, this, &NymeaConnection::availableBearerTypesChanged);
     connect(m_networkReachabilityMonitor, &NetworkReachabilityMonitor::availableBearerTypesUpdated, this, &NymeaConnection::onAvailableBearerTypesUpdated);
 
+#ifdef Q_OS_IOS
+    connect(m_networkReachabilityMonitor, &NetworkReachabilityMonitor::availableBearerTypesChanged, this, [this](){
+        if (m_currentTransport) {
+            m_currentTransport->disconnect();
+        }
+    });
+#endif
+
     QGuiApplication *app = static_cast<QGuiApplication*>(QGuiApplication::instance());
     QObject::connect(app, &QGuiApplication::applicationStateChanged, this, [app, this](Qt::ApplicationState state) {
         qCDebug(dcNymeaConnection()) << "Application state changed to:" << state;

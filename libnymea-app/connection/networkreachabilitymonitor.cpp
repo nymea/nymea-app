@@ -9,6 +9,10 @@ NetworkReachabilityMonitor::NetworkReachabilityMonitor(QObject *parent)
     : QObject{parent}
 {
 
+#if defined(Q_OS_IOS)
+    setupIOS();
+#endif
+
     m_networkConfigManager = new QNetworkConfigurationManager(this);
 
     QObject::connect(m_networkConfigManager, &QNetworkConfigurationManager::configurationAdded, this, [this](const QNetworkConfiguration &config){
@@ -40,18 +44,16 @@ NymeaConnection::BearerTypes NetworkReachabilityMonitor::availableBearerTypes() 
 
 void NetworkReachabilityMonitor::updateActiveBearers()
 {
+    // NOTE: The Qt API is not working at all on iOS, we're using the iOS reachability API instead.
+#if defined(Q_OS_IOS)
+    return;
+#endif
+
     NymeaConnection::BearerTypes availableBearerTypes;
     QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations(QNetworkConfiguration::Active);
     qCDebug(dcNymeaConnection()) << "Network configuations:" << configs.count();
     foreach (const QNetworkConfiguration &config, configs) {
         qCDebug(dcNymeaConnection()) << "Active network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
-
-        // NOTE: iOS doesn't correctly report bearer types. It'll be Unknown all the time. Let's hardcode it to WiFi for that...
-#if defined(Q_OS_IOS)
-        availableBearerTypes.setFlag(NymeaConnection::BearerTypeWiFi);
-#else
-        availableBearerTypes.setFlag(qBearerTypeToNymeaBearerType(config.bearerType()));
-#endif
     }
     if (availableBearerTypes == NymeaConnection::BearerTypeNone) {
         // This is just debug info... On some platform bearer management seems a bit broken, so let's get some infos right away...
@@ -76,7 +78,7 @@ void NetworkReachabilityMonitor::updateActiveBearers()
     emit availableBearerTypesUpdated();
 }
 
-NymeaConnection::BearerType NetworkReachabilityMonitor::qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type) const
+NymeaConnection::BearerType NetworkReachabilityMonitor::qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type)
 {
     switch (type) {
     case QNetworkConfiguration::BearerUnknown:

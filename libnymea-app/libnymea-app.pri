@@ -358,3 +358,7 @@ ubports: {
 android: {
     DESTDIR = $${ANDROID_TARGET_ARCH}
 }
+
+ios: {
+    OBJECTIVE_SOURCES += $${PWD}/connection/networkreachabilitymonitorios.mm
+}

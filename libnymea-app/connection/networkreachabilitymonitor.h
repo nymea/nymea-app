@@ -6,6 +6,10 @@
 
 #include "nymeaconnection.h"
 
+#ifdef Q_OS_IOS
+#import <SystemConfiguration/SystemConfiguration.h>
+#endif
+
 class NetworkReachabilityMonitor : public QObject
 {
     Q_OBJECT
@@ -23,12 +27,17 @@ private slots:
     void updateActiveBearers();
 
 private:
-    NymeaConnection::BearerType qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type) const;
-
-private:
     QNetworkConfigurationManager *m_networkConfigManager = nullptr;
     NymeaConnection::BearerTypes m_availableBearerTypes = NymeaConnection::BearerTypeNone;
 
+    static NymeaConnection::BearerType qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type);
+
+#ifdef Q_OS_IOS
+    void setupIOS();
+    SCNetworkReachabilityRef _reachabilityRef;
+    static NymeaConnection::BearerType flagsToBearerType(SCNetworkReachabilityFlags flags);
+    static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info);
+#endif
 };
 
 #endif // NETWORKREACHABILITYMONITOR_H
