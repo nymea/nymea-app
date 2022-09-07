@@ -8,7 +8,8 @@ Q_DECLARE_LOGGING_CATEGORY(dcNymeaConnection)
 NetworkReachabilityMonitor::NetworkReachabilityMonitor(QObject *parent)
     : QObject{parent}
 {
-
+    // NOTE: The Qt API is not working at all on iOS, we're using the iOS reachability API instead.
+    // See iOS implementation in .mm file
 #if defined(Q_OS_IOS)
     setupIOS();
 #endif
@@ -51,7 +52,6 @@ NymeaConnection::BearerTypes NetworkReachabilityMonitor::availableBearerTypes() 
 
 void NetworkReachabilityMonitor::updateActiveBearers()
 {
-    // NOTE: The Qt API is not working at all on iOS, we're using the iOS reachability API instead.
 #if defined(Q_OS_IOS)
     return;
 #endif
@@ -61,6 +61,7 @@ void NetworkReachabilityMonitor::updateActiveBearers()
     qCDebug(dcNymeaConnection()) << "Network configuations:" << configs.count();
     foreach (const QNetworkConfiguration &config, configs) {
         qCDebug(dcNymeaConnection()) << "Active network config:" << config.name() << config.bearerTypeFamily() << config.bearerTypeName();
+        availableBearerTypes.setFlag(qBearerTypeToNymeaBearerType(config.bearerType()));
     }
     if (availableBearerTypes == NymeaConnection::BearerTypeNone) {
         // This is just debug info... On some platform bearer management seems a bit broken, so let's get some infos right away...

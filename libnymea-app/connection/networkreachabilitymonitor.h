@@ -36,8 +36,8 @@ private:
 #ifdef Q_OS_IOS
     void setupIOS();
     void teardownIOS();
-    SCNetworkReachabilityRef m_reachabilityRef;
-    static NymeaConnection::BearerType flagsToBearerType(SCNetworkReachabilityFlags flags);
+    SCNetworkReachabilityRef m_internetReachabilityRef = nullptr;
+    SCNetworkReachabilityRef m_lanReachabilityRef = nullptr;
     static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info);
 #endif
 };
