@@ -1,3 +1,10 @@
+nymea-app (1.4.12) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes for the network reachaiblity monitor
+
+ -- jenkins <developer@nymea.io>  Thu, 08 Sep 2022 00:35:51 +0200
+
 nymea-app (1.4.11) bionic; urgency=medium
 
   [ Michael Zanetti ]
