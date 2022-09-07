@@ -1,3 +1,10 @@
+nymea-app (1.4.11) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add ZigBee routing information to topology map
+
+ -- jenkins <developer@nymea.io>  Wed, 07 Sep 2022 12:36:11 +0200
+
 nymea-app (1.4.10) bionic; urgency=medium
 
   [ Michael Zanetti ]
