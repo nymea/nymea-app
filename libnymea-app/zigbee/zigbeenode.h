@@ -37,6 +37,7 @@
 #include <QVariantMap>
 
 class ZigbeeNodeNeighbor;
+class ZigbeeNodeRoute;
 
 class ZigbeeNode : public QObject
 {
@@ -54,6 +55,7 @@ class ZigbeeNode : public QObject
     Q_PROPERTY(uint lqi READ lqi WRITE setLqi NOTIFY lqiChanged)
     Q_PROPERTY(QDateTime lastSeen READ lastSeen WRITE setLastSeen NOTIFY lastSeenChanged)
     Q_PROPERTY(QList<ZigbeeNodeNeighbor*> neighbors READ neighbors NOTIFY neighborsChanged)
+    Q_PROPERTY(QList<ZigbeeNodeRoute*> routes READ routes NOTIFY routesChanged)
 
 public:
     enum ZigbeeNodeType {
@@ -79,6 +81,15 @@ public:
         ZigbeeNodeRelationshipPreviousChild
     };
     Q_ENUM(ZigbeeNodeRelationship)
+
+    enum ZigbeeNodeRouteStatus {
+        ZigbeeNodeRouteStatusActive,
+        ZigbeeNodeRouteStatusDiscoveryUnderway,
+        ZigbeeNodeRouteStatusDiscoveryFailed,
+        ZigbeeNodeRouteStatusInactive,
+        ZigbeeNodeRouteStatusValidationUnderway
+    };
+    Q_ENUM(ZigbeeNodeRouteStatus)
 
     explicit ZigbeeNode(const QUuid &networkUuid, const QString &ieeeAddress, QObject *parent = nullptr);
 
@@ -119,6 +130,10 @@ public:
     void addOrUpdateNeighbor(quint16 networkAddress, ZigbeeNodeRelationship relationship, quint8 lqi, quint8 depth, bool permitJoining);
     void commitNeighbors(QList<quint16> toBeKept);
 
+    QList<ZigbeeNodeRoute*> routes() const;
+    void addOrUpdateRoute(quint16 destinationAddress, quint16 nextHopAddress, ZigbeeNodeRouteStatus status, bool memoryConstrained, bool manyToOne);
+    void commitRoutes(QList<quint16> toBeKept);
+
     static ZigbeeNodeState stringToNodeState(const QString &nodeState);
     static ZigbeeNodeType stringToNodeType(const QString &nodeType);
 
@@ -134,6 +149,7 @@ signals:
     void lqiChanged(uint lqi);
     void lastSeenChanged(const QDateTime &lastSeen);
     void neighborsChanged();
+    void routesChanged();
 
 private:
     QUuid m_networkUuid;
@@ -150,6 +166,8 @@ private:
     QDateTime m_lastSeen;
     QList<ZigbeeNodeNeighbor*> m_neighbors;
     bool m_neighborsDirty = false;
+    QList<ZigbeeNodeRoute*> m_routes;
+    bool m_routesDirty = false;
 };
 
 class ZigbeeNodeNeighbor: public QObject
@@ -190,6 +208,46 @@ private:
     quint8 m_lqi = 0;
     quint8 m_depth = 0;
     bool m_permitJoining = false;
+};
+
+class ZigbeeNodeRoute: public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(quint16 destinationAddress READ destinationAddress CONSTANT)
+    Q_PROPERTY(quint16 nextHopAddress READ nextHopAddress NOTIFY nextHopAddressChanged)
+    Q_PROPERTY(ZigbeeNode::ZigbeeNodeRouteStatus status READ status NOTIFY statusChanged)
+    Q_PROPERTY(bool memoryConstrained READ memoryConstrained NOTIFY memoryConstrainedChanged)
+    Q_PROPERTY(bool manyToOne READ manyToOne NOTIFY manyToOneChanged)
+
+public:
+    ZigbeeNodeRoute(quint16 destinationAddress, QObject *parent);
+
+    quint16 destinationAddress() const;
+
+    quint16 nextHopAddress() const;
+    void setNextHopAddress(quint16 nextHopAddress);
+
+    ZigbeeNode::ZigbeeNodeRouteStatus status() const;
+    void setStatus(ZigbeeNode::ZigbeeNodeRouteStatus status);
+
+    bool memoryConstrained() const;
+    void setMemoryConstrained(bool memoryConstrained);
+
+    bool manyToOne() const;
+    void setManyToOne(bool manyToOne);
+
+signals:
+    void nextHopAddressChanged();
+    void statusChanged();
+    void memoryConstrainedChanged();
+    void manyToOneChanged();
+
+private:
+    quint16 m_destinationAddress;
+    quint16 m_nextHopAddress;
+    ZigbeeNode::ZigbeeNodeRouteStatus m_status = ZigbeeNode::ZigbeeNodeRouteStatusInactive;
+    bool m_memoryConstrained = false;
+    bool m_manyToOne = false;
 };
 
 #endif // ZIGBEENODE_H

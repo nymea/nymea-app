@@ -16,7 +16,7 @@ Page {
     property ZigbeeManager zigbeeManager: null
     property ZigbeeNetwork network: null
 
-    readonly property int nodeDistance: 150
+    readonly property int nodeDistance: Style.iconSize * 2
     readonly property int nodeSize: Style.iconSize + Style.margins
     readonly property double scale: 1
 
@@ -26,7 +26,12 @@ Page {
 
         reload();
         for (var i = 0; i < network.nodes.count; i++) {
-            network.nodes.get(i).neighborsChanged.connect(function() {root.reload()})
+            network.nodes.get(i).neighborsChanged.connect(root.reload)
+        }
+    }
+    Component.onDestruction: {
+        for (var i = 0; i < network.nodes.count; i++) {
+            network.nodes.get(i).neighborsChanged.disconnect(root.reload)
         }
     }
 
@@ -34,12 +39,12 @@ Page {
         target: root.network.nodes
         onNodeAdded: {
             root.reload()
-            node.neighborsChanged.connect(function() {root.reload()});
+            node.neighborsChanged.connect(root.reload);
         }
     }
 
     function generateNodeList() {
-        d.nodeItems = []
+        var nodeItems = []
         var coordinator = {}
         var routers = []
         var endDevices = []
@@ -60,19 +65,20 @@ Page {
 
         var startAngle = -90
 
-        var x = root.nodeDistance * Math.cos(startAngle * Math.PI / 180)
-        var y = root.nodeDistance * Math.sin(startAngle * Math.PI / 180)
-        d.nodeItems.push(createNodeItem(coordinator, x, y, startAngle))
+        var routersCircumference = Math.max(5, routers.length) * (root.nodeSize + root.nodeDistance) * root.scale
+        var distanceFromCenter = routersCircumference / 2 / Math.PI
+
+        routers.unshift(coordinator)
 
         var handledEndDevices = []
 
-        var angle = 360 / (routers.length + 1);
+        var angle = 360 / routers.length;
         for (var i = 0; i < routers.length; i++) {
             var router = routers[i]
-            var nodeAngle = startAngle + angle * (i + 1);
-            var x = root.nodeDistance * Math.cos(nodeAngle * Math.PI / 180)
-            var y = root.nodeDistance * Math.sin(nodeAngle * Math.PI / 180)
-            d.nodeItems.push(createNodeItem(routers[i], x, y, nodeAngle));
+            var nodeAngle = startAngle + angle * i;
+            var x = distanceFromCenter * Math.cos(nodeAngle * Math.PI / 180)
+            var y = distanceFromCenter * Math.sin(nodeAngle * Math.PI / 180)
+            nodeItems.push(createNodeItem(routers[i], x, y, nodeAngle));
 
 
             var neighborCounter = 0;
@@ -88,13 +94,12 @@ Page {
                     }
                     handledEndDevices.push(neighborNode.networkAddress)
 
-
                     var neighborAngle  = nodeAngle + neighborCounter * 8
-                    var neighborDistance = root.nodeDistance * 1.5 * root.scale + neighborCounter * root.nodeSize * 0.75 * root.scale
+                    var neighborDistance = (distanceFromCenter + root.nodeDistance + root.nodeSize) * root.scale + neighborCounter * root.nodeDistance * .5 * root.scale
 
                     x = neighborDistance * Math.cos(neighborAngle * Math.PI / 180)
                     y = neighborDistance * Math.sin(neighborAngle * Math.PI / 180)
-                    d.nodeItems.push(createNodeItem(neighborNode, x, y, angle))
+                    nodeItems.push(createNodeItem(neighborNode, x, y, angle))
 
                     neighborCounter++
                 }
@@ -120,10 +125,10 @@ Page {
             var column = i % columns;
             var row = Math.floor(i / columns)
             var x = cellWidth * column + cellWidth / 2 - rowWidth / 2
-            var y = Style.margins + cellHeight * row + root.nodeSize - root.height / 3
-            var point = root.mapToItem(canvas, x, y)
-            d.nodeItems.push(createNodeItem(node, point.x, point.y, 0))
+            var y = Style.margins + cellHeight * row + root.nodeSize - canvas.height / 2
+            nodeItems.push(createNodeItem(node, x, y, 0))
         }
+        d.nodeItems = nodeItems
     }
 
 
@@ -173,16 +178,13 @@ Page {
             var nodeItem = d.nodeItems.shift()
             nodeItem.image.destroy();
         }
-//        d.selectedNodeItem= null
-        d.minX = 0
-        d.minY = 0
-        d.maxX = 0
-        d.maxY = 0
-        d.size = 0
         generateNodeList();
         canvas.requestPaint()
-        flickable.contentX = (flickable.contentWidth - flickable.width) / 2
-        flickable.contentY = (flickable.contentHeight - flickable.height) / 2
+        print("repainting", flickable.contentX, flickable.contentY)
+        if (flickable.contentX == 0 && flickable.contentY == 0) {
+            flickable.contentX = (flickable.contentWidth - flickable.width) / 2
+            flickable.contentY = (flickable.contentHeight - flickable.height) / 2
+        }
     }
 
     QtObject {
@@ -190,6 +192,17 @@ Page {
         property var nodeItems: []
 
         property int selectedNodeAddress: -1
+        readonly property var selectedNodeItem: {
+            print("selected", selectedNodeAddress)
+            for (var i = 0; i < nodeItems.length; i++) {
+                print("checking", nodeItems[i].node.networkAddress)
+                if (nodeItems[i].node.networkAddress === selectedNodeAddress) {
+                    return nodeItems[i]
+                }
+            }
+            return null
+        }
+
         readonly property ZigbeeNode selectedNode: selectedNodeAddress >= 0 ? network.nodes.getNodeByNetworkAddress(selectedNodeAddress) : null
 
         property int minX: 0
@@ -249,9 +262,67 @@ Page {
                 for (var i = 0; i < d.nodeItems.length; i++) {
                     paintEdges(ctx, d.nodeItems[i], true)
                 }
+                if (d.selectedNodeItem) {
+                    paintRoute(ctx, d.selectedNodeItem)
+                }
                 for (var i = 0; i < d.nodeItems.length; i++) {
                     paintNode(ctx, d.nodeItems[i])
                 }
+            }
+
+            function paintRoute(ctx, nodeItem) {
+                var node = nodeItem.node
+                var nextHop = -1
+                if (node.type === ZigbeeNode.ZigbeeNodeTypeRouter) {
+                    for (var i = 0; i < node.routes.length; i++) {
+                        if (node.routes[i].destinationAddress === 0) {
+                            nextHop = node.routes[i].nextHopAddress
+                            break;
+                        }
+                    }
+                } else if (node.type === ZigbeeNode.ZigbeeNodeTypeEndDevice) {
+                    for (var i = 0; i < network.nodes.count; i++) {
+                        for (var j = 0; j < network.nodes.get(i).neighbors.length; j++) {
+                            if (network.nodes.get(i).neighbors[j].networkAddress === node.networkAddress) {
+                                nextHop = network.nodes.get(i).networkAddress
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                print("next hop", nextHop)
+                if (nextHop == -1) {
+                    return;
+                }
+                var toNodeItem = null
+                for (var i = 0; i < d.nodeItems.length; i++) {
+                    if (d.nodeItems[i].node.networkAddress == nextHop) {
+                        toNodeItem = d.nodeItems[i]
+                        break;
+                    }
+                }
+                if (!toNodeItem) {
+                    return;
+                }
+
+                ctx.save()
+
+                ctx.lineWidth = 2
+                ctx.setLineDash([4, 4])
+                ctx.strokeStyle = Style.blue
+
+                ctx.beginPath();
+                ctx.moveTo(scale * nodeItem.x, scale * nodeItem.y)
+                ctx.lineTo(scale * toNodeItem.x, scale * toNodeItem.y)
+
+                ctx.stroke();
+                ctx.closePath()
+                ctx.setLineDash([1,0])
+                ctx.restore();
+
+                paintRoute(ctx, toNodeItem)
+
             }
 
             function paintEdges(ctx, nodeItem, selected) {
@@ -346,7 +417,11 @@ Page {
                         if (Math.abs(root.scale * nodeItem.x - translatedMouseX) < (root.scale * root.nodeSize / 2)
                                 && Math.abs(root.scale * nodeItem.y - translatedMouseY) < (root.scale * root.nodeSize / 2)) {
                             d.selectedNodeAddress = nodeItem.node.networkAddress;
-                            print("sleecting", nodeItem.node.networkAddress)
+                            print("selecting", nodeItem.node.networkAddress)
+                            for (var j = 0; j < nodeItem.node.routes.length; j++) {
+                                var route = nodeItem.node.routes[j]
+                                print("route:", route.destinationAddress, "via", route.nextHopAddress)
+                            }
                         }
                     }
 
@@ -418,7 +493,7 @@ Page {
 
         contentItem: ListView {
             id: tableListView
-            spacing: app.margins
+//            spacing: app.margins
             implicitHeight: Math.min(root.height / 4, count * Style.smallIconSize)
             clip: true
             model: d.selectedNode ? d.selectedNode.neighbors.length : 0

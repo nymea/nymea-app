@@ -424,4 +424,18 @@ void ZigbeeManager::updateNodeProperties(ZigbeeNode *node, const QVariantMap &no
         neighbors.append(networkAddress);
     }
     node->commitNeighbors(neighbors);
+
+    QList<quint16> routes;
+    foreach (const QVariant &route, nodeMap.value("routingTableRecords").toList()) {
+        QVariantMap routeMap = route.toMap();
+        quint16 destinationAddress = routeMap.value("destinationAddress").toUInt();
+        quint16 nextHopAddress = routeMap.value("nextHopAddress").toUInt();
+        QMetaEnum routeStatusEnum = QMetaEnum::fromType<ZigbeeNode::ZigbeeNodeRouteStatus>();
+        ZigbeeNode::ZigbeeNodeRouteStatus routeStatus = static_cast<ZigbeeNode::ZigbeeNodeRouteStatus>(routeStatusEnum.keyToValue(routeMap.value("status").toByteArray().data()));
+        bool memoryConstrained = routeMap.value("memoryConstrained").toBool();
+        bool manyToOne = routeMap.value("manyToOne").toBool();
+        node->addOrUpdateRoute(destinationAddress, nextHopAddress, routeStatus, memoryConstrained, manyToOne);
+        routes.append(destinationAddress);
+    }
+    node->commitRoutes(routes);
 }

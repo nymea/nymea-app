@@ -210,12 +210,17 @@ void ZigbeeNode::addOrUpdateNeighbor(quint16 networkAddress, ZigbeeNodeRelations
                 neighbor->setPermitJoining(permitJoining);
                 m_neighborsDirty = true;
             }
+            if (neighbor->depth() != depth) {
+                neighbor->setDepth(depth);
+                m_neighborsDirty = true;
+            }
             return;
         }
     }
     ZigbeeNodeNeighbor *neighbor = new ZigbeeNodeNeighbor(networkAddress, this);
     neighbor->setRelationship(relationship);
     neighbor->setLqi(lqi);
+    neighbor->setPermitJoining(permitJoining);
     neighbor->setDepth(depth);
     m_neighbors.append(neighbor);
     m_neighborsDirty = true;
@@ -236,6 +241,61 @@ void ZigbeeNode::commitNeighbors(QList<quint16> toBeKept)
     if (m_neighborsDirty) {
         emit neighborsChanged();
         m_neighborsDirty = false;
+    }
+}
+
+QList<ZigbeeNodeRoute *> ZigbeeNode::routes() const
+{
+    return m_routes;
+}
+
+void ZigbeeNode::addOrUpdateRoute(quint16 destinationAddress, quint16 nextHopAddress, ZigbeeNodeRouteStatus status, bool memoryConstrained, bool manyToOne)
+{
+    foreach (ZigbeeNodeRoute *route, m_routes) {
+        if (route->destinationAddress() == destinationAddress) {
+            if (route->nextHopAddress() != nextHopAddress) {
+                route->setNextHopAddress(nextHopAddress);
+                m_routesDirty = true;
+            }
+            if (route->status() != status) {
+                route->setStatus(status);
+                m_routesDirty = true;
+            }
+            if (route->memoryConstrained() != memoryConstrained) {
+                route->setMemoryConstrained(memoryConstrained);
+                m_routesDirty = true;
+            }
+            if (route->manyToOne() != manyToOne) {
+                route->setManyToOne(manyToOne);
+                m_routesDirty = true;
+            }
+            return;
+        }
+    }
+    ZigbeeNodeRoute *route = new ZigbeeNodeRoute(destinationAddress, this);
+    route->setNextHopAddress(nextHopAddress);
+    route->setStatus(status);
+    route->setMemoryConstrained(memoryConstrained);
+    route->setManyToOne(manyToOne);
+    m_routes.append(route);
+    m_routesDirty = true;
+}
+
+void ZigbeeNode::commitRoutes(QList<quint16> toBeKept)
+{
+    QMutableListIterator<ZigbeeNodeRoute*> iter(m_routes);
+
+    while (iter.hasNext()) {
+        ZigbeeNodeRoute *route = iter.next();
+        if (!toBeKept.contains(route->destinationAddress())) {
+            iter.remove();
+            route->deleteLater();
+            m_routesDirty = true;
+        }
+    }
+    if (m_routesDirty) {
+        emit routesChanged();
+        m_routesDirty = false;
     }
 }
 
@@ -324,5 +384,69 @@ void ZigbeeNodeNeighbor::setPermitJoining(bool permitJoining)
     if (m_permitJoining != permitJoining) {
         m_permitJoining = permitJoining;
         emit permitJoiningChanged();
+    }
+}
+
+ZigbeeNodeRoute::ZigbeeNodeRoute(quint16 destinationAddress, QObject *parent):
+    QObject(parent),
+    m_destinationAddress(destinationAddress)
+{
+
+}
+
+quint16 ZigbeeNodeRoute::destinationAddress() const
+{
+    return m_destinationAddress;
+}
+
+quint16 ZigbeeNodeRoute::nextHopAddress() const
+{
+    return m_nextHopAddress;
+}
+
+void ZigbeeNodeRoute::setNextHopAddress(quint16 nextHopAddress)
+{
+    if (m_nextHopAddress != nextHopAddress) {
+        m_nextHopAddress = nextHopAddress;
+        emit nextHopAddressChanged();
+    }
+}
+
+ZigbeeNode::ZigbeeNodeRouteStatus ZigbeeNodeRoute::status() const
+{
+    return m_status;
+}
+
+void ZigbeeNodeRoute::setStatus(ZigbeeNode::ZigbeeNodeRouteStatus status)
+{
+    if (m_status != status) {
+        m_status = status;
+        emit statusChanged();
+    }
+}
+
+bool ZigbeeNodeRoute::memoryConstrained() const
+{
+    return m_memoryConstrained;
+}
+
+void ZigbeeNodeRoute::setMemoryConstrained(bool memoryConstrained)
+{
+    if (m_memoryConstrained != memoryConstrained) {
+        m_memoryConstrained = memoryConstrained;
+        emit memoryConstrainedChanged();
+    }
+}
+
+bool ZigbeeNodeRoute::manyToOne() const
+{
+    return m_manyToOne;
+}
+
+void ZigbeeNodeRoute::setManyToOne(bool manyToOne)
+{
+    if (m_manyToOne != manyToOne) {
+        m_manyToOne = manyToOne;
+        emit manyToOneChanged();
     }
 }
