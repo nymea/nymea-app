@@ -6,6 +6,7 @@ import Nymea 1.0
 Rectangle {
     id: root
     color: Style.tileBackgroundColor
+    property color selectionColor: Style.tileOverlayColor
     radius: Style.smallCornerRadius
     implicitHeight: layout.implicitHeight
 
@@ -22,7 +23,7 @@ Rectangle {
         Behavior on x { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }
         height: layout.height - 2
         width: Math.floor(root.width / repeater.count) - 2
-        color: Style.tileOverlayColor
+        color: root.selectionColor
         radius: Style.smallCornerRadius
     }
 

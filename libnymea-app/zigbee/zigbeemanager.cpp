@@ -409,7 +409,7 @@ void ZigbeeManager::updateNodeProperties(ZigbeeNode *node, const QVariantMap &no
     node->setRxOnWhenIdle(nodeMap.value("receiverOnWhileIdle").toBool());
     node->setReachable(nodeMap.value("reachable").toBool());
     node->setLqi(nodeMap.value("lqi").toUInt());
-    node->setLastSeen(QDateTime::fromMSecsSinceEpoch(nodeMap.value("lastSeen").toUInt() * 1000));
+    node->setLastSeen(QDateTime::fromMSecsSinceEpoch(nodeMap.value("lastSeen").toULongLong() * 1000));
     QList<quint16> neighbors;
     foreach (const QVariant &neighbor, nodeMap.value("neighborTableRecords").toList()) {
         QVariantMap neighborMap = neighbor.toMap();

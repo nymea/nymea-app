@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
 import "qrc:/ui/components"
@@ -11,6 +11,14 @@ Page {
         text: qsTr("ZigBee network topology")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
+        HeaderButton {
+            imageSource: "/ui/images/help.svg"
+            text: qsTr("Help")
+            onClicked: {
+                var popup = zigbeeHelpDialog.createObject(app)
+                popup.open()
+            }
+        }
     }
 
     property ZigbeeManager zigbeeManager: null
@@ -133,6 +141,17 @@ Page {
 
 
     function createNodeItem(node, x, y, angle) {
+        d.adjustSize(x, y)
+
+        for (var i = 0; i < d.nodeItems.length; i++) {
+            if (d.nodeItems[i].node == node) {
+                d.nodeItems[i].x = x;
+                d.nodeItems[i].y = y;
+                d.nodeItems[i].angle = angle;
+                return d.nodeItems[i]
+            }
+        }
+
         var icon = "/ui/images/zigbee.svg"
         var thing = null
         if (node.networkAddress == 0) {
@@ -140,7 +159,7 @@ Page {
         } else {
             for (var i = 0; i < engine.thingManager.things.count; i++) {
                 var t = engine.thingManager.things.get(i)
-//                print("checking thing", t.name)
+                //                print("checking thing", t.name)
                 var param = t.paramByName("ieeeAddress")
                 if (param && param.value == node.ieeeAddress) {
                     thing = t;
@@ -167,8 +186,7 @@ Page {
             thing: thing
 
         }
-//        print("creared node", thing ? thing.name : "", " at", x, y)
-        d.adjustSize(x, y)
+        //        print("creared node", thing ? thing.name : "", " at", x, y)
         return nodeItem
     }
 
@@ -193,9 +211,7 @@ Page {
 
         property int selectedNodeAddress: -1
         readonly property var selectedNodeItem: {
-            print("selected", selectedNodeAddress)
             for (var i = 0; i < nodeItems.length; i++) {
-                print("checking", nodeItems[i].node.networkAddress)
                 if (nodeItems[i].node.networkAddress === selectedNodeAddress) {
                     return nodeItems[i]
                 }
@@ -232,11 +248,10 @@ Page {
     Flickable {
         id: flickable
         anchors.fill: parent
+        clip: true
 
         contentWidth: canvas.width
         contentHeight: canvas.height
-//        interactive: true
-//        flickableDirection: Flickable.HorizontalAndVerticalFlick
 
         Canvas {
             id: canvas
@@ -245,7 +260,7 @@ Page {
             clip: true
 
             onPaint: {
-//                print("**** height:", canvas.height, "width", canvas.width)
+                //                print("**** height:", canvas.height, "width", canvas.width)
                 var ctx = getContext("2d");
                 ctx.reset();
 
@@ -354,7 +369,7 @@ Page {
                 ctx.strokeStyle = nodeItem.node.networkAddress === d.selectedNodeAddress ? Style.accentColor : Style.tileBackgroundColor
                 ctx.arc(root.scale * nodeItem.x, root.scale * nodeItem.y, root.scale * root.nodeSize / 2, 0, 2 * Math.PI);
                 ctx.fill();
-//                ctx.stroke();
+                //                ctx.stroke();
                 ctx.fillStyle = Style.foregroundColor
                 ctx.font = "" + Style.extraSmallFont.pixelSize + "px Ubuntu";
                 var text = ""
@@ -433,11 +448,12 @@ Page {
 
 
     BigTile {
+        id: infoTile
         visible: d.selectedNodeAddress >= 0
         anchors {
             top: parent.top
             right: parent.right
-            margins: Style.margins
+            margins: Style.smallMargins
         }
 
         width: 260
@@ -461,15 +477,16 @@ Page {
                           ? selectedThingsProxy.get(0).name
                           : network.nodes.getNodeByNetworkAddress(d.selectedNode).model
             }
+
             ColorIcon {
                 size: Style.smallIconSize
                 name: {
-                    if (!d.selectedNodeItem) {
+                    if (!d.selectedNode) {
                         return "";
                     }
 
-                    var signalStrength = d.selectedNodeItem.node.lqi * 100 / 255
-                    if (signalStrength === 0)
+                    var signalStrength = 100.0 * d.selectedNode.lqi / 255
+                    if (!d.selectedNode.reachable)
                         return "/ui/images/connections/nm-signal-00.svg"
                     if (signalStrength <= 25)
                         return "/ui/images/connections/nm-signal-25.svg"
@@ -481,66 +498,531 @@ Page {
                         return "/ui/images/connections/nm-signal-100.svg"
                 }
             }
-            ColorIcon {
-                size: Style.smallIconSize
-                name: "/ui/images/things.svg"
-            }
-            ColorIcon {
-                size: Style.smallIconSize
-                name: "/ui/images/add.svg"
-            }
         }
 
-        contentItem: ListView {
-            id: tableListView
-//            spacing: app.margins
-            implicitHeight: Math.min(root.height / 4, count * Style.smallIconSize)
-            clip: true
-            model: d.selectedNode ? d.selectedNode.neighbors.length : 0
-
-            delegate: RowLayout {
-                id: neighborTableDelegate
-                width: tableListView.width
-                property ZigbeeNodeNeighbor neighbor: d.selectedNode.neighbors[index]
-                property ZigbeeNode neighborNode: root.network.nodes.getNodeByNetworkAddress(neighbor.networkAddress)
-                property Thing neighborNodeThing: {
-                    for (var i = 0; i < engine.thingManager.things.count; i++) {
-                        var thing = engine.thingManager.things.get(i)
-                        var param = thing.paramByName("ieeeAddress")
-                        if (param && param.value == neighborNode.ieeeAddress) {
-                            return thing
-                        }
+        contentItem: ColumnLayout {
+            width: infoTile.width
+            SelectionTabs {
+                id: infoSelectionTabs
+                Layout.fillWidth: true
+                color: Style.tileOverlayColor
+                selectionColor: Qt.tint(Style.tileOverlayColor, Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.1))
+                model: ListModel {
+                    ListElement {
+                        text: qsTr("Device")
                     }
-                    return null
+                    ListElement {
+                        text: qsTr("Links")
+                    }
+                    ListElement {
+                        text: qsTr("Routes")
+                    }
                 }
+            }
+
+            GridLayout {
+                Layout.fillWidth: true
+                visible: infoSelectionTabs.currentIndex == 0
+                columns: 2
+                columnSpacing: Style.smallMargins
 
                 Label {
+                    text: qsTr("Address:")
+                    font: Style.smallFont
+                    Layout.fillWidth: true
+                }
+                Label {
+                    text: d.selectedNode ? "0x" + d.selectedNode.networkAddress.toString(16) : ""
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
+                    Layout.fillWidth: true
+                }
+                Label {
+                    text: qsTr("Model:")
+                    font: Style.smallFont
+                    Layout.fillWidth: true
+                }
+                Label {
+                    text: d.selectedNode ? d.selectedNode.model : ""
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
                     Layout.fillWidth: true
                     elide: Text.ElideRight
-                    font: Style.smallFont
-                    text: neighborTableDelegate.neighbor.networkAddress === 0
-                          ? Configuration.systemName
-                          : neighborTableDelegate.neighborNodeThing
-                            ? neighborTableDelegate.neighborNodeThing.name
-                            : neighborTableDelegate.neighborNode
-                              ? neighborTableDelegate.neighborNode.model
-                              : "0x" + neighborTableDelegate.neighbor.networkAddress.toString(16)
                 }
                 Label {
-                    text: (neighborTableDelegate.neighbor.lqi * 100 / 255).toFixed(0) + "%"
+                    text: qsTr("Manufacturer:")
                     font: Style.smallFont
-                    horizontalAlignment: Text.AlignRight
+                    Layout.fillWidth: true
                 }
                 Label {
-                    Layout.preferredWidth: Style.smallIconSize + Style.smallMargins
+                    text: d.selectedNode ? d.selectedNode.manufacturer : ""
                     font: Style.smallFont
-                    text: neighborTableDelegate.neighbor.depth
                     horizontalAlignment: Text.AlignRight
+                    Layout.fillWidth: true
+                    elide: Text.ElideRight
                 }
-                ColorIcon {
-                    size: Style.smallIconSize
-                    name: "add"
-                    opacity: neighborTableDelegate.neighbor.permitJoining ? 1 : 0
+                Label {
+                    text: qsTr("Last seen:")
+                    font: Style.smallFont
+                    Layout.fillWidth: true
+                }
+                Label {
+                    text: d.selectedNode ? d.selectedNode.lastSeen.toLocaleString(Qt.locale(), Locale.ShortFormat) : ""
+                    font: Style.smallFont
+                    horizontalAlignment: Text.AlignRight
+                    Layout.fillWidth: true
+                }
+            }
+
+            ColumnLayout {
+                visible: infoSelectionTabs.currentIndex == 1
+                RowLayout {
+                    Label {
+                        text: qsTr("Neighbor")
+                        font: Style.smallFont
+                        Layout.fillWidth: true
+                    }
+                    ColorIcon {
+                        size: Style.smallIconSize
+                        name: "connections/nm-signal-50"
+                    }
+                    ColorIcon {
+                        size: Style.smallIconSize
+                        name: "zigbee/zigbee-router"
+                    }
+                    Item {
+                        Layout.preferredWidth: Style.smallIconSize + Style.smallMargins
+                        Layout.fillHeight: true
+                        ColorIcon {
+                            anchors.centerIn: parent
+                            size: Style.smallIconSize
+                            name: "arrow-down"
+                        }
+                    }
+
+                    ColorIcon {
+                        size: Style.smallIconSize
+                        name: "add"
+                    }
+                }
+                ThinDivider {
+                    color: Style.foregroundColor
+                }
+
+                ListView {
+                    id: neighborTableListView
+                    Layout.fillWidth: true
+                    //            spacing: app.margins
+                    implicitHeight: Math.min(root.height / 4, count * Style.smallIconSize)
+                    clip: true
+                    model: d.selectedNode ? d.selectedNode.neighbors.length : 0
+
+                    delegate: RowLayout {
+                        id: neighborTableDelegate
+                        width: neighborTableListView.width
+                        property ZigbeeNodeNeighbor neighbor: d.selectedNode.neighbors[index]
+                        property ZigbeeNode neighborNode: root.network.nodes.getNodeByNetworkAddress(neighbor.networkAddress)
+                        property Thing neighborNodeThing: {
+                            for (var i = 0; i < engine.thingManager.things.count; i++) {
+                                var thing = engine.thingManager.things.get(i)
+                                var param = thing.paramByName("ieeeAddress")
+                                if (param && param.value == neighborNode.ieeeAddress) {
+                                    return thing
+                                }
+                            }
+                            return null
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                            font: Style.smallFont
+                            text: neighborTableDelegate.neighbor.networkAddress === 0
+                                  ? Configuration.systemName
+                                  : neighborTableDelegate.neighborNodeThing
+                                    ? neighborTableDelegate.neighborNodeThing.name
+                                    : neighborTableDelegate.neighborNode
+                                      ? neighborTableDelegate.neighborNode.model
+                                      : "0x" + neighborTableDelegate.neighbor.networkAddress.toString(16)
+                            color: neighborTableDelegate.neighborNode ? Style.foregroundColor : Style.red
+                        }
+                        Label {
+                            text: (neighborTableDelegate.neighbor.lqi * 100 / 255).toFixed(0) + "%"
+                            font: Style.smallFont
+                            horizontalAlignment: Text.AlignRight
+                        }
+                        ColorIcon {
+                            size: Style.smallIconSize
+                            name: {
+                                switch (neighborTableDelegate.neighbor.relationship) {
+                                case ZigbeeNode.ZigbeeNodeRelationshipChild:
+                                    return "zigbee/zigbee-child"
+                                case ZigbeeNode.ZigbeeNodeRelationshipParent:
+                                    return "zigbee/zigbee-parent"
+                                case ZigbeeNode.ZigbeeNodeRelationshipSibling:
+                                    return "zigbee/zigbee-sibling"
+                                case ZigbeeNode.ZigbeeNodeRelationshipPreviousChild:
+                                    return "zigbee/zigbee-previous-child"
+                                }
+                                return ""
+                            }
+                        }
+
+                        Label {
+                            Layout.preferredWidth: Style.smallIconSize + Style.smallMargins
+                            font: Style.smallFont
+                            text: neighborTableDelegate.neighbor.depth
+                            horizontalAlignment: Text.AlignRight
+                        }
+                        Item {
+                            Layout.preferredWidth: Style.smallIconSize
+                            Layout.preferredHeight: Style.smallIconSize
+
+                            Led {
+                                anchors.fill: parent
+                                anchors.margins: Style.smallIconSize / 4
+                                state: neighborTableDelegate.neighbor.permitJoining ? "on" : "off"
+                            }
+                        }
+
+                    }
+                }
+
+            }
+            ColumnLayout {
+                visible: infoSelectionTabs.currentIndex == 2
+                RowLayout {
+                    Label {
+                        id: toLabel
+                        text: qsTr("To")
+                        font: Style.smallFont
+                        Layout.fillWidth: true
+                    }
+                    Label {
+                        id: viaLabel
+                        text: qsTr("Via")
+                        font: Style.smallFont
+                        Layout.fillWidth: true
+                    }
+                    ColorIcon {
+                        size: Style.smallIconSize
+                        name: "transfer-progress"
+                    }
+                }
+                ThinDivider {
+                    color: Style.foregroundColor
+                }
+                ListView {
+                    id: routesListView
+                    Layout.fillWidth: true
+                    implicitHeight: Math.min(root.height / 4, count * Style.smallIconSize)
+                    clip: true
+                    model: d.selectedNode ? d.selectedNode.routes.length : 0
+
+                    delegate: RowLayout {
+                        id: routesTableDelegate
+                        width: routesListView.width
+                        property ZigbeeNodeRoute route: d.selectedNode.routes[index]
+                        property ZigbeeNode destinationNode: root.network.nodes.getNodeByNetworkAddress(route.destinationAddress)
+                        property Thing destinationNodeThing: {
+                            for (var i = 0; i < engine.thingManager.things.count; i++) {
+                                var thing = engine.thingManager.things.get(i)
+                                var param = thing.paramByName("ieeeAddress")
+                                if (param && param.value == destinationNode.ieeeAddress) {
+                                    return thing
+                                }
+                            }
+                            return null
+                        }
+                        property ZigbeeNode nextHopNode: root.network.nodes.getNodeByNetworkAddress(route.nextHopAddress)
+                        property Thing nextHopNodeThing: {
+                            for (var i = 0; i < engine.thingManager.things.count; i++) {
+                                var thing = engine.thingManager.things.get(i)
+                                var param = thing.paramByName("ieeeAddress")
+                                if (param && param.value == nextHopNode.ieeeAddress) {
+                                    return thing
+                                }
+                            }
+                            return null
+                        }
+
+                        Label {
+                            Layout.preferredWidth: toLabel.width
+                            elide: Text.ElideRight
+                            font: Style.smallFont
+                            text: routesTableDelegate.route.destinationAddress === 0
+                                  ? Configuration.systemName
+                                  : routesTableDelegate.destinationNodeThing
+                                    ? routesTableDelegate.destinationNodeThing.name
+                                    : routesTableDelegate.destinationNode
+                                      ? routesTableDelegate.destinationNode.model
+                                      : "0x" + routesTableDelegate.route.destinationAddress.toString(16)
+                        }
+                        Label {
+                            Layout.preferredWidth: viaLabel.width
+                            elide: Text.ElideRight
+                            font: Style.smallFont
+                            text: routesTableDelegate.route.nextHopAddress === 0
+                                  ? Configuration.systemName
+                                  : routesTableDelegate.nextHopNodeThing
+                                    ? routesTableDelegate.nextHopNodeThing.name
+                                    : routesTableDelegate.nextHopNode
+                                      ? routesTableDelegate.nextHopNode.model
+                                      : "0x" + routesTableDelegate.route.nextHopAddress.toString(16)
+                        }
+                        ColorIcon {
+                            name: {
+                                switch (routesTableDelegate.route.status) {
+                                case ZigbeeNode.ZigbeeNodeRouteStatusActive:
+                                    return "tick"
+                                case ZigbeeNode.ZigbeeNodeRouteStatusDiscoveryFailed:
+                                    return "dialog-error-symbolic"
+                                case ZigbeeNode.ZigbeeNodeRouteStatusDiscoveryUnderway:
+                                    return "find"
+                                case ZigbeeNode.ZigbeeNodeRouteStatusInactive:
+                                    return "dialog-warning-symbolic"
+                                case ZigbeeNode.ZigbeeNodeRouteStatusValidationUnderway:
+                                    return "system-update"
+                                }
+                            }
+                            size: Style.smallIconSize
+                            color: routesTableDelegate.route.memoryConstrained ? Style.orange : Style.foregroundColor
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: zigbeeHelpDialog
+
+        MeaDialog {
+            id: dialog
+            title: qsTr("ZigBee topology help")
+
+            Flickable {
+                implicitHeight: helpColumn.implicitHeight
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                contentHeight: helpColumn.implicitHeight
+                clip: true
+
+                ColumnLayout {
+                    id: helpColumn
+                    width: parent.width
+
+                    ListSectionHeader {
+                        text: qsTr("Map")
+                    }
+                    RowLayout {
+                        ColumnLayout {
+                            Layout.preferredWidth: Style.iconSize
+                            Rectangle {
+                                Layout.fillWidth: true
+                                height: 2
+                                color: Style.green
+                            }
+                            Rectangle {
+                                Layout.fillWidth: true
+                                height: 2
+                                color: Style.orange
+                            }
+                            Rectangle {
+                                Layout.fillWidth: true
+                                height: 2
+                                color: Style.red
+                            }
+                        }
+                        Label {
+                            Layout.fillWidth: true
+                            text: qsTr("Links between nodes")
+                        }
+                    }
+                    RowLayout {
+                        ColumnLayout {
+                            Layout.preferredWidth: Style.iconSize
+                            Rectangle {
+                                Layout.fillWidth: true
+                                height: 2
+                                color: Style.blue
+                            }
+                        }
+                        Label {
+                            Layout.fillWidth: true
+                            text: qsTr("Route to coordinator")
+                        }
+                    }
+
+                    ListSectionHeader {
+                        text: qsTr("Links")
+                    }
+
+
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            size: Style.iconSize
+                            name: "zigbee/zigbee-coordinator"
+                        }
+
+                        Label {
+                            text: qsTr("Node relationship")
+                        }
+                    }
+
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: "zigbee/zigbee-sibling"
+                        }
+
+                        Label {
+                            text: qsTr("Sibling")
+                        }
+                    }
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: "zigbee/zigbee-parent"
+                        }
+
+                        Label {
+                            text: qsTr("Parent")
+                        }
+                    }
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: "zigbee/zigbee-child"
+                        }
+
+                        Label {
+                            text: qsTr("Child")
+                        }
+                    }
+
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: "zigbee/zigbee-previous-child"
+                        }
+
+                        Label {
+                            text: qsTr("Previous child")
+                        }
+                    }
+
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: "/ui/images/arrow-down.svg"
+                        }
+
+                        Label {
+                            text: qsTr("Depth in network")
+                        }
+                    }
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: "add"
+                        }
+
+                        Label {
+                            text: qsTr("Permit join")
+                        }
+                    }
+
+                    ListSectionHeader {
+                        text: qsTr("Routes")
+                    }
+
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: "transfer-progress"
+                        }
+
+                        Label {
+                            text: qsTr("Route status")
+                        }
+                    }
+
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: "tick"
+                        }
+
+                        Label {
+                            text: qsTr("Route active")
+                        }
+                    }
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: "dialog-warning-symbolic"
+                        }
+
+                        Label {
+                            text: qsTr("Route inactive")
+                        }
+                    }
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: "dialog-error-symbolic"
+                        }
+
+                        Label {
+                            text: qsTr("Route failed")
+                        }
+                    }
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: "find"
+                        }
+
+                        Label {
+                            text: qsTr("Discovery in progress")
+                        }
+                    }
+                    RowLayout {
+                        spacing: Style.margins
+                        ColorIcon {
+                            Layout.preferredHeight: Style.iconSize
+                            Layout.preferredWidth: Style.iconSize
+                            name: "system-update"
+                        }
+
+                        Label {
+                            text: qsTr("Validation in progress")
+                        }
+                    }
                 }
             }
         }

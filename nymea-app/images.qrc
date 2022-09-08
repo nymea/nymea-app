@@ -263,8 +263,6 @@
         <file>ui/images/setupwizard/wired-connection.svg</file>
         <file>ui/images/setupwizard/wireless-connection.svg</file>
         <file>ui/images/system-suspend.svg</file>
-        <file>ui/images/zigbee-enddevice.svg</file>
-        <file>ui/images/zigbee-router.svg</file>
         <file>ui/images/sensors/o2.svg</file>
         <file>ui/images/sensors/ph.svg</file>
         <file>ui/images/sensors/orp.svg</file>
@@ -277,5 +275,19 @@
         <file>ui/images/z-wave.svg</file>
         <file>ui/images/zwave/z-wave-plus-wide.svg</file>
         <file>ui/images/zwave/z-wave-wide.svg</file>
+        <file>ui/images/transfer-error.svg</file>
+        <file>ui/images/transfer-none.svg</file>
+        <file>ui/images/transfer-paused.svg</file>
+        <file>ui/images/transfer-progress.svg</file>
+        <file>ui/images/transfer-progress-download.svg</file>
+        <file>ui/images/transfer-progress-upload.svg</file>
+        <file>ui/images/zigbee/zigbee-child.svg</file>
+        <file>ui/images/zigbee/zigbee-coordinator.svg</file>
+        <file>ui/images/zigbee/zigbee-enddevice.svg</file>
+        <file>ui/images/zigbee/zigbee-parent.svg</file>
+        <file>ui/images/zigbee/zigbee-router.svg</file>
+        <file>ui/images/zigbee/zigbee-sibling.svg</file>
+        <file>ui/images/zigbee/zigbee-previous-child.svg</file>
+        <file>ui/images/arrow-down.svg</file>
     </qresource>
 </RCC>

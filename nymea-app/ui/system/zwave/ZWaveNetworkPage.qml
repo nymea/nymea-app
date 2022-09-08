@@ -329,9 +329,9 @@ SettingsPageBase {
                     case ZWaveNode.ZWaveNodeTypeStaticController:
                         return "/ui/images/z-wave.svg"
                     case ZWaveNode.ZWaveNodeTypeRoutingSlave:
-                        return "/ui/images/zigbee-router.svg"
+                        return "/ui/images/zigbee/zigbee-router.svg"
                     case ZWaveNode.ZWaveNodeTypeSlave:
-                        return "/ui/images/zigbee-enddevice.svg"
+                        return "/ui/images/zigbee/zigbee-enddevice.svg"
                     }
                 }
                 color: communicationIndicatorLedTimer.running ? Style.accentColor : Style.iconColor
@@ -576,7 +576,7 @@ SettingsPageBase {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
                     Layout.preferredWidth: Style.iconSize
-                    name: "/ui/images/zigbee-router.svg"
+                    name: "/ui/images/zigbee/zigbee-router.svg"
                 }
 
                 Label {

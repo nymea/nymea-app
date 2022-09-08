@@ -327,10 +327,10 @@ SettingsPageBase {
                 size: Style.smallIconSize
                 anchors.verticalCenter: parent.verticalCenter
                 name: node.type === ZigbeeNode.ZigbeeNodeTypeCoordinator
-                      ? "/ui/images/zigbee-coordinator.svg"
+                      ? "/ui/images/zigbee/zigbee-coordinator.svg"
                       : node.type === ZigbeeNode.ZigbeeNodeTypeRouter
-                        ? "/ui/images/zigbee-router.svg"
-                        : "/ui/images/zigbee-enddevice.svg"
+                        ? "/ui/images/zigbee/zigbee-router.svg"
+                        : "/ui/images/zigbee/zigbee-enddevice.svg"
                 color: communicationIndicatorLedTimer.running ? Style.accentColor : Style.iconColor
             }
 
@@ -514,7 +514,7 @@ SettingsPageBase {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
                     Layout.preferredWidth: Style.iconSize
-                    name: "/ui/images/zigbee-router.svg"
+                    name: "/ui/images/zigbee/zigbee-router.svg"
                 }
 
                 Label {
@@ -527,7 +527,7 @@ SettingsPageBase {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
                     Layout.preferredWidth: Style.iconSize
-                    name: "/ui/images/zigbee-enddevice.svg"
+                    name: "/ui/images/zigbee/zigbee-enddevice.svg"
                 }
 
                 Label {
