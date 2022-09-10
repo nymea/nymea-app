@@ -278,21 +278,21 @@ Page {
                     paintEdges(ctx, d.nodeItems[i], true)
                 }
                 if (d.selectedNodeItem) {
-                    paintRoute(ctx, d.selectedNodeItem)
+                    paintRoutes(ctx, d.selectedNodeItem)
                 }
                 for (var i = 0; i < d.nodeItems.length; i++) {
                     paintNode(ctx, d.nodeItems[i])
                 }
             }
 
-            function paintRoute(ctx, nodeItem) {
+            function paintRoutes(ctx, nodeItem) {
                 var node = nodeItem.node
                 var nextHop = -1
                 if (node.type === ZigbeeNode.ZigbeeNodeTypeRouter) {
                     for (var i = 0; i < node.routes.length; i++) {
                         if (node.routes[i].destinationAddress === 0) {
                             nextHop = node.routes[i].nextHopAddress
-                            break;
+                            paintRoute(ctx, nodeItem, nextHop);
                         }
                     }
                 } else if (node.type === ZigbeeNode.ZigbeeNodeTypeEndDevice) {
@@ -300,19 +300,21 @@ Page {
                         for (var j = 0; j < network.nodes.get(i).neighbors.length; j++) {
                             if (network.nodes.get(i).neighbors[j].networkAddress === node.networkAddress) {
                                 nextHop = network.nodes.get(i).networkAddress
-                                break;
+                                paintRoute(ctx, nodeItem, nextHop);
                             }
                         }
                     }
                 }
+            }
 
-                print("next hop", nextHop)
-                if (nextHop == -1) {
+            function paintRoute(ctx, nodeItem, nextHopAddress) {
+                print("next hop", nextHopAddress)
+                if (nextHopAddress == -1) {
                     return;
                 }
                 var toNodeItem = null
                 for (var i = 0; i < d.nodeItems.length; i++) {
-                    if (d.nodeItems[i].node.networkAddress == nextHop) {
+                    if (d.nodeItems[i].node.networkAddress == nextHopAddress) {
                         toNodeItem = d.nodeItems[i]
                         break;
                     }
@@ -336,7 +338,7 @@ Page {
                 ctx.setLineDash([1,0])
                 ctx.restore();
 
-                paintRoute(ctx, toNodeItem)
+                paintRoutes(ctx, toNodeItem)
 
             }
 
@@ -393,7 +395,7 @@ Page {
 
             function paintEdge(ctx, fromNodeItem, toNodeItem, lqi, selected) {
                 ctx.save()
-                var percent = lqi / 255;
+                var percent = 1 - (lqi / 255);
                 var goodColor = Style.green
                 var badColor = Style.red
                 var resultRed = goodColor.r + percent * (badColor.r - goodColor.r);
@@ -588,7 +590,7 @@ Page {
                     }
                     ColorIcon {
                         size: Style.smallIconSize
-                        name: "zigbee/zigbee-router"
+                        name: "zigbee/zigbee-coordinator"
                     }
                     Item {
                         Layout.preferredWidth: Style.smallIconSize + Style.smallMargins

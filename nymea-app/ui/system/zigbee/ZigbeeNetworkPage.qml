@@ -104,7 +104,7 @@ SettingsPageBase {
     }
 
     SettingsPageSectionHeader {
-        text: qsTr("Network")
+        text: qsTr("Network state")
     }
 
     ColumnLayout {
@@ -112,136 +112,156 @@ SettingsPageBase {
         Layout.leftMargin: Style.margins
         Layout.rightMargin: Style.margins
 
-        RowLayout {
+        GridLayout {
             Layout.fillWidth: true
+            columns: 2
+            rowSpacing: Style.margins
+            columnSpacing: Style.margins
 
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Network state:")
-            }
-
-            Label {
-                text: {
-                    switch (network.networkState) {
-                    case ZigbeeNetwork.ZigbeeNetworkStateOnline:
-                        return qsTr("Online")
-                    case ZigbeeNetwork.ZigbeeNetworkStateOffline:
-                        return qsTr("Offline")
-                    case ZigbeeNetwork.ZigbeeNetworkStateStarting:
-                        return qsTr("Starting")
-                    case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
-                        return qsTr("Updating")
-                    case ZigbeeNetwork.ZigbeeNetworkStateError:
-                        return qsTr("Error")
+            RowLayout {
+                Layout.preferredWidth: (parent.width - parent.columnSpacing) / 2
+                Led {
+                    Layout.preferredHeight: Style.iconSize
+                    Layout.preferredWidth: Style.iconSize
+                    state: {
+                        switch (network.networkState) {
+                        case ZigbeeNetwork.ZigbeeNetworkStateOnline:
+                            return "on"
+                        case ZigbeeNetwork.ZigbeeNetworkStateOffline:
+                            return "off"
+                        case ZigbeeNetwork.ZigbeeNetworkStateStarting:
+                            return "orange"
+                        case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
+                            return "orange"
+                        case ZigbeeNetwork.ZigbeeNetworkStateError:
+                            return "red"
+                        }
                     }
                 }
-            }
 
-            Led {
-                Layout.preferredHeight: Style.iconSize
-                Layout.preferredWidth: Style.iconSize
-                state: {
-                    switch (network.networkState) {
-                    case ZigbeeNetwork.ZigbeeNetworkStateOnline:
-                        return "on"
-                    case ZigbeeNetwork.ZigbeeNetworkStateOffline:
-                        return "off"
-                    case ZigbeeNetwork.ZigbeeNetworkStateStarting:
-                        return "orange"
-                    case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
-                        return "orange"
-                    case ZigbeeNetwork.ZigbeeNetworkStateError:
-                        return "red"
+                Label {
+                    Layout.fillWidth: true
+                    text: {
+                        switch (network.networkState) {
+                        case ZigbeeNetwork.ZigbeeNetworkStateOnline:
+                            return qsTr("Online")
+                        case ZigbeeNetwork.ZigbeeNetworkStateOffline:
+                            return qsTr("Offline")
+                        case ZigbeeNetwork.ZigbeeNetworkStateStarting:
+                            return qsTr("Starting")
+                        case ZigbeeNetwork.ZigbeeNetworkStateUpdating:
+                            return qsTr("Updating")
+                        case ZigbeeNetwork.ZigbeeNetworkStateError:
+                            return qsTr("Error")
+                        }
                     }
                 }
+
             }
-        }
 
-        RowLayout {
-            Layout.fillWidth: true
+            RowLayout {
+                Layout.preferredWidth: (parent.width - parent.columnSpacing) / 2
 
-            Label {
+                Canvas {
+                    id: canvas
+                    Layout.preferredHeight: Style.iconSize
+                    Layout.preferredWidth: Style.iconSize
+                    rotation: -90
+                    visible: network.permitJoiningEnabled
+
+                    property real progress: network.permitJoiningRemaining / network.permitJoiningDuration
+                    onProgressChanged: {
+                        canvas.requestPaint()
+                    }
+
+                    onPaint: {
+                        var ctx = canvas.getContext("2d");
+                        ctx.save();
+                        ctx.reset();
+                        var data = [1 - progress, progress];
+                        var myTotal = 0;
+
+                        for(var e = 0; e < data.length; e++) {
+                            myTotal += data[e];
+                        }
+
+                        ctx.fillStyle = Style.foregroundColor
+                        ctx.strokeStyle = Style.foregroundColor
+                        ctx.lineWidth = 1;
+
+                        ctx.beginPath();
+                        ctx.moveTo(canvas.width/2,canvas.height/2);
+                        ctx.arc(canvas.width/2,canvas.height/2,canvas.height/2,0,(Math.PI*2*((1-progress)/myTotal)),false);
+                        ctx.lineTo(canvas.width/2,canvas.height/2);
+                        ctx.fill();
+                        ctx.closePath();
+                        ctx.beginPath();
+                        ctx.arc(canvas.width/2,canvas.height/2,canvas.height/2 - 1,0,Math.PI*2,false);
+                        ctx.closePath();
+                        ctx.stroke();
+
+                        ctx.restore();
+                    }
+                }
+
+
+                ColorIcon {
+                    Layout.preferredHeight: Style.iconSize
+                    Layout.preferredWidth: Style.iconSize
+                    name: network.permitJoiningEnabled ? "/ui/images/lock-open.svg" : "/ui/images/lock-closed.svg"
+                    visible: !network.permitJoiningEnabled
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: network.permitJoiningEnabled ? qsTr("Open for %0 s").arg(network.permitJoiningRemaining) : qsTr("Closed")
+                }
+
+            }
+
+            Button {
                 Layout.fillWidth: true
-                text: qsTr("Channel")
-            }
-
-            Label {
-                text: network.channel
-            }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Permit new devices:")
-            }
-
-            Label {
-                text: network.permitJoiningEnabled ? qsTr("Open for %0 s").arg(network.permitJoiningRemaining) : qsTr("Closed")
-            }
-
-            ColorIcon {
-                Layout.preferredHeight: Style.iconSize
-                Layout.preferredWidth: Style.iconSize
-                name: network.permitJoiningEnabled ? "/ui/images/lock-open.svg" : "/ui/images/lock-closed.svg"
+                Layout.columnSpan: 2
+                text: qsTr("Open for new devices")
+                enabled: network.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline
                 visible: !network.permitJoiningEnabled
+                onClicked: zigbeeManager.setPermitJoin(network.networkUuid)
             }
 
-            Canvas {
-                id: canvas
-                Layout.preferredHeight: Style.iconSize
-                Layout.preferredWidth: Style.iconSize
-                rotation: -90
+            Button {
+                Layout.fillWidth: true
+                text: qsTr("Extend")
+                enabled: network.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline
                 visible: network.permitJoiningEnabled
+                onClicked: zigbeeManager.setPermitJoin(network.networkUuid, 254)
+            }
 
-                property real progress: network.permitJoiningRemaining / network.permitJoiningDuration
-                onProgressChanged: {
-                    canvas.requestPaint()
-                }
 
-                onPaint: {
-                    var ctx = canvas.getContext("2d");
-                    ctx.save();
-                    ctx.reset();
-                    var data = [1 - progress, progress];
-                    var myTotal = 0;
-
-                    for(var e = 0; e < data.length; e++) {
-                        myTotal += data[e];
-                    }
-
-                    ctx.fillStyle = Style.accentColor
-                    ctx.strokeStyle = Style.accentColor
-                    ctx.lineWidth = 1;
-
-                    ctx.beginPath();
-                    ctx.moveTo(canvas.width/2,canvas.height/2);
-                    ctx.arc(canvas.width/2,canvas.height/2,canvas.height/2,0,(Math.PI*2*((1-progress)/myTotal)),false);
-                    ctx.lineTo(canvas.width/2,canvas.height/2);
-                    ctx.fill();
-                    ctx.closePath();
-                    ctx.beginPath();
-                    ctx.arc(canvas.width/2,canvas.height/2,canvas.height/2 - 1,0,Math.PI*2,false);
-                    ctx.closePath();
-                    ctx.stroke();
-
-                    ctx.restore();
+            Button {
+                Layout.fillWidth: true
+                enabled: network.networkState == ZigbeeNetwork.ZigbeeNetworkStateOnline
+                visible: network.permitJoiningEnabled
+                text: qsTr("Close")
+                onClicked: {
+                    zigbeeManager.setPermitJoin(network.networkUuid, 0)
                 }
             }
+
         }
 
-        Button {
-            Layout.fillWidth: true
-            text: network.permitJoiningEnabled ? qsTr("Extend open duration") : qsTr("Open for new devices")
-            enabled: network.networkState === ZigbeeNetwork.ZigbeeNetworkStateOnline
-            onClicked: zigbeeManager.setPermitJoin(network.networkUuid)
-        }
+
     }
 
     SettingsPageSectionHeader {
-        text: qsTr("Connected devices")
+        text: offlineNodes.count == 0
+              ? qsTr("%n device(s)", "", Math.max(0, root.network.nodes.count - 1)) // -1 for coordinator node
+              : qsTr("%n device(s) (%1 disconnected)", "", Math.max(root.network.nodes.count - 1)).arg(offlineNodes.count)
+
+        ZigbeeNodesProxy {
+            id: offlineNodes
+            zigbeeNodes: root.network.nodes
+            showCoordinator: false
+            showOnline: false
+        }
     }
 
     Label {
