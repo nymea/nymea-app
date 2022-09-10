@@ -245,7 +245,7 @@
         <file>ui/connection/ConnectionWizard.qml</file>
         <file>ui/components/WizardPageBase.qml</file>
         <file>ui/system/zigbee/ZigbeeNetworkPage.qml</file>
-        <file>ui/system/zigbee/ZigbeeTopologyPage.qml</file>
+        <file>ui/system/zigbee/ZigbeeNetworkTopologyPage.qml</file>
         <file>ui/components/ConnectionInfoDialog.qml</file>
         <file>ui/components/ButtonControls.qml</file>
         <file>ui/components/CircleBackground.qml</file>
