@@ -93,7 +93,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         text: qsTr("Network topology")
         onClicked: {
-            pageStack.push(Qt.resolvedUrl("ZigbeeTopologyPage.qml"), {zigbeeManager: root.zigbeeManager, network: root.network})
+            pageStack.push(Qt.resolvedUrl("ZigbeeNetworkTopologyPage.qml"), {zigbeeManager: root.zigbeeManager, network: root.network})
         }
     }
 

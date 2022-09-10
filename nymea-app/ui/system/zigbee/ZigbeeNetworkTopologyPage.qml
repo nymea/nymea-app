@@ -26,7 +26,9 @@ Page {
 
     readonly property int nodeDistance: Style.iconSize * 2
     readonly property int nodeSize: Style.iconSize + Style.margins
-    readonly property double scale: 1
+    property double scale: 1
+    readonly property double minScale: 0.5
+    readonly property double maxScale: 1.5
 
 
     Component.onCompleted: {
@@ -34,12 +36,12 @@ Page {
 
         reload();
         for (var i = 0; i < network.nodes.count; i++) {
-            network.nodes.get(i).neighborsChanged.connect(root.reload)
+            network.nodes.get(i).neighborsChanged.connect(root.reloadDelayed)
         }
     }
     Component.onDestruction: {
         for (var i = 0; i < network.nodes.count; i++) {
-            network.nodes.get(i).neighborsChanged.disconnect(root.reload)
+            network.nodes.get(i).neighborsChanged.disconnect(root.reloadDelayed)
         }
     }
 
@@ -47,12 +49,63 @@ Page {
         target: root.network.nodes
         onNodeAdded: {
             root.reload()
-            node.neighborsChanged.connect(root.reload);
+            node.neighborsChanged.connect(root.reloadDelayed);
+        }
+    }
+
+    function reload() {
+        print("Reloading network map")
+        generateNodeList();
+        generateEdges();
+        canvas.requestPaint()
+//        print("repainting", flickable.contentX, flickable.contentY)
+        if (flickable.contentX == 0 && flickable.contentY == 0) {
+            flickable.contentX = (flickable.contentWidth - flickable.width) / 2
+            flickable.contentY = (flickable.contentHeight - flickable.height) / 2
+        }
+    }
+
+    function reloadDelayed() {
+        reloadTimer.start()
+    }
+
+    Timer {
+        id: reloadTimer
+        interval: 500
+        repeat: false
+        running: false
+        onTriggered: reload()
+    }
+
+    QtObject {
+        id: d
+        property var nodeItems: ({})
+        property var edges: ({})
+
+        property int selectedNodeAddress: -1
+        readonly property var selectedNodeItem: nodeItems[selectedNodeAddress]
+
+        readonly property ZigbeeNode selectedNode: selectedNodeAddress >= 0 ? network.nodes.getNodeByNetworkAddress(selectedNodeAddress) : null
+
+        property int minX: 0
+        property int minY: 0
+        property int maxX: 0
+        property int maxY: 0
+        property int size: 0
+
+        function adjustSize(x, y) {
+            minX = Math.min(minX, x)
+            minY = Math.min(minY, y)
+            maxX = Math.max(maxX, x)
+            maxY = Math.max(maxY, y)
+            var minWidth = Math.max(-minX, maxX) * 2 * root.maxScale
+            var minHeight = Math.max(-minY, maxY) * 2 * root.maxScale
+            size = Math.max(minWidth, minHeight) + root.nodeSize + Style.hugeMargins * 2
         }
     }
 
     function generateNodeList() {
-        var nodeItems = []
+        var nodeItems = ({})
         var coordinator = {}
         var routers = []
         var endDevices = []
@@ -73,7 +126,7 @@ Page {
 
         var startAngle = -90
 
-        var routersCircumference = Math.max(5, routers.length) * (root.nodeSize + root.nodeDistance) * root.scale
+        var routersCircumference = Math.max(5, routers.length) * (root.nodeSize + root.nodeDistance)// * root.scale
         var distanceFromCenter = routersCircumference / 2 / Math.PI
 
         routers.unshift(coordinator)
@@ -86,7 +139,7 @@ Page {
             var nodeAngle = startAngle + angle * i;
             var x = distanceFromCenter * Math.cos(nodeAngle * Math.PI / 180)
             var y = distanceFromCenter * Math.sin(nodeAngle * Math.PI / 180)
-            nodeItems.push(createNodeItem(routers[i], x, y, nodeAngle));
+            nodeItems[router.networkAddress] = createNodeItem(router, x, y, nodeAngle);
 
 
             var neighborCounter = 0;
@@ -103,11 +156,11 @@ Page {
                     handledEndDevices.push(neighborNode.networkAddress)
 
                     var neighborAngle  = nodeAngle + neighborCounter * 8
-                    var neighborDistance = (distanceFromCenter + root.nodeDistance + root.nodeSize) * root.scale + neighborCounter * root.nodeDistance * .5 * root.scale
+                    var neighborDistance = (distanceFromCenter + (root.nodeDistance + root.nodeSize)) + neighborCounter * root.nodeDistance * .5
 
                     x = neighborDistance * Math.cos(neighborAngle * Math.PI / 180)
                     y = neighborDistance * Math.sin(neighborAngle * Math.PI / 180)
-                    nodeItems.push(createNodeItem(neighborNode, x, y, angle))
+                    nodeItems[neighborNode.networkAddress] = createNodeItem(neighborNode, x, y, angle)
 
                     neighborCounter++
                 }
@@ -118,7 +171,7 @@ Page {
         for (var i = 0; i < network.nodes.count; i++) {
             var node = network.nodes.get(i)
             if (node.type == ZigbeeNode.ZigbeeNodeTypeEndDevice && handledEndDevices.indexOf(node.networkAddress) < 0) {
-                print("Adding unconnected node:","0x" + node.networkAddress.toString(16))
+//                print("Adding unconnected node:","0x" + node.networkAddress.toString(16))
                 unconnectedNodes.push(node)
             }
         }
@@ -127,41 +180,48 @@ Page {
         var maxColumns = (root.width - Style.bigMargins * 2) / cellWidth
         var columns = Math.min(unconnectedNodes.length, maxColumns)
         var rowWidth = columns * cellWidth
-        print("columns:", columns, "maxCols", maxColumns)
+        var rows = Math.floor(unconnectedNodes.length / columns)
         for (var i = 0; i < unconnectedNodes.length; i++) {
             var node = unconnectedNodes[i]
             var column = i % columns;
             var row = Math.floor(i / columns)
-            var x = cellWidth * column + cellWidth / 2 - rowWidth / 2
-            var y = Style.margins + cellHeight * row + root.nodeSize - canvas.height / 2
-            nodeItems.push(createNodeItem(node, x, y, 0))
+            var x = nodeItems[coordinator.networkAddress].x + (column + 0.5) * cellWidth - rowWidth / 2
+            var y = nodeItems[coordinator.networkAddress].y - root.nodeSize * (5 + rows) + cellHeight * row
+            nodeItems[node.networkAddress] = createNodeItem(node, x, y, 0)
         }
+
+        for (var networkAddress in d.nodeItems) {
+            if (!nodeItems.hasOwnProperty(networkAddress)) {
+                d.nodeItems[networkAddress].image.destroy();
+            }
+        }
+
         d.nodeItems = nodeItems
     }
-
 
     function createNodeItem(node, x, y, angle) {
         d.adjustSize(x, y)
 
-        for (var i = 0; i < d.nodeItems.length; i++) {
-            if (d.nodeItems[i].node == node) {
-                d.nodeItems[i].x = x;
-                d.nodeItems[i].y = y;
-                d.nodeItems[i].angle = angle;
-                return d.nodeItems[i]
-            }
+        if (d.nodeItems.hasOwnProperty(node.networkAddress)) {
+            d.nodeItems[node.networkAddress].x = x;
+            d.nodeItems[node.networkAddress].y = y;
+            d.nodeItems[node.networkAddress].image.x = Qt.binding(function() { return x * root.scale + (canvas.width - Style.iconSize * root.scale) / 2});
+            d.nodeItems[node.networkAddress].image.y = Qt.binding(function() { return y * root.scale + (canvas.height - Style.iconSize * root.scale) / 2});
+
+            d.nodeItems[node.networkAddress].angle = angle;
+            return d.nodeItems[node.networkAddress]
         }
 
         var icon = "/ui/images/zigbee.svg"
         var thing = null
-        if (node.networkAddress == 0) {
+        if (node.networkAddress === 0) {
             icon = "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
         } else {
             for (var i = 0; i < engine.thingManager.things.count; i++) {
                 var t = engine.thingManager.things.get(i)
                 //                print("checking thing", t.name)
                 var param = t.paramByName("ieeeAddress")
-                if (param && param.value == node.ieeeAddress) {
+                if (param && param.value === node.ieeeAddress) {
                     thing = t;
                     break;
                 }
@@ -178,65 +238,55 @@ Page {
             y: y,
             edges: [],
             image: imageComponent.createObject(canvas, {
-                                                   x: Qt.binding(function() { return x + (canvas.width - Style.iconSize) / 2}),
-                                                   y: Qt.binding(function() { return y + (canvas.height - Style.iconSize) / 2}),
+                                                   x: Qt.binding(function() { return x * root.scale + (canvas.width - Style.iconSize * root.scale) / 2}),
+                                                   y: Qt.binding(function() { return y * root.scale + (canvas.height - Style.iconSize * root.scale) / 2}),
+                                                   size: Qt.binding(function() {return Style.iconSize * root.scale}),
                                                    name: icon,
                                                    color: Style.accentColor
                                                }),
             thing: thing
 
         }
-        //        print("creared node", thing ? thing.name : "", " at", x, y)
         return nodeItem
     }
 
-    function reload() {
-        print("Reloading network map")
-        while (d.nodeItems.length > 0) {
-            var nodeItem = d.nodeItems.shift()
-            nodeItem.image.destroy();
-        }
-        generateNodeList();
-        canvas.requestPaint()
-        print("repainting", flickable.contentX, flickable.contentY)
-        if (flickable.contentX == 0 && flickable.contentY == 0) {
-            flickable.contentX = (flickable.contentWidth - flickable.width) / 2
-            flickable.contentY = (flickable.contentHeight - flickable.height) / 2
-        }
-    }
+    function generateEdges() {
+        var edges = ({})
+        for (var networkAddress in d.nodeItems) {
+            var fromNodeItem = d.nodeItems[networkAddress]
+            var fromAddress = fromNodeItem.node.networkAddress
+            for (var i = 0; i < fromNodeItem.node.neighbors.length; i++) {
+                var neighbor = fromNodeItem.node.neighbors[i]
+//                print("have neighbor", neighbor.networkAddress)
+                var toAddress = neighbor.networkAddress
+                if (!d.nodeItems.hasOwnProperty(toAddress)) {
+                    continue;
+                }
+                var toNodeItem = d.nodeItems[toAddress]
 
-    QtObject {
-        id: d
-        property var nodeItems: []
+                var edgeKey = fromAddress < toAddress ? fromAddress + "+" + toAddress : toAddress + "+" + fromAddress;
+                if (edges.hasOwnProperty(edgeKey)) {
+                    continue;
+                }
 
-        property int selectedNodeAddress: -1
-        readonly property var selectedNodeItem: {
-            for (var i = 0; i < nodeItems.length; i++) {
-                if (nodeItems[i].node.networkAddress === selectedNodeAddress) {
-                    return nodeItems[i]
+                var fromLqi = neighbor.lqi
+                var toLqi = fromLqi
+                for (var j = 0; j < toNodeItem.node.neighbors.length; j++) {
+                    if (toNodeItem.node.neighbors[j].networkAddress === fromAddress) {
+                        toLqi = toNodeItem.node.neighbors[j].lqi
+                        break;
+                    }
+                }
+
+                edges[edgeKey] = {
+                    fromNodeItem: fromNodeItem,
+                    toNodeItem: toNodeItem,
+                    fromLqi: fromLqi,
+                    toLqi: toLqi
                 }
             }
-            return null
         }
-
-        readonly property ZigbeeNode selectedNode: selectedNodeAddress >= 0 ? network.nodes.getNodeByNetworkAddress(selectedNodeAddress) : null
-
-        property int minX: 0
-        property int minY: 0
-        property int maxX: 0
-        property int maxY: 0
-        property int size: 0
-
-        function adjustSize(x, y) {
-            minX = Math.min(minX, x)
-            minY = Math.min(minY, y)
-            maxX = Math.max(maxX, x)
-            maxY = Math.max(maxY, y)
-            var minWidth = Math.max(-minX, maxX) * 2
-            var minHeight = Math.max(-minY, maxY) * 2
-            size = Math.max(minWidth, minHeight) + root.nodeSize * 2
-        }
-
+        d.edges = edges
     }
 
     Component {
@@ -260,7 +310,6 @@ Page {
             clip: true
 
             onPaint: {
-                //                print("**** height:", canvas.height, "width", canvas.width)
                 var ctx = getContext("2d");
                 ctx.reset();
 
@@ -271,17 +320,15 @@ Page {
             }
 
             function paintNodeList(ctx) {
-                for (var i = 0; i < d.nodeItems.length; i++) {
-                    paintEdges(ctx, d.nodeItems[i], false)
+                for (var edgeKey in d.edges) {
+                    paintEdge(ctx, d.edges[edgeKey], false)
                 }
-                for (var i = 0; i < d.nodeItems.length; i++) {
-                    paintEdges(ctx, d.nodeItems[i], true)
-                }
+
                 if (d.selectedNodeItem) {
                     paintRoutes(ctx, d.selectedNodeItem)
                 }
-                for (var i = 0; i < d.nodeItems.length; i++) {
-                    paintNode(ctx, d.nodeItems[i])
+                for (var networkAddress in d.nodeItems) {
+                    paintNode(ctx, d.nodeItems[networkAddress])
                 }
             }
 
@@ -307,61 +354,18 @@ Page {
                 }
             }
 
-            function paintRoute(ctx, nodeItem, nextHopAddress) {
-                print("next hop", nextHopAddress)
-                if (nextHopAddress == -1) {
+            function paintRoute(ctx, fromNodeItem, nextHopAddress) {
+                if (!d.nodeItems.hasOwnProperty(nextHopAddress)) {
                     return;
                 }
-                var toNodeItem = null
-                for (var i = 0; i < d.nodeItems.length; i++) {
-                    if (d.nodeItems[i].node.networkAddress == nextHopAddress) {
-                        toNodeItem = d.nodeItems[i]
-                        break;
-                    }
-                }
-                if (!toNodeItem) {
-                    return;
-                }
+                var toNodeItem = d.nodeItems[nextHopAddress]
+                var fromAddress = fromNodeItem.node.networkAddress
 
-                ctx.save()
-
-                ctx.lineWidth = 2
-                ctx.setLineDash([4, 4])
-                ctx.strokeStyle = Style.blue
-
-                ctx.beginPath();
-                ctx.moveTo(scale * nodeItem.x, scale * nodeItem.y)
-                ctx.lineTo(scale * toNodeItem.x, scale * toNodeItem.y)
-
-                ctx.stroke();
-                ctx.closePath()
-                ctx.setLineDash([1,0])
-                ctx.restore();
+                var edgeKey = fromAddress < nextHopAddress ? fromAddress + "+" + nextHopAddress : nextHopAddress + "+" + fromAddress
+                paintEdge(ctx, d.edges[edgeKey], true)
 
                 paintRoutes(ctx, toNodeItem)
 
-            }
-
-            function paintEdges(ctx, nodeItem, selected) {
-                for (var i = 0; i < nodeItem.node.neighbors.length; i++) {
-                    var neighbor = nodeItem.node.neighbors[i]
-                    //                print("ege from", nodeItem.node.networkAddress, "to", neighbor, "LQI", neighbor.lqi, "depth:", neighbor.depth)
-                    for (var k = 0; k < d.nodeItems.length; k++) {
-                        if (d.nodeItems[k].node.networkAddress == neighbor.networkAddress) {
-                            var toNodeItem = d.nodeItems[k]
-                            if (nodeItem.node.networkAddress === d.selectedNodeAddress || toNodeItem.node.networkAddress === d.selectedNodeAddress) {
-                                if (selected) {
-                                    paintEdge(ctx, nodeItem, d.nodeItems[k], neighbor.lqi, true)
-                                }
-                            } else {
-                                if (!selected) {
-                                    paintEdge(ctx, nodeItem, d.nodeItems[k], neighbor.lqi, false)
-                                }
-                            }
-                            continue
-                        }
-                    }
-                }
             }
 
             function paintNode(ctx, nodeItem) {
@@ -369,7 +373,7 @@ Page {
                 ctx.beginPath();
                 ctx.fillStyle = nodeItem.node.networkAddress === d.selectedNodeAddress ? Style.tileOverlayColor : Style.tileBackgroundColor
                 ctx.strokeStyle = nodeItem.node.networkAddress === d.selectedNodeAddress ? Style.accentColor : Style.tileBackgroundColor
-                ctx.arc(root.scale * nodeItem.x, root.scale * nodeItem.y, root.scale * root.nodeSize / 2, 0, 2 * Math.PI);
+                ctx.arc(nodeItem.x * root.scale, nodeItem.y * root.scale, root.scale * root.nodeSize / 2, 0, 2 * Math.PI);
                 ctx.fill();
                 //                ctx.stroke();
                 ctx.fillStyle = Style.foregroundColor
@@ -386,53 +390,65 @@ Page {
 
                 var textSize = ctx.measureText(text)
                 //            ctx.fillText(text, scale * (nodeItem.x ), scale * (nodeItem.y ))
-                ctx.fillText(text, scale * (nodeItem.x - textSize.width / 2), scale * (nodeItem.y + root.nodeSize / 2 + Style.extraSmallFont.pixelSize))
+                ctx.fillText(text, nodeItem.x * root.scale - (textSize.width / 2), nodeItem.y * root.scale + (root.scale * root.nodeSize / 2 + Style.extraSmallFont.pixelSize))
 
                 ctx.closePath();
 
                 ctx.restore();
             }
 
-            function paintEdge(ctx, fromNodeItem, toNodeItem, lqi, selected) {
-                ctx.save()
-                var percent = 1 - (lqi / 255);
-                var goodColor = Style.green
-                var badColor = Style.red
-                var resultRed = goodColor.r + percent * (badColor.r - goodColor.r);
-                var resultGreen = goodColor.g + percent * (badColor.g - goodColor.g);
-                var resultBlue = goodColor.b + percent * (badColor.b - goodColor.b);
+            function paintEdge(ctx, edge, forceSelection) {
+                ctx.save();
+                var haveSelection = d.selectedNodeItem !== undefined
+                var fromSelected = edge.fromNodeItem === d.selectedNodeItem
+                var toSelected = edge.toNodeItem === d.selectedNodeItem
+                var fromPercent = 1.0 * edge.fromLqi / 255;
+                var fromColor = Qt.rgba(
+                            Style.red.r + fromPercent * (Style.green.r - Style.red.r),
+                            Style.red.g + fromPercent * (Style.green.g - Style.red.g),
+                            Style.red.b + fromPercent * (Style.green.b - Style.red.b),
+                            haveSelection && !fromSelected && !forceSelection ? .2 : 1
+                            )
+                var toPercent = 1.0 * edge.toLqi / 255;
+                var toColor = Qt.rgba(
+                            Style.red.r + toPercent * (Style.green.r - Style.red.r),
+                            Style.red.g + toPercent * (Style.green.g - Style.red.g),
+                            Style.red.b + toPercent * (Style.green.b - Style.red.b),
+                            haveSelection && !toSelected && !forceSelection ? .2 : 1
+                            )
+                var fromX = root.scale * edge.fromNodeItem.x
+                var fromY = root.scale * edge.fromNodeItem.y
+                var toX = root.scale * edge.toNodeItem.x
+                var toY = root.scale * edge.toNodeItem.y
 
-                if (selected) {
-                    ctx.lineWidth = 2
-                    ctx.strokeStyle = Qt.rgba(resultRed, resultGreen, resultBlue, 1)
-                } else {
-                    ctx.lineWidth = 1
-                    var alpha = d.selectedNodeAddress >= 0 ? .2 : 1
-                    ctx.strokeStyle = Qt.rgba(resultRed, resultGreen, resultBlue, alpha)
-                }
+                var gradient = ctx.createLinearGradient(fromX, fromY, toX, toY);
+                gradient.addColorStop(0, fromColor);
+                gradient.addColorStop(1, toColor)
+                ctx.lineWidth = forceSelection ? 3 : fromSelected || toSelected ? 2 : 1
+                ctx.strokeStyle = gradient;
                 ctx.beginPath();
-                ctx.moveTo(scale * fromNodeItem.x, scale * fromNodeItem.y)
-                ctx.lineTo(scale * toNodeItem.x, scale * toNodeItem.y)
-
+                ctx.moveTo(fromX, fromY)
+                ctx.lineTo(toX, toY)
                 ctx.stroke();
-
                 ctx.closePath()
+
                 ctx.restore();
             }
+
 
             MouseArea {
                 anchors.fill: parent
 
                 onClicked: {
                     print("clicked:", mouseX, mouseY)
-                    var translatedMouseX = mouseX - canvas.width / 2
-                    var translatedMouseY = mouseY - canvas.height / 2
+                    var translatedMouseX = (mouseX - canvas.width / 2)
+                    var translatedMouseY = (mouseY - canvas.height / 2)
                     d.selectedNodeAddress = -1
-                    for (var i = 0; i < d.nodeItems.length; i++) {
-                        var nodeItem = d.nodeItems[i]
-                        //                    print("nodeItem at:", root.scale * nodeItem.x, root.scale * nodeItem.y)
-                        if (Math.abs(root.scale * nodeItem.x - translatedMouseX) < (root.scale * root.nodeSize / 2)
-                                && Math.abs(root.scale * nodeItem.y - translatedMouseY) < (root.scale * root.nodeSize / 2)) {
+                    for (var networkAddress in d.nodeItems) {
+                        var nodeItem = d.nodeItems[networkAddress]
+//                        print("nodeItem at:", root.scale * nodeItem.x, root.scale * nodeItem.y)
+                        if (Math.abs(nodeItem.x * root.scale - translatedMouseX) < (root.scale * root.nodeSize / 2)
+                                && Math.abs(nodeItem.y * root.scale - translatedMouseY) < (root.scale * root.nodeSize / 2)) {
                             d.selectedNodeAddress = nodeItem.node.networkAddress;
                             print("selecting", nodeItem.node.networkAddress)
                             for (var j = 0; j < nodeItem.node.routes.length; j++) {
@@ -444,6 +460,30 @@ Page {
 
                     canvas.requestPaint();
                 }
+
+                onWheel: {
+                    if (wheel.modifiers & Qt.ControlModifier) {
+                        root.scale = Math.min(root.maxScale, Math.max(root.minScale, root.scale + 1.0 * wheel.angleDelta.y / 1000))
+                        root.reload()
+                    } else {
+                        wheel.accepted = false
+                    }
+                }
+            }
+
+            PinchArea {
+                anchors.fill: parent
+                property double scaleOffset: 0
+                onPinchStarted: {
+                    scaleOffset = 1 - root.scale
+                    print("pinch started", offset)
+                }
+
+                onPinchUpdated: {
+                    print("pinch updated:", pinch.scale)
+                    root.scale = Math.min(root.maxScale, Math.max(root.minScale, pinch.scale + scaleOffset))
+                    root.reload()
+                }
             }
         }
     }
@@ -452,11 +492,12 @@ Page {
     BigTile {
         id: infoTile
         visible: d.selectedNodeAddress >= 0
-        anchors {
-            top: parent.top
-            right: parent.right
-            margins: Style.smallMargins
-        }
+        property point selectedNodeItemPos: d.selectedNodeItem ? Qt.point(d.selectedNodeItem.x + flickable.contentWidth / 2 - flickable.contentX, d.selectedNodeItem.y + flickable.contentHeight / 2 - flickable.contentY) : Qt.point(0,0)
+        onSelectedNodeItemPosChanged: print("selected point:", selectedNodeItemPos, flickable.contentX)
+        x: selectedNodeItemPos.x < flickable.width / 2 ? flickable.width - width - Style.smallMargins : Style.smallMargins
+        y: selectedNodeItemPos.y < flickable.height / 2 ? flickable.height - height- Style.smallMargins : Style.smallMargins
+        Behavior on x { NumberAnimation { duration: Style.fastAnimationDuration; easing.type: Easing.InOutQuad } }
+        Behavior on y { NumberAnimation { duration: Style.fastAnimationDuration; easing.type: Easing.InOutQuad } }
 
         width: 260
         header: RowLayout {
@@ -614,7 +655,7 @@ Page {
                 ListView {
                     id: neighborTableListView
                     Layout.fillWidth: true
-                    //            spacing: app.margins
+//                    spacing: app.margins
                     implicitHeight: Math.min(root.height / 4, count * Style.smallIconSize)
                     clip: true
                     model: d.selectedNode ? d.selectedNode.neighbors.length : 0
@@ -738,10 +779,14 @@ Page {
                         }
                         property ZigbeeNode nextHopNode: root.network.nodes.getNodeByNetworkAddress(route.nextHopAddress)
                         property Thing nextHopNodeThing: {
+                            if (!nextHopNode) {
+                                return null
+                            }
+
                             for (var i = 0; i < engine.thingManager.things.count; i++) {
                                 var thing = engine.thingManager.things.get(i)
                                 var param = thing.paramByName("ieeeAddress")
-                                if (param && param.value == nextHopNode.ieeeAddress) {
+                                if (param && param.value === nextHopNode.ieeeAddress) {
                                     return thing
                                 }
                             }
@@ -813,48 +858,6 @@ Page {
                 ColumnLayout {
                     id: helpColumn
                     width: parent.width
-
-                    ListSectionHeader {
-                        text: qsTr("Map")
-                    }
-                    RowLayout {
-                        ColumnLayout {
-                            Layout.preferredWidth: Style.iconSize
-                            Rectangle {
-                                Layout.fillWidth: true
-                                height: 2
-                                color: Style.green
-                            }
-                            Rectangle {
-                                Layout.fillWidth: true
-                                height: 2
-                                color: Style.orange
-                            }
-                            Rectangle {
-                                Layout.fillWidth: true
-                                height: 2
-                                color: Style.red
-                            }
-                        }
-                        Label {
-                            Layout.fillWidth: true
-                            text: qsTr("Links between nodes")
-                        }
-                    }
-                    RowLayout {
-                        ColumnLayout {
-                            Layout.preferredWidth: Style.iconSize
-                            Rectangle {
-                                Layout.fillWidth: true
-                                height: 2
-                                color: Style.blue
-                            }
-                        }
-                        Label {
-                            Layout.fillWidth: true
-                            text: qsTr("Route to coordinator")
-                        }
-                    }
 
                     ListSectionHeader {
                         text: qsTr("Links")
