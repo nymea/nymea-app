@@ -1,3 +1,10 @@
+nymea-app (1.4.15) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Optimizations and pinch scaling for Zigbee topology map
+
+ -- jenkins <developer@nymea.io>  Sun, 11 Sep 2022 01:41:40 +0200
+
 nymea-app (1.4.14) bionic; urgency=medium
 
   [ Michael Zanetti ]
