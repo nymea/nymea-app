@@ -436,55 +436,57 @@ Page {
             }
 
 
-            MouseArea {
-                anchors.fill: parent
-
-                onClicked: {
-                    print("clicked:", mouseX, mouseY)
-                    var translatedMouseX = (mouseX - canvas.width / 2)
-                    var translatedMouseY = (mouseY - canvas.height / 2)
-                    d.selectedNodeAddress = -1
-                    for (var networkAddress in d.nodeItems) {
-                        var nodeItem = d.nodeItems[networkAddress]
-//                        print("nodeItem at:", root.scale * nodeItem.x, root.scale * nodeItem.y)
-                        if (Math.abs(nodeItem.x * root.scale - translatedMouseX) < (root.scale * root.nodeSize / 2)
-                                && Math.abs(nodeItem.y * root.scale - translatedMouseY) < (root.scale * root.nodeSize / 2)) {
-                            d.selectedNodeAddress = nodeItem.node.networkAddress;
-                            print("selecting", nodeItem.node.networkAddress)
-                            for (var j = 0; j < nodeItem.node.routes.length; j++) {
-                                var route = nodeItem.node.routes[j]
-                                print("route:", route.destinationAddress, "via", route.nextHopAddress)
-                            }
-                        }
-                    }
-
-                    canvas.requestPaint();
-                }
-
-                onWheel: {
-                    if (wheel.modifiers & Qt.ControlModifier) {
-                        root.scale = Math.min(root.maxScale, Math.max(root.minScale, root.scale + 1.0 * wheel.angleDelta.y / 1000))
-                        root.reload()
-                    } else {
-                        wheel.accepted = false
-                    }
-                }
-            }
-
             PinchArea {
                 anchors.fill: parent
-                property double scaleOffset: 0
+                property double startScale: 0
                 onPinchStarted: {
-                    scaleOffset = 1 - root.scale
-                    print("pinch started", offset)
+                    startScale = root.scale
+                    print("pinch started", startScale)
                 }
 
                 onPinchUpdated: {
                     print("pinch updated:", pinch.scale)
-                    root.scale = Math.min(root.maxScale, Math.max(root.minScale, pinch.scale + scaleOffset))
+                    var scaleDiff = pinch.scale - 1
+                    root.scale = Math.min(root.maxScale, Math.max(root.minScale, startScale + scaleDiff))
                     root.reload()
                 }
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        print("clicked:", mouseX, mouseY)
+                        var translatedMouseX = (mouseX - canvas.width / 2)
+                        var translatedMouseY = (mouseY - canvas.height / 2)
+                        d.selectedNodeAddress = -1
+                        for (var networkAddress in d.nodeItems) {
+                            var nodeItem = d.nodeItems[networkAddress]
+    //                        print("nodeItem at:", root.scale * nodeItem.x, root.scale * nodeItem.y)
+                            if (Math.abs(nodeItem.x * root.scale - translatedMouseX) < (root.scale * root.nodeSize / 2)
+                                    && Math.abs(nodeItem.y * root.scale - translatedMouseY) < (root.scale * root.nodeSize / 2)) {
+                                d.selectedNodeAddress = nodeItem.node.networkAddress;
+                                print("selecting", nodeItem.node.networkAddress)
+                                for (var j = 0; j < nodeItem.node.routes.length; j++) {
+                                    var route = nodeItem.node.routes[j]
+                                    print("route:", route.destinationAddress, "via", route.nextHopAddress)
+                                }
+                            }
+                        }
+
+                        canvas.requestPaint();
+                    }
+
+                    onWheel: {
+                        if (wheel.modifiers & Qt.ControlModifier) {
+                            root.scale = Math.min(root.maxScale, Math.max(root.minScale, root.scale + 1.0 * wheel.angleDelta.y / 1000))
+                            root.reload()
+                        } else {
+                            wheel.accepted = false
+                        }
+                    }
+                }
             }
+
         }
     }
 
