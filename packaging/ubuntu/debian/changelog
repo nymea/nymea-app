@@ -1,3 +1,10 @@
+nymea-app (1.4.16) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix zigbee topology map pinch area
+
+ -- jenkins <developer@nymea.io>  Sun, 11 Sep 2022 13:11:58 +0200
+
 nymea-app (1.4.15) bionic; urgency=medium
 
   [ Michael Zanetti ]
