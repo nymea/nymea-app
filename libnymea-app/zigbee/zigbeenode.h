@@ -38,6 +38,8 @@
 
 class ZigbeeNodeNeighbor;
 class ZigbeeNodeRoute;
+class ZigbeeNodeBinding;
+class ZigbeeNodeEndpoint;
 
 class ZigbeeNode : public QObject
 {
@@ -56,6 +58,8 @@ class ZigbeeNode : public QObject
     Q_PROPERTY(QDateTime lastSeen READ lastSeen WRITE setLastSeen NOTIFY lastSeenChanged)
     Q_PROPERTY(QList<ZigbeeNodeNeighbor*> neighbors READ neighbors NOTIFY neighborsChanged)
     Q_PROPERTY(QList<ZigbeeNodeRoute*> routes READ routes NOTIFY routesChanged)
+    Q_PROPERTY(QList<ZigbeeNodeBinding*> bindings READ bindings NOTIFY bindingsChanged)
+    Q_PROPERTY(QList<ZigbeeNodeEndpoint*> endpoints READ endpoints NOTIFY endpointsChanged)
 
 public:
     enum ZigbeeNodeType {
@@ -90,6 +94,12 @@ public:
         ZigbeeNodeRouteStatusValidationUnderway
     };
     Q_ENUM(ZigbeeNodeRouteStatus)
+
+    enum ZigbeeNodeBindingType {
+        ZigbeeNodeBindingTypeDevice,
+        ZigbeeNodeBindingTypeGroup
+    };
+    Q_ENUM(ZigbeeNodeBindingType)
 
     explicit ZigbeeNode(const QUuid &networkUuid, const QString &ieeeAddress, QObject *parent = nullptr);
 
@@ -134,6 +144,15 @@ public:
     void addOrUpdateRoute(quint16 destinationAddress, quint16 nextHopAddress, ZigbeeNodeRouteStatus status, bool memoryConstrained, bool manyToOne);
     void commitRoutes(QList<quint16> toBeKept);
 
+    QList<ZigbeeNodeBinding*> bindings() const;
+    void addBinding(const QString &sourceAddress, quint8 sourceEndpointId, quint16 clusterId, quint16 groupAddress);
+    void addBinding(const QString &sourceAddress, quint8 sourceEndpointId, quint16 clusterId, const QString &destinationAddress, quint8 destinationEndpointId);
+    void commitBindings();
+
+    QList<ZigbeeNodeEndpoint*> endpoints() const;
+    Q_INVOKABLE ZigbeeNodeEndpoint *getEndpoint(quint8 endpointId) const;
+    void addEndpoint(ZigbeeNodeEndpoint *endpoint);
+
     static ZigbeeNodeState stringToNodeState(const QString &nodeState);
     static ZigbeeNodeType stringToNodeType(const QString &nodeType);
 
@@ -150,6 +169,8 @@ signals:
     void lastSeenChanged(const QDateTime &lastSeen);
     void neighborsChanged();
     void routesChanged();
+    void bindingsChanged();
+    void endpointsChanged();
 
 private:
     QUuid m_networkUuid;
@@ -168,6 +189,9 @@ private:
     bool m_neighborsDirty = false;
     QList<ZigbeeNodeRoute*> m_routes;
     bool m_routesDirty = false;
+    QList<ZigbeeNodeBinding*> m_bindings;
+    bool m_bindingsDirty = false;
+    QList<ZigbeeNodeEndpoint*> m_endpoints;
 };
 
 class ZigbeeNodeNeighbor: public QObject
@@ -248,6 +272,186 @@ private:
     ZigbeeNode::ZigbeeNodeRouteStatus m_status = ZigbeeNode::ZigbeeNodeRouteStatusInactive;
     bool m_memoryConstrained = false;
     bool m_manyToOne = false;
+};
+
+class ZigbeeNodeBinding: public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QString sourceAddress READ sourceAddress CONSTANT)
+    Q_PROPERTY(quint8 sourceEndpointId READ sourceEndpointId CONSTANT)
+    Q_PROPERTY(quint16 clusterId READ clusterId CONSTANT)
+    Q_PROPERTY(ZigbeeNode::ZigbeeNodeBindingType type READ type CONSTANT)
+    Q_PROPERTY(quint16 groupAddress READ groupAddress CONSTANT)
+    Q_PROPERTY(QString destinationAddress READ destinationAddress CONSTANT)
+    Q_PROPERTY(quint8 destinationEndpointId READ destinationEndpointId CONSTANT)
+
+public:
+    ZigbeeNodeBinding(const QString &sourceAddress, quint8 sourceEndointId, quint16 clusterId, quint16 groupAddress, QObject *parent);
+    ZigbeeNodeBinding(const QString &sourceAddress, quint8 sourceEndointId, quint16 clusterId, const QString &destinationAddress, quint8 destinationEndpoint, QObject *parent);
+
+    QString sourceAddress() const;
+    quint8 sourceEndpointId() const;
+    quint16 clusterId() const;
+    ZigbeeNode::ZigbeeNodeBindingType type() const;
+    quint16 groupAddress() const;
+    QString destinationAddress() const;
+    quint8 destinationEndpointId() const;
+
+private:
+    QString m_sourceAddress;
+    quint8 m_sourceEndpointId = 0;
+    quint16 m_clusterId = 0;
+    ZigbeeNode::ZigbeeNodeBindingType m_type = ZigbeeNode::ZigbeeNodeBindingTypeDevice;
+    quint16 m_groupAddress = 0;
+    QString m_destinationAddress;
+    quint8 m_destinationEndpointId = 0;
+};
+
+class ZigbeeCluster: public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(quint16 clusterId READ clusterId CONSTANT)
+    Q_PROPERTY(ZigbeeClusterDirection direction READ direction CONSTANT)
+public:
+    enum ZigbeeClusterDirection {
+        ZigbeeClusterDirectionServer,
+        ZigbeeClusterDirectionClient
+    };
+    Q_ENUM(ZigbeeClusterDirection)
+
+    enum ZigbeeClusterId {
+        // Basics
+        ZigbeeClusterIdUnknown                = 0xffff,
+        ZigbeeClusterIdBasic                  = 0x0000,
+        ZigbeeClusterIdPowerConfiguration     = 0x0001,
+        ZigbeeClusterIdDeviceTemperature      = 0x0002,
+        ZigbeeClusterIdIdentify               = 0x0003,
+        ZigbeeClusterIdGroups                 = 0x0004,
+        ZigbeeClusterIdScenes                 = 0x0005,
+        ZigbeeClusterIdOnOff                  = 0x0006,
+        ZigbeeClusterIdOnOffCOnfiguration     = 0x0007,
+        ZigbeeClusterIdLevelControl           = 0x0008,
+        ZigbeeClusterIdAlarms                 = 0x0009,
+        ZigbeeClusterIdTime                   = 0x000A,
+        ZigbeeClusterIdRssiLocation           = 0x000B,
+        ZigbeeClusterIdAnalogInput            = 0x000C,
+        ZigbeeClusterIdAnalogOutput           = 0x000D,
+        ZigbeeClusterIdAnalogValue            = 0x000E,
+        ZigbeeClusterIdBinaryInput            = 0x000F,
+        ZigbeeClusterIdBinaryOutput           = 0x0010,
+        ZigbeeClusterIdBinaryValue            = 0x0011,
+        ZigbeeClusterIdMultistateInput        = 0x0012,
+        ZigbeeClusterIdMultistateOutput       = 0x0013,
+        ZigbeeClusterIdMultistateValue        = 0x0014,
+        ZigbeeClusterIdCommissoning           = 0x0015,
+
+        // Over the air uppgrade (OTA)
+        ZigbeeClusterIdOtaUpgrade             = 0x0019,
+
+        // Poll controll
+        ZigbeeClusterIdPollControl            = 0x0020,
+
+
+        // Closures
+        ZigbeeClusterIdShadeConfiguration     = 0x0100,
+
+        // Door Lock
+        ZigbeeClusterIdDoorLock               = 0x0101,
+
+        // Heating, Ventilation and Air-Conditioning (HVAC)
+        ZigbeeClusterIdPumpConfigurationControl = 0x0200,
+        ZigbeeClusterIdThermostat               = 0x0201,
+        ZigbeeClusterIdFanControll              = 0x0202,
+        ZigbeeClusterIdDehumiditationControl    = 0x0203,
+        ZigbeeClusterIdThermostatUserControl    = 0x0204,
+
+        // Lighting
+        ZigbeeClusterIdColorControl           = 0x0300,
+        ZigbeeClusterIdBallastConfiguration   = 0x0301,
+
+        // Sensing
+        ZigbeeClusterIdIlluminanceMeasurement         = 0x0400,
+        ZigbeeClusterIdIlluminanceLevelSensing        = 0x0401,
+        ZigbeeClusterIdTemperatureMeasurement         = 0x0402,
+        ZigbeeClusterIdPressureMeasurement            = 0x0403,
+        ZigbeeClusterIdFlowMeasurement                = 0x0404,
+        ZigbeeClusterIdRelativeHumidityMeasurement    = 0x0405,
+        ZigbeeClusterIdOccupancySensing               = 0x0406,
+
+        // Security and Safty
+        ZigbeeClusterIdIasZone = 0x0500,
+        ZigbeeClusterIdIasAce  = 0x0501,
+        ZigbeeClusterIdIasWd   = 0x0502,
+
+        // Smart energy
+        ZigbeeClusterIdPrice                        = 0x0700,
+        ZigbeeClusterIdDemandResponseAndLoadControl = 0x0701,
+        ZigbeeClusterIdMetering                     = 0x0702,
+        ZigbeeClusterIdMessaging                    = 0x0703,
+        ZigbeeClusterIdTunneling                    = 0x0704,
+        ZigbeeClusterIdKeyEstablishment             = 0x0800,
+
+        // ZLL
+        ZigbeeClusterIdTouchlinkCommissioning = 0x1000,
+
+        // NXP Appliances
+        ZigbeeClusterIdApplianceControl           = 0x001B,
+        ZigbeeClusterIdApplianceIdentification    = 0x0B00,
+        ZigbeeClusterIdApplianceEventsAlerts      = 0x0B02,
+        ZigbeeClusterIdApplianceStatistics        = 0x0B03,
+
+        // Electrical Measurement
+        ZigbeeClusterIdElectricalMeasurement      = 0x0B04,
+        ZigbeeClusterIdDiagnostics                = 0x0B05,
+
+        // Zigbee green power
+        ZigbeeClusterIdGreenPower                 = 0x0021,
+
+        // Manufacturer specific
+        ZigbeeClusterIdManufacturerSpecificPhilips = 0xfc00,
+
+    };
+    Q_ENUM(ZigbeeClusterId)
+
+
+    ZigbeeCluster(quint16 clusterId, ZigbeeClusterDirection direction, QObject *parent = nullptr);
+
+    quint16 clusterId() const;
+    ZigbeeClusterDirection direction() const;
+
+    Q_INVOKABLE QString clusterName() const;
+
+private:
+    quint16 m_clusterId = 0;
+    ZigbeeClusterDirection m_direction;
+};
+
+class ZigbeeNodeEndpoint: public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(quint8 endpointId READ endpointId CONSTANT)
+    Q_PROPERTY(QList<ZigbeeCluster*> inputClusters READ inputClusters NOTIFY inputClustersChanged)
+    Q_PROPERTY(QList<ZigbeeCluster*> outputClusters READ outputClusters NOTIFY outputClustersChanged)
+public:
+    ZigbeeNodeEndpoint(quint8 endpointId, const QList<ZigbeeCluster*> &inputClusters = QList<ZigbeeCluster*>(), const QList<ZigbeeCluster*> &outputClusters = QList<ZigbeeCluster*>(), QObject *parent = nullptr);
+
+    quint8 endpointId() const;
+    QList<ZigbeeCluster*> inputClusters() const;
+    Q_INVOKABLE ZigbeeCluster *getInputCluster(quint16 clusterId) const;
+    void addInputCluster(ZigbeeCluster *cluster);
+
+    QList<ZigbeeCluster*> outputClusters() const;
+    Q_INVOKABLE ZigbeeCluster *getOutputCluster(quint16 clusterId) const;
+    void addOutputCluster(ZigbeeCluster *cluster);
+
+signals:
+    void inputClustersChanged();
+    void outputClustersChanged();
+
+private:
+    quint8 m_endpointId = 0;
+    QList<ZigbeeCluster*> m_inputClusters;
+    QList<ZigbeeCluster*> m_outputClusters;
 };
 
 #endif // ZIGBEENODE_H

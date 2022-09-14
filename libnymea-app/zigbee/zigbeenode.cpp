@@ -30,6 +30,8 @@
 
 #include "zigbeenode.h"
 
+#include <QMetaEnum>
+
 ZigbeeNode::ZigbeeNode(const QUuid &networkUuid, const QString &ieeeAddress, QObject *parent) :
     QObject(parent),
     m_networkUuid(networkUuid),
@@ -299,6 +301,81 @@ void ZigbeeNode::commitRoutes(QList<quint16> toBeKept)
     }
 }
 
+QList<ZigbeeNodeBinding *> ZigbeeNode::bindings() const
+{
+    return m_bindings;
+}
+
+void ZigbeeNode::addBinding(const QString &sourceAddress, quint8 sourceEndpointId, quint16 clusterId, quint16 groupAddress)
+{
+    ZigbeeNodeBinding *newBinding = new ZigbeeNodeBinding(sourceAddress, sourceEndpointId, clusterId, groupAddress, this);
+    foreach (ZigbeeNodeBinding *binding, m_bindings) {
+        if (binding == newBinding) {
+            binding->setProperty("validated", true);
+            delete newBinding;
+            return;
+        }
+    }
+    newBinding->setProperty("validated", true);
+    m_bindings.append(newBinding);
+    m_bindingsDirty = true;
+}
+
+void ZigbeeNode::addBinding(const QString &sourceAddress, quint8 sourceEndpointId, quint16 clusterId, const QString &destinationAddress, quint8 destinationEndpointId)
+{
+    ZigbeeNodeBinding *newBinding = new ZigbeeNodeBinding(sourceAddress, sourceEndpointId, clusterId, destinationAddress, destinationEndpointId, this);
+    foreach (ZigbeeNodeBinding *binding, m_bindings) {
+        if (binding == newBinding) {
+            binding->setProperty("validated", true);
+            delete newBinding;
+            return;
+        }
+    }
+    newBinding->setProperty("validated", true);
+    m_bindings.append(newBinding);
+    m_bindingsDirty = true;
+}
+
+void ZigbeeNode::commitBindings()
+{
+    QMutableListIterator<ZigbeeNodeBinding*> it(m_bindings);
+    while (it.hasNext()) {
+        ZigbeeNodeBinding *binding = it.next();
+        if (!binding->property("validated").toBool()) {
+            it.remove();
+            m_bindingsDirty = true;
+        } else {
+            binding->setProperty("validated", false);
+        }
+    }
+    if (m_bindingsDirty) {
+        m_bindingsDirty = false;
+        emit bindingsChanged();
+    }
+}
+
+QList<ZigbeeNodeEndpoint *> ZigbeeNode::endpoints() const
+{
+    return m_endpoints;
+}
+
+ZigbeeNodeEndpoint *ZigbeeNode::getEndpoint(quint8 endpointId) const
+{
+    foreach (ZigbeeNodeEndpoint *endpoint, m_endpoints) {
+        if (endpoint->endpointId() == endpointId) {
+            return endpoint;
+        }
+    }
+    return nullptr;
+}
+
+void ZigbeeNode::addEndpoint(ZigbeeNodeEndpoint *endpoint)
+{
+    endpoint->setParent(this);
+    m_endpoints.append(endpoint);
+    emit endpointsChanged();
+}
+
 ZigbeeNode::ZigbeeNodeState ZigbeeNode::stringToNodeState(const QString &nodeState)
 {
     if (nodeState == "ZigbeeNodeStateUninitialized") {
@@ -449,4 +526,158 @@ void ZigbeeNodeRoute::setManyToOne(bool manyToOne)
         m_manyToOne = manyToOne;
         emit manyToOneChanged();
     }
+}
+
+ZigbeeNodeBinding::ZigbeeNodeBinding(const QString &sourceAddress, quint8 sourceEndointId, quint16 clusterId, quint16 groupAddress, QObject *parent):
+    QObject(parent),
+    m_sourceAddress(sourceAddress),
+    m_sourceEndpointId(sourceEndointId),
+    m_clusterId(clusterId),
+    m_type(ZigbeeNode::ZigbeeNodeBindingTypeGroup),
+    m_groupAddress(groupAddress)
+{
+
+}
+
+ZigbeeNodeBinding::ZigbeeNodeBinding(const QString &sourceAddress, quint8 sourceEndointId, quint16 clusterId, const QString &destinationAddress, quint8 destinationEndpoint, QObject *parent):
+    QObject(parent),
+    m_sourceAddress(sourceAddress),
+    m_sourceEndpointId(sourceEndointId),
+    m_clusterId(clusterId),
+    m_type(ZigbeeNode::ZigbeeNodeBindingTypeDevice),
+    m_destinationAddress(destinationAddress),
+    m_destinationEndpointId(destinationEndpoint)
+{
+
+}
+
+QString ZigbeeNodeBinding::sourceAddress() const
+{
+    return m_sourceAddress;
+}
+
+quint8 ZigbeeNodeBinding::sourceEndpointId() const
+{
+    return m_sourceEndpointId;
+}
+
+quint16 ZigbeeNodeBinding::clusterId() const
+{
+    return m_clusterId;
+}
+
+ZigbeeNode::ZigbeeNodeBindingType ZigbeeNodeBinding::type() const
+{
+    return m_type;
+}
+
+quint16 ZigbeeNodeBinding::groupAddress() const
+{
+    return m_groupAddress;
+}
+
+QString ZigbeeNodeBinding::destinationAddress() const
+{
+    return m_destinationAddress;
+}
+
+quint8 ZigbeeNodeBinding::destinationEndpointId() const
+{
+    return m_destinationEndpointId;
+}
+
+ZigbeeCluster::ZigbeeCluster(quint16 clusterId, ZigbeeClusterDirection direction, QObject *parent):
+    QObject(parent),
+    m_clusterId(clusterId),
+    m_direction(direction)
+{
+
+}
+
+quint16 ZigbeeCluster::clusterId() const
+{
+    return m_clusterId;
+}
+
+ZigbeeCluster::ZigbeeClusterDirection ZigbeeCluster::direction() const
+{
+    return m_direction;
+}
+
+ZigbeeNodeEndpoint::ZigbeeNodeEndpoint(quint8 endpointId, const QList<ZigbeeCluster*> &inputClusters, const QList<ZigbeeCluster*> &outputClusters, QObject *parent):
+    QObject(parent),
+    m_endpointId(endpointId),
+    m_inputClusters(inputClusters),
+    m_outputClusters(outputClusters)
+{
+    foreach (ZigbeeCluster *cluster, inputClusters) {
+        cluster->setParent(this);
+    }
+    foreach (ZigbeeCluster *cluster, outputClusters) {
+        cluster->setParent(this);
+    }
+}
+
+quint8 ZigbeeNodeEndpoint::endpointId() const
+{
+    return m_endpointId;
+}
+
+QList<ZigbeeCluster*> ZigbeeNodeEndpoint::inputClusters() const
+{
+    return m_inputClusters;
+}
+
+ZigbeeCluster *ZigbeeNodeEndpoint::getInputCluster(quint16 clusterId) const
+{
+    foreach (ZigbeeCluster *cluster, m_inputClusters) {
+        if (cluster->clusterId() == clusterId) {
+            return cluster;
+        }
+    }
+    return nullptr;
+}
+
+void ZigbeeNodeEndpoint::addInputCluster(ZigbeeCluster *cluster)
+{
+    cluster->setParent(this);
+    m_inputClusters.append(cluster);
+    emit inputClustersChanged();
+}
+
+QList<ZigbeeCluster*> ZigbeeNodeEndpoint::outputClusters() const
+{
+    return m_outputClusters;
+}
+
+ZigbeeCluster *ZigbeeNodeEndpoint::getOutputCluster(quint16 clusterId) const
+{
+    foreach (ZigbeeCluster *cluster, m_outputClusters) {
+        if (cluster->clusterId() == clusterId) {
+            return cluster;
+        }
+    }
+    return nullptr;
+}
+
+void ZigbeeNodeEndpoint::addOutputCluster(ZigbeeCluster *cluster)
+{
+    cluster->setParent(this);
+    m_outputClusters.append(cluster);
+    emit outputClustersChanged();
+}
+
+QString ZigbeeCluster::clusterName() const
+{
+    QMetaEnum clusterEnum = QMetaEnum::fromType<ZigbeeClusterId>();
+    QString name = clusterEnum.valueToKey(m_clusterId);
+    name.remove("ZigbeeClusterId");
+    QRegExp re1 = QRegExp("([A-Z])([a-z]*)");
+    name.replace(re1, ";\\1\\2");
+    QStringList parts = name.split(";");
+    QString clusterName = parts.join(" ").trimmed();
+    if (clusterName.isEmpty()) {
+        clusterName = "0x" + QString::number(m_clusterId, 16);
+    }
+    return clusterName;
 }
