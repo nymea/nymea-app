@@ -1,3 +1,10 @@
+nymea-app (1.4.17) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for configuring ZigBee bindings
+
+ -- jenkins <developer@nymea.io>  Wed, 14 Sep 2022 23:48:59 +0200
+
 nymea-app (1.4.16) bionic; urgency=medium
 
   [ Michael Zanetti ]
