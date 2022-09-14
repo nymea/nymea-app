@@ -41,6 +41,7 @@ class ZigbeeNetwork;
 class ZigbeeNetworks;
 class ZigbeeNode;
 class ZigbeeNodes;
+class ZigbeeNodeBinding;
 
 class ZigbeeManager : public QObject
 {
@@ -53,6 +54,22 @@ class ZigbeeManager : public QObject
     Q_PROPERTY(ZigbeeNetworks *networks READ networks CONSTANT)
 
 public:
+    enum ZigbeeError {
+        ZigbeeErrorNoError,
+        ZigbeeErrorAdapterNotAvailable,
+        ZigbeeErrorAdapterAlreadyInUse,
+        ZigbeeErrorNetworkUuidNotFound,
+        ZigbeeErrorDurationOutOfRange,
+        ZigbeeErrorNetworkOffline,
+        ZigbeeErrorUnknownBackend,
+        ZigbeeErrorNodeNotFound,
+        ZigbeeErrorForbidden,
+        ZigbeeErrorInvalidChannel,
+        ZigbeeErrorNetworkError,
+        ZigbeeErrorTimeoutError
+    };
+    Q_ENUM(ZigbeeError)
+
     enum ZigbeeChannel {
         ZigbeeChannel11 = 0x00000800,
         ZigbeeChannel12 = 0x00001000,
@@ -96,13 +113,17 @@ public:
     Q_INVOKABLE void getNodes(const QUuid &networkUuid);
     Q_INVOKABLE int removeNode(const QUuid &networkUuid, const QString &ieeeAddress);
     Q_INVOKABLE void refreshNeighborTables(const QUuid &networkUuid);
+    Q_INVOKABLE int createBinding(const QUuid &networkUuid, const QString &sourceAddress, quint8 sourceEndpointId, quint16 clusterId, const QString &destinationAddress, quint8 destinationEndpointId);
+    Q_INVOKABLE int removeBinding(const QUuid &networkUuid, ZigbeeNodeBinding *binding);
 
 signals:
     void engineChanged();
     void fetchingDataChanged();
     void availableBackendsChanged();
-    void addNetworkReply(int commandId, const QString &error, const QUuid &networkUuid);
-    void removeNodeReply(int commandId, const QString &error);
+    void addNetworkReply(int commandId, ZigbeeError error, const QUuid &networkUuid);
+    void removeNodeReply(int commandId, ZigbeeError error);
+    void createBindingReply(int commandId, ZigbeeError error);
+    void removeBindingReply(int commandId, ZigbeeError error);
 
 private:
     void init();
@@ -118,6 +139,9 @@ private:
 
     Q_INVOKABLE void getNodesResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void removeNodeResponse(int commandId, const QVariantMap &params);
+
+    Q_INVOKABLE void createBindingResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void removeBindingResponse(int commandId, const QVariantMap &params);
 
     Q_INVOKABLE void notificationReceived(const QVariantMap &notification);
 

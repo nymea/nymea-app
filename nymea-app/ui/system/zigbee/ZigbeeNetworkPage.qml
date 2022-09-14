@@ -85,16 +85,16 @@ SettingsPageBase {
                 d.pendingCommandId = -1
                 var props = {};
                 switch (error) {
-                case "ZigbeeErrorNoError":
+                case ZigbeeManager.ZigbeeErrorNoError:
                     return;
-                case "ZigbeeErrorAdapterNotAvailable":
+                case ZigbeeManager.ZigbeeErrorAdapterNotAvailable:
                     props.text = qsTr("The selected adapter is not available or the selected serial port configration is incorrect.");
                     break;
-                case "ZigbeeErrorAdapterAlreadyInUse":
+                case ZigbeeManager.ZigbeeErrorAdapterAlreadyInUse:
                     props.text = qsTr("The selected adapter is already in use.");
                     break;
                 default:
-                    props.errorCode = error;
+                    props.error = error;
                 }
                 var comp = Qt.createComponent("/ui/components/ErrorDialog.qml")
                 var popup = comp.createObject(app, props)
@@ -355,8 +355,9 @@ SettingsPageBase {
             }
 
             onClicked: {
-                var popup = nodeInfoComponent.createObject(app, {node: node, nodeThings: nodeThings})
-                popup.open()
+                pageStack.push("ZigbeeNodePage.qml", {zigbeeManager: zigbeeManager, network: network, node: node})
+//                var popup = nodeInfoComponent.createObject(app, {node: node, nodeThings: nodeThings})
+//                popup.open()
             }
         }
     }

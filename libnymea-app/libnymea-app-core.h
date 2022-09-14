@@ -329,9 +329,12 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<ZigbeeNetwork>(uri, 1, 0, "ZigbeeNetwork", "Get it from the ZigbeeManager");
     qmlRegisterUncreatableType<ZigbeeNetworks>(uri, 1, 0, "ZigbeeNetworks", "Get it from the ZigbeeManager");
     qmlRegisterUncreatableType<ZigbeeNode>(uri, 1, 0, "ZigbeeNode", "Get it from the ZigbeeNodes");
+    qmlRegisterUncreatableType<ZigbeeNodes>(uri, 1, 0, "ZigbeeNodes", "Get it from the ZigbeeNetwork");
     qmlRegisterUncreatableType<ZigbeeNodeNeighbor>(uri, 1, 0, "ZigbeeNodeNeighbor", "Get it from the ZigbeeNode");
     qmlRegisterUncreatableType<ZigbeeNodeRoute>(uri, 1, 0, "ZigbeeNodeRoute", "Get it from the ZigbeeNode");
-    qmlRegisterUncreatableType<ZigbeeNodes>(uri, 1, 0, "ZigbeeNodes", "Get it from the ZigbeeNetwork");
+    qmlRegisterUncreatableType<ZigbeeNodeBinding>(uri, 1, 0, "ZigbeeNodeBinding", "Get it from the ZigbeeNode");
+    qmlRegisterUncreatableType<ZigbeeNodeEndpoint>(uri, 1, 0, "ZigbeeNodeEndpoint", "Get it from the ZigbeeNode");
+    qmlRegisterUncreatableType<ZigbeeCluster>(uri, 1, 0, "ZigbeeCluster", "Get it from the ZigbeeNode");
     qmlRegisterType<ZigbeeNodesProxy>(uri, 1, 0, "ZigbeeNodesProxy");
 
     qmlRegisterType<ZWaveManager>(uri, 1, 0, "ZWaveManager");

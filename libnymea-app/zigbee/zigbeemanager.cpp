@@ -156,6 +156,38 @@ void ZigbeeManager::refreshNeighborTables(const QUuid &networkUuid)
     m_engine->jsonRpcClient()->sendCommand("Zigbee.RefreshNeighborTables", {{"networkUuid", networkUuid}});
 }
 
+int ZigbeeManager::createBinding(const QUuid &networkUuid, const QString &sourceAddress, quint8 sourceEndpointId, quint16 clusterId, const QString &destinationAddress, quint8 destinationEndpointId)
+{
+    QVariantMap params = {
+        {"networkUuid", networkUuid},
+        {"sourceAddress", sourceAddress},
+        {"sourceEndpointId", sourceEndpointId},
+        {"clusterId", clusterId},
+        {"destinationAddress", destinationAddress},
+        {"destinationEndpointId", destinationEndpointId}
+    };
+    qCDebug(dcZigbee()) << "Creating binding for:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    return m_engine->jsonRpcClient()->sendCommand("Zigbee.CreateBinding", params, this, "createBindingResponse");
+}
+
+int ZigbeeManager::removeBinding(const QUuid &networkUuid, ZigbeeNodeBinding *binding)
+{
+    QVariantMap params = {
+        {"networkUuid", networkUuid},
+        {"sourceAddress", binding->sourceAddress()},
+        {"sourceEndpointId", binding->sourceEndpointId()},
+        {"clusterId", binding->clusterId()}
+    };
+    if (!binding->destinationAddress().isEmpty()) {
+        params.insert("destinationAddress", binding->destinationAddress());
+        params.insert("destinationEndpointId", binding->destinationEndpointId());
+    } else {
+        params.insert("destinationGroupAddress", binding->groupAddress());
+    }
+    qCDebug(dcZigbee()) << "Removing binding for:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    return m_engine->jsonRpcClient()->sendCommand("Zigbee.RemoveBinding", params, this, "removeBindingResponse");
+}
+
 void ZigbeeManager::init()
 {
     m_fetchingData = true;
@@ -216,7 +248,9 @@ void ZigbeeManager::getNetworksResponse(int commandId, const QVariantMap &params
 void ZigbeeManager::addNetworkResponse(int commandId, const QVariantMap &params)
 {
     qCDebug(dcZigbee()) << "Zigbee add network response" << commandId << params;
-    emit addNetworkReply(commandId, params.value("zigbeeError").toString(), params.value("networkUuid").toUuid());
+    QMetaEnum errorEnum = QMetaEnum::fromType<ZigbeeError>();
+    ZigbeeError error = static_cast<ZigbeeError>(errorEnum.keyToValue(params.value("zigbeeError").toByteArray()));
+    emit addNetworkReply(commandId, error, params.value("networkUuid").toUuid());
 }
 
 void ZigbeeManager::removeNetworkResponse(int commandId, const QVariantMap &params)
@@ -254,7 +288,25 @@ void ZigbeeManager::getNodesResponse(int commandId, const QVariantMap &params)
 void ZigbeeManager::removeNodeResponse(int commandId, const QVariantMap &params)
 {
     qCDebug(dcZigbee()) << "Zigbee remove node response" << commandId << params;
-    emit removeNodeReply(commandId, params.value("zigbeeError").toString());
+    QMetaEnum errorEnum = QMetaEnum::fromType<ZigbeeError>();
+    ZigbeeError error = static_cast<ZigbeeError>(errorEnum.keyToValue(params.value("zigbeeError").toByteArray()));
+    emit removeNodeReply(commandId, error);
+}
+
+void ZigbeeManager::createBindingResponse(int commandId, const QVariantMap &params)
+{
+    qCDebug(dcZigbee()) << "Create binding response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    QMetaEnum errorEnum = QMetaEnum::fromType<ZigbeeError>();
+    ZigbeeError error = static_cast<ZigbeeError>(errorEnum.keyToValue(params.value("zigbeeError").toByteArray()));
+    emit createBindingReply(commandId, error);
+}
+
+void ZigbeeManager::removeBindingResponse(int commandId, const QVariantMap &params)
+{
+    qCDebug(dcZigbee()) << "Remove binding response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    QMetaEnum errorEnum = QMetaEnum::fromType<ZigbeeError>();
+    ZigbeeError error = static_cast<ZigbeeError>(errorEnum.keyToValue(params.value("zigbeeError").toByteArray()));
+    emit removeBindingReply(commandId, error);
 }
 
 void ZigbeeManager::notificationReceived(const QVariantMap &notification)
@@ -438,4 +490,52 @@ void ZigbeeManager::updateNodeProperties(ZigbeeNode *node, const QVariantMap &no
         routes.append(destinationAddress);
     }
     node->commitRoutes(routes);
+
+    foreach (const QVariant &binding, nodeMap.value("bindingTableRecords").toList()) {
+        QVariantMap bindingMap = binding.toMap();
+        QString sourceAddress = bindingMap.value("sourceAddress").toString();
+        quint8 sourceEndpointId = bindingMap.value("sourceEndpointId").toUInt();
+        quint16 clusterId = bindingMap.value("clusterId").toUInt();
+        if (bindingMap.contains("groupAddress")) {
+            quint16 groupAddress = bindingMap.value("groupAddress").toUInt();
+            node->addBinding(sourceAddress, sourceEndpointId, clusterId, groupAddress);
+        } else {
+            QString destinationAddress = bindingMap.value("destinationAddress").toString();
+            quint8 destinationEndpointId = bindingMap.value("destinationEndpointId").toUInt();
+            node->addBinding(sourceAddress, sourceEndpointId, clusterId, destinationAddress, destinationEndpointId);
+        }
+    }
+    node->commitBindings();
+
+    foreach (const QVariant &e, nodeMap.value("endpoints").toList()) {
+        QVariantMap endpointMap = e.toMap();
+        quint8 endpointId = endpointMap.value("endpointId").toUInt();
+        ZigbeeNodeEndpoint *endpoint = node->getEndpoint(endpointId);
+        if (!endpoint) {
+            endpoint = new ZigbeeNodeEndpoint(endpointId);
+            node->addEndpoint(endpoint);
+        }
+        foreach (const QVariant &c, endpointMap.value("inputClusters").toList()) {
+            QVariantMap clusterMap = c.toMap();
+            quint16 clusterId = clusterMap.value("clusterId").toUInt();
+            if (endpoint->getInputCluster(clusterId)) {
+                continue;
+            }
+            QMetaEnum clusterDirectionEnum = QMetaEnum::fromType<ZigbeeCluster::ZigbeeClusterDirection>();
+            ZigbeeCluster::ZigbeeClusterDirection direction = static_cast<ZigbeeCluster::ZigbeeClusterDirection>(clusterDirectionEnum.keyToValue(clusterMap.value("direction").toByteArray().data()));
+            ZigbeeCluster *cluster = new ZigbeeCluster(clusterId, direction);
+            endpoint->addInputCluster(cluster);
+        }
+        foreach (const QVariant &c, endpointMap.value("outputClusters").toList()) {
+            QVariantMap clusterMap = c.toMap();
+            quint16 clusterId = clusterMap.value("clusterId").toUInt();
+            if (endpoint->getOutputCluster(clusterId)) {
+                continue;
+            }
+            QMetaEnum clusterDirectionEnum = QMetaEnum::fromType<ZigbeeCluster::ZigbeeClusterDirection>();
+            ZigbeeCluster::ZigbeeClusterDirection direction = static_cast<ZigbeeCluster::ZigbeeClusterDirection>(clusterDirectionEnum.keyToValue(clusterMap.value("direction").toByteArray().data()));
+            ZigbeeCluster *cluster = new ZigbeeCluster(clusterId, direction);
+            endpoint->addOutputCluster(cluster);
+        }
+    }
 }

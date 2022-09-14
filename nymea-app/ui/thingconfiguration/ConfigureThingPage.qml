@@ -121,23 +121,26 @@ SettingsPageBase {
         text: qsTr("Information")
     }
 
-    NymeaSwipeDelegate {
+    NymeaItemDelegate {
         Layout.fillWidth: true
-        text: qsTr("Vendor:")
-        subText: engine.thingManager.vendors.getVendor(root.thing.thingClass.vendorId).displayName
+        text: engine.thingManager.vendors.getVendor(root.thing.thingClass.vendorId).displayName
+        subText: qsTr("Vendor")
+        prominentSubText: false
         progressive: false
     }
-    NymeaSwipeDelegate {
+    NymeaItemDelegate {
         Layout.fillWidth: true
-        text: qsTr("Type:")
-        subText: root.thing.thingClass.displayName
+        text: root.thing.thingClass.displayName
+        subText: qsTr("Type")
+        prominentSubText: false
         progressive: false
     }
 
-    NymeaSwipeDelegate {
+    NymeaItemDelegate {
         Layout.fillWidth: true
-        text: qsTr("ID:")
-        subText: root.thing.id.toString().replace(/[{}]/g, "")
+        text: root.thing.id.toString().replace(/[{}]/g, "")
+        subText: qsTr("ID")
+        prominentSubText: false
         progressive: false
         onClicked: {
             PlatformHelper.toClipBoard(root.thing.id.toString().replace(/[{}]/g, ""));
@@ -145,7 +148,7 @@ SettingsPageBase {
         }
     }
 
-    NymeaSwipeDelegate {
+    NymeaItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Thing class")
         subText: qsTr("View the type definition for this thing")
