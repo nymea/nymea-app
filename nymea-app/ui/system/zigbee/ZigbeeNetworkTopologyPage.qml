@@ -8,7 +8,7 @@ Page {
     id: root
 
     header: NymeaHeader {
-        text: qsTr("ZigBee network topology")
+        text: qsTr("ZigBee network map")
         backButtonVisible: true
         onBackPressed: pageStack.pop()
         HeaderButton {

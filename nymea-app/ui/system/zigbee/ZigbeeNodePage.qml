@@ -41,6 +41,7 @@ SettingsPageBase {
     property ZigbeeManager zigbeeManager: null
     property ZigbeeNetwork network: null
     property ZigbeeNode node: null
+    readonly property ZigbeeNode coordinatorNode: root.network.nodes.getNodeByNetworkAddress(0)
 
     header: NymeaHeader {
         text: qsTr("ZigBee node info")
@@ -220,69 +221,92 @@ SettingsPageBase {
     }
 
 
-    SettingsPageSectionHeader {
-        text: qsTr("Bindings")
-    }
+    ColumnLayout {
+        visible: engine.jsonRpcClient.ensureServerVersion("6.2")
 
-    property ZigbeeNode coordinatorNode: root.network.nodes.getNodeByNetworkAddress(0)
-    Repeater {
-        model: root.node.bindings
-        delegate: NymeaSwipeDelegate {
-            id: bindingDelegate
-            Layout.fillWidth: true
-            property ZigbeeNodeBinding binding: root.node.bindings[index]
-            ThingsProxy {
-                id: destinationThings
-                engine: _engine
-                paramsFilter: {"ieeeAddress": bindingDelegate.binding.destinationAddress}
-            }
+        SettingsPageSectionHeader {
+            text: qsTr("Bindings")
+        }
 
-            canDelete: true
-            progressive: false
-            text: {
-                if (destinationThings.count > 0) {
-                    return destinationThings.get(0).name
+        Repeater {
+            model: root.node.bindings
+            delegate: NymeaSwipeDelegate {
+                id: bindingDelegate
+                Layout.fillWidth: true
+                property ZigbeeNodeBinding binding: root.node.bindings[index]
+                property ZigbeeNode destinationNode: root.network.nodes.getNode(binding.destinationAddress)
+                property ZigbeeNodeEndpoint endpoint: root.node.getEndpoint(binding.sourceEndpointId);
+                property ZigbeeCluster inputCluster: endpoint ? endpoint.getInputCluster(binding.clusterId) : null
+                property ZigbeeCluster outputCluster: endpoint ? endpoint.getOutputCluster(binding.clusterId) : null
+                property ZigbeeCluster usedCluster: inputCluster ? inputCluster : outputCluster
+                property Thing destinationThing: destinationThings.count > 0 ? destinationThings.get(0) : null
+                ThingsProxy {
+                    id: destinationThings
+                    engine: _engine
+                    paramsFilter: {"ieeeAddress": bindingDelegate.binding.destinationAddress}
                 }
-                if (binding.destinationAddress != "") {
-                    if (binding.destinationAddress == coordinatorNode.ieeeAddress) {
-                        return Configuration.systemName
+
+                iconName: destinationNode && destinationNode == root.coordinatorNode
+                          ? "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+                          : destinationThing
+                            ? app.interfacesToIcon(destinationThing.thingClass.interfaces)
+                            : "/ui/images/zigbee.svg"
+                canDelete: true
+                progressive: false
+                text: {
+                    if (binding.destinationAddress == "") {
+                        return qsTr("Group: 0x%1").arg(NymeaUtils.pad(binding.groupAddress.toString(16), 4))
                     }
-                    return binding.destinationAddress
+                    var ret = ""
+                    if (destinationNode) {
+                        if (destinationNode == root.coordinatorNode) {
+                            ret += Configuration.systemName
+                        } else {
+                            ret += destinationNode.model
+                        }
+                    } else {
+                        ret += binding.destinationAddress
+                    }
+
+                    if (destinationThings.count == 1) {
+                        ret += " (" + destinationThings.get(0).name + ")"
+                    } else if (destinationThings.count > 1) {
+                        ret += " (" + destinationThing.count + " things)"
+                    }
+
+                    return ret
                 }
-                return qsTr("Group: 0x%1").arg(NymeaUtils.pad(binding.groupAddress.toString(16), 4))
+                subText: {
+                    var ret = usedCluster.clusterName();
+                    if (binding.destinationAddress != "") {
+                        ret += " (" + binding.sourceEndpointId + " -> " + binding.destinationEndpointId + ")"
+                    }
+                    return ret;
+                }
+                onDeleteClicked: {
+                    if (!node.rxOnWhenIdle) {
+                        d.wakeupDialog = wakeupDialogComponent.createObject(root)
+                        d.wakeupDialog.open()
+                    }
+                    d.pendingCommandId = zigbeeManager.removeBinding(network.networkUuid, binding)
+                }
             }
-            property ZigbeeNodeEndpoint endpoint: root.node.getEndpoint(binding.sourceEndpointId);
-            property ZigbeeCluster inputCluster: endpoint ? endpoint.getInputCluster(binding.clusterId) : null
-            property ZigbeeCluster outputCluster: endpoint ? endpoint.getOutputCluster(binding.clusterId) : null
-            property ZigbeeCluster usedCluster: inputCluster ? inputCluster : outputCluster
-            subText: {
-                var ret = usedCluster.clusterName();
-                if (binding.destinationAddress != "") {
-                    ret += " (" + binding.sourceEndpointId + " -> " + binding.destinationEndpointId + ")"
-                }
-                return ret;
-            }
-            onDeleteClicked: {
-                if (!node.rxOnWhenIdle) {
-                    d.wakeupDialog = wakeupDialogComponent.createObject(root)
-                    d.wakeupDialog.open()
-                }
-                d.pendingCommandId = zigbeeManager.removeBinding(network.networkUuid, binding)
+        }
+
+        Button {
+            Layout.fillWidth: true
+            Layout.leftMargin: Style.margins
+            Layout.rightMargin: Style.margins
+            text: qsTr("Add binding")
+            onClicked: {
+                var dialog = addBindingComponent.createObject(root)
+                dialog.open()
+
             }
         }
     }
 
-    Button {
-        Layout.fillWidth: true
-        Layout.leftMargin: Style.margins
-        Layout.rightMargin: Style.margins
-        text: qsTr("Add binding")
-        onClicked: {
-            var dialog = addBindingComponent.createObject(root)
-            dialog.open()
 
-        }
-    }
 
 
 
@@ -382,27 +406,85 @@ SettingsPageBase {
             ComboBox {
                 id: destinationNodeComboBox
                 Layout.fillWidth: true
+                Layout.preferredHeight: Style.delegateHeight
                 model: network.nodes
-                displayText: currentDestinationNodeThings.count > 0
-                             ? currentDestinationNodeThings.get(0).name
-                             : currentNode == root.coordinatorNode
-                               ? Configuration.systemName
-                               : currentNode.model
                 property ZigbeeNode currentNode: network.nodes.get(currentIndex)
+                property Thing currentNodeThing: currentNode && currentDestinationNodeThings.count > 0 ? currentDestinationNodeThings.get(0) : null
                 ThingsProxy {
                     id: currentDestinationNodeThings
                     engine: _engine
-                    paramsFilter: {"ieeeAddress": destinationNodeDelegate.node.ieeeAddress}
+                    paramsFilter: destinationNodeComboBox.currentNode ? {"ieeeAddress": destinationNodeComboBox.currentNode.ieeeAddress} : {}
                 }
-                delegate: ItemDelegate {
+
+                contentItem: RowLayout {
+                    id: destinationNodeContentItem
+                    width: parent.width - destinationNodeComboBox.indicator.width - Style.smallMargins
+                    height: Style.delegateHeight
+                    spacing: Style.smallMargins
+
+                    ColorIcon {
+                        Layout.leftMargin: Style.smallMargins
+                        size: Style.iconSize
+                        name: destinationNodeComboBox.currentNode == root.coordinatorNode
+                              ? "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+                              : destinationNodeComboBox.currentNodeThing
+                                ? app.interfacesToIcon(destinationNodeComboBox.currentNodeThing.thingClass.interfaces)
+                                : "/ui/images/zigbee.svg"
+                        color: Style.accentColor
+                    }
+
+                    ColumnLayout {
+                        Label {
+                            Layout.fillWidth: true
+                            text: destinationNodeComboBox.currentNode == root.coordinatorNode
+                                  ? Configuration.systemName
+                                  : destinationNodeComboBox.currentNode.model + " - " + destinationNodeComboBox.currentNode.manufacturer
+                            elide: Text.ElideRight
+                        }
+                        Label {
+                            Layout.fillWidth: true
+                            text: destinationNodeComboBox.currentNode == root.coordinatorNode
+                                  ? qsTr("Coordinator")
+                                  : currentDestinationNodeThings.count == 1
+                                    ? destinationNodeComboBox.currentNodeThing.name
+                                    : currentDestinationNodeThings.count > 1
+                                      ? qsTr("%1 things").arg(currentDestinationNodeThings.count)
+                                      : qsTr("Unrecognized device")
+                            font: Style.smallFont
+                            elide: Text.ElideRight
+                        }
+                    }
+                }
+//                displayText: currentDestinationNodeThings.count > 0
+//                             ? currentDestinationNodeThings.get(0).name
+//                             : currentNode == root.coordinatorNode
+//                               ? Configuration.systemName
+//                               : currentNode.model
+//                ThingsProxy {
+//                    id: currentDestinationNodeThings
+//                    engine: _engine
+//                    paramsFilter: {"ieeeAddress": destinationNodeComboBox.currentNode.ieeeAddress}
+//                }
+                delegate: NymeaItemDelegate {
                     id: destinationNodeDelegate
                     property ZigbeeNode node: network.nodes.get(index)
+                    property Thing nodeThing: destinationNodeThings.count > 0 ? destinationNodeThings.get(0) : null
+                    iconName: node == coordinatorNode
+                              ? "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+                              : nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "/ui/images/zigbee.svg"
                     width: parent.width
-                    text: destinationNodeThings.count > 0
-                          ? destinationNodeThings.get(0).name
-                          : node == root.coordinatorNode
-                            ? Configuration.systemName
-                            : node.model
+                    text: node == root.coordinatorNode
+                          ? Configuration.systemName
+                          : node.model + " - " + node.manufacturer
+                    subText: node == root.coordinatorNode
+                             ? qsTr("Coordinator")
+                             : destinationNodeThings.count == 1
+                               ? nodeThing.name
+                               : nodeThings.count > 1
+                                 ? qsTr("%1 things").arg(nodeThings.count)
+                                 : qsTr("Unrecognized device")
+                    progressive: false
+
                     ThingsProxy {
                         id: destinationNodeThings
                         engine: _engine

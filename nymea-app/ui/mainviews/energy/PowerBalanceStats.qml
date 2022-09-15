@@ -49,12 +49,12 @@ StatsBase {
             }
 
             var upcomingTimestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.config.count)
-            print("refreshing config start", d.config.startTime(), "upcoming:", upcomingTimestamp, "fetchPending", d.fetchPending)
+//            print("refreshing config start", d.config.startTime(), "upcoming:", upcomingTimestamp, "fetchPending", d.fetchPending)
             for (var i = 0; i < d.config.count; i++) {
                 var timestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + i + 1)
                 var previousTimestamp = root.calculateTimestamp(timestamp, d.config.sampleRate, -1)
                 var entry = powerBalanceLogs.find(timestamp)
-                print("timestamp:", timestamp, "found", (entry ? entry.timestamp : ""))
+//                print("timestamp:", timestamp, "found", (entry ? entry.timestamp : ""))
                 var previousEntry = powerBalanceLogs.find(previousTimestamp);
                 if (entry && (previousEntry || !d.loading)) {
 //                    print("found entry:", entry.timestamp, previousEntry)

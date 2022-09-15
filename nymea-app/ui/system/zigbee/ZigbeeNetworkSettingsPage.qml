@@ -91,7 +91,8 @@ SettingsPageBase {
 
     NymeaItemDelegate {
         Layout.fillWidth: true
-        text: qsTr("Network topology")
+        text: qsTr("Network map")
+        visible: engine.jsonRpcClient.ensureServerVersion("6.2")
         onClicked: {
             pageStack.push(Qt.resolvedUrl("ZigbeeNetworkTopologyPage.qml"), {zigbeeManager: root.zigbeeManager, network: root.network})
         }
