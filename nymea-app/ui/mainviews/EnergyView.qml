@@ -113,20 +113,20 @@ MainViewBase {
                 columnSpacing: 0
 
 
-//                CurrentConsumptionBalancePieChart {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    energyManager: energyManager
-//                    visible: producers.count > 0
-//                    animationsEnabled: Qt.application.active && root.isCurrentItem
-//                }
-//                CurrentProductionBalancePieChart {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    energyManager: energyManager
-//                    visible: producers.count > 0
-//                    animationsEnabled: Qt.application.active && root.isCurrentItem
-//                }
+                CurrentConsumptionBalancePieChart {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                    visible: producers.count > 0
+                    animationsEnabled: Qt.application.active && root.isCurrentItem
+                }
+                CurrentProductionBalancePieChart {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                    visible: producers.count > 0
+                    animationsEnabled: Qt.application.active && root.isCurrentItem
+                }
 
                 PowerConsumptionBalanceHistory {
                     Layout.fillWidth: true
@@ -134,46 +134,46 @@ MainViewBase {
                     visible: producers.count > 0
                 }
 
-//                PowerProductionBalanceHistory {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    visible: producers.count > 0
-//                }
+                PowerProductionBalanceHistory {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    visible: producers.count > 0
+                }
 
-//                ConsumersPieChart {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    energyManager: energyManager
-//                    visible: consumers.count > 0
-//                    colors: root.thingColors
-//                    consumers: consumers
-//                    animationsEnabled: Qt.application.active && root.isCurrentItem
-//                }
+                ConsumersPieChart {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                    visible: consumers.count > 0
+                    colors: root.thingColors
+                    consumers: consumers
+                    animationsEnabled: Qt.application.active && root.isCurrentItem
+                }
 
-//                ConsumersHistory {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    visible: consumers.count > 0 || rootMeter != null
-//                    colors: root.thingColors
-//                    consumers: consumers
-//                }
+                ConsumersHistory {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    visible: consumers.count > 0 || rootMeter != null
+                    colors: root.thingColors
+                    consumers: consumers
+                }
 
-//                PowerBalanceStats {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    energyManager: energyManager
-//                    visible: rootMeter != null || producers.count > 0
-//                    producers: producers
-//                }
+                PowerBalanceStats {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                    visible: rootMeter != null || producers.count > 0
+                    producers: producers
+                }
 
-//                ConsumerStats {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    energyManager: energyManager
-//                    visible: consumers.count > 0
-//                    colors: root.thingColors
-//                    consumers: consumers
-//                }
+                ConsumerStats {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: width
+                    energyManager: energyManager
+                    visible: consumers.count > 0
+                    colors: root.thingColors
+                    consumers: consumers
+                }
             }
         }
     }
