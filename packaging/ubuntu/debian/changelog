@@ -1,3 +1,11 @@
+nymea-app (1.4.19) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix destination node selection for Zigbee bindings
+  * Re-enable energy charts
+
+ -- jenkins <developer@nymea.io>  Fri, 16 Sep 2022 00:44:07 +0200
+
 nymea-app (1.4.18) bionic; urgency=medium
 
   [ Michael Zanetti ]
