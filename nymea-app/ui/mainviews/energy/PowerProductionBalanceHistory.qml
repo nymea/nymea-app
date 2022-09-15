@@ -160,7 +160,7 @@ Item {
                 ActivityIndicator {
                     x: chartView.plotArea.x + (chartView.plotArea.width - width) / 2
                     y: chartView.plotArea.y + (chartView.plotArea.height - height) / 2 + (chartView.plotArea.height / 8)
-                    visible: powerBalanceLogs.fetchingData && powerBalanceLogs.get(0).timestamp > d.startTime
+                    visible: powerBalanceLogs.fetchingData && (powerBalanceLogs.count == 0 || powerBalanceLogs.get(0).timestamp > d.startTime)
                     opacity: .5
                 }
                 Label {
@@ -481,7 +481,7 @@ Item {
                     backgroundRect: Qt.rect(mouseArea.x + toolTip.x, mouseArea.y + toolTip.y, toolTip.width, toolTip.height)
 
                     property int idx: Math.min(d.visibleValues, Math.max(0, Math.ceil(mouseArea.mouseX * d.visibleValues / mouseArea.width)))
-                    property var timestamp: new Date(d.startTime.getTime() + (idx * d.sampleRate * 60000))
+                    property var timestamp: new Date(Math.min(d.endTime.getTime(), Math.max(d.startTime, d.startTime.getTime() + (idx * d.sampleRate * 60000))))
                     property PowerBalanceLogEntry entry: powerBalanceLogs.find(timestamp)
 
                     property int xOnRight: Math.max(0, mouseArea.mouseX) + Style.smallMargins

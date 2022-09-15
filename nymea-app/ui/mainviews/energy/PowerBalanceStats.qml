@@ -35,21 +35,26 @@ StatsBase {
 
         onConfigChanged: valueAxis.max = 1
         onStartOffsetChanged: {
+            print("start offset changed", startOffset)
 //            print("updating because of offset change. fetchingData", powerBalanceLogs.fetchingData, "fetchPending", d.fetchPending)
             refresh()
         }
+        onStartTimeChanged: {
+            print("start time changed", startTime)
+        }
+
         function refresh() {
             if (powerBalanceLogs.loadingInhibited) {
                 return;
             }
 
             var upcomingTimestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.config.count)
-//            print("refreshing config start", d.config.startTime(), "upcoming:", upcomingTimestamp, "fetchPending", d.fetchPending)
+            print("refreshing config start", d.config.startTime(), "upcoming:", upcomingTimestamp, "fetchPending", d.fetchPending)
             for (var i = 0; i < d.config.count; i++) {
                 var timestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + i + 1)
                 var previousTimestamp = root.calculateTimestamp(timestamp, d.config.sampleRate, -1)
-//                print("timestamp:", timestamp)
                 var entry = powerBalanceLogs.find(timestamp)
+                print("timestamp:", timestamp, "found", (entry ? entry.timestamp : ""))
                 var previousEntry = powerBalanceLogs.find(previousTimestamp);
                 if (entry && (previousEntry || !d.loading)) {
 //                    print("found entry:", entry.timestamp, previousEntry)
@@ -246,10 +251,10 @@ StatsBase {
 
                         categories: {
                             var ret = []
-                            print("Updating categories from", d.config.startTime())
+//                            print("Updating categories from", d.config.startTime())
                             for (var i = 0; i < d.config.count; i++) {
                                 var timestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + i);
-                                print("*** adding", timestamp, d.startOffset, i)
+//                                print("*** adding", timestamp, d.startOffset, i)
                                 ret.push(d.config.toLabel(timestamp))
                             }
                             return ret;

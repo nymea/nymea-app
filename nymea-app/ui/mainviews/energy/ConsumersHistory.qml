@@ -318,31 +318,37 @@ Item {
                         readonly property Thing thing: consumers.get(index)
                         property AreaSeries series: null
 
-
-                        function getBaseValue(timestamp) {
-                            var ret = 0
+                        function calculateBaseValue(timestamp) {
                             if (index > 0) {
-                                ret = consumersRepeater.itemAt(index - 1).getBaseValue(timestamp)
+                                return consumersRepeater.itemAt(index - 1).calculateValue(timestamp)
                             }
+                            return 0
+                        }
+
+                        function calculateValue(timestamp) {
+                            var ret = calculateBaseValue(timestamp)
 
                             var entry = logs.find(timestamp)
                             if (entry) {
                                 ret += entry.currentPower;
                             }
+
+//                            print("calculating value for", thing.name, timestamp, ret)
                             return ret
                         }
 
                         function insertEntry(idx, entry) {
-                            var baseValue = 0;
-                            if (index > 0) {
-                                baseValue = consumersRepeater.itemAt(index - 1).getBaseValue(entry.timestamp)
-                            }
-                            series.upperSeries.insert(idx, entry.timestamp.getTime(), entry.currentPower + baseValue)
+//                            print("inserting entry for", thing.name, entry.timestamp)
+
+                            var baseValue = calculateBaseValue(entry.timestamp);
+                            series.lowerSeries.insert(idx, entry.timestamp.getTime(), baseValue)
+                            series.upperSeries.insert(idx, entry.timestamp.getTime(), baseValue + entry.currentPower)
                         }
 
                         function addEntries(index, entries) {
-                            print("adding entries for", thing.name)
+//                            print("adding entries for", thing.name)
                             // Remove the leading 0-value entry
+                            series.lowerSeries.removePoints(0, 1);
                             series.upperSeries.removePoints(0, 1);
 
                             for (var i = 0; i < entries.length; i++) {
@@ -359,6 +365,7 @@ Item {
                             }
 
                             // Add the leading 0-value entry back
+                            series.lowerSeries.insert(0, series.upperSeries.at(0).x, 0)
                             series.upperSeries.insert(0, series.upperSeries.at(0).x, 0)
                         }
 
@@ -381,11 +388,14 @@ Item {
 
                             onEntriesRemoved: {
                                 // Remove the leading 0-value entry
+                                consumerDelegate.series.lowerSeries.removePoints(0, 1);
                                 consumerDelegate.series.upperSeries.removePoints(0, 1);
 
+                                consumerDelegate.series.lowerSeries.removePoints(index, count)
                                 consumerDelegate.series.upperSeries.removePoints(index, count)
 
                                 // Add the leading 0-value entry back
+                                consumerDelegate.series.lowerSeries.insert(0, consumerDelegate.series.upperSeries.at(0).x, 0)
                                 consumerDelegate.series.upperSeries.insert(0, consumerDelegate.series.upperSeries.at(0).x, 0)
 
                                 zeroSeries.shrink()
@@ -409,13 +419,14 @@ Item {
 
                         Component.onCompleted: {
                             series = chartView.createSeries(ChartView.SeriesTypeArea, thing.name, dateTimeAxis, valueAxis)
-                            series.lowerSeries = index == 0 ? zeroSeries : consumersRepeater.itemAt(index - 1).series.upperSeries
+                            series.lowerSeries = lineSeriesComponent.createObject(series)
                             series.upperSeries = lineSeriesComponent.createObject(series)
                             series.color = NymeaUtils.generateColor(Style.generationBaseColor, index)
                             series.borderWidth = 0;
                             series.borderColor = series.color
 
                             // Add a first point at 0 value
+                            series.lowerSeries.insert(0, new Date().getTime(), 0)
                             series.upperSeries.insert(0, new Date().getTime(), 0)
                         }
 
@@ -554,7 +565,7 @@ Item {
                     backgroundRect: Qt.rect(mouseArea.x + toolTip.x, mouseArea.y + toolTip.y, toolTip.width, toolTip.height)
 
                     property int idx: Math.min(d.visibleValues, Math.max(0, Math.ceil(mouseArea.mouseX * d.visibleValues / mouseArea.width)))
-                    property date timestamp: new Date(d.startTime.getTime() + (idx * d.sampleRate * 60000))
+                    property var timestamp: new Date(Math.min(d.endTime.getTime(), Math.max(d.startTime, d.startTime.getTime() + (idx * d.sampleRate * 60000))))
                     property PowerBalanceLogEntry entry: powerBalanceLogs.find(timestamp)
 
                     property int xOnRight: Math.max(0, mouseArea.mouseX) + Style.smallMargins
@@ -574,7 +585,7 @@ Item {
                             margins: Style.smallMargins
                         }
                         Label {
-                            text: toolTip.entry.timestamp.toLocaleString(Qt.locale(), Locale.ShortFormat)
+                            text: toolTip.entry ? toolTip.entry.timestamp.toLocaleString(Qt.locale(), Locale.ShortFormat) : 0
                             font: Style.smallFont
                         }
                         RowLayout {
