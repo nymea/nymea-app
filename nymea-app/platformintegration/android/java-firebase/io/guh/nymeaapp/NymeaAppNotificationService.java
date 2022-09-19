@@ -52,11 +52,11 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        // We can't directly access R.drawable.ic_stat_notification from here:
+        // We can't directly access R.drawable.notificationicon from here:
         // When the package is branded, the package name is not "io.guh.nymeaapp" and resources in
         // the res/ folder are built into the app's package which isn't the same as this files package.
         // Because of this, we need to dynamically fetch the resource from the package resources
-        int resId = getResources().getIdentifier("ic_stat_notificationicon", "drawable", getPackageName());
+        int resId = getResources().getIdentifier("notificationicon", "drawable", getPackageName());
 
         Log.d(TAG, "notification icon resource: " + resId + " Package:" + getPackageName());
 
