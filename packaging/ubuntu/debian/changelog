@@ -1,3 +1,10 @@
+nymea-app (1.4.20) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for Android themed icons
+
+ -- jenkins <developer@nymea.io>  Tue, 20 Sep 2022 01:10:33 +0200
+
 nymea-app (1.4.19) bionic; urgency=medium
 
   [ Michael Zanetti ]
