@@ -193,8 +193,10 @@ EnergyLogEntry *EnergyLogs::find(const QDateTime &timestamp)
 
     int index = qRound(1.0 * first.secsTo(timestamp) / (m_sampleRate * 60));
     if (index < 0 || index >= m_list.count()) {
+//        qWarning() << "finding:" << timestamp << index << first.toString() << "NOT FOUND" << m_list.last()->timestamp();
         return nullptr;
     }
+//    qWarning() << "finding:" << timestamp << index << first.toString() << m_list.at(index)->timestamp();
     return m_list.at(index);
 }
 
