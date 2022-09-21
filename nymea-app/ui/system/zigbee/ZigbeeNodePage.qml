@@ -524,27 +524,38 @@ SettingsPageBase {
                         return ret;
                     }
 
-                    for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.outputClusters.length; i++) {
-                        var outputCluster = sourceEndpointComboBox.currentEndpoint.outputClusters[i]
-                        print("source has cluster", outputCluster.clusterId)
-                        for (var j = 0; j < destinationEndpointComboBox.currentEndpoint.inputClusters.length; j++) {
-                            var inputCluster = destinationEndpointComboBox.currentEndpoint.inputClusters[j]
-                            print("destination has cluster", inputCluster.clusterId)
-                            if (inputCluster.clusterId === outputCluster.clusterId && inputCluster.direction !== outputCluster.direction) {
-                                ret.push(outputCluster);
-                                break;
+                    if (destinationNodeComboBox.currentNode == root.coordinatorNode) {
+                        for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.outputClusters.length; i++) {
+                            var outputCluster = sourceEndpointComboBox.currentEndpoint.outputClusters[i]
+                            ret.push(outputCluster)
+                        }
+                        for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.inputClusters.length; i++) {
+                            var inputCluster = sourceEndpointComboBox.currentEndpoint.inputClusters[i]
+                            ret.push(inputCluster)
+                        }
+                    } else {
+                        for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.outputClusters.length; i++) {
+                            var outputCluster = sourceEndpointComboBox.currentEndpoint.outputClusters[i]
+                            print("source has cluster", outputCluster.clusterId)
+                            for (var j = 0; j < destinationEndpointComboBox.currentEndpoint.inputClusters.length; j++) {
+                                var inputCluster = destinationEndpointComboBox.currentEndpoint.inputClusters[j]
+                                print("destination has cluster", inputCluster.clusterId)
+                                if (inputCluster.clusterId === outputCluster.clusterId && inputCluster.direction !== outputCluster.direction) {
+                                    ret.push(outputCluster);
+                                    break;
+                                }
                             }
                         }
-                    }
-                    for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.inputClusters.length; i++) {
-                        var inputCluster = sourceEndpointComboBox.currentEndpoint.inputClusters[i]
-                        print("source has cluster", inputCluster.clusterId)
-                        for (var j = 0; j < destinationEndpointComboBox.currentEndpoint.outputClusters.length; j++) {
-                            var outputCluster = destinationEndpointComboBox.currentEndpoint.outputClusters[j]
-                            print("destination has cluster", outputCluster.clusterId)
-                            if (inputCluster.clusterId === outputCluster.clusterId && inputCluster.direction !== outputCluster.direction) {
-                                ret.push(inputCluster);
-                                break;
+                        for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.inputClusters.length; i++) {
+                            var inputCluster = sourceEndpointComboBox.currentEndpoint.inputClusters[i]
+                            print("source has cluster", inputCluster.clusterId)
+                            for (var j = 0; j < destinationEndpointComboBox.currentEndpoint.outputClusters.length; j++) {
+                                var outputCluster = destinationEndpointComboBox.currentEndpoint.outputClusters[j]
+                                print("destination has cluster", outputCluster.clusterId)
+                                if (inputCluster.clusterId === outputCluster.clusterId && inputCluster.direction !== outputCluster.direction) {
+                                    ret.push(inputCluster);
+                                    break;
+                                }
                             }
                         }
                     }
