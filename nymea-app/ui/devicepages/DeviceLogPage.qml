@@ -163,7 +163,7 @@ Page {
             width: parent.width
 
             property StateType stateType: model.source === LogEntry.LoggingSourceStates ? root.thing.thingClass.stateTypes.getStateType(model.typeId) : null
-            property EventType eventType: model.source === LogEntry.LoggingSourceEvents || model.source === LogEntry.LoggingSourceStates ? root.thing.thingClass.eventTypes.getEventType(model.typeId) : null
+            property EventType eventType: model.source === LogEntry.LoggingSourceEvents ? root.thing.thingClass.eventTypes.getEventType(model.typeId) : null
             property ActionType actionType: model.source === LogEntry.LoggingSourceActions ? root.thing.thingClass.actionTypes.getActionType(model.typeId) : null
 
             contentItem: RowLayout {
@@ -248,12 +248,7 @@ Page {
 
                                     }
                                 case LogEntry.LoggingSourceActions:
-                                    switch (entryDelegate.stateType.type.toLowerCase()) {
-                                    case "bool":
-                                        return boolComponent;
-                                    }
-
-                                    break;
+                                    return labelComponent;
                                 case LogEntry.LoggingSourceEvents:
 
                                     break;
@@ -261,11 +256,53 @@ Page {
 
                                 return labelComponent
                             }
-                            Binding { target: valueLoader.item; property: "value"; value: entryDelegate.stateType ? Types.toUiValue(model.value, entryDelegate.stateType.unit) : model.value }
                             Binding {
+                                when: entryDelegate.stateType != null
+                                target: valueLoader.item;
+                                property: "value";
+                                value: entryDelegate.stateType ? Types.toUiValue(model.value, entryDelegate.stateType.unit) : model.value
+                            }
+                            Binding {
+                                when: entryDelegate.stateType != null
                                 target: entryDelegate.stateType && valueLoader.item.hasOwnProperty("unitString") ? valueLoader.item : null;
                                 property: "unitString"
                                 value: entryDelegate.stateType ? Types.toUiUnit(entryDelegate.stateType.unit) : ""
+                            }
+                            Binding {
+                                when: entryDelegate.actionType != null
+                                target: valueLoader.item;
+                                property: "value";
+                                value: {
+                                    if (entryDelegate.actionType == null) {
+                                        return ""
+                                    }
+
+                                    var ret = ""
+                                    var values = model.value.split(",")
+                                    for (var i = 0; i < entryDelegate.actionType.paramTypes.count; i++) {
+                                        var paramType = entryDelegate.actionType.paramTypes.get(i)
+                                        ret += Types.toUiValue(values[i], paramType.unit) + " " + Types.toUiUnit(paramType.unit)
+                                    }
+                                    return ret
+                                }
+                            }
+                            Binding {
+                                when: entryDelegate.eventType != null
+                                target: valueLoader.item;
+                                property: "value";
+                                value: {
+                                    if (entryDelegate.eventType == null) {
+                                        return ""
+                                    }
+
+                                    var ret = ""
+                                    var values = model.value.split(",")
+                                    for (var i = 0; i < entryDelegate.eventType.paramTypes.count; i++) {
+                                        var paramType = entryDelegate.eventType.paramTypes.get(i)
+                                        ret += Types.toUiValue(values[i], paramType.unit) + " " + Types.toUiUnit(paramType.unit)
+                                    }
+                                    return ret
+                                }
                             }
                         }
                     }
