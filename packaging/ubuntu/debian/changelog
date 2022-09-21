@@ -1,3 +1,11 @@
+nymea-app (1.4.21) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow binding all clusters to the coordinator
+  * Fix params for actions in the generic log page
+
+ -- jenkins <developer@nymea.io>  Wed, 21 Sep 2022 16:02:05 +0200
+
 nymea-app (1.4.20) bionic; urgency=medium
 
   [ Michael Zanetti ]
