@@ -1,3 +1,13 @@
+nymea-app (1.4.22) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix placeholder replacement for interface based rule templates
+  * Fix things info for Zigbee nodes with multiple things
+  * Another fix for the energy tooltips
+  * Fix occational duplicate entries in consumer stats
+
+ -- jenkins <developer@nymea.io>  Sat, 24 Sep 2022 13:28:44 +0200
+
 nymea-app (1.4.21) bionic; urgency=medium
 
   [ Michael Zanetti ]
