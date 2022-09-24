@@ -43,23 +43,26 @@ CodeCompletion::CodeCompletion(QObject *parent):
     QObject(parent)
 {
     m_classes.insert("Item", ClassInfo("Item", {"id"}));
-    m_classes.insert("ThingAction", ClassInfo("ThingAction", {"id", "thingId", "actionTypeId", "actionName"}, {"execute"}));
-    m_classes.insert("ThingState", ClassInfo("ThingState", {"id", "thingId", "stateTypeId", "stateName", "value", "minimumValue", "maximumValue"}, {}, {"onValueChanged"}));
-    m_classes.insert("ThingEvent", ClassInfo("ThingEvent", {"id", "thingId", "eventTypeId", "eventName"}, {}, {"onTriggered"}));
-    m_classes.insert("InterfaceAction", ClassInfo("InterfaceAction", {"id", "interfaceName", "actionName"}, {"execute"}));
-    m_classes.insert("InterfaceEvent", ClassInfo("InterfaceEvent", {"id", "interfaceName", "eventName"}, {}, {"onTriggered"}));
-    m_classes.insert("Timer", ClassInfo("Timer", {"id", "interval", "running", "repeat"}, {"start", "stop"}, {"onTriggered"}));
-    m_classes.insert("Alarm", ClassInfo("Alarm", {"id", "time", "endTime", "weekDays", "active"}, {}, {"onTriggered", "onActiveChanged"}));
-    m_classes.insert("PropertyAnimation", ClassInfo("PropertyAnimation", {"id", "target", "targets", "property", "properties", "value", "from", "to", "easing", "exclude", "duration", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
-    m_classes.insert("ColorAnimation", ClassInfo("ColorAnimation", {"id", "target", "targets", "property", "properties", "value", "from", "to", "easing", "exclude", "duration", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
-    m_classes.insert("SequentialAnimation", ClassInfo("SequentialAnimation", {"id", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
-    m_classes.insert("ParallelAnimation", ClassInfo("ParallelAnimation", {"id", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
-    m_classes.insert("PauseAnimation", ClassInfo("PauseAnimation", {"id", "duration", "alwaysRunToEnd", "loops", "paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
-    m_classes.insert("ListModel", ClassInfo("ListModel", {}, {"clear", "append"}, {}));
-    m_classes.insert("ListElement", ClassInfo("ListElement", {}, {}, {}));
-    m_classes.insert("Repeater", ClassInfo("Repeater", {"model", "delegate", "count"}, {"itemAt"}, {"onCountChanged"}));
+    m_classes.insert("ThingAction", ClassInfo("ThingAction", {"id", "thingId", "actionTypeId", "actionName"}, {}, {"execute"}));
+    m_classes.insert("ThingState", ClassInfo("ThingState", {"id", "thingId", "stateTypeId", "stateName", "value"}, {"minimumValue", "maximumValue"}, {}, {"onValueChanged"}));
+    m_classes.insert("ThingEvent", ClassInfo("ThingEvent", {"id", "thingId", "eventTypeId", "eventName"}, {}, {}, {"onTriggered"}));
+    m_classes.insert("InterfaceAction", ClassInfo("InterfaceAction", {"id", "interfaceName", "actionName"}, {}, {"execute"}));
+    m_classes.insert("InterfaceEvent", ClassInfo("InterfaceEvent", {"id", "interfaceName", "eventName"}, {}, {}, {"onTriggered"}));
+    m_classes.insert("InterfaceState", ClassInfo("InterfaceState", {"id", "interfaceName", "stateName"}, {}, {}, {"onStateChanged"}));
+    m_classes.insert("Thing", ClassInfo("Thing", {"id", "thingId"}, {"name"}, {"executeAction", "setStateValue"}, {"onEventTriggered", "onStateValueChanged"}));
+    m_classes.insert("Things", ClassInfo("Things", {"id", "filterInterface"}, {"count"}, {"get", "getThing"}, {"onThingAdded", "onThingRemoved", "onCountChanged"}));
+    m_classes.insert("Timer", ClassInfo("Timer", {"id", "interval", "running", "repeat"}, {}, {"start", "stop"}, {"onTriggered"}));
+    m_classes.insert("Alarm", ClassInfo("Alarm", {"id", "time", "endTime", "weekDays"}, {"active"}, {}, {"onTriggered", "onActiveChanged"}));
+    m_classes.insert("PropertyAnimation", ClassInfo("PropertyAnimation", {"id", "target", "targets", "property", "properties", "value", "from", "to", "easing", "exclude", "duration", "alwaysRunToEnd", "loops"}, {"paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
+    m_classes.insert("ColorAnimation", ClassInfo("ColorAnimation", {"id", "target", "targets", "property", "properties", "value", "from", "to", "easing", "exclude", "duration", "alwaysRunToEnd", "loops"}, {"paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
+    m_classes.insert("SequentialAnimation", ClassInfo("SequentialAnimation", {"id", "alwaysRunToEnd", "loops"}, {"paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
+    m_classes.insert("ParallelAnimation", ClassInfo("ParallelAnimation", {"id", "alwaysRunToEnd", "loops"}, {"paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
+    m_classes.insert("PauseAnimation", ClassInfo("PauseAnimation", {"id", "duration", "alwaysRunToEnd", "loops"}, {"paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
+    m_classes.insert("ListModel", ClassInfo("ListModel", {}, {"count"}, {"clear", "append", "get"}, {}));
+    m_classes.insert("ListElement", ClassInfo("ListElement", {}, {}, {}, {}));
+    m_classes.insert("Repeater", ClassInfo("Repeater", {"model", "delegate"}, {"count"}, {"itemAt"}, {"onCountChanged"}));
 
-    m_attachedClasses.insert("Component", ClassInfo("Component", {}, {}, {"onCompleted", "onDestruction", "onDestroyed"}));
+    m_attachedClasses.insert("Component", ClassInfo("Component", {}, {}, {}, {"onCompleted", "onDestruction", "onDestroyed"}));
     m_attachedClasses.insert("Alarm", ClassInfo("Alarm", {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "AllDays"}, {}, {}));
     m_attachedClasses.insert("Animation", ClassInfo("Animation", {"Infinite"}, {}, {}));
 
@@ -74,8 +77,8 @@ CodeCompletion::CodeCompletion(QObject *parent):
     m_genericJsSyntax.insert("else", "else ");
     m_genericJsSyntax.insert("print", "print");
 
-    m_jsClasses.insert("console", ClassInfo("console", {}, {"log", "warn"}));
-    m_jsClasses.insert("JSON", ClassInfo("JSON", {}, {"stringify", "parse", "hasOwnProperty", "isPrototypeOf", "toString", "valueOf", "toLocaleString", "propertyIsEnumerable"}));
+    m_jsClasses.insert("console", ClassInfo("console", {}, {}, {"log", "warn"}));
+    m_jsClasses.insert("JSON", ClassInfo("JSON", {}, {}, {"stringify", "parse", "hasOwnProperty", "isPrototypeOf", "toString", "valueOf", "toLocaleString", "propertyIsEnumerable"}));
 
     m_model = new CompletionModel(this);
     m_proxy = new CompletionProxyModel(m_model, this);
@@ -211,22 +214,33 @@ void CodeCompletion::update()
         BlockInfo info = getBlockInfo(m_cursor.position());
         qDebug() << "stateName block info" << info.name << info.properties;
         QString thingId;
-        if (!info.properties.contains("thingId")) {
+        Interfaces ifaces;
+        StateTypes *stateTypes = nullptr;
+        if (info.properties.contains("thingId")) {
+            thingId = info.properties.value("thingId");
+
+            qDebug() << "selected thingId" << thingId;
+            Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
+            if (!thing) {
+                return;
+            }
+            stateTypes = thing->thingClass()->stateTypes();
+
+        } else if (info.properties.contains("interfaceName")) {
+            QString interfaceName = info.properties.value("interfaceName");
+            Interface *iface = ifaces.findByName(interfaceName);
+            if (!iface) {
+                return;
+            }
+            stateTypes = iface->stateTypes();
+        } else {
             return;
         }
-        thingId = info.properties.value("thingId");
-
-        qDebug() << "selected thingId" << thingId;
-        Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
-        if (!thing) {
-            return;
-        }
-        qDebug() << "Thing is" << thing->name();
-
-        for (int i = 0; i < thing->thingClass()->stateTypes()->rowCount(); i++) {
-            StateType *stateType = thing->thingClass()->stateTypes()->get(i);
+        for (int i = 0; i < stateTypes->rowCount(); i++) {
+            StateType *stateType = stateTypes->get(i);
             entries.append(CompletionModel::Entry(stateType->name() + "\"", stateType->name(), "stateType"));
         }
+
         blockText.remove(QRegExp(".*stateName: \""));
         m_model->update(entries);
         m_proxy->setFilter(blockText);
@@ -263,8 +277,8 @@ void CodeCompletion::update()
     QRegExp actionNameExp(".*actionName: \"[a-zA-Z0-9-]*");
     if (actionNameExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
-        Interfaces ifaces;
 
+        Interfaces ifaces;
         ActionTypes *actionTypes = nullptr;
 
         if (info.properties.contains("thingId")) {
@@ -359,7 +373,7 @@ void CodeCompletion::update()
         return;
     }
 
-    QRegExp interfaceNameExp(".*interfaceName: \"[a-zA-Z]*");
+    QRegExp interfaceNameExp(".*(interfaceName|filterInterface): \"[a-zA-Z]*");
     if (interfaceNameExp.exactMatch(blockText)) {
         BlockInfo info = getBlockInfo(m_cursor.position());
 
@@ -369,7 +383,7 @@ void CodeCompletion::update()
             entries.append(CompletionModel::Entry(iface->name() + "\"", iface->name(), "interface", iface->name()));
         }
         m_model->update(entries);
-        blockText.remove(QRegExp(".*interfaceName: \""));
+        blockText.remove(QRegExp(".*(interfaceName|filterInterface): \""));
         m_proxy->setFilter(blockText);
         emit hint();
         return;
@@ -437,6 +451,9 @@ void CodeCompletion::update()
         foreach (const QString &property, m_classes.value(type).properties) {
             entries.append(CompletionModel::Entry(property, property, "property"));
         }
+        foreach (const QString &property, m_classes.value(type).readOnlyProperties) {
+            entries.append(CompletionModel::Entry(property, property, "property"));
+        }
         // Append user-defined properties of the type
         foreach (const QString &property, blockInfo.properties.keys()) {
             CompletionModel::Entry entry(property, property, "property");
@@ -483,6 +500,9 @@ void CodeCompletion::update()
             entries.append(CompletionModel::Entry(function + "(", function, "method", "", ")"));
         }
         // Attached classes/properties
+        foreach (const QString &property, m_attachedClasses.value(id).readOnlyProperties) {
+            entries.append(CompletionModel::Entry(property, property, "property"));
+        }
         foreach (const QString &property, m_attachedClasses.value(id).properties) {
             entries.append(CompletionModel::Entry(property, property, "property"));
         }

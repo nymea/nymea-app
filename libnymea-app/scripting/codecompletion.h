@@ -108,10 +108,11 @@ private:
 
     class ClassInfo {
     public:
-        ClassInfo(const QString &name = QString(), const QStringList &properties = QStringList(), const QStringList &methods = QStringList(), const QStringList &events = QStringList()):
-            name(name), properties(properties), methods(methods), events(events) {}
+        ClassInfo(const QString &name = QString(), const QStringList &properties = QStringList(), const QStringList &readOnlyProperties = QStringList(), const QStringList &methods = QStringList(), const QStringList &events = QStringList()):
+            name(name), properties(properties), readOnlyProperties(readOnlyProperties), methods(methods), events(events) {}
         QString name;
         QStringList properties;
+        QStringList readOnlyProperties;
         QStringList methods;
         QStringList events;
     };
