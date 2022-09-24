@@ -58,15 +58,36 @@ Item {
         readonly property int visibleValues: range / sampleRate
 
         readonly property var startTime: {
-            var date = new Date(now);
+            var date = new Date(fixTime(now));
             date.setTime(date.getTime() - range * 60000 + 2000);
             return date;
         }
 
         readonly property var endTime: {
-            var date = new Date(now);
+            var date = new Date(fixTime(now));
             date.setTime(date.getTime() + 2000)
             return date;
+        }
+
+        function fixTime(timestamp) {
+            switch (sampleRate) {
+            case EnergyLogs.SampleRate1Min:
+                timestamp.setSeconds(0, 0)
+                break;
+            case EnergyLogs.SampleRate15Mins:
+                timestamp.setMinutes(timestamp.getMinutes() - timestamp.getMinutes() % 15, 0, 0)
+                break;
+            case EnergyLogs.SampleRate1Hour:
+                timestamp.setMinutes(0, 0, 0);
+                break;
+            case EnergyLogs.SampleRate3Hours:
+                timestamp.setHours(timestamp.getHours() % 3, 0, 0, 0);
+                break;
+            case EnergyLogs.SampleRate1Day:
+                timestamp.setHours(0, 0, 0, 0)
+                break;
+            }
+            return timestamp
         }
     }
 
@@ -564,7 +585,7 @@ Item {
                     backgroundItem: chartView
                     backgroundRect: Qt.rect(mouseArea.x + toolTip.x, mouseArea.y + toolTip.y, toolTip.width, toolTip.height)
 
-                    property int idx: Math.min(d.visibleValues, Math.max(0, Math.ceil(mouseArea.mouseX * d.visibleValues / mouseArea.width)))
+                    property int idx: Math.min(d.visibleValues, Math.max(0, Math.round(mouseArea.mouseX * d.visibleValues / mouseArea.width)))
                     property var timestamp: new Date(Math.min(d.endTime.getTime(), Math.max(d.startTime, d.startTime.getTime() + (idx * d.sampleRate * 60000))))
                     property PowerBalanceLogEntry entry: powerBalanceLogs.find(timestamp)
 

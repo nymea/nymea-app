@@ -273,7 +273,7 @@ StatsBase {
 
                         function adjustMax(newValue) {
                             if (max < newValue) {
-                                print("adjusting to new max", newValue)
+//                                print("adjusting to new max", newValue)
                                 max = newValue // Math.ceil(newValue / 100) * 100
                             }
                         }
@@ -457,6 +457,7 @@ StatsBase {
 
                     property int idx: visible ? Math.min(d.config.count -1, Math.max(0, Math.ceil(mouseArea.mouseX * d.config.count / mouseArea.width) - 1)) : 0
                     property date timestamp: root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + idx)
+                    onTimestampChanged: print("idx changed", idx, "timestamp", timestamp)
 
                     visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
 
