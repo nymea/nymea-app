@@ -88,7 +88,7 @@ public:
     QStringList filterInterfaceNames() const { return m_filterInterfaceNames; }
     void setFilterInterfaceNames(const QStringList &filterInterfaceNames) { if (m_filterInterfaceNames != filterInterfaceNames) { m_filterInterfaceNames = filterInterfaceNames; emit filterInterfaceNamesChanged(); invalidateFilter(); emit countChanged(); }}
     ThingsProxy* filterByThings() const { return m_filterThingsProxy; }
-    void setFilterByThings(ThingsProxy* filterThingsProxy) {if (m_filterThingsProxy !=  filterThingsProxy) { m_filterThingsProxy = filterThingsProxy; emit filterByThingsChanged(); invalidateFilter(); }}
+    void setFilterByThings(ThingsProxy* filterThingsProxy);
     Q_INVOKABLE RuleTemplate* get(int index) {
         if (index < 0 || index >= rowCount()) {
             return nullptr;

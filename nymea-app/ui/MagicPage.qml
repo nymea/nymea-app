@@ -59,10 +59,14 @@ Page {
     RuleTemplatesFilterModel {
         id: ruleTemplatesModel
         ruleTemplates: RuleTemplates {}
-        filterByThings: ThingsProxy { engine: _engine }
+        filterByThings: ThingsProxy {
+            id: templatesThingsProxy
+            engine: _engine
+        }
     }
 
     function addRule() {
+        print("ruletemplates:", ruleTemplatesModel.count, templatesThingsProxy.count)
         if (ruleTemplatesModel.count > 0) {
             d.editRulePage = pageStack.push(Qt.resolvedUrl("magic/NewThingMagicPage.qml"))
             d.editRulePage.done.connect(function() {

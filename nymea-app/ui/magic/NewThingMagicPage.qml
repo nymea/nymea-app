@@ -295,6 +295,25 @@ Page {
             }
             for (selectionId in selectedInterfaces) {
                 rule.name = rule.name.replace("%" + selectionId, qsTr("any " + app.interfaceToDisplayName(selectedInterfaces[selectionId])))
+                for (var j = 0; j < rule.actions.count; j++) {
+                    var action = rule.actions.get(j);
+                    for(var k = 0; k < action.ruleActionParams.count; k++) {
+                        var actionParam = action.ruleActionParams.get(k);
+                        print("replacing args", typeof actionParam.value)
+                        if (typeof actionParam.value === "string") {
+                            actionParam.value = actionParam.value.replace("%" + selectionId, qsTr("A thing"));
+                        }
+                    }
+                }
+                for (var j = 0; j < rule.exitActions.count; j++) {
+                    var action = rule.exitActions.get(j);
+                    for(var k = 0; k < action.ruleActionParams.count; k++) {
+                        var actionParam = action.ruleActionParams.get(k);
+                        if (typeof actionParam.value === "string") {
+                            actionParam.value = actionParam.value.replace("%" + selectionId, qsTr("A thing"));
+                        }
+                    }
+                }
             }
 
             print("Rule complete!")

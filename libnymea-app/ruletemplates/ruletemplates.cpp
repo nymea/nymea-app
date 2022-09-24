@@ -50,6 +50,8 @@
 #include <QMetaEnum>
 #include <QCoreApplication>
 
+Q_DECLARE_LOGGING_CATEGORY(dcRuleManager)
+
 RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
 {
 
@@ -62,17 +64,17 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
     QDir ruleTemplatesDir(":/ruletemplates");
 
     foreach (const QString &templateFile, ruleTemplatesDir.entryList({"*.json"})) {
-        qDebug() << "Loading rule template:" << ruleTemplatesDir.absoluteFilePath(templateFile);
+        qCDebug(dcRuleManager()) << "Loading rule template:" << ruleTemplatesDir.absoluteFilePath(templateFile);
         QFile f(ruleTemplatesDir.absoluteFilePath(templateFile));
         if (!f.open(QFile::ReadOnly)) {
-            qWarning() << "Cannot open rule template file for reading:" << ruleTemplatesDir.absoluteFilePath(templateFile);
+            qCWarning(dcRuleManager()) << "Cannot open rule template file for reading:" << ruleTemplatesDir.absoluteFilePath(templateFile);
             continue;
         }
         QJsonParseError error;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(f.readAll(), &error);
         f.close();
         if (error.error != QJsonParseError::NoError) {
-            qWarning() << "Error reading rule template json from file:" << ruleTemplatesDir.absoluteFilePath(templateFile) << error.offset << error.errorString();
+            qCWarning(dcRuleManager()) << "Error reading rule template json from file:" << ruleTemplatesDir.absoluteFilePath(templateFile) << error.offset << error.errorString();
             continue;
         }
         foreach (const QVariant &ruleTemplateVariant, jsonDoc.toVariant().toMap().value("templates").toList()) {
@@ -85,7 +87,7 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
                                  qApp->translate(descriptionContext.toUtf8(), ruleTemplate.value("description").toByteArray()),
                                  qApp->translate(nameTemplateContext.toUtf8(), ruleTemplate.value("ruleNameTemplate").toByteArray()),
                                  this);
-            qDebug() << "Loading rule template" << ruleTemplate.value("description").toString() << tr(ruleTemplate.value("description").toByteArray());
+            qCDebug(dcRuleManager()) << "Loading rule template" << ruleTemplate.value("description").toString() << tr(ruleTemplate.value("description").toByteArray());
 
             // EventDescriptorTemplate
             foreach (const QVariant &eventDescriptorVariant, ruleTemplate.value("eventDescriptorTemplates").toList()) {
@@ -140,7 +142,7 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
                         QString eventParamName = ruleActionParamTemplate.value("eventParamName").toString();
                         rapts->addRuleActionParamTemplate(new RuleActionParamTemplate(paramName, eventInterface, eventName, eventParamName));
                     } else {
-                        qWarning() << "Invalid rule action param name on rule template:" << paramName;
+                        qCWarning(dcRuleManager()) << "Invalid rule action param name on rule template:" << paramName;
                     }
                 }
                 QMetaEnum selectionModeEnum = QMetaEnum::fromType<RuleActionTemplate::SelectionMode>();
@@ -169,7 +171,7 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
                         QString eventParamName = ruleActionParamTemplate.value("eventParamName").toString();
                         rapts->addRuleActionParamTemplate(new RuleActionParamTemplate(paramName, eventInterface, eventName, eventParamName));
                     } else {
-                        qWarning() << "Invalid rule exit action param name on rule template:" << paramName;
+                        qCWarning(dcRuleManager()) << "Invalid rule exit action param name on rule template:" << paramName;
                     }
                 }
                 QMetaEnum selectionModeEnum = QMetaEnum::fromType<RuleActionTemplate::SelectionMode>();
@@ -184,7 +186,7 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
 
             m_list.append(t);
         }
-//        qDebug() << "Loaded" << m_list.count() << "rule templates";
+        qCDebug(dcRuleManager()) << "Loaded" << m_list.count() << "rule templates";
     }
 }
 
@@ -286,6 +288,20 @@ RepeatingOption *RuleTemplates::loadRepeatingOption(const QVariantMap &repeating
     return repeatingOption;
 }
 
+void RuleTemplatesFilterModel::setFilterByThings(ThingsProxy *filterThingsProxy)
+{
+    if (m_filterThingsProxy !=  filterThingsProxy) {
+        m_filterThingsProxy = filterThingsProxy;
+        emit filterByThingsChanged(); invalidateFilter();
+
+        qCDebug(dcRuleManager()) << "Setting things proxy:" << filterThingsProxy->rowCount();
+        connect(m_filterThingsProxy, &ThingsProxy::countChanged, this, [this](){
+            qCDebug(dcRuleManager()) << "proxy count hcanged";
+            invalidateFilter();
+        });
+    }
+}
+
 bool RuleTemplatesFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     Q_UNUSED(source_parent)
@@ -347,7 +363,7 @@ bool RuleTemplatesFilterModel::thingsSatisfyRuleTemplate(RuleTemplate *ruleTempl
             }
         }
         if (!haveThing) {
-            qDebug() << "No thing to satisfy interface" << interfaceName;
+            qCDebug(dcRuleManager()) << "No thing to satisfy interface" << interfaceName << things->rowCount();
             return false;
         }
     }
@@ -364,13 +380,13 @@ bool RuleTemplatesFilterModel::thingsSatisfyRuleTemplate(RuleTemplate *ruleTempl
             }
         }
         if (!haveThing) {
-            qDebug() << "No thing to satisfy event" << eventDescriptorTemplate->eventName();
+            qCDebug(dcRuleManager()) << "No thing to satisfy event" << eventDescriptorTemplate->eventName();
             return false;
         }
     }
 
     if (ruleTemplate->stateEvaluatorTemplate() && !thingsSatisfyStateEvaluatorTemplate(ruleTemplate->stateEvaluatorTemplate(), things)) {
-        qDebug() << "No thing to satisfy state evaluator template";
+        qCDebug(dcRuleManager()) << "No thing to satisfy state evaluator template";
         return false;
     }
 
@@ -385,7 +401,7 @@ bool RuleTemplatesFilterModel::thingsSatisfyRuleTemplate(RuleTemplate *ruleTempl
             }
         }
         if (!haveThing) {
-            qDebug() << "No thing to satisfy action" << ruleActionTemplate->actionName();
+            qCDebug(dcRuleManager()) << "No thing to satisfy action" << ruleActionTemplate->actionName();
             return false;
         }
     }
@@ -401,7 +417,7 @@ bool RuleTemplatesFilterModel::thingsSatisfyRuleTemplate(RuleTemplate *ruleTempl
             }
         }
         if (!haveThing) {
-            qDebug() << "No thing to satisfy exit action" << ruleExitActionTemplate->actionName();
+            qCDebug(dcRuleManager()) << "No thing to satisfy exit action" << ruleExitActionTemplate->actionName();
             return false;
         }
     }

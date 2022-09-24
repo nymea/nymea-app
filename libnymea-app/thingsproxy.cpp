@@ -63,6 +63,7 @@ void ThingsProxy::setEngine(Engine *engine)
 
             setSortRole(Things::RoleName);
             sort(0, sortOrder());
+            emit countChanged();
             connect(sourceModel(), SIGNAL(countChanged()), this, SIGNAL(countChanged()));
             connect(sourceModel(), &QAbstractItemModel::dataChanged, this, [this]() {
                 // Only invalidate the filter if we're actually interested in state changes
