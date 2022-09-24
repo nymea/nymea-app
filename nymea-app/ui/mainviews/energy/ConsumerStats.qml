@@ -151,6 +151,9 @@ StatsBase {
                 barSet.borderColor = barSet.color
                 barSet.borderWith = 0
             }
+            Component.onDestruction: {
+                barSeries.remove(barset)
+            }
         }
     }
 
