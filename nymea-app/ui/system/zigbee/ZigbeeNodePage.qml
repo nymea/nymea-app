@@ -271,7 +271,7 @@ SettingsPageBase {
                     if (destinationThings.count == 1) {
                         ret += " (" + destinationThings.get(0).name + ")"
                     } else if (destinationThings.count > 1) {
-                        ret += " (" + destinationThing.count + " things)"
+                        ret += " (" + destinationThings.count + " things)"
                     }
 
                     return ret
@@ -455,16 +455,6 @@ SettingsPageBase {
                         }
                     }
                 }
-//                displayText: currentDestinationNodeThings.count > 0
-//                             ? currentDestinationNodeThings.get(0).name
-//                             : currentNode == root.coordinatorNode
-//                               ? Configuration.systemName
-//                               : currentNode.model
-//                ThingsProxy {
-//                    id: currentDestinationNodeThings
-//                    engine: _engine
-//                    paramsFilter: {"ieeeAddress": destinationNodeComboBox.currentNode.ieeeAddress}
-//                }
                 delegate: NymeaItemDelegate {
                     id: destinationNodeDelegate
                     property ZigbeeNode node: network.nodes.get(index)
@@ -480,8 +470,8 @@ SettingsPageBase {
                              ? qsTr("Coordinator")
                              : destinationNodeThings.count == 1
                                ? nodeThing.name
-                               : nodeThings.count > 1
-                                 ? qsTr("%1 things").arg(nodeThings.count)
+                               : destinationNodeThings.count > 1
+                                 ? qsTr("%1 things").arg(destinationNodeThings.count)
                                  : qsTr("Unrecognized device")
                     progressive: false
 
