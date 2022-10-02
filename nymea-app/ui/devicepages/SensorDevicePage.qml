@@ -48,7 +48,7 @@ ThingPageBase {
         "noisesensor": "noise",
         "cosensor": "co",
         "co2sensor": "co2",
-        "gassensor": "gas",
+        "gassensor": "gasLevel",
         "presencesensor": "isPresent",
         "daylightsensor": "daylight",
         "closablesensor": "closed",
@@ -338,6 +338,10 @@ ThingPageBase {
             property var minValue: parent.minValue
             property var maxValue: parent.maxValue
 
+            property double progress: (progressCanvas.state.value - progressCanvas.minValue) / (progressCanvas.maxValue - progressCanvas.minValue)
+            Behavior on progress { NumberAnimation { duration: Style.slowAnimationDuration; easing.type: Easing.InOutQuad } }
+            onProgressChanged: requestPaint();
+
             Label {
                 anchors.centerIn: parent
                 width: parent.width * 0.6
@@ -372,8 +376,7 @@ ThingPageBase {
 
                 ctx.beginPath()
                 ctx.strokeStyle = app.interfaceToColor(progressCanvas.interfaceName)
-                var progress = (progressCanvas.state.value - progressCanvas.minValue) / (progressCanvas.maxValue - progressCanvas.minValue)
-                radEnd *= progress
+                radEnd *= progressCanvas.progress
                 ctx.arc(0, 0, width / 2 - ctx.lineWidth / 2, radStart, radEnd)
                 ctx.stroke()
                 ctx.closePath()
