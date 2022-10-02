@@ -239,7 +239,7 @@ MainPageTile {
                     tmp.push({iface: "co2sensor", state: "co2"});
                 }
                 if (thing.thingClass.interfaces.indexOf("gassensor") >= 0) {
-                    tmp.push({iface: "gassensor", state: "gas"});
+                    tmp.push({iface: "gassensor", state: "gasLevel"});
                 }
                 if (thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0) {
                     tmp.push({iface: "smartmeterconsumer", state: "currentPower"});
