@@ -96,7 +96,7 @@ SettingsPageBase {
             Layout.fillWidth: true
 //            property ZigbeeAdapter adapter: root.zwaveManager.serialPorts.get(index)
             iconName: "../images/stock_usb.svg"
-            text: model.description + " - " + model.serialPort
+            text: model.description + " - " + model.systemLocation
             onClicked: {
                 d.pendingCallId = root.zwaveManager.addNetwork(model.systemLocation)
             }
