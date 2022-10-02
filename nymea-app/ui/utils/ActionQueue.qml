@@ -12,6 +12,13 @@ Item {
 
     readonly property var pendingValue: d.queuedValue || d.pendingValue
 
+    Component.onDestruction: {
+        if (d.queuedValue != null) {
+            d.pendingCommand = -1;
+            sendValue(d.queuedValue);
+        }
+    }
+
     function sendValue(value) {
         if (d.pendingCommand != -1) {
             // busy, cache value
@@ -26,7 +33,6 @@ Item {
                                                paramName: stateName,
                                                value: value
                                            }])
-        d.queuedValue = null
     }
 
     QtObject {
@@ -44,6 +50,7 @@ Item {
                 d.pendingCommand = -1;
                 if (d.queuedValue != null) {
                     root.sendValue(d.queuedValue)
+                    d.queuedValue = null
                 } else {
                     d.pendingValue = null
                 }
