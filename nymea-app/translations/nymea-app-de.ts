@@ -935,7 +935,7 @@
     </message>
     <message>
         <source>It seems you&apos;re not connected to the network.</source>
-        <translation>Es scheint als sei keine Netzwerkverbingung verfügbar.</translation>
+        <translation>Es scheint als sei keine Netzwerkverbindung verfügbar.</translation>
     </message>
     <message>
         <source>The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it&apos;s restarting?</source>
