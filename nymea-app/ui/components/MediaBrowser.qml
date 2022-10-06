@@ -96,6 +96,7 @@ Item {
                 id: listView
                 model: browserItems
                 ScrollBar.vertical: ScrollBar {}
+                clip: true
 
                 property string nodeId: ""
 

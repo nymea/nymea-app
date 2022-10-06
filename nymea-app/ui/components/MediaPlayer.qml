@@ -394,7 +394,11 @@ Item {
             function show() { y = 0 }
             function hide() { y = root.height }
 
-            header: ToolBar {
+            header: Rectangle {
+                height: Style.smallDelegateHeight
+                width: parent.width
+                color: Style.tileBackgroundColor
+
                 RowLayout {
                     anchors.fill: parent
                     HeaderButton {
