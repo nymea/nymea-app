@@ -84,6 +84,7 @@ Item {
     property color blue: "#5c95cd"
     property color purple: "#955ccd"
     property color rose: "#cd5c95"
+    property color darkGreen: "#5ccd5e"
 
     // Icon/graph colors for various interfaces
     property var interfaceColors: {
@@ -96,6 +97,8 @@ Item {
         "noisesensor": purple,
         "cosensor": darkGray,
         "co2sensor": turquoise,
+        "pm10sensor": lightGray,
+        "pm25sensor": gray,
         "gassensor": orange,
         "daylightsensor": yellow,
         "presencesensor": darkBlue,
@@ -117,7 +120,10 @@ Item {
         "orpsensor": yellow,
         "powersocket": lime,
         "evcharger": lime,
-        "energystorage": lime
+        "energystorage": lime,
+        "vocsensor": green,
+        "o3sensor": blue,
+        "no2sensor": purple
     }
 
     property var stateColors: {

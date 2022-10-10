@@ -94,6 +94,11 @@ ThingsListPageBase {
                                 ListElement { interfaceName: "o2sensor"; stateName: "o2saturation" }
                                 ListElement { interfaceName: "phsensor"; stateName: "ph" }
                                 ListElement { interfaceName: "orpsensor"; stateName: "orp" }
+                                ListElement { interfaceName: "vocsensor"; stateName: "voc" }
+                                ListElement { interfaceName: "pm10sensor"; stateName: "pm10" }
+                                ListElement { interfaceName: "pm25sensor"; stateName: "pm25" }
+                                ListElement { interfaceName: "no2sensor"; stateName: "no2" }
+                                ListElement { interfaceName: "o3sensor"; stateName: "o3" }
                             }
 
                             delegate: RowLayout {

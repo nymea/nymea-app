@@ -8,7 +8,7 @@
    version="1.1"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    viewBox="0 0 90 90.000001"
-   sodipodi:docname="co2.svg"
+   sodipodi:docname="no2.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.7079942"
-     inkscape:cx="54.072361"
-     inkscape:cy="65.803771"
+     inkscape:zoom="4.534967"
+     inkscape:cx="35.832675"
+     inkscape:cy="71.224333"
      inkscape:document-units="px"
      inkscape:current-layer="g6253"
      showgrid="true"
@@ -147,15 +147,15 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:26.6667px;line-height:1.25;font-family:sans-serif;fill:#808080;fill-opacity:1;stroke:none"
-         x="-244.68001"
-         y="1764.6155"
-         id="text1788"
+         x="-246.76001"
+         y="1764.5826"
+         id="text2250"
          transform="scale(-1,1)"><tspan
            sodipodi:role="line"
-           id="tspan1786"
-           x="-244.68001"
-           y="1764.6155"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:ubuntu;-inkscape-font-specification:ubuntu;fill:#808080;fill-opacity:1">CO2</tspan></text>
+           id="tspan2248"
+           x="-246.76001"
+           y="1764.5826"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#808080;fill-opacity:1">NO2</tspan></text>
     </g>
   </g>
 </svg>

@@ -95,6 +95,7 @@ public:
         UnitEuroCentPerKiloWattHour,
         UnitPercentage,
         UnitPartsPerMillion,
+        UnitPartsPerBillion,
         UnitEuro,
         UnitDollar,
         UnitHertz,
@@ -112,6 +113,7 @@ public:
         UnitRpm,
         UnitMilligramPerLiter,
         UnitLiter,
+        UnitMicroGrammPerCubicalMeter,
 
         // Those do not exist in nymea:core at this point, Adding them for easier conversion to imperial
         UnitDegreeFahrenheit,

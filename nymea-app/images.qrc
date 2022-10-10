@@ -289,5 +289,10 @@
         <file>ui/images/zigbee/zigbee-sibling.svg</file>
         <file>ui/images/zigbee/zigbee-previous-child.svg</file>
         <file>ui/images/arrow-down.svg</file>
+        <file>ui/images/sensors/voc.svg</file>
+        <file>ui/images/sensors/pm25.svg</file>
+        <file>ui/images/sensors/o3.svg</file>
+        <file>ui/images/sensors/pm10.svg</file>
+        <file>ui/images/sensors/no2.svg</file>
     </qresource>
 </RCC>

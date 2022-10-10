@@ -198,8 +198,12 @@ ApplicationWindow {
             return qsTr("CO level")
         case "co2sensor":
             return qsTr("CO2 level")
+        case "no2sensor":
+            return qsTr("Nitrogen dioxide leve")
         case "gassensor":
             return qsTr("Flammable gas level")
+        case "vocsensor":
+            return qsTr("VOC level")
         case "inputtrigger":
             return qsTr("Incoming Events");
         case "outputtrigger":
@@ -298,6 +302,16 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/co.svg")
         case "co2sensor":
             return Qt.resolvedUrl("images/sensors/co2.svg")
+        case "no2sensor":
+            return Qt.resolvedUrl("images/sensors/no2.svg")
+        case "o3sensor":
+            return Qt.resolvedUrl("images/sensors/o3.svg")
+        case "vocsensor":
+            return Qt.resolvedUrl("images/sensors/voc.svg")
+        case "pm10sensor":
+            return Qt.resolvedUrl("images/sensors/pm10.svg")
+        case "pm25sensor":
+            return Qt.resolvedUrl("images/sensors/pm25.svg")
         case "gassensor":
             return Qt.resolvedUrl("images/sensors/gas.svg")
         case "daylightsensor":

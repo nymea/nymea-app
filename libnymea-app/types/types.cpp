@@ -182,6 +182,8 @@ QString Types::toUiUnit(Types::Unit unit) const
         return "%";
     case Types::UnitPartsPerMillion:
         return "ppm";
+    case Types::UnitPartsPerBillion:
+        return "ppb";
     case Types::UnitEuro:
         return "€";
     case Types::UnitDollar:
@@ -238,6 +240,8 @@ QString Types::toUiUnit(Types::Unit unit) const
         return "l";
     case Types::UnitFluidOunce:
         return "fl oz";
+    case Types::UnitMicroGrammPerCubicalMeter:
+        return "µg/m³";
     }
 
     return "";
