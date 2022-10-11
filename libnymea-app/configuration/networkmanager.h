@@ -90,6 +90,9 @@ public:
 
     Q_INVOKABLE int connectToWiFi(const QString &interface, const QString &ssid, const QString &passphrase);
     Q_INVOKABLE int startAccessPoint(const QString &interface, const QString &ssid, const QString &passphrase);
+    Q_INVOKABLE int createWiredAutoConnection(const QString &interface);
+    Q_INVOKABLE int createWiredManualConnection(const QString &interface, const QString &ip, quint8 prefix, const QString &gateway, const QString &dns);
+    Q_INVOKABLE int createWiredSharedConnection(const QString &interface, const QString &ip = QString(), quint8 prefix = 24);
     Q_INVOKABLE int disconnectInterface(const QString &interface);
 
 signals:
@@ -105,6 +108,9 @@ signals:
     void connectToWiFiReply(int id, const QString &status);
     void disconnectReply(int id, const QString &status);
     void startAccessPointReply(int id, const QString &status);
+    void createWiredAutoConnectionReply(int id, const QString &status);
+    void createWiredManualConnectionReply(int id, const QString &status);
+    void createWiredSharedConnectionReply(int id, const QString &status);
 
 private slots:
     void init();
@@ -117,6 +123,9 @@ private slots:
     void enableNetworkingResponse(int commandId, const QVariantMap &params);
     void enableWirelessNetworkingResponse(int commandId, const QVariantMap &params);
     void startAccessPointResponse(int commandId, const QVariantMap &params);
+    void createWiredAutoConnectionResponse(int commandId, const QVariantMap &params);
+    void createWiredManualConnectionResponse(int commandId, const QVariantMap &params);
+    void createWiredSharedConnectionResponse(int commandId, const QVariantMap &params);
 
     void notificationReceived(const QVariantMap &params);
 

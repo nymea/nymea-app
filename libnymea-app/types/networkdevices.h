@@ -48,7 +48,8 @@ public:
         RoleBitRate,
         RoleState,
         RoleIpv4Addresses,
-        RoleIpv6Addresses
+        RoleIpv6Addresses,
+        RolePluggedIn
     };
     Q_ENUM(Roles)
 
@@ -86,7 +87,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void addNetworkDevice(NetworkDevice *device) override;
+    void addWiredNetworkDevice(WiredNetworkDevice *device);
 
     Q_INVOKABLE WiredNetworkDevice* getWiredNetworkDevice(const QString &interface);
 

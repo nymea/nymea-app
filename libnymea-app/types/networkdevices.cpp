@@ -151,16 +151,13 @@ QVariant WiredNetworkDevices::data(const QModelIndex &index, int role) const
     return NetworkDevices::data(index, role);
 }
 
-void WiredNetworkDevices::addNetworkDevice(NetworkDevice *device)
+void WiredNetworkDevices::addWiredNetworkDevice(WiredNetworkDevice *device)
 {
     NetworkDevices::addNetworkDevice(device);
-    WiredNetworkDevice *wiredDev = qobject_cast<WiredNetworkDevice*>(device);
-    if (wiredDev) {
-        connect(wiredDev, &WiredNetworkDevice::pluggedInChanged, [this, wiredDev](){
-            emit dataChanged(index(m_list.indexOf(wiredDev)), index(m_list.indexOf(wiredDev)), {RolePluggedIn});
-            emit countChanged();
-        });
-    }
+    connect(device, &WiredNetworkDevice::pluggedInChanged, [this, device](){
+        emit dataChanged(index(m_list.indexOf(device)), index(m_list.indexOf(device)), {RolePluggedIn});
+        emit countChanged();
+    });
 }
 
 QHash<int, QByteArray> WiredNetworkDevices::roleNames() const

@@ -48,6 +48,9 @@ SettingsPageBase {
         onConnectToWiFiReply: handleReply(id, status)
         onStartAccessPointReply: handleReply(id, status)
         onDisconnectReply: handleReply(id, status)
+        onCreateWiredAutoConnectionReply: handleReply(id, status)
+        onCreateWiredManualConnectionReply: handleReply(id, status)
+        onCreateWiredSharedConnectionReply: handleReply(id, status)
 
         function handleReply(id, status) {
             if (id === d.pendingCallId) {
@@ -86,7 +89,7 @@ SettingsPageBase {
 
             }
             var component = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
-            var popup = component.createObject(root, {text: errorMessage, errorCode: stats})
+            var popup = component.createObject(root, {text: errorMessage, errorCode: status})
         }
     }
 
@@ -154,7 +157,7 @@ SettingsPageBase {
         visible: networkManager.available
     }
 
-    NymeaSwipeDelegate {
+    NymeaItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Current connection state")
         prominentSubText: false
@@ -203,7 +206,7 @@ SettingsPageBase {
         }
     }
 
-    NymeaSwipeDelegate {
+    NymeaItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Networking enabled")
         subText: qsTr("Enable or disable networking altogether")
@@ -257,7 +260,7 @@ SettingsPageBase {
     Repeater {
         model: networkManager.wiredNetworkDevices
 
-        NymeaSwipeDelegate {
+        NymeaItemDelegate {
             Layout.fillWidth: true
             iconName: model.pluggedIn ? "../images/connections/network-wired.svg" : "../images/connections/network-wired-offline.svg"
             text: model.interface + " (" + model.macAddress + ")"
@@ -268,7 +271,19 @@ SettingsPageBase {
                 ret += networkStateToString(model.state)
                 return ret;
             }
-            progressive: false
+            progressive: engine.jsonRpcClient.ensureServerVersion("6.2")
+            onClicked: {
+                if (!engine.jsonRpcClient.ensureServerVersion("6.2")) {
+                    return;
+                }
+
+                var wiredNetworkDevice = networkManager.wiredNetworkDevices.getWiredNetworkDevice(model.interface);
+                if (wiredNetworkDevice.state === NetworkDevice.NetworkDeviceStateDisconnected) {
+                    pageStack.push(createWiredConnectionPageComponent, {wiredNetworkDevice: wiredNetworkDevice})
+                } else {
+                    pageStack.push(currentEthernetConnectionPageComponent, {wiredNetworkDevice: wiredNetworkDevice})
+                }
+            }
         }
     }
 
@@ -277,7 +292,7 @@ SettingsPageBase {
         visible: networkManager.available && networkManager.networkingEnabled
     }
 
-    NymeaSwipeDelegate {
+    NymeaItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Enabled")
         subText: qsTr("Enable or disable WiFi")
@@ -464,6 +479,138 @@ SettingsPageBase {
         }
     }
 
+    Component {
+        id: createWiredConnectionPageComponent
+        SettingsPageBase {
+            id: createWiredConnectionPage
+            title: qsTr("New wired connection")
+
+            property WiredNetworkDevice wiredNetworkDevice: null
+
+            SettingsPageSectionHeader {
+                text: qsTr("Method")
+            }
+
+            ColumnLayout {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                spacing: 0
+
+                RadioButton {
+                    id: dhcpClientRadioButton
+                    Layout.fillWidth: true
+                    checked: true
+                    text: qsTr("Automatic (DHCP client)")
+                }
+                RadioButton {
+                    id: manualClientRadioButton
+                    Layout.fillWidth: true
+                    text: qsTr("Manual")
+                }
+                RadioButton {
+                    id: dhcpServerRadioButton
+                    Layout.fillWidth: true
+                    text: qsTr("Shared (DHCP server)")
+                }
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Address settings")
+                visible: manualClientRadioButton.checked
+            }
+
+            GridLayout {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                columns: 2
+                visible: manualClientRadioButton.checked
+
+
+                Label {
+                    text: qsTr("IP Address")
+                }
+
+                RowLayout {
+                    TextField {
+                        id: ipTextField
+                        maximumLength: 32
+                        Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignRight
+                        validator: RegExpValidator {
+                            regExp:  /^((?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){0,3}(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/
+                       }
+                    }
+
+                    Label {
+                        text: "/"
+                    }
+                    TextField {
+                        id: prefixTextField
+                        text: "24"
+                        Layout.fillWidth: false
+                        validator: IntValidator {
+                            bottom: 8
+                            top: 32
+                        }
+                    }
+                }
+
+                Label {
+                    text: qsTr("Gateway")
+                }
+
+                TextField {
+                    id: defaultGwTextField
+                    maximumLength: 32
+                    Layout.fillWidth: true
+                    validator: RegExpValidator {
+                        regExp:  /^((?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){0,3}(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/
+                   }
+                }
+
+                Label {
+                    text: qsTr("DNS")
+                }
+
+                TextField {
+                    id: dnsTextField
+                    maximumLength: 32
+                    Layout.fillWidth: true
+                    validator: RegExpValidator {
+                        regExp:  /^((?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){0,3}(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/
+                   }
+                }
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                text: qsTr("Create connection")
+                enabled: {
+                    if (dhcpClientRadioButton.checked || dhcpServerRadioButton.checked) {
+                        return true;
+                    }
+                    return ipTextField.acceptableInput && prefixTextField.acceptableInput
+                }
+
+                onClicked: {
+                    if (dhcpClientRadioButton.checked) {
+                        d.pendingCallId = networkManager.createWiredAutoConnection(createWiredConnectionPage.wiredNetworkDevice.interface)
+                    } else if (manualClientRadioButton.checked) {
+                        d.pendingCallId = networkManager.createWiredManualConnection(createWiredConnectionPage.wiredNetworkDevice.interface, ipTextField.text, prefixTextField.text, defaultGwTextField.text, dnsTextField.text)
+                    } else if (dhcpServerRadioButton.checked) {
+                        d.pendingCallId = networkManager.createWiredSharedConnection(createWiredConnectionPage.wiredNetworkDevice.interface)
+                    }
+
+                    pageStack.pop(root);
+                }
+            }
+        }
+    }
 
     Component {
         id: authPageComponent
@@ -512,6 +659,50 @@ SettingsPageBase {
                 }
             }
 
+        }
+    }
+
+    Component {
+        id: currentEthernetConnectionPageComponent
+        SettingsPageBase {
+            id: currentEthernetConnectionPage
+            title: qsTr("Current connection")
+
+            property WiredNetworkDevice wiredNetworkDevice: null
+
+            SettingsPageSectionHeader {
+                text: qsTr("Connected to")
+            }
+
+            NymeaItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("IPv4 Address")
+                subText: currentEthernetConnectionPage.wiredNetworkDevice.ipv4Addresses.join(", ")
+                progressive: false
+            }
+            NymeaItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("IPv6 Address")
+                subText: currentEthernetConnectionPage.wiredNetworkDevice.ipv6Addresses.join(", ")
+                visible: subText.length > 0
+                progressive: false
+            }
+            NymeaItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("MAC Address")
+                subText: currentEthernetConnectionPage.wiredNetworkDevice.macAddress
+                progressive: false
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                text: qsTr("Disconnect")
+                onClicked: {
+                    d.pendingCallId = networkManager.disconnectInterface(currentEthernetConnectionPage.wiredNetworkDevice.interface)
+                    pageStack.pop(root);
+                }
+            }
         }
     }
 
