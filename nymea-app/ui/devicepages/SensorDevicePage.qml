@@ -31,6 +31,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
+import QtGraphicalEffects 1.0
 import Nymea 1.0
 import "../components"
 import "../customviews"
@@ -362,16 +363,29 @@ ThingPageBase {
             Behavior on progress { NumberAnimation { duration: Style.slowAnimationDuration; easing.type: Easing.InOutQuad } }
             onProgressChanged: requestPaint();
 
-            Label {
+            ColumnLayout {
                 anchors.centerIn: parent
-                anchors.verticalCenter: -Style.smallMargins
+                anchors.verticalCenterOffset: -Style.smallMargins
                 width: parent.width * 0.6
-                text: Types.toUiValue(progressCanvas.state.value, progressCanvas.stateType.unit).toFixed(1) + " " + Types.toUiUnit(progressCanvas.stateType.unit)
-                font.pixelSize: Math.min(Style.largeFont.pixelSize, parent.height / 6)
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-                maximumLineCount: 2
+
+                Label {
+                    Layout.fillWidth: true
+                    text: Types.toUiValue(progressCanvas.state.value, progressCanvas.stateType.unit).toFixed(1)
+                    wrapMode: Text.WordWrap
+                    font.pixelSize: Math.min(Style.hugeFont.pixelSize, progressCanvas.height / 8)
+                    maximumLineCount: 2
+                    horizontalAlignment: Text.AlignHCenter
+                    elide: Text.ElideRight
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: Types.toUiUnit(progressCanvas.stateType.unit)
+                    font.pixelSize: Math.min(Style.largeFont.pixelSize, progressCanvas.height / 12)
+                    horizontalAlignment: Text.AlignHCenter
+                    elide: Text.ElideRight
+                }
             }
+
 
             onPaint: {
                 var ctx = getContext("2d");
@@ -417,7 +431,7 @@ ThingPageBase {
 
     Component {
         id: scaleComponent
-        Canvas {
+        Item {
             id: scaleCanvas
             property string interfaceName: parent.interfaceName
             property StateType stateType: parent.stateType
@@ -475,7 +489,98 @@ ThingPageBase {
                 return baseAngle + angleRange * progress
             }
             Behavior on angle { NumberAnimation { duration: Style.slowAnimationDuration; easing.type: Easing.InOutQuad } }
-            onAngleChanged: requestPaint();
+            onAngleChanged: maskCanvas.requestPaint();
+
+            Canvas {
+                id: baseCanvas
+                anchors.fill: parent
+                visible: false
+                onPaint: {
+                    var ctx = getContext("2d");
+                    ctx.reset();
+
+                    ctx.beginPath()
+                    ctx.fillStyle = Style.foregroundColor
+
+                    ctx.translate(width / 2, height / 2)
+                    ctx.rotate(135 * Math.PI / 180)
+
+                    ctx.lineCap = "round"
+                    ctx.lineWidth = scaleCanvas.scaleWidth
+
+                    // paint first rounded
+                    ctx.beginPath()
+                    ctx.strokeStyle = scaleCanvas.scale[0].color
+                    var startAngle = 0
+                    var endAngle = scaleCanvas.scale[0].angle * Math.PI/180
+                    ctx.arc(0, 0, width / 2 - ctx.lineWidth / 2, startAngle, endAngle)
+                    ctx.stroke()
+                    ctx.closePath()
+
+                    // paint last rounded
+                    ctx.beginPath()
+                    ctx.strokeStyle = scaleCanvas.scale[scaleCanvas.scale.length - 1].color
+                    startAngle = scaleCanvas.scale[scaleCanvas.scale.length - 2].angle * Math.PI/180
+                    endAngle = scaleCanvas.scale[scaleCanvas.scale.length - 1].angle * Math.PI/180
+                    ctx.arc(0, 0, width / 2 - ctx.lineWidth / 2, startAngle, endAngle)
+                    ctx.stroke()
+                    ctx.closePath()
+
+                    // paint inner parts
+                    ctx.lineCap = "butt"
+                    for (var i = 1; i < scaleCanvas.scale.length - 1; i++) {
+                        ctx.beginPath()
+                        ctx.strokeStyle = scaleCanvas.scale[i].color
+                        startAngle = scaleCanvas.scale[i - 1].angle * Math.PI/180
+                        endAngle = scaleCanvas.scale[i].angle * Math.PI/180
+                        ctx.arc(0, 0, width / 2 - ctx.lineWidth / 2, startAngle, endAngle)
+                        ctx.stroke()
+                        ctx.closePath()
+                    }
+                }
+            }
+            Canvas {
+                id: maskCanvas
+                anchors.fill: parent
+                visible: false
+                onPaint: {
+                    var ctx = getContext("2d");
+                    ctx.reset();
+
+                    ctx.beginPath()
+                    ctx.fillStyle = Style.foregroundColor
+
+                    ctx.translate(width / 2, height / 2)
+                    ctx.rotate(135 * Math.PI / 180)
+
+                    ctx.lineCap = "round"
+                    ctx.lineWidth = width * .1
+
+                    ctx.beginPath()
+                    ctx.strokeStyle = "#55ffffff"
+                    var startAngle = 0
+                    var endAngle = 270
+                    var radStart = startAngle * Math.PI/180;
+                    var radEnd = endAngle * Math.PI/180;
+                    ctx.arc(0, 0, width / 2 - ctx.lineWidth / 2, radStart, radEnd)
+                    ctx.stroke()
+                    ctx.closePath()
+
+                    ctx.beginPath()
+                    ctx.strokeStyle = "#000000"
+                    radEnd = scaleCanvas.angle * Math.PI/180
+                    ctx.arc(0, 0, width / 2 - ctx.lineWidth / 2, radStart, radEnd)
+                    ctx.stroke()
+                    ctx.closePath()
+                }
+            }
+
+            OpacityMask {
+                anchors.fill: parent
+                source: baseCanvas
+                maskSource: maskCanvas
+            }
+
 
             ColumnLayout {
                 anchors.centerIn: parent
@@ -485,102 +590,29 @@ ThingPageBase {
                 Label {
                     Layout.fillWidth: true
                     text: scaleCanvas.scale[scaleCanvas.currentIndex].text
-                    font.pixelSize: Math.min(Style.largeFont.pixelSize, scaleCanvas.height / 6)
+                    font.pixelSize: Math.min(Style.hugeFont.pixelSize, scaleCanvas.height / 8)
                     wrapMode: Text.WordWrap
-//                    color: scaleCanvas.scale[scaleCanvas.currentIndex].color
+    //                    color: scaleCanvas.scale[scaleCanvas.currentIndex].color
                     horizontalAlignment: Text.AlignHCenter
+                    elide: Text.ElideRight
                     maximumLineCount: 2
                 }
                 Label {
                     Layout.fillWidth: true
                     text: Types.toUiValue(scaleCanvas.state.value, scaleCanvas.stateType.unit).toFixed(1) + " " + Types.toUiUnit(scaleCanvas.stateType.unit)
-                    font.pixelSize: Math.min(Style.smallFont.pixelSize, scaleCanvas.height / 12)
+                    font.pixelSize: Math.min(Style.largeFont.pixelSize, scaleCanvas.height / 12)
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
+                    elide: Text.ElideRight
                 }
             }
 
-
-            onPaint: {
-                var ctx = getContext("2d");
-                ctx.reset();
-
-                ctx.beginPath()
-                ctx.fillStyle = Style.foregroundColor
-
-                ctx.translate(width / 2, height / 2)
-                ctx.rotate(135 * Math.PI / 180)
-
-                ctx.lineCap = "round"
-                ctx.lineWidth = scaleCanvas.scaleWidth
-
-                // paint first rounded
-                ctx.beginPath()
-                ctx.strokeStyle = scaleCanvas.scale[0].color
-                var startAngle = 0
-                var endAngle = scaleCanvas.scale[0].angle * Math.PI/180
-                ctx.arc(0, 0, width / 2 - ctx.lineWidth / 2, startAngle, endAngle)
-                ctx.stroke()
-                ctx.closePath()
-
-                // paint last rounded
-                ctx.beginPath()
-                ctx.strokeStyle = scaleCanvas.scale[scaleCanvas.scale.length - 1].color
-                startAngle = scaleCanvas.scale[scaleCanvas.scale.length - 2].angle * Math.PI/180
-                endAngle = scaleCanvas.scale[scaleCanvas.scale.length - 1].angle * Math.PI/180
-                ctx.arc(0, 0, width / 2 - ctx.lineWidth / 2, startAngle, endAngle)
-                ctx.stroke()
-                ctx.closePath()
-
-                // paint inner parts
-                ctx.lineCap = "butt"
-                for (var i = 1; i < scaleCanvas.scale.length - 1; i++) {
-                    ctx.beginPath()
-                    ctx.strokeStyle = scaleCanvas.scale[i].color
-                    startAngle = scaleCanvas.scale[i - 1].angle * Math.PI/180
-                    endAngle = scaleCanvas.scale[i].angle * Math.PI/180
-                    ctx.arc(0, 0, width / 2 - ctx.lineWidth / 2, startAngle, endAngle)
-                    ctx.stroke()
-                    ctx.closePath()
-                }
-
-                var tipRadius = width / 2 - scaleCanvas.scaleWidth
-                var baseRadius = tipRadius - scaleCanvas.scaleWidth / 2
-
-                var tipX = tipRadius * Math.cos(scaleCanvas.angle * Math.PI/180)
-                var tipY = tipRadius * Math.sin(scaleCanvas.angle * Math.PI/180)
-
-                var base1X = baseRadius * Math.cos((scaleCanvas.angle - 5) * Math.PI/180)
-                var base1Y = baseRadius * Math.sin((scaleCanvas.angle - 5) * Math.PI/180)
-                var base2X = baseRadius * Math.cos((scaleCanvas.angle + 5) * Math.PI/180)
-                var base2Y = baseRadius * Math.sin((scaleCanvas.angle + 5) * Math.PI/180)
-
-
-                ctx.lineWidth = 1
-                ctx.fillStyle = Style.foregroundColor
-                ctx.beginPath()
-                ctx.moveTo(tipX, tipY)
-                ctx.lineTo(base1X, base1Y)
-                ctx.lineTo(base2X, base2Y)
-                ctx.moveTo(tipX, tipY)
-                ctx.stroke()
-                ctx.fill()
-                ctx.closePath()
-
-
-//                ctx.beginPath()
-//                ctx.strokeStyle = app.interfaceToColor(progressCanvas.interfaceName)
-//                radEnd *= progressCanvas.progress
-//                ctx.arc(0, 0, width / 2 - ctx.lineWidth / 2, radStart, radEnd)
-//                ctx.stroke()
-//                ctx.closePath()
-            }
 
             ColorIcon {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: Style.smallMargins
-//                anchors.verticalCenterOffset: scaleCanvas.height / 2 - height
+    //                anchors.verticalCenterOffset: scaleCanvas.height / 2 - height
                 name: app.interfaceToIcon(scaleCanvas.interfaceName)
                 size: Math.min(Style.bigIconSize, parent.height / 5)
                 color: app.interfaceToColor(scaleCanvas.interfaceName)

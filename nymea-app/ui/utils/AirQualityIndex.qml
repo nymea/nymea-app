@@ -163,7 +163,7 @@ Item {
             "color": Style.orange
         },
         {
-            "value": 50,
+            "value": 255,
             "angle": 270,
             "text": qsTr("Very high"),
             "color": Style.red
