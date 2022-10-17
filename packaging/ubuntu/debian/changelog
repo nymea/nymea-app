@@ -1,3 +1,10 @@
+nymea-app (1.4.26) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Align various sensor displays
+
+ -- jenkins <developer@nymea.io>  Mon, 17 Oct 2022 23:37:59 +0200
+
 nymea-app (1.4.25) bionic; urgency=medium
 
   [ Michael Zanetti ]
