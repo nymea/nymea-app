@@ -152,7 +152,7 @@ StatsBase {
                 barSet.borderWith = 0
             }
             Component.onDestruction: {
-                barSeries.remove(barset)
+                barSeries.remove(barSet)
             }
         }
     }

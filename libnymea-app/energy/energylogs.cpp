@@ -200,6 +200,11 @@ EnergyLogEntry *EnergyLogs::find(const QDateTime &timestamp)
     return m_list.at(index);
 }
 
+QList<EnergyLogEntry *> EnergyLogs::entries() const
+{
+    return m_list;
+}
+
 void EnergyLogs::appendEntry(EnergyLogEntry *entry, double minValue, double maxValue)
 {
     entry->setParent(this);

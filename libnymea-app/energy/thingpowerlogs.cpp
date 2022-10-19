@@ -282,7 +282,9 @@ void ThingPowerLogsLoader::addThingId(const QUuid &thingId)
 
 void ThingPowerLogsLoader::fetchLogs()
 {
+    qCDebug(dcEnergyLogs()) << "dafuq!";
     if (!m_engine || m_engine->jsonRpcClient()->experiences().value("Energy").toString() < "1.0") {
+        qCDebug(dcEnergyLogs()) << "Not fetching logs" << m_engine;
         return;
     }
 
@@ -335,8 +337,9 @@ void ThingPowerLogsLoader::fetchLogs()
     }
 
     m_fetchingData = true;
-    fetchingDataChanged();
+    emit fetchingDataChanged();
 
+    qCDebug(dcEnergyLogs()) << "Fetching logs";
     m_engine->jsonRpcClient()->sendCommand("Energy.GetThingPowerLogs", params, this, "getLogsResponse");
 }
 

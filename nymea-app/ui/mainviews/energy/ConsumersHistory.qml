@@ -89,6 +89,17 @@ Item {
             }
             return timestamp
         }
+
+        function update() {
+            if (!engine.thingManager.fetchingData && !engine.tagsManager.busy && consumersRepeater.count == consumers.count) {
+                logsLoader.fetchLogs();
+            }
+        }
+    }
+
+    Connections {
+        target: engine.tagsManager
+        onBusyChanged: d.update()
     }
 
     Component {
@@ -138,7 +149,7 @@ Item {
             onTabSelected: {
                 d.now = new Date()
                 powerBalanceLogs.fetchLogs()
-                logsLoader.fetchLogs();
+                d.update()
             }
         }
 
@@ -327,9 +338,16 @@ Item {
                     id: consumersRepeater
                     model: consumers.count
 
+                    Component.onCompleted: {
+                        if (count != 0) {
+                            d.update()
+                        }
+                    }
+
                     onCountChanged: {
+                        print("***** count changed", count, "total:", consumers.count)
                         if (count == consumers.count) {
-                            logsLoader.fetchLogs()
+                            d.update();
                         }
                     }
 
@@ -625,7 +643,7 @@ Item {
                         }
 
                         Repeater {
-                            model: consumers
+                            model: consumersRepeater.count
                             delegate: RowLayout {
                                 id: consumerToolTipDelegate
                                 Rectangle {
@@ -640,7 +658,7 @@ Item {
                                     property double rawValue: entry ? entry.currentPower : 0
                                     property double displayValue: rawValue >= 1000 ? rawValue / 1000 : rawValue
                                     property string unit: rawValue >= 1000 ? "kW" : "W"
-                                    text:  "%1: %2 %3".arg(model.name).arg(displayValue.toFixed(2)).arg(unit)
+                                    text:  "%1: %2 %3".arg(consumersRepeater.itemAt(index).thing.name).arg(displayValue.toFixed(2)).arg(unit)
                                     font: Style.extraSmallFont
                                 }
                             }

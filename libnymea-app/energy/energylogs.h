@@ -86,6 +86,7 @@ public:
 
     Q_INVOKABLE EnergyLogEntry* get(int index) const;
     Q_INVOKABLE EnergyLogEntry* find(const QDateTime &timestamp);
+    Q_INVOKABLE QList<EnergyLogEntry*> entries() const;
 
 public slots:
     void clear();
