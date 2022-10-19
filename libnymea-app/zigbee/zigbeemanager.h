@@ -114,6 +114,7 @@ public:
     Q_INVOKABLE int removeNode(const QUuid &networkUuid, const QString &ieeeAddress);
     Q_INVOKABLE void refreshNeighborTables(const QUuid &networkUuid);
     Q_INVOKABLE int createBinding(const QUuid &networkUuid, const QString &sourceAddress, quint8 sourceEndpointId, quint16 clusterId, const QString &destinationAddress, quint8 destinationEndpointId);
+    Q_INVOKABLE int createGroupBinding(const QUuid &networkUuid, const QString &sourceAddress, quint8 sourceEndpointId, quint16 clusterId, quint16 destinationGroupAddress);
     Q_INVOKABLE int removeBinding(const QUuid &networkUuid, ZigbeeNodeBinding *binding);
 
 signals:
@@ -121,6 +122,8 @@ signals:
     void fetchingDataChanged();
     void availableBackendsChanged();
     void addNetworkReply(int commandId, ZigbeeError error, const QUuid &networkUuid);
+    void removeNetworkReply(int commandId, ZigbeeError error);
+    void factoryResetNetworkReply(int commandId, ZigbeeError error);
     void removeNodeReply(int commandId, ZigbeeError error);
     void createBindingReply(int commandId, ZigbeeError error);
     void removeBindingReply(int commandId, ZigbeeError error);

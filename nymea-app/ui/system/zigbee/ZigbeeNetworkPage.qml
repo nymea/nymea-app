@@ -41,6 +41,8 @@ SettingsPageBase {
     property ZigbeeManager zigbeeManager: null
     property ZigbeeNetwork network: null
 
+    signal exit()
+
     header: NymeaHeader {
         text: qsTr("ZigBee network")
         backButtonVisible: true
@@ -61,8 +63,7 @@ SettingsPageBase {
             onClicked: {
                 var page = pageStack.push(Qt.resolvedUrl("ZigbeeNetworkSettingsPage.qml"), { zigbeeManager: zigbeeManager, network: network })
                 page.exit.connect(function() {
-                    pageStack.pop(root, StackView.Immediate)
-                    pageStack.pop()
+                    root.exit()
                 })
             }
         }

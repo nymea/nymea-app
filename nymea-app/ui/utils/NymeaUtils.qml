@@ -6,14 +6,18 @@ import QtCharts 2.2
 Item {
     id: root
 
-    function pad(num, size) {
+    function pad(num, size, base) {
+        if (base == undefined) {
+            base = 10
+        }
+
         var trimmedNum = Math.floor(num)
         var decimals = num - trimmedNum
-        var trimmedStr = "" + trimmedNum
-        var str = "000000000" + trimmedNum;
+        var trimmedStr = "" + trimmedNum.toString(16)
+        var str = "000000000" + trimmedStr
         str = str.substr(str.length - Math.max(size, trimmedStr.length));
         if (decimals !== 0) {
-            str += "." + (num - trimmedNum);
+            str += "." + decimals.toString(base);
         }
         return str;
     }

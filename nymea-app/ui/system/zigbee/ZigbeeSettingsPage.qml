@@ -56,6 +56,10 @@ SettingsPageBase {
         addPage.done.connect(function() {pageStack.pop(root)})
     }
 
+    function returnToMain() {
+        pageStack.pop(root)
+    }
+
     ZigbeeManager {
         id: zigbeeManager
         engine: _engine
@@ -98,7 +102,13 @@ SettingsPageBase {
                 interactive: false
                 property ZigbeeNetwork network: zigbeeManager.networks.get(index)
 
-                onClicked: pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { zigbeeManager: zigbeeManager, network: networkDelegate.network })
+                onClicked: {
+                    var page = pageStack.push(Qt.resolvedUrl("ZigbeeNetworkPage.qml"), { zigbeeManager: zigbeeManager, network: networkDelegate.network })
+                    page.exit.connect(function() {
+                        print("exiting")
+                        root.returnToMain()
+                    })
+                }
 
                 header: RowLayout {
                     ColorIcon {

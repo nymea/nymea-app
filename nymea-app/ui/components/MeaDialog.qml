@@ -56,7 +56,10 @@ Dialog {
         parent: app.overlay
         anchors.fill: parent
         z: -1
-        onPressed: mouse.accepted = true
+        onPressed: {
+            print("Dialog: eating mouse press")
+            mouse.accepted = true
+        }
     }
 
     header: Item {

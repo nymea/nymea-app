@@ -43,6 +43,15 @@ SettingsPageBase {
 
     signal exit()
 
+    Connections {
+        target: zigbeeManager
+        onFactoryResetNetworkReply: {
+            busy = false;
+//            if (error != ZigbeeManager.ZigbeeErrorNoError) {
+//            }
+        }
+    }
+
     header: NymeaHeader {
         text: qsTr("ZigBee network settings")
         backButtonVisible: true
@@ -165,8 +174,9 @@ SettingsPageBase {
                                                 });
                 popup.open();
                 popup.accepted.connect(function() {
-                    root.zigbeeManager.removeNetwork(root.network.networkUuid)
+                    popup.destroy();
                     root.exit()
+                    root.zigbeeManager.removeNetwork(root.network.networkUuid)
                 })
             }
         }
@@ -189,6 +199,7 @@ SettingsPageBase {
                 popup.open();
                 popup.accepted.connect(function() {
                     root.zigbeeManager.factoryResetNetwork(root.network.networkUuid)
+                    root.busy = true;
                 })
             }
         }

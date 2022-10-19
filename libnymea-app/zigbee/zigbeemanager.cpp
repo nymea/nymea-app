@@ -170,6 +170,19 @@ int ZigbeeManager::createBinding(const QUuid &networkUuid, const QString &source
     return m_engine->jsonRpcClient()->sendCommand("Zigbee.CreateBinding", params, this, "createBindingResponse");
 }
 
+int ZigbeeManager::createGroupBinding(const QUuid &networkUuid, const QString &sourceAddress, quint8 sourceEndpointId, quint16 clusterId, quint16 destinationGroupAddress)
+{
+    QVariantMap params = {
+        {"networkUuid", networkUuid},
+        {"sourceAddress", sourceAddress},
+        {"sourceEndpointId", sourceEndpointId},
+        {"clusterId", clusterId},
+        {"destinationGroupAddress", destinationGroupAddress}
+    };
+    qCDebug(dcZigbee()) << "Creating binding for:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    return m_engine->jsonRpcClient()->sendCommand("Zigbee.CreateBinding", params, this, "createBindingResponse");
+}
+
 int ZigbeeManager::removeBinding(const QUuid &networkUuid, ZigbeeNodeBinding *binding)
 {
     QVariantMap params = {
@@ -256,6 +269,9 @@ void ZigbeeManager::addNetworkResponse(int commandId, const QVariantMap &params)
 void ZigbeeManager::removeNetworkResponse(int commandId, const QVariantMap &params)
 {
     qCDebug(dcZigbee()) << "Zigbee remove network response" << commandId << params;
+    QMetaEnum errorEnum = QMetaEnum::fromType<ZigbeeError>();
+    ZigbeeError error = static_cast<ZigbeeError>(errorEnum.keyToValue(params.value("zigbeeError").toByteArray()));
+    emit removeNetworkReply(commandId, error);
 }
 
 void ZigbeeManager::setPermitJoinResponse(int commandId, const QVariantMap &params)
@@ -266,6 +282,9 @@ void ZigbeeManager::setPermitJoinResponse(int commandId, const QVariantMap &para
 void ZigbeeManager::factoryResetNetworkResponse(int commandId, const QVariantMap &params)
 {
     qCDebug(dcZigbee()) << "Zigbee factory reset network response" << commandId << params;
+    QMetaEnum errorEnum = QMetaEnum::fromType<ZigbeeError>();
+    ZigbeeError error = static_cast<ZigbeeError>(errorEnum.keyToValue(params.value("zigbeeError").toByteArray()));
+    emit factoryResetNetworkReply(commandId, error);
 }
 
 void ZigbeeManager::getNodesResponse(int commandId, const QVariantMap &params)

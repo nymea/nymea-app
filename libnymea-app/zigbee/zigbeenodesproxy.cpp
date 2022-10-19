@@ -67,7 +67,8 @@ void ZigbeeNodesProxy::setZigbeeNodes(ZigbeeNodes *zigbeeNodes)
         emit countChanged();
     });
     connect(m_zigbeeNodes, &ZigbeeNodes::dataChanged, this, [this](const QModelIndex &/*topLeft*/, const QModelIndex &/*bottomRight*/, const QVector<int> &roles = QVector<int>()){
-        if (roles.contains(ZigbeeNodes::RoleReachable) && (!m_showOffline || !m_showOnline)) {
+        if ((roles.contains(ZigbeeNodes::RoleReachable) && (!m_showOffline || !m_showOnline))
+                || (roles.contains(ZigbeeNodes::RoleType) && !m_showCoordinator)) {
             invalidateFilter();
             emit countChanged();
         }

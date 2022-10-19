@@ -144,7 +144,7 @@ SettingsPageBase {
         progressive: false
         onClicked: {
             PlatformHelper.toClipBoard(root.thing.id.toString().replace(/[{}]/g, ""));
-            ToolTip.show(qsTr("ID copied to clipboard"), 500);
+            ToolTip.show(qsTr("ID copied to clipboard"), 1000);
         }
     }
 

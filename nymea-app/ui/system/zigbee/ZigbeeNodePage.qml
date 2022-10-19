@@ -180,12 +180,12 @@ SettingsPageBase {
         subText: qsTr("Version")
     }
 
-//    NymeaItemDelegate {
-//        Layout.fillWidth: true
-//        text: qsTr("Device endpoints")
-//        subText: qsTr("Show detailed information about the node")
-//        onClicked: pageStack.push(endpointsPageComponent)
-//    }
+    NymeaItemDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Device endpoints")
+        subText: qsTr("Show detailed information about the node")
+        onClicked: pageStack.push(endpointsPageComponent)
+    }
 
     SettingsPageSectionHeader {
         text: qsTr("Associated things")
@@ -338,43 +338,67 @@ SettingsPageBase {
     Component {
         id: endpointsPageComponent
         SettingsPageBase {
-            title: qsTr("Device endpoints")
+            title: qsTr("Node descriptor")
 
-            Repeater {
-                model: root.node.endpoints
-                delegate: ColumnLayout {
-                    id: endpointDelegate
-                    property ZigbeeNodeEndpoint endpoint: root.node.endpoints[index]
-                    Label {
-                        Layout.fillWidth: true
-                        text: "- " + qsTr("Endpoint %1").arg(endpointDelegate.endpoint.endpointId)
+            header: NymeaHeader {
+                text: qsTr("ZigBee node descriptor")
+                backButtonVisible: true
+                onBackPressed: pageStack.pop()
+
+                HeaderButton {
+                    imageSource: "/ui/images/edit-copy.svg"
+                    text: qsTr("Copy")
+                    onClicked: {
+                        PlatformHelper.toClipBoard(descriptorText.text)
+                        ToolTip.show(qsTr("Copied to clipboard"), 1000);
                     }
-                    Label {
-                        Layout.fillWidth: true
-                        text: "    " + qsTr("Input clusters")
+                }
+            }
+
+
+            TextArea {
+                id: descriptorText
+                readOnly: true
+                Layout.fillWidth: true
+                leftPadding: Style.margins
+                rightPadding: Style.margins
+                topPadding: Style.margins
+                bottomPadding: Style.margins
+                font.family: "Monospace"
+
+                text: {
+                    var ret = root.node.manufacturer + "\n"
+                    ret += root.node.model + "\n"
+                    ret += "RxOnWhileIdle: " + root.node.rxOnWhenIdle + "\n"
+                    ret += "Basic cluster version: " + root.node.version + "\n"
+
+                    if (root.node.endpoints.length > 0) {
+                        ret += "Endpoints\n";
                     }
 
-                    Repeater {
-                        model: endpointDelegate.endpoint.inputClusters
-                        delegate: Label {
-                            Layout.fillWidth: true
-                            property ZigbeeCluster cluster: endpointDelegate.endpoint.inputClusters[index]
-                            text: "      - " + cluster.clusterName() + " (" + (cluster.direction == ZigbeeCluster.ZigbeeClusterDirectionClient ? qsTr("Client") : qsTr("Server")) + ")"
+                    for (var i = 0; i < root.node.endpoints.length; i++) {
+                        var endpoint = root.node.endpoints[i]
+                        var isLastEp = i == root.node.endpoints.length - 1;
+                        var hasInputClusters = endpoint.inputClusters.length > 0
+                        var hasOutputClusters = endpoint.outputClusters.length > 0
+                        ret += (isLastEp ? "└" : "├") + (hasInputClusters || hasOutputClusters ? "┬" : "─") + " " + endpoint.endpointId + "\n"
+                        ret += (isLastEp ? " " : "│") + (hasOutputClusters ? "├" : "└") + (hasInputClusters ? "┬" : "─") + " Input clusters\n"
+                        for (var j = 0; j < endpoint.inputClusters.length; j++) {
+                            var cluster = endpoint.inputClusters[j]
+                            var isLast = j == endpoint.inputClusters.length - 1
+                            ret += (isLastEp ? " " : "│") + (hasOutputClusters ? "│" : " ") + (isLast ? "└" : "├") + "─ 0x" + NymeaUtils.pad(cluster.clusterId, 4, 16) + " " + cluster.clusterName() + " (" + (cluster.direction == ZigbeeCluster.ZigbeeClusterDirectionClient ? qsTr("Client") : qsTr("Server")) + ")\n"
                         }
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        text: "    " + qsTr("Output clusters")
-                    }
-
-                    Repeater {
-                        model: endpointDelegate.endpoint.outputClusters
-                        delegate: Label {
-                            Layout.fillWidth: true
-                            property ZigbeeCluster cluster: endpointDelegate.endpoint.outputClusters[index]
-                            text: "     - " + cluster.clusterName() + " (" + (cluster.direction == ZigbeeCluster.ZigbeeClusterDirectionClient ? qsTr("Client") : qsTr("Server")) + ")"
+                        if (hasOutputClusters) {
+                            ret += (isLastEp ? " " : "│") + "└" + (hasOutputClusters ? "┬" : "─") +" Output clusters\n"
+                            for (var j = 0; j < endpoint.outputClusters.length; j++) {
+                                var cluster = endpoint.outputClusters[j]
+                                var isLast = j == endpoint.outputClusters.length - 1
+                                ret += (isLastEp ? " " : "│") + " " + (isLast ? "└" : "├") + "─ 0x" + NymeaUtils.pad(cluster.clusterId, 4, 16) + " " + cluster.clusterName() + " (" + (cluster.direction == ZigbeeCluster.ZigbeeClusterDirectionClient ? qsTr("Client") : qsTr("Server")) + ")\n"
+                            }
                         }
+
                     }
+                    return ret;
                 }
             }
         }
@@ -400,14 +424,32 @@ SettingsPageBase {
                 onCurrentEndpointChanged: print("source endpoint changed", currentEndpoint.endpointId)
             }
             Label {
-                text: qsTr("Target node")
+                text: qsTr("Target")
                 Layout.fillWidth: true
             }
+
+            RowLayout {
+                // Groups not properly implemented yet. hiding it for now
+                visible: false
+                RadioButton {
+                    id: nodeRadioButton
+                    text: qsTr("Node")
+                    checked: true
+                    Layout.fillWidth: true
+                }
+                RadioButton {
+                    id: groupRadioButton
+                    text: qsTr("Group")
+                    Layout.fillWidth: true
+                }
+            }
+
             ComboBox {
                 id: destinationNodeComboBox
                 Layout.fillWidth: true
                 Layout.preferredHeight: Style.delegateHeight
                 model: network.nodes
+                visible: nodeRadioButton.checked
                 property ZigbeeNode currentNode: network.nodes.get(currentIndex)
                 property Thing currentNodeThing: currentNode && currentDestinationNodeThings.count > 0 ? currentDestinationNodeThings.get(0) : null
                 ThingsProxy {
@@ -483,16 +525,30 @@ SettingsPageBase {
                 }
             }
             Label {
+                visible: nodeRadioButton.checked
                 text: qsTr("Destination endpoint")
                 Layout.fillWidth: true
             }
             ComboBox {
                 id: destinationEndpointComboBox
+                visible: nodeRadioButton.checked
                 Layout.fillWidth: true
                 model: destinationNodeComboBox.currentNode.endpoints
                 textRole: "endpointId"
                 displayText: currentEndpoint.endpointId
                 property ZigbeeNodeEndpoint currentEndpoint: destinationNodeComboBox.currentNode.endpoints[currentIndex]
+            }
+
+            Label {
+                text: qsTr("Group address")
+                visible: groupRadioButton.checked
+            }
+
+            TextField {
+                id: groupAddressTextField
+                visible: groupRadioButton.checked
+                Layout.fillWidth: true
+                text: "0"
             }
 
             Label {
@@ -509,44 +565,51 @@ SettingsPageBase {
                 }
                 model: {
                     var ret = []
-                    print("updating clusters", sourceEndpointComboBox.currentEndpoint, destinationNodeComboBox.currentNode, destinationEndpointComboBox.currentEndpoint)
-                    if (!sourceEndpointComboBox.currentEndpoint || !destinationNodeComboBox.currentNode || !destinationEndpointComboBox.currentEndpoint) {
-                        return ret;
-                    }
-
-                    if (destinationNodeComboBox.currentNode == root.coordinatorNode) {
-                        for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.outputClusters.length; i++) {
-                            var outputCluster = sourceEndpointComboBox.currentEndpoint.outputClusters[i]
-                            ret.push(outputCluster)
+                    if (nodeRadioButton.checked) {
+                        print("updating clusters", sourceEndpointComboBox.currentEndpoint, destinationNodeComboBox.currentNode, destinationEndpointComboBox.currentEndpoint)
+                        if (!sourceEndpointComboBox.currentEndpoint || !destinationNodeComboBox.currentNode || !destinationEndpointComboBox.currentEndpoint) {
+                            return ret;
                         }
-                        for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.inputClusters.length; i++) {
-                            var inputCluster = sourceEndpointComboBox.currentEndpoint.inputClusters[i]
-                            ret.push(inputCluster)
+
+                        if (destinationNodeComboBox.currentNode == root.coordinatorNode) {
+                            for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.outputClusters.length; i++) {
+                                var outputCluster = sourceEndpointComboBox.currentEndpoint.outputClusters[i]
+                                ret.push(outputCluster)
+                            }
+                            for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.inputClusters.length; i++) {
+                                var inputCluster = sourceEndpointComboBox.currentEndpoint.inputClusters[i]
+                                ret.push(inputCluster)
+                            }
+                        } else {
+                            for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.outputClusters.length; i++) {
+                                var outputCluster = sourceEndpointComboBox.currentEndpoint.outputClusters[i]
+                                print("source has cluster", outputCluster.clusterId)
+                                for (var j = 0; j < destinationEndpointComboBox.currentEndpoint.inputClusters.length; j++) {
+                                    var inputCluster = destinationEndpointComboBox.currentEndpoint.inputClusters[j]
+                                    print("destination has cluster", inputCluster.clusterId)
+                                    if (inputCluster.clusterId === outputCluster.clusterId && inputCluster.direction !== outputCluster.direction) {
+                                        ret.push(outputCluster);
+                                        break;
+                                    }
+                                }
+                            }
+                            for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.inputClusters.length; i++) {
+                                var inputCluster = sourceEndpointComboBox.currentEndpoint.inputClusters[i]
+                                print("source has cluster", inputCluster.clusterId)
+                                for (var j = 0; j < destinationEndpointComboBox.currentEndpoint.outputClusters.length; j++) {
+                                    var outputCluster = destinationEndpointComboBox.currentEndpoint.outputClusters[j]
+                                    print("destination has cluster", outputCluster.clusterId)
+                                    if (inputCluster.clusterId === outputCluster.clusterId && inputCluster.direction !== outputCluster.direction) {
+                                        ret.push(inputCluster);
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     } else {
-                        for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.outputClusters.length; i++) {
-                            var outputCluster = sourceEndpointComboBox.currentEndpoint.outputClusters[i]
-                            print("source has cluster", outputCluster.clusterId)
-                            for (var j = 0; j < destinationEndpointComboBox.currentEndpoint.inputClusters.length; j++) {
-                                var inputCluster = destinationEndpointComboBox.currentEndpoint.inputClusters[j]
-                                print("destination has cluster", inputCluster.clusterId)
-                                if (inputCluster.clusterId === outputCluster.clusterId && inputCluster.direction !== outputCluster.direction) {
-                                    ret.push(outputCluster);
-                                    break;
-                                }
-                            }
-                        }
                         for (var i = 0; i < sourceEndpointComboBox.currentEndpoint.inputClusters.length; i++) {
                             var inputCluster = sourceEndpointComboBox.currentEndpoint.inputClusters[i]
-                            print("source has cluster", inputCluster.clusterId)
-                            for (var j = 0; j < destinationEndpointComboBox.currentEndpoint.outputClusters.length; j++) {
-                                var outputCluster = destinationEndpointComboBox.currentEndpoint.outputClusters[j]
-                                print("destination has cluster", outputCluster.clusterId)
-                                if (inputCluster.clusterId === outputCluster.clusterId && inputCluster.direction !== outputCluster.direction) {
-                                    ret.push(inputCluster);
-                                    break;
-                                }
-                            }
+                            ret.push(inputCluster);
                         }
                     }
 
@@ -556,15 +619,23 @@ SettingsPageBase {
                 displayText: currentValue.clusterName()
             }
 
-
             onAccepted: {
-                d.pendingCommandId = root.zigbeeManager.createBinding(
-                            root.network.networkUuid,
-                            root.node.ieeeAddress,
-                            sourceEndpointComboBox.currentEndpoint.endpointId,
-                            clusterComboBox.currentCluster.clusterId,
-                            destinationNodeComboBox.currentNode.ieeeAddress,
-                            destinationEndpointComboBox.currentEndpoint.endpointId)
+                if (nodeRadioButton.checked) {
+                    d.pendingCommandId = root.zigbeeManager.createBinding(
+                                root.network.networkUuid,
+                                root.node.ieeeAddress,
+                                sourceEndpointComboBox.currentEndpoint.endpointId,
+                                clusterComboBox.currentCluster.clusterId,
+                                destinationNodeComboBox.currentNode.ieeeAddress,
+                                destinationEndpointComboBox.currentEndpoint.endpointId)
+                } else {
+                    d.pendingCommandId = root.zigbeeManager.createGroupBinding(
+                                root.network.networkUuid,
+                                root.node.ieeeAddress,
+                                sourceEndpointComboBox.currentEndpoint.endpointId,
+                                clusterComboBox.currentCluster.clusterId,
+                                groupAddressTextField.text)
+                }
 
                 if (!root.node.rxOnWhenIdle) {
                     d.wakeupDialog = wakeupDialogComponent.createObject(root)
