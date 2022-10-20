@@ -127,6 +127,61 @@
     </message>
 </context>
 <context>
+    <name>AirQualityIndex</name>
+    <message>
+        <source>Very low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Very high</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Excellent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Good</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Moderate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Poor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unhealthy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unhealthy for sensitive groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Very unhealthy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hazardeous</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AppLogPage</name>
     <message>
         <source>Application logs</source>
@@ -217,88 +272,6 @@
     </message>
     <message>
         <source>%1 disconnected.</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
-    <name>BluetoothDiscoveryPage</name>
-    <message>
-        <source>Wireless Box setup</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Uh oh</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Bluetooth doesn&apos;t seem to be available on this device. The wireless network setup requires a working Bluetooth connection.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Bluetooth seems to be disabled. Please enable Bluetooth on your device in order to use the wireless network setup.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Wireless setup help</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Connecting...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Connecting to %1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>%1 box</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Searching for %1 systems.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Troubles finding your %1 system?</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>BoxInfoPage</name>
-    <message>
-        <source>Box information</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>System UUID</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Manufacturer</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Software revision</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Firmware revision</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Hardware revision</source>
         <translation></translation>
     </message>
 </context>
@@ -729,10 +702,6 @@
 <context>
     <name>ConfigureThingPage</name>
     <message>
-        <source>Vendor:</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Apply</source>
         <translation></translation>
     </message>
@@ -758,14 +727,6 @@
     </message>
     <message>
         <source>Settings</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>ID:</source>
         <translation></translation>
     </message>
     <message>
@@ -812,35 +773,16 @@
         <source>Connect</source>
         <translation></translation>
     </message>
-</context>
-<context>
-    <name>ConnectWiFiPage</name>
     <message>
-        <source>Select wireless network</source>
-        <translation></translation>
+        <source>Vendor</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Authenticate</source>
-        <translation></translation>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enter the password for %1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Sorry, the password is wrong. Please try again.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Hidden Network</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Connecting %1 to %2</source>
+        <source>ID</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -949,6 +891,205 @@
     </message>
 </context>
 <context>
+    <name>ConnectionWizard</name>
+    <message>
+        <source>Welcome</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This wizard will guide you through the process of setting up a new nymea system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Demo mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please follow the installation instructions on %1 to install a nymea system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connectivity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>How would you like to connect nymea to your network?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wired network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wireless network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect nymea to your WiFi network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If your nymea system is already connected to the network you can skip this step.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select nymea system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manual connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please wait while your nymea system is being discovered.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please enter the connection information for your nymea system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TCP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Websocket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remote proxy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Proxy address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 UUID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSL:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wired connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wireless connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wireless setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Searching for the nymea system...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connecting to the nymea system...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the WiFi you want to use.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hidden Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hidden WiFi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the information for the hidden WiFi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the password for the WiFi network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An error happened in the Bluetooth connection. Please try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please wait while the nymea system is being connected to the WiFi.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The nymea system has been connected successfully.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can now go ahead and configure your nymea system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Waiting for your nymea setup to appear in the network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConsumerStats</name>
     <message>
         <source>Consumers totals</source>
@@ -972,6 +1113,10 @@
     </message>
     <message>
         <source>Years</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -998,6 +1143,26 @@
     </message>
     <message>
         <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4216,15 +4381,7 @@ Use a timeout value greater or equal to 10 ms.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Networking</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Wireless network</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Trigger a wireless scan on the device.</source>
         <translation></translation>
     </message>
     <message>
@@ -4475,187 +4632,44 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>No wireless network interfaces available</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>NewConnectionWizard</name>
     <message>
-        <source>Welcome</source>
+        <source>New wired connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This wizard will guide you through the process of setting up a new nymea system.</source>
+        <source>Method</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Demo mode</source>
+        <source>Automatic (DHCP client)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
+        <source>Manual</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please follow the installation instructions on %1 to install a nymea system.</source>
+        <source>Shared (DHCP server)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Connectivity</source>
+        <source>Address settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>How would you like to connect nymea to your network?</source>
+        <source>IP Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Skip</source>
+        <source>Gateway</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wired network</source>
+        <source>DNS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wireless network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connect nymea to your WiFi network.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If your nymea system is already connected to the network you can skip this step.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Manual connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please wait while your nymea system is being discovered.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please enter the connection information for your nymea system</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Protocol</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>TCP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Websocket</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wired connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wireless connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wireless setup</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Searching for the nymea system...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connecting to the nymea system...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select the WiFi you want to use.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hidden Network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter the password for the WiFi network.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>An error happened in the Bluetooth connection. Please try again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please wait while the nymea system is being connected to the WiFi.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The nymea system has been connected successfully.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You can now go ahead and configure your nymea system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Waiting for your nymea setup to appear in the network.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remote proxy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Proxy address:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 UUID:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SSL:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select nymea system</source>
+        <source>Create connection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4686,6 +4700,10 @@ Use a timeout value greater or equal to 10 ms.</source>
     <message>
         <source>New magic for %1</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>A thing</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4986,6 +5004,14 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Electric cars</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>VOC level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nitrogen dioxide level</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -5234,6 +5260,10 @@ Do you want to proceed?</source>
         <source>To grid: %1 kWh</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PowerConsumptionBalanceHistory</name>
@@ -5269,6 +5299,26 @@ Do you want to proceed?</source>
         <source>From grid: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PowerProductionBalanceHistory</name>
@@ -5302,6 +5352,26 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>To grid: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6793,37 +6863,6 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
 </context>
 <context>
-    <name>WirelessSetupPage</name>
-    <message>
-        <source>Wireless network setup</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>IP address: %1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Change network</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Close wireless setup</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Your %1 system is connected to %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Waiting for the %1 to appear in your network.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connect to %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>
@@ -7019,10 +7058,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Security supported:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Beaming supported:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7072,6 +7107,14 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Z-Wave end device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Security mode:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Security device:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7315,10 +7358,6 @@ Please only use this if you are sure you want this and consider reporting the is
 <context>
     <name>ZigbeeNetworkPage</name>
     <message>
-        <source>Channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>ZigBee network</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7332,14 +7371,6 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>The selected adapter is already in use.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network state:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7363,19 +7394,11 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Permit new devices:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Open for %0 s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Closed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extend open duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7416,10 +7439,6 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connected devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7465,6 +7484,30 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>Initializing...</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s) (%1 disconnected)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -7555,6 +7598,256 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Are you sure you want to remove the network and all associated devices from the system?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network map</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNetworkTopologyPage</name>
+    <message>
+        <source>ZigBee network map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Links</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Routes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Model:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manufacturer:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last seen:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Neighbor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Via</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee topology help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node relationship</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sibling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Child</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous child</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Depth in network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Permit join</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route inactive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discovery in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Validation in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNodePage</name>
+    <message>
+        <source>ZigBee node info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An error happened in the ZigBee network when creating the binding.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The ZigBee device did not respond. Please try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An error happened in the ZigBee network when removing the binding.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manufacturer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IEEE address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signal strength</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Associated things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bindings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Group: 0x%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add binding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove ZigBee node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this node from the network?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device endpoints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Endpoint %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input clusters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Output clusters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source endpoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Target node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Coordinator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unrecognized device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination endpoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cluster</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wake up %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected node is a sleepy device. Please wake up the device by pressing a button.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

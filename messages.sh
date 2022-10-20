@@ -42,4 +42,4 @@ echo "" >> $OUT
 echo "};" >> $OUT
 
 
-lupdate nymea-app.pro
+lupdate -no-obsolete nymea-app.pro

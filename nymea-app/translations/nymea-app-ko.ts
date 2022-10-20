@@ -127,6 +127,61 @@
     </message>
 </context>
 <context>
+    <name>AirQualityIndex</name>
+    <message>
+        <source>Very low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Very high</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Excellent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Good</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Moderate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Poor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unhealthy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unhealthy for sensitive groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Very unhealthy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hazardeous</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AppLogPage</name>
     <message>
         <source>Application logs</source>
@@ -146,10 +201,6 @@
     <message>
         <source>Customize the app&apos;s look and behavior</source>
         <translation>앱의 모양과 동작 사용자 정의</translation>
-    </message>
-    <message>
-        <source>Cloud login</source>
-        <translation type="vanished">클라우드 로그인</translation>
     </message>
     <message>
         <source>Developer options</source>
@@ -222,88 +273,6 @@
     <message>
         <source>%1 disconnected.</source>
         <translation>%1 에 연결이 끊어 졌습니다.</translation>
-    </message>
-</context>
-<context>
-    <name>BluetoothDiscoveryPage</name>
-    <message>
-        <source>Wireless Box setup</source>
-        <translation>무선장치 설정</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>도움</translation>
-    </message>
-    <message>
-        <source>Uh oh</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Bluetooth doesn&apos;t seem to be available on this device. The wireless network setup requires a working Bluetooth connection.</source>
-        <translation>이 장치에서는 블루투스를 사용할 수 없는 것 같습니다. 무선 네트워크 설정은 작동하는 블루투스 연결을 필요로 합니다.</translation>
-    </message>
-    <message>
-        <source>Bluetooth seems to be disabled. Please enable Bluetooth on your device in order to use the wireless network setup.</source>
-        <translation>블루투스가 비활성화된 것 같습니다. 무선 네트워크 설정을 사용하려면 장치에서 Bluetooth를 활성화하십시오.</translation>
-    </message>
-    <message>
-        <source>Wireless setup help</source>
-        <translation>무선장치 설정 도움</translation>
-    </message>
-    <message>
-        <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
-        <translation>Nymea 커뮤니티 이미지를 Raspberry Pi에 설치한 후 전원 소켓에 연결하기만 하면 됩니다. Raspberry Pi가 유선 네트워크에 연결되어 있지 않은 경우에만 무선 설정을 사용할 수 있습니다.</translation>
-    </message>
-    <message>
-        <source>If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.</source>
-        <translation>%1 상자(블루투스 장치)가 있으면 전원 소켓에 연결하고 부팅될 때까지 기다립니다. LED가 느리게 펄스되면 LED가 바뀔 때까지 버튼을 3초간 누릅니다.</translation>
-    </message>
-    <message>
-        <source>Connecting...</source>
-        <translation>연결중...</translation>
-    </message>
-    <message>
-        <source>Connecting to %1</source>
-        <translation>%1에 연결 중</translation>
-    </message>
-    <message>
-        <source>%1 box</source>
-        <translation>%1 상자(장치)</translation>
-    </message>
-    <message>
-        <source>Searching for %1 systems.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Troubles finding your %1 system?</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>BoxInfoPage</name>
-    <message>
-        <source>Box information</source>
-        <translation>상자(장치) 정보</translation>
-    </message>
-    <message>
-        <source>System UUID</source>
-        <translation>시스템 UUID</translation>
-    </message>
-    <message>
-        <source>Manufacturer</source>
-        <translation>제조자</translation>
-    </message>
-    <message>
-        <source>Software revision</source>
-        <translation>소프트웨어 수정 버전</translation>
-    </message>
-    <message>
-        <source>Firmware revision</source>
-        <translation>펌웨어 수정버전</translation>
-    </message>
-    <message>
-        <source>Hardware revision</source>
-        <translation>하드웨어 수정 버전</translation>
     </message>
 </context>
 <context>
@@ -733,10 +702,6 @@
 <context>
     <name>ConfigureThingPage</name>
     <message>
-        <source>Vendor:</source>
-        <translation>공급업체:</translation>
-    </message>
-    <message>
         <source>Apply</source>
         <translation>적용</translation>
     </message>
@@ -763,14 +728,6 @@
     <message>
         <source>Settings</source>
         <translation type="unfinished">설정</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ID:</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>ID copied to clipboard</source>
@@ -816,74 +773,16 @@
         <source>Connect</source>
         <translation type="unfinished">접속하기</translation>
     </message>
-</context>
-<context>
-    <name>ConnectPage</name>
     <message>
-        <source>Connect %1</source>
-        <translation type="vanished">%1 연결</translation>
+        <source>Vendor</source>
+        <translation type="unfinished">공급 업체</translation>
     </message>
     <message>
-        <source>Oh, look!</source>
-        <translation type="vanished">오, 보세요!</translation>
+        <source>Type</source>
+        <translation type="unfinished">유형</translation>
     </message>
     <message>
-        <source>Just a moment...</source>
-        <translation type="vanished">잠시만요...</translation>
-    </message>
-    <message>
-        <source>Start wireless setup</source>
-        <translation type="vanished">무선 설정 시작</translation>
-    </message>
-    <message>
-        <source>Cloud login</source>
-        <translation type="vanished">클라우드 로그인</translation>
-    </message>
-    <message>
-        <source>Demo mode (online)</source>
-        <translation type="vanished">데모 모드(온라인)</translation>
-    </message>
-    <message>
-        <source>Not the ones you&apos;re looking for? We&apos;re looking for more!</source>
-        <translation type="vanished">당신이 찾고 있는 게 아니에요? 더 찾고 있어요!</translation>
-    </message>
-    <message>
-        <source>Box information</source>
-        <translation type="vanished">상자(장치) 정보</translation>
-    </message>
-    <message>
-        <source>Available connections</source>
-        <translation type="vanished">사용 가능한 연결</translation>
-    </message>
-</context>
-<context>
-    <name>ConnectWiFiPage</name>
-    <message>
-        <source>Select wireless network</source>
-        <translation>무선 네트워크 선택</translation>
-    </message>
-    <message>
-        <source>Authenticate</source>
-        <translation>인증</translation>
-    </message>
-    <message>
-        <source>Enter the password for %1</source>
-        <translation>%1의 암호를 입력하십시오</translation>
-    </message>
-    <message>
-        <source>Sorry, the password is wrong. Please try again.</source>
-        <translation>미안하지만, 암호가 틀렸어요. 다시 시도해보십시오.</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>확인</translation>
-    </message>
-    <message>
-        <source>Hidden Network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connecting %1 to %2</source>
+        <source>ID</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -933,10 +832,6 @@
 <context>
     <name>ConnectionInfoDialog</name>
     <message>
-        <source>Box information</source>
-        <translation type="obsolete">상자(장치) 정보</translation>
-    </message>
-    <message>
         <source>Available connections</source>
         <translation type="unfinished">사용 가능한 연결</translation>
     </message>
@@ -971,18 +866,6 @@
         <translation>연결 인터페이스</translation>
     </message>
     <message>
-        <source>TCP server interfaces</source>
-        <translation type="vanished">TCP 서버 인터페이스</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">추가</translation>
-    </message>
-    <message>
-        <source>WebSocket server interfaces</source>
-        <translation type="vanished">WebSocket 서버 인터페이스</translation>
-    </message>
-    <message>
         <source>Connection settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1004,6 +887,205 @@
     </message>
     <message>
         <source>Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConnectionWizard</name>
+    <message>
+        <source>Welcome</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This wizard will guide you through the process of setting up a new nymea system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Demo mode</source>
+        <translation type="unfinished">시범 구성(데모 모드)</translation>
+    </message>
+    <message>
+        <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please follow the installation instructions on %1 to install a nymea system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connectivity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>How would you like to connect nymea to your network?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wired network</source>
+        <translation type="unfinished">유선 네트워크</translation>
+    </message>
+    <message>
+        <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wireless network</source>
+        <translation type="unfinished">무선 네트워크</translation>
+    </message>
+    <message>
+        <source>Connect nymea to your WiFi network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If your nymea system is already connected to the network you can skip this step.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select nymea system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manual connection</source>
+        <translation type="unfinished">수동 연결</translation>
+    </message>
+    <message>
+        <source>Please wait while your nymea system is being discovered.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please enter the connection information for your nymea system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation type="unfinished">프로토콜(통신규약)</translation>
+    </message>
+    <message>
+        <source>TCP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Websocket</source>
+        <translation type="unfinished">웹소켓</translation>
+    </message>
+    <message>
+        <source>Remote proxy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished">주소:</translation>
+    </message>
+    <message>
+        <source>Proxy address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 UUID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished">포트:</translation>
+    </message>
+    <message>
+        <source>SSL:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wired connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wireless connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wireless setup</source>
+        <translation type="unfinished">무선 설정</translation>
+    </message>
+    <message>
+        <source>Searching for the nymea system...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connecting to the nymea system...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the WiFi you want to use.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hidden Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hidden WiFi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the information for the hidden WiFi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished">암호</translation>
+    </message>
+    <message>
+        <source>Enter the password for the WiFi network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An error happened in the Bluetooth connection. Please try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please wait while the nymea system is being connected to the WiFi.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The nymea system has been connected successfully.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can now go ahead and configure your nymea system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Waiting for your nymea setup to appear in the network.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1033,6 +1115,10 @@
         <source>Years</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsumersBarChart</name>
@@ -1057,6 +1143,26 @@
     </message>
     <message>
         <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1613,16 +1719,6 @@
     <message>
         <source>When this condition...</source>
         <translation>이 상태가 되면...</translation>
-    </message>
-    <message>
-        <source>Examples:
-• While I&apos;m at home...
-• When the temperature is below 0...
-• Between 9 am and 6 pm...</source>
-        <translation type="vanished">예:
-• 집에 있는 동안...
-• 온도가 0도 이하일 때...
-• 오전 9시에서 오후 6시 사이...</translation>
     </message>
     <message>
         <source>When time is in...</source>
@@ -3512,32 +3608,12 @@ Please try again.</source>
         <translation>입력한 이메일이 유효하지 않습니다.</translation>
     </message>
     <message>
-        <source>The email you&apos;ve entered is already used.</source>
-        <translation type="vanished">입력한 이메일은 이미 사용되고 있습니다.</translation>
-    </message>
-    <message>
-        <source>The password you&apos;ve chose is too weak.</source>
-        <translation type="vanished">네가 선택한 암호가 너무 약합니다.</translation>
-    </message>
-    <message>
         <source>In order to use your %1 system, please log in.</source>
         <translation>%1 시스템을 사용하려면 로그인하십시오.</translation>
     </message>
     <message>
-        <source>Your e-mail address:</source>
-        <translation type="vanished">이메일 주소:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation type="vanished">비밀번호:</translation>
-    </message>
-    <message>
         <source>OK</source>
         <translation>확인</translation>
-    </message>
-    <message>
-        <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
-        <translation type="vanished">%1 시스템을 사용하려면 이메일 주소를 입력하고 암호를 설정하십시오.</translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1 system is installed correctly.</source>
@@ -3756,10 +3832,6 @@ Please try again.</source>
         <translation type="unfinished">시스템 설정</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="obsolete">도움</translation>
-    </message>
-    <message>
         <source>New connection</source>
         <translation type="unfinished">새 연결</translation>
     </message>
@@ -3825,37 +3897,6 @@ Please try again.</source>
     <message>
         <source>Dashboard</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ManualConnectPage</name>
-    <message>
-        <source>Manual connection</source>
-        <translation type="vanished">수동 연결</translation>
-    </message>
-    <message>
-        <source>Protocol</source>
-        <translation type="vanished">프로토콜(통신규약)</translation>
-    </message>
-    <message>
-        <source>Websocket</source>
-        <translation type="vanished">웹소켓</translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation type="vanished">서버주소:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="vanished">포트:</translation>
-    </message>
-    <message>
-        <source>Encrypted connection:</source>
-        <translation type="vanished">보안 연결:</translation>
-    </message>
-    <message>
-        <source>Connect</source>
-        <translation type="vanished">접속하기</translation>
     </message>
 </context>
 <context>
@@ -4344,16 +4385,8 @@ Use a timeout value greater or equal to 10 ms.</source>
         <translation>네트워크 설정</translation>
     </message>
     <message>
-        <source>Networking</source>
-        <translation>네트워킹</translation>
-    </message>
-    <message>
         <source>Wireless network</source>
         <translation>무선 네트워크</translation>
-    </message>
-    <message>
-        <source>Trigger a wireless scan on the device.</source>
-        <translation>장치에서 무선 검색을 실행 하십시오.</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -4603,191 +4636,44 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>No wireless network interfaces available</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>NewConnectionWizard</name>
     <message>
-        <source>Welcome</source>
+        <source>New wired connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This wizard will guide you through the process of setting up a new nymea system.</source>
+        <source>Method</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Demo mode</source>
-        <translation type="unfinished">시범 구성(데모 모드)</translation>
-    </message>
-    <message>
-        <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
+        <source>Automatic (DHCP client)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please follow the installation instructions on %1 to install a nymea system.</source>
+        <source>Manual</source>
+        <translation type="unfinished">수동</translation>
+    </message>
+    <message>
+        <source>Shared (DHCP server)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Connectivity</source>
+        <source>Address settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>How would you like to connect nymea to your network?</source>
+        <source>IP Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Skip</source>
+        <source>Gateway</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wired network</source>
-        <translation type="unfinished">유선 네트워크</translation>
-    </message>
-    <message>
-        <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
+        <source>DNS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wireless network</source>
-        <translation type="unfinished">무선 네트워크</translation>
-    </message>
-    <message>
-        <source>Connect nymea to your WiFi network.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If your nymea system is already connected to the network you can skip this step.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Manual connection</source>
-        <translation type="unfinished">수동 연결</translation>
-    </message>
-    <message>
-        <source>Please wait while your nymea system is being discovered.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please enter the connection information for your nymea system</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Protocol</source>
-        <translation type="unfinished">프로토콜(통신규약)</translation>
-    </message>
-    <message>
-        <source>TCP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Websocket</source>
-        <translation type="unfinished">웹소켓</translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="unfinished">포트:</translation>
-    </message>
-    <message>
-        <source>Encrypted connection:</source>
-        <translation type="obsolete">보안 연결:</translation>
-    </message>
-    <message>
-        <source>Wired connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wireless connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wireless setup</source>
-        <translation type="unfinished">무선 설정</translation>
-    </message>
-    <message>
-        <source>Searching for the nymea system...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connecting to the nymea system...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select the WiFi you want to use.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hidden Network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter the password for the WiFi network.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>An error happened in the Bluetooth connection. Please try again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please wait while the nymea system is being connected to the WiFi.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The nymea system has been connected successfully.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You can now go ahead and configure your nymea system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Waiting for your nymea setup to appear in the network.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remote proxy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Proxy address:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 UUID:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SSL:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select nymea system</source>
+        <source>Create connection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4818,6 +4704,10 @@ Use a timeout value greater or equal to 10 ms.</source>
     <message>
         <source>New magic for %1</source>
         <translation>% 1의 새로운 마법</translation>
+    </message>
+    <message>
+        <source>A thing</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5118,6 +5008,14 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Electric cars</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>VOC level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nitrogen dioxide level</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -5223,48 +5121,6 @@ Do you want to proceed?</source>
     <message>
         <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package information</source>
-        <translation type="obsolete">패키지 정보</translation>
-    </message>
-    <message>
-        <source>Installed version:</source>
-        <translation type="obsolete">설치된 버전:</translation>
-    </message>
-    <message>
-        <source>Not installed</source>
-        <translation type="obsolete">설치되지 않음</translation>
-    </message>
-    <message>
-        <source>Candidate version:</source>
-        <translation type="obsolete">후보 버전:</translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation type="obsolete">업데이트</translation>
-    </message>
-    <message>
-        <source>Install</source>
-        <translation type="obsolete">설치</translation>
-    </message>
-    <message>
-        <source>
-Do you want to proceed?</source>
-        <translation type="obsolete">
-진행 하시겠습니까?</translation>
-    </message>
-    <message>
-        <source>Start update</source>
-        <translation type="obsolete">업데이트 시작</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="obsolete">제거</translation>
-    </message>
-    <message>
-        <source>Remove package</source>
-        <translation type="obsolete">패키지 제거</translation>
     </message>
 </context>
 <context>
@@ -5409,6 +5265,10 @@ Do you want to proceed?</source>
         <source>To grid: %1 kWh</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PowerConsumptionBalanceHistory</name>
@@ -5444,6 +5304,26 @@ Do you want to proceed?</source>
         <source>From grid: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PowerProductionBalanceHistory</name>
@@ -5477,6 +5357,26 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>To grid: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6012,14 +5912,6 @@ Do you want to proceed?</source>
         <translation>시스템 로그 보기</translation>
     </message>
     <message>
-        <source>Cloud</source>
-        <translation type="vanished">클라우드</translation>
-    </message>
-    <message>
-        <source>API interfaces</source>
-        <translation type="vanished">API 인터페이스</translation>
-    </message>
-    <message>
         <source>MQTT broker</source>
         <translation>MQTT 브로커</translation>
     </message>
@@ -6070,10 +5962,6 @@ Do you want to proceed?</source>
     <message>
         <source>Configure the system&apos;s network connection</source>
         <translation>시스템의 네트워크 연결 구성</translation>
-    </message>
-    <message>
-        <source>Configure how clients interact with this system</source>
-        <translation type="vanished">클라이언트가 이 시스템과 상호 작용하는 방식 구성</translation>
     </message>
     <message>
         <source>User settings</source>
@@ -6743,10 +6631,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation type="obsolete">사용자명</translation>
-    </message>
-    <message>
         <source>Change password</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6984,37 +6868,6 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
 </context>
 <context>
-    <name>WirelessSetupPage</name>
-    <message>
-        <source>Wireless network setup</source>
-        <translation>무선 네트워크 설정</translation>
-    </message>
-    <message>
-        <source>IP address: %1</source>
-        <translation>IP 주소 : % 1</translation>
-    </message>
-    <message>
-        <source>Change network</source>
-        <translation>네트워크 변경</translation>
-    </message>
-    <message>
-        <source>Close wireless setup</source>
-        <translation>무선 설정 닫기</translation>
-    </message>
-    <message>
-        <source>Your %1 system is connected to %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Waiting for the %1 to appear in your network.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connect to %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>
@@ -7210,10 +7063,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Security supported:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Beaming supported:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7263,6 +7112,14 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Z-Wave end device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Security mode:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Security device:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7506,10 +7363,6 @@ Please only use this if you are sure you want this and consider reporting the is
 <context>
     <name>ZigbeeNetworkPage</name>
     <message>
-        <source>Channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>ZigBee network</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7523,14 +7376,6 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>The selected adapter is already in use.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Network state:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7554,19 +7399,11 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Permit new devices:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Open for %0 s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Closed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extend open duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7608,18 +7445,6 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>Help</source>
         <translation type="unfinished">도움</translation>
-    </message>
-    <message>
-        <source>Connected devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Manufacturer</source>
-        <translation type="obsolete">제조자</translation>
-    </message>
-    <message>
-        <source>Signal strength</source>
-        <translation type="obsolete">신호 강도</translation>
     </message>
     <message>
         <source>OK</source>
@@ -7664,6 +7489,30 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>Initializing...</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished">닫기</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s) (%1 disconnected)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -7756,6 +7605,256 @@ Please only use this if you are sure you want this and consider reporting the is
         <source>Are you sure you want to remove the network and all associated devices from the system?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Network map</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNetworkTopologyPage</name>
+    <message>
+        <source>ZigBee network map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished">도움</translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Links</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Routes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished">주소:</translation>
+    </message>
+    <message>
+        <source>Model:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manufacturer:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last seen:</source>
+        <translation type="unfinished">마지막으로 본:</translation>
+    </message>
+    <message>
+        <source>Neighbor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation type="unfinished">까지</translation>
+    </message>
+    <message>
+        <source>Via</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee topology help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node relationship</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sibling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Child</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous child</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Depth in network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Permit join</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route inactive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discovery in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Validation in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNodePage</name>
+    <message>
+        <source>ZigBee node info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An error happened in the ZigBee network when creating the binding.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The ZigBee device did not respond. Please try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An error happened in the ZigBee network when removing the binding.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manufacturer</source>
+        <translation type="unfinished">제조자</translation>
+    </message>
+    <message>
+        <source>IEEE address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signal strength</source>
+        <translation type="unfinished">신호 강도</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished">알 수 없는</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Associated things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bindings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Group: 0x%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add binding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove ZigBee node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this node from the network?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device endpoints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Endpoint %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input clusters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Output clusters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source endpoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Target node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Coordinator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unrecognized device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination endpoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cluster</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wake up %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected node is a sleepy device. Please wake up the device by pressing a button.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ZigbeeSettingsPage</name>
@@ -7833,14 +7932,6 @@ Please only use this if you are sure you want this and consider reporting the is
 </context>
 <context>
     <name>description for buttontemplates</name>
-    <message>
-        <source>Turn on a light</source>
-        <translation type="vanished">전등 켜기</translation>
-    </message>
-    <message>
-        <source>Turn off a light</source>
-        <translation type="vanished">전등 끄기</translation>
-    </message>
     <message>
         <source>Switch a light</source>
         <translation>전등 스위치</translation>
@@ -7926,10 +8017,6 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>Notify me when a device runs out of battery</source>
         <translation>기기의 배터리가 소진되면 알림</translation>
-    </message>
-    <message>
-        <source>Notify me when something runs dry</source>
-        <translation type="vanished">마르면 알림</translation>
     </message>
     <message>
         <source>Notify me when a thing gets disconnected</source>
@@ -8087,10 +8174,6 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>Low battery alert for %0</source>
         <translation>% 0에 대한 배터리 부족 경보</translation>
-    </message>
-    <message>
-        <source>Notify %1 when %0 runs dry</source>
-        <translation type="vanished">% 0이 마르면 % 1에 알림</translation>
     </message>
     <message>
         <source>Disconnect alert for %0</source>

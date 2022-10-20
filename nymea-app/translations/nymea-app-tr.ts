@@ -127,6 +127,61 @@
     </message>
 </context>
 <context>
+    <name>AirQualityIndex</name>
+    <message>
+        <source>Very low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Very high</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Excellent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Good</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Moderate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Poor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unhealthy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unhealthy for sensitive groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Very unhealthy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hazardeous</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AppLogPage</name>
     <message>
         <source>Application logs</source>
@@ -148,10 +203,6 @@
         <translation>Uygulamanın görünümünü ve davranışını özelleştirin</translation>
     </message>
     <message>
-        <source>Cloud login</source>
-        <translation type="vanished">Bulut giriş</translation>
-    </message>
-    <message>
         <source>Developer options</source>
         <translation>Geliştirmeci özellikleri</translation>
     </message>
@@ -166,10 +217,6 @@
     <message>
         <source>Access tools for debugging and error reporting</source>
         <translation>Hata ayıklama ve hata raporlama için erişim araçları</translation>
-    </message>
-    <message>
-        <source>Log into %1:cloud and manage connected %1 systems</source>
-        <translation type="vanished">%1:bulutta oturum açın ve bağlı %1 sistemlerini yönetin</translation>
     </message>
 </context>
 <context>
@@ -226,88 +273,6 @@
     <message>
         <source>%1 disconnected.</source>
         <translation>%1 bağlantısı kesildi.</translation>
-    </message>
-</context>
-<context>
-    <name>BluetoothDiscoveryPage</name>
-    <message>
-        <source>Wireless Box setup</source>
-        <translation>Kablosuz Kutu kurulumu</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Yardım</translation>
-    </message>
-    <message>
-        <source>Uh oh</source>
-        <translation>Ah vah tüh</translation>
-    </message>
-    <message>
-        <source>Bluetooth doesn&apos;t seem to be available on this device. The wireless network setup requires a working Bluetooth connection.</source>
-        <translation>Bu cihazda Bluetooth yok gibi görünüyor. Kablosuz ağ kurulumu, çalışan bir Bluetooth bağlantısı gerektirir.</translation>
-    </message>
-    <message>
-        <source>Bluetooth seems to be disabled. Please enable Bluetooth on your device in order to use the wireless network setup.</source>
-        <translation>Bluetooth devre dışı görünüyor. Kablosuz ağ kurulumunu kullanmak için lütfen cihazınızda Bluetooth&apos;u etkinleştirin.</translation>
-    </message>
-    <message>
-        <source>Wireless setup help</source>
-        <translation>Kablosuz kurulum yardımı</translation>
-    </message>
-    <message>
-        <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
-        <translation>Nymea topluluk imajını Raspberry Pi&apos;nize yükledikten sonra, yapmanız gereken tek şey onu bir elektrik prizine takmaktır. Kablosuz kurulumun yalnızca Raspberry Pi&apos;nin kablolu bir ağa bağlı olmaması durumunda kullanılabileceğini unutmayın.</translation>
-    </message>
-    <message>
-        <source>If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.</source>
-        <translation>Bir %1 kutunuz varsa, onu bir elektrik prizine takın ve önyüklenmesini bekleyin. LED yavaşça yanıp söndüğünde, LED değişene kadar düğmeye 3 saniye basın.</translation>
-    </message>
-    <message>
-        <source>Connecting...</source>
-        <translation>Bağlanıyor...</translation>
-    </message>
-    <message>
-        <source>Connecting to %1</source>
-        <translation>%1 ile bağlantı kuruluyor</translation>
-    </message>
-    <message>
-        <source>%1 box</source>
-        <translation>%1 Kutu</translation>
-    </message>
-    <message>
-        <source>Searching for %1 systems.</source>
-        <translation>%1 sistem aranıyor.</translation>
-    </message>
-    <message>
-        <source>Troubles finding your %1 system?</source>
-        <translation>%1 sisteminizi bulmakta sorun mu yaşıyorsunuz?</translation>
-    </message>
-</context>
-<context>
-    <name>BoxInfoPage</name>
-    <message>
-        <source>Box information</source>
-        <translation>Box bilgisi</translation>
-    </message>
-    <message>
-        <source>System UUID</source>
-        <translation>Sistem UUID</translation>
-    </message>
-    <message>
-        <source>Manufacturer</source>
-        <translation>Üretici</translation>
-    </message>
-    <message>
-        <source>Software revision</source>
-        <translation>Yazılım revizyonu</translation>
-    </message>
-    <message>
-        <source>Firmware revision</source>
-        <translation>Firmware revizyonu</translation>
-    </message>
-    <message>
-        <source>Hardware revision</source>
-        <translation>Donanım revizyonu</translation>
     </message>
 </context>
 <context>
@@ -737,10 +702,6 @@
 <context>
     <name>ConfigureThingPage</name>
     <message>
-        <source>Vendor:</source>
-        <translation>Satıcı:</translation>
-    </message>
-    <message>
         <source>Apply</source>
         <translation>Uygulamak</translation>
     </message>
@@ -767,14 +728,6 @@
     <message>
         <source>Settings</source>
         <translation>Ayarlar</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation>Tip:</translation>
-    </message>
-    <message>
-        <source>ID:</source>
-        <translation>Kimlik:</translation>
     </message>
     <message>
         <source>ID copied to clipboard</source>
@@ -820,105 +773,17 @@
         <source>Connect</source>
         <translation>Bağlan</translation>
     </message>
-</context>
-<context>
-    <name>ConnectPage</name>
     <message>
-        <source>Connect %1</source>
-        <translation type="vanished">%1&apos;i bağla</translation>
+        <source>Vendor</source>
+        <translation type="unfinished">SATICI</translation>
     </message>
     <message>
-        <source>Oh, look!</source>
-        <translation type="vanished">Oh bak!</translation>
+        <source>Type</source>
+        <translation type="unfinished">Tip</translation>
     </message>
     <message>
-        <source>Just a moment...</source>
-        <translation type="vanished">Bir dakika...</translation>
-    </message>
-    <message>
-        <source>Uh oh</source>
-        <translation type="vanished">Ah vah</translation>
-    </message>
-    <message>
-        <source>Start wireless setup</source>
-        <translation type="vanished">Kablosuz kurulumu başlat</translation>
-    </message>
-    <message>
-        <source>Cloud login</source>
-        <translation type="vanished">Bulut girişi</translation>
-    </message>
-    <message>
-        <source>Demo mode (online)</source>
-        <translation type="vanished">Demo modu (çevrimiçi)</translation>
-    </message>
-    <message>
-        <source>Not the ones you&apos;re looking for? We&apos;re looking for more!</source>
-        <translation type="vanished">Aradığınız kişiler değil mi? Daha fazlasını arıyoruz!</translation>
-    </message>
-    <message>
-        <source>Box information</source>
-        <translation type="vanished">Kutu bilgisi</translation>
-    </message>
-    <message>
-        <source>Available connections</source>
-        <translation type="vanished">Mevcut bağlantılar</translation>
-    </message>
-    <message>
-        <source>Info</source>
-        <translation type="vanished">Bilgi</translation>
-    </message>
-    <message numerus="yes">
-        <source>There are %n %1 systems in your network! Which one would you like to use?</source>
-        <translation type="vanished">
-            <numerusform>Ağınızda %n %1 sistemleri var! Hangisini kullanmak istersin?</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>We haven&apos;t found a %1 system in your network yet.</source>
-        <translation type="vanished">Ağınızda henüz %1 sistemi bulamadık.</translation>
-    </message>
-    <message>
-        <source>There doesn&apos;t seem to be a %1 system installed in your network. Please make sure your %1 system is correctly set up and connected.</source>
-        <translation type="vanished">Ağınızda kurulu bir %1 sistemi yok gibi görünüyor. Lütfen %1 sisteminizin doğru şekilde kurulduğundan ve bağlandığından emin olun.</translation>
-    </message>
-    <message>
-        <source>Searching for %1 systems...</source>
-        <translation type="vanished">%1 sistem aranıyor...</translation>
-    </message>
-    <message>
-        <source>Do you have a %1 system but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation type="vanished">%1 sisteminiz var ama henüz ağınıza bağlı değil mi? Bağlamak için kablosuz kurulumu kullanın!</translation>
-    </message>
-</context>
-<context>
-    <name>ConnectWiFiPage</name>
-    <message>
-        <source>Select wireless network</source>
-        <translation>Kablosuz ağ seçin</translation>
-    </message>
-    <message>
-        <source>Authenticate</source>
-        <translation>Kimlik doğrulama</translation>
-    </message>
-    <message>
-        <source>Enter the password for %1</source>
-        <translation>%1 için parolayı girin</translation>
-    </message>
-    <message>
-        <source>Sorry, the password is wrong. Please try again.</source>
-        <translation>Üzgünüm, şifre yanlış. Lütfen tekrar deneyin.</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>Tamam</translation>
-    </message>
-    <message>
-        <source>Hidden Network</source>
-        <translation>Gizli Ağ</translation>
-    </message>
-    <message>
-        <source>Connecting %1 to %2</source>
-        <translation>%1 ile %2 arasında bağlantı kuruluyor</translation>
+        <source>ID</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -967,10 +832,6 @@
 <context>
     <name>ConnectionInfoDialog</name>
     <message>
-        <source>Box information</source>
-        <translation type="vanished">Kutu bilgisi</translation>
-    </message>
-    <message>
         <source>Available connections</source>
         <translation type="unfinished">Mevcut bağlantılar</translation>
     </message>
@@ -1005,18 +866,6 @@
         <translation>Bağlantı arayüzleri</translation>
     </message>
     <message>
-        <source>TCP server interfaces</source>
-        <translation type="vanished">TCP sunucu arayüzleri</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">Ekle</translation>
-    </message>
-    <message>
-        <source>WebSocket server interfaces</source>
-        <translation type="vanished">WebSocket sunucu arayüzleri</translation>
-    </message>
-    <message>
         <source>Connection settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1039,6 +888,205 @@
     <message>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConnectionWizard</name>
+    <message>
+        <source>Welcome</source>
+        <translation type="unfinished">Hoş geldin</translation>
+    </message>
+    <message>
+        <source>This wizard will guide you through the process of setting up a new nymea system.</source>
+        <translation type="unfinished">Bu sihirbaz, yeni bir nymea sistemi kurma sürecinde size rehberlik edecektir.</translation>
+    </message>
+    <message>
+        <source>Demo mode</source>
+        <translation type="unfinished">Demo modu</translation>
+    </message>
+    <message>
+        <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
+        <translation type="unfinished">nymea&apos;yı kullanmak için ağınızdaki bir bilgisayara nymea:core yüklemeniz gerekir. Bu bir Raspberry Pi veya herhangi bir genel Linux bilgisayarı olabilir.</translation>
+    </message>
+    <message>
+        <source>Please follow the installation instructions on %1 to install a nymea system.</source>
+        <translation type="unfinished">Bir nymea sistemi kurmak için lütfen %1 üzerindeki kurulum talimatlarını takip edin.</translation>
+    </message>
+    <message>
+        <source>Connectivity</source>
+        <translation type="unfinished">bağlantı</translation>
+    </message>
+    <message>
+        <source>How would you like to connect nymea to your network?</source>
+        <translation type="unfinished">Nymea&apos;yı ağınıza nasıl bağlamak istersiniz?</translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation type="unfinished">Atla</translation>
+    </message>
+    <message>
+        <source>Wired network</source>
+        <translation type="unfinished">Kablolu ağ</translation>
+    </message>
+    <message>
+        <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
+        <translation type="unfinished">Bir ağ kablosu kullanarak nymea&apos;yı ağınıza bağlayın. Bu, en iyi performans için önerilir.</translation>
+    </message>
+    <message>
+        <source>Wireless network</source>
+        <translation type="unfinished">Kablosuz ağ</translation>
+    </message>
+    <message>
+        <source>Connect nymea to your WiFi network.</source>
+        <translation type="unfinished">Nymea&apos;yı WiFi ağınıza bağlayın.</translation>
+    </message>
+    <message>
+        <source>If your nymea system is already connected to the network you can skip this step.</source>
+        <translation type="unfinished">nymea sisteminiz zaten ağa bağlıysa bu adımı atlayabilirsiniz.</translation>
+    </message>
+    <message>
+        <source>Connection</source>
+        <translation type="unfinished">Bağlantı</translation>
+    </message>
+    <message>
+        <source>Select nymea system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manual connection</source>
+        <translation type="unfinished">Manuel bağlantı</translation>
+    </message>
+    <message>
+        <source>Please wait while your nymea system is being discovered.</source>
+        <translation type="unfinished">Lütfen nymea sisteminiz keşfedilirken bekleyin.</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished">Bilgi</translation>
+    </message>
+    <message>
+        <source>Please enter the connection information for your nymea system</source>
+        <translation type="unfinished">Lütfen nymea sisteminiz için bağlantı bilgilerini girin</translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation type="unfinished">Protokol</translation>
+    </message>
+    <message>
+        <source>TCP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Websocket</source>
+        <translation type="unfinished">Web yuvası</translation>
+    </message>
+    <message>
+        <source>Remote proxy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished">Adres:</translation>
+    </message>
+    <message>
+        <source>Proxy address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 UUID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished">bağlantı:</translation>
+    </message>
+    <message>
+        <source>SSL:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wired connection</source>
+        <translation type="unfinished">Kablolu bağlantı</translation>
+    </message>
+    <message>
+        <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
+        <translation type="unfinished">Bir ethernet kablosu kullanarak nymea sistemini ağınıza bağlayın ve açın.</translation>
+    </message>
+    <message>
+        <source>Wireless connection</source>
+        <translation type="unfinished">Kablosuz bağlantı</translation>
+    </message>
+    <message>
+        <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
+        <translation type="unfinished">Güç kablosunu bağlayarak nymea sistemini açın ve başlamasını bekleyin.</translation>
+    </message>
+    <message>
+        <source>Wireless setup</source>
+        <translation type="unfinished">Kablosuz kurulum</translation>
+    </message>
+    <message>
+        <source>Searching for the nymea system...</source>
+        <translation type="unfinished">Nymea sistemi aranıyor...</translation>
+    </message>
+    <message>
+        <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connecting to the nymea system...</source>
+        <translation type="unfinished">Nymea sistemine bağlanılıyor...</translation>
+    </message>
+    <message>
+        <source>Select the WiFi you want to use.</source>
+        <translation type="unfinished">Kullanmak istediğiniz WiFi&apos;yi seçin.</translation>
+    </message>
+    <message>
+        <source>Hidden Network</source>
+        <translation type="unfinished">Gizli Ağ</translation>
+    </message>
+    <message>
+        <source>Hidden WiFi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the information for the hidden WiFi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished">Şifre</translation>
+    </message>
+    <message>
+        <source>Enter the password for the WiFi network.</source>
+        <translation type="unfinished">WiFi ağının şifresini girin.</translation>
+    </message>
+    <message>
+        <source>An error happened in the Bluetooth connection. Please try again.</source>
+        <translation type="unfinished">Bluetooth bağlantısında bir hata oluştu. Lütfen tekrar deneyin.</translation>
+    </message>
+    <message>
+        <source>Please wait while the nymea system is being connected to the WiFi.</source>
+        <translation type="unfinished">Nymea sistemi WiFi&apos;ye bağlanırken lütfen bekleyin.</translation>
+    </message>
+    <message>
+        <source>The nymea system has been connected successfully.</source>
+        <translation type="unfinished">Nymea sistemi başarıyla bağlandı.</translation>
+    </message>
+    <message>
+        <source>You can now go ahead and configure your nymea system.</source>
+        <translation type="unfinished">Şimdi devam edebilir ve nymea sisteminizi yapılandırabilirsiniz.</translation>
+    </message>
+    <message>
+        <source>Waiting for your nymea setup to appear in the network.</source>
+        <translation type="unfinished">Nymea kurulumunuzun ağda görünmesini bekliyorum.</translation>
     </message>
 </context>
 <context>
@@ -1067,6 +1115,10 @@
         <source>Years</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsumersBarChart</name>
@@ -1091,6 +1143,26 @@
     </message>
     <message>
         <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1649,16 +1721,6 @@
         <translation>Bu durum ne zaman...</translation>
     </message>
     <message>
-        <source>Examples:
-• While I&apos;m at home...
-• When the temperature is below 0...
-• Between 9 am and 6 pm...</source>
-        <translation type="vanished">Örnekler:
-• Ben evdeyken...
-• Sıcaklık 0&apos;ın altına düştüğünde...
-• sabah 9 ile akşam 6 arası...</translation>
-    </message>
-    <message>
         <source>When time is in...</source>
         <translation>Zaman geldiğinde...</translation>
     </message>
@@ -1923,10 +1985,6 @@
     <message>
         <source>Add things</source>
         <translation>Bir şeyler ekle</translation>
-    </message>
-    <message>
-        <source>To get an overview of your current energy usage, install an energy meter.</source>
-        <translation type="vanished">Mevcut enerji kullanımınıza genel bir bakış için bir enerji sayacı kurun.</translation>
     </message>
     <message>
         <source>Install energy plugin</source>
@@ -3549,32 +3607,12 @@ Please try again.</source>
         <translation>Girdiğiniz e-posta geçerli değil.</translation>
     </message>
     <message>
-        <source>The email you&apos;ve entered is already used.</source>
-        <translation type="vanished">Girdiğiniz e-posta zaten kullanılıyor.</translation>
-    </message>
-    <message>
-        <source>The password you&apos;ve chose is too weak.</source>
-        <translation type="vanished">Seçtiğiniz şifre çok zayıf.</translation>
-    </message>
-    <message>
         <source>In order to use your %1 system, please log in.</source>
         <translation>%1 sisteminizi kullanmak için lütfen giriş yapınız.</translation>
     </message>
     <message>
-        <source>Your e-mail address:</source>
-        <translation type="vanished">E-posta adresinizi :</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation type="vanished">Şifre:</translation>
-    </message>
-    <message>
         <source>OK</source>
         <translation>tamam</translation>
-    </message>
-    <message>
-        <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
-        <translation type="vanished">%1 sisteminizi kullanmak için lütfen e-posta adresinizi girin ve bunun için bir şifre belirleyin.</translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1 system is installed correctly.</source>
@@ -3793,10 +3831,6 @@ Please try again.</source>
         <translation>Sistem ayarları</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Yardım</translation>
-    </message>
-    <message>
         <source>New connection</source>
         <translation>Yeni bağlantı</translation>
     </message>
@@ -3862,33 +3896,6 @@ Please try again.</source>
     <message>
         <source>Dashboard</source>
         <translation>Gösterge Paneli</translation>
-    </message>
-</context>
-<context>
-    <name>ManualConnectPage</name>
-    <message>
-        <source>Manual connection</source>
-        <translation type="vanished">Manuel bağlantı</translation>
-    </message>
-    <message>
-        <source>Protocol</source>
-        <translation type="vanished">Protokol</translation>
-    </message>
-    <message>
-        <source>Websocket</source>
-        <translation type="vanished">Web yuvası</translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation type="vanished">Adres:</translation>
-    </message>
-    <message>
-        <source>Encrypted connection:</source>
-        <translation type="vanished">Şifreli bağlantı:</translation>
-    </message>
-    <message>
-        <source>Connect</source>
-        <translation type="vanished">Bağlamak</translation>
     </message>
 </context>
 <context>
@@ -4377,16 +4384,8 @@ Use a timeout value greater or equal to 10 ms.</source>
         <translation>Ağ ayarları</translation>
     </message>
     <message>
-        <source>Networking</source>
-        <translation>ağ</translation>
-    </message>
-    <message>
         <source>Wireless network</source>
         <translation>Kablosuz ağ</translation>
-    </message>
-    <message>
-        <source>Trigger a wireless scan on the device.</source>
-        <translation>Cihazda kablosuz taramayı başlatın.</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -4636,195 +4635,44 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>No wireless network interfaces available</source>
         <translation>Kullanılabilir kablosuz ağ arabirimi yok</translation>
     </message>
-</context>
-<context>
-    <name>NewConnectionWizard</name>
     <message>
-        <source>Welcome</source>
-        <translation>Hoş geldin</translation>
-    </message>
-    <message>
-        <source>This wizard will guide you through the process of setting up a new nymea system.</source>
-        <translation>Bu sihirbaz, yeni bir nymea sistemi kurma sürecinde size rehberlik edecektir.</translation>
-    </message>
-    <message>
-        <source>Demo mode</source>
-        <translation>Demo modu</translation>
-    </message>
-    <message>
-        <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
-        <translation>nymea&apos;yı kullanmak için ağınızdaki bir bilgisayara nymea:core yüklemeniz gerekir. Bu bir Raspberry Pi veya herhangi bir genel Linux bilgisayarı olabilir.</translation>
-    </message>
-    <message>
-        <source>Please follow the installation instructions on %1 to install a nymea system.</source>
-        <translation>Bir nymea sistemi kurmak için lütfen %1 üzerindeki kurulum talimatlarını takip edin.</translation>
-    </message>
-    <message>
-        <source>Connectivity</source>
-        <translation>bağlantı</translation>
-    </message>
-    <message>
-        <source>How would you like to connect nymea to your network?</source>
-        <translation>Nymea&apos;yı ağınıza nasıl bağlamak istersiniz?</translation>
-    </message>
-    <message>
-        <source>Skip</source>
-        <translation>Atla</translation>
-    </message>
-    <message>
-        <source>Wired network</source>
-        <translation>Kablolu ağ</translation>
-    </message>
-    <message>
-        <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
-        <translation>Bir ağ kablosu kullanarak nymea&apos;yı ağınıza bağlayın. Bu, en iyi performans için önerilir.</translation>
-    </message>
-    <message>
-        <source>Wireless network</source>
-        <translation>Kablosuz ağ</translation>
-    </message>
-    <message>
-        <source>Connect nymea to your WiFi network.</source>
-        <translation>Nymea&apos;yı WiFi ağınıza bağlayın.</translation>
-    </message>
-    <message>
-        <source>If your nymea system is already connected to the network you can skip this step.</source>
-        <translation>nymea sisteminiz zaten ağa bağlıysa bu adımı atlayabilirsiniz.</translation>
-    </message>
-    <message>
-        <source>Connection</source>
-        <translation>Bağlantı</translation>
-    </message>
-    <message>
-        <source>Connecting to the nymea system.</source>
-        <translation type="vanished">Nymea sistemine bağlanma.</translation>
-    </message>
-    <message>
-        <source>Manual connection</source>
-        <translation>Manuel bağlantı</translation>
-    </message>
-    <message>
-        <source>Please wait while your nymea system is being discovered.</source>
-        <translation>Lütfen nymea sisteminiz keşfedilirken bekleyin.</translation>
-    </message>
-    <message>
-        <source>Info</source>
-        <translation>Bilgi</translation>
-    </message>
-    <message>
-        <source>Please enter the connection information for your nymea system</source>
-        <translation>Lütfen nymea sisteminiz için bağlantı bilgilerini girin</translation>
-    </message>
-    <message>
-        <source>Protocol</source>
-        <translation>Protokol</translation>
-    </message>
-    <message>
-        <source>TCP</source>
+        <source>New wired connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Websocket</source>
-        <translation>Web yuvası</translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation>Adres:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation>Bağlantı:</translation>
-    </message>
-    <message>
-        <source>Encrypted connection:</source>
-        <translation type="vanished">Şifreli bağlantı:</translation>
-    </message>
-    <message>
-        <source>Wired connection</source>
-        <translation>Kablolu bağlantı</translation>
-    </message>
-    <message>
-        <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
-        <translation>Bir ethernet kablosu kullanarak nymea sistemini ağınıza bağlayın ve açın.</translation>
-    </message>
-    <message>
-        <source>Wireless connection</source>
-        <translation>Kablosuz bağlantı</translation>
-    </message>
-    <message>
-        <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
-        <translation>Güç kablosunu bağlayarak nymea sistemini açın ve başlamasını bekleyin.</translation>
-    </message>
-    <message>
-        <source>Wireless setup</source>
-        <translation>Kablosuz kurulum</translation>
-    </message>
-    <message>
-        <source>Searching for the nymea system...</source>
-        <translation>Nymea sistemi aranıyor...</translation>
-    </message>
-    <message>
-        <source>Connecting to the nymea system...</source>
-        <translation>Nymea sistemine bağlanılıyor...</translation>
-    </message>
-    <message>
-        <source>Select the WiFi you want to use.</source>
-        <translation>Kullanmak istediğiniz WiFi&apos;yi seçin.</translation>
-    </message>
-    <message>
-        <source>Hidden Network</source>
-        <translation>Gizli Ağ</translation>
-    </message>
-    <message>
-        <source>Enter the password for the WiFi network.</source>
-        <translation>WiFi ağının şifresini girin.</translation>
-    </message>
-    <message>
-        <source>An error happened in the Bluetooth connection. Please try again.</source>
-        <translation>Bluetooth bağlantısında bir hata oluştu. Lütfen tekrar deneyin.</translation>
-    </message>
-    <message>
-        <source>Please wait while the nymea system is being connected to the WiFi.</source>
-        <translation>Nymea sistemi WiFi&apos;ye bağlanırken lütfen bekleyin.</translation>
-    </message>
-    <message>
-        <source>The nymea system has been connected successfully.</source>
-        <translation>Nymea sistemi başarıyla bağlandı.</translation>
-    </message>
-    <message>
-        <source>You can now go ahead and configure your nymea system.</source>
-        <translation>Şimdi devam edebilir ve nymea sisteminizi yapılandırabilirsiniz.</translation>
-    </message>
-    <message>
-        <source>Waiting for your nymea setup to appear in the network.</source>
-        <translation>Nymea kurulumunuzun ağda görünmesini bekliyorum.</translation>
-    </message>
-    <message>
-        <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
+        <source>Method</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
+        <source>Automatic (DHCP client)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remote proxy</source>
+        <source>Manual</source>
+        <translation type="unfinished">Manuel</translation>
+    </message>
+    <message>
+        <source>Shared (DHCP server)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Proxy address:</source>
+        <source>Address settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 UUID:</source>
+        <source>IP Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>SSL:</source>
+        <source>Gateway</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Select nymea system</source>
+        <source>DNS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create connection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4855,6 +4703,10 @@ Use a timeout value greater or equal to 10 ms.</source>
     <message>
         <source>New magic for %1</source>
         <translation>%1 için yeni sihir</translation>
+    </message>
+    <message>
+        <source>A thing</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5155,6 +5007,14 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Electric cars</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>VOC level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nitrogen dioxide level</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -5260,53 +5120,6 @@ Do you want to proceed?</source>
     <message>
         <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package information</source>
-        <translation type="obsolete">Paket Bilgileri</translation>
-    </message>
-    <message>
-        <source>Installed version:</source>
-        <translation type="obsolete">Yüklü sürüm:</translation>
-    </message>
-    <message>
-        <source>Not installed</source>
-        <translation type="obsolete">Yüklü değil</translation>
-    </message>
-    <message>
-        <source>Candidate version:</source>
-        <translation type="obsolete">Aday versiyonu:</translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation type="obsolete">Güncelleme</translation>
-    </message>
-    <message>
-        <source>Install</source>
-        <translation type="obsolete">Yükle</translation>
-    </message>
-    <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
-        <translation type="obsolete">Bu bir sistem güncellemesi başlatacaktır. Güncellemenin birkaç dakika sürebileceğini ve bu süre içinde %1&apos;inizin düzgün çalışmayabileceğini veya yeniden başlamayabileceğini unutmayın.</translation>
-    </message>
-    <message>
-        <source>
-Do you want to proceed?</source>
-        <translation type="obsolete">
-Devam etmek istiyor musunuz?</translation>
-    </message>
-    <message>
-        <source>Start update</source>
-        <translation type="obsolete">Güncellemeyi Başlat</translation>
-    </message>
-    <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
-Do you want to proceed?</source>
-        <translation type="obsolete">Bu bir sistem güncellemesi başlatacaktır. Güncellemenin birkaç dakika sürebileceğini ve %1 sisteminizin bu süre içinde düzgün çalışmayabileceğini ve işlem sırasında yeniden başlatılabileceğini unutmayın. Devam etmek istiyor musunuz?</translation>
-    </message>
-    <message>
-        <source>Remove package</source>
-        <translation type="obsolete">Paketi kaldır</translation>
     </message>
 </context>
 <context>
@@ -5451,6 +5264,10 @@ Do you want to proceed?</source>
         <source>To grid: %1 kWh</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PowerConsumptionBalanceHistory</name>
@@ -5486,6 +5303,26 @@ Do you want to proceed?</source>
         <source>From grid: %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PowerProductionBalanceHistory</name>
@@ -5519,6 +5356,26 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>To grid: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5582,14 +5439,6 @@ Do you want to proceed?</source>
         <translation>Yeni bağlantı</translation>
     </message>
     <message>
-        <source>The version of the %1 system you are trying to connect to is too old. This app requires at least version %2 but this %1 system only supports %3. Please update your %1 system.</source>
-        <translation type="vanished">Bağlanmaya çalıştığınız %1 sisteminin sürümü çok eski. Bu uygulama en az %2 sürümünü gerektirir, ancak bu %1 sistemi yalnızca %3&apos;ü destekler. Lütfen %1 sisteminizi güncelleyin.</translation>
-    </message>
-    <message>
-        <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to version %2 but this %1 system provides %3. Please update %4.</source>
-        <translation type="vanished">Bağlanmaya çalıştığınız %1 sisteminin sürümü çok yeni. Bu uygulama yalnızca %2 sürümünü destekler, ancak bu %1 sistemi %3 sağlar. Lütfen %4&apos;ü güncelleyin.</translation>
-    </message>
-    <message>
         <source>The version of the %1 system you are trying to connect to is too old. This app requires at least API version %2 but this %1 system only supports API version %3. Please update your %1 system.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5615,14 +5464,6 @@ Do you want to proceed?</source>
     <message>
         <source>Unknown item</source>
         <translation>Bilinmeyen öğe</translation>
-    </message>
-    <message>
-        <source>True</source>
-        <translation type="vanished">Doğru</translation>
-    </message>
-    <message>
-        <source>False</source>
-        <translation type="vanished">YANLIŞ</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -6070,14 +5911,6 @@ Do you want to proceed?</source>
         <translation>Sistem günlüğünü görüntüle</translation>
     </message>
     <message>
-        <source>Cloud</source>
-        <translation type="vanished">Bulut</translation>
-    </message>
-    <message>
-        <source>API interfaces</source>
-        <translation type="vanished">API arayüzleri</translation>
-    </message>
-    <message>
         <source>MQTT broker</source>
         <translation>MQTT aracı</translation>
     </message>
@@ -6130,10 +5963,6 @@ Do you want to proceed?</source>
         <translation>Sistemin ağ bağlantısını yapılandırın</translation>
     </message>
     <message>
-        <source>Configure how clients interact with this system</source>
-        <translation type="vanished">İstemcilerin bu sistemle nasıl etkileşime gireceğini yapılandırın</translation>
-    </message>
-    <message>
         <source>User settings</source>
         <translation>Kullanıcı ayarları</translation>
     </message>
@@ -6148,10 +5977,6 @@ Do you want to proceed?</source>
     <message>
         <source>Configure ZigBee networks</source>
         <translation>ZigBee ağlarını yapılandırın</translation>
-    </message>
-    <message>
-        <source>Connect this %1 system to %1:cloud</source>
-        <translation type="vanished">Bu %1 sistemini %1:bulut&apos;a bağlayın</translation>
     </message>
     <message>
         <source>Modbus RTU</source>
@@ -6309,14 +6134,6 @@ Do you want to proceed?</source>
     <message>
         <source>Press to edit condition</source>
         <translation>Durumu düzenlemek için basın</translation>
-    </message>
-    <message>
-        <source>True</source>
-        <translation type="vanished">Doğru</translation>
-    </message>
-    <message>
-        <source>False</source>
-        <translation type="vanished">Yanlış</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -6758,7 +6575,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">bağlantı:</translation>
     </message>
     <message>
         <source>Require login</source>
@@ -6815,20 +6632,8 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation>Şifre değiştirilirken beklenmeyen bir hata oluştu. Bunun için üzgünüz. (Hata kodu: %1)</translation>
     </message>
     <message>
-        <source>User info</source>
-        <translation type="vanished">Kullanıcı bilgisi</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation type="vanished">Kullanıcı adı</translation>
-    </message>
-    <message>
         <source>Change password</source>
         <translation>Şifre değiştir</translation>
-    </message>
-    <message>
-        <source>Devices / Apps accessing nymea:core</source>
-        <translation type="vanished">nymea:core&apos;a erişen cihazlar/uygulamalar</translation>
     </message>
     <message>
         <source>Created on %1</source>
@@ -7064,37 +6869,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
 </context>
 <context>
-    <name>WirelessSetupPage</name>
-    <message>
-        <source>Wireless network setup</source>
-        <translation>Kablosuz ağ kurulumu</translation>
-    </message>
-    <message>
-        <source>IP address: %1</source>
-        <translation>IP adresi: %1</translation>
-    </message>
-    <message>
-        <source>Change network</source>
-        <translation>Ağı değiştir</translation>
-    </message>
-    <message>
-        <source>Close wireless setup</source>
-        <translation>Kablosuz kurulumu kapat</translation>
-    </message>
-    <message>
-        <source>Your %1 system is connected to %2</source>
-        <translation>%1 sisteminiz %2&apos;ye bağlı</translation>
-    </message>
-    <message>
-        <source>Waiting for the %1 to appear in your network.</source>
-        <translation>%1&apos;in ağınızda görünmesi bekleniyor.</translation>
-    </message>
-    <message>
-        <source>Connect to %1</source>
-        <translation>%1&apos;e bağlan</translation>
-    </message>
-</context>
-<context>
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>
@@ -7290,10 +7064,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Security supported:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Beaming supported:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7330,18 +7100,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation type="unfinished">Lütfen bu düğüm bir şeye atanmışsa, sistemden de kaldırılacağını unutmayın.</translation>
     </message>
     <message>
-        <source>ZigBee network help</source>
-        <translation type="obsolete">ZigBee ağ yardımı</translation>
-    </message>
-    <message>
-        <source>ZigBee router</source>
-        <translation type="obsolete">ZigBee yönlendirici</translation>
-    </message>
-    <message>
-        <source>ZigBee end device</source>
-        <translation type="obsolete">ZigBee uç cihazı</translation>
-    </message>
-    <message>
         <source>Sleepy device</source>
         <translation type="unfinished">uykulu cihaz</translation>
     </message>
@@ -7355,6 +7113,14 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Z-Wave end device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Security mode:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Security device:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7598,14 +7364,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
 <context>
     <name>ZigbeeNetworkPage</name>
     <message>
-        <source>Network</source>
-        <translation>Ağ</translation>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation>Kanal</translation>
-    </message>
-    <message>
         <source>ZigBee network</source>
         <translation>ZigBee ağı</translation>
     </message>
@@ -7620,10 +7378,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>The selected adapter is already in use.</source>
         <translation>Seçilen bağdaştırıcı zaten kullanımda.</translation>
-    </message>
-    <message>
-        <source>Network state:</source>
-        <translation>Ağ durumu:</translation>
     </message>
     <message>
         <source>Online</source>
@@ -7646,10 +7400,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation>Hata</translation>
     </message>
     <message>
-        <source>Permit new devices:</source>
-        <translation>Yeni cihazlara izin ver:</translation>
-    </message>
-    <message>
         <source>Open for %0 s</source>
         <translation>%0 s için aç</translation>
     </message>
@@ -7658,24 +7408,8 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation>Kapalı</translation>
     </message>
     <message>
-        <source>Extend open duration</source>
-        <translation>Açık süreyi uzat</translation>
-    </message>
-    <message>
         <source>Open for new devices</source>
         <translation>Yeni cihazlar için aç</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="vanished">Sürüm</translation>
-    </message>
-    <message>
-        <source>IEEE address</source>
-        <translation type="vanished">IEEE adresi</translation>
-    </message>
-    <message>
-        <source>Network address</source>
-        <translation type="vanished">Ağ adresi</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -7712,14 +7446,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>Help</source>
         <translation type="unfinished">Yardım</translation>
-    </message>
-    <message>
-        <source>Connected devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Signal strength</source>
-        <translation type="obsolete">Sinyal gücü</translation>
     </message>
     <message>
         <source>OK</source>
@@ -7764,6 +7490,30 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>Initializing...</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network state</source>
+        <translation type="unfinished">Ağ durumu</translation>
+    </message>
+    <message>
+        <source>Extend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s) (%1 disconnected)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -7856,6 +7606,256 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <source>Are you sure you want to remove the network and all associated devices from the system?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Network map</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNetworkTopologyPage</name>
+    <message>
+        <source>ZigBee network map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished">Yardım</translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Links</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Routes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished">Adres:</translation>
+    </message>
+    <message>
+        <source>Model:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manufacturer:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last seen:</source>
+        <translation type="unfinished">Son görülen:</translation>
+    </message>
+    <message>
+        <source>Neighbor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Via</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee topology help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node relationship</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sibling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Child</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous child</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Depth in network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Permit join</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route inactive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discovery in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Validation in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNodePage</name>
+    <message>
+        <source>ZigBee node info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An error happened in the ZigBee network when creating the binding.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The ZigBee device did not respond. Please try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An error happened in the ZigBee network when removing the binding.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manufacturer</source>
+        <translation type="unfinished">Üretici firma</translation>
+    </message>
+    <message>
+        <source>IEEE address</source>
+        <translation type="unfinished">IEEE adresi</translation>
+    </message>
+    <message>
+        <source>Network address</source>
+        <translation type="unfinished">Ağ adresi</translation>
+    </message>
+    <message>
+        <source>Signal strength</source>
+        <translation type="unfinished">Sinyal gücü</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished">Bilinmeyen</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="unfinished">Sürüm</translation>
+    </message>
+    <message>
+        <source>Associated things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bindings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Group: 0x%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add binding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove ZigBee node</source>
+        <translation type="unfinished">ZigBee düğümünü kaldır</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this node from the network?</source>
+        <translation type="unfinished">Bu düğümü ağdan kaldırmak istediğinizden emin misiniz?</translation>
+    </message>
+    <message>
+        <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
+        <translation type="unfinished">Lütfen bu düğüm bir şeye atanmışsa, sistemden de kaldırılacağını unutmayın.</translation>
+    </message>
+    <message>
+        <source>Device endpoints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Endpoint %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Input clusters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Output clusters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source endpoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Target node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Coordinator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unrecognized device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination endpoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cluster</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wake up %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected node is a sleepy device. Please wake up the device by pressing a button.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ZigbeeSettingsPage</name>
@@ -7900,14 +7900,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation>Hata</translation>
     </message>
     <message>
-        <source>MAC address:</source>
-        <translation type="vanished">Mac Adresi:</translation>
-    </message>
-    <message>
-        <source>Firmware version:</source>
-        <translation type="vanished">Yazılım sürümü:</translation>
-    </message>
-    <message>
         <source>Adapter:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7941,14 +7933,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
 </context>
 <context>
     <name>description for buttontemplates</name>
-    <message>
-        <source>Turn on a light</source>
-        <translation type="vanished">bir ışık aç</translation>
-    </message>
-    <message>
-        <source>Turn off a light</source>
-        <translation type="vanished">bir ışığı kapat</translation>
-    </message>
     <message>
         <source>Switch a light</source>
         <translation>Işık değiştir</translation>
@@ -8034,10 +8018,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>Notify me when a device runs out of battery</source>
         <translation>Bir cihazın pili bittiğinde bana bildir</translation>
-    </message>
-    <message>
-        <source>Notify me when something runs dry</source>
-        <translation type="vanished">Bir şey kuruduğunda bana haber ver</translation>
     </message>
     <message>
         <source>Notify me when a thing gets disconnected</source>
@@ -8195,10 +8175,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>Low battery alert for %0</source>
         <translation>%0 için düşük pil uyarısı</translation>
-    </message>
-    <message>
-        <source>Notify %1 when %0 runs dry</source>
-        <translation type="vanished">%0 kuruduğunda %1&apos;e bildir</translation>
     </message>
     <message>
         <source>Disconnect alert for %0</source>
