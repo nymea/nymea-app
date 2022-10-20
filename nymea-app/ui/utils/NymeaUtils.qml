@@ -13,7 +13,7 @@ Item {
 
         var trimmedNum = Math.floor(num)
         var decimals = num - trimmedNum
-        var trimmedStr = "" + trimmedNum.toString(16)
+        var trimmedStr = "" + trimmedNum.toString(base)
         var str = "000000000" + trimmedStr
         str = str.substr(str.length - Math.max(size, trimmedStr.length));
         if (decimals !== 0) {
