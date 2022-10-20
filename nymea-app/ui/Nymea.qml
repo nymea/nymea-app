@@ -199,7 +199,7 @@ ApplicationWindow {
         case "co2sensor":
             return qsTr("CO2 level")
         case "no2sensor":
-            return qsTr("Nitrogen dioxide leve")
+            return qsTr("Nitrogen dioxide level")
         case "gassensor":
             return qsTr("Flammable gas level")
         case "vocsensor":

@@ -127,6 +127,61 @@
     </message>
 </context>
 <context>
+    <name>AirQualityIndex</name>
+    <message>
+        <source>Very low</source>
+        <translation>Sehr niedrig</translation>
+    </message>
+    <message>
+        <source>Low</source>
+        <translation>Niedrig</translation>
+    </message>
+    <message>
+        <source>Medium</source>
+        <translation>Mittel</translation>
+    </message>
+    <message>
+        <source>High</source>
+        <translation>Hoch</translation>
+    </message>
+    <message>
+        <source>Very high</source>
+        <translation>Sehr hoch</translation>
+    </message>
+    <message>
+        <source>Excellent</source>
+        <translation>Exzellent</translation>
+    </message>
+    <message>
+        <source>Good</source>
+        <translation>Gut</translation>
+    </message>
+    <message>
+        <source>Moderate</source>
+        <translation>Akzeptabel</translation>
+    </message>
+    <message>
+        <source>Poor</source>
+        <translation>Schlecht</translation>
+    </message>
+    <message>
+        <source>Unhealthy</source>
+        <translation>Ungesund</translation>
+    </message>
+    <message>
+        <source>Unhealthy for sensitive groups</source>
+        <translation>Ungesund für sensitive Gruppen</translation>
+    </message>
+    <message>
+        <source>Very unhealthy</source>
+        <translation>Sehr ungesund</translation>
+    </message>
+    <message>
+        <source>Hazardeous</source>
+        <translation>Giftig</translation>
+    </message>
+</context>
+<context>
     <name>AppLogPage</name>
     <message>
         <source>Application logs</source>
@@ -142,10 +197,6 @@
     <message>
         <source>About %1</source>
         <translation>Über %1</translation>
-    </message>
-    <message>
-        <source>Cloud login</source>
-        <translation type="vanished">Cloud Login</translation>
     </message>
     <message>
         <source>Developer options</source>
@@ -166,10 +217,6 @@
     <message>
         <source>Access tools for debugging and error reporting</source>
         <translation>Greife auf Werkzeuge und Fehleranalyse-Werkzeuge zu</translation>
-    </message>
-    <message>
-        <source>Log into %1:cloud and manage connected %1 systems</source>
-        <translation type="vanished">Logge Dich in %1:cloud ein und Verwalte verbundene %1 systeme</translation>
     </message>
 </context>
 <context>
@@ -226,88 +273,6 @@
     <message>
         <source>%1 disconnected.</source>
         <translation>%1 getrennt.</translation>
-    </message>
-</context>
-<context>
-    <name>BluetoothDiscoveryPage</name>
-    <message>
-        <source>Help</source>
-        <translation>Hilfe</translation>
-    </message>
-    <message>
-        <source>After having installed the nymea community image to your Raspberry Pi, all you need to do is to plug it into a power socket. Note that the Wireless setup will only be available if the Raspberry Pi is not connected to a wired network.</source>
-        <translation>Nachdem das nymea community image auf einem Raspberry Pi installiert wurde, muss der Raspberry Pi nur mehr an das Stromnetz angeschlossen werden. Achtung, das Einrichten über Bluetooth ist nur aktiviert, wenn der Raspberry Pi nicht bereits über ein LAN Kabel an das Netzwerk angeschlossen wurde.</translation>
-    </message>
-    <message>
-        <source>If you have a %1 box, plug it into a power socket and wait for it to be booted. Once the LED pulses slowly, press the button for 3 seconds until the LED changes.</source>
-        <translation>Wenn Du eine %1 Box hast, schließe sie am Stromnetz an und warte bis sie gestartet ist. Sobald die Leuchte langsam blinkt, drücke den Knopf für 3 Sekunden bis die Leuchte anders blinkt.</translation>
-    </message>
-    <message>
-        <source>Wireless Box setup</source>
-        <translation>Schnurloses Box-Setup</translation>
-    </message>
-    <message>
-        <source>Uh oh</source>
-        <translation>Oh oh</translation>
-    </message>
-    <message>
-        <source>Bluetooth doesn&apos;t seem to be available on this device. The wireless network setup requires a working Bluetooth connection.</source>
-        <translation>Bluetooth scheint auf diese Gerät nicht verfügbar zu sein. Das schnurlose Setup benötigt aber eine Bluetooth-Verbindung.</translation>
-    </message>
-    <message>
-        <source>Bluetooth seems to be disabled. Please enable Bluetooth on your device in order to use the wireless network setup.</source>
-        <translation>Bluetooth scheint deaktivert zu sein. Bitte schalte Bluetooth auf deinem Gerät ein um das schnurlose Setup zu benutzen.</translation>
-    </message>
-    <message>
-        <source>Wireless setup help</source>
-        <translation>Hilfe zum schnurlosen Setup</translation>
-    </message>
-    <message>
-        <source>Connecting...</source>
-        <translation>Verbinden...</translation>
-    </message>
-    <message>
-        <source>Connecting to %1</source>
-        <translation>Verbinde zu %1</translation>
-    </message>
-    <message>
-        <source>%1 box</source>
-        <translation>%1 Box</translation>
-    </message>
-    <message>
-        <source>Searching for %1 systems.</source>
-        <translation>Suche nach %1 systemen.</translation>
-    </message>
-    <message>
-        <source>Troubles finding your %1 system?</source>
-        <translation>Probleme Dein %1 system zu finden?</translation>
-    </message>
-</context>
-<context>
-    <name>BoxInfoPage</name>
-    <message>
-        <source>Box information</source>
-        <translation>Box-Informationen</translation>
-    </message>
-    <message>
-        <source>System UUID</source>
-        <translation>Sytem UUID</translation>
-    </message>
-    <message>
-        <source>Manufacturer</source>
-        <translation>Hersteller</translation>
-    </message>
-    <message>
-        <source>Software revision</source>
-        <translation>Software Revision</translation>
-    </message>
-    <message>
-        <source>Firmware revision</source>
-        <translation>Firmware Revision</translation>
-    </message>
-    <message>
-        <source>Hardware revision</source>
-        <translation>Hardware Revision</translation>
     </message>
 </context>
 <context>
@@ -738,10 +703,6 @@
 <context>
     <name>ConfigureThingPage</name>
     <message>
-        <source>Vendor:</source>
-        <translation>Hersteller:</translation>
-    </message>
-    <message>
         <source>Apply</source>
         <translation>Anwenden</translation>
     </message>
@@ -768,14 +729,6 @@
     <message>
         <source>Settings</source>
         <translation>Einstellungen</translation>
-    </message>
-    <message>
-        <source>Type:</source>
-        <translation>Typ:</translation>
-    </message>
-    <message>
-        <source>ID:</source>
-        <translation>ID:</translation>
     </message>
     <message>
         <source>ID copied to clipboard</source>
@@ -821,106 +774,17 @@
         <source>Connect</source>
         <translation>Verbinden</translation>
     </message>
-</context>
-<context>
-    <name>ConnectPage</name>
     <message>
-        <source>Connect %1</source>
-        <translation type="vanished">Verbinde %1</translation>
+        <source>Vendor</source>
+        <translation>Hersteller</translation>
     </message>
     <message>
-        <source>Oh, look!</source>
-        <translation type="vanished">Oh, sieh an!</translation>
+        <source>Type</source>
+        <translation>Typ</translation>
     </message>
     <message>
-        <source>Just a moment...</source>
-        <translation type="vanished">Nur einen Moment...</translation>
-    </message>
-    <message>
-        <source>Uh oh</source>
-        <translation type="vanished">Oh oh</translation>
-    </message>
-    <message>
-        <source>Not the ones you&apos;re looking for? We&apos;re looking for more!</source>
-        <translation type="vanished">Die gesuchte Box ist nicht dabei? Wir suchen nach weiteren!</translation>
-    </message>
-    <message>
-        <source>Start wireless setup</source>
-        <translation type="vanished">Funk-Einrichtung starten</translation>
-    </message>
-    <message>
-        <source>Demo mode (online)</source>
-        <translation type="vanished">Demo-Modus (Online)</translation>
-    </message>
-    <message>
-        <source>Box information</source>
-        <translation type="vanished">Box-Informationen</translation>
-    </message>
-    <message>
-        <source>Available connections</source>
-        <translation type="vanished">Verfügbare Verbindungen</translation>
-    </message>
-    <message>
-        <source>Cloud login</source>
-        <translation type="vanished">Cloud Login</translation>
-    </message>
-    <message>
-        <source>Info</source>
-        <translation type="vanished">Information</translation>
-    </message>
-    <message numerus="yes">
-        <source>There are %n %1 systems in your network! Which one would you like to use?</source>
-        <translation type="vanished">
-            <numerusform>Es befindet sich %n %1 System in Deinem Netzwerk.</numerusform>
-            <numerusform>Es befinden sich %n %1 Systeme in Deinem Netzwerk. Auf welches möchtest Du zugreifen?</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>We haven&apos;t found a %1 system in your network yet.</source>
-        <translation type="vanished">Wir konnten kein %1 System in Deinem Netzwerk finden.</translation>
-    </message>
-    <message>
-        <source>There doesn&apos;t seem to be a %1 system installed in your network. Please make sure your %1 system is correctly set up and connected.</source>
-        <translation type="vanished">Es scheint kein %1 System in Deinem Netzwerk installiert zu sein Bitte stelle sicher, dass Dein %1 System korrekt installiert und verbunden ist.</translation>
-    </message>
-    <message>
-        <source>Searching for %1 systems...</source>
-        <translation type="vanished">Suche nach %1 Systemen...</translation>
-    </message>
-    <message>
-        <source>Do you have a %1 system but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
-        <translation type="vanished">Hast Du bereits ein %1 System aber es ist noch nicht mit Deinem Netzwerk verbunden? Benutze die Kabellose Einrichtung um es zu verbinden.</translation>
-    </message>
-</context>
-<context>
-    <name>ConnectWiFiPage</name>
-    <message>
-        <source>Select wireless network</source>
-        <translation>WLAN-Netzwerk auswählen</translation>
-    </message>
-    <message>
-        <source>Authenticate</source>
-        <translation>Authentifizierung</translation>
-    </message>
-    <message>
-        <source>Enter the password for %1</source>
-        <translation>Gib das Passwort für %1 ein</translation>
-    </message>
-    <message>
-        <source>Sorry, the password is wrong. Please try again.</source>
-        <translation>Entschuldigung, das Passwort ist falsch. Bitte versuche es erneut.</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Hidden Network</source>
-        <translation>Verstecktes Netzwerk</translation>
-    </message>
-    <message>
-        <source>Connecting %1 to %2</source>
-        <translation>Verbinde %1 mit %2</translation>
+        <source>ID</source>
+        <translation>ID</translation>
     </message>
 </context>
 <context>
@@ -969,10 +833,6 @@
 <context>
     <name>ConnectionInfoDialog</name>
     <message>
-        <source>Box information</source>
-        <translation type="vanished">Box-Informationen</translation>
-    </message>
-    <message>
         <source>Available connections</source>
         <translation>Verfügbare Verbindungen</translation>
     </message>
@@ -1007,26 +867,6 @@
         <translation>Verbindungsschnittstellen</translation>
     </message>
     <message>
-        <source>TCP server interfaces</source>
-        <translation type="vanished">TCP Server Schnittstellen</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">Hinzufügen</translation>
-    </message>
-    <message>
-        <source>WebSocket server interfaces</source>
-        <translation type="vanished">WebSocket server Schnittstellen</translation>
-    </message>
-    <message>
-        <source>Remote connection server interfaces</source>
-        <translation type="vanished">Fernverbindungsschnittstellen</translation>
-    </message>
-    <message>
-        <source>Server: %1</source>
-        <translation type="vanished">Server: %1</translation>
-    </message>
-    <message>
         <source>Connection settings</source>
         <translation>Verbindungseinstellungen</translation>
     </message>
@@ -1049,6 +889,205 @@
     <message>
         <source>Advanced</source>
         <translation>Erweitert</translation>
+    </message>
+</context>
+<context>
+    <name>ConnectionWizard</name>
+    <message>
+        <source>Welcome</source>
+        <translation>Willkommen</translation>
+    </message>
+    <message>
+        <source>This wizard will guide you through the process of setting up a new nymea system.</source>
+        <translation>Dieser Assistent wird Dich durch die Einrichtung eines neuen nymea Systems begleiten.</translation>
+    </message>
+    <message>
+        <source>Demo mode</source>
+        <translation>Demo-Modus</translation>
+    </message>
+    <message>
+        <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
+        <translation>Um nymea zu nutzen wird eine nymea:core Installation auf einem Compunter in Deinem Netzwerk benötigt. Dies könnte ein Raspberry Pi oder ein normaler Linux PC sein.</translation>
+    </message>
+    <message>
+        <source>Please follow the installation instructions on %1 to install a nymea system.</source>
+        <translation>Bitte befolge die Installationsanweisungen unter %1 um ein nymea System zu installieren.</translation>
+    </message>
+    <message>
+        <source>Connectivity</source>
+        <translation>Verbindung</translation>
+    </message>
+    <message>
+        <source>How would you like to connect nymea to your network?</source>
+        <translation>Wie möchtest Du nymea mit dem Netzwerk verbinden?</translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation>Überspringen</translation>
+    </message>
+    <message>
+        <source>Wired network</source>
+        <translation>Kabelgebundenes Netzwerk</translation>
+    </message>
+    <message>
+        <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
+        <translation>Verbinde nymea mit einem Netzwerkkabel. Für die beste Leistung ist dies die empfohlene Variante.</translation>
+    </message>
+    <message>
+        <source>Wireless network</source>
+        <translation>Funknetzwerk</translation>
+    </message>
+    <message>
+        <source>Connect nymea to your WiFi network.</source>
+        <translation>Verbinde nymea über dein WLAN-Netzwerk.</translation>
+    </message>
+    <message>
+        <source>If your nymea system is already connected to the network you can skip this step.</source>
+        <translation>Falls dein nymea System bereits mit dem Netzwerk verbunden ist, kannst Du diesen Schritt überspringen.</translation>
+    </message>
+    <message>
+        <source>Connection</source>
+        <translation>Verbindung</translation>
+    </message>
+    <message>
+        <source>Select nymea system</source>
+        <translation>Wähle das nymea System aus</translation>
+    </message>
+    <message>
+        <source>Manual connection</source>
+        <translation>Manuelle Verbindung</translation>
+    </message>
+    <message>
+        <source>Please wait while your nymea system is being discovered.</source>
+        <translation>Bitte warte einen Moment während nach deinem nymea System gesucht wird.</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <source>Please enter the connection information for your nymea system</source>
+        <translation>Gib die Verbindungsinformationen für dein nymea System ein</translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation>Protokoll</translation>
+    </message>
+    <message>
+        <source>TCP</source>
+        <translation>TCP</translation>
+    </message>
+    <message>
+        <source>Websocket</source>
+        <translation>Websocket</translation>
+    </message>
+    <message>
+        <source>Remote proxy</source>
+        <translation>Ferverbindungs-Proxy-Server</translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation>Adresse:</translation>
+    </message>
+    <message>
+        <source>Proxy address:</source>
+        <translation>Proxy-Adresse:</translation>
+    </message>
+    <message>
+        <source>%1 UUID:</source>
+        <translation>%1 UUID:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Port:</translation>
+    </message>
+    <message>
+        <source>SSL:</source>
+        <translation>SSL:</translation>
+    </message>
+    <message>
+        <source>Wired connection</source>
+        <translation>Kabelgebundene Verbindung</translation>
+    </message>
+    <message>
+        <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
+        <translation>Benutze ein Netzwerkkabel um Dein nymea System zu verbinden und Schalte es dann ein.</translation>
+    </message>
+    <message>
+        <source>Wireless connection</source>
+        <translation>Schnurlose Verbindung</translation>
+    </message>
+    <message>
+        <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
+        <translation>Schalte Dein nymea System ein und warte einen Moment bis es gestartet ist.</translation>
+    </message>
+    <message>
+        <source>Wireless setup</source>
+        <translation>Kabelloses Setup</translation>
+    </message>
+    <message>
+        <source>Searching for the nymea system...</source>
+        <translation>Suche nach dem nymea System...</translation>
+    </message>
+    <message>
+        <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
+        <translation>Bluetooth scheint auf diesem System nicht verfügbar zu sein.</translation>
+    </message>
+    <message>
+        <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
+        <translation>Bluetooth ist deaktiviert. Bitte aktivieren Bluetooth auf diesem Gerät.</translation>
+    </message>
+    <message>
+        <source>Connecting to the nymea system...</source>
+        <translation>Verbinde mit dem nymea System...</translation>
+    </message>
+    <message>
+        <source>Select the WiFi you want to use.</source>
+        <translation>Wähle das WLAN aus welches Du benutzen möchtest.</translation>
+    </message>
+    <message>
+        <source>Hidden Network</source>
+        <translation>Verstecktes Netzwerk</translation>
+    </message>
+    <message>
+        <source>Hidden WiFi</source>
+        <translation>Verstecktest WLAN</translation>
+    </message>
+    <message>
+        <source>Enter the information for the hidden WiFi</source>
+        <translation>Gib die Daten für das versteckte WLAN ein</translation>
+    </message>
+    <message>
+        <source>SSID</source>
+        <translation>SSID</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Passwort</translation>
+    </message>
+    <message>
+        <source>Enter the password for the WiFi network.</source>
+        <translation>Gib das Passwort für das WLAN Netzwerk ein.</translation>
+    </message>
+    <message>
+        <source>An error happened in the Bluetooth connection. Please try again.</source>
+        <translation>Ein Fehler ist in der Bluetooth-Verbindung aufgetreten. Bitte versuche es erneut.</translation>
+    </message>
+    <message>
+        <source>Please wait while the nymea system is being connected to the WiFi.</source>
+        <translation>Bitte warte bis Dein nymea System mit dem WLAN verbunden ist.</translation>
+    </message>
+    <message>
+        <source>The nymea system has been connected successfully.</source>
+        <translation>Das nymea System wurde erfolgreich verbunden.</translation>
+    </message>
+    <message>
+        <source>You can now go ahead and configure your nymea system.</source>
+        <translation>Du kannst nun fortfahren und Dein nymea System einrichten.</translation>
+    </message>
+    <message>
+        <source>Waiting for your nymea setup to appear in the network.</source>
+        <translation>Warte bis Dein nymea System im Netzwerk auftaucht.</translation>
     </message>
 </context>
 <context>
@@ -1077,6 +1116,10 @@
         <source>Years</source>
         <translation>Jahre</translation>
     </message>
+    <message>
+        <source>No data available</source>
+        <translation>Keine Daten verfügbar</translation>
+    </message>
 </context>
 <context>
     <name>ConsumersBarChart</name>
@@ -1102,6 +1145,26 @@
     <message>
         <source>Total</source>
         <translation>Gesamt</translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation>Stunden</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Tage</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation>Wochen</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Monate</translation>
+    </message>
+    <message>
+        <source>No data available</source>
+        <translation>Keine Daten verfügbar</translation>
     </message>
 </context>
 <context>
@@ -1659,16 +1722,6 @@
         <translation>Wenn diese Bedingung...</translation>
     </message>
     <message>
-        <source>Examples:
-• While I&apos;m at home...
-• When the temperature is below 0...
-• Between 9 am and 6 pm...</source>
-        <translation type="vanished">Beispile:
-• Während ich zuhause bin...
-• Wenn die Temperatur unter 0 ist...
-• Zwischen 9 Uhr vormittags und 6 Uhr abends...</translation>
-    </message>
-    <message>
         <source>When time is in...</source>
         <translation>Wenn die Uhrzeit zwischen...</translation>
     </message>
@@ -1938,18 +1991,6 @@
         <translation>&quot;Things&quot; hinzufügen</translation>
     </message>
     <message>
-        <source>To get an overview of your current energy usage, install an energy meter.</source>
-        <translation type="vanished">Installiere ein Energiemessgerät um eine Übersicht über Deinen Energieverbrauch zu erhalten.</translation>
-    </message>
-    <message>
-        <source>Energy plugin not installed installed.</source>
-        <translation type="vanished">Das Energie-Addon ist nicht installiert.</translation>
-    </message>
-    <message>
-        <source>This %1 system does not have the energy extensions installed.</source>
-        <translation type="vanished">Auf diesem %1 System ist die Energieerweiterung nicht installiert.</translation>
-    </message>
-    <message>
         <source>Install energy plugin</source>
         <translation>Energie-Addon installieren</translation>
     </message>
@@ -1998,10 +2039,6 @@
 </context>
 <context>
     <name>EventDescriptorDelegate</name>
-    <message>
-        <source>%1 - %2</source>
-        <translation type="vanished">%1 - %2</translation>
-    </message>
     <message>
         <source>anytime</source>
         <translation>immer</translation>
@@ -3591,32 +3628,12 @@ Bitte versuche es erneut.</translation>
         <translation>Die eingegebene E-Mail Adresse ist ungültig.</translation>
     </message>
     <message>
-        <source>The password you&apos;ve chose is too weak.</source>
-        <translation type="vanished">Das gewählte Passwort ist zu schwach.</translation>
-    </message>
-    <message>
         <source>In order to use your %1 system, please log in.</source>
         <translation>Um Ihr %1 system zu nutzen, melden Sie sich bitte an.</translation>
     </message>
     <message>
-        <source>Your e-mail address:</source>
-        <translation type="vanished">Ihre E-Mail Adresse:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation type="vanished">Passwort:</translation>
-    </message>
-    <message>
         <source>OK</source>
         <translation>OK</translation>
-    </message>
-    <message>
-        <source>The email you&apos;ve entered is already used.</source>
-        <translation type="vanished">Die eingegebene E-Mail Adresse ist bereits in Benutzung.</translation>
-    </message>
-    <message>
-        <source>In order to use your %1 system, please enter your email address and set a password for it.</source>
-        <translation type="vanished">Um dein %1 System zu nutzen, gib bitte Deine E-Mail Adresse ein und wähle ein Passwort dafür.</translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1 system is installed correctly.</source>
@@ -3835,30 +3852,6 @@ Bitte versuche es erneut.</translation>
         <translation>Systemeinstellungen</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Hilfe</translation>
-    </message>
-    <message>
-        <source>Forum</source>
-        <translation type="vanished">Forum</translation>
-    </message>
-    <message>
-        <source>Telegram</source>
-        <translation type="vanished">Telegram</translation>
-    </message>
-    <message>
-        <source>Discord</source>
-        <translation type="vanished">Discord</translation>
-    </message>
-    <message>
-        <source>Twitter</source>
-        <translation type="vanished">Twitter</translation>
-    </message>
-    <message>
-        <source>Facebook</source>
-        <translation type="vanished">Facebook</translation>
-    </message>
-    <message>
         <source>New connection</source>
         <translation>Neue Verbindung</translation>
     </message>
@@ -3924,41 +3917,6 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Dashboard</source>
         <translation>Dashboard</translation>
-    </message>
-</context>
-<context>
-    <name>ManualConnectPage</name>
-    <message>
-        <source>Manual connection</source>
-        <translation type="vanished">Manuelle Verbindung</translation>
-    </message>
-    <message>
-        <source>Protocol</source>
-        <translation type="vanished">Protokoll</translation>
-    </message>
-    <message>
-        <source>TCP</source>
-        <translation type="vanished">TCP</translation>
-    </message>
-    <message>
-        <source>Websocket</source>
-        <translation type="vanished">Websocket</translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation type="vanished">Adresse:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="vanished">Port:</translation>
-    </message>
-    <message>
-        <source>Encrypted connection:</source>
-        <translation type="vanished">Verschlüsselte Verbindung:</translation>
-    </message>
-    <message>
-        <source>Connect</source>
-        <translation type="vanished">Verbinden</translation>
     </message>
 </context>
 <context>
@@ -4451,16 +4409,8 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <translation>Netzwerkeinstellungen</translation>
     </message>
     <message>
-        <source>Networking</source>
-        <translation>Netzwerk</translation>
-    </message>
-    <message>
         <source>Wireless network</source>
         <translation>Funknetzwerk</translation>
-    </message>
-    <message>
-        <source>Trigger a wireless scan on the device.</source>
-        <translation>WLAN Scan auf dem Gerät ausführen.</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -4710,196 +4660,45 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <source>No wireless network interfaces available</source>
         <translation>Keine Schnittstellen für Funknetzwerke verfügbar</translation>
     </message>
-</context>
-<context>
-    <name>NewConnectionWizard</name>
     <message>
-        <source>Welcome</source>
-        <translation>Willkommen</translation>
+        <source>New wired connection</source>
+        <translation>Neue kabelgebundene Verbindung</translation>
     </message>
     <message>
-        <source>This wizard will guide you through the process of setting up a new nymea system.</source>
-        <translation>Dieser Assistent wird Dich durch die Einrichtung eines neuen nymea Systems begleiten.</translation>
+        <source>Method</source>
+        <translation>Methode</translation>
     </message>
     <message>
-        <source>Demo mode</source>
-        <translation>Demo-Modus</translation>
+        <source>Automatic (DHCP client)</source>
+        <translation>Automatisch (DHCP Client)</translation>
     </message>
     <message>
-        <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
-        <translation>Um nymea zu nutzen wird eine nymea:core Installation auf einem Compunter in Deinem Netzwerk benötigt. Dies könnte ein Raspberry Pi oder ein normaler Linux PC sein.</translation>
+        <source>Manual</source>
+        <translation>Manuell</translation>
     </message>
     <message>
-        <source>Please follow the installation instructions on %1 to install a nymea system.</source>
-        <translation>Bitte befolge die Installationsanweisungen unter %1 um ein nymea System zu installieren.</translation>
+        <source>Shared (DHCP server)</source>
+        <translation>Geteilt (DHCP Server)</translation>
     </message>
     <message>
-        <source>Connectivity</source>
-        <translation>Verbindung</translation>
+        <source>Address settings</source>
+        <translation>Adresseinstellungen</translation>
     </message>
     <message>
-        <source>How would you like to connect nymea to your network?</source>
-        <translation>Wie möchtest Du nymea mit dem Netzwerk verbinden?</translation>
+        <source>IP Address</source>
+        <translation>IP Adresse</translation>
     </message>
     <message>
-        <source>Skip</source>
-        <translation>Überspringen</translation>
+        <source>Gateway</source>
+        <translation>Gateway</translation>
     </message>
     <message>
-        <source>Wired network</source>
-        <translation>Kabelgebundenes Netzwerk</translation>
+        <source>DNS</source>
+        <translation>DNS</translation>
     </message>
     <message>
-        <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
-        <translation>Verbinde nymea mit einem Netzwerkkabel. Für die beste Leistung ist dies die empfohlene Variante.</translation>
-    </message>
-    <message>
-        <source>Wireless network</source>
-        <translation>Funknetzwerk</translation>
-    </message>
-    <message>
-        <source>Connect nymea to your WiFi network.</source>
-        <translation>Verbinde nymea über dein WLAN-Netzwerk.</translation>
-    </message>
-    <message>
-        <source>If your nymea system is already connected to the network you can skip this step.</source>
-        <translation>Falls dein nymea System bereits mit dem Netzwerk verbunden ist, kannst Du diesen Schritt überspringen.</translation>
-    </message>
-    <message>
-        <source>Connection</source>
-        <translation>Verbindung</translation>
-    </message>
-    <message>
-        <source>Connecting to the nymea system.</source>
-        <translation type="vanished">Das nymea System wird verbunden.</translation>
-    </message>
-    <message>
-        <source>Manual connection</source>
-        <translation>Manuelle Verbindung</translation>
-    </message>
-    <message>
-        <source>Please wait while your nymea system is being discovered.</source>
-        <translation>Bitte warte einen Moment während nach deinem nymea System gesucht wird.</translation>
-    </message>
-    <message>
-        <source>Info</source>
-        <translation>Information</translation>
-    </message>
-    <message>
-        <source>Please enter the connection information for your nymea system</source>
-        <translation>Gib die Verbindungsinformationen für dein nymea System ein.</translation>
-    </message>
-    <message>
-        <source>Protocol</source>
-        <translation>Protokoll</translation>
-    </message>
-    <message>
-        <source>TCP</source>
-        <translation>TCP</translation>
-    </message>
-    <message>
-        <source>Websocket</source>
-        <translation>Websocket</translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation>Adresse:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation>Port:</translation>
-    </message>
-    <message>
-        <source>Encrypted connection:</source>
-        <translation type="vanished">Verschlüsselte Verbindung:</translation>
-    </message>
-    <message>
-        <source>Wired connection</source>
-        <translation>Kabelgebundene Verbindung</translation>
-    </message>
-    <message>
-        <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
-        <translation>Benutze ein Netzwerkkabel um Dein nymea System zu verbinden und Schalte es dann ein.</translation>
-    </message>
-    <message>
-        <source>Wireless connection</source>
-        <translation>Schnurlose Verbindung</translation>
-    </message>
-    <message>
-        <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
-        <translation>Schalte Dein nymea System ein und warte einen Moment bis es gestartet ist.</translation>
-    </message>
-    <message>
-        <source>Wireless setup</source>
-        <translation>Kabelloses Setup</translation>
-    </message>
-    <message>
-        <source>Searching for the nymea system...</source>
-        <translation>Suche nach dem nymea System...</translation>
-    </message>
-    <message>
-        <source>Connecting to the nymea system...</source>
-        <translation>Verbinde mit dem nymea System...</translation>
-    </message>
-    <message>
-        <source>Select the WiFi you want to use.</source>
-        <translation>Wähle das WLAN aus welches Du benutzen möchtest.</translation>
-    </message>
-    <message>
-        <source>Hidden Network</source>
-        <translation>Verstecktes Netzwerk</translation>
-    </message>
-    <message>
-        <source>Enter the password for the WiFi network.</source>
-        <translation>Gib das Passwort für das WLAN Netzwerk ein.</translation>
-    </message>
-    <message>
-        <source>An error happened in the Bluetooth connection. Please try again.</source>
-        <translation>Ein Fehler ist in der Bluetooth-Verbindung aufgetreten. Bitte versuche es erneut.</translation>
-    </message>
-    <message>
-        <source>Please wait while the nymea system is being connected to the WiFi.</source>
-        <translation>Bitte warte bis Dein nymea System mit dem WLAN verbunden ist.</translation>
-    </message>
-    <message>
-        <source>The nymea system has been connected successfully.</source>
-        <translation>Das nymea System wurde erfolgreich verbunden.</translation>
-    </message>
-    <message>
-        <source>You can now go ahead and configure your nymea system.</source>
-        <translation>Du kannst nun fortfahren und Dein nymea System einrichten.</translation>
-    </message>
-    <message>
-        <source>Waiting for your nymea setup to appear in the network.</source>
-        <translation>Warte bis Dein nymea System im Netzwerk auftaucht.</translation>
-    </message>
-    <message>
-        <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
-        <translation>Bluetooth scheint auf diesem System nicht verfügbar zu sein.</translation>
-    </message>
-    <message>
-        <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
-        <translation>Bluetooth ist deaktiviert. Bitte aktivieren Bluetooth auf diesem Gerät.</translation>
-    </message>
-    <message>
-        <source>Remote proxy</source>
-        <translation>Ferverbindungs-Proxy-Server</translation>
-    </message>
-    <message>
-        <source>Proxy address:</source>
-        <translation>Proxy-Adresse:</translation>
-    </message>
-    <message>
-        <source>%1 UUID:</source>
-        <translation>%1 UUID:</translation>
-    </message>
-    <message>
-        <source>SSL:</source>
-        <translation>SSL:</translation>
-    </message>
-    <message>
-        <source>Select nymea system</source>
-        <translation>Wähle das nymea System aus</translation>
+        <source>Create connection</source>
+        <translation>Verbindung erstellen</translation>
     </message>
 </context>
 <context>
@@ -4929,6 +4728,10 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     <message>
         <source>New magic for %1</source>
         <translation>Neue Magie für %1</translation>
+    </message>
+    <message>
+        <source>A thing</source>
+        <translation>Ein &quot;Thing&quot;</translation>
     </message>
 </context>
 <context>
@@ -5229,6 +5032,14 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <source>Electric cars</source>
         <translation>Elektrische Autos</translation>
     </message>
+    <message>
+        <source>VOC level</source>
+        <translation>VOC Wert</translation>
+    </message>
+    <message>
+        <source>Nitrogen dioxide level</source>
+        <translation>Nitrogen-Dioxid Wert</translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -5335,58 +5146,6 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
         <translation>Es tut uns leid. Wir konnten keine Pakete finden, auf denen der Suchbegriff %1 zutrifft.</translation>
-    </message>
-    <message>
-        <source>Package information</source>
-        <translation type="vanished">Paket-Informationen</translation>
-    </message>
-    <message>
-        <source>Installed version:</source>
-        <translation type="vanished">Installierte Version:</translation>
-    </message>
-    <message>
-        <source>Not installed</source>
-        <translation type="vanished">Nicht installiert</translation>
-    </message>
-    <message>
-        <source>Candidate version:</source>
-        <translation type="vanished">Kandidat-Version:</translation>
-    </message>
-    <message>
-        <source>Update</source>
-        <translation type="vanished">Aktualisierung</translation>
-    </message>
-    <message>
-        <source>Install</source>
-        <translation type="vanished">Installieren</translation>
-    </message>
-    <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
-        <translation type="vanished">Diese Aktion wird ein System-Update starten. Dies kann mehrere Minuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.</translation>
-    </message>
-    <message>
-        <source>
-Do you want to proceed?</source>
-        <translation type="vanished">
-Möchtest Du fortfahren?</translation>
-    </message>
-    <message>
-        <source>Start update</source>
-        <translation type="vanished">Aktualisierung starten</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Entfernen</translation>
-    </message>
-    <message>
-        <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
-Do you want to proceed?</source>
-        <translation type="vanished">Diese Aktion wird ein System-Update starten. Dies kann mehrere Miuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.
-Möchtest Du fortfahren?</translation>
-    </message>
-    <message>
-        <source>Remove package</source>
-        <translation type="vanished">Paket entfernen</translation>
     </message>
 </context>
 <context>
@@ -5531,6 +5290,10 @@ Möchtest Du fortfahren?</translation>
         <source>To grid: %1 kWh</source>
         <translation>Netzeinspeisung: %1 kWh</translation>
     </message>
+    <message>
+        <source>No data available</source>
+        <translation>Keine Daten verfügbar</translation>
+    </message>
 </context>
 <context>
     <name>PowerConsumptionBalanceHistory</name>
@@ -5551,18 +5314,6 @@ Möchtest Du fortfahren?</translation>
         <translation>Netzbezug</translation>
     </message>
     <message>
-        <source>Self production: %1 kW</source>
-        <translation type="vanished">Eigenproduktion: %1 kW</translation>
-    </message>
-    <message>
-        <source>From battery: %1 kW</source>
-        <translation type="vanished">Batterie: %1 kW</translation>
-    </message>
-    <message>
-        <source>From grid: %1 kW</source>
-        <translation type="vanished">Netzbezug: %1 kW</translation>
-    </message>
-    <message>
         <source>Total consumption: %1 %2</source>
         <translation>Gesamtverbrauch: %1 %2</translation>
     </message>
@@ -5577,6 +5328,26 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>From grid: %1 %2</source>
         <translation>Netzbezug: %1 %2</translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation>Stunden</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Tage</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation>Wochen</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Monate</translation>
+    </message>
+    <message>
+        <source>No data available</source>
+        <translation>Keine Daten verfügbar</translation>
     </message>
 </context>
 <context>
@@ -5598,18 +5369,6 @@ Möchtest Du fortfahren?</translation>
         <translation>Netzeinspeisung</translation>
     </message>
     <message>
-        <source>To battery: %1 kW</source>
-        <translation type="vanished">Batterie: %1 kW</translation>
-    </message>
-    <message>
-        <source>To grid: %1 kW</source>
-        <translation type="vanished">Netzeinspeisung: %1 kW</translation>
-    </message>
-    <message>
-        <source>Consumed: %1 kW</source>
-        <translation type="vanished">Verbraucht: %1 kW</translation>
-    </message>
-    <message>
         <source>Total production: %1 %2</source>
         <translation>Gesamtproduktion: %1 %2</translation>
     </message>
@@ -5624,6 +5383,26 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>To grid: %1 %2</source>
         <translation>Netzeinspeisung: %1 %2</translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation>Stunden</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Tage</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation>Wochen</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Monate</translation>
+    </message>
+    <message>
+        <source>No data available</source>
+        <translation>Keine Daten verfügbar</translation>
     </message>
 </context>
 <context>
@@ -5686,14 +5465,6 @@ Möchtest Du fortfahren?</translation>
         <translation>Neue Verbindung</translation>
     </message>
     <message>
-        <source>The version of the %1 system you are trying to connect to is too old. This app requires at least version %2 but this %1 system only supports %3. Please update your %1 system.</source>
-        <translation type="vanished">Die Version dieses %1 Systems ist zu alt. Diese Anwendung benötigt mindestens Version %2, das %1 System unterstützt jedoch lediglich Version %3. Bitte update Dein %1 System.</translation>
-    </message>
-    <message>
-        <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to version %2 but this %1 system provides %3. Please update %4.</source>
-        <translation type="vanished">Die Version dieses %1 Systems ist zu neu. Diese Anwendung unterstützt bis Version %2, dieses %1 System basiert jedoch auf Version %3. Bitte update %4.</translation>
-    </message>
-    <message>
         <source>The version of the %1 system you are trying to connect to is too old. This app requires at least API version %2 but this %1 system only supports API version %3. Please update your %1 system.</source>
         <translation>Die Version dieses %1 Systems ist zu alt. Diese App benötigt mindestens API Version %2, dieses %1 System unterstützt jedoch nur API Version %3. Bitte update Dein %1 System.</translation>
     </message>
@@ -5719,14 +5490,6 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Unknown item</source>
         <translation>Unbekanntes Element</translation>
-    </message>
-    <message>
-        <source>True</source>
-        <translation type="vanished">Wahr</translation>
-    </message>
-    <message>
-        <source>False</source>
-        <translation type="vanished">Falsch</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -6170,10 +5933,6 @@ Möchtest Du fortfahren?</translation>
         <translation>Systemprotokoll</translation>
     </message>
     <message>
-        <source>Cloud</source>
-        <translation type="vanished">Cloud</translation>
-    </message>
-    <message>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
@@ -6184,10 +5943,6 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>View system log</source>
         <translation>Systemprotokoll anzeigen</translation>
-    </message>
-    <message>
-        <source>API interfaces</source>
-        <translation type="vanished">API Schnittstellen</translation>
     </message>
     <message>
         <source>MQTT broker</source>
@@ -6234,10 +5989,6 @@ Möchtest Du fortfahren?</translation>
         <translation>Richte das Netzwerk dieses Systems ein</translation>
     </message>
     <message>
-        <source>Configure how clients interact with this system</source>
-        <translation type="vanished">Richte ein, wie andere Geräte mit diesem System kommunizieren</translation>
-    </message>
-    <message>
         <source>User settings</source>
         <translation>Benutzereinstellungen</translation>
     </message>
@@ -6252,10 +6003,6 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Configure ZigBee networks</source>
         <translation>ZigBee-Netzwerke einrichten</translation>
-    </message>
-    <message>
-        <source>Connect this %1 system to %1:cloud</source>
-        <translation type="vanished">Verbinde dieses %1 System mit %1:cloud</translation>
     </message>
     <message>
         <source>Update your %1 system</source>
@@ -6415,14 +6162,6 @@ Möchtest Du fortfahren?</translation>
         <translation>Drücken um Bedingung zu ändern</translation>
     </message>
     <message>
-        <source>True</source>
-        <translation type="vanished">Wahr</translation>
-    </message>
-    <message>
-        <source>False</source>
-        <translation type="vanished">Falsch</translation>
-    </message>
-    <message>
         <source>Yes</source>
         <translation>Ja</translation>
     </message>
@@ -6519,22 +6258,6 @@ A consumer, not consuming anything</extracomment>
     <message>
         <source>At the current rate, the battery will last until %1.</source>
         <translation>Bei der aktuellen Rate wird die Batterie bis %1 halten.</translation>
-    </message>
-    <message>
-        <source>A total of %1 kWh has been &lt;b&gt;consumed&lt;/b&gt; in the last 24 hours.</source>
-        <translation type="vanished">Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;verbraucht&lt;/b&gt;.</translation>
-    </message>
-    <message>
-        <source>A total of %1 kWh has been &lt;b&gt;obtained&lt;/b&gt; in the last 24 hours.</source>
-        <translation type="vanished">Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;bezogen&lt;/b&gt;.</translation>
-    </message>
-    <message>
-        <source>A total of %1 kWh has been &lt;b&gt;produced&lt;/b&gt; in the last 24 hours.</source>
-        <translation type="vanished">Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;erzeugt&lt;/b&gt;.</translation>
-    </message>
-    <message>
-        <source>A total of %1 kWh has been &lt;b&gt;returned&lt;/b&gt; in the last 24 hours.</source>
-        <translation type="vanished">Insgesamt wurden in den letzten 24 Stunden %1 kWh &lt;b&gt;eingespeist&lt;/b&gt;.</translation>
     </message>
 </context>
 <context>
@@ -6937,20 +6660,8 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Ein unerwarteter Fehler ist beim Ändern des Passwortes aufgetreten. Dies tut uns leid. (Fehlercode: %1)</translation>
     </message>
     <message>
-        <source>User info</source>
-        <translation type="vanished">Benutzerinformationen</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation type="vanished">Benutzername</translation>
-    </message>
-    <message>
         <source>Change password</source>
         <translation>Passwort ändern</translation>
-    </message>
-    <message>
-        <source>Devices / Apps accessing nymea:core</source>
-        <translation type="vanished">Geräte/Apps welche auf nymea:core zugreifen</translation>
     </message>
     <message>
         <source>Created on %1</source>
@@ -7186,37 +6897,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
 </context>
 <context>
-    <name>WirelessSetupPage</name>
-    <message>
-        <source>Wireless network setup</source>
-        <translation>Schnurlose Netzwerk-Einrichtung</translation>
-    </message>
-    <message>
-        <source>IP address: %1</source>
-        <translation>IP Adresse: %1</translation>
-    </message>
-    <message>
-        <source>Change network</source>
-        <translation>Ändere Netzwerk</translation>
-    </message>
-    <message>
-        <source>Close wireless setup</source>
-        <translation>Schnurlose Einrichtung beenden</translation>
-    </message>
-    <message>
-        <source>Your %1 system is connected to %2</source>
-        <translation>Dein %1 System ist mit %2 verbunden</translation>
-    </message>
-    <message>
-        <source>Waiting for the %1 to appear in your network.</source>
-        <translation>Warte bis %1 im Netzwerk auftaucht.</translation>
-    </message>
-    <message>
-        <source>Connect to %1</source>
-        <translation>Verbinde zu %1</translation>
-    </message>
-</context>
-<context>
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>
@@ -7412,10 +7092,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Nein</translation>
     </message>
     <message>
-        <source>Security supported:</source>
-        <translation>Sichere Verbindung:</translation>
-    </message>
-    <message>
         <source>Beaming supported:</source>
         <translation>Beaming unterstützt:</translation>
     </message>
@@ -7452,18 +7128,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Bitte beachte, dass mit diesem Knoten verknüpfte &quot;Things&quot; auch entfernt werden.</translation>
     </message>
     <message>
-        <source>ZigBee network help</source>
-        <translation type="vanished">ZigBee Netzwerk Hilfe</translation>
-    </message>
-    <message>
-        <source>ZigBee router</source>
-        <translation type="obsolete">ZigBee Router</translation>
-    </message>
-    <message>
-        <source>ZigBee end device</source>
-        <translation type="obsolete">ZigBee Endgerät</translation>
-    </message>
-    <message>
         <source>Sleepy device</source>
         <translation>Schlafendes Gerät</translation>
     </message>
@@ -7478,6 +7142,14 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Z-Wave end device</source>
         <translation>Z-Wave Endgerät</translation>
+    </message>
+    <message>
+        <source>Security mode:</source>
+        <translation>Sicherheitsmodus:</translation>
+    </message>
+    <message>
+        <source>Security device:</source>
+        <translation>Sicherheitsgerät:</translation>
     </message>
 </context>
 <context>
@@ -7722,10 +7394,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
 <context>
     <name>ZigbeeNetworkPage</name>
     <message>
-        <source>Channel</source>
-        <translation>Kanal</translation>
-    </message>
-    <message>
         <source>ZigBee network</source>
         <translation>ZigBee Netzwerk</translation>
     </message>
@@ -7740,14 +7408,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>The selected adapter is already in use.</source>
         <translation>Der ausgewählte Adapter ist bereits in Benutzung.</translation>
-    </message>
-    <message>
-        <source>Network</source>
-        <translation>Netzwerk</translation>
-    </message>
-    <message>
-        <source>Network state:</source>
-        <translation>Netzwerkstatus:</translation>
     </message>
     <message>
         <source>Online</source>
@@ -7770,10 +7430,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Fehler</translation>
     </message>
     <message>
-        <source>Permit new devices:</source>
-        <translation>Erlaube neue Geräte:</translation>
-    </message>
-    <message>
         <source>Open for %0 s</source>
         <translation>Für %0 s öffnen</translation>
     </message>
@@ -7782,24 +7438,8 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Geschlossen</translation>
     </message>
     <message>
-        <source>Extend open duration</source>
-        <translation>Öffnungszeit verängern</translation>
-    </message>
-    <message>
         <source>Open for new devices</source>
         <translation>Für neue Geräte öffnen</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="vanished">Version</translation>
-    </message>
-    <message>
-        <source>IEEE address</source>
-        <translation type="vanished">IEEE Adresse</translation>
-    </message>
-    <message>
-        <source>Network address</source>
-        <translation type="vanished">Netzwerkadresse</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -7838,36 +7478,12 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Hilfe</translation>
     </message>
     <message>
-        <source>Connected devices</source>
-        <translation>Verbundene Geräte</translation>
-    </message>
-    <message>
-        <source>There are no ZigBee devices connectd yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
-        <translation type="vanished">Es sind noch keine ZigBee Geräte verbunden. Öffne das Netzwerk für neue Geräte und starte das Pairing-Verfahren auf dem ZigBee Gerät. Bitte beziehe Dich auf das Handbuch des Gerätes, um mehr Informationen über das Pairing-Verfahren des jeweiligen Gerätes zu erhalten.</translation>
-    </message>
-    <message>
-        <source>Model</source>
-        <translation type="vanished">Modell</translation>
-    </message>
-    <message>
-        <source>Manufacturer</source>
-        <translation type="vanished">Hersteller</translation>
-    </message>
-    <message>
-        <source>Signal strength</source>
-        <translation type="vanished">Signalstärke</translation>
-    </message>
-    <message>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <source>There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
         <translation>Es sind noch keine ZigBee Geräte verbunden. Öffne das Netzwerk für neue Geräte und beginne dein Einrichtungsprozess am ZigBee Gerät. Bitte ziehen Sie das Handbuch des Gerätes heran um zu erfahren wie dies am jeweiligen Gerät gemacht wird.</translation>
-    </message>
-    <message>
-        <source>Initialiazing...</source>
-        <translation type="vanished">Initialisiere...</translation>
     </message>
     <message>
         <source>%1 things</source>
@@ -7904,6 +7520,32 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Initializing...</source>
         <translation>Initialisiere...</translation>
+    </message>
+    <message>
+        <source>Network state</source>
+        <translation>Netzwerk-Status</translation>
+    </message>
+    <message>
+        <source>Extend</source>
+        <translation>Verlängern</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Schließen</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s)</source>
+        <translation>
+            <numerusform>%n Gerät</numerusform>
+            <numerusform>%n Geräte</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n device(s) (%1 disconnected)</source>
+        <translation>
+            <numerusform>%n Gerät (%1 getrennt)</numerusform>
+            <numerusform>%n Geräte (%1 getrennt)</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -7996,6 +7638,256 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <source>Are you sure you want to remove the network and all associated devices from the system?</source>
         <translation>Bist Du sicher, dass das Netzwerk und alle verknüpften Geräte aus dem System enfernt werden sollen?</translation>
     </message>
+    <message>
+        <source>Network map</source>
+        <translation>Netzwerkkarte</translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNetworkTopologyPage</name>
+    <message>
+        <source>ZigBee network map</source>
+        <translation>ZigBee Netzwerkkarte</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Hilfe</translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation>Gerät</translation>
+    </message>
+    <message>
+        <source>Links</source>
+        <translation>Verbindungen</translation>
+    </message>
+    <message>
+        <source>Routes</source>
+        <translation>Routen</translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation>Adresse:</translation>
+    </message>
+    <message>
+        <source>Model:</source>
+        <translation>Modell:</translation>
+    </message>
+    <message>
+        <source>Manufacturer:</source>
+        <translation>Hersteller:</translation>
+    </message>
+    <message>
+        <source>Last seen:</source>
+        <translation>Zuletzt gesehen:</translation>
+    </message>
+    <message>
+        <source>Neighbor</source>
+        <translation>Nachbar</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Zu</translation>
+    </message>
+    <message>
+        <source>Via</source>
+        <translation>Über</translation>
+    </message>
+    <message>
+        <source>ZigBee topology help</source>
+        <translation>Zigbee Topologie Hilfe</translation>
+    </message>
+    <message>
+        <source>Node relationship</source>
+        <translation>Knotenverhältnis</translation>
+    </message>
+    <message>
+        <source>Sibling</source>
+        <translation>Nachbar</translation>
+    </message>
+    <message>
+        <source>Parent</source>
+        <translation>Übergeordnet</translation>
+    </message>
+    <message>
+        <source>Child</source>
+        <translation>Untergeordnet</translation>
+    </message>
+    <message>
+        <source>Previous child</source>
+        <translation>Untergeordnet in Kette</translation>
+    </message>
+    <message>
+        <source>Depth in network</source>
+        <translation>Tiefe im Netzwerk</translation>
+    </message>
+    <message>
+        <source>Permit join</source>
+        <translation>Eintritt erlaubt</translation>
+    </message>
+    <message>
+        <source>Route status</source>
+        <translation>Route-Status</translation>
+    </message>
+    <message>
+        <source>Route active</source>
+        <translation>Route aktiv</translation>
+    </message>
+    <message>
+        <source>Route inactive</source>
+        <translation>Route inaktiv</translation>
+    </message>
+    <message>
+        <source>Route failed</source>
+        <translation>Route fehlerhaft</translation>
+    </message>
+    <message>
+        <source>Discovery in progress</source>
+        <translation>Suche im Gange</translation>
+    </message>
+    <message>
+        <source>Validation in progress</source>
+        <translation>Überprüfung im Gange</translation>
+    </message>
+</context>
+<context>
+    <name>ZigbeeNodePage</name>
+    <message>
+        <source>ZigBee node info</source>
+        <translation>ZigBee Knoteninformation</translation>
+    </message>
+    <message>
+        <source>Remove node</source>
+        <translation>Knoten entfernen</translation>
+    </message>
+    <message>
+        <source>An error happened in the ZigBee network when creating the binding.</source>
+        <translation>Beim Erstellen der Bindung ist ein Fehler im ZigBee Netzwerk aufgetreten.</translation>
+    </message>
+    <message>
+        <source>The ZigBee device did not respond. Please try again.</source>
+        <translation>Das ZigBee Gerät antwortet nicht. Bitte erneut versuchen.</translation>
+    </message>
+    <message>
+        <source>An error happened in the ZigBee network when removing the binding.</source>
+        <translation>Beim Entfernen der Bindung ist ein Fehler im ZigBee Netzwerk aufgetreten.</translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation>Modell</translation>
+    </message>
+    <message>
+        <source>Manufacturer</source>
+        <translation>Hersteller</translation>
+    </message>
+    <message>
+        <source>IEEE address</source>
+        <translation>IEEE Adresse</translation>
+    </message>
+    <message>
+        <source>Network address</source>
+        <translation>Netzwerkadresse</translation>
+    </message>
+    <message>
+        <source>Signal strength</source>
+        <translation>Signalstärke</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>Associated things</source>
+        <translation>Verknüpfte Geräte</translation>
+    </message>
+    <message>
+        <source>Bindings</source>
+        <translation>Bindungen</translation>
+    </message>
+    <message>
+        <source>Group: 0x%1</source>
+        <translation>Gruppe: 0x%1</translation>
+    </message>
+    <message>
+        <source>Add binding</source>
+        <translation>Bindung erstellen</translation>
+    </message>
+    <message>
+        <source>Remove ZigBee node</source>
+        <translation>ZigBee Knoten entfernen</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this node from the network?</source>
+        <translation>Bist Du sicher, dass dieser Knoten aus dem Netzwerk entfernt werden soll?</translation>
+    </message>
+    <message>
+        <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
+        <translation>Bitte beachte, dass mit diesem Knoten verknüpfte &quot;Things&quot; auch entfernt werden.</translation>
+    </message>
+    <message>
+        <source>Device endpoints</source>
+        <translation>Geräteendpunkte</translation>
+    </message>
+    <message>
+        <source>Endpoint %1</source>
+        <translation>Endpunkt %1</translation>
+    </message>
+    <message>
+        <source>Input clusters</source>
+        <translation>Eingabe-Cluster</translation>
+    </message>
+    <message>
+        <source>Client</source>
+        <translation>Client</translation>
+    </message>
+    <message>
+        <source>Server</source>
+        <translation>Server</translation>
+    </message>
+    <message>
+        <source>Output clusters</source>
+        <translation>Ausgabe-Cluster</translation>
+    </message>
+    <message>
+        <source>Source endpoint</source>
+        <translation>Quellendpunkt</translation>
+    </message>
+    <message>
+        <source>Target node</source>
+        <translation>Zielknoten</translation>
+    </message>
+    <message>
+        <source>Coordinator</source>
+        <translation>Koordinator</translation>
+    </message>
+    <message>
+        <source>%1 things</source>
+        <translation>%1 Geräte</translation>
+    </message>
+    <message>
+        <source>Unrecognized device</source>
+        <translation>Unerkanntes Gerät</translation>
+    </message>
+    <message>
+        <source>Destination endpoint</source>
+        <translation>Zielendpunkt</translation>
+    </message>
+    <message>
+        <source>Cluster</source>
+        <translation>Cluster</translation>
+    </message>
+    <message>
+        <source>Wake up %1</source>
+        <translation>%1 aufwecken</translation>
+    </message>
+    <message>
+        <source>The selected node is a sleepy device. Please wake up the device by pressing a button.</source>
+        <translation>Der ausgewählte Knoten ist ein schlafendes Gerät. Bitte drücke eine Taste am Gerät um es aufzuwecken.</translation>
+    </message>
 </context>
 <context>
     <name>ZigbeeSettingsPage</name>
@@ -8040,14 +7932,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Fehler</translation>
     </message>
     <message>
-        <source>MAC address:</source>
-        <translation type="vanished">MAC Adresse:</translation>
-    </message>
-    <message>
-        <source>Firmware version:</source>
-        <translation type="vanished">Firmware Version:</translation>
-    </message>
-    <message>
         <source>Adapter:</source>
         <translation>Adapter:</translation>
     </message>
@@ -8083,14 +7967,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
 </context>
 <context>
     <name>description for buttontemplates</name>
-    <message>
-        <source>Turn on a light</source>
-        <translation type="vanished">Ein Licht einschalten</translation>
-    </message>
-    <message>
-        <source>Turn off a light</source>
-        <translation type="vanished">Ein Licht ausschalten</translation>
-    </message>
     <message>
         <source>Switch a light</source>
         <translation>Ein Licht schalten</translation>
@@ -8176,10 +8052,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Notify me when a device runs out of battery</source>
         <translation>Benachrichtige mich wenn sich die Batterie eines Gerätes zu Ende neight</translation>
-    </message>
-    <message>
-        <source>Notify me when something runs dry</source>
-        <translation type="vanished">Benachrichte mich wenn etwas austrocknet</translation>
     </message>
     <message>
         <source>Notify me when a thing gets disconnected</source>
@@ -8337,10 +8209,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Low battery alert for %0</source>
         <translation>Batterieladung kritisch bei %0</translation>
-    </message>
-    <message>
-        <source>Notify %1 when %0 runs dry</source>
-        <translation type="vanished">Benachrichtige %1 wenn %0 austrocknet</translation>
     </message>
     <message>
         <source>Disconnect alert for %0</source>
