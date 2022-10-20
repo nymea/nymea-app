@@ -1,3 +1,10 @@
+nymea-app (1.4.29) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix NymeaUtils.pad() regression
+
+ -- jenkins <developer@nymea.io>  Thu, 20 Oct 2022 21:24:52 +0200
+
 nymea-app (1.4.28) bionic; urgency=medium
 
   [ Michael Zanetti ]
