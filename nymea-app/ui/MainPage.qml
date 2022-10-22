@@ -174,6 +174,7 @@ Page {
         ListElement { name: "energy"; source: "EnergyView"; displayName: qsTr("Energy"); icon: "smartmeter"; minVersion: "2.0" }
         ListElement { name: "media"; source: "MediaView"; displayName: qsTr("Media"); icon: "media"; minVersion: "2.0" }
         ListElement { name: "dashboard"; source: "DashboardView"; displayName: qsTr("Dashboard"); icon: "dashboard"; minVersion: "5.5" }
+        ListElement { name: "airconditioning"; source: "AirConditioningView"; displayName: qsTr("AC"); icon: "sensors"; minVersion: "6.2" }
     }
 
     ListModel {
@@ -254,10 +255,15 @@ Page {
         readonly property int scrollOffset: swipeView.currentItem ? swipeView.currentItem.item.contentY : 0
         readonly property int headerBlurSize: Math.min(headerSize, scrollOffset * 2)
 
+        Background {
+            anchors.fill: parent
+        }
+
         SwipeView {
             id: swipeView
             anchors.fill: parent
             opacity: d.configOverlay === null ? 1 : 0
+            visible: !engine.thingManager.fetchingData
             Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
 
             Repeater {
@@ -820,7 +826,7 @@ Page {
 
     Component {
         id: connectionDialogComponent
-        MeaDialog {
+        NymeaDialog {
             id: connectionDialog
             title: engine.jsonRpcClient.currentHost.name
             standardButtons: Dialog.NoButton

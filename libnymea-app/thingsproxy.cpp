@@ -37,6 +37,9 @@ ThingsProxy::ThingsProxy(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
     setSortRole(Things::RoleName);
+    connect(this, &ThingsProxy::countChanged, this, [=](){
+        m_oldCount = rowCount();
+    });
 }
 
 Engine *ThingsProxy::engine() const
@@ -67,7 +70,7 @@ void ThingsProxy::setEngine(Engine *engine)
             connect(sourceModel(), SIGNAL(countChanged()), this, SIGNAL(countChanged()));
             connect(sourceModel(), &QAbstractItemModel::dataChanged, this, [this]() {
                 // Only invalidate the filter if we're actually interested in state changes
-                if (!m_sortStateName.isEmpty() || m_filterBatteryCritical || m_filterDisconnected || m_filterUpdates || m_filterSetupFailed) {
+                if (!m_sortStateName.isEmpty() || m_filterBatteryCritical || m_filterDisconnected || m_filterUpdates || m_filterSetupFailed || !m_stateFilter.isEmpty()) {
                     invalidateFilterInternal();
                 }
             });
@@ -264,6 +267,28 @@ void ThingsProxy::setHiddenThingClassIds(const QStringList &hiddenThingClassIds)
     }
 }
 
+QStringList ThingsProxy::shownThingIds() const
+{
+    QStringList ret;
+    foreach (const QUuid &id, m_shownThingIds) {
+        ret << id.toString();
+    }
+    return ret;
+}
+
+void ThingsProxy::setShownThingIds(const QStringList &shownThingIds)
+{
+    QList<QUuid> uuids;
+    foreach (const QString &str, shownThingIds) {
+        uuids << QUuid(str);
+    }
+    if (m_shownThingIds != uuids) {
+        m_shownThingIds = uuids;
+        emit shownThingIdsChanged();
+        invalidateFilterInternal();
+    }
+}
+
 QStringList ThingsProxy::hiddenThingIds() const
 {
     QStringList ret;
@@ -455,6 +480,21 @@ void ThingsProxy::setParamsFilter(const QVariantMap &paramsFilter)
     }
 }
 
+QVariantMap ThingsProxy::stateFilter() const
+{
+    return m_stateFilter;
+}
+
+void ThingsProxy::setStateFilter(const QVariantMap &stateFilter)
+{
+    if (m_stateFilter != stateFilter) {
+        m_stateFilter = stateFilter;
+        emit stateFilterChanged();
+
+        invalidateFilterInternal();
+    }
+}
+
 bool ThingsProxy::groupByInterface() const
 {
     return m_groupByInterface;
@@ -526,9 +566,8 @@ int ThingsProxy::indexOf(Thing *thing) const
 
 void ThingsProxy::invalidateFilterInternal()
 {
-    int oldCount = rowCount();
     invalidateFilter();
-    if (oldCount != rowCount()) {
+    if (m_oldCount != rowCount()) {
         emit countChanged();
     }
 }
@@ -622,13 +661,12 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
     }
 
     ThingClass *thingClass = m_engine->thingManager()->thingClasses()->getThingClass(thing->thingClassId());
-//    qDebug() << "Checking thing" << thingClass->name() << thingClass->interfaces();
     if (!m_shownInterfaces.isEmpty()) {
         bool foundMatch = false;
         foreach (const QString &filterInterface, m_shownInterfaces) {
             if (thingClass->interfaces().contains(filterInterface)) {
                 foundMatch = true;
-                continue;
+                break;
             }
         }
         if (!foundMatch) {
@@ -653,6 +691,12 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
 
     if (m_hiddenThingClassIds.contains(thing->thingClassId())) {
         return false;
+    }
+
+    if (!m_shownThingIds.isEmpty()) {
+        if (!m_shownThingIds.contains(thing->id())) {
+            return false;
+        }
     }
 
     if (m_hiddenThingIds.contains(thing->id())) {
@@ -727,6 +771,15 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
         foreach (const QString &paramName, m_paramsFilter.keys()) {
             Param *param = thing->paramByName(paramName);
             if (!param || param->value() != m_paramsFilter.value(paramName)) {
+                return false;
+            }
+        }
+    }
+
+    if (!m_stateFilter.isEmpty()) {
+        foreach (const QString &stateName, m_stateFilter.keys()) {
+            State *state = thing->stateByName(stateName);
+            if (!state || state->value() != m_stateFilter.value(stateName)) {
                 return false;
             }
         }

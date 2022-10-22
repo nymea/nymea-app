@@ -157,7 +157,7 @@ Page {
                             visible: updatesModel.count > 0
                             enabled: !engine.systemController.updateManagementBusy
                             onClicked: {
-                                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
                                 var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(Configuration.systemName)
                                 var popup = dialog.createObject(app,
                                                                 {
@@ -231,7 +231,7 @@ Page {
                     checked: model.enabled
                     onClicked: {
                         if (checked) {
-                            var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                            var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
                             var text = qsTr("Enabling additional software sources allows to install unreleased %1 packages.\nThis can potentially break your system and lead to problems.\nPlease only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.").arg(Configuration.systemName)
                             var popup = dialog.createObject(app,
                                                             {

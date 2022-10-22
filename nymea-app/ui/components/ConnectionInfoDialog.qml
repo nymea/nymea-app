@@ -162,7 +162,7 @@ Dialog {
 
     Component {
         id: addManualConnectionComponent
-        MeaDialog {
+        NymeaDialog {
             id: addManualConnectionDialog
             standardButtons: Dialog.Ok | Dialog.Cancel
             property alias rpcUrl: manualEntry.rpcUrl

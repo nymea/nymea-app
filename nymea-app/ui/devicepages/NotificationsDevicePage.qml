@@ -234,7 +234,7 @@ ThingPageBase {
     Component {
         id: detailsPopup
 
-        MeaDialog {
+        NymeaDialog {
             id: detailsDialog
             standardButtons: Dialog.NoButton
             property string timestamp

@@ -75,7 +75,7 @@ private:
     class Sample {
     public:
         QDateTime timestamp; // The timestamp where this sample *ends*
-        QList<LogEntry*> entries; // all log entries in this sample, that is, from timestamp - smaple size to timestamp
+        QVector<LogEntry*> entries; // all log entries in this sample, that is, from timestamp - smaple size to timestamp
         LogEntry *startingPoint = nullptr; // the starting point for the sample. Normally the last entry of the previous sample
     };
     LogsModel* m_model = nullptr;

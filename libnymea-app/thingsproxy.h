@@ -56,6 +56,7 @@ class ThingsProxy : public QSortFilterProxyModel
 
     Q_PROPERTY(QStringList shownThingClassIds READ shownThingClassIds WRITE setShownThingClassIds NOTIFY shownThingClassIdsChanged)
     Q_PROPERTY(QStringList hiddenThingClassIds READ hiddenThingClassIds WRITE setHiddenThingClassIds NOTIFY hiddenThingClassIdsChanged)
+    Q_PROPERTY(QStringList shownThingIds READ shownThingIds WRITE setShownThingIds NOTIFY shownThingIdsChanged)
     Q_PROPERTY(QStringList hiddenThingIds READ hiddenThingIds WRITE setHiddenThingIds NOTIFY hiddenThingIdsChanged)
 
     Q_PROPERTY(QString requiredEventName READ requiredEventName WRITE setRequiredEventName NOTIFY requiredEventNameChanged)
@@ -80,6 +81,9 @@ class ThingsProxy : public QSortFilterProxyModel
 
     // A map of paramName:value pairs, all given need to match
     Q_PROPERTY(QVariantMap paramsFilter READ paramsFilter WRITE setParamsFilter NOTIFY paramsFilterChanged)
+
+    // A map of stateName:value pairs, all given need to match
+    Q_PROPERTY(QVariantMap stateFilter READ stateFilter WRITE setStateFilter NOTIFY stateFilterChanged)
 
     Q_PROPERTY(bool groupByInterface READ groupByInterface WRITE setGroupByInterface NOTIFY groupByInterfaceChanged)
 
@@ -128,6 +132,9 @@ public:
     QStringList hiddenThingClassIds() const;
     void setHiddenThingClassIds(const QStringList &hiddenThingClassIds);
 
+    QStringList shownThingIds() const;
+    void setShownThingIds(const QStringList &shownThingIds);
+
     QStringList hiddenThingIds() const;
     void setHiddenThingIds(const QStringList &hiddenThingIds);
 
@@ -167,6 +174,9 @@ public:
     QVariantMap paramsFilter() const;
     void setParamsFilter(const QVariantMap &paramsFilter);
 
+    QVariantMap stateFilter() const;
+    void setStateFilter(const QVariantMap &stateFilter);
+
     bool groupByInterface() const;
     void setGroupByInterface(bool groupByInterface);
 
@@ -192,6 +202,7 @@ signals:
     void nameFilterChanged();
     void shownThingClassIdsChanged();
     void hiddenThingClassIdsChanged();
+    void shownThingIdsChanged();
     void hiddenThingIdsChanged();
     void requiredEventNameChanged();
     void requiredStateNameChanged();
@@ -205,6 +216,7 @@ signals:
     void filterSetupFailedChanged();
     void filterUpdatesChanged();
     void paramsFilterChanged();
+    void stateFilterChanged();
     void groupByInterfaceChanged();
     void sortStateNameChanged();
     void sortOrderChanged();
@@ -228,6 +240,7 @@ private:
     QString m_nameFilter;
     QList<QUuid> m_shownThingClassIds;
     QList<QUuid> m_hiddenThingClassIds;
+    QList<QUuid> m_shownThingIds;
     QList<QUuid> m_hiddenThingIds;
 
     QString m_requiredEventName;
@@ -245,10 +258,13 @@ private:
     bool m_filterUpdates = false;
 
     QVariantMap m_paramsFilter;
+    QVariantMap m_stateFilter;
 
     bool m_groupByInterface = false;
 
     QString m_sortStateName;
+
+    int m_oldCount = 0;
 
 protected:
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const Q_DECL_OVERRIDE;

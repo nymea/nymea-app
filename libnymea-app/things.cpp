@@ -95,6 +95,8 @@ QVariant Things::data(const QModelIndex &index, int role) const
         return thing->thingClass()->interfaces();
     case RoleBaseInterface:
         return thing->thingClass()->baseInterface();
+    case RoleMainInterface:
+        return thing->thingClass()->interfaces().count() > 0 ? thing->thingClass()->interfaces().first() : "";
     }
     return QVariant();
 }
@@ -167,5 +169,6 @@ QHash<int, QByteArray> Things::roleNames() const
     roles[RoleSetupDisplayMessage] = "setupDisplayMessage";
     roles[RoleInterfaces] = "interfaces";
     roles[RoleBaseInterface] = "baseInterface";
+    roles[RoleMainInterface] = "mainInterface";
     return roles;
 }

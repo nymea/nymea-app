@@ -28,7 +28,7 @@ RowLayout {
             anchors.fill: parent
             anchors.margins: -app.margins / 4
             onClicked: {
-                var dialogComponent = Qt.createComponent("MeaDialog.qml")
+                var dialogComponent = Qt.createComponent("NymeaDialog.qml")
                 var currentVersionState = root.thing.stateByName("currentVersion")
                 var availableVersionState = root.thing.stateByName("availableVersion")
                 var text = qsTr("An update for %1 is available. Do you want to start the update now?").arg(root.thing.name)

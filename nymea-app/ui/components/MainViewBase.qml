@@ -54,10 +54,6 @@ Item {
         print("handleEvent not implemented in", title)
     }
 
-    Background {
-        anchors.fill: parent
-    }
-
     // Prevent scroll events to swipe left/right in case they fall through the grid
     MouseArea {
         anchors.fill: parent

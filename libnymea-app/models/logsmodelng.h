@@ -107,6 +107,7 @@ public:
     QVariant maxValue() const;
 
     Q_INVOKABLE LogEntry *get(int index) const;
+    Q_INVOKABLE LogEntry *findClosest(const QDateTime &dateTime) const;
 
 protected:
     virtual void fetchMore(const QModelIndex &parent = QModelIndex()) override;

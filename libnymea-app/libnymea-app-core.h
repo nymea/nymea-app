@@ -67,6 +67,7 @@
 #include "models/logsmodelng.h"
 #include "models/barseriesadapter.h"
 #include "models/xyseriesadapter.h"
+#include "models/boolseriesadapter.h"
 #include "models/interfacesproxy.h"
 #include "configuration/nymeaconfiguration.h"
 #include "configuration/serverconfiguration.h"
@@ -146,6 +147,11 @@
 #include "zwave/zwavenode.h"
 
 #include <QtQml/qqml.h>
+
+namespace Nymea
+{
+namespace Core
+{
 
 static QObject* interfacesModel_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -270,6 +276,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<LogEntry>(uri, 1, 0, "LogEntry", "Get them from LogsModel");
     qmlRegisterType<BarSeriesAdapter>(uri, 1, 0, "BarSeriesAdapter");
     qmlRegisterType<XYSeriesAdapter>(uri, 1, 0, "XYSeriesAdapter");
+    qmlRegisterType<BoolSeriesAdapter>(uri, 1, 0, "BoolSeriesAdapter");
 
     qmlRegisterUncreatableType<TagsManager>(uri, 1, 0, "TagsManager", "Get it from Engine");
     qmlRegisterUncreatableType<Tags>(uri, 1, 0, "Tags", "Get it from TagsManager");
@@ -382,5 +389,6 @@ void registerQmlTypes() {
 
     qmlRegisterType<SortFilterProxyModel>(uri, 1, 0, "SortFilterProxyModel");
 }
-
+}
+}
 #endif // LIBNYMEAAPPCORE_H

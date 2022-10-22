@@ -37,6 +37,7 @@ Item {
         readonly property var startTime: {
             var date = new Date(fixTime(now));
             date.setTime(date.getTime() - range * 60000 + 2000);
+            print("startTIme:", date)
             return date;
         }
 
@@ -393,11 +394,11 @@ Item {
                         return toStorageSeries.calculateValue(entry) + Math.max(0, -entry.acquisition)
                     }
                     function addEntry(entry) {
-                        print("Adding return entry:", calculateValue(entry))
+//                        print("Adding return entry:", calculateValue(entry))
                         returnUpperSeries.append(entry.timestamp.getTime(), calculateValue(entry))
                     }
                     function insertEntry(index, entry) {
-                        print("Adding return entry:", entry.acquisition, Math.max(0, -entry.acquisition), toStorageSeries.calculateValue(entry), calculateValue(entry))
+//                        print("Adding return entry:", entry.acquisition, Math.max(0, -entry.acquisition), toStorageSeries.calculateValue(entry), calculateValue(entry))
                         returnUpperSeries.insert(index, entry.timestamp.getTime(), calculateValue(entry))
                     }
 

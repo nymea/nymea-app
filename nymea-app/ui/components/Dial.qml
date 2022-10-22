@@ -37,49 +37,51 @@ import "../utils"
 Item {
     id: root
 
-    property Thing thing: null
-    property string stateName: ""
-    property StateType stateType: thing ? thing.thingClass.stateTypes.findByName(stateName) : null
+    property double minValue: 0
+    property double maxValue: 100
+    property double precision: 1
+    property double value: 50
+    property double activeValue: minValue
+    readonly property alias pendingValue: d.pendingValue
 
     property color color: Style.accentColor
     property bool on: true
-    property int precision: 1
-
-    readonly property State progressState: thing ? thing.states.getState(stateType.id) : null
-    readonly property State powerState: thing ? thing.stateByName("power") : null
 
     property int startAngle: 135
     property int maxAngle: 270
-    readonly property int steps: canvas.roundToPrecision(root.progressState.maxValue - root.progressState.minValue) / root.precision + 1
-    readonly property double stepSize: (root.progressState.maxValue - root.progressState.minValue) / steps
-    readonly property double anglePerStep: maxAngle / steps
+    readonly property int steps: canvas.roundToPrecision(maxValue - minValue) / root.precision + 1
+    readonly property double stepSize: (maxValue - minValue) / (steps - 1)
+    readonly property double anglePerStep: maxAngle / (steps - 1)
 
+    signal pressed()
+    signal released()
+    signal clicked()
+    signal moved(double value)
 
-    ActionQueue {
-        id: actionQueue
-        thing: root.thing
-        stateType: root.stateType
+    QtObject {
+        id: d
+        property double pendingValue: root.value
         onPendingValueChanged: canvas.requestPaint()
-    }
 
-    ActionQueue {
-        id: powerActionQueue
-        thing: root.thing
-        stateName: "power"
+        property bool pending: false
     }
-
-    Connections {
-        target: root.progressState
-        onValueChanged: {
-            canvas.requestPaint()
+    onValueChanged: {
+        if (d.pending && value == d.pendingValue) {
+            d.pending = false
         }
     }
 
+    Binding {
+        target: d
+        property: "pendingValue"
+        value: root.value
+        when: !d.pending
+    }
 
     Canvas {
         id: canvas
-        anchors.centerIn: root
-        width: Math.min(root.width, root.height)
+        anchors.centerIn: root        
+        width: Math.min(400, Math.min(root.width, root.height))
         height: width
 
         property color effectColor: root.on ? root.color : Style.iconColor
@@ -98,23 +100,25 @@ Item {
             var center = { x: canvas.width / 2, y: canvas.height / 2 };
 
             // Step lines
-            var currentValue = actionQueue.pendingValue || root.progressState.value
-            var currentStep;
-            if (root.progressState) {
-                currentStep = roundToPrecision(currentValue - root.progressState.minValue) / root.precision
-            }
-
-//            print("* current step", currentStep, root.steps, currentValue)
+            var currentValue = d.pendingValue
+            var currentStep = roundToPrecision(currentValue - minValue) / root.precision
+            var activeStep = roundToPrecision(root.activeValue - minValue) / root.precision
 
             for(var step = 0; step < steps; step += root.precision) {
                 var angle = step * anglePerStep + startAngle;
                 var innerRadius = canvas.width * 0.4
                 var outerRadius = canvas.width * 0.5
 
-                if (step <= currentStep) {
+                if (step == currentStep) {
                     ctx.strokeStyle = canvas.effectColor
                     innerRadius = canvas.width * 0.38
                     ctx.lineWidth = 4;
+                } else if (step < currentStep && step >= activeStep) {
+                    ctx.strokeStyle = canvas.effectColor
+                    ctx.lineWidth = 2;
+                } else if (step > currentStep && step <= activeStep) {
+                    ctx.strokeStyle = canvas.effectColor
+                    ctx.lineWidth = 2;
                 } else {
                     ctx.strokeStyle = Style.tileOverlayColor;
                     ctx.lineWidth = 1;
@@ -142,6 +146,7 @@ Item {
 
     MouseArea {
         anchors.fill: canvas
+        preventStealing: dragging
 
         property bool dragging: false
         property double lastAngle
@@ -150,12 +155,14 @@ Item {
         onPressed: {
             angleDiff = 0
             lastAngle = calculateAngle(mouseX, mouseY)
+            root.pressed()
         }
 
         onReleased: {
-            if (!dragging && root.powerState) {
+            root.released()
+            if (!dragging) {
                 PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
-                powerActionQueue.sendValue(!root.powerState.value)
+                root.clicked()
             }
             dragging = false
         }
@@ -180,11 +187,13 @@ Item {
             var valueDiff = angleDiff / root.anglePerStep * root.stepSize
             valueDiff = canvas.roundToPrecision(valueDiff)
             if (Math.abs(valueDiff) > 0) {
-                var currentValue = actionQueue.pendingValue || root.progressState.value
+                var currentValue = d.pendingValue
                 var newValue = currentValue + valueDiff
-                newValue = Math.min(root.progressState.maxValue, Math.max(root.progressState.minValue, newValue))
+                newValue = Math.min(root.maxValue, Math.max(root.minValue, newValue))
                 if (currentValue !== newValue) {
-                    actionQueue.sendValue(newValue)
+                    d.pendingValue = newValue;
+                    d.pending = true;
+                    root.moved(newValue)
                 }
                 var steps = Math.round(valueDiff / root.stepSize)
                 angleDiff -= steps * root.anglePerStep

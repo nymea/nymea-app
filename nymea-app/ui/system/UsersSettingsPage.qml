@@ -219,7 +219,7 @@ SettingsPageBase {
 
             Component {
                 id: confirmTokenDeletionComponent
-                MeaDialog {
+                NymeaDialog {
                     headerIcon: "../images/lock-closed.svg"
                     title: qsTr("Remove device access")
                     text: qsTr("Are you sure you want to remove %1 from accessing your %2 system?").arg("<b>" + tokenInfo.deviceName + "</b>").arg(Configuration.systemName)
@@ -306,7 +306,7 @@ SettingsPageBase {
 
             Component {
                 id: confirmUserDeletionComponent
-                MeaDialog {
+                NymeaDialog {
                     headerIcon: "../images/lock-closed.svg"
                     title: qsTr("Remove user")
                     text: qsTr("Are you sure you want to remove %1 from accessing your %2 system?").arg("<b>" + userInfo.username + "</b>").arg(Configuration.systemName)

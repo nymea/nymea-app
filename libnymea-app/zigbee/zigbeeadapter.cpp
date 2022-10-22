@@ -122,15 +122,15 @@ bool ZigbeeAdapter::operator==(const ZigbeeAdapter &other) const
             && m_baudRate == other.baudRate();
 }
 
-QDebug operator<<(QDebug debug, const ZigbeeAdapter &adapter)
+QDebug operator<<(QDebug dbg, const ZigbeeAdapter &adapter)
 {
-    debug.nospace() << "ZigbeeAdapter(" << adapter.name() << " - " << adapter.description();
-    debug.nospace() << ", " << adapter.serialPort();
+    dbg.nospace() << "ZigbeeAdapter(" << adapter.name() << " - " << adapter.description();
+    dbg.nospace() << ", " << adapter.serialPort();
     if (adapter.hardwareRecognized()) {
-        debug.nospace() << " Hardware recognized: " << adapter.backend();
-        debug.nospace() << ", " << adapter.baudRate();
+        dbg.nospace() << " Hardware recognized: " << adapter.backend();
+        dbg.nospace() << ", " << adapter.baudRate();
     }
 
-    debug.nospace() << ")";
-    return debug.space();
+    dbg.nospace() << ")";
+    return dbg.space();
 }

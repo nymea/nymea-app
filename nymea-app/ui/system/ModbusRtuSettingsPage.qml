@@ -246,7 +246,7 @@ SettingsPageBase {
             Component {
                 id: removeModbusMasterDialogComponent
 
-                MeaDialog {
+                NymeaDialog {
                     id: removeModbusMasterDialog
 
                     property ModbusRtuMaster modbusRtuMaster

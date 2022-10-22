@@ -317,7 +317,7 @@ ThingPageBase {
 
     Component {
         id: detailsPopup
-        MeaDialog {
+        NymeaDialog {
             id: detailsDialog
             property string timestamp
             property bool accessGranted

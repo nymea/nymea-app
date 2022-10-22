@@ -66,7 +66,7 @@ Item {
                         clickCounter++;
                         if (clickCounter >= 10) {
                             settings.showHiddenOptions = !settings.showHiddenOptions
-                            var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                            var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
                             var text = settings.showHiddenOptions
                                     ? qsTr("Developer options are now enabled. If you have found this by accident, it is most likely not of any use for you. It will just enable some nerdy developer gibberish in the app. Tap the icon another 10 times to disable it again.")
                                     : qsTr("Developer options are now disabled.")

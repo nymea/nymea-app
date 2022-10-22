@@ -365,7 +365,7 @@ SettingsPageBase {
 
     Component {
         id: nodeInfoComponent
-        MeaDialog {
+        NymeaDialog {
             id: nodeInfoDialog
             property ZigbeeNode node: null
             property ThingsProxy nodeThings: null
@@ -502,7 +502,7 @@ SettingsPageBase {
     Component {
         id: removeZigbeeNodeDialogComponent
 
-        MeaDialog {
+        NymeaDialog {
             id: removeZigbeeNodeDialog
 
             property ZigbeeNode zigbeeNode
@@ -527,7 +527,7 @@ SettingsPageBase {
     Component {
         id: zigbeeHelpDialog
 
-        MeaDialog {
+        NymeaDialog {
             id: dialog
             title: qsTr("ZigBee network help")
 

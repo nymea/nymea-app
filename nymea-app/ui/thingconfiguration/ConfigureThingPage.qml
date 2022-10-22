@@ -317,7 +317,7 @@ SettingsPageBase {
 
     Component {
         id: ioConnectionsDialogComponent
-        MeaDialog {
+        NymeaDialog {
             id: ioConnectionDialog
             standardButtons: Dialog.NoButton
             title: qsTr("Connect Inputs/Outputs")

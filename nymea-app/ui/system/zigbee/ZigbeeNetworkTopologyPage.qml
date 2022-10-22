@@ -846,7 +846,7 @@ Page {
     Component {
         id: zigbeeHelpDialog
 
-        MeaDialog {
+        NymeaDialog {
             id: dialog
             title: qsTr("ZigBee topology help")
 

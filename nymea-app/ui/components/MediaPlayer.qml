@@ -477,7 +477,7 @@ Item {
 
     Component {
         id: inputSourceSelectDialogComponent
-        MeaDialog {
+        NymeaDialog {
             id: inputSourceSelectDialog
             headerIcon: "../images/state-in.svg"
             title: qsTr("Select input")
@@ -505,7 +505,7 @@ Item {
 
     Component {
         id: equalizerComponent
-        MeaDialog {
+        NymeaDialog {
             id: equalizer
             headerIcon: "../images/media/equalizer.svg"
             title: qsTr("Equalizer preset")
@@ -531,7 +531,7 @@ Item {
     }
     Component {
         id: ambeoModeDialogComponent
-        MeaDialog {
+        NymeaDialog {
             id: ambeoModeDialog
             standardButtons: Dialog.NoButton
             ColorIcon {

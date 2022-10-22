@@ -39,6 +39,7 @@ ThingPageBase {
     id: root
 
     readonly property State powerState: thing.stateByName("power")
+    readonly property State autoState: thing.stateByName("auto")
     readonly property State flowRateState: thing.stateByName("flowRate")
     readonly property StateType flowRateStateType: thing.thingClass.stateTypes.findByName("flowRate")
 
@@ -48,40 +49,103 @@ ThingPageBase {
         stateName: "power"
     }
 
-    CircleBackground {
-        id: background
+    GridLayout {
         anchors.fill: parent
-        anchors.margins: Style.hugeMargins
-        iconSource: "ventilation"
-        onColor: app.interfaceToColor("ventilation")
-        showOnGradient: root.flowRateState == null
-        on: (actionQueue.pendingValue || powerState.value) === true
-        onClicked: {
-            PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
-            actionQueue.sendValue(!root.powerState.value)
+        anchors.margins: Style.margins
+        columns: app.landscape ? 2 : 1
+
+        Item {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.margins: Style.bigMargins
+            implicitWidth: 400
+            implicitHeight: 400
+
+            CircleBackground {
+                id: background
+                anchors.fill: parent
+                iconSource: "ventilation"
+                onColor: app.interfaceToColor("ventilation")
+                showOnGradient: root.flowRateState == null
+                on: (actionQueue.pendingValue || powerState.value) === true
+                PropertyAnimation on rotation {
+                    running: root.powerState.value === true
+                    duration: 2000
+                    from: 0
+                    to: 360
+                    loops: Animation.Infinite
+                    onDurationChanged: {
+                        running = false;
+                        running = true;
+                    }
+                }
+            }
+
+            Dial {
+                anchors.centerIn: background
+                height: background.contentItem.height
+                width: background.contentItem.width
+                visible: root.flowRateState
+                on: (actionQueue.pendingValue || powerState.value) === true
+                value: valueActionQueue.pendingValue || flowRateState.value
+                onMoved: valueActionQueue.sendValue(value)
+                color: app.interfaceToColor("ventilation")
+                minValue: root.flowRateState.minValue
+                maxValue: root.flowRateState.maxValue
+
+                onClicked: {
+                    PlatformHelper.vibrate(PlatformHelper.HapticsFeedbackSelection)
+                    actionQueue.sendValue(!root.powerState.value)
+                }
+
+                ActionQueue {
+                    id: valueActionQueue
+                    thing: root.thing
+                    stateName: "flowRate"
+
+                }
+            }
+
+
+//            StateDial {
+//                anchors.centerIn: background
+//                height: background.contentItem.height
+//                width: background.contentItem.width
+//                visible: root.flowRateState
+//                on: (actionQueue.pendingValue || powerState.value) === true
+
+//                thing: root.thing
+//                stateName: "flowRate"
+//                color: app.interfaceToColor("ventilation")
+//            }
         }
-        PropertyAnimation on rotation {
-            running: root.powerState.value === true
-            duration: 2000
-            from: 0
-            to: 360
-            loops: Animation.Infinite
-            onDurationChanged: {
-                running = false;
-                running = true;
+
+        ProgressButton {
+            Layout.alignment: Qt.AlignHCenter
+            Layout.margins: Style.bigMargins
+            size: Style.largeIconSize
+            imageSource: ""
+            color: Style.white
+            backgroundColor: Style.accentColor
+            visible: root.autoState
+            busy: autoActionQueue.pendingValue ? autoActionQueue.pendingValue : (root.autoState && root.autoState.value === true)
+            onClicked: autoActionQueue.sendValue(!root.autoState.value)
+
+            Label {
+                anchors.centerIn: parent
+                text: "A"
+                font.pixelSize: parent.height / 2
+            }
+
+            ActionQueue {
+                id: autoActionQueue
+                thing: root.thing
+                stateName: "auto"
             }
         }
     }
 
-    Dial {
-        anchors.centerIn: parent
-        height: background.contentItem.height
-        width: background.contentItem.width
-        visible: root.flowRateState
-        on: (actionQueue.pendingValue || powerState.value) === true
 
-        thing: root.thing
-        stateName: "flowRate"
-        color: app.interfaceToColor("ventilation")
-    }
+
+
 }

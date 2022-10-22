@@ -144,6 +144,7 @@ protected:
 
     int m_generatedEntries = 0;
 
+    QDateTime m_fetchStartTime;
 };
 
 #endif // LOGSMODEL_H

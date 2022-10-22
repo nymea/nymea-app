@@ -99,7 +99,7 @@ AutoSizeMenu {
 
     Component {
         id: addToGroupDialog
-        MeaDialog {
+        NymeaDialog {
             title: qsTr("Groups for %1").arg(root.thing.name)
             headerIcon: "../images/groups.svg"
             // NOTE: If CloseOnPressOutside is active (default) it will break the QtVirtualKeyboard
