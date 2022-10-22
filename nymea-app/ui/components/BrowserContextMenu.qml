@@ -34,7 +34,7 @@ import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../delegates"
 
-MeaDialog {
+NymeaDialog {
     id: root
 
     property Thing thing

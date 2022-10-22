@@ -72,7 +72,7 @@ DashboardDelegateBase {
 
     Component {
         id: configDialogComponent
-        MeaDialog {
+        NymeaDialog {
             id: configDialog
 
             onAccepted: {

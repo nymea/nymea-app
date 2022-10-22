@@ -38,6 +38,7 @@
 #include <QCommandLineOption>
 
 #include "libnymea-app-core.h"
+#include "libnymea-app-airconditioning.h"
 
 #include "stylecontroller.h"
 #include "pushnotifications.h"
@@ -129,9 +130,12 @@ int main(int argc, char *argv[])
     application.installTranslator(&overlayTranslator);
 #endif
 
-    registerQmlTypes();
+    Nymea::Core::registerQmlTypes();
+    Nymea::AirConditioning::registerQmlTypes();
 
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
+
+    engine->addImportPath(application.applicationDirPath() + "/../experiences/");
 
     QString defaultStyle;
     if (parser.isSet(defaultStyleOption)) {

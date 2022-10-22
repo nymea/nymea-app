@@ -38,7 +38,7 @@ import NymeaApp.Utils 1.0
 import "../../components"
 import "../../delegates"
 
-MeaDialog {
+NymeaDialog {
     id: root
 
     title: qsTr("Add item")

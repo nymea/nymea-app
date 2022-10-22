@@ -88,6 +88,7 @@ RowLayout {
                 //                        return qsTr("%1 installed").arg(thingsProxy.count)
             }
             console.warn("InterfaceTile, inlineButtonControl 1: Unhandled interface", model.name)
+            return ""
         }
         font.pixelSize: app.smallFont
         elide: Text.ElideRight

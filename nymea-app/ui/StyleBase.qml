@@ -20,6 +20,7 @@ Item {
     property int cornerRadius: 10
     property int smallCornerRadius: 6
 
+    readonly property int extraSmallMargins: 4
     readonly property int smallMargins: 8
     readonly property int margins: 16
     readonly property int bigMargins: 32
@@ -89,8 +90,8 @@ Item {
     // Icon/graph colors for various interfaces
     property var interfaceColors: {
         "temperaturesensor": red,
-        "humiditysensor": blue,
-        "moisturesensor": lightBlue,
+        "humiditysensor": lightBlue,
+        "moisturesensor": blue,
         "lightsensor": yellow,
         "conductivitysensor": green,
         "pressuresensor": gray,
@@ -108,7 +109,7 @@ Item {
         "smartmeterproducer": lime,
         "energymeter": darkBlue,
         "heating" : red,
-        "cooling": lightBlue,
+        "cooling": blue,
         "thermostat": blue,
         "irrigation": blue,
         "windspeedsensor": blue,

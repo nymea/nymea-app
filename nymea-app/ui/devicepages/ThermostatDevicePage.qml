@@ -56,13 +56,14 @@ ThingPageBase {
 
     GridLayout {
         anchors.fill: parent
-        anchors.margins: app.margins
+        anchors.margins: Style.margins
         columns: app.landscape ? 2 : 1
 
         CircleBackground {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.margins: Style.bigMargins
+
             ThermostatController {
                 anchors.centerIn: parent
                 height: Math.min(400, Math.min(parent.height, parent.width))

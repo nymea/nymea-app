@@ -254,6 +254,10 @@ ApplicationWindow {
             return qsTr("Cleaning robots")
         case "electricvehicle":
             return qsTr("Electric cars");
+        case "closablesensor":
+            return qsTr("Door/Window sensors");
+        case "o3sensor":
+            return qsTr("Ozone sensors");
         case "uncategorized":
             return qsTr("Uncategorized")
         default:
@@ -318,7 +322,7 @@ ApplicationWindow {
         case "presencesensor":
             return Qt.resolvedUrl("images/sensors/presence.svg")
         case "closablesensor":
-            return Qt.resolvedUrl("images/sensors/closable.svg")
+            return Qt.resolvedUrl("images/sensors/window-closed.svg")
         case "windspeedsensor":
             return Qt.resolvedUrl("images/sensors/windspeed.svg")
         case "watersensor":

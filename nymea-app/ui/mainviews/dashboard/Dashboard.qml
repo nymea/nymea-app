@@ -462,7 +462,7 @@ MainViewBase {
     Component {
         id: editDialogComponent
 
-        MeaDialog {
+        NymeaDialog {
             id: editDialog
             standardButtons: Dialog.NoButton
 

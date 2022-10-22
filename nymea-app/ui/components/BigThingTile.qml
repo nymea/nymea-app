@@ -23,7 +23,7 @@ BigTile {
         id: headerRow
         visible: root.showHeader
         width: parent.width
-        Layout.margins: app.margins / 2
+        Layout.margins: Style.margins / 2
         Label {
             Layout.fillWidth: true
             text: root.thing.name

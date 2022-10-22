@@ -275,7 +275,7 @@ Page {
                 return;
             }
             print("Rule has changed. Asking for cancellation dialog")
-            var component = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+            var component = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
             var popup = component.createObject(root, {headerIcon: "../images/question.svg",
                                                    title: qsTr("Cancel?"),
                                                    text: qsTr("Any changes to the rule will be lost."),

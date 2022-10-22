@@ -162,7 +162,7 @@ SettingsPageBase {
             Layout.fillWidth: true
         }
         Label {
-            text: engine.systemController.serverTime.toLocaleTimeString(Locale.ShortTimeString)
+            text: engine.systemController.serverTime.toLocaleTimeString(Qt.locale(), Locale.ShortFormat)
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignRight
         }
@@ -226,7 +226,7 @@ SettingsPageBase {
         text: qsTr("Restart %1").arg(Configuration.systemName)
         visible: engine.systemController.powerManagementAvailable && engine.jsonRpcClient.ensureServerVersion("5.1")
         onClicked: {
-            var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+            var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
             var text = qsTr("Are you sure you want to restart %1 now?").arg(Configuration.systemName)
             var popup = dialog.createObject(app,
                                             {
@@ -249,7 +249,7 @@ SettingsPageBase {
         text: qsTr("Reboot %1 system").arg(Configuration.systemName)
         visible: engine.systemController.powerManagementAvailable
         onClicked: {
-            var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+            var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
             var text = qsTr("Are you sure you want to reboot your %1 sytem now?").arg(Configuration.systemName)
             var popup = dialog.createObject(app,
                                             {
@@ -271,7 +271,7 @@ SettingsPageBase {
         text: qsTr("Shut down %1 system").arg(Configuration.systemName)
         visible: engine.systemController.powerManagementAvailable
         onClicked: {
-            var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+            var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
             var text = qsTr("Are you sure you want to shut down your %1 sytem now?").arg(Configuration.systemName)
             var popup = dialog.createObject(app,
                                             {

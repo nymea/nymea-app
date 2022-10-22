@@ -35,7 +35,7 @@ import QtQuick.Layouts 1.3
 import Nymea 1.0
 import "../components"
 
-MeaDialog {
+NymeaDialog {
     id: root
 
     title: qsTr("Insecure connection")

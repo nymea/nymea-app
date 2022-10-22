@@ -50,7 +50,7 @@ Page {
         }
 
         if ((Qt.platform.os == "android" || Qt.platform.os == "ios") && !editorSettings.popupWasShown) {
-            var component = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+            var component = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
             var infoPopup = component.createObject(root,
                                                {
                                                    title: qsTr("Did you know..."),
@@ -75,7 +75,7 @@ Page {
                 pageStack.pop()
                 return;
             }
-            var comp = Qt.createComponent("../components/MeaDialog.qml");
+            var comp = Qt.createComponent("../components/NymeaDialog.qml");
             var popup = comp.createObject(root, {
                                               title: qsTr("Unsaved changes"),
                                               text: qsTr("There are unsaved changes in the script. Do you want to discard the changes?"),

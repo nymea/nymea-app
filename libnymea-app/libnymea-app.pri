@@ -27,6 +27,7 @@ SOURCES += \
     $$PWD/energy/powerbalancelogs.cpp \
     $$PWD/energy/thingpowerlogs.cpp \
     $$PWD/connection/tunnelproxytransport.cpp \
+    $$PWD/models/boolseriesadapter.cpp \
     $$PWD/models/scriptsproxymodel.cpp \
     $$PWD/pluginconfigmanager.cpp \
     $$PWD/tagwatcher.cpp \
@@ -190,6 +191,7 @@ HEADERS += \
     $$PWD/energy/powerbalancelogs.h \
     $$PWD/energy/thingpowerlogs.h \
     $$PWD/connection/tunnelproxytransport.h \
+    $$PWD/models/boolseriesadapter.h \
     $$PWD/models/scriptsproxymodel.h \
     $$PWD/pluginconfigmanager.h \
     $$PWD/tagwatcher.h \

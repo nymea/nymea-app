@@ -35,7 +35,6 @@
 #include <QUuid>
 #include <QUrl>
 #include <QHostAddress>
-#include <QBluetoothAddress>
 #include <QObject>
 #include <QAbstractListModel>
 #include <QDateTime>

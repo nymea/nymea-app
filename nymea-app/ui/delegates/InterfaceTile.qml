@@ -76,6 +76,7 @@ MainPageTile {
         switch (iface.name) {
         case "heating":
         case "cooling":
+        case "thermostat":
         case "sensor":
             page = "SensorsDeviceListPage.qml"
             break;

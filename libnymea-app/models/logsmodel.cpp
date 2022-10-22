@@ -202,7 +202,7 @@ void LogsModel::setViewStartTime(const QDateTime &viewStartTime)
         m_viewStartTime = viewStartTime;
         emit viewStartTimeChanged();
         if (m_list.count() == 0 || m_list.last()->timestamp() > m_viewStartTime) {
-            if (m_canFetchMore) {
+            if (m_canFetchMore) {                
                 fetchMore();
             }
         }
@@ -296,7 +296,10 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
     int offset = data.value("offset").toInt() + m_generatedEntries;
     int count = data.value("count").toInt();
 
-//    qDebug() << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
+    qCInfo(dcLogEngine()) << objectName() << "Logs reply:" << m_fetchStartTime.msecsTo(QDateTime::currentDateTime());
+    qCDebug(dcLogEngine()) << objectName() << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
+
+    m_fetchStartTime = QDateTime::currentDateTime();
 
     QList<LogEntry*> newBlock;
     QList<QVariant> logEntries = data.value("logEntries").toList();
@@ -314,9 +317,9 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
 
         bool stopProcessing = false;
         if (m_viewStartTime.isValid() && timeStamp.addSecs(-60) < m_viewStartTime) {
-            timeStamp = m_viewStartTime.addSecs(-60);
+//            timeStamp = m_viewStartTime.addSecs(-60);
             stopProcessing = true;
-            m_generatedEntries++;
+//            m_generatedEntries++;
         }
         LogEntry *entry = new LogEntry(timeStamp, value, thingId, typeId, loggingSource, loggingEventType, errorCode, this);
         newBlock.append(entry);
@@ -326,9 +329,9 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
         }
     }
 
-//    qCDebug(dcLogEngine()) << objectName() << "Received logs from" << offset << "to" << offset + count << "Actual count:" << newBlock.count();
+    qCInfo(dcLogEngine()) << objectName() << "Received logs from" << offset << "to" << offset + count << "Actual count:" << newBlock.count();
 
-    if (count < m_blockSize) {
+    if (newBlock.count() == count && count < m_blockSize) {
         m_canFetchMore = false;
     }
 
@@ -352,8 +355,10 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
 
     m_busyInternal = false;
 
+    qCInfo(dcLogEngine()) << objectName() << "Logs fetched" << m_fetchStartTime.msecsTo(QDateTime::currentDateTime());
+
     if (m_viewStartTime.isValid() && m_list.count() > 0 && m_list.last()->timestamp() > m_viewStartTime && m_canFetchMore) {
-        qCDebug(dcLogEngine()) << objectName() << "Fetching more because of viewStartTime" << m_viewStartTime.toString() << "last" << m_list.last()->timestamp().toString();
+        qCInfo(dcLogEngine()) << objectName() << "Fetching more because of viewStartTime" << m_viewStartTime.toString() << "last" << m_list.last()->timestamp().toString();
         fetchMore();
     } else {
         m_busy = false;
@@ -410,9 +415,11 @@ void LogsModel::fetchMore(const QModelIndex &parent)
     params.insert("limit", m_blockSize);
     params.insert("offset", m_list.count() - m_generatedEntries);
 
-//    qDebug() << "Fetching logs from" << m_startTime.toString() << "to" << m_endTime.toString() << "with offset" << m_list.count() << "and limit" << m_blockSize;
+    qCInfo(dcLogEngine()) << "Fetching logs from:" << m_list.count() - m_generatedEntries << "max" << m_blockSize;
+    qCDebug(dcLogEngine()) << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 
     m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
+    m_fetchStartTime = QDateTime::currentDateTime();
     //    qDebug() << "GetLogEntries called";
 }
 

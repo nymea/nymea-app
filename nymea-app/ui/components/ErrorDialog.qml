@@ -32,7 +32,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
 
-MeaDialog {
+NymeaDialog {
     id: root
 
     title: qsTr("Oh snap!")

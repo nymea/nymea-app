@@ -1,7 +1,10 @@
 import QtQuick 2.9
+import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.1
 import Nymea 1.0
 import "../utils"
 import "../components"
+
 
 Item {
     id: root
@@ -44,11 +47,50 @@ Item {
         property double stepSize: (root.targetTemperatureState.maxValue - root.targetTemperatureState.minValue) / steps
         property double anglePerStep: maxAngle / steps
 
+        readonly property double currentValue: actionQueue.pendingValue || root.targetTemperatureState.value
+        readonly property double targetTempStep: roundToPrecision(currentValue - root.targetTemperatureState.minValue) * (1/root.precision)
+        readonly property double currentTempStep: root.temperatureState ? roundToPrecision(root.temperatureState.value - root.targetTemperatureState.minValue) * (1/root.precision) : 0
+
+
+        readonly property double targetTemperature: roundToPrecision(Types.toUiValue(currentValue, root.targetTemperatureStateType.unit))
+
+        readonly property color currentColor: {
+            if (currentTempStep && currentTempStep < targetTempStep) {
+                return app.interfaceToColor("heating");
+            } else if (currentTempStep && currentTempStep > targetTempStep) {
+                return app.interfaceToColor("cooling");
+            }
+            return Style.accentColor;
+        }
 
         function angleToValue(angle) {
             var from = root.targetTemperatureState.minValue
             var to = root.targetTemperatureState.maxValue
             return (to - from) * angle / maxAngle + from
+        }
+
+        ColumnLayout {
+            anchors.centerIn: parent
+            anchors.verticalCenterOffset: -Style.smallMargins
+            width: parent.width * 0.6
+
+            Label {
+                Layout.fillWidth: true
+                text: canvas.targetTemperature.toFixed(1) + Types.toUiUnit(Types.UnitDegreeCelsius)
+                wrapMode: Text.WordWrap
+                font.pixelSize: Math.min(Style.hugeFont.pixelSize, canvas.height / 8)
+                maximumLineCount: 2
+                horizontalAlignment: Text.AlignHCenter
+                elide: Text.ElideRight
+                color: canvas.currentColor
+            }
+            Label {
+                Layout.fillWidth: true
+                text: Types.toUiValue(root.temperatureState.value, root.temperatureStateType.unit).toFixed(1) + Types.toUiUnit(Types.UnitDegreeCelsius)
+                font.pixelSize: Math.min(Style.largeFont.pixelSize, canvas.height / 12)
+                horizontalAlignment: Text.AlignHCenter
+                elide: Text.ElideRight
+            }
         }
 
         onPaint: {
@@ -76,39 +118,33 @@ Item {
             ctx.closePath();
 
             // Step lines
-            var currentValue = actionQueue.pendingValue || root.targetTemperatureState.value
-            var targetTempStep = roundToPrecision(currentValue - root.targetTemperatureState.minValue) * (1/root.precision)
-            var currentTempStep;
-            if (root.temperatureState) {
-                currentTempStep = roundToPrecision(root.temperatureState.value - root.targetTemperatureState.minValue) * (1/root.precision)
-            }
 
             for(var step = 0; step < steps; step += root.precision) {
                 var angle = step * anglePerStep + startAngle;
                 var innerRadius = canvas.width * 0.4
                 var outerRadius = canvas.width * 0.5
 
-                if (targetTempStep === step) {
-                    if (currentTempStep && currentTempStep < targetTempStep) {
+                if (canvas.targetTempStep === step) {
+                    if (canvas.currentTempStep && canvas.currentTempStep < canvas.targetTempStep) {
                         ctx.strokeStyle = app.interfaceToColor("heating");
-                    } else if (currentTempStep && currentTempStep > targetTempStep) {
+                    } else if (canvas.currentTempStep && canvas.currentTempStep > canvas.targetTempStep) {
                         ctx.strokeStyle = app.interfaceToColor("cooling");
                     } else {
                         ctx.strokeStyle = Style.accentColor;
                     }
                     innerRadius = canvas.width * 0.38
                     ctx.lineWidth = 4;
-                } else if (currentTempStep && currentTempStep === step) {
-                    if (currentTempStep < targetTempStep) {
+                } else if (canvas.currentTempStep && canvas.currentTempStep === step) {
+                    if (canvas.currentTempStep < canvas.targetTempStep) {
                         ctx.strokeStyle = app.interfaceToColor("heating");
                     } else {
                         ctx.strokeStyle = app.interfaceToColor("cooling");
                     }
                     ctx.lineWidth = 3;
-                } else  if (currentTempStep && currentTempStep < step && step < targetTempStep) {
+                } else  if (canvas.currentTempStep && canvas.currentTempStep < step && step < canvas.targetTempStep) {
                     ctx.strokeStyle = app.interfaceToColor("heating");
                     ctx.lineWidth = 2;
-                } else  if (currentTempStep && currentTempStep > step && step > targetTempStep) {
+                } else  if (canvas.currentTempStep && canvas.currentTempStep > step && step > canvas.targetTempStep) {
                     ctx.strokeStyle = app.interfaceToColor("cooling");
                     ctx.lineWidth = 2;
                 } else {
@@ -132,28 +168,6 @@ Item {
                 ctx.stroke();
                 ctx.closePath();
             }
-
-            ctx.beginPath();
-            ctx.font = "" + Style.hugeFont.pixelSize + "px " + Style.fontFamily;
-            ctx.fillStyle = Style.foregroundColor;
-            var roundedTargetTemp = Types.toUiValue(currentValue, root.targetTemperatureStateType.unit)
-            roundedTargetTemp = roundToPrecision(roundedTargetTemp).toFixed(1) + "°"
-            var size = ctx.measureText(roundedTargetTemp)
-            ctx.text(roundedTargetTemp, center.x - size.width / 2, center.y + Style.hugeFont.pixelSize / 2);
-            ctx.fill();
-            ctx.closePath();
-
-            if (root.temperatureState) {
-                ctx.beginPath();
-                ctx.font = "" + Style.bigFont.pixelSize + "px " + Style.fontFamily;
-                var roundedTemp = Types.toUiValue(root.temperatureState.value, root.temperatureStateType.unit)
-                roundedTemp = roundToPrecision(roundedTemp) + "°"
-                size = ctx.measureText(roundedTemp)
-                ctx.text(roundedTemp, center.x - size.width / 2, center.y + Style.hugeFont.pixelSize + Style.margins);
-                ctx.fill();
-                ctx.closePath();
-            }
-
             ctx.restore();
         }
 
@@ -163,10 +177,12 @@ Item {
         }
     }
 
+
     ColorIcon {
-        width: Style.largeIconSize
-        height: width
-        anchors { bottom: canvas.bottom; horizontalCenter: canvas.horizontalCenter; margins: Style.margins }
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: Style.smallMargins
+        size: Math.min(Style.bigIconSize, parent.height / 5)
         name: root.heatingOnState && root.heatingOnState.value === true
               ? "../images/thermostat/heating.svg"
               : root.coolingOnState && root.coolingOnState.value === true

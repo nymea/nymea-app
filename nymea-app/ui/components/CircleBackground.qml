@@ -44,11 +44,6 @@ Item {
     property bool on: false
     property alias showOnGradient: opacityMask.visible
 
-    property bool showProgress: false
-    property double progressFrom: 0
-    property double progressTo: 100
-    property double progress: 50
-
     readonly property Item contentItem: background
 
     signal clicked()
@@ -78,7 +73,7 @@ Item {
     ColorIcon {
         id: icon
         anchors.centerIn: background
-        size: Style.hugeIconSize
+        size: Math.min(Style.hugeIconSize, background.width * 0.4)
         color: root.on ? root.onColor : Style.iconColor
         Behavior on color { ColorAnimation { duration: Style.animationDuration } }
     }
@@ -100,11 +95,6 @@ Item {
         source: gradient
         maskSource: mask
         Behavior on opacity { NumberAnimation { duration: Style.animationDuration } }
-    }
-
-    Item {
-        id: contentContainer
-        anchors.fill: background
     }
 
 }

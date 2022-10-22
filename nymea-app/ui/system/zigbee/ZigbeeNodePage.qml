@@ -314,7 +314,7 @@ SettingsPageBase {
     Component {
         id: removeZigbeeNodeDialogComponent
 
-        MeaDialog {
+        NymeaDialog {
             id: removeZigbeeNodeDialog
 
             property ZigbeeNode zigbeeNode
@@ -409,7 +409,7 @@ SettingsPageBase {
 
     Component {
         id: addBindingComponent
-        MeaDialog {
+        NymeaDialog {
             title: qsTr("Add binding")
 
             Label {
@@ -649,7 +649,7 @@ SettingsPageBase {
 
     Component {
         id: wakeupDialogComponent
-        MeaDialog {
+        NymeaDialog {
             id: wakeupDialog
             title: qsTr("Wake up %1").arg(root.node.model)
             text: qsTr("The selected node is a sleepy device. Please wake up the device by pressing a button.")

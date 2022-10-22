@@ -37,7 +37,9 @@ DeviceControlApplication::DeviceControlApplication(int argc, char *argv[]) : QAp
     m_engine = new Engine(this);
 
     m_qmlEngine = new QQmlApplicationEngine(this);
-    registerQmlTypes();
+
+    Nymea::Core::registerQmlTypes();
+
     qmlRegisterSingletonType<PlatformHelper>("Nymea", 1, 0, "PlatformHelper", platformHelperProvider);
     qmlRegisterSingletonType(QUrl("qrc:///ui/utils/NymeaUtils.qml"), "Nymea", 1, 0, "NymeaUtils" );
     qmlRegisterType<NfcThingActionWriter>("Nymea", 1, 0, "NfcThingActionWriter");

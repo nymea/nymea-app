@@ -346,7 +346,7 @@ SettingsPageBase {
 
     Component {
         id: nodeInfoComponent
-        MeaDialog {
+        NymeaDialog {
             id: nodeInfoDialog
             property ZWaveNode node: null
             property ThingsProxy nodeThings: null
@@ -541,7 +541,7 @@ SettingsPageBase {
     Component {
         id: removeZWaveNodeDialogComponent
 
-        MeaDialog {
+        NymeaDialog {
             id: removeZWaveNodeDialog
 
             property ZWaveNode zwaveNode
@@ -567,7 +567,7 @@ SettingsPageBase {
     Component {
         id: zigbeeHelpDialog
 
-        MeaDialog {
+        NymeaDialog {
             id: dialog
             title: qsTr("Z-Wave network help")
 
@@ -614,7 +614,7 @@ SettingsPageBase {
 
     Component {
         id: addRemoveNodeDialogComponent
-        MeaDialog {
+        NymeaDialog {
             standardButtons: Dialog.Cancel
             onRejected: {
                 zwaveManager.cancelPendingOperation(network.networkUuid)

@@ -5,6 +5,17 @@ import Nymea 1.0
 Item {
     id: root
 
+    function currentIndex(scale, value) {
+        for (var i = 0; i < scale.length; i++) {
+            if (value <= scale[i].value) {
+                return scale[i];
+            }
+        }
+        log.warn("Value out of scale!")
+        return null
+    }
+
+
     property var caqiPm10: [
         {
             "value": 25,

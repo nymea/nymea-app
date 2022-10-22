@@ -28,7 +28,7 @@ RowLayout {
                     tmp = parseInt(root.value)
                 }
                 if (tmp != NaN){
-                    root.value = tmp - 1
+                    root.value = Math.max(root.from, tmp - 1)
                     root.valueModified(root.value)
                 }
             }
@@ -71,7 +71,7 @@ RowLayout {
                     tmp = parseInt(root.value)
                 }
                 if (tmp != NaN){
-                    root.value = tmp + 1
+                    root.value = Math.min(root.to, tmp + 1)
                     root.valueModified(root.value)
                 }
             }

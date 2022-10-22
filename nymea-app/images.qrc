@@ -299,5 +299,10 @@
         <file>ui/images/plus.svg</file>
         <file>ui/images/minus.svg</file>
         <file>ui/images/sensors/vibration.svg</file>
+        <file>ui/images/calendar.svg</file>
+        <file>ui/images/sensors/window-closed.svg</file>
+        <file>ui/images/sensors/window-open.svg</file>
+        <file>ui/images/infinity.svg</file>
+        <file>ui/images/edit-paste.svg</file>
     </qresource>
 </RCC>

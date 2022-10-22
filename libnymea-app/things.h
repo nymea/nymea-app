@@ -52,7 +52,8 @@ public:
         RoleSetupStatus,
         RoleSetupDisplayMessage,
         RoleInterfaces,
-        RoleBaseInterface
+        RoleBaseInterface,
+        RoleMainInterface
     };
     Q_ENUM(Roles)
 

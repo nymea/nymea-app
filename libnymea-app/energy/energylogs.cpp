@@ -284,6 +284,7 @@ void EnergyLogs::getLogsResponse(int commandId, const QVariantMap &params)
     double minValue = 0, maxValue = 0;
     qCDebug(dcEnergyLogs()) << "Logs response:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
     QList<EnergyLogEntry*> entries = unpackEntries(params, &minValue, &maxValue);
+    qCDebug(dcEnergyLogs()) << "Energy logs received" << entries.count();
 
     if (!entries.isEmpty()) {
         if (m_list.isEmpty()) {
@@ -455,7 +456,7 @@ void EnergyLogs::fetchLogs()
     m_fetchingData = true;
     fetchingDataChanged();
 
-    qCDebug(dcEnergyLogs()) << "Fetching" << m_startTime << m_endTime;
+    qCDebug(dcEnergyLogs()) << "Fetching energy logs:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
     m_engine->jsonRpcClient()->sendCommand("Energy.Get" + logsName(), params, this, "getLogsResponse");
 }
 

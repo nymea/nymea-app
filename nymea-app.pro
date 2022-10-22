@@ -3,8 +3,10 @@ TEMPLATE=subdirs
 include(shared.pri)
 message("APP_VERSION: $${APP_VERSION} ($${APP_REVISION})")
 
-SUBDIRS = libnymea-app nymea-app
-nymea-app.depends = libnymea-app
+SUBDIRS = libnymea-app experiences nymea-app
+
+experiences.depends = libnymea-app
+nymea-app.depends = libnymea-app experiences
 
 withtests: {
     SUBDIRS += tests

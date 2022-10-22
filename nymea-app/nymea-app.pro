@@ -12,16 +12,22 @@ qtHaveModule(webview) {
     DEFINES += HAVE_WEBVIEW
 }
 
-INCLUDEPATH += $$top_srcdir/libnymea-app
-LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app
+INCLUDEPATH += $$top_srcdir/libnymea-app \
+               $$top_srcdir/experiences/airconditioning
 
-win32:Debug:LIBS += -L$$top_builddir/libnymea-app/debug
-win32:Release:LIBS += -L$$top_builddir/libnymea-app/release
+LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app \
+        -L$$top_builddir/experiences/airconditioning -lnymea-app-airconditioning
+
+win32:Debug:LIBS += -L$$top_builddir/libnymea-app/debug \
+                    -L$$top_builddir/experiences/airconditioning/debug
+win32:Release:LIBS += -L$$top_builddir/libnymea-app/release \
+                      -L$$top_builddir/experiences/airconditioning/release
 win32:CXX_FLAGS += /w
 
 linux:!android:!nozeroconf:LIBS += -lavahi-client -lavahi-common
-PRE_TARGETDEPS += ../libnymea-app
-linux:!android:PRE_TARGETDEPS += $$top_builddir/libnymea-app/libnymea-app.a
+
+linux:!android:PRE_TARGETDEPS += $$top_builddir/libnymea-app/libnymea-app.a \
+                                 $$top_builddir/experiences/airconditioning/libnymea-app-airconditioning.a
 
 HEADERS += \
     configuredhostsmodel.h \
@@ -89,8 +95,11 @@ android {
                platformintegration/android/platformpermissionsandroid.cpp \
 
     # https://bugreports.qt.io/browse/QTBUG-83165
-    LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
-    PRE_TARGETDEPS += $$top_builddir/libnymea-app/$${ANDROID_TARGET_ARCH}/libnymea-app.a
+    CORE_LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
+    AIRCONDITIONING_LIBS += -L$${top_builddir}/experiences/airconditioning/$${ANDROID_TARGET_ARCH}
+
+    LIBS += $${CORE_LIBS} $${AIRCONDITIONING_LIBS}
+    message("CORE_LIBS: $${CORE_LIBS}")
 
     versioninfo.files = ../version.txt
     versioninfo.path = /

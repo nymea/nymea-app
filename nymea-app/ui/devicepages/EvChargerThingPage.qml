@@ -90,7 +90,7 @@ ThingPageBase {
                 }
             }
 
-            Dial {
+            StateDial {
                 anchors.centerIn: parent
                 height: background.contentItem.height
                 width: background.contentItem.width

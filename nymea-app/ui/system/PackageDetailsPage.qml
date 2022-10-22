@@ -89,7 +89,7 @@ SettingsPageBase {
             visible: packageDetailsPage.pkg.updateAvailable || packageDetailsPage.pkg.installedVersion.length === 0
             text: packageDetailsPage.pkg.updateAvailable ? qsTr("Update") : qsTr("Install")
             onClicked: {
-                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
                 var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.").arg(Configuration.systemName)
                 + "\n\n"
                 + qsTr("\nDo you want to proceed?")
@@ -113,7 +113,7 @@ SettingsPageBase {
             text: qsTr("Remove")
             visible: packageDetailsPage.pkg.canRemove
             onClicked: {
-                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/MeaDialog.qml"));
+                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
                 var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(Configuration.systemName)
                 var popup = dialog.createObject(app,
                                                 {

@@ -231,6 +231,7 @@ ItemDelegate {
 
                 Component.onCompleted: {
                     print("from:", from, "min", root.paramType.minValue)
+                    print("to:", to, "max", root.paramType.maxValue)
                     if (root.value === undefined) {
                         root.value = value
                     }

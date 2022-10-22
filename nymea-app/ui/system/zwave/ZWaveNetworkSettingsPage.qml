@@ -165,7 +165,7 @@ SettingsPageBase {
             Layout.rightMargin: app.margins
             text: qsTr("Remove network")
             onClicked: {
-                var dialog = Qt.createComponent(Qt.resolvedUrl("/ui/components/MeaDialog.qml"));
+                var dialog = Qt.createComponent(Qt.resolvedUrl("/ui/components/NymeaDialog.qml"));
                 var text = qsTr("Are you sure you want to remove the network and all associated devices from the system?")
                 var popup = dialog.createObject(app,
                                                 {
@@ -187,7 +187,7 @@ SettingsPageBase {
             Layout.rightMargin: app.margins
             text: qsTr("Factory reset controller")
             onClicked: {
-                var dialog = Qt.createComponent(Qt.resolvedUrl("/ui/components/MeaDialog.qml"));
+                var dialog = Qt.createComponent(Qt.resolvedUrl("/ui/components/NymeaDialog.qml"));
                 var text = qsTr("Are you sure you want to factory reset the controller? This will recreate the network and remove all associated devices from the system.")
                 var popup = dialog.createObject(app,
                                                 {

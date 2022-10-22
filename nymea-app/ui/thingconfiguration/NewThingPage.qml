@@ -31,13 +31,14 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
 import Nymea 1.0
 import "../components"
 import "../delegates"
 
 Page {
     id: root
+
+    property string filterInterface: ""
 
     header: NymeaHeader {
         text: qsTr("Set up new thing")
@@ -55,158 +56,146 @@ Page {
         page.aborted.connect(function() {
             pageStack.pop();
         })
-
     }
 
-    Pane {
-        id: filterPane
-        anchors { left: parent.left; top: parent.top; right: parent.right }
-        Behavior on height { NumberAnimation { duration: 120; easing.type: Easing.InOutQuad } }
+    ColumnLayout {
+        anchors.fill: parent
 
-        height: implicitHeight + app.margins * 2
-        Material.elevation: 1
-        z: 1
+        GridLayout {
+            Layout.fillWidth: true
+            Layout.leftMargin: Style.margins
+            Layout.rightMargin: Style.margins
+            columnSpacing: app.margins
+            columns: Math.max(1, Math.floor(width / 250)) * 2
+            visible: root.filterInterface == ""
+            z: 1
+            Label {
+                text: qsTr("Vendor")
+            }
 
-        leftPadding: 0; rightPadding: 0; topPadding: 0; bottomPadding: 0
-        contentItem: Item {
-            clip: true
-            GridLayout {
-                anchors.fill: parent
-                anchors.margins: app.margins
-                columnSpacing: app.margins
-                columns: Math.max(1, Math.floor(width / 250)) * 2
-                Label {
-                    text: qsTr("Vendor")
+            ComboBox {
+                id: vendorFilterComboBox
+                Layout.fillWidth: true
+                textRole: "displayName"
+                currentIndex: -1
+                VendorsProxy {
+                    id: vendorsProxy
+                    vendors: engine.thingManager.vendors
                 }
+                model: ListModel {
+                    id: vendorsFilterModel
+                    dynamicRoles: true
 
-                ComboBox {
-                    id: vendorFilterComboBox
-                    Layout.fillWidth: true
-                    textRole: "displayName"
-                    currentIndex: -1
-                    VendorsProxy {
-                        id: vendorsProxy
-                        vendors: engine.thingManager.vendors
+                    Component.onCompleted: {
+                        append({displayName: qsTr("All"), vendorId: ""})
+                        for (var i = 0; i < vendorsProxy.count; i++) {
+                            var vendor = vendorsProxy.get(i);
+                            append({displayName: vendor.displayName, vendorId: vendor.id})
+                        }
+                        vendorFilterComboBox.currentIndex = 0
                     }
-                    model: ListModel {
-                        id: vendorsFilterModel
-                        dynamicRoles: true
+                }
+            }
+            Label {
+                text: qsTr("Type")
+            }
 
-                        Component.onCompleted: {
-                            append({displayName: qsTr("All"), vendorId: ""})
-                            for (var i = 0; i < vendorsProxy.count; i++) {
-                                var vendor = vendorsProxy.get(i);
-                                append({displayName: vendor.displayName, vendorId: vendor.id})
-                            }
-                            vendorFilterComboBox.currentIndex = 0
+            ComboBox {
+                id: typeFilterComboBox
+                Layout.fillWidth: true
+                textRole: "displayName"
+                InterfacesSortModel {
+                    id: interfacesSortModel
+                    interfacesModel: InterfacesModel {
+                        engine: _engine
+                        shownInterfaces: app.supportedInterfaces
+                        showUncategorized: false
+                    }
+                }
+                model: ListModel {
+                    id: typeFilterModel
+                    ListElement { interfaceName: ""; displayName: qsTr("All") }
+
+                    Component.onCompleted: {
+                        for (var i = 0; i < interfacesSortModel.count; i++) {
+                            append({interfaceName: interfacesSortModel.get(i), displayName: app.interfaceToString(interfacesSortModel.get(i))});
                         }
                     }
                 }
-                Label {
-                    text: qsTr("Type")
+            }
+
+            Item {
+                Layout.preferredHeight: Style.iconSize
+                Layout.minimumWidth: Style.iconSize
+
+                ColorIcon {
+                    size: Style.iconSize
+                    name: "../images/find.svg"
                 }
+            }
 
-                ComboBox {
-                    id: typeFilterComboBox
-                    Layout.fillWidth: true
-                    textRole: "displayName"
-                    InterfacesSortModel {
-                        id: interfacesSortModel
-                        interfacesModel: InterfacesModel {
-                            engine: _engine
-                            shownInterfaces: app.supportedInterfaces
-                            showUncategorized: false
-                        }
-                    }
-                    model: ListModel {
-                        id: typeFilterModel
-                        ListElement { interfaceName: ""; displayName: qsTr("All") }
+            TextField {
+                id: displayNameFilterField
+                Layout.fillWidth: true
+            }
+        }
 
-                        Component.onCompleted: {
-                            for (var i = 0; i < interfacesSortModel.count; i++) {
-                                append({interfaceName: interfacesSortModel.get(i), displayName: app.interfaceToString(interfacesSortModel.get(i))});
-                            }
-                        }
-                    }
+        GroupedListView {
+            id: listView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            bottomMargin: packagesFilterModel.count > 0 ? height : 0
+
+            model: ThingClassesProxy {
+                id: thingClassesProxy
+                engine: _engine
+                filterInterface: root.filterInterface != "" ? root.filterInterface : typeFilterModel.get(typeFilterComboBox.currentIndex).interfaceName
+                includeProvidedInterfaces: true
+                filterVendorId: vendorFilterComboBox.currentIndex >= 0 ? vendorsFilterModel.get(vendorFilterComboBox.currentIndex).vendorId : ""
+                filterString: displayNameFilterField.displayText
+                groupByInterface: true
+            }
+
+            onContentYChanged: print("contentY", contentY, contentHeight, originY)
+
+            delegate: NymeaItemDelegate {
+                id: tingClassDelegate
+                width: parent.width
+                text: model.displayName
+                subText: engine.thingManager.vendors.getVendor(model.vendorId).displayName
+                iconName: app.interfacesToIcon(thingClass.interfaces)
+                prominentSubText: false
+                wrapTexts: false
+
+                property ThingClass thingClass: thingClassesProxy.get(index)
+
+                onClicked: {
+                    root.startWizard(thingClass)
                 }
+            }
 
-                Item {
-                    Layout.preferredHeight: Style.iconSize
-                    Layout.minimumWidth: Style.iconSize
-
-                    ColorIcon {
-                        height: parent.height
-                        width: height
-                        name: "../images/find.svg"
-                    }
+            EmptyViewPlaceholder {
+                anchors.centerIn: parent
+                width: parent.width - Style.margins * 2
+                opacity: packagesFilterModel.count > 0 &&
+                         (thingClassesProxy.count == 0 || listView.contentY >= listView.contentHeight + listView.originY)
+                         ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: Style.shortAnimationDuration } }
+                visible: opacity > 0
+                title: qsTr("Looking for something else?")
+                text: qsTr("Try to install more plugins.")
+                imageSource: "/ui/images/save.svg"
+                buttonText: qsTr("Install plugins")
+                onButtonClicked: {
+                    pageStack.push(Qt.resolvedUrl("/ui/system/PackageListPage.qml"), {filter: "nymea-plugin-"})
                 }
-
-                TextField {
-                    id: displayNameFilterField
-                    Layout.fillWidth: true
+                PackagesFilterModel {
+                    id: packagesFilterModel
+                    packages: engine.systemController.packages
+                    nameFilter: "nymea-plugin-"
                 }
             }
         }
     }
 
-    GroupedListView {
-        id: listView
-        anchors {
-            left: parent.left
-            top: filterPane.bottom
-            right: parent.right
-            bottom: parent.bottom
-        }
-        bottomMargin: packagesFilterModel.count > 0 ? height : 0
-
-        model: ThingClassesProxy {
-            id: thingClassesProxy
-            engine: _engine
-            filterInterface: typeFilterModel.get(typeFilterComboBox.currentIndex).interfaceName
-            includeProvidedInterfaces: true
-            filterVendorId: vendorFilterComboBox.currentIndex >= 0 ? vendorsFilterModel.get(vendorFilterComboBox.currentIndex).vendorId : ""
-            filterString: displayNameFilterField.displayText
-            groupByInterface: true
-        }
-
-        onContentYChanged: print("contentY", contentY, contentHeight, originY)
-
-        delegate: NymeaItemDelegate {
-            id: tingClassDelegate
-            width: parent.width
-            text: model.displayName
-            subText: engine.thingManager.vendors.getVendor(model.vendorId).displayName
-            iconName: app.interfacesToIcon(thingClass.interfaces)
-            prominentSubText: false
-            wrapTexts: false
-
-            property ThingClass thingClass: thingClassesProxy.get(index)
-
-            onClicked: {
-                root.startWizard(thingClass)
-            }
-        }
-
-        EmptyViewPlaceholder {
-            anchors.centerIn: parent
-            width: parent.width - Style.margins * 2
-            opacity: packagesFilterModel.count > 0 &&
-                     (thingClassesProxy.count == 0 || listView.contentY >= listView.contentHeight + listView.originY)
-                     ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: Style.shortAnimationDuration } }
-            visible: opacity > 0
-            title: qsTr("Looking for something else?")
-            text: qsTr("Try to install more plugins.")
-            imageSource: "/ui/images/save.svg"
-            buttonText: qsTr("Install plugins")
-            onButtonClicked: {
-                pageStack.push(Qt.resolvedUrl("/ui/system/PackageListPage.qml"), {filter: "nymea-plugin-"})
-            }
-            PackagesFilterModel {
-                id: packagesFilterModel
-                packages: engine.systemController.packages
-                nameFilter: "nymea-plugin-"
-            }
-        }
-    }
 }
