@@ -345,7 +345,6 @@ Item {
                     }
 
                     onCountChanged: {
-                        print("***** count changed", count, "total:", consumers.count)
                         if (count == consumers.count) {
                             d.update();
                         }
@@ -416,12 +415,7 @@ Item {
                             thingId: consumerDelegate.thing.id
                             loader: logsLoader
 
-                            Component.onCompleted: print("thingpowerlogs completed")
-
-                            onLoadingInhibitedChanged: print("Loading...", consumerDelegate.thing.name)
-
                             onEntriesAdded: {
-                                print("Thing entries added", consumerDelegate.thing.name, index, entries.length)
                                 addTimer.addEntries(index, entries)
                             }
 

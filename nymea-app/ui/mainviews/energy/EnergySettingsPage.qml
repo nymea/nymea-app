@@ -50,7 +50,6 @@ SettingsPageBase {
 
             textRole: "name"
             currentIndex: rootMeterProxy.indexOf(rootMeterProxy.getThing(energyManager.rootMeterId))
-            Component.onCompleted: print("root meter id:", energyManager.rootMeterId)
             onActivated: {
                 energyManager.setRootMeterId(rootMeterProxy.get(index).id)
             }

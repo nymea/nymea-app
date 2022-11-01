@@ -72,9 +72,7 @@ ChartView {
 
     function updateConsumers() {
         root.animationOptions = ChartView.NoAnimation
-        print("clearing consumers pie chart", consumersBalanceSeries.count)
         consumersBalanceSeries.clear();
-        print("cleared consumers pie chart")
 
         if (engine.thingManager.fetchingData) {
             return;
@@ -100,7 +98,6 @@ ChartView {
 
         if (root.rootMeter) {
             var unknownConsumption = Math.max(0, energyManager.currentPowerConsumption - consumersSummation)
-            print("Unknown consumption:", unknownConsumption, "consumption balance", energyManager.currentPowerConsumption, "consumers summation:", consumersSummation)
             d.unknownSlice = consumersBalanceSeries.append(qsTr("Unknown"), unknownConsumption)
             d.unknownSlice.color = Style.gray
             d.unknownSlice.borderColor = Style.gray

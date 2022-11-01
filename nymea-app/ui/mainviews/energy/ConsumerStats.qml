@@ -56,7 +56,6 @@ StatsBase {
 
         onFetchingDataChanged: {
             if (!fetchingData) {
-                print("Logs fetched")
                 d.fetchPending = false
             }
         }
@@ -64,7 +63,7 @@ StatsBase {
 
     Repeater {
         id: consumersRepeater
-        model: root.consumers
+        model: !engine.thingManager.fetchingData && !engine.tagsManager.busy ? root.consumers : null
         onCountChanged: {
             if (count == root.consumers.count) {
                 logsLoader.fetchLogs();
@@ -240,7 +239,6 @@ StatsBase {
                             }
                         }
 
-                        print("oldestEntry", new Date(oldestEntry), haveItems)
                         if (!haveItems || oldestEntry >= d.endTime.getTime()) {
                             return 0.5
                         }
@@ -284,10 +282,8 @@ StatsBase {
 
                         categories: {
                             var ret = []
-                            print("Updating categories from", d.config.startTime())
                             for (var i = 0; i < d.config.count; i++) {
                                 var timestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + i);
-                                print("*** adding", timestamp, d.startOffset, i)
                                 ret.push(d.config.toLabel(timestamp))
                             }
                             return ret;
@@ -472,8 +468,9 @@ StatsBase {
                                 id: toolTipModel
                                 property var entries: {
                                     var unsorted = []
-                                    for (var i = 0; i < consumers.count; i++) {
-                                        var consumer = consumers.get(i)
+                                    for (var i = 0; i < consumersRepeater.count; i++) {
+                                        var consumerDelegate = consumersRepeater.itemAt(i)
+                                        var consumer = consumerDelegate.thing
                                         var entry = {
                                             name: consumer.name,
                                             value: consumersRepeater.itemAt(i).barSet.at(toolTip.idx).toFixed(2),

@@ -35,12 +35,7 @@ StatsBase {
 
         onConfigChanged: valueAxis.max = 1
         onStartOffsetChanged: {
-            print("start offset changed", startOffset)
-//            print("updating because of offset change. fetchingData", powerBalanceLogs.fetchingData, "fetchPending", d.fetchPending)
             refresh()
-        }
-        onStartTimeChanged: {
-            print("start time changed", startTime)
         }
 
         function refresh() {
@@ -156,7 +151,6 @@ StatsBase {
 
             onFetchingDataChanged: {
                 if (!fetchingData) {
-                    print("Logs fetched")
                     d.fetchPending = false
                     d.refresh()
                 }
@@ -457,7 +451,6 @@ StatsBase {
 
                     property int idx: visible ? Math.min(d.config.count -1, Math.max(0, Math.ceil(mouseArea.mouseX * d.config.count / mouseArea.width) - 1)) : 0
                     property date timestamp: root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + idx)
-                    onTimestampChanged: print("idx changed", idx, "timestamp", timestamp)
 
                     visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
 

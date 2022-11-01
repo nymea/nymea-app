@@ -64,10 +64,16 @@ Item {
 
     function calculateTimestamp(baseTime, sampleRate, offset) {
         var timestamp = new Date(baseTime);
-        if (sampleRate === EnergyLogs.SampleRate1Month) {
-            timestamp.setMonth(baseTime.getMonth() + offset)
-        } else if (sampleRate === EnergyLogs.SampleRate1Year) {
+        if (sampleRate === EnergyLogs.SampleRate1Year) {
             timestamp.setFullYear(baseTime.getFullYear() + offset)
+        } else if (sampleRate === EnergyLogs.SampleRate1Month) {
+            timestamp.setMonth(baseTime.getMonth() + offset)
+        } else if (sampleRate === EnergyLogs.SampleRate1Week) {
+            timestamp.setDate(baseTime.getDate() + offset * 7)
+        } else if (sampleRate === EnergyLogs.SampleRate1Day) {
+            timestamp.setDate(baseTime.getDate() + offset)
+        } else if (sampleRate === EnergyLogs.SampleRate1Hour) {
+            timestamp.setHours(timestamp.getHours() + offset)
         } else {
             timestamp.setTime(baseTime.getTime() + (sampleRate * 60000 * offset))
         }

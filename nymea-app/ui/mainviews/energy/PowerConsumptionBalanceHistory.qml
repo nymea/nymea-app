@@ -33,14 +33,12 @@ Item {
         readonly property var startTime: {
             var date = new Date(fixTime(now));
             date.setTime(date.getTime() - (range * 60 * 1000));
-            print("setting starttime to", date, range)
             return date;
         }
 
         readonly property var endTime: {
             var date = new Date(fixTime(now));
             date.setTime(date.getTime())
-            print("setting endtime to", date, range)
             return date;
         }
 
@@ -476,7 +474,6 @@ Item {
                     var totalTime = d.endTime.getTime() - d.startTime.getTime()
                     // dragDelta : timeDelta = width : totalTime
                     var timeDelta = dragDelta * totalTime / mouseArea.width
-                    print("dragging", dragDelta, totalTime, mouseArea.width)
                     d.now = new Date(Math.min(new Date(), new Date(startDatetime.getTime() + timeDelta)))
                 }
 
@@ -485,7 +482,6 @@ Item {
                     var totalTime = d.endTime.getTime() - d.startTime.getTime()
                     // pixelDelta : timeDelta = width : totalTime
                     var timeDelta = wheel.pixelDelta.x * totalTime / mouseArea.width
-                    print("wheeling", wheel.pixelDelta.x, totalTime, mouseArea.width)
                     d.now = new Date(Math.min(new Date(), new Date(startDatetime.getTime() - timeDelta)))
                     wheelStopTimer.restart()
                 }
