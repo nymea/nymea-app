@@ -204,7 +204,6 @@ ThingPageBase {
 
             Label {
                 Layout.fillWidth: true
-                visible: isBattery
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
                 textFormat: Text.RichText
@@ -216,9 +215,17 @@ ThingPageBase {
                 property date endTime: isBattery ? new Date(new Date().getTime() + remainingHours * 60 * 60 * 1000) : new Date()
                 property int n: Math.round(remainingHours)
 
-                text: isCharging ? qsTr("At the current rate, the battery will be fully charged at %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
-                                 : isDischarging ? qsTr("At the current rate, the battery will last until %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
-                                                 : ""
+                text: root.isConsumer
+                      ? qsTr("Total consumption: %1 kWh").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + root.totalEnergyConsumedState.value.toFixed(2) + "</span>")
+                      : root.isProducer
+                        ? qsTr("Total production: %1 kWh").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + root.totalEnergyProducedState.value.toFixed(2) + "</span>")
+                        : root.isEnergyMeter
+                          ? qsTr("Total acquisition: %1 kWh").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + root.totalEnergyConsumedState.value.toFixed(2) + "</span>") + "<br>" + qsTr("Total return: %1 kWh").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + root.totalEnergyProducedState.value.toFixed(2) + "</span>")
+                          : root.isBattery && isCharging
+                            ? qsTr("At the current rate, the battery will be fully charged at %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
+                            : root.isBattery && Discharging
+                              ? qsTr("At the current rate, the battery will last until %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
+                              : ""
             }
         }
     }
