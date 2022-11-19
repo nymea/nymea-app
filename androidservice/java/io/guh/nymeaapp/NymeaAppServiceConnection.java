@@ -119,7 +119,9 @@ public class NymeaAppServiceConnection implements ServiceConnection {
                 nymeaHost.name = instanceMap.getString("name");
                 nymeaHost.isReady = instanceMap.getBoolean("isReady");
                 m_nymeaHosts.put(nymeaHost.id, nymeaHost);
-
+                if (nymeaHost.isReady) {
+                    fetchThings(nymeaHost.id);
+                }
             }
         } catch (JSONException e) {
             Log.d(TAG, "Error while processing JSON in communication with NymeaAppService: " + e.toString());
