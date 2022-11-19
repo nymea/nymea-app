@@ -104,7 +104,7 @@ Item {
                 currentStep = roundToPrecision(currentValue - root.progressState.minValue) / root.precision
             }
 
-            print("* current step", currentStep, root.steps, currentValue)
+//            print("* current step", currentStep, root.steps, currentValue)
 
             for(var step = 0; step < steps; step += root.precision) {
                 var angle = step * anglePerStep + startAngle;
@@ -182,7 +182,7 @@ Item {
             if (Math.abs(valueDiff) > 0) {
                 var currentValue = actionQueue.pendingValue || root.progressState.value
                 var newValue = currentValue + valueDiff
-                newValue = Math.min(root.stateType.maxValue, Math.max(root.progressState.minValue, newValue))
+                newValue = Math.min(root.progressState.maxValue, Math.max(root.progressState.minValue, newValue))
                 if (currentValue !== newValue) {
                     actionQueue.sendValue(newValue)
                 }
