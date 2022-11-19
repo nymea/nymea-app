@@ -294,5 +294,9 @@
         <file>ui/images/sensors/o3.svg</file>
         <file>ui/images/sensors/pm10.svg</file>
         <file>ui/images/sensors/no2.svg</file>
+        <file>ui/images/power-grid.svg</file>
+        <file>ui/images/arrow-up.svg</file>
+        <file>ui/images/plus.svg</file>
+        <file>ui/images/minus.svg</file>
     </qresource>
 </RCC>

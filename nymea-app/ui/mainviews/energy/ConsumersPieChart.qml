@@ -11,7 +11,7 @@ ChartView {
     id: root
     backgroundColor: "transparent"
     animationOptions: animationsEnabled ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
-    title: qsTr("Consumers balance")
+//    title: qsTr("Consumers balance")
     titleColor: Style.foregroundColor
     legend.visible: false
 
@@ -66,6 +66,7 @@ ChartView {
         id: d
         property var thingsColorMap: ({})
         property PieSlice unknownSlice: null
+        property PieSlice idleSlice: null
 
         property double consumersSummation: 0
     }
@@ -73,6 +74,9 @@ ChartView {
     function updateConsumers() {
         root.animationOptions = ChartView.NoAnimation
         consumersBalanceSeries.clear();
+        d.unknownSlice = null
+        d.idleSlice = null
+        print("cleared consumers pie chart")
 
         if (engine.thingManager.fetchingData) {
             return;
@@ -102,6 +106,11 @@ ChartView {
             d.unknownSlice.color = Style.gray
             d.unknownSlice.borderColor = Style.gray
             d.unknownSlice.borderWidth = 0
+        } else {
+            d.idleSlice = consumersBalanceSeries.append(qsTr(""), 0.00001)
+            d.idleSlice.color = Style.tooltipBackgroundColor
+            d.idleSlice.borderColor = d.idleSlice.color
+            d.idleSlice.borderWidth = 0
         }
 
         d.thingsColorMap = colorMap
