@@ -41,8 +41,9 @@ import "components"
 import "delegates"
 import "mainviews"
 
-Page {
+SwipeBackPage {
     id: root
+    swipeEnabled: false
 
     // Removing the background from this page only because the MainViewBase adds it again in
     // a deepter layer as we need to include it in the blurring of the header and footer.

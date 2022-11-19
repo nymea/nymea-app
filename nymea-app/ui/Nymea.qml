@@ -115,6 +115,7 @@ ApplicationWindow {
         id: m
         height: app.height
         width: Math.min(300, app.width)
+        dragMargin: 0
 //        z: 1000
         configuredHosts: configuredHostsModel
         onOpenThingSettings: rootItem.openThingSettings();
@@ -126,6 +127,7 @@ ApplicationWindow {
         onStartManualConnection: rootItem.startManualConnection();
         onStartWirelessSetup: rootItem.startWirelessSetup();
     }
+
 
     RootItem {
         id: rootItem
