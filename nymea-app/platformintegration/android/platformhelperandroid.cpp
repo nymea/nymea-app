@@ -84,11 +84,6 @@ PlatformHelperAndroid::PlatformHelperAndroid(QObject *parent) : PlatformHelper(p
     }
 }
 
-void PlatformHelperAndroid::requestPermissions()
-{
-    // Not using any fancy permissions in android yet...
-}
-
 void PlatformHelperAndroid::hideSplashScreen()
 {
     // Android's splash will flicker when fading out twice
@@ -97,12 +92,6 @@ void PlatformHelperAndroid::hideSplashScreen()
         QtAndroid::hideSplashScreen(250);
         alreadyHiding = true;
     }
-}
-
-bool PlatformHelperAndroid::hasPermissions() const
-{
-    // Not using any fancy permissions in android yet...
-    return true;
 }
 
 QString PlatformHelperAndroid::machineHostname() const
@@ -263,14 +252,6 @@ void PlatformHelperAndroid::shareFile(const QString &fileName)
     QtAndroid::androidActivity().callMethod<void>("shareFile", "(Ljava/lang/String;)V",
                                                   QAndroidJniObject::fromString(fileName).object<jstring>()
                                                   );
-}
-
-void PlatformHelperAndroid::permissionRequestFinished(const QtAndroid::PermissionResultMap &result)
-{
-    foreach (const QString &key, result.keys()) {
-        qDebug() << "Permission result:" << key << static_cast<int>(result.value(key));
-    }
-    emit m_instance->permissionsRequestFinished();
 }
 
 void PlatformHelperAndroid::darkModeEnabledChangedJNI()

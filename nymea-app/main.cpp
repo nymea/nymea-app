@@ -45,6 +45,7 @@
 #include "nfchelper.h"
 #include "nfcthingactionwriter.h"
 #include "platformhelper.h"
+#include "platformintegration/platformpermissions.h"
 #include "dashboard/dashboardmodel.h"
 #include "dashboard/dashboarditem.h"
 #include "mouseobserver.h"
@@ -169,6 +170,7 @@ int main(int argc, char *argv[])
     engine->rootContext()->setContextProperty("styleController", &styleController);
 
     qmlRegisterSingletonType<PlatformHelper>("Nymea", 1, 0, "PlatformHelper", PlatformHelper::platformHelperProvider);
+    qmlRegisterSingletonType<PlatformPermissions>("Nymea", 1, 0, "PlatformPermissions", PlatformPermissions::qmlProvider);
     qmlRegisterSingletonType<NfcHelper>("Nymea", 1, 0, "NfcHelper", NfcHelper::nfcHelperProvider);
     qmlRegisterType<NfcThingActionWriter>("Nymea", 1, 0, "NfcThingActionWriter");
 

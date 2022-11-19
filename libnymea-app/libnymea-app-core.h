@@ -73,6 +73,8 @@
 #include "configuration/serverconfigurations.h"
 #include "configuration/mqttpolicy.h"
 #include "configuration/mqttpolicies.h"
+#include "wifisetup/bluetoothdeviceinfos.h"
+#include "wifisetup/bluetoothdiscovery.h"
 #include "wifisetup/btwifisetup.h"
 #include "types/wirelessaccesspoint.h"
 #include "types/wirelessaccesspoints.h"

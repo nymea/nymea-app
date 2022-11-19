@@ -375,6 +375,16 @@ Page {
                 visible: paramRepeater.count > 0
             }
 
+            Component.onCompleted: {
+                if (root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/)) {
+                    console.warn("checking Notification permission!")
+                    if (PlatformPermissions.notificationsPermission != PlatformPermissions.PermissionStatusGranted) {
+                        console.warn("Notification permission missing!")
+                        PlatformPermissions.requestPermission(PlatformPermissions.PermissionNotifications)
+                    }
+                }
+            }
+
             Repeater {
                 id: paramRepeater
                 model: engine.jsonRpcClient.ensureServerVersion("1.12") || d.thingDescriptor == null ?  root.thingClass.paramTypes : null
@@ -396,7 +406,7 @@ Page {
                                 return PushNotifications.service;
                             }
                             if (paramType.id.toString().match(/\{?12ec06b2-44e7-486a-9169-31c684b91c8f\}?/)) {
-                                return PushNotifications.coreToken;
+                                return PushNotifications.token;
                             }
                             if (paramType.id.toString().match(/\{?d76da367-64e3-4b7d-aa84-c96b3acfb65e\}?/)) {
                                 return PushNotifications.clientId + "+" + Configuration.appId;

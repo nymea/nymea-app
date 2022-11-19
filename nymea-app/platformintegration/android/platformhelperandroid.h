@@ -45,11 +45,8 @@ public:
 
     explicit PlatformHelperAndroid(QObject *parent = nullptr);
 
-    Q_INVOKABLE void requestPermissions() override;
-
     Q_INVOKABLE void hideSplashScreen() override;
 
-    bool hasPermissions() const override;
     QString machineHostname() const override;
     QString deviceSerial() const override;
     QString device() const override;

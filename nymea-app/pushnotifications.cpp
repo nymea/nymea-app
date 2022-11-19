@@ -42,33 +42,7 @@ static PushNotifications *m_client_pointer;
 
 PushNotifications::PushNotifications(QObject *parent) : QObject(parent)
 {
-#if defined Q_OS_ANDROID && defined WITH_FIREBASE
-    qDebug() << "Checking for play services";
-    jboolean playServicesAvailable = QAndroidJniObject::callStaticMethod<jboolean>("io.guh.nymeaapp.NymeaAppNotificationService", "checkPlayServices", "()Z");
-    if (playServicesAvailable) {
-        qDebug() << "Setting up firebase";
-        m_client_pointer = this;
-        m_firebaseApp = ::firebase::App::Create(::firebase::AppOptions(), QAndroidJniEnvironment(), QtAndroid::androidActivity().object());
-        m_firebase_initializer.Initialize(m_firebaseApp, nullptr, [](::firebase::App * fapp, void *) {
-            return ::firebase::messaging::Initialize( *fapp, (::firebase::messaging::Listener *)m_client_pointer);
-        });
-    } else {
-        qDebug() << "Google Play Services not available. Cannot connect to push client.";
-    }
-#endif
 
-
-#ifdef UBPORTS
-    m_pushClient = new PushClient(this);
-    m_pushClient->setAppId("io.guh.nymeaapp_nymea-app");
-    connect(m_pushClient, &PushClient::tokenChanged, this, [this](const QString &token) {
-        // On UBPorts, core and cloud use the same token
-        m_coreToken = token;
-        emit coreTokenChanged();
-        m_cloudToken = m_coreToken;
-        emit cloudTokenChanged();
-    });
-#endif
 }
 
 PushNotifications::~PushNotifications()
@@ -91,6 +65,57 @@ PushNotifications *PushNotifications::instance()
     return pushNotifications;
 }
 
+
+bool PushNotifications::enabled() const
+{
+    return m_enabled;
+}
+
+void PushNotifications::setEnabled(bool enabled)
+{
+    if (m_enabled == enabled) {
+        return;
+    }
+
+    m_enabled = enabled;
+
+    if (enabled) {
+        registerForPush();
+    }
+}
+
+void PushNotifications::registerForPush()
+{
+#if defined Q_OS_ANDROID && defined WITH_FIREBASE
+    qDebug() << "Checking for play services";
+    jboolean playServicesAvailable = QAndroidJniObject::callStaticMethod<jboolean>("io.guh.nymeaapp.NymeaAppNotificationService", "checkPlayServices", "()Z");
+    if (playServicesAvailable) {
+        qDebug() << "Setting up firebase";
+        m_client_pointer = this;
+        m_firebaseApp = ::firebase::App::Create(::firebase::AppOptions(), QAndroidJniEnvironment(), QtAndroid::androidActivity().object());
+        m_firebase_initializer.Initialize(m_firebaseApp, nullptr, [](::firebase::App * fapp, void *) {
+            return ::firebase::messaging::Initialize( *fapp, (::firebase::messaging::Listener *)m_client_pointer);
+        });
+    } else {
+        qDebug() << "Google Play Services not available. Cannot connect to push client.";
+    }
+#endif
+
+
+#ifdef UBPORTS
+    m_pushClient = new PushClient(this);
+    m_pushClient->setAppId("io.guh.nymeaapp_nymea-app");
+    connect(m_pushClient, &PushClient::tokenChanged, this, [this](const QString &token) {
+        m_token = token;
+        emit tokenChanged();
+    });
+#endif
+
+#ifdef Q_OS_IOS
+    registerObjC();
+#endif
+}
+
 QString PushNotifications::service() const
 {
 #if defined Q_OS_ANDROID
@@ -108,28 +133,16 @@ QString PushNotifications::clientId() const
     return PlatformHelper::instance()->deviceSerial();
 }
 
-QString PushNotifications::coreToken() const
+QString PushNotifications::token() const
 {
-    return m_coreToken;
-}
-
-QString PushNotifications::cloudToken() const
-{
-    return m_cloudToken;
-}
-
-void PushNotifications::setAPNSRegistrationToken(const QString &apnsRegistrationToken)
-{
-    qDebug() << "Received APNS push notification token:" << apnsRegistrationToken;
-    m_cloudToken = apnsRegistrationToken;
-    emit cloudTokenChanged();
+    return m_token;
 }
 
 void PushNotifications::setFirebaseRegistrationToken(const QString &firebaseRegistrationToken)
 {
     qDebug() << "Received Firebase/APNS push notification token:" << firebaseRegistrationToken;
-    m_coreToken = firebaseRegistrationToken;
-    emit coreTokenChanged();
+    m_token = firebaseRegistrationToken;
+    emit tokenChanged();
 }
 
 #if defined Q_OS_ANDROID && defined WITH_FIREBASE
@@ -140,11 +153,8 @@ void PushNotifications::OnMessage(const firebase::messaging::Message &message)
 
 void PushNotifications::OnTokenReceived(const char *token)
 {
-    qDebug() << "Firebase token received:" << token;
-    // On Android, both, core and cloud use the same token
-    m_coreToken = QString(token);
-    emit coreTokenChanged();
-    m_cloudToken = m_coreToken;
-    emit cloudTokenChanged();
+    m_token = QString(token);
+    qDebug() << "Firebase token received:" << m_token;
+    emit tokenChanged();
 }
 #endif

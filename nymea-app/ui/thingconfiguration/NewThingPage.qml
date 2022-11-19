@@ -46,6 +46,18 @@ Page {
         }
     }
 
+    function startWizard(thingClass) {
+        var page = pageStack.push(Qt.resolvedUrl("SetupWizard.qml"), {thingClass: thingClass});
+        page.done.connect(function() {
+            pageStack.pop(root, StackView.Immediate);
+            pageStack.pop();
+        })
+        page.aborted.connect(function() {
+            pageStack.pop();
+        })
+
+    }
+
     Pane {
         id: filterPane
         anchors { left: parent.left; top: parent.top; right: parent.right }
@@ -167,14 +179,7 @@ Page {
             property ThingClass thingClass: thingClassesProxy.get(index)
 
             onClicked: {
-                var page = pageStack.push(Qt.resolvedUrl("SetupWizard.qml"), {thingClass: thingClassesProxy.get(index)});
-                page.done.connect(function() {
-                    pageStack.pop(root, StackView.Immediate);
-                    pageStack.pop();
-                })
-                page.aborted.connect(function() {
-                    pageStack.pop();
-                })
+                root.startWizard(thingClass)
             }
         }
     }

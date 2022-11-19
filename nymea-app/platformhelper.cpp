@@ -99,16 +99,6 @@ PlatformHelper *PlatformHelper::instance(bool create)
     return s_instance;
 }
 
-bool PlatformHelper::hasPermissions() const
-{
-    return true;
-}
-
-void PlatformHelper::requestPermissions()
-{
-    emit permissionsRequestFinished();
-}
-
 void PlatformHelper::hideSplashScreen()
 {
     setSplashVisible(false);

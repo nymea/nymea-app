@@ -126,6 +126,12 @@ Item {
                         target: nymeaDiscovery
                         property: "discovering"
                         value: engine.jsonRpcClient.currentHost === null
+                               && (PlatformPermissions.localNetworkPermission === PlatformPermissions.PermissionStatusGranted
+                                   // This OR wouldn't be needed but we introduced the permission handling later and the localNetworkPerm can't be read on iOS.
+                                   // If there are configured hosts, it means that we actally already have the permission even though PlatformPermissions thinks we wouldn't...
+                                   // So skipping the check in that case for now (1.6)
+                                   || configuredHostsModel.count > 0)
+
                     }
 
                     readonly property alias pageStack: _pageStack
@@ -137,7 +143,6 @@ Item {
                     }
 
                     Component.onCompleted: {
-                        setupPushNotifications();
                         if (configuredHost.uuid.toString() !== "{00000000-0000-0000-0000-000000000000}") {
                             print("Configured host id is", configuredHost.uuid)
                             var cachedHost = nymeaDiscovery.nymeaHosts.find(configuredHost.uuid);
@@ -149,6 +154,7 @@ Item {
                         } else if (autoConnectHost.length > 0 && index === 0) {
                             var host = nymeaDiscovery.nymeaHosts.createLanHost(Configuration.systemName, autoConnectHost);
                             engine.jsonRpcClient.connectToHost(host)
+
                             return;
                         } else {
                             // Only hide the splash right away if we're not trying to connect to something
@@ -223,43 +229,13 @@ Item {
                         return false;
                     }
 
-                    // Old nymea:cloud based push notifications...
-                    function setupPushNotifications(askForPermissions) {
-                        if (askForPermissions === undefined) {
-                            askForPermissions = true;
-                        }
-
-                        if (!AWSClient.isLoggedIn) {
-                            print("AWS not logged in. Cannot register for push");
-                            return;
-                        }
-
-                        if (PushNotifications.cloudToken.length === 0) {
-                            print("Don't have a token yet. Cannot register for push");
-                            return;
-                        }
-
-                        if (!PlatformHelper.hasPermissions) {
-                            if (askForPermissions) {
-                                PlatformHelper.requestPermissions();
-                            }
-                        } else {
-                            AWSClient.registerPushNotificationEndpoint(
-                                        PushNotifications.cloudToken,
-                                        PlatformHelper.machineHostname,
-                                        PushNotifications.clientId,
-                                        PlatformHelper.deviceManufacturer,
-                                        PlatformHelper.deviceModel);
-                        }
-                    }
-
                     // New, nymea thing based push notifactions
                     function updatePushNotificationThings() {
                         if (PushNotifications.service == "") {
                             print("This platform does not support push notifications")
                             return;
                         }
-                        if (!PushNotifications.coreToken) {
+                        if (!PushNotifications.token) {
                             print("No push notification token available at this time. Not updating...");
                             return;
                         }
@@ -268,7 +244,7 @@ Item {
                         print("Updating push notifications")
                         print("Own push service:", PushNotifications.service);
                         print("Own client ID:", clientId);
-                        print("Current token:", PushNotifications.coreToken);
+                        print("Current token:", PushNotifications.token);
 
 
                         for (var i = 0; i < engine.thingManager.things.count; i++) {
@@ -279,11 +255,15 @@ Item {
                                 var tokenParam = thing.paramByName("token")
                                 print("Found a push notification thing for client id:", clientIdParam.value)
                                 if (clientIdParam.value === clientId) {
-                                    if (tokenParam.value !== PushNotifications.coreToken) {
+                                    if (PlatformPermissions.notificationsPermission !== PlatformPermissions.PermissionStatusGranted) {
+                                        PlatformPermissions.requestPermission(PlatformPermissions.PermissionNotifications)
+                                    }
+
+                                    if (tokenParam.value !== PushNotifications.token) {
                                         var params = [
                                                     { "paramTypeId": serviceParam.paramTypeId, "value": PushNotifications.service },
                                                     { "paramTypeId": clientIdParam.paramTypeId, "value": clientId },
-                                                    { "paramTypeId": tokenParam.paramTypeId, "value": PushNotifications.coreToken }
+                                                    { "paramTypeId": tokenParam.paramTypeId, "value": PushNotifications.token }
                                                 ];
                                         print("Reconfiguring PushNotifications for", thing.name)
                                         engine.thingManager.reconfigureThing(thing.id, params);
@@ -398,27 +378,6 @@ Item {
                             if (state !== Qt.ApplicationActive) {
                                 init();
                             }
-                        }
-                    }
-
-                    Connections {
-                        target: PlatformHelper
-                        onHasPermissionsChanged: {
-                            setupPushNotifications(false)
-                        }
-                    }
-
-                    Connections {
-                        target: PushNotifications
-                        onCloudTokenChanged: {
-                            setupPushNotifications();
-                        }
-                    }
-
-                    Connections {
-                        target: AWSClient
-                        onIsLoggedInChanged: {
-                            setupPushNotifications()
                         }
                     }
 

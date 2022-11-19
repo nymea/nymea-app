@@ -227,7 +227,7 @@ public class NymeaAppControlService extends ControlsProviderService {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         intent.putExtra("nymeaId", nymeaId.toString());
         intent.putExtra("thingId", thing.id.toString());
-        pi = PendingIntent.getActivity(context, intentId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pi = PendingIntent.getActivity(context, intentId, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         Log.d(TAG, "Created pendingintent for " + thing.name + " with id " + intentId + " and extra " + thing.id);
 
         Control.StatefulBuilder builder = new Control.StatefulBuilder(thing.id.toString(), pi)

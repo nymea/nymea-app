@@ -12,7 +12,10 @@ WizardPageBase {
     showExtraButton: true
     extraButtonText: qsTr("Demo mode")
 
-    onNext: pageStack.push(connectionSelectionComponent)
+    onNext: {
+        PlatformPermissions.requestPermission(PlatformPermissions.PermissionLocalNetwork)
+        pageStack.push(connectionSelectionComponent)
+    }
     onExtraButtonPressed: {
         var host = nymeaDiscovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
         engine.jsonRpcClient.connectToHost(host)
@@ -120,7 +123,13 @@ WizardPageBase {
                 BigTile {
                     Layout.fillWidth: true
 
-                    onClicked: pageStack.push(wirelessInstructionsComponent)
+                    onClicked: {
+                        if (PlatformPermissions.bluetoothPermission != PlatformPermissions.PermissionStatusGranted) {
+                            PlatformPermissions.requestPermission(PlatformPermissions.PermissionBluetooth)
+                        } else {
+                        }
+                        pageStack.push(wirelessInstructionsComponent)
+                    }
 
                     contentItem: RowLayout {
                         spacing: Style.margins

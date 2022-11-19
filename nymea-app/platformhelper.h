@@ -43,7 +43,6 @@ class QJSEngine;
 class PlatformHelper : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool hasPermissions READ hasPermissions NOTIFY permissionsRequestFinished)
     Q_PROPERTY(QString platform READ platform CONSTANT)
     Q_PROPERTY(QString deviceSerial READ deviceSerial CONSTANT)
     Q_PROPERTY(QString device READ device CONSTANT)
@@ -69,9 +68,6 @@ public:
 
     static PlatformHelper* instance(bool create = true);
     virtual ~PlatformHelper() = default;
-
-    virtual bool hasPermissions() const;
-    Q_INVOKABLE virtual void requestPermissions();
 
     virtual QString platform() const;
     virtual QString machineHostname() const;
@@ -113,7 +109,6 @@ public:
     void notificationActionReceived(const QString &nymeaData);
 
 signals:
-    void permissionsRequestFinished();
     void screenTimeoutChanged();
     void screenBrightnessChanged();
     void topPanelColorChanged();

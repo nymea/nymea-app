@@ -44,23 +44,11 @@ PlatformHelperIOS::PlatformHelperIOS(QObject *parent) : PlatformHelper(parent)
     QObject::connect(screen, &QScreen::orientationChanged, qApp, [this](Qt::ScreenOrientation) {
         setBottomPanelColor(bottomPanelColor());
     });
-
-
-}
-
-void PlatformHelperIOS::requestPermissions()
-{
-    emit permissionsRequestFinished();
 }
 
 void PlatformHelperIOS::hideSplashScreen()
 {
     // Nothing to be done
-}
-
-bool PlatformHelperIOS::hasPermissions() const
-{
-    return true;
 }
 
 QString PlatformHelperIOS::machineHostname() const

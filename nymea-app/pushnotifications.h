@@ -51,10 +51,10 @@ class PushNotifications : public QObject
 #endif
 {
     Q_OBJECT
+    Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
     Q_PROPERTY(QString service READ service CONSTANT)
     Q_PROPERTY(QString clientId READ clientId CONSTANT)
-    Q_PROPERTY(QString cloudToken READ cloudToken NOTIFY cloudTokenChanged)
-    Q_PROPERTY(QString coreToken READ coreToken NOTIFY coreTokenChanged)
+    Q_PROPERTY(QString token READ token NOTIFY tokenChanged)
 
 public:
     explicit PushNotifications(QObject *parent = nullptr);
@@ -63,18 +63,19 @@ public:
     static QObject* pushNotificationsProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
     static PushNotifications* instance();
 
+    bool enabled() const;
+    void setEnabled(bool enabled);
+
     QString service() const;
     QString clientId() const;
-    QString coreToken() const;
-    QString cloudToken() const;
+    QString token() const;
 
     // Called by Objective-C++ on iOS
-    void setAPNSRegistrationToken(const QString &apnsRegistrationToken);
     void setFirebaseRegistrationToken(const QString &firebaseRegistrationToken);
 
 signals:
-    void coreTokenChanged();
-    void cloudTokenChanged();
+    void enabledChanged();
+    void tokenChanged();
 
 protected:
 
@@ -92,10 +93,16 @@ private:
 #endif
 
 private:
-    // For nymea:core plugin based push notifications
-    QString m_coreToken;
-    // for nymea:cloud based push notifications (deprecated)
-    QString m_cloudToken;
+
+    void registerForPush();
+
+
+#ifdef Q_OS_IOS
+    void registerObjC();
+#endif
+
+    bool m_enabled = false;
+    QString m_token;
 };
 
 #endif // PUSHNOTIFICATIONS_H

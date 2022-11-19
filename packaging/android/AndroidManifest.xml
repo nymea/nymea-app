@@ -1,8 +1,14 @@
 <?xml version="1.0"?>
 <manifest package="io.guh.nymeaapp" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0" android:versionCode="1" android:installLocation="auto">
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="nymea:app" android:icon="@mipmap/icon" android:roundIcon="@mipmap/round_icon" android:extractNativeLibs="true">
-        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="io.guh.nymeaapp.NymeaAppActivity" android:label="nymea:app" android:screenOrientation="unspecified" android:launchMode="singleTop" android:theme="@style/SplashScreenTheme">
+        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="io.guh.nymeaapp.NymeaAppActivity" android:label="nymea:app" android:screenOrientation="unspecified" android:launchMode="singleTop" android:theme="@style/SplashScreenTheme" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -63,7 +69,7 @@
         </activity>
 
 
-        <activity android:process=":qt_controlsActivity"  android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="io.guh.nymeaapp.NymeaAppControlsActivity" android:label="nymea:app" android:screenOrientation="unspecified" android:launchMode="standard">
+        <activity android:process=":qt_controlsActivity"  android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="io.guh.nymeaapp.NymeaAppControlsActivity" android:label="nymea:app" android:screenOrientation="unspecified" android:launchMode="standard" android:exported="true">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -99,7 +105,7 @@
 
         <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
 
-        <service android:process=":qt_service" android:name="io.guh.nymeaapp.NymeaAppService">
+        <service android:process=":qt_service" android:name="io.guh.nymeaapp.NymeaAppService" android:exported="true">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -130,7 +136,7 @@
         <service android:name="com.google.firebase.messaging.MessageForwardingService" android:exported="false">
         </service>
 
-        <service android:name="io.guh.nymeaapp.NymeaAppNotificationService">
+        <service android:name="io.guh.nymeaapp.NymeaAppNotificationService" android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
@@ -163,6 +169,4 @@
     <!-- The following comment will be replaced upon deployment with default features based on the dependencies of the application.
          Remove the comment if you do not require these default features. -->
     <!-- %%INSERT_FEATURES -->
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.NFC" />
 </manifest>

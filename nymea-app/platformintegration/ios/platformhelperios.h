@@ -41,11 +41,8 @@ class PlatformHelperIOS : public PlatformHelper
 public:
     explicit PlatformHelperIOS(QObject *parent = nullptr);
 
-    Q_INVOKABLE virtual void requestPermissions() override;
-
     Q_INVOKABLE void hideSplashScreen() override;
 
-    virtual bool hasPermissions() const override;
     virtual QString machineHostname() const override;
     virtual QString device() const override;
     virtual QString deviceSerial() const override;

@@ -27,6 +27,7 @@ HEADERS += \
     nfchelper.h \
     nfcthingactionwriter.h \
     platformintegration/generic/screenhelper.h \
+    platformintegration/platformpermissions.h \
     stylecontroller.h \
     pushnotifications.h \
     platformhelper.h \
@@ -39,6 +40,7 @@ SOURCES += main.cpp \
     mouseobserver.cpp \
     nfchelper.cpp \
     nfcthingactionwriter.cpp \
+    platformintegration/platformpermissions.cpp \
     stylecontroller.cpp \
     pushnotifications.cpp \
     platformhelper.cpp \
@@ -73,11 +75,14 @@ android {
     include(../3rdParty/android/android_openssl/openssl.pri)
 
     ANDROID_MIN_SDK_VERSION = 21
-    ANDROID_TARGET_SDK_VERSION = 31
+    ANDROID_TARGET_SDK_VERSION = 33
 
     QT += androidextras
-    HEADERS += platformintegration/android/platformhelperandroid.h
-    SOURCES += platformintegration/android/platformhelperandroid.cpp
+    HEADERS += platformintegration/android/platformhelperandroid.h \
+               platformintegration/android/platformpermissionsandroid.h \
+
+    SOURCES += platformintegration/android/platformhelperandroid.cpp \
+               platformintegration/android/platformpermissionsandroid.cpp \
 
     # https://bugreports.qt.io/browse/QTBUG-83165
     LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
@@ -131,12 +136,19 @@ macx: {
 
 ios: {
     message("iOS build")
-    HEADERS += platformintegration/ios/platformhelperios.h
-    SOURCES += platformintegration/ios/platformhelperios.cpp
+    HEADERS += platformintegration/ios/platformhelperios.h \
+               platformintegration/ios/platformpermissionsios.h \
+
+    SOURCES += platformintegration/ios/platformhelperios.cpp \
+               platformintegration/ios/platformpermissionsios.cpp \
+
     OBJECTIVE_SOURCES += platformintegration/ios/platformhelperios.mm \
                          platformintegration/ios/pushnotifications.mm \
+                         platformintegration/ios/platformpermissionsios.mm \
 
     OTHER_FILES += $${OBJECTIVE_SOURCES}
+
+    LIBS += -framework CoreLocation \
 
     # Add Firebase SDK
     QMAKE_LFLAGS += -ObjC $(inherited)

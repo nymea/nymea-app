@@ -50,7 +50,7 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
         intent.setAction(Intent.ACTION_SEND);
         intent.putExtra("notificationData", remoteMessage.getData().get("nymeaData"));
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_MUTABLE);
 
         // We can't directly access R.drawable.notificationicon from here:
         // When the package is branded, the package name is not "io.guh.nymeaapp" and resources in
@@ -83,7 +83,7 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("notify_001", "Channel human readable title", NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel channel = new NotificationChannel("notify_001", "Notifications from your nymea system", NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
 

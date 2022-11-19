@@ -106,6 +106,12 @@ ApplicationWindow {
         value: "cloudEnvironment" in app ? app.cloudEnvironment : settings.cloudEnvironment
     }
 
+    Binding {
+        target: PushNotifications
+        property: "enabled"
+        value: PlatformPermissions.notificationsPermission === PlatformPermissions.PermissionStatusGranted
+    }
+
     ConfiguredHostsModel {
         id: configuredHostsModel
     }
@@ -136,7 +142,9 @@ ApplicationWindow {
     property NymeaDiscovery nymeaDiscovery: NymeaDiscovery {
         objectName: "discovery"
         awsClient: AWSClient
+        bluetoothDiscoveryEnabled: PlatformPermissions.bluetoothPermission === PlatformPermissions.PermissionStatusGranted
         //        discovering: pageStack.currentItem.objectName === "discoveryPage"
+        Component.onCompleted: console.warn("****************** local net perm", PlatformPermissions.localNetworkPermission, discovering, PlatformPermissions.localNetworkPermission === PlatformPermissions.PermissionStatusGranted, PlatformPermissions.PermissionStatusGranted)
     }
 
     property var supportedInterfaces: [
