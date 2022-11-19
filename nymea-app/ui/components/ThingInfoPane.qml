@@ -16,16 +16,18 @@ InfoPaneBase {
     readonly property State connectedState: root.thing.stateByName("connected")
     readonly property State signalStrengthState: root.thing.stateByName("signalStrength")
     readonly property State updateStatusState: root.thing.stateByName("updateStatus")
+    readonly property State childLockState: root.thing.stateByName("childLock")
     readonly property bool updateAvailable: updateStatusState && updateStatusState.value === "available"
     readonly property bool updateRunning: updateStatusState && updateStatusState.value === "updating"
     readonly property bool isWireless: root.thing.thingClass.interfaces.indexOf("wirelessconnectable") >= 0
     readonly property bool alertState: setupFailure ||
-                              (connectedState !== null && connectedState.value === false) ||
-                              (batteryCriticalState !== null && batteryCriticalState.value === true)
+                              (connectedState != null && connectedState.value === false) ||
+                              (batteryCriticalState != null && batteryCriticalState.value === true)
     readonly property bool batteryCritical: batteryCriticalState && batteryCriticalState.value === true
+    readonly property bool childLockEnabled: childLockState != null && childLockState.value === true
     readonly property bool highlightState: updateAvailable || updateRunning
 
-    shown: setupInProgress || setupFailure || batteryState !== null || (connectedState !== null && connectedState.value === false) || signalStrengthState !== null || updateAvailable
+    shown: setupInProgress || setupFailure || batteryState != null || (connectedState != null && connectedState.value === false) || signalStrengthState !== null || updateAvailable
 
     color: alertState ? "red"
             : highlightState ? Style.accentColor : "transparent"
@@ -57,11 +59,44 @@ InfoPaneBase {
 
         }
 
+        ColorIcon {
+            id: childLockIcon
+            name: root.childLockEnabled ? "/ui/images/lock-closed.svg" : "/ui/images/lock-open.svg"
+            color: pendingAction == -1 ? Style.iconColor : Style.tileBackgroundColor
+            size: Style.smallIconSize
+            visible: root.childLockState != null
+            property int pendingAction: -1
+            MouseArea {
+                anchors.fill: parent
+                anchors.margins: -app.margins / 4
+                onClicked: {
+                    parent.pendingAction = thing.executeAction("childLock", [{paramName: "childLock", value: !root.childLockEnabled}]);
+                }
+            }
+            BusyIndicator {
+                anchors.centerIn: parent
+                width: Style.iconSize
+                height: Style.iconSize
+                visible: parent.pendingAction != -1
+                running: visible
+            }
+            Connections {
+                target: engine.thingManager
+                onExecuteActionReply: {
+                    if (commandId === childLockIcon.pendingAction) {
+                        childLockIcon.pendingAction = -1
+                    }
+                }
+            }
+        }
+
         ThingStatusIcons {
             thing: root.thing
             color: root.alertState || root.highlightState ? "white" : Style.iconColor
 
         }
+
+
     }
 }
 
