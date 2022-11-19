@@ -1,3 +1,11 @@
+nymea-app (1.5.3) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump android api level to 31
+  * Unified energy charts
+
+ -- jenkins <developer@nymea.io>  Sat, 19 Nov 2022 12:49:47 +0100
+
 nymea-app (1.5.2) bionic; urgency=medium
 
   [ Michael Zanetti ]
