@@ -1,3 +1,14 @@
+nymea-app (1.5.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add total values to energy device pages
+  * Fix settings page for Qt 5.9
+  * Fix dial not using dynamic max value
+  * Fix a race condition in initializing the android service
+  * Add support for the childlock interface
+
+ -- jenkins <developer@nymea.io>  Sat, 19 Nov 2022 01:09:06 +0100
+
 nymea-app (1.5.1) bionic; urgency=medium
 
   [ Michael Zanetti ]
