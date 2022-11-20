@@ -99,6 +99,8 @@ MainViewBase {
         topMargin: root.topMargin
         bottomMargin: root.bottomMargin
 
+//        onContentYChanged: print("contentY", contentY)
+
         // GridLayout directly in a flickable causes problems at initialisation
         Item {
             width: flickable.width
@@ -132,7 +134,8 @@ MainViewBase {
                     Layout.preferredHeight: width
                     energyManager: energyManager
                     visible: rootMeter != null || producers.count > 0
-                    animationsEnabled: Qt.application.active && root.isCurrentItem
+                    animationsEnabled: Qt.application.active && root.isCurrentItem && flickable.contentY < height
+                    onAnimationsEnabledChanged: print("animations for power balance chart", animationsEnabled ? "enabled" : "disabled")
                 }
 
                 PowerBalanceHistory {
@@ -168,7 +171,9 @@ MainViewBase {
                     visible: consumers.count > 0
                     colors: root.thingColors
                     consumers: consumers
-                    animationsEnabled: Qt.application.active && root.isCurrentItem
+                    animationsEnabled: Qt.application.active && root.isCurrentItem && flickable.contentY < y + height && flickable.contentY + flickable.height > y
+                    onAnimationsEnabledChanged: print("animations for consumer balance chart", animationsEnabled ? "enabled" : "disabled")
+
                 }
 
                 ConsumersHistory {
