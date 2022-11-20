@@ -31,8 +31,9 @@ PlatformPermissionsAndroid::PlatformPermissionsAndroid(QObject *parent)
 
 void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permission permission)
 {
-    qWarning() << "****** android permission request" << permission;
-    QtAndroid::requestPermissions({permissionMap.value(permission)}, &permissionResultCallback);
+    if (permissionMap.contains(permission)) {
+        QtAndroid::requestPermissions({permissionMap.value(permission)}, &permissionResultCallback);
+    }
 }
 
 void PlatformPermissionsAndroid::openPermissionSettings()

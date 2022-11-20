@@ -143,8 +143,6 @@ ApplicationWindow {
         objectName: "discovery"
         awsClient: AWSClient
         bluetoothDiscoveryEnabled: PlatformPermissions.bluetoothPermission === PlatformPermissions.PermissionStatusGranted
-        //        discovering: pageStack.currentItem.objectName === "discoveryPage"
-        Component.onCompleted: console.warn("****************** local net perm", PlatformPermissions.localNetworkPermission, discovering, PlatformPermissions.localNetworkPermission === PlatformPermissions.PermissionStatusGranted, PlatformPermissions.PermissionStatusGranted)
     }
 
     property var supportedInterfaces: [

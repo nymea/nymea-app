@@ -13,7 +13,9 @@ WizardPageBase {
     extraButtonText: qsTr("Demo mode")
 
     onNext: {
-        PlatformPermissions.requestPermission(PlatformPermissions.PermissionLocalNetwork)
+        if (PlatformPermissions.localNetworkPermission !== PlatformPermissions.PermissionStatusGranted) {
+            PlatformPermissions.requestPermission(PlatformPermissions.PermissionLocalNetwork)
+        }
         pageStack.push(connectionSelectionComponent)
     }
     onExtraButtonPressed: {
