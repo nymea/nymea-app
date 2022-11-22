@@ -2,8 +2,11 @@
 
 #include <QApplication>
 #include <QDebug>
+#include <QAndroidIntent>
 
 PlatformPermissionsAndroid * PlatformPermissionsAndroid::s_instance = nullptr;
+
+#define FLAG_ACTIVITY_NEW_TASK 0x10000000
 
 QHash<PlatformPermissions::Permission, QStringList> permissionMap = {
     // TODO: Once QtBluetooth does not request the COARSE_LOCATION for Bluetooth any more, remove it from here. The new Bluetooth permissions would be enough.
@@ -24,6 +27,7 @@ PlatformPermissionsAndroid::PlatformPermissionsAndroid(QObject *parent)
             emit bluetoothPermissionChanged();
             emit locationPermissionChanged();
             emit backgroundLocationPermissionChanged();
+            emit notificationsPermissionChanged();
         }
     });
 
@@ -38,7 +42,13 @@ void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permissi
 
 void PlatformPermissionsAndroid::openPermissionSettings()
 {
-    QtAndroid::androidActivity().callMethod<void>("openPermissionSettings", "()V");
+    QAndroidJniObject packageName = QtAndroid::androidContext().callObjectMethod("getPackageName", "()Ljava/lang/String;");
+    QString packageUri = "package:" + packageName.toString();
+    QAndroidJniObject uri = QAndroidJniObject::callStaticObjectMethod("android/net/Uri", "parse", "(Ljava/lang/String;)Landroid/net/Uri;", QAndroidJniObject::fromString(packageUri).object());
+    QAndroidIntent intent = QAndroidIntent("android.settings.APPLICATION_DETAILS_SETTINGS");
+    intent.handle().callObjectMethod("setData", "(Landroid/net/Uri;)Landroid/content/Intent;", uri.object());
+    intent.handle().callObjectMethod("addFlags", "(I)Landroid/content/Intent;", FLAG_ACTIVITY_NEW_TASK);
+    QtAndroid::androidContext().callMethod<void>("startActivity", "(Landroid/content/Intent;)V", intent.handle().object());
 }
 
 PlatformPermissions::PermissionStatus PlatformPermissionsAndroid::checkPermission(Permission permission) const
@@ -61,5 +71,6 @@ void PlatformPermissionsAndroid::permissionResultCallback(const QtAndroid::Permi
     emit s_instance->bluetoothPermissionChanged();
     emit s_instance->locationPermissionChanged();
     emit s_instance->backgroundLocationPermissionChanged();
+    emit s_instance->notificationsPermissionChanged();
 }
 
