@@ -362,16 +362,16 @@ Item {
                 holeSize: 0.8
 
                 PieSlice {
-                    color: Style.red
-                    borderColor: color
-                    borderWidth: 0
-                    value: root.fromGrid
-                }
-                PieSlice {
                     color: Style.green
                     borderColor: color
                     borderWidth: 0
                     value: root.fromProduction
+                }
+                PieSlice {
+                    color: Style.red
+                    borderColor: color
+                    borderWidth: 0
+                    value: root.fromGrid
                 }
                 PieSlice {
                     color: Style.orange

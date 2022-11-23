@@ -43,6 +43,7 @@ ThingPageBase {
     readonly property bool isConsumer: root.thing && root.thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0
     readonly property bool isProducer: root.thing && root.thingClass.interfaces.indexOf("smartmeterproducer") >= 0
     readonly property bool isBattery: root.thing && root.thingClass.interfaces.indexOf("energystorage") >= 0
+    readonly property bool isEvCharger: itemDelegate.thing.thingClass.interfaces.indexOf("evcharger") >= 0
 
 
     readonly property State currentPowerState: root.thing.stateByName("currentPower")
@@ -60,8 +61,15 @@ ThingPageBase {
     readonly property State capacityState: isBattery ? root.thing.stateByName("capacity") : null
 
 
+    property bool isProduction: currentPowerState.value < 0
+    property bool isConsumption: currentPowerState.value > 0
+    property double absValue: Math.abs(currentPowerState.value)
+    property double cleanVale: (absValue / (absValue > 1000 ? 1000 : 1)).toFixed(1)
+    property string unit: absValue > 1000 ? "kW" : "W"
 
-    readonly property real currentPower: currentPowerState ? currentPowerState.value : 0
+    readonly property bool isCharging: root.chargingState && root.chargingState.value === "charging"
+    readonly property bool isDischarging: root.chargingState && root.chargingState.value === "discharging"
+
 
     readonly property date now: d.now
     readonly property date startTime: new Date(now.getTime() - 24 * 60 * 60 * 1000)
@@ -88,9 +96,22 @@ ThingPageBase {
             Layout.fillHeight: true
             Layout.margins: Style.hugeMargins
             iconSource: ""
-            onColor: batteryLevelState
-                     ? currentPower < 0 ? "crimson" : "limegreen"
-            : currentPower < 0 ? "limegreen" : "crimson"
+            onColor: {
+                if (root.isBattery) {
+                    if (root.isCharging) {
+                        return Style.purple
+                    }
+                    if (root.isDischarging) {
+                        return Style.orange
+                    }
+                    return Style.green
+                }
+                if (root.isEnergyMeter) {
+                    return root.currentPowerState.value < 0 ? Style.yellow : Style.red
+                }
+                return root.currentPowerState.value < 0 ? Style.green : Style.blue
+            }
+            Behavior on onColor { ColorAnimation { duration: Style.fastAnimationDuration } }
 
             Rectangle {
                 id: mask
@@ -111,8 +132,8 @@ ThingPageBase {
                     height: background.contentItem.height
                     property real progress: root.batteryLevelState ? root.batteryLevelState.value  / 100 : 0
                     anchors.verticalCenterOffset: height * (1 - progress)
-                    color: batteryCriticalState && batteryCriticalState.value ? "crimson" : "limegreen"
-                    visible: root.batteryLevelState
+                    color: background.onColor
+                    visible: root.isBattery
                 }
 
                 RadialGradient {
@@ -120,8 +141,8 @@ ThingPageBase {
                     anchors.centerIn: parent
                     width: background.contentItem.width
                     height: background.contentItem.height
-                    property real progress: Math.abs(root.currentPower) / 10000
-                    visible: currentPower != 0
+                    property real progress: Math.abs(root.currentPowerState.value) / 10000
+                    visible: root.currentPowerState.value !== 0
 
                     Behavior on gradientRatio { NumberAnimation { duration: Style.sleepyAnimationDuration; easing.type: Easing.InOutQuad } }
                     property real gradientRatio: (1 - progress) * 0.1
@@ -138,9 +159,7 @@ ThingPageBase {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
                         font: Style.largeFont
-                        property bool toKilos: Math.abs(currentPower) >= 1000
-                        property double value: Math.abs(currentPower / (toKilos ? 1000 : 1))
-                        text: "%1 %2".arg(value.toFixed(toKilos ? 2 : 1)).arg(toKilos ? "kW" : "W")
+                        text: "%1 %2".arg(root.cleanVale).arg(root.unit)
                     }
 
                     Label {
@@ -164,7 +183,7 @@ ThingPageBase {
                                 return qsTr("Consuming")
                             }
 
-                            return root.currentPower < 0 ? qsTr("Returning") : qsTr("Obtaining")
+                            return root.currentPowerState.value < 0 ? qsTr("Returning") : qsTr("Obtaining")
                         }
                         font: Style.smallFont
                     }
@@ -207,11 +226,9 @@ ThingPageBase {
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
                 textFormat: Text.RichText
-                property bool isCharging: root.chargingState && root.chargingState.value === "charging"
-                property bool isDischarging: root.chargingState && root.chargingState.value === "discharging"
                 property double availableWh: isBattery ? root.capacityState.value * 1000 * root.batteryLevelState.value / 100 : 0
                 property double remainingWh: isCharging ? root.capacityState.value * 1000 - availableWh : availableWh
-                property double remainingHours: isBattery ? remainingWh / Math.abs(root.currentPower) : 0
+                property double remainingHours: isBattery ? remainingWh / Math.abs(root.currentPowerState.value) : 0
                 property date endTime: isBattery ? new Date(new Date().getTime() + remainingHours * 60 * 60 * 1000) : new Date()
                 property int n: Math.round(remainingHours)
 
@@ -223,7 +240,7 @@ ThingPageBase {
                           ? qsTr("Total acquisition: %1 kWh").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + root.totalEnergyConsumedState.value.toFixed(2) + "</span>") + "<br>" + qsTr("Total return: %1 kWh").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + root.totalEnergyProducedState.value.toFixed(2) + "</span>")
                           : root.isBattery && isCharging
                             ? qsTr("At the current rate, the battery will be fully charged at %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
-                            : root.isBattery && Discharging
+                            : root.isBattery && isDischarging
                               ? qsTr("At the current rate, the battery will last until %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
                               : ""
             }

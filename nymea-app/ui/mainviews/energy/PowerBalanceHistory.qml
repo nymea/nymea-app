@@ -671,7 +671,7 @@ Item {
                     property int xOnRight: Math.max(0, mouseArea.mouseX) + Style.smallMargins
                     property int xOnLeft: Math.min(mouseArea.mouseX, mouseArea.width) - Style.smallMargins - width
                     x: xOnRight + width < mouseArea.width ? xOnRight : xOnLeft
-                    property double maxValue: toolTip.entry ? Math.max(0, -entry.production) : 0
+                    property double maxValue: toolTip.entry ? Math.max(0, Math.max(-entry.production, entry.consumption)) : 0
                     y: Math.min(Math.max(mouseArea.height - (maxValue * mouseArea.height / valueAxis.max) - height - Style.margins, 0), mouseArea.height - height)
 
                     width: tooltipLayout.implicitWidth + Style.smallMargins * 2
@@ -780,11 +780,8 @@ Item {
                     }
                 }
             }
-
         }
     }
-
-
 }
 
 
