@@ -280,5 +280,6 @@
         <file>ui/utils/AirQualityIndex.qml</file>
         <file>ui/mainviews/energy/PowerBalanceHistory.qml</file>
         <file>ui/mainviews/energy/CurrentPowerBalancePieChart.qml</file>
+        <file>ui/components/MultiSelectionTabs.qml</file>
     </qresource>
 </RCC>
