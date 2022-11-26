@@ -1,3 +1,11 @@
+nymea-app (1.5.9) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More improvements on the energy view
+  * Add MultiSelectionTabs component
+
+ -- jenkins <developer@nymea.io>  Sat, 26 Nov 2022 01:30:33 +0100
+
 nymea-app (1.5.8) bionic; urgency=medium
 
   [ Michael Zanetti ]
