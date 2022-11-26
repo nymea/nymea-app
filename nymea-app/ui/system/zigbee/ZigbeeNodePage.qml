@@ -364,11 +364,12 @@ SettingsPageBase {
                 rightPadding: Style.margins
                 topPadding: Style.margins
                 bottomPadding: Style.margins
-                font.family: "Monospace"
+                font.family: "UbuntuMono"
+                font.pixelSize: Style.smallFont.pixelSize
 
                 text: {
-                    var ret = root.node.manufacturer + "\n"
-                    ret += root.node.model + "\n"
+                    var ret = "Manufacturer: " + root.node.manufacturer + "\n"
+                    ret += "Model: " + root.node.model + "\n"
                     ret += "RxOnWhileIdle: " + root.node.rxOnWhenIdle + "\n"
                     ret += "Basic cluster version: " + root.node.version + "\n"
 
