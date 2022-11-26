@@ -142,7 +142,7 @@ ApplicationWindow {
     property NymeaDiscovery nymeaDiscovery: NymeaDiscovery {
         objectName: "discovery"
         awsClient: AWSClient
-        bluetoothDiscoveryEnabled: PlatformPermissions.bluetoothPermission === PlatformPermissions.PermissionStatusGranted
+        bluetoothDiscoveryEnabled: false// PlatformPermissions.bluetoothPermission === PlatformPermissions.PermissionStatusGranted
     }
 
     property var supportedInterfaces: [

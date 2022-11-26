@@ -60,8 +60,6 @@ MainViewBase {
         engine: _engine
     }
 
-    property var thingColors: [Style.blue, Style.green, Style.red, Style.yellow, Style.purple, Style.orange, Style.lime, Style.pink, Style.darkBlue]
-
 
     ThingsProxy {
         id: energyMeters
@@ -169,7 +167,6 @@ MainViewBase {
                     Layout.preferredHeight: width
                     energyManager: energyManager
                     visible: consumers.count > 0
-                    colors: root.thingColors
                     consumers: consumers
                     animationsEnabled: Qt.application.active && root.isCurrentItem && flickable.contentY < y + height && flickable.contentY + flickable.height > y
                     onAnimationsEnabledChanged: print("animations for consumer balance chart", animationsEnabled ? "enabled" : "disabled")
@@ -180,7 +177,7 @@ MainViewBase {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
                     visible: consumers.count > 0
-                    colors: root.thingColors
+                    energyManager: energyManager
                     consumers: consumers
                 }
 
@@ -189,7 +186,6 @@ MainViewBase {
                     Layout.preferredHeight: width
                     energyManager: energyManager
                     visible: consumers.count > 0
-                    colors: root.thingColors
                     consumers: consumers
                 }
             }

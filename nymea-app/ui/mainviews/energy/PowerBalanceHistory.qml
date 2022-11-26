@@ -8,6 +8,8 @@ import "qrc:/ui/components"
 Item {
     id: root
 
+    property bool titleVisible: true
+
     PowerBalanceLogs {
         id: powerBalanceLogs
         engine: _engine
@@ -25,6 +27,8 @@ Item {
     QtObject {
         id: d
         property date now: new Date()
+
+        property var selectedSeries: null
 
         readonly property int range: selectionTabs.currentValue.range
         readonly property int sampleRate: selectionTabs.currentValue.sampleRate
@@ -63,6 +67,13 @@ Item {
             return timestamp
         }
 
+        function selectSeries(series) {
+            if (d.selectedSeries == series) {
+                d.selectedSeries = null
+            } else {
+                d.selectedSeries = series
+            }
+        }
     }
 
     Connections {
@@ -105,12 +116,20 @@ Item {
         anchors.fill: parent
         spacing: 0
 
-//        Label {
-//            Layout.fillWidth: true
-//            Layout.margins: Style.smallMargins
-//            horizontalAlignment: Text.AlignHCenter
-//            text: qsTr("My production history")
-//        }
+        Label {
+            id: titleLabel
+            Layout.fillWidth: true
+            Layout.margins: Style.smallMargins
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("My power balance history")
+            visible: root.titleVisible
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("PowerBalanceHistoryPage.qml"))
+                }
+            }
+        }
 
         SelectionTabs {
             id: selectionTabs
@@ -265,6 +284,7 @@ Item {
                     shadesVisible: false
                     labelsColor: Style.foregroundColor
                 }
+
                 AreaSeries {
                     id: selfProductionConsumptionSeries
                     axisX: dateTimeAxis
@@ -273,8 +293,10 @@ Item {
 //                    borderWidth: 2
                     borderColor: color
                     name: qsTr("From self production")
+                    opacity: d.selectedSeries == null || d.selectedSeries == selfProductionConsumptionSeries ? 1 : 0.3
             //        visible: false
 
+                    onClicked: d.selectedSeries(selfProductionConsumptionSeries)
                     lowerSeries: LineSeries {
                         id: zeroSeries
                         XYPoint { x: dateTimeAxis.min.getTime(); y: 0 }
@@ -331,9 +353,11 @@ Item {
                     color: Style.purple
                     borderWidth: 0
                     borderColor: color
+                    opacity: d.selectedSeries == null || d.selectedSeries == toStorageSeries ? 1 : 0.3
                     visible: root.batteries.count > 0
                     name: qsTr("To battery")
 
+                    onClicked: d.selectSeries(toStorageSeries)
 
                     function calculateValue(entry) {
                         return selfProductionConsumptionSeries.calculateValue(entry) + Math.max(0, entry.storage);
@@ -352,7 +376,6 @@ Item {
                     }
                 }
 
-
                 AreaSeries {
                     id: returnSeries
                     axisX: dateTimeAxis
@@ -361,7 +384,10 @@ Item {
                     borderWidth: 0
                     borderColor: color
                     name: qsTr("To grid")
+                    opacity: d.selectedSeries == null || d.selectedSeries == returnSeries ? 1 : 0.3
             //        visible: false
+
+                    onClicked: d.selectSeries(returnSeries)
 
                     function calculateValue(entry) {
                         return toStorageSeries.calculateValue(entry) + Math.max(0, -entry.acquisition)
@@ -387,8 +413,10 @@ Item {
                     borderWidth: 0
                     borderColor: color
                     name: qsTr("From battery")
+                    opacity: d.selectedSeries == null || d.selectedSeries == fromStorageSeries ? 1 : 0.3
                     visible: root.batteries.count > 0
 
+                    onClicked: d.selectSeries(fromStorageSeries)
                     lowerSeries: selfProductionConsumptionUpperSeries
                     upperSeries: LineSeries {
                         id: fromStorageUpperSeries
@@ -406,7 +434,6 @@ Item {
                     }
                 }
 
-
                 AreaSeries {
                     id: acquisitionSeries
                     axisX: dateTimeAxis
@@ -415,7 +442,10 @@ Item {
                     borderWidth: 0
                     borderColor: color
                     name: qsTr("From grid")
+                    opacity: d.selectedSeries == null || d.selectedSeries == acquisitionSeries ? 1 : 0.3
             //      visible: false
+
+                    onClicked: d.selectSeries(acquisitionSeries)
 
                     lowerSeries: fromStorageUpperSeries
                     upperSeries: LineSeries {
@@ -476,89 +506,158 @@ Item {
             }
 
             RowLayout {
+                id: legend
                 anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
                 anchors.leftMargin: chartView.plotArea.x
                 height: Style.smallIconSize
                 anchors.margins: Style.margins
 
-                Item {
+                MouseArea {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    ColorIcon {
-                        name: "weathericons/weather-clear-day"
-                        size: Style.smallIconSize
-                        color: Style.green
+                    onClicked: d.selectSeries(selfProductionConsumptionSeries)
+                    opacity: selfProductionConsumptionSeries.opacity
+                    Row {
                         anchors.centerIn: parent
+                        spacing: Style.smallMargins
+                        ColorIcon {
+                            name: "weathericons/weather-clear-day"
+                            size: Style.smallIconSize
+                            color: Style.green
+                        }
+                        Label {
+                            width: parent.parent.width - x
+                            elide: Text.ElideRight
+                            visible: legend.width > 500
+                            text: qsTr("Produced")
+                            anchors.verticalCenter: parent.verticalCenter
+                            font: Style.smallFont
+                        }
                     }
                 }
 
-                Item {
+                MouseArea {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    onClicked: d.selectSeries(acquisitionSeries)
+                    opacity: acquisitionSeries.opacity
                     Row {
                         anchors.centerIn: parent
-                        ColorIcon {
-                            name: "power-grid"
-                            size: Style.smallIconSize
-                            color: Style.red
+                        spacing: Style.smallMargins
+                        Row {
+                            ColorIcon {
+                                name: "power-grid"
+                                size: Style.smallIconSize
+                                color: Style.red
+                            }
+                            ColorIcon {
+                                name: "arrow-down"
+                                size: Style.smallIconSize
+                                color: Style.red
+                            }
                         }
-                        ColorIcon {
-                            name: "arrow-down"
-                            size: Style.smallIconSize
-                            color: Style.red
+                        Label {
+                            width: parent.parent.width - x
+                            elide: Text.ElideRight
+                            visible: legend.width > 500
+                            text: qsTr("From grid")
+                            anchors.verticalCenter: parent.verticalCenter
+                            font: Style.smallFont
                         }
                     }
                 }
-                Item {
+
+                MouseArea {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    onClicked: d.selectSeries(returnSeries)
+                    opacity: returnSeries.opacity
                     Row {
                         anchors.centerIn: parent
-                        ColorIcon {
-                            name: "power-grid"
-                            size: Style.smallIconSize
-                            color: Style.yellow
+                        spacing: Style.smallMargins
+                        Row {
+                            ColorIcon {
+                                name: "power-grid"
+                                size: Style.smallIconSize
+                                color: Style.yellow
+                            }
+                            ColorIcon {
+                                name: "arrow-up"
+                                size: Style.smallIconSize
+                                color: Style.yellow
+                            }
                         }
-                        ColorIcon {
-                            name: "arrow-up"
-                            size: Style.smallIconSize
-                            color: Style.yellow
+                        Label {
+                            width: parent.parent.width - x
+                            elide: Text.ElideRight
+                            visible: legend.width > 500
+                            text: qsTr("To grid")
+                            anchors.verticalCenter: parent.verticalCenter
+                            font: Style.smallFont
                         }
                     }
                 }
-                Item {
+
+                MouseArea {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     visible: batteries.count > 0
+                    onClicked: d.selectSeries(toStorageSeries)
+                    opacity: toStorageSeries.opacity
                     Row {
                         anchors.centerIn: parent
-                        ColorIcon {
-                            name: "battery/battery-080"
-                            size: Style.smallIconSize
-                            color: Style.purple
+                        spacing: Style.smallMargins
+                        Row {
+                            ColorIcon {
+                                name: "battery/battery-080"
+                                size: Style.smallIconSize
+                                color: Style.purple
+                            }
+                            ColorIcon {
+                                name: "plus"
+                                size: Style.smallIconSize
+                                color: Style.purple
+                            }
                         }
-                        ColorIcon {
-                            name: "plus"
-                            size: Style.smallIconSize
-                            color: Style.purple
+                        Label {
+                            width: parent.parent.width - x
+                            elide: Text.ElideRight
+                            visible: legend.width > 500
+                            text: qsTr("To battery")
+                            anchors.verticalCenter: parent.verticalCenter
+                            font: Style.smallFont
                         }
                     }
                 }
-                Item {
+
+                MouseArea {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     visible: batteries.count > 0
+                    onClicked: d.selectSeries(fromStorageSeries)
+                    opacity: fromStorageSeries.opacity
                     Row {
                         anchors.centerIn: parent
-                        ColorIcon {
-                            name: "battery/battery-040"
-                            size: Style.smallIconSize
-                            color: Style.orange
+                        spacing: Style.smallMargins
+                        Row {
+                            ColorIcon {
+                                name: "battery/battery-040"
+                                size: Style.smallIconSize
+                                color: Style.orange
+                            }
+                            ColorIcon {
+                                name: "minus"
+                                size: Style.smallIconSize
+                                color: Style.orange
+                            }
                         }
-                        ColorIcon {
-                            name: "minus"
-                            size: Style.smallIconSize
-                            color: Style.orange
+                        Label {
+                            width: parent.parent.width - x
+                            elide: Text.ElideRight
+                            visible: legend.width > 500
+                            text: qsTr("From battery")
+                            anchors.verticalCenter: parent.verticalCenter
+                            font: Style.smallFont
                         }
                     }
                 }
@@ -574,6 +673,7 @@ Item {
 
                 hoverEnabled: true
                 preventStealing: tooltipping || dragging
+                propagateComposedEvents: true
 
                 property int startMouseX: 0
                 property bool dragging: false

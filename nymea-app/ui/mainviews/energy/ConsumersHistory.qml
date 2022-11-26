@@ -8,8 +8,9 @@ import "qrc:/ui/components"
 Item {
     id: root
 
-    property var colors: null
+    property EnergyManager energyManager: null
     property ThingsProxy consumers: null
+    property bool titleVisible: true
 
     PowerBalanceLogs {
         id: powerBalanceLogs
@@ -53,6 +54,8 @@ Item {
 
         property date now: new Date()
 
+        property var selectedSeries: null
+
         readonly property int range: selectionTabs.currentValue.range
         readonly property int sampleRate: selectionTabs.currentValue.sampleRate
         readonly property int visibleValues: range / sampleRate
@@ -95,6 +98,15 @@ Item {
                 logsLoader.fetchLogs();
             }
         }
+
+        function selectSeries(series) {
+            print("selecting series", series)
+            if (d.selectedSeries === series) {
+                d.selectedSeries = null
+            } else {
+                d.selectedSeries = series
+            }
+        }
     }
 
     Connections {
@@ -111,12 +123,17 @@ Item {
         anchors.fill: parent
         spacing: 0
 
-//        Label {
-//            Layout.fillWidth: true
-//            Layout.margins: Style.smallMargins
-//            horizontalAlignment: Text.AlignHCenter
-//            text: qsTr("Consumers history")
-//        }
+        Label {
+            Layout.fillWidth: true
+            Layout.margins: Style.smallMargins
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("Consumers history")
+            visible: root.titleVisible
+            MouseArea {
+                anchors.fill: parent
+                onClicked: pageStack.push(Qt.resolvedUrl("ConsumersHistoryPage.qml"), {energyManager: root.energyManager, consumers: root.consumers})
+            }
+        }
 
         SelectionTabs {
             id: selectionTabs
@@ -456,8 +473,11 @@ Item {
                             series.lowerSeries = lineSeriesComponent.createObject(series)
                             series.upperSeries = lineSeriesComponent.createObject(series)
                             series.color = NymeaUtils.generateColor(Style.generationBaseColor, index)
+                            series.opacity = Qt.binding(function() {
+                                return d.selectedSeries == null || d.selectedSeries == series ? 1 : 0.3
+                            })
                             series.borderWidth = 0;
-                            series.borderColor = series.color
+                            series.borderColor = series.color                            
 
                             // Add a first point at 0 value
                             series.lowerSeries.insert(0, new Date().getTime(), 0)
@@ -472,6 +492,7 @@ Item {
             }
 
             RowLayout {
+                id: legend
                 anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
                 anchors.leftMargin: chartView.plotArea.x
                 height: Style.smallIconSize
@@ -479,22 +500,33 @@ Item {
 
                 Repeater {
                     model: root.consumers
-                    delegate: Item {
+                    delegate: MouseArea {
                         id: legendDelegate
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         readonly property Thing thing: root.consumers.get(index)
-                        ColorIcon {
-                            name: app.interfacesToIcon(legendDelegate.thing.thingClass.interfaces)
-                            size: Style.smallIconSize
-                            color: index >= 0 ? NymeaUtils.generateColor(Style.generationBaseColor, index) : "white"
+                        onClicked: d.selectSeries(consumersRepeater.itemAt(index).series)
+                        opacity: d.selectedSeries == null || d.selectedSeries === consumersRepeater.itemAt(index).series ? 1 : 0.3
+                        Row {
                             anchors.centerIn: parent
+                            spacing: Style.smallMargins
+                            ColorIcon {
+                                name: app.interfacesToIcon(legendDelegate.thing.thingClass.interfaces)
+                                size: Style.smallIconSize
+                                color: index >= 0 ? NymeaUtils.generateColor(Style.generationBaseColor, index) : "white"
+                            }
+                            Label {
+                                text: legendDelegate.thing.name
+                                width: Math.max(0, legendDelegate.width - x)
+                                anchors.verticalCenter: parent.verticalCenter
+                                elide: Text.ElideRight
+                                font: Style.smallFont
+                                visible: legend.width / root.consumers.count >= 80
+                            }
                         }
                     }
                 }
-
             }
-
 
             MouseArea {
                 id: mouseArea
@@ -665,20 +697,21 @@ Item {
                         Repeater {
                             model: consumersRepeater.count
                             delegate: RowLayout {
+                                readonly property Item chartItem: consumersRepeater.itemAt(index)
                                 id: consumerToolTipDelegate
+                                opacity: d.selectedSeries == null || d.selectedSeries === chartItem.series ? 1 : 0.3
                                 Rectangle {
                                     width: Style.extraSmallFont.pixelSize
                                     height: width
-        //                            color: index >= 0 ? root.colors[index % root.colors.length] : "white"
                                     color: index >= 0 ? NymeaUtils.generateColor(Style.generationBaseColor, index) : "white"
                                 }
 
                                 Label {
-                                    property ThingPowerLogEntry entry: toolTip.idx >= 0 ? consumersRepeater.itemAt(index).logs.find(toolTip.timestamp) : null
+                                    property ThingPowerLogEntry entry: toolTip.idx >= 0 ? chartItem.logs.find(toolTip.timestamp) : null
                                     property double rawValue: entry ? entry.currentPower : 0
                                     property double displayValue: rawValue >= 1000 ? rawValue / 1000 : rawValue
                                     property string unit: rawValue >= 1000 ? "kW" : "W"
-                                    text:  "%1: %2 %3".arg(consumersRepeater.itemAt(index).thing.name).arg(displayValue.toFixed(2)).arg(unit)
+                                    text:  "%1: %2 %3".arg(chartItem.thing.name).arg(displayValue.toFixed(2)).arg(unit)
                                     font: Style.extraSmallFont
                                 }
                             }

@@ -10,7 +10,7 @@ ChartView {
     id: consumptionPieChart
     backgroundColor: "transparent"
     animationOptions: animationsEnabled ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
-    title: qsTr("My energy mix")
+    title: qsTr("My energy consumption")
     titleColor: Style.foregroundColor
     legend.visible: false
 

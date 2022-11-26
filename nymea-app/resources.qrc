@@ -281,5 +281,11 @@
         <file>ui/mainviews/energy/PowerBalanceHistory.qml</file>
         <file>ui/mainviews/energy/CurrentPowerBalancePieChart.qml</file>
         <file>ui/components/MultiSelectionTabs.qml</file>
+        <file>ui/mainviews/energy/PowerBalanceHistoryPage.qml</file>
+        <file>ui/mainviews/energy/CurrentPowerBalancePage.qml</file>
+        <file>ui/mainviews/energy/PowerBalanceStatsPage.qml</file>
+        <file>ui/mainviews/energy/ConsumersHistoryPage.qml</file>
+        <file>ui/mainviews/energy/ConsumerStatsPage.qml</file>
+        <file>ui/mainviews/energy/ConsumersPieChartPage.qml</file>
     </qresource>
 </RCC>

@@ -10,6 +10,8 @@ StatsBase {
 
     property EnergyManager energyManager: null
 
+    property bool titleVisible: true
+
     property ThingsProxy producers: ThingsProxy {
         engine: _engine
         shownInterfaces: ["smartmeterproducer"]
@@ -21,6 +23,8 @@ StatsBase {
         id: d
         property var config: root.configs[selectionTabs.currentValue.config]
         property int startOffset: 0
+
+        property var selectedSet: null
 
         property date startTime: root.calculateTimestamp(config.startTime(), config.sampleRate, startOffset)
         property date endTime: root.calculateTimestamp(config.startTime(), config.sampleRate, startOffset + config.count)
@@ -36,6 +40,14 @@ StatsBase {
         onConfigChanged: valueAxis.max = 1
         onStartOffsetChanged: {
             refresh()
+        }
+
+        function selectSet(set) {
+            if (d.selectedSet === set) {
+                d.selectedSet = null
+            } else {
+                d.selectedSet = set
+            }
         }
 
         function refresh() {
@@ -106,12 +118,17 @@ StatsBase {
         anchors.fill: parent
         spacing: 0
 
-//        Label {
-//            Layout.fillWidth: true
-//            Layout.margins: Style.smallMargins
-//            horizontalAlignment: Text.AlignHCenter
-//            text: qsTr("Totals")
-//        }
+        Label {
+            Layout.fillWidth: true
+            Layout.margins: Style.smallMargins
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("Totals")
+            visible: root.titleVisible
+            MouseArea {
+                anchors.fill: parent
+                onClicked: pageStack.push(Qt.resolvedUrl("PowerBalanceStatsPage.qml"), {energyManager: root.energyManager, producers: root.producers})
+            }
+        }
 
         SelectionTabs {
             id: selectionTabs
@@ -278,7 +295,7 @@ StatsBase {
                     BarSet {
                         id: consumptionSet
                         label: qsTr("Consumed")
-                        color: Style.blue
+                        color: Qt.rgba(Style.blue.r, Style.blue.g, Style.blue.b, d.selectedSet == null || d.selectedSet == consumptionSet ? 1 : 0.3)
                         borderColor: color
                         borderWidth: 0
                         values: {
@@ -292,7 +309,7 @@ StatsBase {
                     BarSet {
                         id: productionSet
                         label: qsTr("Produced")
-                        color: Style.green
+                        color: Qt.rgba(Style.green.r, Style.green.g, Style.green.b, d.selectedSet == null || d.selectedSet == productionSet ? 1 : 0.3)
                         borderColor: color
                         borderWidth: 0
                         values: {
@@ -306,7 +323,7 @@ StatsBase {
                     BarSet {
                         id: acquisitionSet
                         label: qsTr("From grid")
-                        color: Style.red
+                        color: Qt.rgba(Style.red.r, Style.red.g, Style.red.b, d.selectedSet == null || d.selectedSet == acquisitionSet ? 1 : 0.3)
                         borderColor: color
                         borderWidth: 0
                         values: {
@@ -320,7 +337,7 @@ StatsBase {
                     BarSet {
                         id: returnSet
                         label: qsTr("To grid")
-                        color: Style.yellow
+                        color: Qt.rgba(Style.yellow.r, Style.yellow.g, Style.yellow.b, d.selectedSet == null || d.selectedSet == returnSet ? 1 : 0.3)
                         borderColor: color
                         borderWidth: 0
                         values: {
@@ -335,64 +352,113 @@ StatsBase {
             }
 
             RowLayout {
+                id: legend
                 anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
                 anchors.leftMargin: chartView.plotArea.x
                 height: Style.smallIconSize
                 anchors.margins: Style.margins
 
-                Item {
+                MouseArea {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    ColorIcon {
-                        name: "powersocket"
-                        size: Style.smallIconSize
-                        color: Style.blue
+                    onClicked: d.selectSet(consumptionSet)
+                    Row {
                         anchors.centerIn: parent
+                        spacing: Style.smallMargins
+                        ColorIcon {
+                            name: "powersocket"
+                            size: Style.smallIconSize
+                            color: Style.blue
+                        }
+                        Label {
+                            width: parent.parent.width - x
+                            elide: Text.ElideRight
+                            visible: legend.width > 500
+                            text: qsTr("Consumed")
+                            anchors.verticalCenter: parent.verticalCenter
+                            font: Style.smallFont
+                        }
                     }
                 }
 
-                Item {
+                MouseArea {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    ColorIcon {
-                        name: "weathericons/weather-clear-day"
-                        size: Style.smallIconSize
-                        color: Style.green
+                    onClicked: d.selectSet(productionSet)
+                    Row {
                         anchors.centerIn: parent
+                        spacing: Style.smallMargins
+                        ColorIcon {
+                            name: "weathericons/weather-clear-day"
+                            size: Style.smallIconSize
+                            color: Style.green
+                        }
+                        Label {
+                            width: parent.parent.width - x
+                            elide: Text.ElideRight
+                            visible: legend.width > 500
+                            text: qsTr("Produced")
+                            anchors.verticalCenter: parent.verticalCenter
+                            font: Style.smallFont
+                        }
                     }
                 }
 
-                Item {
+                MouseArea {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    onClicked: d.selectSet(acquisitionSet)
                     Row {
                         anchors.centerIn: parent
-                        ColorIcon {
-                            name: "power-grid"
-                            size: Style.smallIconSize
-                            color: Style.red
+                        spacing: Style.smallMargins
+                        Row {
+                            ColorIcon {
+                                name: "power-grid"
+                                size: Style.smallIconSize
+                                color: Style.red
+                            }
+                            ColorIcon {
+                                name: "arrow-down"
+                                size: Style.smallIconSize
+                                color: Style.red
+                            }
                         }
-                        ColorIcon {
-                            name: "arrow-down"
-                            size: Style.smallIconSize
-                            color: Style.red
+                        Label {
+                            width: parent.parent.width - x
+                            elide: Text.ElideRight
+                            visible: legend.width > 500
+                            text: qsTr("From grid")
+                            anchors.verticalCenter: parent.verticalCenter
+                            font: Style.smallFont
                         }
                     }
                 }
-                Item {
+                MouseArea {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    onClicked: d.selectSet(returnSet)
                     Row {
                         anchors.centerIn: parent
-                        ColorIcon {
-                            name: "power-grid"
-                            size: Style.smallIconSize
-                            color: Style.yellow
+                        spacing: Style.smallMargins
+                        Row {
+                            ColorIcon {
+                                name: "power-grid"
+                                size: Style.smallIconSize
+                                color: Style.yellow
+                            }
+                            ColorIcon {
+                                name: "arrow-up"
+                                size: Style.smallIconSize
+                                color: Style.yellow
+                            }
                         }
-                        ColorIcon {
-                            name: "arrow-up"
-                            size: Style.smallIconSize
-                            color: Style.yellow
+                        Label {
+                            width: parent.parent.width - x
+                            elide: Text.ElideRight
+                            visible: legend.width > 500
+                            text: qsTr("To grid")
+                            anchors.verticalCenter: parent.verticalCenter
+                            font: Style.smallFont
                         }
                     }
                 }
@@ -564,7 +630,7 @@ StatsBase {
                             Rectangle {
                                 width: Style.extraSmallFont.pixelSize
                                 height: width
-                                color: Style.yellow
+                                color: Style.green
                             }
                             Label {
                                 text: d.startOffset !== undefined ? qsTr("Produced: %1 kWh").arg(productionSet.at(toolTip.idx).toFixed(2)) : ""
@@ -586,7 +652,7 @@ StatsBase {
                             Rectangle {
                                 width: Style.extraSmallFont.pixelSize
                                 height: width
-                                color: Style.green
+                                color: Style.yellow
                             }
                             Label {
                                 text: d.startOffset !== undefined ? qsTr("To grid: %1 kWh").arg(returnSet.at(toolTip.idx).toFixed(2)) : ""

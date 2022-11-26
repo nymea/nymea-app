@@ -9,9 +9,8 @@ StatsBase {
     id: root
 
     property EnergyManager energyManager: null
-    property var colors: null
-
     property ThingsProxy consumers: null
+    property bool titleVisible: true
 
     QtObject {
         id: d
@@ -19,6 +18,8 @@ StatsBase {
         property var config: root.configs[selectionTabs.currentValue.config]
 
         property int startOffset: 0
+
+        property Thing selectedThing: null
 
         property date startTime: root.calculateTimestamp(config.startTime(), config.sampleRate, startOffset)
         property date endTime: root.calculateTimestamp(config.startTime(), config.sampleRate, startOffset + config.count)
@@ -43,6 +44,14 @@ StatsBase {
         function refresh() {
             for (var i = 0; i < consumersRepeater.count; i++) {
                 consumersRepeater.itemAt(i).refresh()
+            }
+        }
+
+        function selectThing(thing) {
+            if (d.selectedThing === thing) {
+                d.selectedThing = null
+            } else {
+                d.selectedThing = thing
             }
         }
     }
@@ -146,9 +155,11 @@ StatsBase {
                 }
 
                 barSet = barSeries.append(consumerDelegate.thing.name, values)
-                barSet.color = NymeaUtils.generateColor(Style.generationBaseColor, index)
-                barSet.borderColor = barSet.color
-                barSet.borderWith = 0
+                barSet.color = Qt.binding(function() {
+                    return NymeaUtils.generateColor(Style.generationBaseColor, index, d.selectedThing == null || consumerDelegate.thing == d.selectedThing ? 1 : 0.3)
+                })
+                barSet.borderColor = Qt.binding(function(){ return barSet.color})
+                barSet.borderWidth = 0
             }
             Component.onDestruction: {
                 barSeries.remove(barSet)
@@ -160,12 +171,17 @@ StatsBase {
         anchors.fill: parent
         spacing: 0
 
-//        Label {
-//            Layout.fillWidth: true
-//            Layout.margins: Style.smallMargins
-//            horizontalAlignment: Text.AlignHCenter
-//            text: qsTr("Consumers totals")
-//        }
+        Label {
+            Layout.fillWidth: true
+            Layout.margins: Style.smallMargins
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("Consumers totals")
+            visible: root.titleVisible
+            MouseArea {
+                anchors.fill: parent
+                onClicked: pageStack.push(Qt.resolvedUrl("ConsumerStatsPage.qml"), {energyManager: root.energyManager, consumers: root.consumers})
+            }
+        }
 
         SelectionTabs {
             id: selectionTabs
@@ -311,6 +327,7 @@ StatsBase {
             }
 
             RowLayout {
+                id: legend
                 anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
                 anchors.leftMargin: chartView.plotArea.x
                 height: Style.smallIconSize
@@ -318,17 +335,30 @@ StatsBase {
 
                 Repeater {
                     model: root.consumers
-                    delegate: Item {
+                    delegate: MouseArea {
                         id: legendDelegate
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         readonly property Thing thing: root.consumers.get(index)
-                        ColorIcon {
-                            name: app.interfacesToIcon(legendDelegate.thing.thingClass.interfaces)
-                            size: Style.smallIconSize
-                            color: index >= 0 ? NymeaUtils.generateColor(Style.generationBaseColor, index) : "white"
+                        onClicked: d.selectThing(thing)
+                        Row {
                             anchors.centerIn: parent
+                            spacing: Style.smallMargins
+                            ColorIcon {
+                                name: app.interfacesToIcon(legendDelegate.thing.thingClass.interfaces)
+                                size: Style.smallIconSize
+                                color: index >= 0 ? NymeaUtils.generateColor(Style.generationBaseColor, index) : "white"
+                            }
+                            Label {
+                                text: legendDelegate.thing.name
+                                width: Math.max(0, legendDelegate.width - x)
+                                anchors.verticalCenter: parent.verticalCenter
+                                elide: Text.ElideRight
+                                font: Style.smallFont
+                                visible: legend.width / root.consumers.count >= 80
+                            }
                         }
+
                     }
                 }
             }
@@ -496,7 +526,7 @@ StatsBase {
                                         var consumerDelegate = consumersRepeater.itemAt(i)
                                         var consumer = consumerDelegate.thing
                                         var entry = {
-                                            name: consumer.name,
+                                            consumer: consumer,
                                             value: consumersRepeater.itemAt(i).barSet.at(toolTip.idx).toFixed(2),
                                             indexInModel: i
                                         }
@@ -518,14 +548,14 @@ StatsBase {
                             }
 
                             delegate: RowLayout {
+                                opacity: d.selectedThing == null || d.selectedThing === model.consumer ? 1 : 0.3
                                 Rectangle {
                                     width: Style.extraSmallFont.pixelSize
                                     height: width
-        //                            color: root.colors[model.indexInModel % root.colors.length]
                                     color: NymeaUtils.generateColor(Style.generationBaseColor, model.indexInModel)
                                 }
                                 Label {
-                                    text: "%1: %2 kWh".arg(model.name).arg(model.value)
+                                    text: "%1: %2 kWh".arg(model.consumer.name).arg(model.value)
                                     font: Style.extraSmallFont
                                 }
                             }
