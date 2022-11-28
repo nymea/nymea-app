@@ -1,3 +1,10 @@
+nymea-app (1.5.11) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add ios location permission declaration
+
+ -- jenkins <developer@nymea.io>  Mon, 28 Nov 2022 16:28:28 +0100
+
 nymea-app (1.5.10) bionic; urgency=medium
 
   [ Michael Zanetti ]
