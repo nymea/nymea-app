@@ -1,3 +1,11 @@
+nymea-app (1.5.10) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix bluetooth permission on android
+  * Add ubuntu mono font
+
+ -- jenkins <developer@nymea.io>  Mon, 28 Nov 2022 15:36:20 +0100
+
 nymea-app (1.5.9) bionic; urgency=medium
 
   [ Michael Zanetti ]
