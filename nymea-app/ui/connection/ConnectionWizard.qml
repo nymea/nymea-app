@@ -128,7 +128,6 @@ WizardPageBase {
                     onClicked: {
                         if (PlatformPermissions.bluetoothPermission != PlatformPermissions.PermissionStatusGranted) {
                             PlatformPermissions.requestPermission(PlatformPermissions.PermissionBluetooth)
-                        } else {
                         }
                         pageStack.push(wirelessInstructionsComponent)
                     }

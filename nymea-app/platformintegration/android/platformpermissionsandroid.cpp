@@ -9,8 +9,8 @@ PlatformPermissionsAndroid * PlatformPermissionsAndroid::s_instance = nullptr;
 #define FLAG_ACTIVITY_NEW_TASK 0x10000000
 
 QHash<PlatformPermissions::Permission, QStringList> permissionMap = {
-    // TODO: Once QtBluetooth does not request the COARSE_LOCATION for Bluetooth any more, remove it from here. The new Bluetooth permissions would be enough.
-    {PlatformPermissions::PermissionBluetooth, {"android.permission.BLUETOOTH_SCAN", "android.permission.BLUETOOTH_CONNECT", "android.permission.ACCESS_COARSE_LOCATION"}},
+    // TODO: Once QtBluetooth does not request the COARSE_LOCATION and FINE_LOCATION for Bluetooth any more, remove it from here. The new Bluetooth permissions would be enough.
+    {PlatformPermissions::PermissionBluetooth, {"android.permission.BLUETOOTH_SCAN", "android.permission.BLUETOOTH_CONNECT", "android.permission.BLUETOOTH_ADVERTISE", "android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}},
     {PlatformPermissions::PermissionLocation, {"android.permission.ACCESS_FINE_LOCATION"}},
     {PlatformPermissions::PermissionBackgroundLocation, {"android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_BACKGROUND_LOCATION"}},
     {PlatformPermissions::PermissionNotifications, {"android.permission.POST_NOTIFICATIONS"}},
