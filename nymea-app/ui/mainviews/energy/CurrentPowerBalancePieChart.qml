@@ -88,7 +88,8 @@ Item {
             id: canvas
             anchors.fill: parent
 
-            renderTarget: Canvas.FramebufferObject
+            // Breaks scaling on iOS
+            // renderTarget: Canvas.FramebufferObject
             renderStrategy: Canvas.Cooperative
 
             onPaint: {
@@ -489,7 +490,7 @@ Item {
 
                     PieSlice {
                         color: energyManager.currentPowerStorage == 0
-                               ? Style.foregroundColor
+                               ? Style.lime
                                : root.toStorage > 0
                                  ? Style.purple
                                  : Style.orange
