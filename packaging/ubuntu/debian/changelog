@@ -1,3 +1,10 @@
+nymea-app (1.5.12) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix energy canvas scaling problems on iOS
+
+ -- jenkins <developer@nymea.io>  Fri, 02 Dec 2022 00:21:40 +0100
+
 nymea-app (1.5.11) bionic; urgency=medium
 
   [ Michael Zanetti ]
