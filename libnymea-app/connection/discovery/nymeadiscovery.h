@@ -35,7 +35,6 @@
 #include <QTimer>
 #include <QUuid>
 
-#include "connection/awsclient.h"
 #include "connection/nymeahost.h"
 
 class NymeaHosts;
@@ -52,8 +51,6 @@ class NymeaDiscovery : public QObject
     Q_PROPERTY(bool zeroconfDiscoveryEnabled READ zeroconfDiscoveryEnable WRITE setZeroconfDiscoveryEnabled NOTIFY zeroconfDiscoveryEnabledChanged)
     Q_PROPERTY(bool upnpDiscoveryEnabled READ upnpDiscoveryEnabled WRITE setUpnpDiscoveryEnabled NOTIFY upnpDiscoveryEnabledChanged)
 
-    Q_PROPERTY(AWSClient* awsClient READ awsClient WRITE setAwsClient NOTIFY awsClientChanged)
-
     Q_PROPERTY(NymeaHosts* nymeaHosts READ nymeaHosts CONSTANT)
 
 public:
@@ -64,9 +61,6 @@ public:
     void setDiscovering(bool discovering);
 
     NymeaHosts *nymeaHosts() const;
-
-    AWSClient* awsClient() const;
-    void setAwsClient(AWSClient *awsClient);
 
     Q_INVOKABLE void cacheHost(NymeaHost* host);
 
@@ -81,7 +75,6 @@ public slots:
 
 signals:
     void discoveringChanged();
-    void awsClientChanged();
 
     void serverUuidResolved(const QUuid &uuid, const QString &url);
 
@@ -90,8 +83,6 @@ signals:
     void upnpDiscoveryEnabledChanged(bool upnpDiscoveryEnabled);
 
 private slots:
-    void syncCloudDevices();
-
     void loadFromDisk();
 
     void updateActiveBearers();
@@ -100,13 +91,9 @@ private:
     bool m_discovering = false;
     NymeaHosts *m_nymeaHosts = nullptr;
 
-    AWSClient *m_awsClient = nullptr;
-
     UpnpDiscovery *m_upnp = nullptr;
     ZeroconfDiscovery *m_zeroConf = nullptr;
     BluetoothServiceDiscovery *m_bluetooth = nullptr;
-
-    QTimer m_cloudPollTimer;
 
     QList<QUuid> m_pendingHostResolutions;
 

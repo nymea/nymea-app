@@ -61,48 +61,4 @@ SettingsPageBase {
         text: qsTr("Configure logging categories")
         onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/LoggingCategories.qml"))
     }
-
-    SettingsPageSectionHeader {
-        text: qsTr("Advanced options")
-        visible: settings.showHiddenOptions
-    }
-
-    RowLayout {
-        Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-        visible: settings.showHiddenOptions
-
-        Label {
-            Layout.fillWidth: true
-            text: qsTr("Cloud environment")
-        }
-
-        ComboBox {
-            currentIndex: model.indexOf(app.settings.cloudEnvironment)
-            model: AWSClient.availableConfigs
-            onActivated: {
-                app.settings.cloudEnvironment = model[index];
-            }
-        }
-    }
-
-    SettingsPageSectionHeader {
-        text: qsTr("nymea:cloud")
-    }
-
-    Label {
-        Layout.fillWidth: true
-        Layout.leftMargin: Style.margins
-        Layout.rightMargin: Style.margins
-        text: qsTr("Note: nymea:cloud is deprecated and will be removed in a future version.")
-        wrapMode: Text.WordWrap
-    }
-
-    NymeaItemDelegate {
-        Layout.fillWidth: true
-        text: qsTr("Cloud login")
-        subText: qsTr("Log into %1:cloud and manage connected %1 systems").arg(Configuration.systemName)
-        iconName: "../images/connections/cloud.svg"
-        onClicked: pageStack.push(Qt.resolvedUrl("CloudLoginPage.qml"))
-    }
-
 }

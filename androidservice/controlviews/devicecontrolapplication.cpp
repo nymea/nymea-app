@@ -33,8 +33,6 @@ DeviceControlApplication::DeviceControlApplication(int argc, char *argv[]) : QAp
     QSettings settings;
 
     m_discovery = new NymeaDiscovery(this);
-    AWSClient::instance()->setConfig(settings.value("cloudEnvironment").toString());
-    m_discovery->setAwsClient(AWSClient::instance());
 
     m_engine = new Engine(this);
 

@@ -36,7 +36,6 @@
 #include "connection/tcpsockettransport.h"
 #include "connection/websockettransport.h"
 #include "connection/bluetoothtransport.h"
-#include "connection/cloudtransport.h"
 #include "connection/tunnelproxytransport.h"
 
 #include <QJsonDocument>
@@ -61,7 +60,6 @@ JsonRpcClient::JsonRpcClient(QObject *parent) :
     m_connection->registerTransport(new TcpSocketTransportFactory());
     m_connection->registerTransport(new WebsocketTransportFactory());
     m_connection->registerTransport(new BluetoothTransportFactoy());
-    m_connection->registerTransport(new CloudTransportFactory());
     m_connection->registerTransport(new TunnelProxyTransportFactory());
 
     connect(m_connection, &NymeaConnection::availableBearerTypesChanged, this, &JsonRpcClient::availableBearerTypesChanged);
@@ -174,13 +172,6 @@ bool JsonRpcClient::tokenExists(const QString &serverUuid) const
     return settings.contains(QUuid(serverUuid).toString());
 }
 
-void JsonRpcClient::getCloudConnectionStatus()
-{
-    JsonRpcReply *reply = createReply("JSONRPC.IsCloudConnected", QVariantMap(), this, "isCloudConnectedReply");
-    m_replies.insert(reply->commandId(), reply);
-    sendRequest(reply->requestMap());
-}
-
 void JsonRpcClient::setNotificationsEnabledResponse(int commandId, const QVariantMap &params)
 {
     qCDebug(dcJsonRpc()) << "Notification configuration response:" << commandId << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
@@ -224,32 +215,7 @@ void JsonRpcClient::notificationReceived(const QVariantMap &data)
         return;
     }
 
-    if (data.value("notification").toString() == "JSONRPC.CloudConnectedChanged") {
-        QMetaEnum connectionStateEnum = QMetaEnum::fromType<CloudConnectionState>();
-        m_cloudConnectionState = static_cast<CloudConnectionState>(connectionStateEnum.keyToValue(data.value("params").toMap().value("connectionState").toByteArray().data()));
-        emit cloudConnectionStateChanged();
-        return;
-    }
-
     qCWarning(dcJsonRpc()) << "JsonRpcClient: Unhandled notification received" << data;
-}
-
-void JsonRpcClient::isCloudConnectedReply(int /*commandId*/, const QVariantMap &data)
-{
-    //    qDebug() << "Cloud is connected" << data;
-    QMetaEnum connectionStateEnum = QMetaEnum::fromType<CloudConnectionState>();
-    m_cloudConnectionState = static_cast<CloudConnectionState>(connectionStateEnum.keyToValue(data.value("connectionState").toByteArray().data()));
-    emit cloudConnectionStateChanged();
-}
-
-void JsonRpcClient::setupRemoteAccessReply(int commandId, const QVariantMap &data)
-{
-    qDebug() << "Setup Remote Access reply" << commandId << data;
-}
-
-void JsonRpcClient::deployCertificateReply(int commandId, const QVariantMap &data)
-{
-    qDebug() << "deploy certificate reply:" << commandId << data;
 }
 
 void JsonRpcClient::getVersionsReply(int /*commandId*/, const QVariantMap &data)
@@ -315,23 +281,6 @@ bool JsonRpcClient::pushButtonAuthAvailable() const
 bool JsonRpcClient::authenticated() const
 {
     return m_authenticated;
-}
-
-JsonRpcClient::CloudConnectionState JsonRpcClient::cloudConnectionState() const
-{
-    return m_cloudConnectionState;
-}
-
-void JsonRpcClient::deployCertificate(const QByteArray &rootCA, const QByteArray &certificate, const QByteArray &publicKey, const QByteArray &privateKey, const QString &endpoint)
-{
-    QVariantMap params;
-    params.insert("rootCA", rootCA);
-    params.insert("certificatePEM", certificate);
-    params.insert("publicKey", publicKey);
-    params.insert("privateKey", privateKey);
-    params.insert("endpoint", endpoint);
-
-    sendCommand("JSONRPC.SetupCloudConnection", params, this, "deployCertificateReply");
 }
 
 QHash<QString, QString> JsonRpcClient::cacheHashes() const
@@ -422,15 +371,6 @@ int JsonRpcClient::requestPushButtonAuth(const QString &deviceName)
     m_replies.insert(reply->commandId(), reply);
     m_connection->sendData(QJsonDocument::fromVariant(reply->requestMap()).toJson());
     return reply->commandId();
-}
-
-int JsonRpcClient::setupRemoteAccess(const QString &idToken, const QString &userId)
-{
-    qDebug() << "Calling SetupRemoteAccess";
-    QVariantMap params;
-    params.insert("idToken", idToken);
-    params.insert("userId", userId);
-    return sendCommand("JSONRPC.SetupRemoteAccess", params, this, "setupRemoteAccessReply");
 }
 
 bool JsonRpcClient::ensureServerVersion(const QString &jsonRpcVersion)
@@ -731,7 +671,7 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     }
 
     QVersionNumber minimumRequiredVersion = QVersionNumber(5, 0);
-    QVersionNumber maximumMajorVersion = QVersionNumber(6);
+    QVersionNumber maximumMajorVersion = QVersionNumber(7);
     if (m_jsonRpcVersion < minimumRequiredVersion) {
         qCWarning(dcJsonRpc()) << "Nymea core doesn't support minimum required version. Required:" << minimumRequiredVersion << "Found:" << m_jsonRpcVersion;
         emit invalidMinimumVersion(m_jsonRpcVersion.toString(), minimumRequiredVersion.toString());
@@ -829,8 +769,6 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     }
 
     setNotificationsEnabled();
-    getCloudConnectionStatus();
-
 }
 
 JsonRpcReply::JsonRpcReply(int commandId, QString nameSpace, QString method, QVariantMap params, QPointer<QObject> caller, const QString &callback):

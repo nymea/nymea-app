@@ -186,27 +186,4 @@ SettingsPageBase {
             popup.open()
         }
     }
-
-    SettingsPageSectionHeader {
-        text: qsTr("nymea:cloud")
-    }
-
-    Label {
-        Layout.fillWidth: true
-        Layout.leftMargin: Style.margins
-        Layout.rightMargin: Style.margins
-        text: qsTr("Note: nymea:cloud based remote connection is deprecated and will be removed in a future version.")
-        wrapMode: Text.WordWrap
-    }
-
-    NymeaItemDelegate {
-        Layout.fillWidth: true
-        iconName: "../images/connections/cloud.svg"
-        text: qsTr("Cloud")
-        subText: qsTr("Connect this %1 system to %1:cloud").arg(Configuration.systemName)
-        visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
-        onClicked: pageStack.push(Qt.resolvedUrl("CloudSettingsPage.qml"))
-    }
-
-
 }

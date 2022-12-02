@@ -20,8 +20,6 @@ NymeaAppService::NymeaAppService(int argc, char **argv):
     QSettings settings;
 
     NymeaDiscovery *discovery = new NymeaDiscovery(this);
-    AWSClient::instance()->setConfig(settings.value("cloudEnvironment").toString());
-    discovery->setAwsClient(AWSClient::instance());
 
     settings.beginGroup("ConfiguredHosts");
     foreach (const QString &childGroup, settings.childGroups()) {
