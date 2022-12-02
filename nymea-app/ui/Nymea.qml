@@ -101,12 +101,6 @@ ApplicationWindow {
     }
 
     Binding {
-        target: AWSClient
-        property: "config"
-        value: "cloudEnvironment" in app ? app.cloudEnvironment : settings.cloudEnvironment
-    }
-
-    Binding {
         target: PushNotifications
         property: "enabled"
         value: PlatformPermissions.notificationsPermission === PlatformPermissions.PermissionStatusGranted
@@ -141,7 +135,6 @@ ApplicationWindow {
 
     property NymeaDiscovery nymeaDiscovery: NymeaDiscovery {
         objectName: "discovery"
-        awsClient: AWSClient
         bluetoothDiscoveryEnabled: false// PlatformPermissions.bluetoothPermission === PlatformPermissions.PermissionStatusGranted
     }
 

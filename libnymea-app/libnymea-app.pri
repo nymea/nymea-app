@@ -124,7 +124,6 @@ SOURCES += \
     $${PWD}/connection/websockettransport.cpp \
     $${PWD}/connection/tcpsockettransport.cpp \
     $${PWD}/connection/bluetoothtransport.cpp \
-    $${PWD}/connection/awsclient.cpp \
     $${PWD}/connection/discovery/nymeadiscovery.cpp \
     $${PWD}/connection/discovery/upnpdiscovery.cpp \
     $${PWD}/connection/discovery/zeroconfdiscovery.cpp \
@@ -165,8 +164,6 @@ SOURCES += \
     $${PWD}/ruletemplates/ruleactiontemplate.cpp \
     $${PWD}/ruletemplates/stateevaluatortemplate.cpp \
     $${PWD}/ruletemplates/statedescriptortemplate.cpp \
-    $${PWD}/connection/cloudtransport.cpp \
-    $${PWD}/connection/sigv4utils.cpp \
     $${PWD}/ruletemplates/ruleactionparamtemplate.cpp \
     $${PWD}/configuration/serverconfiguration.cpp \
     $${PWD}/configuration/serverconfigurations.cpp \
@@ -290,8 +287,6 @@ HEADERS += \
     $${PWD}/connection/websockettransport.h \
     $${PWD}/connection/tcpsockettransport.h \
     $${PWD}/connection/bluetoothtransport.h \
-    $${PWD}/connection/awsclient.h \
-    $${PWD}/connection/sigv4utils.h \
     $${PWD}/connection/discovery/nymeadiscovery.h \
     $${PWD}/connection/discovery/upnpdiscovery.h \
     $${PWD}/connection/discovery/zeroconfdiscovery.h \
@@ -333,7 +328,6 @@ HEADERS += \
     $${PWD}/ruletemplates/ruleactiontemplate.h \
     $${PWD}/ruletemplates/stateevaluatortemplate.h \
     $${PWD}/ruletemplates/statedescriptortemplate.h \
-    $${PWD}/connection/cloudtransport.h \
     $${PWD}/ruletemplates/ruleactionparamtemplate.h \
     $${PWD}/configuration/serverconfiguration.h \
     $${PWD}/configuration/serverconfigurations.h \

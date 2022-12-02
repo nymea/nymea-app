@@ -68,8 +68,6 @@ public:
     NymeaConfiguration *nymeaConfiguration() const;
     SystemController *systemController() const;
 
-    Q_INVOKABLE void deployCertificate();
-
 private:
     JsonRpcClient *m_jsonRpcClient;
     ThingManager *m_thingManager;

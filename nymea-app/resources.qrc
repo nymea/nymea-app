@@ -93,13 +93,11 @@
         <file>ui/system/PluginsPage.qml</file>
         <file>ui/system/PluginParamsPage.qml</file>
         <file>ui/system/AboutNymeaPage.qml</file>
-        <file>ui/system/CloudSettingsPage.qml</file>
         <file>ui/system/ConnectionInterfacesPage.qml</file>
         <file>ui/system/ConnectionInterfaceDelegate.qml</file>
         <file>ui/appsettings/AboutPage.qml</file>
         <file>ui/appsettings/AppSettingsPage.qml</file>
         <file>ui/appsettings/DeveloperOptionsPage.qml</file>
-        <file>ui/appsettings/CloudLoginPage.qml</file>
         <file>ui/fonts/Ubuntu-B.ttf</file>
         <file>ui/fonts/Ubuntu-BI.ttf</file>
         <file>ui/fonts/Ubuntu-C.ttf</file>

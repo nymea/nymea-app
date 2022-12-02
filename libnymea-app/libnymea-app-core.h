@@ -93,7 +93,6 @@
 #include "ruletemplates/statedescriptortemplate.h"
 #include "ruletemplates/ruleactiontemplate.h"
 #include "ruletemplates/ruleactionparamtemplate.h"
-#include "connection/awsclient.h"
 #include "models/thingmodel.h"
 #include "models/sortfilterproxymodel.h"
 #include "system/systemcontroller.h"
@@ -154,14 +153,6 @@ static QObject* interfacesModel_provider(QQmlEngine *engine, QJSEngine *scriptEn
     Q_UNUSED(scriptEngine)
 
     return new Interfaces();
-}
-
-static QObject* awsClientProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-
-    return AWSClient::instance();
 }
 
 static QObject* typesProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -296,9 +287,6 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<WirelessAccessPoint>(uri, 1, 0, "WirelessAccessPoint", "Can't create this in QML. Get it from the WirelessAccessPoints.");
     qmlRegisterUncreatableType<WirelessAccessPoints>(uri, 1, 0, "WirelessAccessPoints", "Can't create this in QML. Get it from the Engine instance.");
     qmlRegisterType<WirelessAccessPointsProxy>(uri, 1, 0, "WirelessAccessPointsProxy");
-
-    qmlRegisterSingletonType<AWSClient>(uri, 1, 0, "AWSClient", awsClientProvider);
-    qmlRegisterUncreatableType<AWSDevice>(uri, 1, 0, "AWSDevice", "Can't create this in QML. Get it from AWSClient");
 
     qmlRegisterType<RuleTemplates>(uri, 1, 0, "RuleTemplates");
     qmlRegisterType<RuleTemplatesFilterModel>(uri, 1, 0, "RuleTemplatesFilterModel");

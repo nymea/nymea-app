@@ -32,7 +32,6 @@
 #include "upnpdiscovery.h"
 #include "zeroconfdiscovery.h"
 #include "bluetoothservicediscovery.h"
-#include "connection/awsclient.h"
 #include "../nymeahost.h"
 
 #include <QUuid>
@@ -50,14 +49,6 @@ NymeaDiscovery::NymeaDiscovery(QObject *parent) : QObject(parent)
     m_nymeaHosts = new NymeaHosts(this);
 
     loadFromDisk();
-
-    m_cloudPollTimer.setInterval(5000);
-    connect(&m_cloudPollTimer, &QTimer::timeout, this, [this](){
-        if (m_awsClient && m_awsClient->isLoggedIn()) {
-            m_awsClient->fetchDevices();
-        }
-    });
-
 }
 
 NymeaDiscovery::~NymeaDiscovery()
@@ -98,12 +89,6 @@ void NymeaDiscovery::setDiscovering(bool discovering)
             m_bluetooth->discover();
         }
 
-        // start polling cloud
-        m_cloudPollTimer.start();
-        // If we're logged in, poll right away
-        if (m_awsClient && m_awsClient->isLoggedIn()) {
-            m_awsClient->fetchDevices();
-        }
     } else {
 
         if (m_upnp) {
@@ -113,8 +98,6 @@ void NymeaDiscovery::setDiscovering(bool discovering)
         if (m_bluetooth) {
             m_bluetooth->stopDiscovery();
         }
-
-        m_cloudPollTimer.stop();
     }
 
     emit discoveringChanged();
@@ -123,23 +106,6 @@ void NymeaDiscovery::setDiscovering(bool discovering)
 NymeaHosts *NymeaDiscovery::nymeaHosts() const
 {
     return m_nymeaHosts;
-}
-
-AWSClient *NymeaDiscovery::awsClient() const
-{
-    return m_awsClient;
-}
-
-void NymeaDiscovery::setAwsClient(AWSClient *awsClient)
-{
-    if (m_awsClient != awsClient) {
-        m_awsClient = awsClient;
-        emit awsClientChanged();
-    }
-
-    if (m_awsClient) {
-        connect(m_awsClient, &AWSClient::devicesFetched, this, &NymeaDiscovery::syncCloudDevices);
-    }
 }
 
 void NymeaDiscovery::cacheHost(NymeaHost *host)
@@ -231,52 +197,6 @@ void NymeaDiscovery::setUpnpDiscoveryEnabled(bool upnpDiscoveryEnabled)
     }
 }
 
-void NymeaDiscovery::syncCloudDevices()
-{
-    for (int i = 0; i < m_awsClient->awsDevices()->rowCount(); i++) {
-        AWSDevice *d = m_awsClient->awsDevices()->get(i);
-        NymeaHost *host = m_nymeaHosts->find(d->id());
-        bool alreayAdded = host != nullptr;
-        if (!alreayAdded) {
-            host = new NymeaHost();
-            host->setUuid(d->id());
-        }
-        host->setName(d->name());
-        QUrl url;
-        url.setScheme("cloud");
-        url.setHost(d->id());
-        Connection *conn = host->connections()->find(url);
-        if (!conn) {
-            conn = new Connection(url, Connection::BearerTypeCloud, true, d->id());
-            qCDebug(dcDiscovery) << "Adding new connection to host:" << host->name() << conn->url().toString();
-            host->connections()->addConnection(conn);
-        }
-        conn->setOnline(d->online());
-        if (!alreayAdded) {
-            qCDebug(dcDiscovery) << "Adding new host:" << d->name() << d->id();
-            m_nymeaHosts->addHost(host);
-        }
-    }
-
-    QList<NymeaHost*> hostsToRemove;
-    for (int i = 0; i < m_nymeaHosts->rowCount(); i++) {
-        NymeaHost *host = m_nymeaHosts->get(i);
-        for (int j = 0; j < host->connections()->rowCount(); j++) {
-            if (host->connections()->get(j)->bearerType() == Connection::BearerTypeCloud) {
-                if (m_awsClient->awsDevices()->getDevice(host->uuid().toString()) == nullptr) {
-                    host->connections()->removeConnection(j);
-                    break;
-                }
-            }
-        }
-        if (host->connections()->rowCount() == 0) {
-            hostsToRemove.append(host);
-        }
-    }
-    while (!hostsToRemove.isEmpty()) {
-        m_nymeaHosts->removeHost(hostsToRemove.takeFirst());
-    }
-}
 
 void NymeaDiscovery::loadFromDisk()
 {

@@ -55,7 +55,6 @@ class JsonRpcClient : public QObject
     Q_PROPERTY(bool authenticationRequired READ authenticationRequired NOTIFY authenticationRequiredChanged)
     Q_PROPERTY(bool pushButtonAuthAvailable READ pushButtonAuthAvailable NOTIFY pushButtonAuthAvailableChanged)
     Q_PROPERTY(bool authenticated READ authenticated NOTIFY authenticatedChanged)
-    Q_PROPERTY(CloudConnectionState cloudConnectionState READ cloudConnectionState NOTIFY cloudConnectionStateChanged)
     Q_PROPERTY(QString serverVersion READ serverVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString jsonRpcVersion READ jsonRpcVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString serverUuid READ serverUuid NOTIFY handshakeReceived)
@@ -67,14 +66,6 @@ class JsonRpcClient : public QObject
     Q_PROPERTY(UserInfo::PermissionScopes permissions READ permissions NOTIFY permissionsChanged)
 
 public:
-    enum CloudConnectionState {
-        CloudConnectionStateDisabled,
-        CloudConnectionStateUnconfigured,
-        CloudConnectionStateConnecting,
-        CloudConnectionStateConnected
-    };
-    Q_ENUM(CloudConnectionState)
-
     explicit JsonRpcClient(QObject *parent = nullptr);
 
     void registerNotificationHandler(QObject *handler, const QString &nameSpace, const QString &method);
@@ -93,8 +84,6 @@ public:
     bool authenticationRequired() const;
     bool pushButtonAuthAvailable() const;
     bool authenticated() const;
-    CloudConnectionState cloudConnectionState() const;
-    void deployCertificate(const QByteArray &rootCA, const QByteArray &certificate, const QByteArray &publicKey, const QByteArray &privateKey, const QString &endpoint);
     QHash<QString, QString> cacheHashes() const;
     // Note: This does not reflect the actual permission scopes of the user but is translated to effective permissions
     // That, is, if the user has the admin permission, all of the other scopes will be set too even if they might not be explicitly set
@@ -119,7 +108,6 @@ public:
     Q_INVOKABLE int createUser(const QString &username, const QString &password, const QString &displayName, const QString &email);
     Q_INVOKABLE int authenticate(const QString &username, const QString &password, const QString &deviceName);
     Q_INVOKABLE int requestPushButtonAuth(const QString &deviceName);
-    Q_INVOKABLE int setupRemoteAccess(const QString &idToken, const QString &userId);
 
 
 signals:
@@ -142,7 +130,6 @@ signals:
     void pushButtonAuthFailed();
     void createUserSucceeded();
     void createUserFailed(const QString &error);
-    void cloudConnectionStateChanged();
     void serverQtVersionChanged();
     void serverNameChanged();
     void permissionsChanged();
@@ -170,7 +157,6 @@ private:
     bool m_authenticationRequired = false;
     bool m_pushButtonAuthAvailable = false;
     bool m_authenticated = false;
-    CloudConnectionState m_cloudConnectionState = CloudConnectionStateDisabled;
     int m_pendingPushButtonTransaction = -1;
     QString m_serverUuid;
     QVersionNumber m_jsonRpcVersion;
@@ -185,7 +171,6 @@ private:
     QString m_username;
 
     void setNotificationsEnabled();
-    void getCloudConnectionStatus();
 
     // json handler
     Q_INVOKABLE void processAuthenticate(int commandId, const QVariantMap &data);
@@ -194,9 +179,6 @@ private:
 
     Q_INVOKABLE void setNotificationsEnabledResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
-    Q_INVOKABLE void isCloudConnectedReply(int commandId, const QVariantMap &data);
-    Q_INVOKABLE void setupRemoteAccessReply(int commandId, const QVariantMap &data);
-    Q_INVOKABLE void deployCertificateReply(int commandId, const QVariantMap &data);
     Q_INVOKABLE void getVersionsReply(int commandId, const QVariantMap &data);
 
     void sendRequest(const QVariantMap &request);
