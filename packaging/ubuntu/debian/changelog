@@ -1,3 +1,10 @@
+nymea-app (1.5.13) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Drop AWS cloud support
+
+ -- jenkins <developer@nymea.io>  Fri, 02 Dec 2022 12:15:25 +0100
+
 nymea-app (1.5.12) bionic; urgency=medium
 
   [ Michael Zanetti ]
