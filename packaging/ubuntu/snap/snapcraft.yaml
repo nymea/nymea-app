@@ -41,6 +41,8 @@ apps:
     - wayland
 
   nymea-app:
+    environment:
+      WAYLAND_DISPLAY: wayland-99
     command-chain: [ bin/desktop-launch ]
     command: usr/bin/nymea-app
     desktop: usr/share/applications/nymea-app.desktop
