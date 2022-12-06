@@ -278,6 +278,9 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("presencesensor", tr("Presence sensors"), {"sensor"});
     addStateType("presencesensor", "isPresent", QVariant::Bool, false, tr("Is present"), tr("Presence changed"));
 
+    addInterface("vibrationsensor", tr("Vibration sensors"), {"sensor"});
+    addEventType("vibrationsensor", "vibrationDetected", tr("Vibration detected"), new ParamTypes());
+
     addInterface("pressuresensor", tr("Pressure sensors"), {"sensor"});
     addStateType("pressuresensor", "pressure", QVariant::Double, false, tr("Pressure"), tr("Pressure changed"));
 

@@ -314,6 +314,7 @@ MainPageTile {
                 ListElement { ifaceName: "pressuresensor"; stateName: "pressure" }
                 ListElement { ifaceName: "daylightsensor"; stateName: "daylight" }
                 ListElement { ifaceName: "presencesensor"; stateName: "isPresent" }
+                ListElement { ifaceName: "vibfrationsensor"; stateName: "" }
                 ListElement { ifaceName: "closablesensor"; stateName: "closed" }
                 ListElement { ifaceName: "lightsensor"; stateName: "lightIntensity" }
                 ListElement { ifaceName: "watersensor"; stateName: "waterDetected" }

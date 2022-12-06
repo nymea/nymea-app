@@ -39,6 +39,8 @@ Item {
             page = "CoolingThingPage.qml";
         } else if (interfaceList.indexOf("thermostat") >= 0) {
             page = "ThermostatDevicePage.qml";
+        } else if (interfaceList.indexOf("vibrationsensor") >= 0) {
+            page = "InputTriggerDevicePage.qml";
         } else if (interfaceList.indexOf("sensor") >= 0) {
             page = "SensorDevicePage.qml";
         } else if (interfaceList.indexOf("inputtrigger") >= 0) {

@@ -256,6 +256,9 @@ MainPageTile {
                 if (thing.thingClass.interfaces.indexOf("presencesensor") >= 0) {
                     tmp.push({iface: "presencesensor", state: "isPresent"});
                 }
+                if (thing.thingClass.interfaces.indexOf("vibrationsensor") >= 0) {
+                    tmp.push({iface: "vibrationsensor", state: "vibrationDetected"});
+                }
                 if (thing.thingClass.interfaces.indexOf("phsensor") >= 0) {
                     tmp.push({iface: "phsensor", state: "ph"})
                 }

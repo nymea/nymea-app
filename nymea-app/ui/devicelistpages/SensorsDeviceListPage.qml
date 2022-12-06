@@ -65,7 +65,15 @@ ThingsListPageBase {
                     Layout.preferredWidth: contentGrid.width / contentGrid.columns
                     thing: root.thingsProxy.getThing(model.id)
 
-                    onClicked: enterPage(index)
+                    onClicked: {
+                        // we show all "sensors" in shownInterfaces in here so the "sensors" view would be the best match, but for sensors
+                        // that should show the input trigger view instead, we need to override that
+                        if (thing.thingClass.interfaces.indexOf("vibrationsensor") >= 0) {
+                            enterPage(index, "inputtrigger")
+                        } else {
+                            enterPage(index)
+                        }
+                    }
 
                     contentItem: GridLayout {
                         id: dataGrid
@@ -85,6 +93,7 @@ ThingsListPageBase {
                                 ListElement { interfaceName: "gassensor"; stateName: "gasLevel" }
                                 ListElement { interfaceName: "daylightsensor"; stateName: "daylight" }
                                 ListElement { interfaceName: "presencesensor"; stateName: "isPresent" }
+                                ListElement { interfaceName: "vibrationsensor"; stateName: ""; eventName: "vibrationDetected" }
                                 ListElement { interfaceName: "closablesensor"; stateName: "closed" }
                                 ListElement { interfaceName: "heating"; stateName: "power" }
                                 ListElement { interfaceName: "thermostat"; stateName: "targetTemperature" }
@@ -108,6 +117,16 @@ ThingsListPageBase {
 
                                 property StateType stateType: itemDelegate.thing.thingClass.stateTypes.findByName(model.stateName)
                                 property State stateValue: stateType ? itemDelegate.thing.states.getState(stateType.id) : null
+
+                                property EventType eventType: itemDelegate.thing.thingClass.eventTypes.findByName(model.eventName)
+                                LogsModel {
+                                    id: eventLogsModel
+                                    engine: sensorValueDelegate.eventType != null ?  _engine : null
+                                    thingId: itemDelegate.thing.id
+                                    typeIds: sensorValueDelegate.eventType != null ? [sensorValueDelegate.eventType.id] : []
+                                    live: true
+                                    fetchBlockSize: 1
+                                }
 
                                 ColorIcon {
                                     Layout.preferredHeight: Style.iconSize
@@ -150,6 +169,13 @@ ThingsListPageBase {
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("Fire") : qsTr("No fire");
                                         case "heating":
                                             return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? qsTr("On") : qsTr("Off");
+                                        case "vibrationsensor": {
+                                            if (eventLogsModel.count > 0) {
+                                                return qsTr("Last vibration: %1").arg(eventLogsModel.get(0).timestamp.toLocaleString(Qt.locale(), Locale.ShortFormat))
+                                            } else {
+                                                return qsTr("Not moved yet")
+                                            }
+                                        }
                                         default:
                                             return sensorValueDelegate.stateType && sensorValueDelegate.stateType.type.toLowerCase() === "bool"
                                                     ? sensorValueDelegate.stateType.displayName
@@ -171,6 +197,7 @@ ThingsListPageBase {
                                     Layout.preferredWidth: led.width
                                     visible: led.visible
                                 }
+
                             }
                         }
                     }

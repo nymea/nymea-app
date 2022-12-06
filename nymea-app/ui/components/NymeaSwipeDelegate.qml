@@ -202,7 +202,7 @@ SwipeDelegate {
 
     swipe.enabled: {
         for (var i = 0; i < d.finalContextOptions.length; i++) {
-            if (d.finalContextOptions[i].visible) {
+            if (!d.finalContextOptions[i].hasOwnProperty("visible") || d.finalContextOptions[i].visible) {
                 return true
             }
         }
@@ -215,7 +215,16 @@ SwipeDelegate {
         id: swipeComponent
         Item {
             height: parent.height
-            width: height * d.finalContextOptions.length
+            width: {
+                var count = 0
+                for (var i = 0; i < d.finalContextOptions.length; i++) {
+                    if (!d.finalContextOptions[i].hasOwnProperty("visible") || d.finalContextOptions[i].visible) {
+                        count++;
+                    }
+                }
+                return height * count
+            }
+
             anchors.right: parent.right
             Item {
                 anchors {

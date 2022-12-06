@@ -53,12 +53,6 @@ Item {
 
         SwipeDelegateGroup {}
 
-        onContentYChanged: {
-            if (!logsModel.busy && contentY - originY < 5 * height) {
-                logsModel.fetchEarlier(24)
-            }
-        }
-
         delegate: NymeaSwipeDelegate {
             id: logEntryDelegate
             width: parent.width

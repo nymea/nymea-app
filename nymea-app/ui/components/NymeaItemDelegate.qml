@@ -71,8 +71,6 @@ ItemDelegate {
     signal deleteClicked()
     signal secondaryIconClicked()
 
-    onPressAndHold: swipe.open(SwipeDelegate.Right)
-
     QtObject {
         id: d
         property var deleteContextOption: [{

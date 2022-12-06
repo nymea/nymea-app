@@ -323,6 +323,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/sensors/windspeed.svg")
         case "watersensor":
             return Qt.resolvedUrl("images/sensors/water.svg")
+        case "vibrationsensor":
+            return Qt.resolvedUrl("images/sensors/vibration.svg")
         case "waterlevelsensor":
             return Qt.resolvedUrl("images/sensors/water.svg")
         case "firesensor":
@@ -509,6 +511,9 @@ ApplicationWindow {
         case "presencesensor":
             //: Select ...
             return qsTr("presence sensor")
+        case "vibrationsensor":
+            //: Select ...
+            return qsTr("vibration sensor");
         case "doorbell":
             //: Select ...
             return qsTr("doorbell")

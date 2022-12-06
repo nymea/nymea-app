@@ -38,52 +38,93 @@ import "../customviews"
 ThingPageBase {
     id: root
 
-    GenericTypeLogView {
-        id: logView
-        anchors.fill: parent
+    property var interfaceEventMap: {
+        "inputtrigger": "triggered",
+        "vibrationsensor": "vibrationDetected"
+    }
 
-        logsModel: logsModelNg
-        LogsModelNg {
-            id: logsModelNg
-            engine: _engine
-            thingId: root.thing.id
-            live: true
-            typeIds: [root.thing.thingClass.eventTypes.findByName("triggered").id];
+    readonly property string interfaceName: {
+        var supportedInterfaces = Object.keys(interfaceEventMap)
+        for (var i = 0; i < supportedInterfaces.length; i++) {
+            if (root.thing.thingClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
+                return supportedInterfaces[i]
+            }
+        }
+        return ""
+    }
+
+    readonly property string eventName: interfaceEventMap[interfaceName]
+
+    GridLayout {
+        anchors.fill: parent
+        columns: app.landscape ? 2 : 1
+        rowSpacing: 0
+        columnSpacing: 0
+
+        Item {
+            Layout.fillWidth: true
+            Layout.preferredHeight: width
+            Layout.margins: Style.hugeMargins
+
+            CircleBackground {
+                id: iconView
+                width: Math.min(parent.width, parent.height)
+                height: width
+                anchors.centerIn: parent
+                iconSource: app.interfaceToIcon(root.interfaceName)
+                onColor: app.interfaceToColor(root.interfaceName)
+                on: false
+                Timer {
+                    running: parent.on
+                    repeat: false
+                    interval: 1000
+                    onTriggered: {
+                        parent.on = false
+                    }
+                }
+            }
         }
 
-//        delegate: NymeaSwipeDelegate {
-//            width: parent.width
-//            iconName: app.interfaceToIcon("inputtrigger")
-//            text: model.value.trim()
-//            subText: Qt.formatDateTime(model.timestamp)
-//            progressive: false
 
-//            onClicked: {
-//                print("a", model.value.trim())
-//                var parts = model.value.trim().split(', ')
-//                print("b", parts)
-//                var popup = detailsPopup.createObject(root, {timestamp: model.timestamp, notificationTitle: parts[1], notificationBody: parts[0]});
-//                popup.open();
-//            }
-//        }
+        GenericTypeLogView {
+            id: logView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-        onAddRuleClicked: {
-            var value = logView.logsModel.get(index).value
-            var typeId = logView.logsModel.get(index).typeId
-            var rule = engine.ruleManager.createNewRule();
-            var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
-            eventDescriptor.thingId = thing.id;
-            var eventType = root.thing.thingClass.eventTypes.getEventType(typeId);
-            eventDescriptor.eventTypeId = eventType.id;
-            rule.name = root.thing.name + " - " + eventType.displayName;
-            if (eventType.paramTypes.count === 1) {
-                var paramType = eventType.paramTypes.get(0);
-                eventDescriptor.paramDescriptors.setParamDescriptor(paramType.id, value, ParamDescriptor.ValueOperatorEquals);
+            logsModel: logsModel
+            LogsModel {
+                id: logsModel
+                engine: _engine
+                thingId: root.thing.id
+                live: true
+                typeIds: [root.thing.thingClass.eventTypes.findByName(root.eventName).id];
+                onCountChanged: {
+                    if (!logsModel.busy) {
+                        iconView.on = true
+                    }
+                }
+            }
+
+            onAddRuleClicked: {
+                var value = logView.logsModel.get(index).value
+                var typeId = logView.logsModel.get(index).typeId
+                var rule = engine.ruleManager.createNewRule();
+                var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
+                eventDescriptor.thingId = thing.id;
+                var eventType = root.thing.thingClass.eventTypes.getEventType(typeId);
+                eventDescriptor.eventTypeId = eventType.id;
+                rule.name = root.thing.name + " - " + eventType.displayName;
+                if (eventType.paramTypes.count === 1) {
+                    var paramType = eventType.paramTypes.get(0);
+                    eventDescriptor.paramDescriptors.setParamDescriptor(paramType.id, value, ParamDescriptor.ValueOperatorEquals);
+                }
                 rule.eventDescriptors.addEventDescriptor(eventDescriptor);
                 rule.name = rule.name + " - " + value
+                var rulePage = pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing});
+                rulePage.addRule(rule);
             }
-            var rulePage = pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing});
-            rulePage.addRule(rule);
         }
     }
+
+
 }

@@ -102,6 +102,7 @@ Item {
         "gassensor": orange,
         "daylightsensor": yellow,
         "presencesensor": darkBlue,
+        "vibrationsensor": orange,
         "closablesensor": green,
         "smartmeterconsumer": orange,
         "smartmeterproducer": lime,
