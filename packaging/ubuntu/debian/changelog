@@ -1,3 +1,10 @@
+nymea-app (1.5.14) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add vibration sensor interface
+
+ -- jenkins <developer@nymea.io>  Wed, 07 Dec 2022 00:29:29 +0100
+
 nymea-app (1.5.13) bionic; urgency=medium
 
   [ Michael Zanetti ]
