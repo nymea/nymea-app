@@ -491,7 +491,7 @@ WizardPageBase {
 
             BluetoothDiscovery {
                 id: bluetoothDiscovery
-                discoveryEnabled: pageStack.currentItem === wirelessBluetoothDiscoveryPage
+                discoveryEnabled: pageStack.currentItem === wirelessBluetoothDiscoveryPage && PlatformHelper.locationServicesEnabled
             }
 
             content: ListView {
@@ -510,7 +510,7 @@ WizardPageBase {
 
                 BusyIndicator {
                     anchors.centerIn: parent
-                    visible: bluetoothDiscovery.discovering && deviceInfosProxy.count == 0
+                    visible: bluetoothDiscovery.discovering && deviceInfosProxy.count == 0 && bluetoothDiscovery.bluetoothAvailable && bluetoothDiscovery.bluetoothEnabled && PlatformHelper.locationServicesEnabled
                 }
 
                 delegate: NymeaSwipeDelegate {
@@ -529,7 +529,7 @@ WizardPageBase {
                     width: parent.width - Style.margins * 2
                     anchors.centerIn: parent
                     spacing: Style.bigMargins
-                    visible: !bluetoothDiscovery.bluetoothAvailable || !bluetoothDiscovery.bluetoothEnabled
+                    visible: !bluetoothDiscovery.bluetoothAvailable || !bluetoothDiscovery.bluetoothEnabled || !PlatformHelper.locationServicesEnabled
 
                     ColorIcon {
                         name: "/ui/images/connections/bluetooth.svg"
@@ -542,9 +542,18 @@ WizardPageBase {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.WordWrap
+                        visible: !bluetoothDiscovery.bluetoothAvailable || !bluetoothDiscovery.bluetoothEnabled
                         text: !bluetoothDiscovery.bluetoothAvailable
                               ? qsTr("Bluetooth doesn't seem to be available on this system.")
                               : qsTr("Bluetooth is turned off. Please enable Bluetooth on this device.")
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WordWrap
+                        visible: !PlatformHelper.locationServicesEnabled
+                        text: qsTr("Location services are disabled. Please enable location services on this device in order to search for nearby nymea:energy gateways.")
                     }
                 }
 

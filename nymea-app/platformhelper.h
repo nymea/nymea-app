@@ -57,6 +57,7 @@ class PlatformHelper : public QObject
     Q_PROPERTY(QColor bottomPanelColor READ bottomPanelColor WRITE setBottomPanelColor NOTIFY bottomPanelColorChanged)
     Q_PROPERTY(bool darkModeEnabled READ darkModeEnabled NOTIFY darkModeEnabledChanged)
     Q_PROPERTY(QVariantList pendingNotificationActions READ pendingNotificationActions NOTIFY pendingNotificationActionsChanged)
+    Q_PROPERTY(bool locationServicesEnabled READ locationServicesEnabled NOTIFY locationServicesEnabledChanged)
 
 public:
     enum HapticsFeedback {
@@ -108,6 +109,8 @@ public:
 
     void notificationActionReceived(const QString &nymeaData);
 
+    virtual bool locationServicesEnabled() const;
+
 signals:
     void screenTimeoutChanged();
     void screenBrightnessChanged();
@@ -116,6 +119,7 @@ signals:
     void darkModeEnabledChanged();
     void splashVisibleChanged();
     void pendingNotificationActionsChanged();
+    void locationServicesEnabledChanged();
 
 protected:
     explicit PlatformHelper(QObject *parent = nullptr);

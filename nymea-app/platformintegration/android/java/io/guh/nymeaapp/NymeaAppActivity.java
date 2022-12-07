@@ -13,6 +13,9 @@ import android.os.Vibrator;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
 import android.content.res.Configuration;
+import android.content.IntentFilter;
+import android.content.BroadcastReceiver;
+import android.location.LocationManager;
 
 public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActivity
 {
@@ -21,6 +24,17 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
 
     private static native void darkModeEnabledChangedJNI();
     private static native void notificationActionReceivedJNI(String data);
+    private static native void locationServicesEnabledChangedJNI();
+
+    private BroadcastReceiver m_gpsSwitchStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "**** Intent received!!!" + intent.getAction());
+            if (LocationManager.MODE_CHANGED_ACTION.equals(intent.getAction())) {
+                locationServicesEnabledChangedJNI();
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +49,21 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
             Log.d(TAG, "Intent data: " + notificationData);
             notificationActionReceivedJNI(notificationData);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter(LocationManager.MODE_CHANGED_ACTION);
+//        filter.addAction(Intent.ACTION_PROVIDER_CHANGED);
+        registerReceiver(m_gpsSwitchStateReceiver, filter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterReceiver(m_gpsSwitchStateReceiver);
     }
 
     @Override
@@ -92,5 +121,10 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
 
     public boolean darkModeEnabled() {
         return (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public boolean locationServicesEnabled() {
+        LocationManager lm = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        return lm.isLocationEnabled();
     }
 }

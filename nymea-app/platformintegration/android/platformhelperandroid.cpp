@@ -34,6 +34,7 @@
 #include <QtAndroid>
 #include <QDebug>
 #include <QAndroidIntent>
+#include <QApplication>
 
 
 // WindowManager.LayoutParams
@@ -49,6 +50,7 @@ static PlatformHelperAndroid *m_instance = nullptr;
 static JNINativeMethod methods[] = {
     { "darkModeEnabledChangedJNI", "()V", (void *)PlatformHelperAndroid::darkModeEnabledChangedJNI },
     { "notificationActionReceivedJNI", "(Ljava/lang/String;)V", (void *)PlatformHelperAndroid::notificationActionReceivedJNI },
+    { "locationServicesEnabledChangedJNI", "()V", (void *)PlatformHelperAndroid::locationServicesEnabledChangedJNI },
 };
 
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
@@ -82,6 +84,13 @@ PlatformHelperAndroid::PlatformHelperAndroid(QObject *parent) : PlatformHelper(p
     if (!notificationData.isNull()) {
         notificationActionReceived(notificationData);
     }
+
+    connect(qApp, &QApplication::applicationStateChanged, this, [this](Qt::ApplicationState state){
+        qCritical() << "******* app state change";
+        if (state == Qt::ApplicationActive) {
+            emit locationServicesEnabledChanged();
+        }
+    });
 }
 
 void PlatformHelperAndroid::hideSplashScreen()
@@ -247,6 +256,12 @@ bool PlatformHelperAndroid::darkModeEnabled() const
     return QtAndroid::androidActivity().callMethod<jboolean>("darkModeEnabled");
 }
 
+bool PlatformHelperAndroid::locationServicesEnabled() const
+{
+    jboolean enabled = QtAndroid::androidActivity().callMethod<jboolean>("locationServicesEnabled", "()Z");
+    return enabled;
+}
+
 void PlatformHelperAndroid::shareFile(const QString &fileName)
 {
     QtAndroid::androidActivity().callMethod<void>("shareFile", "(Ljava/lang/String;)V",
@@ -268,5 +283,13 @@ void PlatformHelperAndroid::notificationActionReceivedJNI(JNIEnv *env, jobject, 
     PlatformHelper* platformHelper = PlatformHelperAndroid::instance(false);
     if (platformHelper) {
         platformHelper->notificationActionReceived(env->GetStringUTFChars(data, nullptr));
+    }
+}
+
+void PlatformHelperAndroid::locationServicesEnabledChangedJNI()
+{
+    PlatformHelper* platformHelper = PlatformHelperAndroid::instance(false);
+    if (platformHelper) {
+        emit platformHelper->locationServicesEnabledChanged();
     }
 }

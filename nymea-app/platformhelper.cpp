@@ -239,6 +239,11 @@ void PlatformHelper::shareFile(const QString &fileName)
     QDesktopServices::openUrl(QUrl(fileName));
 }
 
+bool PlatformHelper::locationServicesEnabled() const
+{
+    return true;
+}
+
 QObject *PlatformHelper::platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)

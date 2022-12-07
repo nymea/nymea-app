@@ -62,10 +62,13 @@ public:
 
     bool darkModeEnabled() const override;
 
+    bool locationServicesEnabled() const override;
+
     void shareFile(const QString &fileName) override;
 
     static void darkModeEnabledChangedJNI();
     static void notificationActionReceivedJNI(JNIEnv *env, jobject /*thiz*/, jstring data);
+    static void locationServicesEnabledChangedJNI();
 
 private:
     static void permissionRequestFinished(const QtAndroid::PermissionResultMap &);

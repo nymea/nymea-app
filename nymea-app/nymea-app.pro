@@ -218,3 +218,5 @@ win32 {
 target.path = /usr/bin
 INSTALLS += target
 
+DISTFILES +=
+
