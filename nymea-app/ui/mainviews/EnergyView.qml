@@ -112,21 +112,6 @@ MainViewBase {
                 rowSpacing: 0
                 columnSpacing: 0
 
-
-//                CurrentConsumptionBalancePieChart {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    energyManager: energyManager
-//                    visible: producers.count > 0
-//                    animationsEnabled: Qt.application.active && root.isCurrentItem
-//                }
-//                CurrentProductionBalancePieChart {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    energyManager: energyManager
-//                    visible: producers.count > 0
-//                    animationsEnabled: Qt.application.active && root.isCurrentItem
-//                }
                 CurrentPowerBalancePieChart {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
@@ -149,18 +134,6 @@ MainViewBase {
                     visible: rootMeter != null || producers.count > 0
                     producers: producers
                 }
-
-//                PowerConsumptionBalanceHistory {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    visible: producers.count > 0
-//                }
-
-//                PowerProductionBalanceHistory {
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: width
-//                    visible: producers.count > 0
-//                }
 
                 ConsumersPieChart {
                     Layout.fillWidth: true

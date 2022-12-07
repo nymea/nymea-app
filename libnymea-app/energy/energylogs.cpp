@@ -184,19 +184,51 @@ EnergyLogEntry *EnergyLogs::get(int index) const
     return m_list.at(index);
 }
 
-EnergyLogEntry *EnergyLogs::find(const QDateTime &timestamp)
+int EnergyLogs::indexOf(const QDateTime &timestamp)
 {
     if (m_list.isEmpty()) {
-        return nullptr;
+        return -1;
     }
     QDateTime first = m_list.first()->timestamp();
 
     int index = qRound(1.0 * first.secsTo(timestamp) / (m_sampleRate * 60));
     if (index < 0 || index >= m_list.count()) {
 //        qWarning() << "finding:" << timestamp << index << first.toString() << "NOT FOUND" << m_list.last()->timestamp();
-        return nullptr;
+        return -1;
     }
 //    qWarning() << "finding:" << timestamp << index << first.toString() << m_list.at(index)->timestamp();
+
+
+    // Normally, if the DB is in a consistent state, we can rely that the above finds the correct entry.
+    // However, if the user changes the timezone, during the lifetime, or other woes may appear like NTP
+    // changing time which may cause inconsistent entries like passing the same time twice, we could end up
+    // off by one. In order to compensate for that, we'll see if the next or previous entries may be closer
+    // In theory we could even be off by some more samples in very rare circumstances, but unlikely enough
+    // to not bother with that at this point.
+    QDateTime found = m_list.at(index)->timestamp();
+    QDateTime previous = index > 0 ? m_list.at(index-1)->timestamp() : found;
+    QDateTime next = index < m_list.count() - 1 ? m_list.at(index+1)->timestamp() : found;
+
+    int diffToFound = qAbs(timestamp.secsTo(found));
+    int diffToPrevious = qAbs(timestamp.secsTo(previous));
+    int diffToNext = qAbs(timestamp.secsTo(next));
+    if (diffToPrevious < diffToFound && diffToPrevious < diffToNext) {
+//        qWarning() << "Correcting to previous" << index << m_list.count() << found << previous << diffToPrevious << diffToFound;
+        return index - 1;
+    }
+    if (diffToNext < diffToFound) {
+//        qWarning() << "Correcting to next" << index << m_list.count() << found << next << diffToNext << diffToFound;
+        return index + 1;
+    }
+    return index;
+}
+
+EnergyLogEntry *EnergyLogs::find(const QDateTime &timestamp)
+{
+    int index = indexOf(timestamp);
+    if (index < 0) {
+        return nullptr;
+    }
     return m_list.at(index);
 }
 
@@ -255,7 +287,7 @@ void EnergyLogs::getLogsResponse(int commandId, const QVariantMap &params)
 
     if (!entries.isEmpty()) {
         if (m_list.isEmpty()) {
-            qCDebug(dcEnergyLogs()) << "Energy logs received";
+//            qCDebug(dcEnergyLogs()) << "Energy logs received" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
             beginInsertRows(QModelIndex(), 0, entries.count());
             m_list.append(entries);
             endInsertRows();

@@ -107,7 +107,7 @@ StatsBase {
 //                    print("timestamp:", timestamp, "previous:", previousTimestamp)
                     var entry = thingPowerLogs.find(timestamp)
                     var previousEntry = thingPowerLogs.find(previousTimestamp);
-                    if (entry && (previousEntry || !d.loading)) {
+                    if (timestamp < upcomingTimestamp && entry && (previousEntry || !d.loading)) {
 //                        print("found entry:", entry.timestamp, previousEntry)
                         var consumption = entry.totalConsumption
                         if (previousEntry) {

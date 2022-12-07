@@ -85,6 +85,7 @@ public:
     double maxValue() const;
 
     Q_INVOKABLE EnergyLogEntry* get(int index) const;
+    Q_INVOKABLE int indexOf(const QDateTime &timestamp);
     Q_INVOKABLE EnergyLogEntry* find(const QDateTime &timestamp);
     Q_INVOKABLE QList<EnergyLogEntry*> entries() const;
 

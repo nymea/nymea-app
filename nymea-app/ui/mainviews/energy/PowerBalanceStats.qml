@@ -55,17 +55,21 @@ StatsBase {
                 return;
             }
 
+
             var upcomingTimestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.config.count)
 //            print("refreshing config start", d.config.startTime(), "upcoming:", upcomingTimestamp, "fetchPending", d.fetchPending)
             for (var i = 0; i < d.config.count; i++) {
                 var timestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + i + 1)
                 var previousTimestamp = root.calculateTimestamp(timestamp, d.config.sampleRate, -1)
-                var entry = powerBalanceLogs.find(timestamp)
-//                print("timestamp:", timestamp, "found", (entry ? entry.timestamp : ""))
+                var idx = powerBalanceLogs.indexOf(timestamp);
+                var entry = powerBalanceLogs.get(idx)
+//                print("timestamp:", timestamp, "previousTimestamp:", previousTimestamp)
                 var previousEntry = powerBalanceLogs.find(previousTimestamp);
-                if (entry && (previousEntry || !d.loading)) {
-//                    print("found entry:", entry.timestamp, previousEntry)
-//                    print("Acquisition", entry.totalAcquisition)
+                if (timestamp < upcomingTimestamp && entry && (previousEntry || !d.loading)) {
+//                    print("found entry:", entry.timestamp, entry.totalConsumption)
+//                    if (previousEntry) {
+//                        print("found previous:", previousEntry.timestamp, previousEntry.totalConsumption)
+//                    }
                     var consumption = entry.totalConsumption
                     var production = entry.totalProduction
                     var acquisition = entry.totalAcquisition
