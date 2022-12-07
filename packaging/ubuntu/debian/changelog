@@ -1,3 +1,10 @@
+nymea-app (1.5.16) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a check for location services being enabled in BtWiFi setup
+
+ -- jenkins <developer@nymea.io>  Wed, 07 Dec 2022 20:19:13 +0100
+
 nymea-app (1.5.15) bionic; urgency=medium
 
   [ Michael Zanetti ]
