@@ -41,6 +41,8 @@
         <string>nymea:app will connect to nymea systems in the local network and allow controlling smart home equipment.</string>
         <key>NSLocationWhenInUseUsageDescription</key>
         <string>nymea:app is not using the device location at this point.</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>nymea:app is not using the device location at this point.</string>
         <key>NSBonjourServices</key>
         <array>
             <string>_jsonrpc._tcp</string>
