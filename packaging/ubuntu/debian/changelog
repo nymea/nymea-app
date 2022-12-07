@@ -1,3 +1,10 @@
+nymea-app (1.5.18) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix some glitches in energy chats if the user changes the time zone
+
+ -- jenkins <developer@nymea.io>  Thu, 08 Dec 2022 00:24:37 +0100
+
 nymea-app (1.5.17) bionic; urgency=medium
 
   [ Michael Zanetti ]
