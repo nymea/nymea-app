@@ -13,7 +13,8 @@ changeLicenseLabels = function()
 Component.prototype.createOperations = function()
 {
     component.createOperations();
-    component.addOperation("Execute", "@TargetDir@/vc_redist.x64.exe", "/quiet", "/norestart");
+    // Ignoring return code 1638, which means a newer version of the redist is already installed
+    component.addOperation("Execute", "{0,1638}", "@TargetDir@/vc_redist.x64.exe", "/quiet", "/norestart");
     if (systemInfo.productType === "windows") {
         component.addOperation("CreateShortcut", "@TargetDir@/nymea-app.exe", "@StartMenuDir@/nymea app.lnk",
             "workingDirectory=@TargetDir@", "iconPath=@TargetDir@/logo.ico",
