@@ -1,3 +1,10 @@
+nymea-app (1.5.15) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Ignore error code 1638 in win installer for the vc_redist package
+
+ -- jenkins <developer@nymea.io>  Wed, 07 Dec 2022 14:42:22 +0100
+
 nymea-app (1.5.14) bionic; urgency=medium
 
   [ Michael Zanetti ]
