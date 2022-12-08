@@ -1,3 +1,10 @@
+nymea-app (1.5.19) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Refresh notification permission on iOS when the app is focused
+
+ -- jenkins <developer@nymea.io>  Thu, 08 Dec 2022 16:31:30 +0100
+
 nymea-app (1.5.18) bionic; urgency=medium
 
   [ Michael Zanetti ]
