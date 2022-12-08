@@ -1,6 +1,7 @@
 #include "platformpermissionsios.h"
 
 #include <QSettings>
+#include <QApplication>
 
 PlatformPermissionsIOS *PlatformPermissionsIOS::s_instance = nullptr;
 
@@ -9,6 +10,12 @@ PlatformPermissionsIOS::PlatformPermissionsIOS(QObject *parent)
 {
     s_instance = this;
     initObjC();
+
+    connect(qApp, &QApplication::applicationStateChanged, this, [this](Qt::ApplicationState state){
+        if (state == Qt::ApplicationActive) {
+            refreshNotificationsPermission();
+        }
+    });
 }
 
 PlatformPermissionsIOS *PlatformPermissionsIOS::instance()
