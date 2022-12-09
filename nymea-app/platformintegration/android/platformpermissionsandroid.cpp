@@ -3,14 +3,22 @@
 #include <QApplication>
 #include <QDebug>
 #include <QAndroidIntent>
+#include <QOperatingSystemVersion>
 
 PlatformPermissionsAndroid * PlatformPermissionsAndroid::s_instance = nullptr;
 
 #define FLAG_ACTIVITY_NEW_TASK 0x10000000
 
-QHash<PlatformPermissions::Permission, QStringList> permissionMap = {
+QHash<PlatformPermissions::Permission, QStringList> permissionMapV31 = {
     // TODO: Once QtBluetooth does not request the COARSE_LOCATION and FINE_LOCATION for Bluetooth any more, remove it from here. The new Bluetooth permissions would be enough.
     {PlatformPermissions::PermissionBluetooth, {"android.permission.BLUETOOTH_SCAN", "android.permission.BLUETOOTH_CONNECT", "android.permission.BLUETOOTH_ADVERTISE", "android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}},
+    {PlatformPermissions::PermissionLocation, {"android.permission.ACCESS_FINE_LOCATION"}},
+    {PlatformPermissions::PermissionBackgroundLocation, {"android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_BACKGROUND_LOCATION"}},
+    {PlatformPermissions::PermissionNotifications, {"android.permission.POST_NOTIFICATIONS"}},
+};
+
+QHash<PlatformPermissions::Permission, QStringList> permissionMapV30 = {
+    {PlatformPermissions::PermissionBluetooth, {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}},
     {PlatformPermissions::PermissionLocation, {"android.permission.ACCESS_FINE_LOCATION"}},
     {PlatformPermissions::PermissionBackgroundLocation, {"android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_BACKGROUND_LOCATION"}},
     {PlatformPermissions::PermissionNotifications, {"android.permission.POST_NOTIFICATIONS"}},
@@ -35,8 +43,8 @@ PlatformPermissionsAndroid::PlatformPermissionsAndroid(QObject *parent)
 
 void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permission permission)
 {
-    if (permissionMap.contains(permission)) {
-        QtAndroid::requestPermissions({permissionMap.value(permission)}, &permissionResultCallback);
+    if (permissionMap().contains(permission)) {
+        QtAndroid::requestPermissions({permissionMap().value(permission)}, &permissionResultCallback);
     }
 }
 
@@ -51,10 +59,19 @@ void PlatformPermissionsAndroid::openPermissionSettings()
     QtAndroid::androidContext().callMethod<void>("startActivity", "(Landroid/content/Intent;)V", intent.handle().object());
 }
 
+QHash<PlatformPermissions::Permission, QStringList> PlatformPermissionsAndroid::permissionMap() const
+{
+    QOperatingSystemVersion osVersion = QOperatingSystemVersion::current();
+    if (osVersion.majorVersion() <= 11) {
+        return permissionMapV30;
+    }
+    return permissionMapV31;
+}
+
 PlatformPermissions::PermissionStatus PlatformPermissionsAndroid::checkPermission(Permission permission) const
 {
     PermissionStatus status = PermissionStatusGranted;
-    QStringList androidPermissions = permissionMap.value(permission);
+    QStringList androidPermissions = permissionMap().value(permission);
     foreach (const QString androidPermission, androidPermissions) {
         if (QtAndroid::shouldShowRequestPermissionRationale(androidPermission)) {
             return PermissionStatusDenied;
