@@ -109,22 +109,6 @@
         <source>Server: %1</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>nymea:cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note: nymea:cloud based remote connection is deprecated and will be removed in a future version.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connect this %1 system to %1:cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>AirQualityIndex</name>
@@ -411,251 +395,6 @@
     <message>
         <source>The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?</source>
         <translation>Het certificaat voor dit  %1 systeem is gewijzigd. Dit kan optreden als de configuratie gewijzigd is, maar kan ook betekenen, dat er is ingebroken op uw systeem. Wilt u het nieuwe certificaat accepteren?</translation>
-    </message>
-</context>
-<context>
-    <name>CloudLoginPage</name>
-    <message>
-        <source>Sorry, an error happened removing the account. Please try again later.</source>
-        <translation>Sorry, een fout is opgetreden bij het verwijderen van het account. Probeer het later nogmaals.</translation>
-    </message>
-    <message>
-        <source>Logged in as %1</source>
-        <translation>Ingelogd als %1</translation>
-    </message>
-    <message>
-        <source>Log out</source>
-        <translation>Uitloggen</translation>
-    </message>
-    <message>
-        <source>Goodbye</source>
-        <translation>Tot ziens</translation>
-    </message>
-    <message>
-        <source>Delete my account</source>
-        <translation>Verwijder mijn account</translation>
-    </message>
-    <message>
-        <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed.</source>
-        <translation>Bekijk onze &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; om te zien welke informatie wij gebruiken.</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Wachtwoord</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
-        <translation>inloggen is mislukt. Probeer het nogmaals. Heeft u misschien &lt;a href=&quot;#&quot;&gt;uw wachtwoord vergeten?&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>Don&apos;t have a user yet?</source>
-        <translation>Nog niet geregistreerd als gebruiker?</translation>
-    </message>
-    <message>
-        <source>Sign Up</source>
-        <translation>Registreren</translation>
-    </message>
-    <message>
-        <source>Sign up</source>
-        <translation>Registreren</translation>
-    </message>
-    <message>
-        <source>Welcome to %1:cloud.</source>
-        <translation>Welkome bij %1:cloud.</translation>
-    </message>
-    <message>
-        <source>Please enter your email address and pick a password in order to create a new account.</source>
-        <translation>Vul uw emailadres in en kies een wachtwoord om een nieuw account aan te maken.</translation>
-    </message>
-    <message>
-        <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.</source>
-        <translation>Bekijk onze &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; om te zien welke informatie verwerkt wordt. Door in te loggen in %2:cloud accepteert u deze voorwaarden.</translation>
-    </message>
-    <message>
-        <source>The given username or password are not valid.</source>
-        <translation>De ingevoerde gebruikersnaam of wachtwoord zijn niet geldig.</translation>
-    </message>
-    <message>
-        <source>Uh oh, something went wrong. Please try again.</source>
-        <translation>Oh oh, er is iets mis gegaan. Probeer het nogmaals.</translation>
-    </message>
-    <message>
-        <source>Confirm account</source>
-        <translation>Bevestig account</translation>
-    </message>
-    <message>
-        <source>Thanks for signing up. We will send you an email with a confirmation code. Please enter that code in the field below.</source>
-        <translation>Bedankt voor het registreren. We zullen u een email sturen met een bevestigingscode. Vul deze code hieronder in.</translation>
-    </message>
-    <message>
-        <source>The given user already exists. Did you forget the password?</source>
-        <translation>De opgegeven gebruiker bestaat al. Bent u uw wachtwoord vergeten?</translation>
-    </message>
-    <message>
-        <source>That wasn&apos;t the right code. Please try again.</source>
-        <translation>Dat was niet de juiste code. Probeer het nogmaals.</translation>
-    </message>
-    <message>
-        <source>Reset password</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Sorry, this wasn&apos;t right. Did you misspell the email address?</source>
-        <translation>Sorry, dit was niet juist. Heeft u uw emailadres juist ingevoerd?</translation>
-    </message>
-    <message>
-        <source>Sorry, there were too many attempts. Please try again after some time.</source>
-        <translation>Sorry, te veel pogingen. Probeer het na een tijdje nogmaals.</translation>
-    </message>
-    <message>
-        <source>Password forgotten?</source>
-        <translation>Wachtwoord vergeten?</translation>
-    </message>
-    <message>
-        <source>No problem. Enter your email address here and we&apos;ll send you a confirmation code to change your password.</source>
-        <translation>Geen probleem. Vul uw emailadres in en we sturen u een code om uw wachtwoord te wijzigen.</translation>
-    </message>
-    <message>
-        <source>Sorry, couldn&apos;t reset your password. Did you enter the wrong confirmation code?</source>
-        <translation>Sorry, kon het wachtwoord niet herstellen. Heeft u misschien een verkeerde bevestigingscode ingevuld?</translation>
-    </message>
-    <message>
-        <source>Yay!</source>
-        <translation>Yeah!</translation>
-    </message>
-    <message>
-        <source>Your password has been reset.</source>
-        <translation>Uw wachtwoord is gereset.</translation>
-    </message>
-    <message>
-        <source>Check your email!</source>
-        <translation>Controleer uw email!</translation>
-    </message>
-    <message>
-        <source>Enter the confirmation code you&apos;ve received and a new password for your user %1.</source>
-        <translation>Vul de bevestigingscode in en een nieuw wachtwoord voor gebruiker %1, die u heeft ontvangen via de e-mail.</translation>
-    </message>
-    <message>
-        <source>Confirmation code:</source>
-        <translation>Bevestigingscode:</translation>
-    </message>
-    <message>
-        <source>Pick a new password:</source>
-        <translation>Kies een nieuw wachtwoord:</translation>
-    </message>
-    <message>
-        <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
-        <translation>Kon geen verbinding maken met de aanmeld server. Contoleer of uw netwerk goed functioneert.</translation>
-    </message>
-    <message>
-        <source>An unexpected error happened. Please report this isse. Error code: %1</source>
-        <translation>Er is een onverwachte fout opgetreden. Rapporteer dit probleem aub. Foutmelding: %1</translation>
-    </message>
-    <message>
-        <source>%1 cloud login</source>
-        <translation>%1 cloud aanmelding</translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Connected %1 systems</source>
-        <translation>Verbonden %1 systemen</translation>
-    </message>
-    <message>
-        <source>There are no %1 systems connected to your cloud yet.</source>
-        <translation>Er zijn nog geen %1 systemen verbonden met uw cloud.</translation>
-    </message>
-    <message numerus="yes">
-        <source>There are %n %1 systems connected to your cloud.</source>
-        <translation>
-            <numerusform>Er is %n %1 systeem verbonden met uw cloud.</numerusform>
-            <numerusform>Er zijn %n %1 systemen verbonden met uw cloud.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CloudSettingsPage</name>
-    <message>
-        <source>Cloud connection enabled</source>
-        <translation>Cloud connectie geactiveerd</translation>
-    </message>
-    <message>
-        <source>This box is not connected to %1:cloud</source>
-        <translation>Dit systeem is niet verbonden met %1:cloud</translation>
-    </message>
-    <message>
-        <source>Registering box in %1:cloud...</source>
-        <translation>Systeem registreren in %1:cloud...</translation>
-    </message>
-    <message>
-        <source>This box is not configured to connect to %1:cloud.</source>
-        <translation>Dit systeem is niet geconfigureerd om te verbinden met %1:cloud.</translation>
-    </message>
-    <message>
-        <source>Connecting the box to %1:cloud...</source>
-        <translation>Het systeem aan het verbinden met %1:cloud...</translation>
-    </message>
-    <message>
-        <source>The box is connected to %1:cloud.</source>
-        <translation>Het systeem is verbonden met %1:cloud.</translation>
-    </message>
-    <message>
-        <source>This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.</source>
-        <translation>Dit systeem is niet geconfigureerd om te verbinden met %1:cloud. Om een systeem te verbinden met %1:cloud moet het eerst geregistreerd worden.</translation>
-    </message>
-    <message>
-        <source>Register box</source>
-        <translation>Registreer systeem</translation>
-    </message>
-    <message>
-        <source>Log in to cloud</source>
-        <translation>Aanmelden cloud</translation>
-    </message>
-    <message>
-        <source>Cloud connection</source>
-        <translation>Cloud connectie</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Remote connection</source>
-        <translation>Connectie op afstand</translation>
-    </message>
-    <message>
-        <source>Go to app settings</source>
-        <translation>Ga naar app instellingen</translation>
-    </message>
-    <message>
-        <source>Set up cloud connection for %1</source>
-        <translation>Stel cloud verbinding in voor %1</translation>
-    </message>
-    <message>
-        <source>%1 cloud settings</source>
-        <translation>%1 cloud instellingen</translation>
-    </message>
-    <message>
-        <source>Connect %1 to %1:cloud in order to access it from anywhere.</source>
-        <translation>Verbind %1 met %1:cloud om van waar dan ook te kunnen verbinden.</translation>
-    </message>
-    <message>
-        <source>In order to remotely connect to this %1 system, %2 needs to be logged into %1:cloud as well.</source>
-        <translation>Om op afstand te verbinden met dit %1 systeem, moet %2 ook aangemeld zijn op %1:cloud.</translation>
     </message>
 </context>
 <context>
@@ -1089,6 +828,10 @@
         <source>Waiting for your nymea setup to appear in the network.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Location services are disabled. Please enable location services on this device in order to search for nearby nymea systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsumerStats</name>
@@ -1118,6 +861,13 @@
     </message>
     <message>
         <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumerStatsPage</name>
+    <message>
+        <source>Consumers balance</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1168,6 +918,13 @@
     </message>
 </context>
 <context>
+    <name>ConsumersHistoryPage</name>
+    <message>
+        <source>Power balance totals</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConsumersPieChart</name>
     <message>
         <source>Consumers balance</source>
@@ -1181,13 +938,20 @@
         <source>Total</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source></source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersPieChartPage</name>
+    <message>
+        <source>Consumers balance</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CurrentConsumptionBalancePieChart</name>
-    <message>
-        <source>My energy mix</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Total</source>
         <translation type="unfinished"></translation>
@@ -1202,6 +966,24 @@
     </message>
     <message>
         <source>From battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My energy consumption</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CurrentPowerBalancePage</name>
+    <message>
+        <source>My energy mix</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CurrentPowerBalancePieChart</name>
+    <message>
+        <source>My energy mix</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1446,15 +1228,7 @@
         <translation></translation>
     </message>
     <message>
-        <source>Cloud environment</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Logging</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Advanced options</source>
         <translation></translation>
     </message>
     <message>
@@ -1468,22 +1242,6 @@
     <message>
         <source>Configure logging categories</source>
         <translation>Log categorieën instellen</translation>
-    </message>
-    <message>
-        <source>nymea:cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note: nymea:cloud is deprecated and will be removed in a future version.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cloud login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Log into %1:cloud and manage connected %1 systems</source>
-        <translation type="unfinished">Aanmelden bij %1:cloud en beheer verbonden %1 systemen</translation>
     </message>
 </context>
 <context>
@@ -3397,6 +3155,14 @@ Please try again.</source>
         <source>Fire detected changed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Vibration sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vibration detected</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -5029,6 +4795,11 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Nitrogen dioxide level</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>vibration sensor</source>
+        <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -5220,6 +4991,92 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
+    <name>PowerBalanceHistory</name>
+    <message>
+        <source>My power balance history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From self production</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Produced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Produced: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From self production: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To battery: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From battery: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PowerBalanceHistoryPage</name>
+    <message>
+        <source>My power balance history</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PowerBalanceStats</name>
     <message>
         <source>Totals</source>
@@ -5279,6 +5136,13 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PowerBalanceStatsPage</name>
+    <message>
+        <source>Power balance totals</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5865,6 +5729,14 @@ Do you want to proceed?</source>
         <source>No fire</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Last vibration: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not moved yet</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ServerConfigurationDialog</name>
@@ -6244,6 +6116,22 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message>
         <source>At the current rate, the battery will last until %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total consumption: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total production: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total acquisition: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total return: %1 kWh</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7817,14 +7705,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Endpoint %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input clusters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Client</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7833,15 +7713,7 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Output clusters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Source endpoint</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Target node</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7870,6 +7742,42 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>The selected node is a sleepy device. Please wake up the device by pressing a button.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show detailed information about the node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node descriptor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee node descriptor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Target</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Group address</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

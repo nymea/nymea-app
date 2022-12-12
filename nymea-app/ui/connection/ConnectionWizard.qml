@@ -553,7 +553,7 @@ WizardPageBase {
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.WordWrap
                         visible: !PlatformHelper.locationServicesEnabled
-                        text: qsTr("Location services are disabled. Please enable location services on this device in order to search for nearby nymea:energy gateways.")
+                        text: qsTr("Location services are disabled. Please enable location services on this device in order to search for nearby nymea systems.")
                     }
                 }
 

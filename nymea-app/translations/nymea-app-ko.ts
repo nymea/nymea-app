@@ -109,22 +109,6 @@
         <source>Server: %1</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>nymea:cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note: nymea:cloud based remote connection is deprecated and will be removed in a future version.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cloud</source>
-        <translation type="unfinished">클라우드</translation>
-    </message>
-    <message>
-        <source>Connect this %1 system to %1:cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>AirQualityIndex</name>
@@ -410,250 +394,6 @@
     </message>
     <message>
         <source>The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CloudLoginPage</name>
-    <message>
-        <source>Sorry, an error happened removing the account. Please try again later.</source>
-        <translation>죄송합니다. 계정을 제거하는 동안 오류가 발생했습니다. 나중에 다시 시도해 주세요.</translation>
-    </message>
-    <message>
-        <source>Logged in as %1</source>
-        <translation>%1로 로그인 되었습니다</translation>
-    </message>
-    <message>
-        <source>Log out</source>
-        <translation>로그아웃</translation>
-    </message>
-    <message>
-        <source>Goodbye</source>
-        <translation>굿바이</translation>
-    </message>
-    <message>
-        <source>Delete my account</source>
-        <translation>내 계정을 삭제합니다</translation>
-    </message>
-    <message>
-        <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed.</source>
-        <translation>어떤 정보가 처리되고 있는지 알아보려면 당사의 &lt;a href=&quot;%1&quot;&gt;개인정보 정책 &lt;/a&gt;을 참조하시기 바랍니다.</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>암호</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>확인</translation>
-    </message>
-    <message>
-        <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
-        <translation>로그인하지 못했습니다. 다시 시도해보세요. &lt;a href=&quot;#&quot;&gt; 혹시 암호를 잊었습니까?&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>Don&apos;t have a user yet?</source>
-        <translation>아직 사용자 계정이 없습니까?</translation>
-    </message>
-    <message>
-        <source>Sign Up</source>
-        <translation>가입하세요</translation>
-    </message>
-    <message>
-        <source>Sign up</source>
-        <translation>가입하세요</translation>
-    </message>
-    <message>
-        <source>Welcome to %1:cloud.</source>
-        <translation>%1: 클라우드에 오신 것을 환영합니다.</translation>
-    </message>
-    <message>
-        <source>Please enter your email address and pick a password in order to create a new account.</source>
-        <translation>새 계정을 만들려면 이메일 주소를 입력하고 암호를 입력하세요.</translation>
-    </message>
-    <message>
-        <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.</source>
-        <translation>어떤 정보가 처리되고 있는지 알아 보려면 당사의  &lt;a href=&quot;%1&quot;&gt;개인정보 정책 &lt;/a&gt;을 참조하시기 바랍니다. %2:클라우드에 가입하면 이러한 약관에 동의 합니다.</translation>
-    </message>
-    <message>
-        <source>The given username or password are not valid.</source>
-        <translation>지정한 사용자 이름 또는 암호가 올바르지 않습니다.</translation>
-    </message>
-    <message>
-        <source>Uh oh, something went wrong. Please try again.</source>
-        <translation>어, 뭔가 잘못됐어요. 다시 시도해보세요.</translation>
-    </message>
-    <message>
-        <source>Confirm account</source>
-        <translation>계정 확인</translation>
-    </message>
-    <message>
-        <source>Thanks for signing up. We will send you an email with a confirmation code. Please enter that code in the field below.</source>
-        <translation>가입해 주셔서 감사합니다. 확인 코드가 포함된 이메일을 보내드리겠습니다. 아래 입력란에 해당 코드를 입력하세요.</translation>
-    </message>
-    <message>
-        <source>The given user already exists. Did you forget the password?</source>
-        <translation>지정한 사용자가 이미 있습니다. 비밀번호를 잊어버렸나요?</translation>
-    </message>
-    <message>
-        <source>That wasn&apos;t the right code. Please try again.</source>
-        <translation>그건 올바른 코드가 아닙니다. 다시 시도해보세요.</translation>
-    </message>
-    <message>
-        <source>Reset password</source>
-        <translation>암호를 재설정합니다</translation>
-    </message>
-    <message>
-        <source>Sorry, this wasn&apos;t right. Did you misspell the email address?</source>
-        <translation>미안해요, 정확하지 않았어요. 이메일 주소의 철자를 잘못 입력했습니까?</translation>
-    </message>
-    <message>
-        <source>Sorry, there were too many attempts. Please try again after some time.</source>
-        <translation>미안해요, 너무 많은 시도가 있었어요. 잠시 후에 다시 시도하세요.</translation>
-    </message>
-    <message>
-        <source>Password forgotten?</source>
-        <translation>암호를 잊었습니까?</translation>
-    </message>
-    <message>
-        <source>No problem. Enter your email address here and we&apos;ll send you a confirmation code to change your password.</source>
-        <translation>문제 없어요. 여기에 이메일 주소를 입력하시면 비밀번호를 변경할 수 있는 확인 코드를 보내드리겠습니다.</translation>
-    </message>
-    <message>
-        <source>Sorry, couldn&apos;t reset your password. Did you enter the wrong confirmation code?</source>
-        <translation>죄송합니다, 비밀번호를 재설정하지 못하셨습니다. 잘못된 확인 코드를 입력하셨습니까?</translation>
-    </message>
-    <message>
-        <source>Yay!</source>
-        <translation>앗싸!</translation>
-    </message>
-    <message>
-        <source>Your password has been reset.</source>
-        <translation>암호가 재설정됨.</translation>
-    </message>
-    <message>
-        <source>Check your email!</source>
-        <translation>이메일을 확인해 주세요!</translation>
-    </message>
-    <message>
-        <source>Enter the confirmation code you&apos;ve received and a new password for your user %1.</source>
-        <translation>받은 확인 코드와 사용자 %1에 대한 새 암호를 입력하십시오.</translation>
-    </message>
-    <message>
-        <source>Confirmation code:</source>
-        <translation>확인 코드:</translation>
-    </message>
-    <message>
-        <source>Pick a new password:</source>
-        <translation>새 암호 설정:</translation>
-    </message>
-    <message>
-        <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
-        <translation>로그인 서버에 연결하지 못했습니다. 네트워크 연결이 작동하는지 확인하십시오.</translation>
-    </message>
-    <message>
-        <source>An unexpected error happened. Please report this isse. Error code: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 cloud login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connected %1 systems</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There are no %1 systems connected to your cloud yet.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>There are %n %1 systems connected to your cloud.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CloudSettingsPage</name>
-    <message>
-        <source>Cloud connection enabled</source>
-        <translation>클라우드에 연결 사용 가능하게 되었습니다</translation>
-    </message>
-    <message>
-        <source>This box is not connected to %1:cloud</source>
-        <translation>이 상자(장치)가 %1: 클라우드에 연결되지 않았습니다</translation>
-    </message>
-    <message>
-        <source>Registering box in %1:cloud...</source>
-        <translation>%1:클라우드에 등록 중...</translation>
-    </message>
-    <message>
-        <source>This box is not configured to connect to %1:cloud.</source>
-        <translation>이 상자(장치)는 %1:클라우드에 연결하도록 구성되지 않았습니다.</translation>
-    </message>
-    <message>
-        <source>Connecting the box to %1:cloud...</source>
-        <translation>%1:클라우드에 상자(장치)를 연결하는 중...</translation>
-    </message>
-    <message>
-        <source>The box is connected to %1:cloud.</source>
-        <translation>이 상자(장치)는 %1:클라우드에 연결되어 있습니다.</translation>
-    </message>
-    <message>
-        <source>This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.</source>
-        <translation>이 상자(장치)는 %1:클라우드에 액세스 하도록 구성되지 않았습니다. 상자(장치)가 %1:클라우드에 연결되려면 먼저 등록해야 합니다.</translation>
-    </message>
-    <message>
-        <source>Register box</source>
-        <translation>등록상자(장치)</translation>
-    </message>
-    <message>
-        <source>Log in to cloud</source>
-        <translation>클라우드에 로그인</translation>
-    </message>
-    <message>
-        <source>Cloud connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remote connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Go to app settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set up cloud connection for %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 cloud settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Connect %1 to %1:cloud in order to access it from anywhere.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>In order to remotely connect to this %1 system, %2 needs to be logged into %1:cloud as well.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1088,6 +828,10 @@
         <source>Waiting for your nymea setup to appear in the network.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Location services are disabled. Please enable location services on this device in order to search for nearby nymea systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsumerStats</name>
@@ -1117,6 +861,13 @@
     </message>
     <message>
         <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumerStatsPage</name>
+    <message>
+        <source>Consumers balance</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1167,6 +918,13 @@
     </message>
 </context>
 <context>
+    <name>ConsumersHistoryPage</name>
+    <message>
+        <source>Power balance totals</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConsumersPieChart</name>
     <message>
         <source>Consumers balance</source>
@@ -1180,13 +938,20 @@
         <source>Total</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source></source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersPieChartPage</name>
+    <message>
+        <source>Consumers balance</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CurrentConsumptionBalancePieChart</name>
-    <message>
-        <source>My energy mix</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Total</source>
         <translation type="unfinished"></translation>
@@ -1201,6 +966,24 @@
     </message>
     <message>
         <source>From battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My energy consumption</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CurrentPowerBalancePage</name>
+    <message>
+        <source>My energy mix</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CurrentPowerBalancePieChart</name>
+    <message>
+        <source>My energy mix</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1445,15 +1228,7 @@
         <translation>개발자 옵션</translation>
     </message>
     <message>
-        <source>Cloud environment</source>
-        <translation>클라우드 환경</translation>
-    </message>
-    <message>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Advanced options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1466,22 +1241,6 @@
     </message>
     <message>
         <source>Configure logging categories</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>nymea:cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note: nymea:cloud is deprecated and will be removed in a future version.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cloud login</source>
-        <translation type="unfinished">클라우드 로그인</translation>
-    </message>
-    <message>
-        <source>Log into %1:cloud and manage connected %1 systems</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3393,6 +3152,14 @@ Please try again.</source>
         <source>Fire detected changed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Vibration sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vibration detected</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -5016,6 +4783,11 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Nitrogen dioxide level</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>vibration sensor</source>
+        <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -5208,6 +4980,92 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
+    <name>PowerBalanceHistory</name>
+    <message>
+        <source>My power balance history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From self production</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Produced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Produced: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From self production: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To battery: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From battery: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PowerBalanceHistoryPage</name>
+    <message>
+        <source>My power balance history</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PowerBalanceStats</name>
     <message>
         <source>Totals</source>
@@ -5267,6 +5125,13 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PowerBalanceStatsPage</name>
+    <message>
+        <source>Power balance totals</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5853,6 +5718,14 @@ Do you want to proceed?</source>
         <source>No fire</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Last vibration: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not moved yet</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ServerConfigurationDialog</name>
@@ -6232,6 +6105,22 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message>
         <source>At the current rate, the battery will last until %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total consumption: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total production: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total acquisition: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total return: %1 kWh</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7800,14 +7689,6 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Endpoint %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input clusters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Client</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7816,15 +7697,7 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Output clusters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Source endpoint</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Target node</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7853,6 +7726,42 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>The selected node is a sleepy device. Please wake up the device by pressing a button.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show detailed information about the node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node descriptor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee node descriptor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Target</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Group address</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

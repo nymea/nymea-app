@@ -109,22 +109,6 @@
         <source>Server: %1</source>
         <translation>Server: %1</translation>
     </message>
-    <message>
-        <source>nymea:cloud</source>
-        <translation>nymea:cloud</translation>
-    </message>
-    <message>
-        <source>Note: nymea:cloud based remote connection is deprecated and will be removed in a future version.</source>
-        <translation>Hinweis: Die nymea:cloud basierte Fernverbindung ist veraltet und wird in einer zukünftigen Version entfernt.</translation>
-    </message>
-    <message>
-        <source>Cloud</source>
-        <translation>Cloud</translation>
-    </message>
-    <message>
-        <source>Connect this %1 system to %1:cloud</source>
-        <translation>Verbinde dieses %1 System mit %1:cloud</translation>
-    </message>
 </context>
 <context>
     <name>AirQualityIndex</name>
@@ -411,251 +395,6 @@
     <message>
         <source>The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?</source>
         <translation>Das Zeritifikat für dieses %1 system hat sich geändert. Dies könnte durch eine Änderung der Konfiguration verursacht worden sein, aber auch darauf hindeuten, dass das System kompromittiert wurde. Möchtest du diesem Zertifikat vertrauen?</translation>
-    </message>
-</context>
-<context>
-    <name>CloudLoginPage</name>
-    <message>
-        <source>Sorry, an error happened removing the account. Please try again later.</source>
-        <translation>Entschuldigung, beim Löschen des Kontos ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.</translation>
-    </message>
-    <message>
-        <source>Logged in as %1</source>
-        <translation>Als %1 eingeloggt</translation>
-    </message>
-    <message>
-        <source>Log out</source>
-        <translation>Ausloggen</translation>
-    </message>
-    <message>
-        <source>Goodbye</source>
-        <translation>Auf Wiedersehen</translation>
-    </message>
-    <message>
-        <source>Delete my account</source>
-        <translation>Mein Konto löschen</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Passwort</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
-        <translation>Login fehlgeschlagen. Bitte versuche es erneut. Hast Du vielleicht Dein &lt;a href=&quot;#&quot;&gt;Passwort vergessen?&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>Don&apos;t have a user yet?</source>
-        <translation>Du hast noch keinen Benutzer?</translation>
-    </message>
-    <message>
-        <source>Sign Up</source>
-        <translation>Anmelden</translation>
-    </message>
-    <message>
-        <source>Sign up</source>
-        <translation>Anmelden</translation>
-    </message>
-    <message>
-        <source>Welcome to %1:cloud.</source>
-        <translation>Willkommen bei %1:cloud.</translation>
-    </message>
-    <message>
-        <source>Please enter your email address and pick a password in order to create a new account.</source>
-        <translation>Bitte gib Deine E-Mail Adresse ein und wähle ein Passwort um ein Konto zu erstellen.</translation>
-    </message>
-    <message>
-        <source>The given username or password are not valid.</source>
-        <translation>Benutzername oder Passwort ungültig.</translation>
-    </message>
-    <message>
-        <source>Uh oh, something went wrong. Please try again.</source>
-        <translation>Oh oh, etwas ist schief gelaufen. Bitte versuche es erneut.</translation>
-    </message>
-    <message>
-        <source>Confirm account</source>
-        <translation>Konto bestätigen</translation>
-    </message>
-    <message>
-        <source>Thanks for signing up. We will send you an email with a confirmation code. Please enter that code in the field below.</source>
-        <translation>Vielen Dank fürs Anmelden. Wir senden Dir nun eine E-Mail mit einem Bestätigungs-Code. Bitte gib diesen Code in das Feld unten ein.</translation>
-    </message>
-    <message>
-        <source>The given user already exists. Did you forget the password?</source>
-        <translation>Der Benutzer existiert bereits. Hast Du dein Passwort vergessen?</translation>
-    </message>
-    <message>
-        <source>That wasn&apos;t the right code. Please try again.</source>
-        <translation>Das war nicht der richtige Code. Bitte versuche es erneut.</translation>
-    </message>
-    <message>
-        <source>Reset password</source>
-        <translation>Passwort zurücksetzen</translation>
-    </message>
-    <message>
-        <source>Sorry, this wasn&apos;t right. Did you misspell the email address?</source>
-        <translation>Entschuldigung, das war nicht richtig. Hast du vielleicht deine E-Mail Adresse falsch eingegeben?</translation>
-    </message>
-    <message>
-        <source>Sorry, there were too many attempts. Please try again after some time.</source>
-        <translation>Entschuldigung, zu viele Fehlversuche. Bitte versuche es später wieder.</translation>
-    </message>
-    <message>
-        <source>Password forgotten?</source>
-        <translation>Passwort vergessen?</translation>
-    </message>
-    <message>
-        <source>No problem. Enter your email address here and we&apos;ll send you a confirmation code to change your password.</source>
-        <translation>Kein Problem. Gib Deine E-Mail Adresse hier ein und wir senden Dir einen Bestätigungs-Code um das Passwort zu ändern.</translation>
-    </message>
-    <message>
-        <source>Sorry, couldn&apos;t reset your password. Did you enter the wrong confirmation code?</source>
-        <translation>Entschuldigung, wir konnten Dein Passwort nicht zurücksetzen. Hast du den falschen Bestätigungs-Code eingegeben?</translation>
-    </message>
-    <message>
-        <source>Yay!</source>
-        <translation>Juhu!</translation>
-    </message>
-    <message>
-        <source>Your password has been reset.</source>
-        <translation>Dein Passwort wurde zurückgesetzt.</translation>
-    </message>
-    <message>
-        <source>Check your email!</source>
-        <translation>Prüfe Deine E-Mails!</translation>
-    </message>
-    <message>
-        <source>Enter the confirmation code you&apos;ve received and a new password for your user %1.</source>
-        <translation>Gib den Bestätigungs-Code und ein neues Passwort für %1 ein.</translation>
-    </message>
-    <message>
-        <source>Confirmation code:</source>
-        <translation>Bestätigungs-Code:</translation>
-    </message>
-    <message>
-        <source>Pick a new password:</source>
-        <translation>Wähle ein neues Passwort:</translation>
-    </message>
-    <message>
-        <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed.</source>
-        <translation>Bitte lese unsere &lt;a href=&quot;%1&quot;&gt;Datenschutzerklärung&lt;/a&gt; um herauszufinden welche Informationen gespeichert werden.</translation>
-    </message>
-    <message>
-        <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.</source>
-        <translation>Bitte lese unsere &lt;a href=&quot;%1&quot;&gt;Datenschutzerklärung&lt;/a&gt; um herauszufinden welche Informationen verarbeitet werden. Wenn du dich bei %2:cloud registrierst, erklärst Du Dich damit einverstanden.</translation>
-    </message>
-    <message>
-        <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
-        <translation>Fehler beim verbinden zum Login-Server. Bitte stelle sicher, dass Deine Netzwerkverbindung funktioniert.</translation>
-    </message>
-    <message>
-        <source>An unexpected error happened. Please report this isse. Error code: %1</source>
-        <translation>Ein unerwarteter Fehler ist aufgetreten. Bitte berichte dieses Problem. Fehlercode: %1</translation>
-    </message>
-    <message>
-        <source>%1 cloud login</source>
-        <translation>%1 Cloud-Benutzerkonto</translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation>Anmelden</translation>
-    </message>
-    <message>
-        <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
-        <translation>Melde %1 in %2:cloud an um Dich aus der Ferne zu Deinem %2:core System zu verbinden und Push Nachrichten von %2:core Systemen zu empfangen.</translation>
-    </message>
-    <message>
-        <source>Connected %1 systems</source>
-        <translation>Verbundene %1 systeme</translation>
-    </message>
-    <message>
-        <source>There are no %1 systems connected to your cloud yet.</source>
-        <translation>Es sind noch keine %1 systeme mit deiner Cloud verbunden.</translation>
-    </message>
-    <message numerus="yes">
-        <source>There are %n %1 systems connected to your cloud.</source>
-        <translation>
-            <numerusform>Es ist %n %1 System mit Deiner Cloud verbunden.</numerusform>
-            <numerusform>Es sind %n %1 Systeme mit Deiner Cloud verbunden.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation>Schade, dass Du dich abmeldest. Nach der Abmeldung kannst Du dich nicht mehr aus der Ferne zu %1 Systemen verbinden. Du kannst jederzeit wieder zurück kommen, wir behalten dein Konto. Wenn Du das Konto und alle dazugehörigen Daten vollständig aus der Cloud entfernen möchtest, markiere die Box unten bevor Du mit OK bestätigst. Wenn Du Dich entscheidest Dein Konto zu löschen, werden alle Deine persönglichen Daten aus der Cloud entfernt und können nicht wiederhergestellt werden.</translation>
-    </message>
-</context>
-<context>
-    <name>CloudSettingsPage</name>
-    <message>
-        <source>Cloud connection enabled</source>
-        <translation>Cloud Verbindung aktiviert</translation>
-    </message>
-    <message>
-        <source>This box is not connected to %1:cloud</source>
-        <translation>Diese Box ist nicht mit %1:cloud verbunden</translation>
-    </message>
-    <message>
-        <source>Registering box in %1:cloud...</source>
-        <translation>Registriere die Box in %1:cloud...</translation>
-    </message>
-    <message>
-        <source>This box is not configured to connect to %1:cloud.</source>
-        <translation>Diese Box ist nicht für %1:cloud konfiguriert.</translation>
-    </message>
-    <message>
-        <source>Connecting the box to %1:cloud...</source>
-        <translation>Verbinde die Box zu %1:cloud...</translation>
-    </message>
-    <message>
-        <source>The box is connected to %1:cloud.</source>
-        <translation>Die Box ist mit %1:cloud verbunden.</translation>
-    </message>
-    <message>
-        <source>This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.</source>
-        <translation>Die Box ist nicht konfiguriert um auf %1:cloud zuzugreifen. Um die Box mit %1:cloud zu verbinden muss sie zuerst registriert werden.</translation>
-    </message>
-    <message>
-        <source>Register box</source>
-        <translation>Box registrieren</translation>
-    </message>
-    <message>
-        <source>Log in to cloud</source>
-        <translation>Bei Cloud einloggen</translation>
-    </message>
-    <message>
-        <source>Cloud connection</source>
-        <translation>Cloud Verbindung</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation>Status</translation>
-    </message>
-    <message>
-        <source>Remote connection</source>
-        <translation>Fernverbindung</translation>
-    </message>
-    <message>
-        <source>Go to app settings</source>
-        <translation>Gehe zu App-Einstellungen</translation>
-    </message>
-    <message>
-        <source>Set up cloud connection for %1</source>
-        <translation>Cloud-Verbindung für %1 einrichten</translation>
-    </message>
-    <message>
-        <source>%1 cloud settings</source>
-        <translation>%1 Cloud-Einstellungen</translation>
-    </message>
-    <message>
-        <source>Connect %1 to %1:cloud in order to access it from anywhere.</source>
-        <translation>Verbinde %1 mit %1:cloud um aus der Ferne darauf zuzugreifen.</translation>
-    </message>
-    <message>
-        <source>In order to remotely connect to this %1 system, %2 needs to be logged into %1:cloud as well.</source>
-        <translation>Um aus der Ferne auf dieses %1 System zuzugreifen, muss Du dich auch mit %2 in %1:cloud anmelden.</translation>
     </message>
 </context>
 <context>
@@ -1089,6 +828,10 @@
         <source>Waiting for your nymea setup to appear in the network.</source>
         <translation>Warte bis Dein nymea System im Netzwerk auftaucht.</translation>
     </message>
+    <message>
+        <source>Location services are disabled. Please enable location services on this device in order to search for nearby nymea systems.</source>
+        <translation>Standortdienste sind deaktivert. Bitte aktiviere die Standortdienste auf diesem Gerät damit nymea Systeme in deiner Umgebung gefunden werden können.</translation>
+    </message>
 </context>
 <context>
     <name>ConsumerStats</name>
@@ -1119,6 +862,13 @@
     <message>
         <source>No data available</source>
         <translation>Keine Daten verfügbar</translation>
+    </message>
+</context>
+<context>
+    <name>ConsumerStatsPage</name>
+    <message>
+        <source>Consumers balance</source>
+        <translation>Verbraucherbilanz</translation>
     </message>
 </context>
 <context>
@@ -1168,6 +918,13 @@
     </message>
 </context>
 <context>
+    <name>ConsumersHistoryPage</name>
+    <message>
+        <source>Power balance totals</source>
+        <translation>Energiebilanz Summenwerte</translation>
+    </message>
+</context>
+<context>
     <name>ConsumersPieChart</name>
     <message>
         <source>Consumers balance</source>
@@ -1181,13 +938,20 @@
         <source>Total</source>
         <translation>Gesamt</translation>
     </message>
+    <message>
+        <source></source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersPieChartPage</name>
+    <message>
+        <source>Consumers balance</source>
+        <translation>Verbraucherbilanz</translation>
+    </message>
 </context>
 <context>
     <name>CurrentConsumptionBalancePieChart</name>
-    <message>
-        <source>My energy mix</source>
-        <translation>Mein Energiemix</translation>
-    </message>
     <message>
         <source>Total</source>
         <translation>Gesamt</translation>
@@ -1203,6 +967,24 @@
     <message>
         <source>From battery</source>
         <translation>Batterie</translation>
+    </message>
+    <message>
+        <source>My energy consumption</source>
+        <translation>Mein Energieverbrauch</translation>
+    </message>
+</context>
+<context>
+    <name>CurrentPowerBalancePage</name>
+    <message>
+        <source>My energy mix</source>
+        <translation>Mein Energiemix</translation>
+    </message>
+</context>
+<context>
+    <name>CurrentPowerBalancePieChart</name>
+    <message>
+        <source>My energy mix</source>
+        <translation>Mein Energiemix</translation>
     </message>
 </context>
 <context>
@@ -1446,16 +1228,8 @@
         <translation>Entwicklereinstellungen</translation>
     </message>
     <message>
-        <source>Cloud environment</source>
-        <translation>Cloud Umgebung</translation>
-    </message>
-    <message>
         <source>Logging</source>
         <translation>Protokoll</translation>
-    </message>
-    <message>
-        <source>Advanced options</source>
-        <translation>Erweiterte Einstellungen</translation>
     </message>
     <message>
         <source>Application logs enabled</source>
@@ -1468,22 +1242,6 @@
     <message>
         <source>Configure logging categories</source>
         <translation>Protokollkategorien einrichten</translation>
-    </message>
-    <message>
-        <source>nymea:cloud</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Note: nymea:cloud is deprecated and will be removed in a future version.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Cloud login</source>
-        <translation>Cloud Login</translation>
-    </message>
-    <message>
-        <source>Log into %1:cloud and manage connected %1 systems</source>
-        <translation>Logge Dich in %1:cloud ein und Verwalte verbundene %1 systeme</translation>
     </message>
 </context>
 <context>
@@ -3404,6 +3162,14 @@ Bitte versuche es erneut.</translation>
         <source>Fire detected changed</source>
         <translation>Feuer erkannt geändert</translation>
     </message>
+    <message>
+        <source>Vibration sensors</source>
+        <translation>Vibrationssensoren</translation>
+    </message>
+    <message>
+        <source>Vibration detected</source>
+        <translation>Vibration erkannt</translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -5040,6 +4806,11 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <source>Nitrogen dioxide level</source>
         <translation>Nitrogen-Dioxid Wert</translation>
     </message>
+    <message>
+        <source>vibration sensor</source>
+        <extracomment>Select ...</extracomment>
+        <translation>Vibrationssensor</translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -5233,6 +5004,92 @@ Möchtest Du fortfahren?</translation>
     </message>
 </context>
 <context>
+    <name>PowerBalanceHistory</name>
+    <message>
+        <source>My power balance history</source>
+        <translation>Meine Energiebilanz</translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation>Stunden</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Tage</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation>Wochen</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Monate</translation>
+    </message>
+    <message>
+        <source>No data available</source>
+        <translation>Keine Daten verfügbar</translation>
+    </message>
+    <message>
+        <source>From self production</source>
+        <translation>Eigenproduktion</translation>
+    </message>
+    <message>
+        <source>To battery</source>
+        <translation>Batterie</translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation>Netzeinspeisung</translation>
+    </message>
+    <message>
+        <source>From battery</source>
+        <translation>Batterie</translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation>Netzbezug</translation>
+    </message>
+    <message>
+        <source>Produced</source>
+        <translation>Erzeugt</translation>
+    </message>
+    <message>
+        <source>Consumed: %1 %2</source>
+        <translation>Verbraucht: %1 %2</translation>
+    </message>
+    <message>
+        <source>Produced: %1 %2</source>
+        <translation>Erzeugt: %1 %2</translation>
+    </message>
+    <message>
+        <source>From grid: %1 %2</source>
+        <translation>Netzbezug: %1 %2</translation>
+    </message>
+    <message>
+        <source>To grid: %1 %2</source>
+        <translation>Netzeinspeisung: %1 %2</translation>
+    </message>
+    <message>
+        <source>From self production: %1 %2</source>
+        <translation>Von Eigenproduktion: %1 %2</translation>
+    </message>
+    <message>
+        <source>To battery: %1 %2</source>
+        <translation>Batterieladung: %1 %2</translation>
+    </message>
+    <message>
+        <source>From battery: %1 %2</source>
+        <translation>Von Batterie: %1 %2</translation>
+    </message>
+</context>
+<context>
+    <name>PowerBalanceHistoryPage</name>
+    <message>
+        <source>My power balance history</source>
+        <translation>Meine Energiebilanz</translation>
+    </message>
+</context>
+<context>
     <name>PowerBalanceStats</name>
     <message>
         <source>Totals</source>
@@ -5293,6 +5150,13 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>No data available</source>
         <translation>Keine Daten verfügbar</translation>
+    </message>
+</context>
+<context>
+    <name>PowerBalanceStatsPage</name>
+    <message>
+        <source>Power balance totals</source>
+        <translation>Energiebilanz Summenwerte</translation>
     </message>
 </context>
 <context>
@@ -5878,6 +5742,14 @@ Möchtest Du fortfahren?</translation>
         <source>No fire</source>
         <translation>Kein Feuer</translation>
     </message>
+    <message>
+        <source>Last vibration: %1</source>
+        <translation>Letzte Vibration: %1</translation>
+    </message>
+    <message>
+        <source>Not moved yet</source>
+        <translation>Noch nicht bewegt</translation>
+    </message>
 </context>
 <context>
     <name>ServerConfigurationDialog</name>
@@ -6258,6 +6130,22 @@ A consumer, not consuming anything</extracomment>
     <message>
         <source>At the current rate, the battery will last until %1.</source>
         <translation>Bei der aktuellen Rate wird die Batterie bis %1 halten.</translation>
+    </message>
+    <message>
+        <source>Total consumption: %1 kWh</source>
+        <translation>Gesamtverbrauch: %1 kWh</translation>
+    </message>
+    <message>
+        <source>Total production: %1 kWh</source>
+        <translation>Gesamtproduktion: %1 kWh</translation>
+    </message>
+    <message>
+        <source>Total acquisition: %1 kWh</source>
+        <translation>Gesamter Netzbezug: %1 kWh</translation>
+    </message>
+    <message>
+        <source>Total return: %1 kWh</source>
+        <translation>Gesamte Netzeinspeisung: %1 kWh</translation>
     </message>
 </context>
 <context>
@@ -7833,14 +7721,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Geräteendpunkte</translation>
     </message>
     <message>
-        <source>Endpoint %1</source>
-        <translation>Endpunkt %1</translation>
-    </message>
-    <message>
-        <source>Input clusters</source>
-        <translation>Eingabe-Cluster</translation>
-    </message>
-    <message>
         <source>Client</source>
         <translation>Client</translation>
     </message>
@@ -7849,16 +7729,8 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Server</translation>
     </message>
     <message>
-        <source>Output clusters</source>
-        <translation>Ausgabe-Cluster</translation>
-    </message>
-    <message>
         <source>Source endpoint</source>
         <translation>Quellendpunkt</translation>
-    </message>
-    <message>
-        <source>Target node</source>
-        <translation>Zielknoten</translation>
     </message>
     <message>
         <source>Coordinator</source>
@@ -7887,6 +7759,42 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>The selected node is a sleepy device. Please wake up the device by pressing a button.</source>
         <translation>Der ausgewählte Knoten ist ein schlafendes Gerät. Bitte drücke eine Taste am Gerät um es aufzuwecken.</translation>
+    </message>
+    <message>
+        <source>Show detailed information about the node</source>
+        <translation>Zeige erweiterte Informationen über diesen Knoten</translation>
+    </message>
+    <message>
+        <source>Node descriptor</source>
+        <translation>Knoten-Deskriptor</translation>
+    </message>
+    <message>
+        <source>ZigBee node descriptor</source>
+        <translation>ZigBee Knoten-Deskriptor</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopieren</translation>
+    </message>
+    <message>
+        <source>Copied to clipboard</source>
+        <translation>In die Zwischenablage kopiert</translation>
+    </message>
+    <message>
+        <source>Target</source>
+        <translation>Ziel</translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation>Knoten</translation>
+    </message>
+    <message>
+        <source>Group</source>
+        <translation>Gruppe</translation>
+    </message>
+    <message>
+        <source>Group address</source>
+        <translation>Gruppenadresse</translation>
     </message>
 </context>
 <context>

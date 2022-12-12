@@ -109,22 +109,6 @@
         <source>Server: %1</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>nymea:cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note: nymea:cloud based remote connection is deprecated and will be removed in a future version.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cloud</source>
-        <translation type="unfinished">Bulut</translation>
-    </message>
-    <message>
-        <source>Connect this %1 system to %1:cloud</source>
-        <translation type="unfinished">Bu %1 sistemini %1:bulut&apos;a bağlayın</translation>
-    </message>
 </context>
 <context>
     <name>AirQualityIndex</name>
@@ -411,250 +395,6 @@
     <message>
         <source>The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?</source>
         <translation>Bu %1 sisteminin sertifikası değişti. Bunun nedeni yapılandırmanın değiştirilmiş olması olabilir, ancak sistemin tehlikeye atıldığı anlamına da gelebilir. Yeni sertifikayı kabul etmek istiyor musunuz?</translation>
-    </message>
-</context>
-<context>
-    <name>CloudLoginPage</name>
-    <message>
-        <source>Sorry, an error happened removing the account. Please try again later.</source>
-        <translation>Üzgünüz, hesabı kaldırırken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.</translation>
-    </message>
-    <message>
-        <source>Logged in as %1</source>
-        <translation>%1 olarak giriş yaptınız</translation>
-    </message>
-    <message>
-        <source>Log out</source>
-        <translation>Çıkış</translation>
-    </message>
-    <message>
-        <source>Goodbye</source>
-        <translation>Gülegüle</translation>
-    </message>
-    <message>
-        <source>Delete my account</source>
-        <translation>Hesabımı sil</translation>
-    </message>
-    <message>
-        <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed.</source>
-        <translation>Hangi bilgilerin işlendiğini öğrenmek için &lt;a href=&quot;%1&quot;&gt; gizlilik politikamıza &lt;/a&gt; bakın.</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Şifre</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>Tamam</translation>
-    </message>
-    <message>
-        <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
-        <translation>Giriş yapılamadı. Lütfen tekrar deneyin. Belki &lt;a href=&quot;#&quot;&gt; şifrenizi unuttunuz mu? &lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>Don&apos;t have a user yet?</source>
-        <translation>Henüz bir kullanıcınız yok mu?</translation>
-    </message>
-    <message>
-        <source>Sign Up</source>
-        <translation>Kaydol</translation>
-    </message>
-    <message>
-        <source>Sign up</source>
-        <translation>Kayıt ol</translation>
-    </message>
-    <message>
-        <source>Welcome to %1:cloud.</source>
-        <translation>%1:cloud&apos;a hoş geldiniz.</translation>
-    </message>
-    <message>
-        <source>Please enter your email address and pick a password in order to create a new account.</source>
-        <translation>Yeni bir hesap oluşturmak için lütfen e-posta adresinizi girin ve bir şifre seçin.</translation>
-    </message>
-    <message>
-        <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.</source>
-        <translation>Hangi bilgilerin işlendiğini öğrenmek için &lt;a href=&quot;%1&quot;&gt; gizlilik politikamıza &lt;/a&gt; bakın. %2:cloud&apos;a kaydolarak bu hüküm ve koşulları kabul etmiş olursunuz.</translation>
-    </message>
-    <message>
-        <source>The given username or password are not valid.</source>
-        <translation>Verilen kullanıcı adı veya şifre geçerli değil.</translation>
-    </message>
-    <message>
-        <source>Uh oh, something went wrong. Please try again.</source>
-        <translation>Maalesef bir şeyler ters gitti. Lütfen tekrar deneyin.</translation>
-    </message>
-    <message>
-        <source>Confirm account</source>
-        <translation>Hesabı Onaylayın</translation>
-    </message>
-    <message>
-        <source>Thanks for signing up. We will send you an email with a confirmation code. Please enter that code in the field below.</source>
-        <translation>Üye olduğunuz için teşekkürler. Size onay kodunu içeren bir e-posta göndereceğiz. Lütfen bu kodu aşağıdaki alana girin.</translation>
-    </message>
-    <message>
-        <source>The given user already exists. Did you forget the password?</source>
-        <translation>Belirtilen kullanıcı zaten var. Parolayı unuttunuz mu?</translation>
-    </message>
-    <message>
-        <source>That wasn&apos;t the right code. Please try again.</source>
-        <translation>Doğru kod bu değildi. Lütfen tekrar deneyin.</translation>
-    </message>
-    <message>
-        <source>Reset password</source>
-        <translation>Şifreyi yenile</translation>
-    </message>
-    <message>
-        <source>Sorry, this wasn&apos;t right. Did you misspell the email address?</source>
-        <translation>Üzgünüm, bu doğru değildi. E-posta adresini yanlış mı yazdınız?</translation>
-    </message>
-    <message>
-        <source>Sorry, there were too many attempts. Please try again after some time.</source>
-        <translation>Üzgünüz, çok fazla deneme yapıldı. Lütfen bir süre sonra tekrar deneyin.</translation>
-    </message>
-    <message>
-        <source>Password forgotten?</source>
-        <translation>Şifrenizi mi unuttunuz?</translation>
-    </message>
-    <message>
-        <source>No problem. Enter your email address here and we&apos;ll send you a confirmation code to change your password.</source>
-        <translation>Sorun değil. Buraya e-posta adresinizi girin, şifrenizi değiştirmek için size bir onay kodu göndereceğiz.</translation>
-    </message>
-    <message>
-        <source>Sorry, couldn&apos;t reset your password. Did you enter the wrong confirmation code?</source>
-        <translation>Üzgünüz, şifrenizi sıfırlayamadık. Yanlış doğrulama kodunu mu girdiniz?</translation>
-    </message>
-    <message>
-        <source>Yay!</source>
-        <translation>Yaşasın!</translation>
-    </message>
-    <message>
-        <source>Your password has been reset.</source>
-        <translation>Şifreniz sıfırlandı.</translation>
-    </message>
-    <message>
-        <source>Check your email!</source>
-        <translation>E-postanı kontrol et!</translation>
-    </message>
-    <message>
-        <source>Enter the confirmation code you&apos;ve received and a new password for your user %1.</source>
-        <translation>Aldığınız onay kodunu ve %1 kullanıcınız için yeni bir şifre girin.</translation>
-    </message>
-    <message>
-        <source>Confirmation code:</source>
-        <translation>Onay kodu:</translation>
-    </message>
-    <message>
-        <source>Pick a new password:</source>
-        <translation>Yeni bir şifre seçin:</translation>
-    </message>
-    <message>
-        <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
-        <translation>Giriş sunucusuna bağlanılamadı. Lütfen ağ bağlantınızın çalıştığından emin olun.</translation>
-    </message>
-    <message>
-        <source>An unexpected error happened. Please report this isse. Error code: %1</source>
-        <translation>Beklenmeyen bir hata oldu. Lütfen bunu bildirin. Hata kodu:%1</translation>
-    </message>
-    <message>
-        <source>%1 cloud login</source>
-        <translation>%1 bulut girişi</translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation>Giriş</translation>
-    </message>
-    <message>
-        <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
-        <translation>%2:core sistemlere herhangi bir yerden bağlanmak ve %2:core sistemlerinden anında iletme bildirimleri almak için %1&apos;i %2:cloud&apos;da oturum açın.</translation>
-    </message>
-    <message>
-        <source>Connected %1 systems</source>
-        <translation>%1 sistem bağlandı</translation>
-    </message>
-    <message>
-        <source>There are no %1 systems connected to your cloud yet.</source>
-        <translation>Henüz bulutunuza bağlı %1 sistem yok.</translation>
-    </message>
-    <message numerus="yes">
-        <source>There are %n %1 systems connected to your cloud.</source>
-        <translation>
-            <numerusform>Bulutunuza bağlı %n %1 sistemler var.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
-        <translation>Gittiğini görmek üzücü. Oturumu kapatırsanız, artık %1 sistemlerine uzaktan bağlanamayacaksınız. Ancak, istediğiniz zaman geri dönebilirsiniz, kullanıcı hesabınızı saklayacağız. Hesabınızı ve onunla ilişkili tüm verileri tamamen silmek istiyorsanız, tamam&apos;a basmadan önce aşağıdaki kutuyu işaretleyin. Hesabınızı silmeye karar verirseniz, tüm kişisel bilgileriniz %1:bulut&apos;dan kaldırılır ve geri yüklenemez.</translation>
-    </message>
-</context>
-<context>
-    <name>CloudSettingsPage</name>
-    <message>
-        <source>Cloud connection enabled</source>
-        <translation>Bulut bağlantısı etkinleştirildi</translation>
-    </message>
-    <message>
-        <source>This box is not connected to %1:cloud</source>
-        <translation>Bu kutu %1:bulut&apos;a bağlı değil</translation>
-    </message>
-    <message>
-        <source>Registering box in %1:cloud...</source>
-        <translation>%1:buluttaki kutu kaydediliyor...</translation>
-    </message>
-    <message>
-        <source>This box is not configured to connect to %1:cloud.</source>
-        <translation>Bu kutu %1:cloud&apos;a bağlanacak şekilde yapılandırılmamış.</translation>
-    </message>
-    <message>
-        <source>Connecting the box to %1:cloud...</source>
-        <translation>Kutu %1:bulut&apos;a bağlanıyor...</translation>
-    </message>
-    <message>
-        <source>The box is connected to %1:cloud.</source>
-        <translation>Kutu %1:bulut&apos;a bağlı.</translation>
-    </message>
-    <message>
-        <source>This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.</source>
-        <translation>Bu kutu %1:bulutuna erişmek için yapılandırılmamış. Bir kutunun %1:cloud&apos;a bağlanabilmesi için önce kaydedilmesi gerekir.</translation>
-    </message>
-    <message>
-        <source>Register box</source>
-        <translation>Kayıt kutusu</translation>
-    </message>
-    <message>
-        <source>Log in to cloud</source>
-        <translation>Bulutta oturum açın</translation>
-    </message>
-    <message>
-        <source>Cloud connection</source>
-        <translation>Bulut bağlantısı</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation>Durum</translation>
-    </message>
-    <message>
-        <source>Remote connection</source>
-        <translation>Uzak bağlantı</translation>
-    </message>
-    <message>
-        <source>Go to app settings</source>
-        <translation>Uygulama ayarlarına git</translation>
-    </message>
-    <message>
-        <source>Set up cloud connection for %1</source>
-        <translation>%1 için bulut bağlantısı kurun</translation>
-    </message>
-    <message>
-        <source>%1 cloud settings</source>
-        <translation>%1 bulut ayarları</translation>
-    </message>
-    <message>
-        <source>Connect %1 to %1:cloud in order to access it from anywhere.</source>
-        <translation>Her yerden erişmek için %1&apos;i %1:bulut&apos;a bağlayın.</translation>
-    </message>
-    <message>
-        <source>In order to remotely connect to this %1 system, %2 needs to be logged into %1:cloud as well.</source>
-        <translation>Bu %1 sistemine uzaktan bağlanmak için %2&apos;nin de %1:cloud&apos;da oturum açması gerekir.</translation>
     </message>
 </context>
 <context>
@@ -1088,6 +828,10 @@
         <source>Waiting for your nymea setup to appear in the network.</source>
         <translation type="unfinished">Nymea kurulumunuzun ağda görünmesini bekliyorum.</translation>
     </message>
+    <message>
+        <source>Location services are disabled. Please enable location services on this device in order to search for nearby nymea systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConsumerStats</name>
@@ -1117,6 +861,13 @@
     </message>
     <message>
         <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumerStatsPage</name>
+    <message>
+        <source>Consumers balance</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1167,6 +918,13 @@
     </message>
 </context>
 <context>
+    <name>ConsumersHistoryPage</name>
+    <message>
+        <source>Power balance totals</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConsumersPieChart</name>
     <message>
         <source>Consumers balance</source>
@@ -1180,13 +938,20 @@
         <source>Total</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source></source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>ConsumersPieChartPage</name>
+    <message>
+        <source>Consumers balance</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CurrentConsumptionBalancePieChart</name>
-    <message>
-        <source>My energy mix</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Total</source>
         <translation type="unfinished"></translation>
@@ -1201,6 +966,24 @@
     </message>
     <message>
         <source>From battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>My energy consumption</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CurrentPowerBalancePage</name>
+    <message>
+        <source>My energy mix</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CurrentPowerBalancePieChart</name>
+    <message>
+        <source>My energy mix</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1445,16 +1228,8 @@
         <translation>Geliştirici Seçenekleri</translation>
     </message>
     <message>
-        <source>Cloud environment</source>
-        <translation>Bulut ortamı</translation>
-    </message>
-    <message>
         <source>Logging</source>
         <translation>Günlük</translation>
-    </message>
-    <message>
-        <source>Advanced options</source>
-        <translation>Gelişmiş seçenekler</translation>
     </message>
     <message>
         <source>Application logs enabled</source>
@@ -1467,22 +1242,6 @@
     <message>
         <source>Configure logging categories</source>
         <translation>Günlük kategorilerini yapılandırın</translation>
-    </message>
-    <message>
-        <source>nymea:cloud</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note: nymea:cloud is deprecated and will be removed in a future version.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cloud login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Log into %1:cloud and manage connected %1 systems</source>
-        <translation type="unfinished">%1:bulutta oturum açın ve bağlı %1 sistemlerini yönetin</translation>
     </message>
 </context>
 <context>
@@ -3392,6 +3151,14 @@ Please try again.</source>
         <source>Fire detected changed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Vibration sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vibration detected</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
@@ -5015,6 +4782,11 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Nitrogen dioxide level</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>vibration sensor</source>
+        <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -5207,6 +4979,92 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
+    <name>PowerBalanceHistory</name>
+    <message>
+        <source>My power balance history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From self production</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Produced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Consumed: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Produced: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From grid: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To grid: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From self production: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To battery: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From battery: %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PowerBalanceHistoryPage</name>
+    <message>
+        <source>My power balance history</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PowerBalanceStats</name>
     <message>
         <source>Totals</source>
@@ -5266,6 +5124,13 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>No data available</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PowerBalanceStatsPage</name>
+    <message>
+        <source>Power balance totals</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5852,6 +5717,14 @@ Do you want to proceed?</source>
         <source>No fire</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Last vibration: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not moved yet</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ServerConfigurationDialog</name>
@@ -6231,6 +6104,22 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message>
         <source>At the current rate, the battery will last until %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total consumption: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total production: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total acquisition: %1 kWh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total return: %1 kWh</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7801,14 +7690,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Endpoint %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input clusters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Client</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7817,15 +7698,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Output clusters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Source endpoint</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Target node</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7854,6 +7727,42 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>The selected node is a sleepy device. Please wake up the device by pressing a button.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show detailed information about the node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node descriptor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ZigBee node descriptor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Target</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Group address</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
