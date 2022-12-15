@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.os.Vibrator;
 import android.net.Uri;
@@ -124,7 +125,14 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
     }
 
     public boolean locationServicesEnabled() {
-        LocationManager lm = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-        return lm.isLocationEnabled();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            // This is a new method provided in API 28
+            LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+            return lm.isLocationEnabled();
+        }
+
+        // This was deprecated in API 28
+        int mode = Settings.Secure.getInt(getApplicationContext().getContentResolver(), Settings.Secure.LOCATION_MODE, Settings.Secure.LOCATION_MODE_OFF);
+        return (mode != Settings.Secure.LOCATION_MODE_OFF);
     }
 }
