@@ -21,6 +21,8 @@ signals:
 private:
     QHash<PlatformPermissions::Permission, QStringList> permissionMap() const;
 
+    QStringList m_requestedButDeniedPermissions;
+
     static PlatformPermissionsAndroid *s_instance;
     static void permissionResultCallback(const QtAndroid::PermissionResultMap &results);
 
