@@ -1,3 +1,13 @@
+nymea-app (1.5.22) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a crash with checking location permissions on old androids
+  * Fix some permission backwards compatibility issues with older
+    android versions
+  * Fix firebase libs for android x86
+
+ -- jenkins <developer@nymea.io>  Thu, 15 Dec 2022 14:58:31 +0100
+
 nymea-app (1.5.21) bionic; urgency=medium
 
   [ Michael Zanetti ]
