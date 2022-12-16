@@ -150,7 +150,7 @@ Item {
                                 engine.jsonRpcClient.connectToHost(cachedHost)
                                 return;
                             }
-                            print("Warning: There is a last connected host but UUID is unknown to discovery...")
+                            console.warn("There is a last connected host but UUID is unknown to discovery...")
                         } else if (autoConnectHost.length > 0 && index === 0) {
                             var host = nymeaDiscovery.nymeaHosts.createLanHost(Configuration.systemName, autoConnectHost);
                             engine.jsonRpcClient.connectToHost(host)
@@ -295,6 +295,13 @@ Item {
                             if (engine.jsonRpcClient.connected) {
                                 nymeaDiscovery.cacheHost(engine.jsonRpcClient.currentHost)
                                 configuredHost.uuid = engine.jsonRpcClient.serverUuid
+
+                                for (var i = 0; i < configuredHostsModel.count; i++) {
+                                    if (i != index && configuredHostsModel.get(i).uuid == engine.jsonRpcClient.serverUuid) {
+                                        configuredHostsModel.removeHost(i);
+                                        break;
+                                    }
+                                }
                             }
                             init();
                         }
@@ -319,6 +326,12 @@ Item {
                             popup.actualVersion = actualVersion;
                             popup.maxVersion = maxVersion;
                             popup.open()
+                        }
+                        onInvalidServerUuid: {
+                            var connection = engine.jsonRpcClient.currentConnection;
+                            engine.jsonRpcClient.disconnectFromHost();
+                            engine.jsonRpcClient.currentHost.connections.removeConnection(connection);
+                            nymeaDiscovery.cacheHost(engine.jsonRpcClient.currentHost);
                         }
                     }
 
@@ -365,7 +378,7 @@ Item {
                             url += ":" + tunnelProxyConfig.port
                             url += "?uuid=" + engine.jsonRpcClient.currentHost.uuid
                             console.info("Adding tunnel proxy connection:", url)
-                            engine.jsonRpcClient.currentHost.connections.addConnection(url, Connection.BearerTypeCloud, tunnelProxyConfig.sslEnabled, "Remote proxy connection");
+                            engine.jsonRpcClient.currentHost.connections.addConnection(url, Connection.BearerTypeCloud, tunnelProxyConfig.sslEnabled, "Remote proxy connection", true);
                         }
                         nymeaDiscovery.cacheHost(engine.jsonRpcClient.currentHost)
                     }

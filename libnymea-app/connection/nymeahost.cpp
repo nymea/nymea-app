@@ -232,9 +232,10 @@ Connection *Connections::bestMatch(Connection::BearerTypes bearerTypes) const
     return best;
 }
 
-void Connections::addConnection(const QUrl &url, Connection::BearerType bearerType, bool secure, const QString &displayName)
+void Connections::addConnection(const QUrl &url, Connection::BearerType bearerType, bool secure, const QString &displayName, bool manual)
 {
     Connection *connection = new Connection(url, bearerType, secure, displayName);
+    connection->setManual(manual);
     addConnection(connection);
 }
 
@@ -249,12 +250,12 @@ QHash<int, QByteArray> Connections::roleNames() const
     return roles;
 }
 
-Connection::Connection(const QUrl &url, Connection::BearerType bearerType, bool secure, const QString &displayName, QObject *parent):
+Connection::Connection(const QUrl &url, Connection::BearerType bearerType, bool secure, const QString &note, QObject *parent):
     QObject(parent),
     m_url(url),
     m_bearerType(bearerType),
     m_secure(secure),
-    m_displayName(displayName)
+    m_displayName(note)
 {
     qRegisterMetaType<Connection::BearerType>("Connection.BearerType");
 }
@@ -296,7 +297,7 @@ QString Connection::displayName() const
 
 bool Connection::online() const
 {
-    return m_online;
+    return m_manual || m_online;
 }
 
 void Connection::setOnline(bool online)
@@ -304,6 +305,20 @@ void Connection::setOnline(bool online)
     if (m_online != online) {
         m_online = online;
         m_lastSeen = QDateTime::currentDateTime();
+        emit onlineChanged();
+        emit priorityChanged();
+    }
+}
+
+bool Connection::manual() const
+{
+    return m_manual;
+}
+
+void Connection::setManual(bool manual)
+{
+    if (m_manual != manual) {
+        m_manual = manual;
         emit onlineChanged();
         emit priorityChanged();
     }

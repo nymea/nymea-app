@@ -292,9 +292,8 @@ void UpnpDiscovery::networkReplyFinished(QNetworkReply *reply)
         Connection *connection = device->connections()->find(url);
         if (!connection) {
             bool sslEnabled = url.scheme() == "nymeas" || url.scheme() == "wss";
-            QString displayName = QString("%1:%2").arg(url.host()).arg(url.port());
             Connection::BearerType bearerType = QHostAddress(url.host()).isLoopback() ? Connection::BearerTypeLoopback : Connection::BearerTypeLan;
-            connection = new Connection(url, bearerType, sslEnabled, displayName);
+            connection = new Connection(url, bearerType, sslEnabled, "UPnP");
             connection->setOnline(true);
             qCInfo(dcUPnP()) << "Adding new connection to host:" << device->name() << url << bearerType;
             device->connections()->addConnection(connection);

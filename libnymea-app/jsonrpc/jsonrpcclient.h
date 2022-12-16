@@ -126,6 +126,7 @@ signals:
     void tokenChanged();
     void invalidMinimumVersion(const QString &actualVersion, const QString &minVersion);
     void invalidMaximumVersion(const QString &actualVersion, const QString &maxVersion);
+    void invalidServerUuid(const QUuid &uuid);
     void authenticationFailed();
     void pushButtonAuthFailed();
     void createUserSucceeded();
@@ -158,7 +159,6 @@ private:
     bool m_pushButtonAuthAvailable = false;
     bool m_authenticated = false;
     int m_pendingPushButtonTransaction = -1;
-    QString m_serverUuid;
     QVersionNumber m_jsonRpcVersion;
     QString m_serverVersion;
     QString m_serverQtVersion;

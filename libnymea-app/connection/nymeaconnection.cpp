@@ -128,7 +128,7 @@ void NymeaConnection::setCurrentHost(NymeaHost *host)
         return;
     }
 
-    if (m_preferredConnection) {
+    if (host && m_preferredConnection) {
         if (host->connections()->find(m_preferredConnection->url())) {
             qCInfo(dcNymeaConnection()) << "Setting preferred connection to" << m_preferredConnection->url();
             // Unset the preferred connection when it is removed

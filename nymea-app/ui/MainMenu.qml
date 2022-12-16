@@ -88,6 +88,7 @@ Drawer {
                                 Layout.alignment: Qt.AlignVCenter
                                 visible: index === configuredHostsModel.currentIndex && !topSectionLayout.configureConnections
                             }
+
                             ProgressButton {
                                 imageSource: "/ui/images/close.svg"
                                 visible: topSectionLayout.configureConnections && (autoConnectHost.length === 0 || index > 0)
@@ -104,8 +105,24 @@ Drawer {
                             }
                         }
                         onClicked: {
-                            configuredHostsModel.currentIndex = index
-                            root.close()
+                            if (topSectionLayout.configureConnections) {
+                                var nymeaHost = nymeaDiscovery.nymeaHosts.find(hostDelegate.configuredHost.uuid);
+                                if (nymeaHost) {
+                                    var connectionInfoDialog = Qt.createComponent("/ui/components/ConnectionInfoDialog.qml")
+                                    var popup = connectionInfoDialog.createObject(app,{nymeaEngine: configuredHost.engine, nymeaHost: nymeaHost})
+                                    popup.open()
+                                    popup.connectionSelected.connect(function(connection) {
+                                        print("...")
+                                        configuredHost.engine.jsonRpcClient.disconnectFromHost();
+                                        configuredHost.engine.jsonRpcClient.connectToHost(nymeaHost, connection)
+                                        configuredHostsModel.currentIndex = index
+                                        root.close()
+                                    })
+                                }
+                            } else {
+                                configuredHostsModel.currentIndex = index
+                                root.close()
+                            }
                         }
                     }
                 }
@@ -233,5 +250,12 @@ Drawer {
             }
         }
     }
+
+//    Component {
+//        id: hostConnectionInfoComponent
+//        MeaDialog {
+
+//        }
+//    }
 }
 

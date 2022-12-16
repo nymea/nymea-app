@@ -76,6 +76,8 @@ public:
     QString displayName() const;
     bool online() const;
     void setOnline(bool online);
+    bool manual() const;
+    void setManual(bool manual);
     int priority() const;
 
 signals:
@@ -88,6 +90,7 @@ private:
     bool m_secure = false;
     QString m_displayName;
     bool m_online = false;
+    bool m_manual = false;
     QDateTime m_lastSeen;
 };
 
@@ -115,7 +118,7 @@ public:
     Q_INVOKABLE Connection* bestMatch(Connection::BearerTypes bearerTypes = Connection::BearerTypeAll) const;
 
     void addConnection(Connection *connection);
-    Q_INVOKABLE void addConnection(const QUrl &url, Connection::BearerType bearerType, bool secure, const QString &displayName);
+    Q_INVOKABLE void addConnection(const QUrl &url, Connection::BearerType bearerType, bool secure, const QString &displayName, bool manual = false);
     Q_INVOKABLE void removeConnection(Connection *connection);
     Q_INVOKABLE void removeConnection(int index);
 

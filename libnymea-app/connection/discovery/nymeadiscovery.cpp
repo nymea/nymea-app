@@ -143,6 +143,7 @@ void NymeaDiscovery::cacheHost(NymeaHost *host)
         settings.setValue("bearerType", connection->bearerType());
         settings.setValue("secure", connection->secure());
         settings.setValue("displayName", connection->displayName());
+        settings.setValue("manual", connection->manual());
         settings.endGroup();
     }
     settings.endGroup();
@@ -221,6 +222,7 @@ void NymeaDiscovery::loadFromDisk()
                 bool secure = settings.value("secure").toBool();
                 QString displayName = settings.value("displayName").toString();
                 connection = new Connection(url, bearerType, secure, displayName, host);
+                connection->setManual(settings.value("manual").toBool());
                 host->connections()->addConnection(connection);
                 qCDebug(dcDiscovery()) << "|- Connection:" << group << connection->url() << connection->bearerType() << "secure:" << connection->secure();
             }

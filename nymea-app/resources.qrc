@@ -289,5 +289,6 @@
         <file>ui/mainviews/energy/ConsumersHistoryPage.qml</file>
         <file>ui/mainviews/energy/ConsumerStatsPage.qml</file>
         <file>ui/mainviews/energy/ConsumersPieChartPage.qml</file>
+        <file>ui/connection/ManualConnectionEntry.qml</file>
     </qresource>
 </RCC>

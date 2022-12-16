@@ -124,8 +124,8 @@ NymeaHost *NymeaHosts::createHost(const QString &name, const QUrl &url, Connecti
 {
     NymeaHost *host = new NymeaHost(this);
     host->setName(name);
-    Connection *connection = new Connection(url, bearerType, false, url.toString(), host);
-    connection->setOnline(true);
+    Connection *connection = new Connection(url, bearerType, false, name, host);
+    connection->setManual(true);
     host->connections()->addConnection(connection);
     addHost(host);
     return host;
