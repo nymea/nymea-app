@@ -165,7 +165,7 @@ Page {
                                 Layout.fillWidth: true
                                 text: thingId === null || stateTypeId === null
                                       ? qsTr("Select a state")
-                                      : dev.name + " - " + thing.thingClass.stateTypes.getStateType(stateTypeId).displayName
+                                      : thing.name + " - " + thing.thingClass.stateTypes.getStateType(stateTypeId).displayName
                                 visible: stateValueRadioButton.checked
 
                                 property var thingId: null
