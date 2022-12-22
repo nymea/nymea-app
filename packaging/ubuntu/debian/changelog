@@ -1,3 +1,11 @@
+nymea-app (1.6.1) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make energy logs more robust against faulty databases
+  * Fix rule action param editor with value from state
+
+ -- jenkins <developer@nymea.io>  Thu, 22 Dec 2022 14:47:13 +0100
+
 nymea-app (1.6.0) bionic; urgency=medium
 
   [ Michael Zanetti ]
