@@ -98,7 +98,7 @@ Page {
                             RadioButton {
                                 id: staticParamRadioButton
                                 text: qsTr("Use static value as parameter")
-                                checked: true
+                                checked: root.ruleAction.ruleActionParams.getParam(root.actionType.paramTypes.get(index).id).isValueBased
                                 font.pixelSize: app.smallFont
                                 visible: eventParamRadioButton.visible || stateValueRadioButton.visible
                             }
@@ -106,6 +106,7 @@ Page {
                                 id: eventParamRadioButton
                                 text: qsTr("Use event parameter")
                                 visible: eventParamsComboBox.count > 0
+                                checked: root.ruleAction.ruleActionParams.getParam(root.actionType.paramTypes.get(index).id).isEventParamBased
                                 font.pixelSize: app.smallFont
                             }
                             RadioButton {
@@ -113,6 +114,7 @@ Page {
                                 text: qsTr("Use a thing's state value")
                                 font.pixelSize: app.smallFont
                                 visible: engine.jsonRpcClient.ensureServerVersion("2.0")
+                                checked: root.ruleAction.ruleActionParams.getParam(root.actionType.paramTypes.get(index).id).isStateValueBased
                             }
 
                             ThinDivider {
@@ -165,11 +167,11 @@ Page {
                                 Layout.fillWidth: true
                                 text: thingId === null || stateTypeId === null
                                       ? qsTr("Select a state")
-                                      : dev.name + " - " + thing.thingClass.stateTypes.getStateType(stateTypeId).displayName
+                                      : thing.name + " - " + thing.thingClass.stateTypes.getStateType(stateTypeId).displayName
                                 visible: stateValueRadioButton.checked
 
-                                property var thingId: null
-                                property var stateTypeId: null
+                                property var thingId: root.ruleAction.ruleActionParams.getParam(root.actionType.paramTypes.get(index).id).stateThingId
+                                property var stateTypeId: root.ruleAction.ruleActionParams.getParam(root.actionType.paramTypes.get(index).id).stateTypeId
 
                                 readonly property Thing thing: engine.thingManager.things.getThing(thingId)
 
