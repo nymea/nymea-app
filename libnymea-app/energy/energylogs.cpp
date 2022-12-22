@@ -193,10 +193,10 @@ int EnergyLogs::indexOf(const QDateTime &timestamp)
 
     int index = qRound(1.0 * first.secsTo(timestamp) / (m_sampleRate * 60));
     if (index < 0 || index >= m_list.count()) {
-//        qWarning() << "finding:" << timestamp << index << first.toString() << "NOT FOUND" << m_list.last()->timestamp();
+        qCDebug(dcEnergyLogs()) << "finding:" << timestamp << index << first.toString() << "NOT FOUND" << m_list.last()->timestamp() << m_list.count();
         return -1;
     }
-//    qWarning() << "finding:" << timestamp << index << first.toString() << m_list.at(index)->timestamp();
+    qCDebug(dcEnergyLogs()) << "finding:" << timestamp << index << first.toString() << m_list.at(index)->timestamp();
 
 
     // Normally, if the DB is in a consistent state, we can rely that the above finds the correct entry.
@@ -282,7 +282,7 @@ void EnergyLogs::getLogsResponse(int commandId, const QVariantMap &params)
     Q_UNUSED(commandId)
 
     double minValue = 0, maxValue = 0;
-//    qCDebug(dcEnergyLogs()) << "Logs response:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    qCDebug(dcEnergyLogs()) << "Logs response:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
     QList<EnergyLogEntry*> entries = unpackEntries(params, &minValue, &maxValue);
 
     if (!entries.isEmpty()) {
@@ -314,16 +314,24 @@ void EnergyLogs::getLogsResponse(int commandId, const QVariantMap &params)
                 }
             } else {
                 // End of fetched entries does not line up with start of existing entries. Discarding existing entries
-                qCDebug(dcEnergyLogs()) << "End of fetched entries does not line up with start of existing entries. Discarding existing entries" << entries.last()->timestamp().addSecs(m_sampleRate * 60).toString() << " - " << m_list.first()->timestamp().toString();
+                qCDebug(dcEnergyLogs()) << "End of fetched entrie does not line up with start of existing entries. Discarding existing entries" << entries.last()->timestamp().addSecs(m_sampleRate * 60).toString() << " - " << m_list.first()->timestamp().toString();
                 clear();
-                beginInsertRows(QModelIndex(), 0, entries.count());
-                m_list.append(entries);
-                endInsertRows();
-                emit entriesAdded(0, entries);
-                m_minValue = minValue;
-                emit minValueChanged();
-                m_maxValue = maxValue;
-                emit maxValueChanged();
+
+                // If the mismatch is in the visible area, we'll discard everything and fetch again
+                // Else if the mismatch is outside the visible area, we'll just discard the old data and work with what we received
+                if (entries.first()->timestamp() <= m_startTime && entries.last()->timestamp() >= m_endTime) {
+                    beginInsertRows(QModelIndex(), 0, entries.count());
+                    m_list.append(entries);
+                    endInsertRows();
+                    emit entriesAdded(0, entries);
+                    m_minValue = minValue;
+                    emit minValueChanged();
+                    m_maxValue = maxValue;
+                    emit maxValueChanged();
+                } else {
+                    qDeleteAll(entries);
+                    fetchLogs();
+                }
             }
 
         } else if (entries.first()->timestamp().addSecs(-m_sampleRate * 60) == m_list.last()->timestamp()) {
