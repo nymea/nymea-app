@@ -36,6 +36,7 @@ import Qt.labs.settings 1.0
 import Qt.labs.folderlistmodel 2.2
 import QtQuick.Window 2.3
 import Nymea 1.0
+import NymeaApp.Utils 1.0
 
 ApplicationWindow {
     id: app

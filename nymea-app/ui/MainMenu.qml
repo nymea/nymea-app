@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.1
 import Qt.labs.settings 1.0
 import "components"
 import Nymea 1.0
+import NymeaApp.Utils 1.0
 
 Drawer {
     id: root

@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import Nymea 1.0
+import NymeaApp.Utils 1.0
 
 ColorIcon {
     id: root
