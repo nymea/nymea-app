@@ -496,47 +496,5 @@ Item {
                 }
             }
         }
-
-        RowLayout {
-            Layout.fillWidth: true
-            visible: settings.showConnectionTabs
-            spacing: 0
-
-            TabBar {
-                id: tabbar
-                Layout.fillWidth: true
-                Material.elevation: 2
-                position: TabBar.Footer
-                currentIndex: configuredHostsModel.currentIndex
-
-                Repeater {
-                    model: configuredHostsModel
-
-                    delegate: TabButton {
-                        id: hostTabButton
-                        readonly property ConfiguredHost configuredHost: configuredHostsModel.get(index)
-                        Material.elevation: index
-                        width: Math.max(150, tabbar.width / configuredHostsModel.count)
-
-                        Rectangle {
-                            anchors.fill: parent
-                            color: Material.foreground
-                            opacity: 0.06
-                        }
-
-                        contentItem: Label {
-                            Layout.fillWidth: true
-                            text: hostTabButton.configuredHost.name !== "" ? hostTabButton.configuredHost.name : qsTr("New connection")
-                            verticalAlignment: Text.AlignVCenter
-                            elide: Text.ElideRight
-                        }
-
-                        onClicked: {
-                            configuredHostsModel.currentIndex = index
-                        }
-                    }
-                }
-            }
-        }
     }
 }

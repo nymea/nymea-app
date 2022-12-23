@@ -79,7 +79,6 @@ ApplicationWindow {
         property string graphStyle: "bars"
         property bool showHiddenOptions: false
         property string cloudEnvironment: "Community"
-        property bool showConnectionTabs: false
         // FIXME: This shouldn't be needed... we should probably only use the system locale and not even provide a setting
         // However, the topic is more complex, and in the long run we'd probably want to allow the user selecting the
         // desired unit for particular interfaces/things/views. See https://github.com/nymea/nymea/issues/386
