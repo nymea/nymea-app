@@ -113,13 +113,6 @@ SettingsPageBase {
         }
     }
 
-    CheckDelegate {
-        Layout.fillWidth: true
-        text: qsTr("Show connection tabs")
-        checked: settings.showConnectionTabs
-        onClicked: settings.showConnectionTabs = checked
-    }
-
     SettingsPageSectionHeader {
         text: qsTr("Regional")
     }
