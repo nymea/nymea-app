@@ -34,6 +34,7 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.3
 import "qrc:/ui/components"
 import Nymea 1.0
+import NymeaApp.Utils 1.0
 
 SettingsPageBase {
     id: root
