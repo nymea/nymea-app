@@ -88,6 +88,12 @@ AppLogController *AppLogController::instance()
 
 AppLogController::AppLogController(QObject *parent) : QObject(parent)
 {
+    // qt.qml.connections warnings are disabled since the replace only exists
+    // in Qt 5.12. Remove that once 5.12 is the minimum supported version.
+    QLoggingCategory::setFilterRules("*.debug=false\n"
+                                     "qt.qml.connections.warning=false\n"
+                                     );
+
     m_loggingCategories = new LoggingCategories(this);
 
     QSettings settings;
@@ -95,7 +101,12 @@ AppLogController::AppLogController(QObject *parent) : QObject(parent)
     foreach (const QString &category, nymeaLoggingCategories()) {
         m_logLevels[category] = static_cast<LogLevel>(settings.value(category, LogLevelWarning).toInt());
     }
+    // Unless specified otherwise by the user, Application info messages are enabled by default for basic information
+    if (!settings.childKeys().contains("Application")) {
+        m_logLevels["Application"] = LogLevelInfo;
+    }
     settings.endGroup();
+
     updateFilters();
 
     // Finally, install the logMessageHandler

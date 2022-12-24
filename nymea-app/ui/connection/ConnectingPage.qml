@@ -57,15 +57,15 @@ Page {
 
     ColumnLayout {
         id: columnLayout
-        anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
-        spacing: app.margins
+        anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: Style.margins }
+        spacing: Style.margins
         BusyIndicator {
             Layout.alignment: Qt.AlignHCenter
             running: parent.visible
         }
         Label {
             text: qsTr("Connecting...")
-            font.pixelSize: app.largeFont
+            font: Style.bigFont
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
@@ -73,8 +73,8 @@ Page {
         Label {
             Layout.fillWidth: true
             text: engine.jsonRpcClient.currentHost.name.length > 0 ? engine.jsonRpcClient.currentHost.name : engine.jsonRpcClient.currentHost.uuid
-            font.pixelSize: app.smallFont
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            font: Style.smallFont
+            elide: Text.ElideRight
             horizontalAlignment: Text.AlignHCenter
         }
         Label {
@@ -119,7 +119,7 @@ Page {
                 }
                 return errorMessage;
             }
-            font.pixelSize: app.smallFont
+            font: Style.smallFont
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             horizontalAlignment: Text.AlignHCenter
         }

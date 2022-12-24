@@ -103,16 +103,16 @@ Page {
             Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: Style.delegateHeight
+                Label {
+                    id: extraButtonLabel
+                    anchors { left: parent.left; verticalCenter: parent.verticalCenter }
+                }
                 MouseArea {
                     id: extraButton
                     anchors { left: parent.left; verticalCenter: parent.verticalCenter }
                     height: Style.delegateHeight
-                    width: childrenRect.width
+                    width: extraButtonLabel.width
                     visible: false
-                    Label {
-                        id: extraButtonLabel
-                        anchors.centerIn: parent
-                    }
                     onClicked: root.extraButtonPressed()
                 }
             }
