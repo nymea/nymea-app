@@ -59,38 +59,36 @@ Item {
         }
     }
 
+    RowLayout {
+        id: layout
+        anchors { left: parent.left; top: parent.top; right: parent.right }
 
-        RowLayout {
-            id: layout
-            anchors { left: parent.left; top: parent.top; right: parent.right }
-
-            HeaderButton {
-                id: menuButton
-                objectName: "headerMenuButton"
-                imageSource: "../images/navigation-menu.svg"
-                visible: false
-                onClicked: root.menuPressed();
-            }
-
-            HeaderButton {
-                id: backButton
-                objectName: "backButton"
-                imageSource: "../images/back.svg"
-                onClicked: root.backPressed();
-            }
-            Label {
-                id: label
-                Layout.fillWidth: true
-                Layout.maximumWidth: layout.width - x * 2
-                Layout.fillHeight: true
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                elide: Text.ElideRight
-                text: root.text
-//                visible: text.length > 0
-                font: Style.bigFont
-            }
+        HeaderButton {
+            id: menuButton
+            objectName: "headerMenuButton"
+            imageSource: "../images/navigation-menu.svg"
+            visible: false
+            onClicked: root.menuPressed();
         }
+
+        HeaderButton {
+            id: backButton
+            objectName: "backButton"
+            imageSource: "../images/back.svg"
+            onClicked: root.backPressed();
+        }
+        Label {
+            id: label
+            Layout.fillWidth: true
+            Layout.maximumWidth: layout.width - Style.iconSize * 2
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            elide: Text.ElideRight
+            text: root.text
+            font: Style.bigFont
+        }
+    }
 
 
     Pane {
@@ -113,7 +111,7 @@ Item {
             implicitHeight: contentRow.implicitHeight
             RowLayout {
                 id: contentRow
-                anchors { left: parent.left; top: parent.top; right: parent.right; leftMargin: app.margins; rightMargin: app.margins }
+                anchors { left: parent.left; top: parent.top; right: parent.right; leftMargin: Style.margins; rightMargin: Style.margins }
                 Item {
                     Layout.fillWidth: true
                     height: Style.iconSize
@@ -121,7 +119,7 @@ Item {
 
                 Label {
                     text: infoPane.text
-                    font.pixelSize: app.smallFont
+                    font: Style.smallFont
                     color: "white"
                 }
 

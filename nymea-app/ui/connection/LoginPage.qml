@@ -86,11 +86,11 @@ SettingsPageBase {
         id: contentColumn
         width: parent.width
 
-        spacing: app.margins
+        spacing: Style.margins
 
         RowLayout {
-            Layout.margins: app.margins
-            spacing: app.margins
+            Layout.margins: Style.margins
+            spacing: Style.margins
 
             ColorIcon {
                 Layout.preferredHeight: Style.iconSize * 2

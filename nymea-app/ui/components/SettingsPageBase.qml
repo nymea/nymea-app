@@ -30,7 +30,6 @@
 
 import QtQuick 2.5
 import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.1
 import Nymea 1.0
 
@@ -47,6 +46,7 @@ Page {
     property alias busyText: busyOverlay.text
 
     Flickable {
+        id: flickable
         anchors.fill: parent
         contentHeight: contentColumn.height + Style.margins
         interactive: contentHeight > height
@@ -57,7 +57,7 @@ Page {
         ColumnLayout {
             id: contentColumn
             anchors.horizontalCenter: parent.horizontalCenter
-            width: Math.min(500, parent.width)
+            width: Math.min(500, flickable.width)
         }
     }
 
