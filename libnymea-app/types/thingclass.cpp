@@ -209,6 +209,12 @@ QString ThingClass::baseInterface() const
         if (interface == "electricvehicle") {
             return "electricvehicle";
         }
+        if (interface == "ventilation") {
+            return "ventilation";
+        }
+        if (interface == "fingerprintreader") {
+            return "fingerprintreader";
+        }
     }
     return "uncategorized";
 }
