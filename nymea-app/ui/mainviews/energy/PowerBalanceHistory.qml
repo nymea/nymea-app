@@ -335,7 +335,7 @@ Item {
 
 
                     function calculateValue(entry) {
-                        return Math.max(0, -entry.production) - Math.max(0, -entry.acquisition) - Math.max(0, entry.storage)
+                        return Math.max(0, Math.max(0, -entry.production) - Math.max(0, -entry.acquisition) - Math.max(0, entry.storage))
                     }
 
                     function addEntry(entry) {
@@ -354,7 +354,7 @@ Item {
                     borderWidth: 0
                     borderColor: color
                     opacity: d.selectedSeries == null || d.selectedSeries == toStorageSeries ? 1 : 0.3
-                    visible: root.batteries.count > 0
+//                    visible: root.batteries.count > 0
                     name: qsTr("To battery")
 
                     onClicked: d.selectSeries(toStorageSeries)
@@ -393,9 +393,11 @@ Item {
                         return toStorageSeries.calculateValue(entry) + Math.max(0, -entry.acquisition)
                     }
                     function addEntry(entry) {
+                        print("Adding return entry:", calculateValue(entry))
                         returnUpperSeries.append(entry.timestamp.getTime(), calculateValue(entry))
                     }
                     function insertEntry(index, entry) {
+                        print("Adding return entry:", entry.acquisition, Math.max(0, -entry.acquisition), toStorageSeries.calculateValue(entry), calculateValue(entry))
                         returnUpperSeries.insert(index, entry.timestamp.getTime(), calculateValue(entry))
                     }
 
