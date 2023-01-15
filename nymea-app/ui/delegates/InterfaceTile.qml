@@ -156,12 +156,12 @@ MainPageTile {
         id: inlineControlLoader
         anchors {
             fill: parent
-            leftMargin: app.margins / 2
-            rightMargin: app.margins / 2
+            leftMargin: Style.margins / 2
+            rightMargin: Style.margins / 2
         }
         sourceComponent: {
             if (!root.iface) {
-                return null
+                return labelComponent
             }
 
             switch (iface.name) {
@@ -176,7 +176,6 @@ MainPageTile {
             case "cooling":
             case "thermostat":
                 return sensorComponent;
-                //                return labelComponent;
 
             case "light":
             case "garagedoor":
@@ -199,7 +198,7 @@ MainPageTile {
             case "media":
                 return mediaControlComponent
             default:
-                console.warn("InterfaceTile, inlineControl: Unhandled interface", iface.name)
+                return labelComponent
             }
 
         }
@@ -283,11 +282,9 @@ MainPageTile {
         ColumnLayout {
             spacing: 0
 
-            property Thing thing: thingsProxy.get(0)
-
             Label {
-                text: parent.thing.name
-                font.pixelSize: app.smallFont
+                text: qsTr("%n things", "", thingsProxy.count)
+                font: Style.smallFont
                 Layout.fillWidth: true
                 elide: Text.ElideRight
             }
@@ -380,8 +377,8 @@ MainPageTile {
 
             RowLayout {
                 anchors.fill: parent
-                anchors.margins: app.margins / 2
-                spacing: app.margins / 2
+                anchors.margins: Style.margins / 2
+                spacing: Style.margins / 2
 
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
@@ -393,7 +390,7 @@ MainPageTile {
                 ColumnLayout {
                     Label {
                         text: sensorsRoot.thing.name
-                        font.pixelSize: app.smallFont
+                        font: Style.smallFont
                         Layout.fillWidth: true
                         elide: Text.ElideRight
                     }
@@ -402,7 +399,7 @@ MainPageTile {
                         text: sensorsRoot.shownStateType
                               ? (Math.round(Types.toUiValue(sensorsRoot.thing.states.getState(sensorsRoot.shownStateType.id).value, sensorsRoot.shownStateType.unit) * 100) / 100) + " " + Types.toUiUnit(sensorsRoot.shownStateType.unit)
                               : ""
-                        font.pixelSize: app.smallFont
+                        font: Style.smallFont
                         Layout.fillWidth: true
                         visible: sensorsRoot.shownStateType && sensorsRoot.shownStateType.type.toLowerCase() !== "bool"
                         elide: Text.ElideRight

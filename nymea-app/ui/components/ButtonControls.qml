@@ -104,6 +104,7 @@ RowLayout {
             case "light":
             case "irrigation":
             case "ventilation":
+            case "powersocket":
                 return ""
             case "garagedoor":
                 var thing = root.thing ? root.thing : root.thingsProxy.get(0)
@@ -206,6 +207,7 @@ RowLayout {
             case "light":
             case "irrigation":
             case "ventilation":
+            case "powersocket":
                 return ""
             case "garagedoor":
                 var dev = root.thing ? root.thing : thingsProxy.get(0)

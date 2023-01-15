@@ -788,7 +788,7 @@ Item {
                             margins: Style.smallMargins
                         }
                         Label {
-                            text: toolTip.entry.timestamp.toLocaleString(Qt.locale(), Locale.ShortFormat)
+                            text: toolTip.entry ? toolTip.entry.timestamp.toLocaleString(Qt.locale(), Locale.ShortFormat) : ""
                             font: Style.smallFont
                         }
 
@@ -800,8 +800,9 @@ Item {
                                                    : 0
                             property bool translate: value >= 1000
                             property double translatedValue: value / (translate ? 1000 : 1)
-                            text: toolTip.entry.acquisition >= 0 ? qsTr("Consumed: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
-                                                                 : qsTr("Produced: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
+                            text: toolTip.entry && toolTip.entry.acquisition >= 0
+                                    ? qsTr("Consumed: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
+                                    : qsTr("Produced: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
                             font: Style.smallFont
                         }
 //                        Label {
@@ -816,7 +817,7 @@ Item {
                             Rectangle {
                                 width: Style.extraSmallFont.pixelSize
                                 height: width
-                                color: toolTip.entry.acquisition >= 0 ? Style.red : Style.yellow
+                                color: toolTip.entry && toolTip.entry.acquisition >= 0 ? Style.red : Style.yellow
                             }
 
                             Label {
@@ -829,7 +830,7 @@ Item {
                                 property double value: toolTip.entry ? Math.abs(toolTip.entry.acquisition) : 0
                                 property bool translate: value >= 1000
                                 property double translatedValue: value / (translate ? 1000 : 1)
-                                text: toolTip.entry.acquisition >= 0 ? qsTr("From grid: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
+                                text: toolTip.entry && toolTip.entry.acquisition >= 0 ? qsTr("From grid: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
                                                                      : qsTr("To grid: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
                                 font: Style.extraSmallFont
                             }
@@ -851,7 +852,7 @@ Item {
                                 property double value: toolTip.entry ? Math.min(Math.max(0, toolTip.entry.consumption), -toolTip.entry.production) : 0
                                 property bool translate: value >= 1000
                                 property double translatedValue: value / (translate ? 1000 : 1)
-                                text: toolTip.entry.acquisition >= 0 ? qsTr("From self production: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
+                                text: toolTip.entry && toolTip.entry.acquisition >= 0 ? qsTr("From self production: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
                                                                      : qsTr("Consumed: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
                                 font: Style.extraSmallFont
                             }
@@ -861,7 +862,7 @@ Item {
                             Rectangle {
                                 width: Style.extraSmallFont.pixelSize
                                 height: width
-                                color: toolTip.entry.storage > 0 ? Style.purple : Style.orange
+                                color: toolTip.entry && toolTip.entry.storage > 0 ? Style.purple : Style.orange
                             }
 
                             Label {
@@ -874,7 +875,7 @@ Item {
                                 property double value: toolTip.entry ? Math.abs(toolTip.entry.storage) : 0
                                 property bool translate: value >= 1000
                                 property double translatedValue: value / (translate ? 1000 : 1)
-                                text: toolTip.entry.storage > 0 ? qsTr("To battery: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W") :
+                                text: toolTip.entry && toolTip.entry.storage > 0 ? qsTr("To battery: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W") :
                                                                     qsTr("From battery: %1 %2").arg(translatedValue.toFixed(2)).arg(translate ? "kW" : "W")
                                 font: Style.extraSmallFont
                             }

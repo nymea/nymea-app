@@ -304,8 +304,8 @@ Page {
 
 
         ColumnLayout {
-            anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: app.margins }
-            spacing: app.margins
+            anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: Style.margins }
+            spacing: Style.margins
             visible: engine.thingManager.fetchingData
             BusyIndicator {
                 Layout.alignment: Qt.AlignHCenter
@@ -313,9 +313,8 @@ Page {
             }
             Label {
                 text: qsTr("Loading data...")
-                font.pixelSize: app.largeFont
+                font: Style.bigFont
                 Layout.fillWidth: true
-                wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
             }
         }

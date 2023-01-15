@@ -170,6 +170,9 @@ Item {
                     function init() {
                         print("calling init. Auth required:", engine.jsonRpcClient.authenticationRequired, "initial setup required:", engine.jsonRpcClient.initialSetupRequired, "jsonrpc connected:", engine.jsonRpcClient.connected, "Current host:", engine.jsonRpcClient.currentHost)
                         pageStack.clear()
+//                        var page = pageStack.push(Qt.resolvedUrl("connection/ConnectingPage.qml"));
+//                        return
+
                         if (!engine.jsonRpcClient.currentHost) {
                             print("pushing ConnectPage")
                             pageStack.push(Configuration.connectionWizard)

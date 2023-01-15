@@ -68,12 +68,6 @@ int main(int argc, char *argv[])
     qputenv("QT_WEBVIEW_PLUGIN", "native");
 #endif
 
-    // qt.qml.connections warnings are disabled since the replace only exists
-    // in Qt 5.12. Remove that once 5.12 is the minimum supported version.
-    QLoggingCategory::setFilterRules("*.debug=false\n"
-                                     "Application.debug=true\n"
-                                     "qt.qml.connections.warning=false\n"
-                                     );
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication application(argc, argv);
 
@@ -99,7 +93,10 @@ int main(int argc, char *argv[])
     // Initialize app log controller as early as possible, but after setting app name and printing initial startup info
     AppLogController::instance();
 
-    qCInfo(dcApplication()) << "*** nymea:app starting ***" << QDateTime::currentDateTime().toString() << application.arguments();
+    qCInfo(dcApplication()) << "-->" << application.applicationName() << APP_VERSION << QDateTime::currentDateTime().toString();
+    qCInfo(dcApplication()) << "Command line:" << application.arguments().join(" ");
+    qCInfo(dcApplication()) << "System:" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion() << PlatformHelper::instance()->deviceManufacturer() << PlatformHelper::instance()->deviceModel();
+    qCInfo(dcApplication()) << "Locale:" << QLocale() << QLocale().name() << QLocale().language();
 
     foreach (const QString &argument, application.arguments()) {
         if (argument.startsWith("nymea://notification")) {
@@ -111,8 +108,6 @@ int main(int argc, char *argv[])
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     application.installTranslator(&qtTranslator);
 
-    qCInfo(dcApplication()) << application.applicationName() << APP_VERSION << "running on" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion() << PlatformHelper::instance()->deviceManufacturer() << PlatformHelper::instance()->deviceModel();
-    qCInfo(dcApplication()) << "Locale info:" << QLocale() << QLocale().name() << QLocale().language() << QLocale().system();
 
     QTranslator appTranslator;
     bool translationResult = appTranslator.load("nymea-app-" + QLocale().name(), ":/translations/");
