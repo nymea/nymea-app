@@ -1,3 +1,10 @@
+nymea-app (1.6.3) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Suggest to install more plugins in add things page
+
+ -- jenkins <developer@nymea.io>  Sun, 15 Jan 2023 20:27:32 +0100
+
 nymea-app (1.6.2) bionic; urgency=medium
 
   [ Michael Zanetti ]
