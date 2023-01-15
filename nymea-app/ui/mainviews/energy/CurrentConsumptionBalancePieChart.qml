@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 import QtCharts 2.2
 import Nymea 1.0
+import NymeaApp.Utils 1.0
 
 ChartView {
     id: consumptionPieChart
