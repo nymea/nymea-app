@@ -150,12 +150,14 @@ Page {
     }
 
     GroupedListView {
+        id: listView
         anchors {
             left: parent.left
             top: filterPane.bottom
             right: parent.right
             bottom: parent.bottom
         }
+        bottomMargin: height
 
         model: ThingClassesProxy {
             id: thingClassesProxy
@@ -166,6 +168,8 @@ Page {
             filterString: displayNameFilterField.displayText
             groupByInterface: true
         }
+
+        onContentYChanged: print("contentY", contentY, contentHeight, originY)
 
         delegate: NymeaItemDelegate {
             id: tingClassDelegate
@@ -180,6 +184,27 @@ Page {
 
             onClicked: {
                 root.startWizard(thingClass)
+            }
+        }
+
+        EmptyViewPlaceholder {
+            anchors.centerIn: parent
+            width: parent.width - Style.margins * 2
+            opacity: thingClassesProxy.count == 0 || listView.contentY >= listView.contentHeight + listView.originY ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: Style.shortAnimationDuration } }
+            visible: opacity > 0
+            title: qsTr("Looking for something else?")
+            text: qsTr("Try to install more plugins.")
+            imageSource: "/ui/images/save.svg"
+            buttonText: qsTr("Install plugins")
+            buttonVisible: packagesFilterModel.count > 0
+            onButtonClicked: {
+                pageStack.push(Qt.resolvedUrl("/ui/system/PackageListPage.qml"), {filter: "nymea-plugin-"})
+            }
+            PackagesFilterModel {
+                id: packagesFilterModel
+                packages: engine.systemController.packages
+                nameFilter: "nymea-plugin-"
             }
         }
     }

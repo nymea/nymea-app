@@ -41,8 +41,10 @@ SettingsPageBase {
 
     property Packages packages: engine.systemController.packages
     property alias filter: filterTextField.text
+    property alias showFilter: filterRow.visible
 
     ColumnLayout {
+        id: filterRow
         Layout.fillWidth: true
         RowLayout {
             Layout.margins: Style.margins
