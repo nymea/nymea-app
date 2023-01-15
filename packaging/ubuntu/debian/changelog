@@ -1,3 +1,14 @@
+nymea-app (1.6.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Specify some base interfaces for better grouping
+  * Fix energy return in chart when there are no producers
+  * cleanup runtime debug prints
+  * Drop connection tabs support
+  * Move utils into separate module
+
+ -- jenkins <developer@nymea.io>  Sun, 15 Jan 2023 10:51:41 +0100
+
 nymea-app (1.6.1) bionic; urgency=medium
 
   [ Michael Zanetti ]
