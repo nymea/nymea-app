@@ -157,7 +157,7 @@ Page {
             right: parent.right
             bottom: parent.bottom
         }
-        bottomMargin: height
+        bottomMargin: packagesFilterModel.count > 0 ? height : 0
 
         model: ThingClassesProxy {
             id: thingClassesProxy
@@ -190,14 +190,15 @@ Page {
         EmptyViewPlaceholder {
             anchors.centerIn: parent
             width: parent.width - Style.margins * 2
-            opacity: thingClassesProxy.count == 0 || listView.contentY >= listView.contentHeight + listView.originY ? 1 : 0
+            opacity: packagesFilterModel.count > 0 &&
+                     (thingClassesProxy.count == 0 || listView.contentY >= listView.contentHeight + listView.originY)
+                     ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: Style.shortAnimationDuration } }
             visible: opacity > 0
             title: qsTr("Looking for something else?")
             text: qsTr("Try to install more plugins.")
             imageSource: "/ui/images/save.svg"
             buttonText: qsTr("Install plugins")
-            buttonVisible: packagesFilterModel.count > 0
             onButtonClicked: {
                 pageStack.push(Qt.resolvedUrl("/ui/system/PackageListPage.qml"), {filter: "nymea-plugin-"})
             }
