@@ -43,7 +43,7 @@ apps:
   nymea-app:
     environment:
       WAYLAND_DISPLAY: wayland-99
-    command-chain: [ bin/desktop-launch ]
+    command-chain: [ bin/desktop-launch, bin/anon-shm-preload ]
     command: usr/bin/nymea-app
     desktop: usr/share/applications/nymea-app.desktop
     plugs:
@@ -80,6 +80,10 @@ parts:
       - locales-all
       - xdg-user-dirs
       - fcitx-frontend-qt5
+
+  anon-shm-preload:
+    source: https://github.com/MirServer/anon-shm-preload.git
+    plugin: cmake
 
   mir-kiosk-snap-launch:
     plugin: dump
