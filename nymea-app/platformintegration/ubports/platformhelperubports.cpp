@@ -1,5 +1,5 @@
-#include <libnih.h>
-#include <libnih-dbus.h>
+//#include <libnih.h>
+//#include <libnih-dbus.h>
 
 #include "platformhelperubports.h"
 
@@ -49,9 +49,9 @@ void PlatformHelperUBPorts::setupUriHandler()
         qWarning() << "UCUriHandler: Empty \"APP_ID\" environment variable, ignoring.";
         return;
     }
-    char* path = nih_dbus_path(NULL, "", applicationId.constData(), nullptr);
-    objectPath = QString::fromLocal8Bit(path);
-    nih_free(path);
+//    char* path = nih_dbus_path(NULL, "", applicationId.constData(), nullptr);
+//    objectPath = QString::fromLocal8Bit(path);
+//    nih_free(path);
 
     // Ensure handler is running on the main thread.
     QCoreApplication* instance = QCoreApplication::instance();
@@ -61,8 +61,8 @@ void PlatformHelperUBPorts::setupUriHandler()
         qWarning() << "UCUriHandler: Created before QCoreApplication, application may misbehave.";
     }
 
-    QDBusConnection::sessionBus().registerObject(
-        objectPath, &m_uriHandlerObject, QDBusConnection::ExportAllSlots);
+//    QDBusConnection::sessionBus().registerObject(
+//        objectPath, &m_uriHandlerObject, QDBusConnection::ExportAllSlots);
 }
 
 UriHandlerObject::UriHandlerObject(PlatformHelper *platformHelper):

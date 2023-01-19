@@ -16,5 +16,5 @@
     },
     "version": "1.0.100",
     "maintainer": "nymea GmbH <developer@nymea.io>",
-    "framework" : "ubuntu-sdk-16.04.6"
+    "framework" : "ubuntu-sdk-20.04"
 }

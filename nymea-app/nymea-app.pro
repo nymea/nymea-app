@@ -195,7 +195,7 @@ ubports: {
     DEFINES += UBPORTS
 
     CONFIG += link_pkgconfig
-    PKGCONFIG += connectivity-qt1 dbus-1 libnih-dbus libnih
+    PKGCONFIG += lomiri-connectivity-qt1 #dbus-1 libnih-dbus libnih
 
     HEADERS += platformintegration/ubports/pushclient.h \
                platformintegration/ubports/platformhelperubports.h \
