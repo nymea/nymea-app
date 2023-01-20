@@ -6,7 +6,7 @@ TARGET=$${APPLICATION_NAME}
 CONFIG += link_pkgconfig
 
 QT += network qml quick quickcontrols2 svg websockets bluetooth charts gui-private nfc
-!ubports: QT += webview
+#!ubports: QT += webview
 
 INCLUDEPATH += $$top_srcdir/libnymea-app
 LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app
@@ -215,7 +215,8 @@ win32 {
     }
 }
 
-target.path = /usr/bin
+target.path = $${QT_INSTALL_PREFIX}/bin/
+message("********************* installing to $${QT_INSTALL_BINS}")
 INSTALLS += target
 
 DISTFILES +=

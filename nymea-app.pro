@@ -70,9 +70,9 @@ QMAKE_EXTRA_TARGETS += osxinstaller
 # Generic linux desktop
 linux:!android: {
     desktopfile.files = $${PACKAGE_BASE_DIR}/linux-common/$${APPLICATION_NAME}.desktop
-    desktopfile.path = /usr/share/applications/
+    desktopfile.path = $${QT_INSTALL_DATA}/applications/
     icons.files = $${PACKAGE_BASE_DIR}/linux-common/icons/
-    icons.path = /usr/share/
+    icons.path = $${QT_INSTALL_DATA}
     INSTALLS += desktopfile icons
 }
 
