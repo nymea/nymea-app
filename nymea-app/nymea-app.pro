@@ -6,7 +6,11 @@ TARGET=$${APPLICATION_NAME}
 CONFIG += link_pkgconfig
 
 QT += network qml quick quickcontrols2 svg websockets bluetooth charts gui-private nfc
-!ubports: QT += webview
+
+qtHaveModule(webview) {
+    QT += webview
+    DEFINES += HAVE_WEBVIEW
+}
 
 INCLUDEPATH += $$top_srcdir/libnymea-app
 LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app
