@@ -1,3 +1,11 @@
+nymea-app (1.6.5) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Enable building on riscv64
+  * Fix webview not working in the snap package
+
+ -- jenkins <developer@nymea.io>  Wed, 25 Jan 2023 12:08:00 +0100
+
 nymea-app (1.6.4) bionic; urgency=medium
 
   [ Michael Zanetti ]
