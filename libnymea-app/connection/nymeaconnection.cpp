@@ -57,8 +57,11 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 
 #ifdef Q_OS_IOS
     connect(m_networkReachabilityMonitor, &NetworkReachabilityMonitor::availableBearerTypesChanged, this, [this](){
-        if (m_currentTransport) {
-            m_currentTransport->disconnect();
+        if (m_currentTransport) {            
+            if (!m_networkReachabilityMonitor->availableBearerTypes().testFlag(m_usedBearerType)) {
+                qCInfo(dcNymeaConnection()) << "Used bearer type" << m_usedBearerType << "isn't available any more. Reconnecting.";
+                m_currentTransport->disconnect();
+            }
         }
     });
 #endif
@@ -292,6 +295,17 @@ void NymeaConnection::onConnected()
     if (!m_currentTransport) {
         m_currentTransport = newTransport;
         qCInfo(dcNymeaConnection()) << "Connected to" << m_currentHost->name() << "via" << m_currentTransport->url() << m_currentTransport->isEncrypted();
+#ifdef Q_OS_IOS
+        // We can't know for sure which transport we're actually using, but let's assume the OS picked from the available ones in the order LAN, WiFi, MobileData
+        if (m_networkReachabilityMonitor->availableBearerTypes().testFlag(NymeaConnection::BearerTypeEthernet)) {
+            m_usedBearerType = NymeaConnection::BearerTypeEthernet;
+        } else if (m_networkReachabilityMonitor->availableBearerTypes().testFlag(NymeaConnection::BearerTypeWiFi)) {
+            m_usedBearerType = NymeaConnection::BearerTypeWiFi;
+        } else {
+            m_usedBearerType = NymeaConnection::BearerTypeMobileData;
+        }
+        qCDebug(dcNymeaConnection()) << "iOS: Assuming used bearer type:" << m_usedBearerType;
+#endif
         emit currentConnectionChanged();
         emit connectedChanged(true);
         return;
