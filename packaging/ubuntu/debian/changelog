@@ -1,3 +1,11 @@
+nymea-app (1.6.8) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix frequent reconnects on iOS
+  * Fix energy chargs legend opacity when single items are selected
+
+ -- jenkins <developer@nymea.io>  Wed, 25 Jan 2023 22:50:22 +0100
+
 nymea-app (1.6.5) bionic; urgency=medium
 
   [ Michael Zanetti ]
