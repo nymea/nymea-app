@@ -141,6 +141,10 @@ private:
     Connection *m_preferredConnection = nullptr;
 
     QTimer m_reconnectTimer;
+
+#ifdef Q_OS_IOS
+    NymeaConnection::BearerType m_usedBearerType;
+#endif
 };
 
 #endif // NYMEACONNECTION_H
