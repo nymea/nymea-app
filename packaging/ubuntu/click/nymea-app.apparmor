@@ -1,4 +1,5 @@
 {
+    "template": "unconfined",
     "policy_groups": ["networking"],
     "policy_version": 20.04
 }
