@@ -336,15 +336,21 @@ StatsBase {
 
                 Repeater {
                     model: root.consumers
-                    delegate: MouseArea {
+                    delegate: Item {
                         id: legendDelegate
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         readonly property Thing thing: root.consumers.get(index)
-                        onClicked: d.selectThing(thing)
+                        MouseArea {
+                            anchors.fill: parent
+                            anchors.topMargin: -Style.smallMargins
+                            anchors.bottomMargin: -Style.smallMargins
+                            onClicked: d.selectThing(thing)
+                        }
                         Row {
                             anchors.centerIn: parent
                             spacing: Style.smallMargins
+                            opacity: d.selectedThing == null || legendDelegate.thing == d.selectedThing ? 1 : 0.3
                             ColorIcon {
                                 name: app.interfacesToIcon(legendDelegate.thing.thingClass.interfaces)
                                 size: Style.smallIconSize

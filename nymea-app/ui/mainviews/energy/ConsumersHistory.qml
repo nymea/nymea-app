@@ -501,13 +501,18 @@ Item {
 
                 Repeater {
                     model: root.consumers
-                    delegate: MouseArea {
+                    delegate: Item {
                         id: legendDelegate
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         readonly property Thing thing: root.consumers.get(index)
-                        onClicked: d.selectSeries(consumersRepeater.itemAt(index).series)
                         opacity: d.selectedSeries == null || d.selectedSeries === consumersRepeater.itemAt(index).series ? 1 : 0.3
+                        MouseArea {
+                            anchors.fill: parent
+                            anchors.topMargin: -Style.smallMargins
+                            anchors.bottomMargin: -Style.smallMargins
+                            onClicked: d.selectSeries(consumersRepeater.itemAt(index).series)
+                        }
                         Row {
                             anchors.centerIn: parent
                             spacing: Style.smallMargins
