@@ -514,11 +514,16 @@ Item {
                 height: Style.smallIconSize
                 anchors.margins: Style.margins
 
-                MouseArea {
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    onClicked: d.selectSeries(selfProductionConsumptionSeries)
                     opacity: selfProductionConsumptionSeries.opacity
+                    MouseArea {
+                        anchors.fill: parent
+                        anchors.topMargin: -Style.smallMargins
+                        anchors.bottomMargin: -Style.smallMargins
+                        onClicked: d.selectSeries(selfProductionConsumptionSeries)
+                    }
                     Row {
                         anchors.centerIn: parent
                         spacing: Style.smallMargins
@@ -538,11 +543,16 @@ Item {
                     }
                 }
 
-                MouseArea {
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    onClicked: d.selectSeries(acquisitionSeries)
                     opacity: acquisitionSeries.opacity
+                    MouseArea {
+                        anchors.fill: parent
+                        anchors.topMargin: -Style.smallMargins
+                        anchors.bottomMargin: -Style.smallMargins
+                        onClicked: d.selectSeries(acquisitionSeries)
+                    }
                     Row {
                         anchors.centerIn: parent
                         spacing: Style.smallMargins
@@ -569,11 +579,16 @@ Item {
                     }
                 }
 
-                MouseArea {
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    onClicked: d.selectSeries(returnSeries)
                     opacity: returnSeries.opacity
+                    MouseArea {
+                        anchors.fill: parent
+                        anchors.topMargin: -Style.smallMargins
+                        anchors.bottomMargin: -Style.smallMargins
+                        onClicked: d.selectSeries(returnSeries)
+                    }
                     Row {
                         anchors.centerIn: parent
                         spacing: Style.smallMargins
@@ -600,12 +615,17 @@ Item {
                     }
                 }
 
-                MouseArea {
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     visible: batteries.count > 0
-                    onClicked: d.selectSeries(toStorageSeries)
                     opacity: toStorageSeries.opacity
+                    MouseArea {
+                        anchors.fill: parent
+                        anchors.topMargin: -Style.smallMargins
+                        anchors.bottomMargin: -Style.smallMargins
+                        onClicked: d.selectSeries(toStorageSeries)
+                    }
                     Row {
                         anchors.centerIn: parent
                         spacing: Style.smallMargins
@@ -632,12 +652,17 @@ Item {
                     }
                 }
 
-                MouseArea {
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     visible: batteries.count > 0
-                    onClicked: d.selectSeries(fromStorageSeries)
                     opacity: fromStorageSeries.opacity
+                    MouseArea {
+                        anchors.fill: parent
+                        anchors.topMargin: -Style.smallMargins
+                        anchors.bottomMargin: -Style.smallMargins
+                        onClicked: d.selectSeries(fromStorageSeries)
+                    }
                     Row {
                         anchors.centerIn: parent
                         spacing: Style.smallMargins
