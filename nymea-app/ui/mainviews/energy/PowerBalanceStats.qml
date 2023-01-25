@@ -299,9 +299,10 @@ StatsBase {
                     BarSet {
                         id: consumptionSet
                         label: qsTr("Consumed")
-                        color: Qt.rgba(Style.blue.r, Style.blue.g, Style.blue.b, d.selectedSet == null || d.selectedSet == consumptionSet ? 1 : 0.3)
+                        color: Qt.rgba(Style.blue.r, Style.blue.g, Style.blue.b, opacity)
                         borderColor: color
                         borderWidth: 0
+                        property real opacity: d.selectedSet == null || d.selectedSet == consumptionSet ? 1 : 0.3
                         values: {
                             var ret = []
                             for (var i = 0; i < d.config.count; i++) {
@@ -313,9 +314,10 @@ StatsBase {
                     BarSet {
                         id: productionSet
                         label: qsTr("Produced")
-                        color: Qt.rgba(Style.green.r, Style.green.g, Style.green.b, d.selectedSet == null || d.selectedSet == productionSet ? 1 : 0.3)
+                        color: Qt.rgba(Style.green.r, Style.green.g, Style.green.b, opacity)
                         borderColor: color
                         borderWidth: 0
+                        property real opacity: d.selectedSet == null || d.selectedSet == productionSet ? 1 : 0.3
                         values: {
                             var ret = []
                             for (var i = 0; i < d.config.count; i++) {
@@ -327,9 +329,10 @@ StatsBase {
                     BarSet {
                         id: acquisitionSet
                         label: qsTr("From grid")
-                        color: Qt.rgba(Style.red.r, Style.red.g, Style.red.b, d.selectedSet == null || d.selectedSet == acquisitionSet ? 1 : 0.3)
+                        color: Qt.rgba(Style.red.r, Style.red.g, Style.red.b, opacity)
                         borderColor: color
                         borderWidth: 0
+                        property real opacity: d.selectedSet == null || d.selectedSet == acquisitionSet ? 1 : 0.3
                         values: {
                             var ret = []
                             for (var i = 0; i < d.config.count; i++) {
@@ -341,9 +344,10 @@ StatsBase {
                     BarSet {
                         id: returnSet
                         label: qsTr("To grid")
-                        color: Qt.rgba(Style.yellow.r, Style.yellow.g, Style.yellow.b, d.selectedSet == null || d.selectedSet == returnSet ? 1 : 0.3)
+                        color: Qt.rgba(Style.yellow.r, Style.yellow.g, Style.yellow.b, opacity)
                         borderColor: color
                         borderWidth: 0
+                        property real opacity: d.selectedSet == null || d.selectedSet == returnSet ? 1 : 0.3
                         values: {
                             var ret = []
                             for (var i = 0; i < d.config.count; i++) {
@@ -362,13 +366,20 @@ StatsBase {
                 height: Style.smallIconSize
                 anchors.margins: Style.margins
 
-                MouseArea {
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    onClicked: d.selectSet(consumptionSet)
+                    MouseArea {
+                        anchors.fill: parent
+                        anchors.topMargin: -Style.smallMargins
+                        anchors.bottomMargin: -Style.smallMargins
+                        onClicked: d.selectSet(consumptionSet)
+                    }
+
                     Row {
                         anchors.centerIn: parent
                         spacing: Style.smallMargins
+                        opacity: consumptionSet.opacity
                         ColorIcon {
                             name: "powersocket"
                             size: Style.smallIconSize
@@ -385,13 +396,19 @@ StatsBase {
                     }
                 }
 
-                MouseArea {
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    onClicked: d.selectSet(productionSet)
+                    MouseArea {
+                        anchors.fill: parent
+                        anchors.topMargin: -Style.smallMargins
+                        anchors.bottomMargin: -Style.smallMargins
+                        onClicked: d.selectSet(productionSet)
+                    }
                     Row {
                         anchors.centerIn: parent
                         spacing: Style.smallMargins
+                        opacity: productionSet.opacity
                         ColorIcon {
                             name: "weathericons/weather-clear-day"
                             size: Style.smallIconSize
@@ -408,13 +425,19 @@ StatsBase {
                     }
                 }
 
-                MouseArea {
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    onClicked: d.selectSet(acquisitionSet)
+                    MouseArea {
+                        anchors.fill: parent
+                        anchors.topMargin: -Style.smallMargins
+                        anchors.bottomMargin: -Style.smallMargins
+                        onClicked: d.selectSet(acquisitionSet)
+                    }
                     Row {
                         anchors.centerIn: parent
                         spacing: Style.smallMargins
+                        opacity: acquisitionSet.opacity
                         Row {
                             ColorIcon {
                                 name: "power-grid"
@@ -437,13 +460,19 @@ StatsBase {
                         }
                     }
                 }
-                MouseArea {
+                Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    onClicked: d.selectSet(returnSet)
+                    MouseArea {
+                        anchors.fill: parent
+                        anchors.topMargin: -Style.smallMargins
+                        anchors.bottomMargin: -Style.smallMargins
+                        onClicked: d.selectSet(returnSet)
+                    }
                     Row {
                         anchors.centerIn: parent
                         spacing: Style.smallMargins
+                        opacity: returnSet.opacity
                         Row {
                             ColorIcon {
                                 name: "power-grid"

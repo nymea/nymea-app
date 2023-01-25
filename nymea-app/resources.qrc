@@ -256,7 +256,6 @@
         <file>ui/components/NymeaSpinBox.qml</file>
         <file>ui/mainviews/energy/PowerConsumptionBalanceHistory.qml</file>
         <file>ui/mainviews/energy/PowerProductionBalanceHistory.qml</file>
-        <file>ui/mainviews/energy/ConsumersBarChart.qml</file>
         <file>ui/mainviews/energy/ConsumersHistory.qml</file>
         <file>ui/mainviews/energy/PowerBalanceStats.qml</file>
         <file>ui/mainviews/energy/CurrentProductionBalancePieChart.qml</file>
