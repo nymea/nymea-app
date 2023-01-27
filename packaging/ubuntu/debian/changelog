@@ -1,3 +1,10 @@
+nymea-app (1.6.9) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * more iOS reachabilitty tuning
+
+ -- jenkins <developer@nymea.io>  Fri, 27 Jan 2023 14:32:51 +0100
+
 nymea-app (1.6.8) bionic; urgency=medium
 
   [ Michael Zanetti ]
