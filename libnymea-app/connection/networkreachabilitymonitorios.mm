@@ -21,11 +21,12 @@ void NetworkReachabilityMonitor::ReachabilityCallback(SCNetworkReachabilityRef t
 
     if (target == thiz->m_internetReachabilityRef) {
         // If the internet reachability changes, enable the mobile data bearer if we're reaching the internet through mobile data
-        newTypes.setFlag(NymeaConnection::BearerTypeMobileData, (flags & kSCNetworkReachabilityFlagsReachable) && (flags & kSCNetworkReachabilityFlagsIsWWAN));
+        newTypes.setFlag(NymeaConnection::BearerTypeMobileData, (flags & kSCNetworkReachabilityFlagsReachable));
+        newTypes.setFlag(NymeaConnection::BearerTypeWiFi, (flags & kSCNetworkReachabilityFlagsReachable) && !(flags & kSCNetworkReachabilityFlagsIsWWAN));
         qCDebug(dcNymeaConnection()) << "Internet reachability changed";
     } else if (target == thiz->m_lanReachabilityRef) {
         // If the lan reachability changes, we'll enable the wifi bearer, regardless of how
-        newTypes.setFlag(NymeaConnection::BearerTypeWiFi, flags & kSCNetworkReachabilityFlagsReachable);
+        newTypes.setFlag(NymeaConnection::BearerTypeWiFi, (flags & kSCNetworkReachabilityFlagsReachable));
         qCDebug(dcNymeaConnection()) << "LAN reachability changed";
     }
 
