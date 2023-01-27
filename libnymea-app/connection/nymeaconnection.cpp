@@ -57,7 +57,8 @@ NymeaConnection::NymeaConnection(QObject *parent) : QObject(parent)
 
 #ifdef Q_OS_IOS
     connect(m_networkReachabilityMonitor, &NetworkReachabilityMonitor::availableBearerTypesChanged, this, [this](){
-        if (m_currentTransport) {            
+        if (m_currentTransport) {
+            qCInfo(dcNymeaConnection()) << "Available bearer types changed:" << m_networkReachabilityMonitor->availableBearerTypes() << "currently used:" << m_usedBearerType;
             if (!m_networkReachabilityMonitor->availableBearerTypes().testFlag(m_usedBearerType)) {
                 qCInfo(dcNymeaConnection()) << "Used bearer type" << m_usedBearerType << "isn't available any more. Reconnecting.";
                 m_currentTransport->disconnect();
