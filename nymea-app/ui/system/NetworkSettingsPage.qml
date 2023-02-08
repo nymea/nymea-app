@@ -85,11 +85,15 @@ SettingsPageBase {
                 errorMessage = qsTr("The network manager is not available.")
                 break;
             case "NetworkManagerErrorUnknownError":
+                errorMessage = qsTr("An unexpected error happened.")
                 break;
 
             }
+            print("network config reply:", status, errorMessage)
+
             var component = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
             var popup = component.createObject(root, {text: errorMessage, errorCode: status})
+            popup.open();
         }
     }
 
