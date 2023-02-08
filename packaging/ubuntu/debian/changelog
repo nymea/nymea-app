@@ -1,3 +1,10 @@
+nymea-app (1.6.10) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix network settings appearing to freeze on errors
+
+ -- jenkins <developer@nymea.io>  Wed, 08 Feb 2023 19:47:28 +0100
+
 nymea-app (1.6.9) bionic; urgency=medium
 
   [ Michael Zanetti ]
