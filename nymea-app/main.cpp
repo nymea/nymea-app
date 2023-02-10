@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<ConfiguredHostsProxyModel>("Nymea", 1, 0, "ConfiguredHostsProxyModel");
     qmlRegisterUncreatableType<ConfiguredHost>("Nymea", 1, 0, "ConfiguredHost", "Get them from ConfiguredHostsModel");
 
-#ifdef OVERLAY_PATH
+#ifdef OVERLAY_QMLTYPES
     registerOverlayTypes("Nymea", 1, 0);
 #endif
 
