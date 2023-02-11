@@ -60,6 +60,7 @@ public:
     Q_INVOKABLE ConfiguredHost* get(int index) const;
     Q_INVOKABLE ConfiguredHost* createHost();
     Q_INVOKABLE void removeHost(int index);
+    Q_INVOKABLE void move(int from, int to);
 
 signals:
     void countChanged();
