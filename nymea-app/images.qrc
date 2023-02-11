@@ -304,5 +304,6 @@
         <file>ui/images/sensors/window-open.svg</file>
         <file>ui/images/infinity.svg</file>
         <file>ui/images/edit-paste.svg</file>
+        <file>ui/images/list-move.svg</file>
     </qresource>
 </RCC>

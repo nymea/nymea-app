@@ -115,6 +115,20 @@ void ConfiguredHostsModel::removeHost(int index)
     }
 }
 
+void ConfiguredHostsModel::move(int from, int to)
+{
+    // QList's and QAbstractItemModel's move implementation differ when moving an item up the list :/
+    // While QList needs the index in the resulting list, beginMoveRows expects it to be in the current list
+    // adjust the model's index by +1 in case we're moving upwards
+    int newModelIndex = to > from ? to+1 : to;
+
+    qWarning() << "from:" << from << "to" << to << "modelTo" << newModelIndex;
+    beginMoveRows(QModelIndex(), from, from, QModelIndex(), newModelIndex);
+    m_list.move(from, to);
+    saveToDisk();
+    endMoveRows();
+}
+
 int ConfiguredHostsModel::indexOf(ConfiguredHost *host) const
 {
     return m_list.indexOf(host);

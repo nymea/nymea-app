@@ -33,6 +33,7 @@ Drawer {
         spacing: 0
 
         Rectangle {
+            id: upperPart
             Layout.fillWidth: true
             Layout.preferredHeight: topSectionLayout.implicitHeight
             color: Qt.tint(Style.backgroundColor, Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.05))
@@ -66,21 +67,31 @@ Drawer {
                     }
                 }
 
-
-                Repeater {
+                ListView {
+                    id: hostsListView
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: count * Style.smallDelegateHeight
                     model: root.configuredHosts
+                    clip: true
+                    interactive: false
+                    moveDisplaced: Transition {
+                        NumberAnimation { property: "y"; duration: Style.animationDuration; easing.type: Easing.InOutQuad }
+                    }
+
                     delegate: NymeaItemDelegate {
                         id: hostDelegate
+                        width: hostsListView.width
+                        visible: !dndArea.dragging || dndArea.draggedIndex !== index
 
                         readonly property ConfiguredHost configuredHost: root.configuredHosts.get(index)
 
-                        Layout.fillWidth: true
                         text: model.name.length > 0 ? model.name : qsTr("New connection")
                         subText: configuredHost.engine.jsonRpcClient.currentConnection ? configuredHost.engine.jsonRpcClient.currentConnection.url : ""
                         prominentSubText: false
                         progressive: false
                         additionalItem: RowLayout {
                             anchors.verticalCenter: parent.verticalCenter
+                            visible: !dndArea.dragging
                             Rectangle {
                                 height: Style.smallIconSize
                                 width: height
@@ -97,7 +108,7 @@ Drawer {
                                 onClicked: {
                                     tokenSettings.setValue(hostDelegate.configuredHost.uuid, "")
                                     configuredHostsModel.removeHost(index)
-                                }                                
+                                }
 
                                 Settings {
                                     id: tokenSettings
@@ -105,26 +116,94 @@ Drawer {
                                 }
                             }
                         }
-                        onClicked: {
-                            if (topSectionLayout.configureConnections) {
-                                var nymeaHost = nymeaDiscovery.nymeaHosts.find(hostDelegate.configuredHost.uuid);
-                                if (nymeaHost) {
-                                    var connectionInfoDialog = Qt.createComponent("/ui/components/ConnectionInfoDialog.qml")
-                                    var popup = connectionInfoDialog.createObject(app,{nymeaEngine: configuredHost.engine, nymeaHost: nymeaHost})
-                                    popup.open()
-                                    popup.connectionSelected.connect(function(connection) {
-                                        print("...")
-                                        configuredHost.engine.jsonRpcClient.disconnectFromHost();
-                                        configuredHost.engine.jsonRpcClient.connectToHost(nymeaHost, connection)
-                                        configuredHostsModel.currentIndex = index
-                                        root.close()
-                                    })
+
+                        MouseArea {
+                            anchors.fill: parent
+
+                            onClicked: {
+                                if (topSectionLayout.configureConnections) {
+                                    var nymeaHost = nymeaDiscovery.nymeaHosts.find(hostDelegate.configuredHost.uuid);
+                                    if (nymeaHost) {
+                                        var connectionInfoDialog = Qt.createComponent("/ui/components/ConnectionInfoDialog.qml")
+                                        var popup = connectionInfoDialog.createObject(app,{nymeaEngine: configuredHost.engine, nymeaHost: nymeaHost})
+                                        popup.open()
+                                        popup.connectionSelected.connect(function(connection) {
+                                            print("...")
+                                            configuredHost.engine.jsonRpcClient.disconnectFromHost();
+                                            configuredHost.engine.jsonRpcClient.connectToHost(nymeaHost, connection)
+                                            configuredHostsModel.currentIndex = index
+                                            root.close()
+                                        })
+                                    }
+                                } else {
+                                    configuredHostsModel.currentIndex = index
+                                    root.close()
                                 }
-                            } else {
-                                configuredHostsModel.currentIndex = index
-                                root.close()
                             }
                         }
+
+                    }
+
+                    NymeaItemDelegate {
+                        id: fakeDragItem
+                        visible: dndArea.dragging
+                        width: hostsListView.width
+                        prominentSubText: false
+                        progressive: false
+                        background: Rectangle {
+                            color: Style.tileBackgroundColor
+                        }
+                        additionalItem: ColorIcon {
+                            anchors.verticalCenter: parent.verticalCenter
+                            size: Style.iconSize
+                            name: "list-move"
+                        }
+                    }
+
+                    MouseArea {
+                        id: dndArea
+                        anchors.fill: parent
+                        propagateComposedEvents: true
+                        preventStealing: dragging
+                        property int draggedIndex: -1
+                        property bool dragging: false
+                        property int startY: 0
+                        property int originY: 0
+
+                        onPressed: {
+                            startY = mouseY
+                        }
+
+                        onPressAndHold: {
+                            draggedIndex = hostsListView.indexAt(mouseX, startY)
+                            var draggedItem = hostsListView.itemAt(mouseX, startY)
+                            fakeDragItem.text = draggedItem.text
+                            fakeDragItem.subText = draggedItem.subText
+                            fakeDragItem.y = draggedItem.y
+                            originY = draggedItem.y
+                            dragging = true
+                        }
+
+                        onMouseYChanged: {
+                            if (!dragging) {
+                                return;
+                            }
+                            var diff = startY - mouseY
+                            fakeDragItem.y = Math.max(0, Math.min(hostsListView.height - fakeDragItem.height, originY - diff))
+
+                            var hoveredIdx = hostsListView.indexAt(mouseX, mouseY)
+                            if (hoveredIdx >= 0 && draggedIndex != hoveredIdx) {
+                                print("moved", draggedIndex, "to", hoveredIdx)
+                                root.configuredHosts.move(draggedIndex, hoveredIdx)
+                                draggedIndex = hoveredIdx;
+                            }
+                        }
+
+                        onReleased: {
+                            dragging = false
+                        }
+
+
                     }
                 }
 
@@ -147,6 +226,7 @@ Drawer {
                 }
             }
         }
+
 
         Flickable {
             Layout.fillWidth: true
@@ -252,11 +332,11 @@ Drawer {
         }
     }
 
-//    Component {
-//        id: hostConnectionInfoComponent
-//        MeaDialog {
+    //    Component {
+    //        id: hostConnectionInfoComponent
+    //        MeaDialog {
 
-//        }
-//    }
+    //        }
+    //    }
 }
 
