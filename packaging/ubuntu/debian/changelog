@@ -1,3 +1,10 @@
+nymea-app (1.6.11) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add air conditioning experience
+
+ -- jenkins <developer@nymea.io>  Sat, 11 Feb 2023 22:18:23 +0100
+
 nymea-app (1.6.10) bionic; urgency=medium
 
   [ Michael Zanetti ]
