@@ -78,7 +78,6 @@ Item {
         shownThingIds: root.zone.indoorSensors
     }
     readonly property ThingsProxy indoorTempSensors: ThingsProxy {
-        id: tempSensors
         engine: _engine
         parentProxy: indoorSensors
         shownInterfaces: ["temperaturesensor"]
@@ -182,11 +181,11 @@ Item {
         id: thingsRepeater
         model: ThingsProxy {
             engine: zone.thermostats.length > 0 || zone.indoorSensors.length > 0 ? _engine : null
-            shownThingIds: zone.thermostats + zone.indoorSensors
+            shownThingIds: zone.thermostats.concat(zone.indoorSensors)
         }
 
         delegate: Item {
-            readonly property Thing thing: indoorTempSensors.get(index)
+            readonly property Thing thing: index < thermostats.count ? thermostats.get(index) : indoorTempSensors.get(index - thermostats.count)
             readonly property State temperatureState: thing ? thing.stateByName("temperature") : null
             property double temp: temperatureState ? temperatureState.value : 0
             onTempChanged: d.updateZoneTemperature()
