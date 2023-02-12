@@ -1,3 +1,10 @@
+nymea-app (1.6.13) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix calculation of zone temperature in certain circumstances
+
+ -- jenkins <developer@nymea.io>  Sun, 12 Feb 2023 22:11:17 +0100
+
 nymea-app (1.6.12) bionic; urgency=medium
 
   [ Michael Zanetti ]
