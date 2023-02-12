@@ -118,7 +118,7 @@ Page {
                 }
             }
             Repeater {
-                model: swipeView.currentItem.item.hasOwnProperty("headerButtons") ? swipeView.currentItem.item.headerButtons : 0
+                model: swipeView.currentItem != null && swipeView.currentItem.item.hasOwnProperty("headerButtons") ? swipeView.currentItem.item.headerButtons : 0
                 delegate: HeaderButton {
                     imageSource: swipeView.currentItem.item.headerButtons[index].iconSource
                     onClicked: swipeView.currentItem.item.headerButtons[index].trigger()
