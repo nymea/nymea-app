@@ -1,3 +1,10 @@
+nymea-app (1.6.14) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes for older Qt versions
+
+ -- jenkins <developer@nymea.io>  Sun, 12 Feb 2023 23:07:29 +0100
+
 nymea-app (1.6.13) bionic; urgency=medium
 
   [ Michael Zanetti ]
