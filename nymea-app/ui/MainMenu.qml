@@ -8,6 +8,7 @@ import NymeaApp.Utils 1.0
 
 Drawer {
     id: root
+    dragMargin: 4
 
     property ConfiguredHostsModel configuredHosts: null
     readonly property Engine currentEngine: configuredHosts.count > 0 ? configuredHosts.get(configuredHosts.currentIndex).engine : null
