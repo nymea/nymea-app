@@ -103,13 +103,10 @@ Drawer {
                             }
 
                             ProgressButton {
+                                id: closeButton
                                 imageSource: "/ui/images/close.svg"
                                 visible: topSectionLayout.configureConnections && (autoConnectHost.length === 0 || index > 0)
                                 longpressEnabled: false
-                                onClicked: {
-                                    tokenSettings.setValue(hostDelegate.configuredHost.uuid, "")
-                                    configuredHostsModel.removeHost(index)
-                                }
 
                                 Settings {
                                     id: tokenSettings
@@ -118,10 +115,21 @@ Drawer {
                             }
                         }
 
+                        // ItemDelegates apparently fail to receive mouse events when hidden behind another mouse area with propagateComposedEvents
+                        // As we keep the dnd area above this, use a standard MouseArea which works.
                         MouseArea {
+                            id: itemArea
                             anchors.fill: parent
+                            propagateComposedEvents: true
 
                             onClicked: {
+                                print("clicked", itemArea.mouseX)
+                                var mappedToCloseButton = mapToItem(closeButton, mouseX, mouseY)
+                                print("mapped to close", mouseX, mouseY, mappedToCloseButton.x, mappedToCloseButton.y)
+                                if (mappedToCloseButton.x > 0 && mappedToCloseButton.x < closeButton.width && mappedToCloseButton.y > 0 && mappedToCloseButton.y < closeButton.height) {
+                                    print("on close button!")
+                                }
+
                                 if (topSectionLayout.configureConnections) {
                                     var nymeaHost = nymeaDiscovery.nymeaHosts.find(hostDelegate.configuredHost.uuid);
                                     if (nymeaHost) {
@@ -141,8 +149,17 @@ Drawer {
                                     root.close()
                                 }
                             }
-                        }
 
+                            MouseArea {
+                                anchors { right: parent.right; verticalCenter: parent.verticalCenter; margins: Style.margins }
+                                width: Style.iconSize + Style.margins
+                                height: width
+                                onClicked: {
+                                    tokenSettings.setValue(hostDelegate.configuredHost.uuid, "")
+                                    configuredHostsModel.removeHost(index)
+                                }
+                            }
+                        }
                     }
 
                     NymeaItemDelegate {
@@ -176,6 +193,10 @@ Drawer {
                         }
 
                         onPressAndHold: {
+                            if (hostsListView.count < 2) {
+                                return;
+                            }
+
                             draggedIndex = hostsListView.indexAt(mouseX, startY)
                             var draggedItem = hostsListView.itemAt(mouseX, startY)
                             fakeDragItem.text = draggedItem.text
@@ -203,8 +224,6 @@ Drawer {
                         onReleased: {
                             dragging = false
                         }
-
-
                     }
                 }
 
