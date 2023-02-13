@@ -43,7 +43,7 @@ NymeaDialog {
     // Legacy as some places might still use strings instead of enums
     property string errorCode: ""
 
-    text: qsTr("An unexpected error happened. We're sorry for that.") +
+    text: qsTr("An unexpected error happened. Sorry about that.") +
           (errorCode.length > 0 ? "\n\n" + qsTr("Error code: %1").arg(errorCode) : "") +
           (error != 0 ? "\n\n" + qsTr("Error code: %1").arg(error) : "")
 
