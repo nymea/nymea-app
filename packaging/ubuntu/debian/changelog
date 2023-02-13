@@ -1,3 +1,12 @@
+nymea-app (1.6.15) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix close button in main menu to remove a connection
+  * Improve wording for unknown error
+  * Fix working in rules param condition selectors
+
+ -- jenkins <developer@nymea.io>  Mon, 13 Feb 2023 15:06:58 +0100
+
 nymea-app (1.6.14) bionic; urgency=medium
 
   [ Michael Zanetti ]
