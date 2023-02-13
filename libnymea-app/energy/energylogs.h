@@ -104,7 +104,8 @@ signals:
 
     void countChanged();
     void entryAdded(int index, EnergyLogEntry *entry);
-    void entriesAdded(int index, const QList<EnergyLogEntry*> entries);
+    void entriesAdded(int index, const QList<EnergyLogEntry*> &entries);
+    void entriesAddedIdx(int index, int count);
     void entriesRemoved(int index, int count);
 
     void minValueChanged();

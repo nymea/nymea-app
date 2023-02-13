@@ -21,10 +21,10 @@ Item {
         sampleRate: d.sampleRate
         Component.onCompleted: fetchLogs()
 
-        onEntriesAdded: {
-            print("entries added", index, entries.length)
-            for (var i = 0; i < entries.length; i++) {
-                var entry = entries[i]
+        onEntriesAddedIdx: {
+            print("entries added", index, count)
+            for (var i = 0; i < count; i++) {
+                var entry = powerBalanceLogs.get(index + i)
 //                print("got entry", entry.timestamp)
 
                 zeroSeries.ensureValue(entry.timestamp)
@@ -402,14 +402,14 @@ Item {
                             series.upperSeries.insert(idx, entry.timestamp.getTime(), baseValue + entry.currentPower)
                         }
 
-                        function addEntries(index, entries) {
+                        function addEntries(index, count) {
 //                            print("adding entries for", thing.name)
                             // Remove the leading 0-value entry
                             series.lowerSeries.removePoints(0, 1);
                             series.upperSeries.removePoints(0, 1);
 
-                            for (var i = 0; i < entries.length; i++) {
-                                var entry = entries[i]
+                            for (var i = 0; i < count; i++) {
+                                var entry = logs.get(index + i)
 //                                    print("got thing entry", thing.name, entry.timestamp, entry.currentPower, index + i)
 
                                 zeroSeries.ensureValue(entry.timestamp)
@@ -434,8 +434,8 @@ Item {
                             thingId: consumerDelegate.thing.id
                             loader: logsLoader
 
-                            onEntriesAdded: {
-                                addTimer.addEntries(index, entries)
+                            onEntriesAddedIdx: {
+                                addTimer.addEntries(index, count)
                             }
 
                             onEntriesRemoved: {
@@ -459,12 +459,12 @@ Item {
                             id: addTimer
                             interval: 1000
                             repeat: false
-                            onTriggered: consumerDelegate.addEntries(index, entries)
+                            onTriggered: consumerDelegate.addEntries(index, count)
                             property int index
-                            property var entries
-                            function addEntries(index, entries) {
+                            property var count
+                            function addEntries(index, count) {
                                 addTimer.index = index
-                                addTimer.entries = entries
+                                addTimer.count = count
                                 start()
                             }
                         }

@@ -9,7 +9,6 @@ NYMEA_LOGGING_CATEGORY(dcEnergyLogs, "EnergyLogs")
 
 EnergyLogEntry::EnergyLogEntry(QObject *parent): QObject(parent)
 {
-
 }
 
 EnergyLogEntry::EnergyLogEntry(const QDateTime &timestamp, QObject *parent):
@@ -26,6 +25,10 @@ QDateTime EnergyLogEntry::timestamp() const
 
 EnergyLogs::EnergyLogs(QObject *parent) : QAbstractListModel(parent)
 {
+    // Workaround for older Qt versions (5.12 and older) which can't deal with the QList<EnergyLogEntry*> argument
+    connect(this, &EnergyLogs::entriesAdded, this, [this](int index, const QList<EnergyLogEntry*> &entries){
+        emit entriesAddedIdx(index, entries.count());
+    });
 }
 
 EnergyLogs::~EnergyLogs()
