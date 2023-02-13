@@ -89,8 +89,27 @@ Page {
                 }
 
                 model: isNumeric ?
-                           [qsTr("is equal to"), qsTr("is not equal to"), qsTr("is smaller than"), qsTr("is greater than"), qsTr("is smaller or equal than"), qsTr("is greater or equal than")]
-                         : [qsTr("is"), qsTr("is not")];
+                           numericModel
+                         : nonNumericModel
+
+                textRole: "text"
+
+                ListModel {
+                    id: numericModel
+                    ListElement { text: qsTr("is equal to"); value: ParamDescriptor.ValueOperatorEquals }
+                    ListElement { text: qsTr("is not equal to"); value: ParamDescriptor.ValueOperatorNotEquals }
+                    ListElement { text: qsTr("is greater than"); value: ParamDescriptor.ValueOperatorGreater }
+                    ListElement { text: qsTr("is less than"); value: ParamDescriptor.ValueOperatorLess }
+                    ListElement { text: qsTr("is greater than or equal to"); value: ParamDescriptor.ValueOperatorGreaterOrEqual }
+                    ListElement { text: qsTr("is less than or equal to"); value: ParamDescriptor.ValueOperatorLessOrEqual }
+                }
+
+                ListModel {
+                    id: nonNumericModel
+                    ListElement { text: qsTr("is"); value: ParamDescriptor.ValueOperatorEquals }
+                    ListElement { text: qsTr("is not "); value: ParamDescriptor.ValueOperatorNotEquals }
+                }
+
             }
 
             GroupBox {
@@ -168,7 +187,8 @@ Page {
                 Layout.margins: app.margins
                 onClicked: {
                     print("saving")
-                    root.stateDescriptor.valueOperator = operatorComboBox.currentIndex
+                    root.stateDescriptor.valueOperator = operatorComboBox.model.get(operatorComboBox.currentIndex).value
+                    print("operator:", root.stateDescriptor.valueOperator)
                     if (staticValueRadioButton.checked) {
                         print("static value:", staticValueParamDelegate.value)
                         root.stateDescriptor.value = staticValueParamDelegate.value
