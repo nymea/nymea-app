@@ -80,11 +80,11 @@ Item {
     Connections {
         target: powerBalanceLogs
 
-        onEntriesAdded: {
-//            print("entries added", index, entries.length)
-            for (var i = 0; i < entries.length; i++) {
-                var entry = entries[i]
-//                print("got entry", entry.timestamp)
+        onEntriesAddedIdx: {
+            print("entries added", index, count)
+            for (var i = 0; i < count; i++) {
+                var entry = powerBalanceLogs.get(index + i)
+                print("got entry", entry.timestamp)
 
                 zeroSeries.ensureValue(entry.timestamp)
                 // For debugging, to see if the other maths line up with the plain production graph
@@ -294,7 +294,7 @@ Item {
 //                    borderWidth: 2
                     borderColor: color
                     name: qsTr("From self production")
-                    opacity: d.selectedSeries == null || d.selectedSeries == selfProductionConsumptionSeries ? 1 : 0.3
+//                    opacity: d.selectedSeries == null || d.selectedSeries == selfProductionConsumptionSeries ? 1 : 0.3
             //        visible: false
 
                     onClicked: d.selectedSeries(selfProductionConsumptionSeries)
@@ -445,7 +445,7 @@ Item {
                     borderWidth: 0
                     borderColor: color
                     name: qsTr("From grid")
-                    opacity: d.selectedSeries == null || d.selectedSeries == acquisitionSeries ? 1 : 0.3
+//                    opacity: d.selectedSeries == null || d.selectedSeries == acquisitionSeries ? 1 : 0.3
             //      visible: false
 
                     onClicked: d.selectSeries(acquisitionSeries)
@@ -478,9 +478,11 @@ Item {
                         return Math.abs(Math.min(0, entry.production))
                     }
                     function addEntry(entry) {
+                        print("appending!", entry.timestamp, entry.value)
                         append(entry.timestamp.getTime(), calculateValue(entry))
                     }
                     function insertEntry(index, entry) {
+                        print("inserting!", index, entry.timestamp, entry.value)
                         insert(index, entry.timestamp.getTime(), calculateValue(entry))
                     }
                 }

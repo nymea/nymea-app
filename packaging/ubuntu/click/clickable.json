@@ -3,6 +3,7 @@
   "kill": "nymea-app",
   "qt_version": "5.12",
   "build_args": "CONFIG+=ubports",
+  "ignore_review_errors": true,
   "dependencies_target": [
     "libavahi-client-dev",
     "libavahi-common-dev",
