@@ -59,6 +59,7 @@ ItemDelegate {
                 FontMetrics {
                     id: fm
                 }
+                textRole: "text"
 
                 Layout.fillWidth: true
                 Layout.minimumWidth: {
@@ -86,31 +87,28 @@ ItemDelegate {
                 }
 
                 model: isNumeric ?
-                           [qsTr("is"), qsTr("is not"), qsTr("is greater"), qsTr("is smaller"), qsTr("is greater or equal"), qsTr("is smaller or equal")]
-                         : [qsTr("is"), qsTr("is not")];
+                           numericModel
+                         : nonNumericModel
 
-                onCurrentTextChanged: {
-                    switch (currentText) {
-                    case qsTr("is"):
-                        root.operatorType = ParamDescriptor.ValueOperatorEquals;
-                        break;
-                    case qsTr("is not"):
-                        root.operatorType = ParamDescriptor.ValueOperatorNotEquals;
-                        break;
-                    case qsTr("is greater"):
-                        root.operatorType = ParamDescriptor.ValueOperatorGreater;
-                        break;
-                    case qsTr("is smaller"):
-                        root.operatorType = ParamDescriptor.ValueOperatorLess;
-                        break;
-                    case qsTr("is greater or equal"):
-                        root.operatorType = ParamDescriptor.ValueOperatorGreaterOrEqual;
-                        break;
-                    case qsTr("is smaller or equal"):
-                        root.operatorType = ParamDescriptor.ValueOperatorLessOrEqual;
-                        break;
-                    }
-                    print("set operator to", root.operatorType, currentText)
+                ListModel {
+                    id: numericModel
+                    ListElement { text: qsTr("is equal to"); value: ParamDescriptor.ValueOperatorEquals }
+                    ListElement { text: qsTr("is not equal to"); value: ParamDescriptor.ValueOperatorNotEquals }
+                    ListElement { text: qsTr("is greater than"); value: ParamDescriptor.ValueOperatorGreater }
+                    ListElement { text: qsTr("is less than"); value: ParamDescriptor.ValueOperatorLess }
+                    ListElement { text: qsTr("is greater than or equal to"); value: ParamDescriptor.ValueOperatorGreaterOrEqual }
+                    ListElement { text: qsTr("is less than or equal to"); value: ParamDescriptor.ValueOperatorLessOrEqual }
+                }
+
+                ListModel {
+                    id: nonNumericModel
+                    ListElement { text: qsTr("is"); value: ParamDescriptor.ValueOperatorEquals }
+                    ListElement { text: qsTr("is not "); value: ParamDescriptor.ValueOperatorNotEquals }
+                }
+
+                onCurrentIndexChanged: {
+                    root.operatorType = model.get(currentIndex).value
+                    print("set operator to", root.operatorType, currentText, currentIndex, model, model.get(currentIndex))
                 }
             }
 
@@ -218,7 +216,7 @@ ItemDelegate {
                 }
 
                 Component.onCompleted: {
-                    if (root.value == null || root.v^alue == undefined) {
+                    if (root.value == null || root.value == undefined) {
                         root.value = from;
                     }
                 }
