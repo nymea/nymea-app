@@ -1,3 +1,10 @@
+nymea-app (1.6.18) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rework overlay mechanism
+
+ -- jenkins <developer@nymea.io>  Tue, 14 Feb 2023 15:36:23 +0100
+
 nymea-app (1.6.16) bionic; urgency=medium
 
   [ Michael Zanetti ]
