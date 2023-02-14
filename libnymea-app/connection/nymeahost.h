@@ -78,6 +78,8 @@ public:
     bool manual() const;
     void setManual(bool manual);
     int priority() const;
+    void increasePriority();
+    void decreasePriority();
 
 signals:
     void onlineChanged();
@@ -91,6 +93,7 @@ private:
     bool m_online = false;
     bool m_manual = false;
     QDateTime m_lastSeen;
+    int m_manualPriorityAdjust = 0;
 };
 
 class Connections: public QAbstractListModel
