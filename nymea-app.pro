@@ -115,7 +115,7 @@ INSTALLS += ubuntu_files
 # Translations support
 TRANSLATIONS += $$files($$absolute_path(nymea-app)/translations/*.ts, true)
 !equals(OVERLAY_PATH, "") {
-    TRANSLATIONS += $$files($${OVERLAY_PATH}/translations/*ts, true)
+    include($${OVERLAY_PATH}/translations.pri)
 }
 system("lrelease $$TRANSLATIONS")
 lrelease.commands = lrelease $$TRANSLATIONS
