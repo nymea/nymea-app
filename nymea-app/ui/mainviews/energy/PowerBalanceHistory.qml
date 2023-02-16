@@ -294,7 +294,7 @@ Item {
 //                    borderWidth: 2
                     borderColor: color
                     name: qsTr("From self production")
-//                    opacity: d.selectedSeries == null || d.selectedSeries == selfProductionConsumptionSeries ? 1 : 0.3
+                    opacity: d.selectedSeries == null || d.selectedSeries == selfProductionConsumptionSeries ? 1 : 0.3
             //        visible: false
 
                     onClicked: d.selectedSeries(selfProductionConsumptionSeries)
@@ -445,7 +445,7 @@ Item {
                     borderWidth: 0
                     borderColor: color
                     name: qsTr("From grid")
-//                    opacity: d.selectedSeries == null || d.selectedSeries == acquisitionSeries ? 1 : 0.3
+                    opacity: d.selectedSeries == null || d.selectedSeries == acquisitionSeries ? 1 : 0.3
             //      visible: false
 
                     onClicked: d.selectSeries(acquisitionSeries)
