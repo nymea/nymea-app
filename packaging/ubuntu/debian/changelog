@@ -1,3 +1,10 @@
+nymea-app (1.6.20) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix selection in power balance history
+
+ -- jenkins <developer@nymea.io>  Thu, 16 Feb 2023 19:25:03 +0100
+
 nymea-app (1.6.18) bionic; urgency=medium
 
   [ Michael Zanetti ]
