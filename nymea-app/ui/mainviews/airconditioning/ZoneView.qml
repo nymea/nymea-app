@@ -156,10 +156,36 @@ Item {
                 columnSpacing: 0
 
                 Repeater {
+                    model: zoneWrapper.thermostats
+                    delegate: SensorListDelegate {
+                        Layout.fillWidth: true
+                        thing: zoneWrapper.thermostats.get(index)
+                        onClicked: {
+                            var page = NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces);
+                            pageStack.push(Qt.resolvedUrl("/ui/devicepages/" + page), {thing: thing})
+                        }
+                    }
+                }
+                Repeater {
                     model: zoneWrapper.indoorSensors
                     delegate: SensorListDelegate {
                         Layout.fillWidth: true
                         thing: zoneWrapper.indoorSensors.get(index)
+                        onClicked: {
+                            var page = NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces);
+                            pageStack.push(Qt.resolvedUrl("/ui/devicepages/" + page), {thing: thing})
+                        }
+                    }
+                }
+                Repeater {
+                    model: zoneWrapper.windowSensors
+                    delegate: SensorListDelegate {
+                        Layout.fillWidth: true
+                        thing: zoneWrapper.windowSensors.get(index)
+                        onClicked: {
+                            var page = NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces);
+                            pageStack.push(Qt.resolvedUrl("/ui/devicepages/" + page), {thing: thing})
+                        }
                     }
                 }
             }
