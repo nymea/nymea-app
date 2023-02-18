@@ -1,3 +1,11 @@
+nymea-app (1.6.22) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add more sensor delegates to ZoneView and allow opening the thing
+    view
+
+ -- jenkins <developer@nymea.io>  Sat, 18 Feb 2023 12:43:24 +0100
+
 nymea-app (1.6.20) bionic; urgency=medium
 
   [ Michael Zanetti ]
