@@ -52,6 +52,7 @@
 #include "mouseobserver.h"
 #include "configuredhostsmodel.h"
 #include "../config.h"
+#include "utils/privacypolicyhelper.h"
 
 #include "logging.h"
 
@@ -184,6 +185,8 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<DashboardGraphItem>("Nymea", 1, 0, "DashboardGraphItem", "");
     qmlRegisterUncreatableType<DashboardSceneItem>("Nymea", 1, 0, "DashboardSceneItem", "");
     qmlRegisterUncreatableType<DashboardWebViewItem>("Nymea", 1, 0, "DashboardWebViewItem", "");
+
+    qmlRegisterSingletonType<PrivacyPolicyHelper>("NymeaApp.Utils", 1, 0, "PrivacyPolicyHelper", PrivacyPolicyHelper::qmlProvider);
 
     qmlRegisterType<MouseObserver>("Nymea", 1, 0, "MouseObserver");
 
