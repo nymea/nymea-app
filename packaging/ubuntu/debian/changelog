@@ -1,3 +1,10 @@
+nymea-app (1.6.23) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add PrivacyPolicyHelper
+
+ -- jenkins <developer@nymea.io>  Mon, 20 Feb 2023 12:33:50 +0100
+
 nymea-app (1.6.22) bionic; urgency=medium
 
   [ Michael Zanetti ]
