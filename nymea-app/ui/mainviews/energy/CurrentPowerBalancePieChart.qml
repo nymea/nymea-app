@@ -51,10 +51,15 @@ Item {
 
         property int chartSize: width / 2.5
 
+        property bool acquisitionVisible: true
+        property bool productionVisible: producers.count > 0 || energyManager.currentPowerAcquisition < 0
+        property bool storageVisible: batteries.count > 0
+        property bool consumptionVisible: true
+
         property point acquisitionPos: Qt.point(chartSize/2 + Style.margins, chartSize/2 + Style.margins)
         property point productionPos: Qt.point(contentContainer.width - (chartSize/2 + Style.margins), chartSize/2 + Style.margins)
         property point storagePos: Qt.point(chartSize/2 + Style.margins, contentContainer.height - (chartSize/2 + Style.margins))
-        property point consumptionPos: batteries.count > 0 || producers.count === 0
+        property point consumptionPos: storageVisible || !productionVisible
                                        ? Qt.point(contentContainer.width - (chartSize/2 + Style.margins), contentContainer.height - (chartSize/2 + Style.margins))
                                        : Qt.point(contentContainer.width / 2, contentContainer.height - (chartSize/2 + Style.margins))
     }
@@ -121,11 +126,7 @@ Item {
 
                 if (root.toGrid > 0) {
                     size = root.toGrid / biggest
-                    if (producers.count > 0) {
-                        drawDottedCurve(ctx, solarPos, gridPos, size, Style.yellow)
-                    } else {
-                        drawDottedCurve(ctx, consumptionPos, gridPos, size, Style.yellow)
-                    }
+                    drawDottedCurve(ctx, solarPos, gridPos, size, Style.yellow)
                 }
 
                 if (energyManager.currentPowerProduction < 0 && root.fromProduction) {
@@ -239,6 +240,7 @@ Item {
                 margins { left: 0; top: 0; right: 0; bottom: 0 }
                 backgroundColor: "transparent"
                 animationOptions: root.animationsEnabled ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
+                rotation: 130
 
                 PieSeries {
                     size: 1
@@ -273,7 +275,7 @@ Item {
             y: d.productionPos.y - height / 2
             width: d.chartSize
             height: d.chartSize
-            visible: producers.count > 0
+            visible: d.productionVisible
 
             Rectangle {
                 anchors.centerIn: parent
@@ -295,7 +297,7 @@ Item {
                 Label {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
-                    text: d.formatValue(Math.abs(energyManager.currentPowerProduction))
+                    text: producers.count == 0 ? "?" : d.formatValue(Math.abs(energyManager.currentPowerProduction))
                     //            color: energyManager.currentPowerAcquisition >= 0 ? Style.red : Style.green
                 }
             }
@@ -308,16 +310,17 @@ Item {
                 backgroundColor: "transparent"
                 margins { left: 0; top: 0; right: 0; bottom: 0 }
                 animationOptions: root.animationsEnabled ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
+                rotation: -130
 
                 PieSeries {
                     size: 1
                     holeSize: 0.8
 
                     PieSlice {
-                        color: Style.green
+                        color: Style.yellow
                         borderColor: color
                         borderWidth: 0
-                        value: root.fromProduction
+                        value: root.toGrid
                     }
                     PieSlice {
                         color: Style.purple
@@ -326,10 +329,10 @@ Item {
                         value: root.toStorage
                     }
                     PieSlice {
-                        color: Style.yellow
+                        color: Style.green
                         borderColor: color
                         borderWidth: 0
-                        value: root.toGrid
+                        value: root.fromProduction
                     }
                     PieSlice {
                         color: Style.tooltipBackgroundColor
@@ -368,7 +371,7 @@ Item {
                 Label {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
-                    text: d.formatValue(energyManager.currentPowerConsumption)
+                    text: energyManager.currentPowerConsumption < 0 ? "?" : d.formatValue(energyManager.currentPowerConsumption)
         //            color: energyManager.currentPowerAcquisition >= 0 ? Style.red : Style.green
                 }
             }
@@ -380,6 +383,7 @@ Item {
                 legend.visible: false
                 backgroundColor: "transparent"
                 animationOptions: root.animationsEnabled ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
+                rotation: !d.productionVisible || d.storageVisible ? -50 : 0
 
                 PieSeries {
                     size: 1
@@ -392,16 +396,16 @@ Item {
                         value: root.fromProduction
                     }
                     PieSlice {
-                        color: Style.red
-                        borderColor: color
-                        borderWidth: 0
-                        value: root.fromGrid
-                    }
-                    PieSlice {
                         color: Style.orange
                         borderColor: color
                         borderWidth: 0
                         value: root.fromStorage
+                    }
+                    PieSlice {
+                        color: Style.red
+                        borderColor: color
+                        borderWidth: 0
+                        value: root.fromGrid
                     }
                 }
             }
@@ -414,7 +418,7 @@ Item {
             y: d.storagePos.y - height / 2
             width: d.chartSize
             height: d.chartSize
-            visible: batteries.count > 0
+            visible: d.storageVisible
 
             Rectangle {
                 anchors.centerIn: parent
@@ -457,6 +461,7 @@ Item {
                 legend.visible: false
                 backgroundColor: "transparent"
                 animationOptions: root.animationsEnabled ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
+                rotation: 45
 
                 property double totalCapacity: {
                     var totalCapacity = 0;
