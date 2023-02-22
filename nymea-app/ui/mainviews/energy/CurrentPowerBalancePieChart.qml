@@ -38,7 +38,7 @@ Item {
         id: d
         function formatValue(value) {
             var ret
-            if (value >= 1000) {
+            if (Math.abs(value) >= 1000) {
                 ret = (value / 1000).toFixed(1) + "kW"
             } else {
                 ret = value.toFixed(1) +  "W"
@@ -121,7 +121,11 @@ Item {
 
                 if (root.toGrid > 0) {
                     size = root.toGrid / biggest
-                    drawDottedCurve(ctx, solarPos, gridPos, size, Style.yellow)
+                    if (producers.count > 0) {
+                        drawDottedCurve(ctx, solarPos, gridPos, size, Style.yellow)
+                    } else {
+                        drawDottedCurve(ctx, consumptionPos, gridPos, size, Style.yellow)
+                    }
                 }
 
                 if (energyManager.currentPowerProduction < 0 && root.fromProduction) {
