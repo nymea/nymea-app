@@ -39,7 +39,7 @@ SettingsPageBase {
     id: root
     title: qsTr("About %1").arg(Configuration.appName)
 
-    Imprint {
+    ConsolinnoImprint {
         id: imprint
         Layout.fillWidth: true
         title: Configuration.appName
@@ -51,7 +51,7 @@ SettingsPageBase {
             ListElement { license: "OFL"; component: "Oswald font"; infoText: qsTr("Oswald font by The Oswald Project"); platforms: "*" }
         }
 
-        githubLink: "https://github.com/nymea/nymea-app"
+        //githubLink: "https://github.com/nymea/nymea-app"
 
         NymeaSwipeDelegate {
             Layout.fillWidth: true
