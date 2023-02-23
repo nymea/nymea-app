@@ -201,8 +201,25 @@ SettingsPageBase {
                 }
             }
         }
-    }
 
+        ColumnLayout{
+            Layout.fillWidth: true
+            spacing: 5
+            Label{
+                text: qsTr("If you are the owner and do not have your own account, have your installer create an account for you.")
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                Layout.margins: app.margins
+            }
+
+            Label{
+                text: qsTr("If you are an installer and do not have your own account, you can authenticate yourself using the test button on the leaflet (see quick start guide or user manual).")
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                Layout.margins: app.margins
+            }
+        }
+    }
 
     Component {
         id: errorDialog
