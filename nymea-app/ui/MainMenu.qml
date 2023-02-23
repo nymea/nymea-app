@@ -167,7 +167,7 @@ Drawer {
                     iconName: "../images/things.svg"
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
                              && NymeaUtils.hasPermissionScope(root.currentEngine.jsonRpcClient.permissions, UserInfo.PermissionScopeConfigureThings)
-                             && root.currentEngine.jsonRpcClient.connected
+                             && root.currentEngine.jsonRpcClient.connected && settings.showHiddenOptions
                     progressive: false
                     onClicked: {
                         root.openThingSettings()
@@ -181,7 +181,7 @@ Drawer {
                     progressive: false
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
                                  && NymeaUtils.hasPermissionScope(root.currentEngine.jsonRpcClient.permissions, UserInfo.PermissionScopeConfigureRules)
-                                 && root.currentEngine.jsonRpcClient.connected && Configuration.magicEnabled
+                                 && root.currentEngine.jsonRpcClient.connected && Configuration.magicEnabled && settings.showHiddenOptions
                     onClicked: {
                         root.openMagicSettings();
                         root.close();
@@ -193,7 +193,7 @@ Drawer {
                     iconName: "../images/configure.svg"
                     progressive: false
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected &&
-                             !Configuration.hasOwnProperty("mainViewsFilter")
+                             !Configuration.hasOwnProperty("mainViewsFilter") && settings.showHiddenOptions
                     onClicked: {
                         root.configureMainView();
                         root.close();
