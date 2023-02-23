@@ -69,25 +69,22 @@ Page {
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
             color: Style.accentColor
-            text: qsTr("Authentication required")
+            text: qsTr("Finish authentication")
             wrapMode: Text.WordWrap
             font.pixelSize: app.largeFont
         }
 
-        Image {
-            Layout.preferredWidth: Style.iconSize * 6
-            Layout.preferredHeight: width
-            source: "images/nymea-box-setup.svg"
-            Layout.alignment: Qt.AlignHCenter
-            sourceSize.width: width
-            sourceSize.height: height
+        Label {
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("To complete authentication, press the test button again for 5 sec. until the status LED lights up green.").arg(Configuration.systemName)
+            wrapMode: Text.WordWrap
         }
-
 
         Label {
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("Please press the button on your %1 gateway to authenticate this device.").arg(Configuration.systemName)
+            text: qsTr("If the status LED is not green, you have to repeat authentication.(Go back to connection page, press reset button shortly and select leaflet again).")
             wrapMode: Text.WordWrap
         }
 
