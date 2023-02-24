@@ -71,7 +71,8 @@ Page {
                 text: qsTr("User settings")
                 subText: qsTr("Configure who can log in")
                 visible: engine.jsonRpcClient.ensureServerVersion("4.2")
-                         && engine.jsonRpcClient.authenticated
+                         // Makes user settings menu available with push button auth.
+                         && (engine.jsonRpcClient.authenticated || engine.jsonRpcClient.pushButtonAuthAvailable)
                 onClicked: pageStack.push(Qt.resolvedUrl("system/ConsolinnoUsersSettingsPage.qml"))
             }
 
