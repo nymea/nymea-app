@@ -42,7 +42,7 @@ SettingsPageBase {
     RowLayout {
         Layout.margins: Style.margins
         spacing: Style.margins
-        //visible: !engine.jsonRpcClient.pushButtonAuthAvailable
+        visible: !engine.jsonRpcClient.pushButtonAuthAvailable
         ColorIcon {
             size: Style.hugeIconSize
             source: "../images/account.svg"
@@ -71,7 +71,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         text: qsTr("Change password")
         iconName: "../images/key.svg"
-        //visible: !engine.jsonRpcClient.pushButtonAuthAvailable
+        visible: !engine.jsonRpcClient.pushButtonAuthAvailable
         onClicked: {
             var page = pageStack.push(changePasswordComponent)
             page.confirmed.connect(function(newPassword) {
@@ -85,7 +85,7 @@ SettingsPageBase {
         text: qsTr("Edit user information")
         iconName: "../images/edit.svg"
         onClicked: pageStack.push(editUserInfoComponent)
-        //visible: !engine.jsonRpcClient.pushButtonAuthAvailable
+        visible: !engine.jsonRpcClient.pushButtonAuthAvailable
     }
 
     NymeaItemDelegate {
@@ -99,13 +99,13 @@ SettingsPageBase {
 
     SettingsPageSectionHeader {
         text: qsTr("Admin")
-        visible: (userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin) //&& !engine.jsonRpcClient.pushButtonAuthAvailable
+        visible: (userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin) && !engine.jsonRpcClient.pushButtonAuthAvailable
     }
 
     NymeaItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Manage users")
-        visible: (userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin) //&& !engine.jsonRpcClient.pushButtonAuthAvailable
+        visible: (userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin) && !engine.jsonRpcClient.pushButtonAuthAvailable
         iconName: "../images/contact-group.svg"
         onClicked: {
             pageStack.push(manageUsersComponent)
@@ -268,54 +268,27 @@ SettingsPageBase {
                 HeaderButton {
                     imageSource: Qt.resolvedUrl("../images/add.svg")
                     onClicked: {
-                        var page = pageStack.push(addUserComponent)
-                        page.done.connect(function(){
-                            reloadUserList()
-                            pageStack.pop()
-                        })
+                        pageStack.push(addUserComponent)
                     }
                 }
+            }
 
             SettingsPageSectionHeader {
                 text: qsTr("Manage users for this %1 system").arg(Configuration.systemName)
             }
 
-            ListModel{
-                id: users
-            }
-
-            Component.onCompleted: {
-                reloadUserList()
-            }
-
-            function reloadUserList(){
-                // empty the ListModel so it can reload
-                users.clear()
-                for(var i = 0; i < userManager.users.count  ; i++ ){
-                    if (usrManager.users.get(i)){
-                        users.append(userManager.users.get(i))
-                    }
-                }
-            }
-
             Repeater {
-                id: userRepeater
-                model: users
+                model: userManager.users
                 delegate: NymeaItemDelegate {
                     Layout.fillWidth: true
-                    text: engine.jsonRpcClient.ensureServerVersion("6.0") && model.displayName !== "" ? model.displayName : model.username !== "" ? model.username : qsTr("User login via authentication")
+                    text: engine.jsonRpcClient.ensureServerVersion("6.0") && model.displayName !== "" ? model.displayName : model.username
                     subText: engine.jsonRpcClient.ensureServerVersion("6.0") && model.displayName ? model.username : ""
                     iconName: "/ui/images/account.svg"
                     iconColor: userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin ? Style.accentColor : Style.iconColor
 
                     canDelete: true
                     onClicked: {
-                        var page = pageStack.push(userDetailsComponent, {userInfo: userManager.users.get(index)})
-                        page.done.connect(function(){
-                            reloadUserList()
-                            pageStack.pop()
-                        })
-
+                        pageStack.push(userDetailsComponent, {userInfo: userManager.users.get(index)})
                     }
                 }
             }
@@ -326,8 +299,7 @@ SettingsPageBase {
         id: userDetailsComponent
         SettingsPageBase {
             id: userDetailsPage
-            title: userInfo.username ? qsTr("Manage %1").arg(userInfo.username) : qsTr("Authenticated user")
-            signal done
+            title: qsTr("Manage %1").arg(userInfo.username)
 
             property UserInfo userInfo: null
 
@@ -436,7 +408,7 @@ SettingsPageBase {
                         var popup = component.createObject(app, {text: text});
                         popup.open()
                     } else {
-                        userDetailsPage.done()
+                        pageStack.pop();
                     }
                 }
             }
@@ -450,9 +422,7 @@ SettingsPageBase {
             id: createUserPage
             title: qsTr("Add a user")
 
-            signal done
-            // Consolinno change: New users are admin by default.
-             property var permissionScopes: UserInfo.PermissionScopeAdmin
+            property var permissionScopes: UserInfo.PermissionScopeNone
 
             SettingsPageSectionHeader {
                 text: qsTr("User information")
@@ -564,7 +534,7 @@ SettingsPageBase {
                         var popup = component.createObject(app, {text: text});
                         popup.open()
                     } else {
-                        createUserPage.done()
+                        pageStack.pop();
                     }
                 }
             }
