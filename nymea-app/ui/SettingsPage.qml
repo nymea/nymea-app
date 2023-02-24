@@ -72,7 +72,7 @@ Page {
                 subText: qsTr("Configure who can log in")
                 visible: engine.jsonRpcClient.ensureServerVersion("4.2")
                          && engine.jsonRpcClient.authenticated
-                onClicked: pageStack.push(Qt.resolvedUrl("system/UsersSettingsPage.qml"))
+                onClicked: pageStack.push(Qt.resolvedUrl("system/ConsolinnoUsersSettingsPage.qml"))
             }
 
             SettingsTile {
