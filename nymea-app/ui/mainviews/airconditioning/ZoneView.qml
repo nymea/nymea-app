@@ -43,7 +43,7 @@ Item {
                         precision: 0.5
                         value:  root.zone.currentSetpoint
                         color: pendingValue < activeValue ? Style.blue : Style.red
-                        activeValue: zoneWrapper.zoneTemperature
+                        activeValue: zone.temperature
 
                         onMoved: {
                             acManager.setZoneSetpointOverride(root.zone.id, value, ZoneInfo.SetpointOverrideModeEventual, 0)
@@ -72,17 +72,15 @@ Item {
                             text: Types.toUiValue(zone.currentSetpoint, Types.UnitDegreeCelsius).toFixed(1)
                             font.pixelSize: Math.min(Style.hugeFont.pixelSize, thermostat.contentItem.height / 8)
                             horizontalAlignment: Text.AlignHCenter
-                            color: zoneWrapper.zoneTemperature == undefined
-                                   ? Stype.foregroundColor
-                                   : zone.currentSetpoint > zoneWrapper.zoneTemperature
+                            color:  zone.currentSetpoint > zone.temperature
                                      ? Style.red
-                                     : zone.currentSetpoint < zoneWrapper.zoneTemperature
+                                     : zone.currentSetpoint < zone.temperature
                                        ? Style.blue
                                        : Style.foregroundColor
                         }
                         Label {
                             Layout.fillWidth: true
-                            text: Types.toUiValue(zoneWrapper.zoneTemperature, Types.UnitDegreeCelsius).toFixed(1)
+                            text: Types.toUiValue(zone.temperature, Types.UnitDegreeCelsius).toFixed(1)
                             font.pixelSize: Math.min(Style.largeFont.pixelSize, thermostat.contentItem.height / 12)
                             wrapMode: Text.WordWrap
                             horizontalAlignment: Text.AlignHCenter

@@ -44,10 +44,6 @@ Item {
 
     property ZoneInfo zone: null
 
-    readonly property double zoneTemperature: d.zoneTemperature
-    readonly property double zoneHumidity: d.zoneHumidity
-    readonly property double zoneVOC: d.zoneVOC
-
     readonly property ThingsProxy thermostats: ThingsProxy {
         engine: zone.thermostats.length > 0 ? _engine : null
         shownThingIds: zone.thermostats
@@ -118,88 +114,8 @@ Item {
         shownInterfaces: ["pm25sensor"]
     }
 
-    QtObject {
-        id: d
-        property double zoneTemperature
-        function updateZoneTemperature() {
-            var value = undefined;
-            if (thermostats.count > 0) {
-                for (var i = 0; i < thermostats.count; i++) {
-                    var tempState = thermostats.get(i).stateByName("temperature")
-                    if (!tempState) {
-                        continue;
-                    }
-
-                    if (value == undefined || tempState.value > value) {
-                        value = tempState.value
-                    }
-                }
-            }
-            if (value == undefined) {
-                for (var i = 0; i < indoorTempSensors.count; i++) {
-                    var t = indoorTempSensors.get(i).stateByName("temperature").value
-                    if (value == undefined || t > value) {
-                        value = t
-                    }
-                }
-            }
-            if (value != undefined) {
-                zoneTemperature = value;
-            }
-        }
-
-        property double zoneHumidity
-        function updateZoneHumidity() {
-            var value = undefined;
-            for (var i = 0; i < indoorHumiditySensors.count; i++) {
-                var t = indoorHumiditySensors.get(i).stateByName("humidity").value
-                if (value == undefined || t > value) {
-                    value = t;
-                }
-            }
-            if (value != undefined) {
-                zoneHumidity = value;
-            }
-        }
-
-        property double zoneVOC
-        function updateZoneVOC() {
-            var value = undefined;
-            for (var i = 0; i < indoorVocSensors.count; i++) {
-                var t = indoorVocSensors.get(i).stateByName("voc").value
-                if (value == undefined || t > value) {
-                    value = t;
-                }
-            }
-            if (value != undefined) {
-                zoneVOC = value;
-            }
-        }
-    }
-
-    Repeater {
-        id: thingsRepeater
-        model: ThingsProxy {
-            engine: zone.thermostats.length > 0 || zone.indoorSensors.length > 0 ? _engine : null
-            shownThingIds: zone.thermostats.concat(zone.indoorSensors)
-        }
-
-        delegate: Item {
-            readonly property Thing thing: index < thermostats.count ? thermostats.get(index) : indoorTempSensors.get(index - thermostats.count)
-            readonly property State temperatureState: thing ? thing.stateByName("temperature") : null
-            property double temp: temperatureState ? temperatureState.value : 0
-            onTempChanged: d.updateZoneTemperature()
-            readonly property State humidityState: thing ? thing.stateByName("humidity") : null
-            property double humidity: humidityState ? humidityState.value : 0
-            onHumidityChanged: d.updateZoneHumidity()
-            readonly property State vocState: thing ? thing.stateByName("voc") : null
-            property double voc: vocState ? vocState.value : 0
-            onVocChanged: d.updateZoneVOC()
-        }
-        onCountChanged: {
-            d.updateZoneTemperature()
-            d.updateZoneHumidity()
-            d.updateZoneVOC()
-        }
+    readonly property ThingsProxy notifications: ThingsProxy {
+        engine: root.zone.notifications.length > 0 ? _engine : null
+        shownThingIds: root.zone.notifications
     }
 }

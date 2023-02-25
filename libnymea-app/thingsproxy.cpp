@@ -56,6 +56,7 @@ void ThingsProxy::setEngine(Engine *engine)
         m_engine = engine;
         emit engineChanged();
         if (!m_engine) {
+            setSourceModel(nullptr);
             return;
         }
 
@@ -660,7 +661,7 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
         }
     }
 
-    ThingClass *thingClass = m_engine->thingManager()->thingClasses()->getThingClass(thing->thingClassId());
+    ThingClass *thingClass = thing->thingClass();
     if (!m_shownInterfaces.isEmpty()) {
         bool foundMatch = false;
         foreach (const QString &filterInterface, m_shownInterfaces) {

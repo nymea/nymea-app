@@ -27,6 +27,14 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
 
     private static final String TAG = "nymea-app: NymeaAppNotificationService";
 
+    private int hashId(String id) {
+        int hash = 7;
+        for (int i = 0; i < id.length(); i++) {
+            hash = hash * 31 + id.charAt(i);
+        }
+        return hash;
+    }
+
     public static boolean checkPlayServices() {
         Log.d(TAG, "Checking for Google Play services");
         try {
@@ -41,11 +49,36 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Intent intent = new Intent(this, NymeaAppActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
 
-        Log.d(TAG, "adding extra data to intent: " + remoteMessage.getData().get("nymeaData"));
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Make sure channels exist
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel alertChannel = new NotificationChannel("alert", "Alerts about your nymea system", NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(alertChannel);
+            NotificationChannel infoChannel = new NotificationChannel("info", "Information about your nymea system", NotificationManager.IMPORTANCE_LOW);
+            notificationManager.createNotificationChannel(infoChannel);
+        }
+
+
+        Intent intent = new Intent(this, NymeaAppActivity.class);
+        Log.d(TAG, "Notification data: " + remoteMessage.getData());
+
+        String notificationIdString = remoteMessage.getData().get("notificationId");
+        Log.d(TAG, "NotificationID " + notificationIdString);
+        int notificationId = new Random().nextInt(60000);;
+        if (notificationIdString != null) {
+            notificationId = hashId(notificationIdString);
+        }
+
+        boolean sound = remoteMessage.getData().get("sound") == null || remoteMessage.getData().get("sound").equals("true");
+        boolean remove = remoteMessage.getData().get("remove") != null && remoteMessage.getData().get("remove").equals("true");
+        Log.d(TAG, "NotificationID " + notificationIdString + " int " + notificationId + " remove: " + (remove ? "yes" : "no") + " sound: " + (sound ? "yes" : "no"));
+
+        if (remove) {
+            notificationManager.cancel(notificationId);
+            return;
+        }
 
         intent.setAction(Intent.ACTION_SEND);
         intent.putExtra("notificationData", remoteMessage.getData().get("nymeaData"));
@@ -60,14 +93,18 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
 
         Log.d(TAG, "notification icon resource: " + resId + " Package:" + getPackageName());
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "notify_001")
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, sound ? "alert" : "info")
                 .setSmallIcon(resId)
                 .setColor(0xFF57BAAE)
                 .setContentTitle(remoteMessage.getData().get("title"))
                 .setContentText(remoteMessage.getData().get("body"))
                 .setAutoCancel(true)
-                .setSound(android.provider.Settings.System.DEFAULT_RINGTONE_URI)
                 .setContentIntent(pendingIntent);
+
+        if (sound) {
+            notificationBuilder.setSound(android.provider.Settings.System.DEFAULT_RINGTONE_URI);
+        }
+
 
         // Action tests
 //        Intent actionIntent = new Intent(this, NymeaAppActivity.class);
@@ -80,15 +117,6 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
 //        notificationBuilder.addAction(resId, "70%", actionPendingIntent);
         // Action tests end
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("notify_001", "Notifications from your nymea system", NotificationManager.IMPORTANCE_HIGH);
-            notificationManager.createNotificationChannel(channel);
-        }
-
-
-        int notificationId = new Random().nextInt(60000);
 
         Log.d(TAG, "Posting Notification: " + remoteMessage.getMessageId());
         notificationManager.notify(notificationId, notificationBuilder.build());
