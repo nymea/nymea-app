@@ -118,7 +118,7 @@ MainViewBase {
                     energyManager: energyManager
                     visible: rootMeter != null || producers.count > 0
                     animationsEnabled: Qt.application.active && root.isCurrentItem && flickable.contentY < height
-                    onAnimationsEnabledChanged: print("animations for power balance chart", animationsEnabled ? "enabled" : "disabled")
+//                    onAnimationsEnabledChanged: print("animations for power balance chart", animationsEnabled ? "enabled" : "disabled")
                 }
 
                 PowerBalanceHistory {
