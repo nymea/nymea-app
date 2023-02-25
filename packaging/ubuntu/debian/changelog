@@ -1,3 +1,12 @@
+nymea-app (1.6.25) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Support notification alerts for air conditioning
+  * Don't show a positive currentPower for producers in thing page
+  * Make the producer visible when there's return
+
+ -- jenkins <developer@nymea.io>  Sat, 25 Feb 2023 23:18:46 +0100
+
 nymea-app (1.6.24) bionic; urgency=medium
 
   [ Michael Zanetti ]
