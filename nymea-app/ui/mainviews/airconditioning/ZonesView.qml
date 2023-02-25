@@ -105,7 +105,7 @@ Flickable {
                                 color: app.interfaceToColor("temperaturesensor")
                             }
                             Label {
-                                text: Types.toUiValue(zoneWrapper.zoneTemperature, Types.UnitDegreeCelsius).toFixed(1) + Types.toUiUnit(Types.UnitDegreeCelsius)
+                                text: Types.toUiValue(zoneDelegate.zone.temperature, Types.UnitDegreeCelsius).toFixed(1) + Types.toUiUnit(Types.UnitDegreeCelsius)
                             }
                         }
 

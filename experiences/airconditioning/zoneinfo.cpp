@@ -146,6 +146,70 @@ void ZoneInfo::setOutdoorSensors(const QList<QUuid> &outdoorSensors)
     }
 }
 
+QList<QUuid> ZoneInfo::notifications() const
+{
+    return m_notifications;
+}
+
+void ZoneInfo::setNotifications(const QList<QUuid> &notifications)
+{
+    if (m_notifications != notifications) {
+        m_notifications = notifications;
+    }
+}
+
+double ZoneInfo::temperature() const
+{
+    return m_temperature;
+}
+
+void ZoneInfo::setTemperature(double temperature)
+{
+    if (m_temperature != temperature) {
+        m_temperature = temperature;
+        emit temperatureChanged();
+    }
+}
+
+double ZoneInfo::humidity() const
+{
+    return m_humidity;
+}
+
+void ZoneInfo::setHumidity(double humidity)
+{
+    if (m_humidity != humidity) {
+        m_humidity = humidity;
+        emit humidityChanged();
+    }
+}
+
+uint ZoneInfo::voc() const
+{
+    return m_voc;
+}
+
+void ZoneInfo::setVoc(uint voc)
+{
+    if (m_voc != voc) {
+        m_voc = voc;
+        emit vocChanged();
+    }
+}
+
+double ZoneInfo::pm25() const
+{
+    return m_pm25;
+}
+
+void ZoneInfo::setPm25(double pm25)
+{
+    if (m_pm25 != pm25) {
+        m_pm25 = pm25;
+        emit pm25Changed();
+    }
+}
+
 QVariant ZoneInfos::data(const QModelIndex &index, int role) const
 {
     switch (role) {

@@ -23,6 +23,11 @@ class ZoneInfo : public QObject
     Q_PROPERTY(QList<QUuid> windowSensors READ windowSensors NOTIFY windowSensorsChanged)
     Q_PROPERTY(QList<QUuid> indoorSensors READ indoorSensors NOTIFY indoorSensorsChanged)
     Q_PROPERTY(QList<QUuid> outdoorSensors READ outdoorSensors NOTIFY outdoorSensorsChanged)
+    Q_PROPERTY(QList<QUuid> notifications READ notifications NOTIFY notificationsChanged)
+    Q_PROPERTY(double temperature READ temperature NOTIFY temperatureChanged)
+    Q_PROPERTY(double humidity READ humidity NOTIFY humidityChanged)
+    Q_PROPERTY(uint voc READ voc NOTIFY vocChanged)
+    Q_PROPERTY(double pm25 READ pm25 NOTIFY pm25Changed)
 public:
     enum ZoneStatusFlag {
         ZoneStatusFlagNone = 0x00,
@@ -80,6 +85,21 @@ public:
     QList<QUuid> outdoorSensors() const;
     void setOutdoorSensors(const QList<QUuid> &outdoorSensors);
 
+    QList<QUuid> notifications() const;
+    void setNotifications(const QList<QUuid> &notifications);
+
+    double temperature() const;
+    void setTemperature(double temperature);
+
+    double humidity() const;
+    void setHumidity(double humidity);
+
+    uint voc() const;
+    void setVoc(uint voc);
+
+    double pm25() const;
+    void setPm25(double pm25);
+
 signals:
     void nameChanged();
     void zoneStatusChanged();
@@ -90,6 +110,12 @@ signals:
     void windowSensorsChanged();
     void indoorSensorsChanged();
     void outdoorSensorsChanged();
+    void notificationsChanged();
+
+    void temperatureChanged();
+    void humidityChanged();
+    void vocChanged();
+    void pm25Changed();
 
 private:
     QUuid m_id;
@@ -105,6 +131,11 @@ private:
     QList<QUuid> m_windowSensors;
     QList<QUuid> m_indoorSensors;
     QList<QUuid> m_outdoorSensors;
+    QList<QUuid> m_notifications;
+    double m_temperature = 0;
+    double m_humidity = 0;
+    uint m_voc = 0;
+    double m_pm25 = 0;
 };
 
 class ZoneInfos: public QAbstractListModel

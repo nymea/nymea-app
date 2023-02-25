@@ -37,7 +37,7 @@ public:
     Q_INVOKABLE int setZoneStandbySetpoint(const QUuid &zoneId, double standbySetpoint);
     Q_INVOKABLE int setZoneSetpointOverride(const QUuid &zoneId, double setpointOverride, ZoneInfo::SetpointOverrideMode mode, uint minutes);
     Q_INVOKABLE int setZoneWeekSchedule(const QUuid &zoneId, TemperatureWeekSchedule *weekSchedule);
-    Q_INVOKABLE int setZoneThings(const QUuid &zoneId, const QList<QUuid> &thermostats, const QList<QUuid> &windowSensors, const QList<QUuid> &indoorSensors, const QList<QUuid> &outdoorSensors);
+    Q_INVOKABLE int setZoneThings(const QUuid &zoneId, const QList<QUuid> &thermostats, const QList<QUuid> &windowSensors, const QList<QUuid> &indoorSensors, const QList<QUuid> &outdoorSensors, const QList<QUuid> &notificationIds);
 
     Q_INVOKABLE int addZoneThermostat(const QUuid &zoneId, const QUuid &thermostat);
     Q_INVOKABLE int removeZoneThermostat(const QUuid &zoneId, const QUuid &thermostat);
@@ -47,6 +47,8 @@ public:
     Q_INVOKABLE int removeZoneIndoorSensor(const QUuid &zoneId, const QUuid &indoorSensor);
     Q_INVOKABLE int addZoneOutdoorSensor(const QUuid &zoneId, const QUuid &outdoorSensor);
     Q_INVOKABLE int removeZoneOutdoorSensor(const QUuid &zoneId, const QUuid &outdoorSensor);
+    Q_INVOKABLE int addZoneNotification(const QUuid &zoneId, const QUuid &notification);
+    Q_INVOKABLE int removeZoneNotification(const QUuid &zoneId, const QUuid &notification);
 
 signals:
     void engineChanged();

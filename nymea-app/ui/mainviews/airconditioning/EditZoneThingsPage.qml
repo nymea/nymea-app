@@ -187,6 +187,45 @@ SettingsPageBase {
         }
     }
 
+    SettingsPageSectionHeader {
+        text: qsTr("Notifications")
+    }
+
+    Repeater {
+        model: zoneWrapper.notifications
+        delegate: ThingDelegate {
+            Layout.fillWidth: true
+            thing: zoneWrapper.notifications.get(index)
+            progressive: false
+            canDelete: true
+            onDeleteClicked: {
+                acManager.removeZoneNotification(zone.id, thing.id)
+            }
+        }
+    }
+
+    Button {
+        Layout.fillWidth: true
+        Layout.margins: Style.margins
+        text: qsTr("Add notification target")
+        onClicked: {
+            var page = pageStack.push(selectThingComponent, {
+                                          acManager: acManager,
+                                          zone: zone,
+                                          interfaces: ["notifications"],
+                                          hiddenThingIds: zone.outdoorSensors,
+                                          title: qsTr("Select notification target"),
+                                          placeHolderTitle: qsTr("No notification things installed"),
+                                          placeHolderText: qsTr("Before a notification target can be assigned to this zone, it needs to be connected to nymea."),
+                                          placeHolderButtonText: qsTr("Setup notification targets"),
+                                          placeHolderFilterInterface: "notifications"
+                                      })
+            page.selected.connect(function(thingId) {
+                acManager.addZoneNotification(zone.id, thingId)
+            })
+        }
+    }
+
     Component {
         id: selectThingComponent
         SettingsPageBase {

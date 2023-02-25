@@ -136,9 +136,9 @@ int AirConditioningManager::setZoneWeekSchedule(const QUuid &zoneId, Temperature
     return m_engine->jsonRpcClient()->sendCommand("AirConditioning.SetZoneWeekSchedule", params, this, "setZoneWeekScheduleResponse");
 }
 
-int AirConditioningManager::setZoneThings(const QUuid &zoneId, const QList<QUuid> &thermostats, const QList<QUuid> &windowSensors, const QList<QUuid> &indoorSensors, const QList<QUuid> &outdoorSensors)
+int AirConditioningManager::setZoneThings(const QUuid &zoneId, const QList<QUuid> &thermostats, const QList<QUuid> &windowSensors, const QList<QUuid> &indoorSensors, const QList<QUuid> &outdoorSensors, const QList<QUuid> &notifications)
 {
-    QVariantList thermostatIds, windowSensorIds, indoorSensorIds, outdoorSensorIds;
+    QVariantList thermostatIds, windowSensorIds, indoorSensorIds, outdoorSensorIds, notificationIds;
     foreach (const QUuid &thingId, thermostats) {
         thermostatIds.append(thingId);
     }
@@ -151,12 +151,16 @@ int AirConditioningManager::setZoneThings(const QUuid &zoneId, const QList<QUuid
     foreach (const QUuid &thingId, outdoorSensors) {
         outdoorSensorIds.append(thingId);
     }
+    foreach (const QUuid &thingId, notifications) {
+        notificationIds.append(thingId);
+    }
     QVariantMap params = {
         {"zoneId", zoneId},
         {"thermostats", thermostatIds},
         {"windowSensors", windowSensorIds},
         {"indoorSensors", indoorSensorIds},
         {"outdoorSensors", outdoorSensorIds},
+        {"notifications", notificationIds},
     };
     return m_engine->jsonRpcClient()->sendCommand("AirConditioning.SetZoneThings", params, this, "setZoneThingsResponse");
 }
@@ -167,7 +171,7 @@ int AirConditioningManager::addZoneThermostat(const QUuid &zoneId, const QUuid &
     if (!zoneInfo) {
         return -1;
     }
-    return setZoneThings(zoneId, zoneInfo->thermostats() << thermostat, zoneInfo->windowSensors(), zoneInfo->indoorSensors(), zoneInfo->outdoorSensors());
+    return setZoneThings(zoneId, zoneInfo->thermostats() << thermostat, zoneInfo->windowSensors(), zoneInfo->indoorSensors(), zoneInfo->outdoorSensors(), zoneInfo->notifications());
 }
 
 int AirConditioningManager::removeZoneThermostat(const QUuid &zoneId, const QUuid &thermostat)
@@ -178,7 +182,7 @@ int AirConditioningManager::removeZoneThermostat(const QUuid &zoneId, const QUui
     }
     QList<QUuid> thermostats = zoneInfo->thermostats();
     thermostats.removeAll(thermostat);
-    return setZoneThings(zoneId, thermostats, zoneInfo->windowSensors(), zoneInfo->indoorSensors(), zoneInfo->outdoorSensors());
+    return setZoneThings(zoneId, thermostats, zoneInfo->windowSensors(), zoneInfo->indoorSensors(), zoneInfo->outdoorSensors(), zoneInfo->notifications());
 }
 
 int AirConditioningManager::addZoneWindowSensor(const QUuid &zoneId, const QUuid &windowSensor)
@@ -187,7 +191,7 @@ int AirConditioningManager::addZoneWindowSensor(const QUuid &zoneId, const QUuid
     if (!zoneInfo) {
         return -1;
     }
-    return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors() << windowSensor, zoneInfo->indoorSensors(), zoneInfo->outdoorSensors());
+    return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors() << windowSensor, zoneInfo->indoorSensors(), zoneInfo->outdoorSensors(), zoneInfo->notifications());
 }
 
 int AirConditioningManager::removeWindowSensor(const QUuid &zoneId, const QUuid &windowSensor)
@@ -198,7 +202,7 @@ int AirConditioningManager::removeWindowSensor(const QUuid &zoneId, const QUuid 
     }
     QList<QUuid> windowSensors = zoneInfo->windowSensors();
     windowSensors.removeAll(windowSensor);
-    return setZoneThings(zoneId, zoneInfo->thermostats(), windowSensors, zoneInfo->indoorSensors(), zoneInfo->outdoorSensors());
+    return setZoneThings(zoneId, zoneInfo->thermostats(), windowSensors, zoneInfo->indoorSensors(), zoneInfo->outdoorSensors(), zoneInfo->notifications());
 }
 
 int AirConditioningManager::addZoneIndoorSensor(const QUuid &zoneId, const QUuid &indoorSensor)
@@ -207,7 +211,7 @@ int AirConditioningManager::addZoneIndoorSensor(const QUuid &zoneId, const QUuid
     if (!zoneInfo) {
         return -1;
     }
-    return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors(), zoneInfo->indoorSensors() << indoorSensor, zoneInfo->outdoorSensors());
+    return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors(), zoneInfo->indoorSensors() << indoorSensor, zoneInfo->outdoorSensors(), zoneInfo->notifications());
 }
 
 int AirConditioningManager::removeZoneIndoorSensor(const QUuid &zoneId, const QUuid &indoorSensor)
@@ -218,7 +222,7 @@ int AirConditioningManager::removeZoneIndoorSensor(const QUuid &zoneId, const QU
     }
     QList<QUuid> indoorSensors = zoneInfo->indoorSensors();
     indoorSensors.removeAll(indoorSensor);
-    return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors(), indoorSensors, zoneInfo->outdoorSensors());
+    return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors(), indoorSensors, zoneInfo->outdoorSensors(), zoneInfo->notifications());
 
 }
 
@@ -228,7 +232,7 @@ int AirConditioningManager::addZoneOutdoorSensor(const QUuid &zoneId, const QUui
     if (!zoneInfo) {
         return -1;
     }
-    return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors(), zoneInfo->indoorSensors(), zoneInfo->outdoorSensors() << outdoorSensor);
+    return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors(), zoneInfo->indoorSensors(), zoneInfo->outdoorSensors() << outdoorSensor, zoneInfo->notifications());
 }
 
 int AirConditioningManager::removeZoneOutdoorSensor(const QUuid &zoneId, const QUuid &outdoorSensor)
@@ -239,7 +243,27 @@ int AirConditioningManager::removeZoneOutdoorSensor(const QUuid &zoneId, const Q
     }
     QList<QUuid> outdoorSensors = zoneInfo->outdoorSensors();
     outdoorSensors.removeAll(outdoorSensor);
-    return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors(), zoneInfo->indoorSensors(), outdoorSensors);
+    return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors(), zoneInfo->indoorSensors(), outdoorSensors, zoneInfo->notifications());
+}
+
+int AirConditioningManager::addZoneNotification(const QUuid &zoneId, const QUuid &notification)
+{
+    ZoneInfo *zoneInfo = m_zoneInfos->getZoneInfo(zoneId);
+    if (!zoneInfo) {
+        return -1;
+    }
+    return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors(), zoneInfo->indoorSensors(), zoneInfo->outdoorSensors(), zoneInfo->notifications() << notification);
+}
+
+int AirConditioningManager::removeZoneNotification(const QUuid &zoneId, const QUuid &notification)
+{
+    ZoneInfo *zoneInfo = m_zoneInfos->getZoneInfo(zoneId);
+    if (!zoneInfo) {
+        return -1;
+    }
+    QList<QUuid> notifications = zoneInfo->notifications();
+    notifications.removeAll(notification);
+    return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors(), zoneInfo->indoorSensors(), zoneInfo->outdoorSensors(), notifications);
 }
 
 void AirConditioningManager::notificationReceived(const QVariantMap &data)
@@ -352,6 +376,10 @@ ZoneInfo *AirConditioningManager::unpack(const QVariantMap &zoneMap, ZoneInfo *z
     }
     qCDebug(dcAirConditioningExperience()) << "Zone status:" << zoneStatus;
     zone->setZoneStatus(zoneStatus);
+    zone->setTemperature(zoneMap.value("temperature").toDouble());
+    zone->setHumidity(zoneMap.value("humidity").toDouble());
+    zone->setVoc(zoneMap.value("voc").toUInt());
+    zone->setPm25(zoneMap.value("pm25").toDouble());
     zone->setCurrentSetpoint(zoneMap.value("currentSetpoint").toDouble());
     zone->setStandbySetpoint(zoneMap.value("standbySetpoint").toDouble());
     QMetaEnum modeEnum = QMetaEnum::fromType<ZoneInfo::SetpointOverrideMode>();
@@ -368,7 +396,7 @@ ZoneInfo *AirConditioningManager::unpack(const QVariantMap &zoneMap, ZoneInfo *z
             zone->weekSchedule()->get(day)->createSchedule(scheduleMap.value("startTime").toTime(), scheduleMap.value("endTime").toTime(), scheduleMap.value("temperature").toDouble());
         }
     }
-    QList<QUuid> thermostats, windowSensors, indoorSensors, outdoorSensors;
+    QList<QUuid> thermostats, windowSensors, indoorSensors, outdoorSensors, notifications;
     foreach (const QVariant &variant, zoneMap.value("thermostats").toList()) {
         thermostats.append(variant.toUuid());
     }
@@ -381,9 +409,13 @@ ZoneInfo *AirConditioningManager::unpack(const QVariantMap &zoneMap, ZoneInfo *z
     foreach (const QVariant &variant, zoneMap.value("outdoorSensors").toList()) {
         outdoorSensors.append(variant.toUuid());
     }
+    foreach (const QVariant &variant, zoneMap.value("notifications").toList()) {
+        notifications.append(variant.toUuid());
+    }
     zone->setThermostats(thermostats);
     zone->setWindowSensors(windowSensors);
     zone->setIndoorSensors(indoorSensors);
     zone->setOutdoorSensors(outdoorSensors);
+    zone->setNotifications(notifications);
     return zone;
 }

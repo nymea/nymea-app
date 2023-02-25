@@ -64,7 +64,7 @@ Item {
             icon: "sensors/temperature",
             color: Style.iconColor,
             activeColor: Style.accentColor,
-            text: Types.toUiValue(zoneWrapper.zoneTemperature.toFixed(1), Types.UnitDegreeCelsius) + Types.toUiUnit(Types.UnitDegreeCelsius),
+            text: Types.toUiValue(zone.temperature.toFixed(1), Types.UnitDegreeCelsius) + Types.toUiUnit(Types.UnitDegreeCelsius),
             visible: zoneWrapper.indoorTempSensors.count > 0 &&  zoneWrapper.thermostats.count == 0,
             alertVisible: false
         },
@@ -73,18 +73,18 @@ Item {
             icon: "sensors/humidity",
             color: app.interfaceToColor("humiditysensor"),
             activeColor: app.interfaceToColor("humiditysensor"),
-            text: qsTr("%1% humidity").arg(zoneWrapper.zoneHumidity.toFixed(0)),
-            activeText:qsTr("%1% humidity").arg(zoneWrapper.zoneHumidity.toFixed(0)),
+            text: qsTr("%1% humidity").arg(zone.humidity.toFixed(0)),
+            activeText:qsTr("%1% humidity").arg(zone.humidity.toFixed(0)),
             visible: zoneWrapper.indoorHumiditySensors.count > 0,
             alertVisible: (root.zone.zoneStatus & ZoneInfo.ZoneStatusFlagHighHumidity) > 0
         },
         {
             value: ZoneInfo.ZoneStatusFlagBadAir,
             icon: "weathericons/weather-clouds",
-            color: AirQualityIndex.currentIndex(AirQualityIndex.iaqVoc, zoneWrapper.zoneVOC).color,
-            activeColor: AirQualityIndex.currentIndex(AirQualityIndex.iaqVoc, zoneWrapper.zoneVOC).color,
-            text: AirQualityIndex.currentIndex(AirQualityIndex.iaqVoc, zoneWrapper.zoneVOC).text,
-            activeText: AirQualityIndex.currentIndex(AirQualityIndex.iaqVoc, zoneWrapper.zoneVOC).text,// qsTr("Air quality alert!"),
+            color: AirQualityIndex.currentIndex(AirQualityIndex.iaqVoc, zone.voc).color,
+            activeColor: AirQualityIndex.currentIndex(AirQualityIndex.iaqVoc, zone.voc).color,
+            text: AirQualityIndex.currentIndex(AirQualityIndex.iaqVoc, zone.voc).text,
+            activeText: AirQualityIndex.currentIndex(AirQualityIndex.iaqVoc, zone.voc).text,// qsTr("Air quality alert!"),
             visible: zoneWrapper.indoorVocSensors.count > 0 || zoneWrapper.indoorPm25Sensors.count > 0,
             alertVisible: (root.zone.zoneStatus & ZoneInfo.ZoneStatusFlagBadAir) > 0
         }
