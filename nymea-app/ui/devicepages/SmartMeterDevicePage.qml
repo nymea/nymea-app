@@ -63,9 +63,11 @@ ThingPageBase {
 
     property bool isProduction: currentPowerState.value < 0
     property bool isConsumption: currentPowerState.value > 0
-    property double absValue: Math.abs(currentPowerState.value)
-    property double cleanVale: (absValue / (absValue > 1000 ? 1000 : 1)).toFixed(1)
-    property string unit: absValue > 1000 ? "kW" : "W"
+    property double normalizedValue: isProducer
+                                     ? Math.max(0, -currentPowerState.value)
+                                     : Math.abs(currentPowerState.value)
+    property double cleanValue: (normalizedValue / (normalizedValue > 1000 ? 1000 : 1)).toFixed(1)
+    property string unit: normalizedValue > 1000 ? "kW" : "W"
 
     readonly property bool isCharging: root.chargingState && root.chargingState.value === "charging"
     readonly property bool isDischarging: root.chargingState && root.chargingState.value === "discharging"
@@ -159,7 +161,7 @@ ThingPageBase {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
                         font: Style.largeFont
-                        text: "%1 %2".arg(root.cleanVale).arg(root.unit)
+                        text: "%1 %2".arg(root.cleanValue).arg(root.unit)
                     }
 
                     Label {
@@ -177,7 +179,7 @@ ThingPageBase {
                                 }
                             }
                             if (root.isProducer) {
-                                return qsTr("Producing")
+                                return root.currentPowerState.value < 0 ? qsTr("Producing") : qsTr("Idle")
                             }
                             if (root.isConsumer) {
                                 return qsTr("Consuming")
