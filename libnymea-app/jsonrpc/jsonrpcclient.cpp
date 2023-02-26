@@ -172,6 +172,14 @@ bool JsonRpcClient::tokenExists(const QString &serverUuid) const
     return settings.contains(QUuid(serverUuid).toString());
 }
 
+void JsonRpcClient::addToken(const QString &serverUuid, const QByteArray &token)
+{
+    QSettings settings;
+    settings.beginGroup("jsonTokens");
+    settings.setValue(QUuid(serverUuid).toString(), token);
+    settings.endGroup();
+}
+
 void JsonRpcClient::setNotificationsEnabledResponse(int commandId, const QVariantMap &params)
 {
     qCDebug(dcJsonRpc()) << "Notification configuration response:" << commandId << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
@@ -381,7 +389,7 @@ bool JsonRpcClient::ensureServerVersion(const QString &jsonRpcVersion)
 void JsonRpcClient::processAuthenticate(int /*commandId*/, const QVariantMap &data)
 {
     if (data.value("success").toBool()) {
-        qDebug() << "authentication successful";
+        qCInfo(dcJsonRpc()) << "authentication successful";
         m_token = data.value("token").toByteArray();
         m_username = data.value("username").toString();
         if (m_jsonRpcVersion.majorVersion() >= 6) {
@@ -401,7 +409,7 @@ void JsonRpcClient::processAuthenticate(int /*commandId*/, const QVariantMap &da
 
         setNotificationsEnabled();
     } else {
-        qWarning() << "Authentication failed" << data;
+        qCWarning(dcJsonRpc()) << "Authentication failed" << data;
         emit authenticationFailed();
     }
 }
@@ -433,7 +441,7 @@ JsonRpcReply *JsonRpcClient::createReply(const QString &method, const QVariantMa
 {
     QStringList callParts = method.split('.');
     if (callParts.count() != 2) {
-        qWarning() << "Invalid method. Must be Namespace.Method";
+        qCWarning(dcJsonRpc()) << "Invalid method. Must be Namespace.Method";
         return nullptr;
     }
     m_id++;
@@ -669,6 +677,11 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     if (m_connection->currentHost()->uuid().isNull()) {
         qCDebug(dcJsonRpc()) << "Updating Server UUID in connection:" << m_connection->currentHost()->uuid().toString() << "->" << serverUuid;
         m_connection->currentHost()->setUuid(serverUuid);
+        // Now that we know the server uuid, if we have a token for this host, let's try again.
+        if (tokenExists(serverUuid.toString())){
+            onInterfaceConnectedChanged(true);
+            return;
+        }
     } else if (m_connection->currentHost()->uuid() != serverUuid) {
         qCWarning(dcJsonRpc()) << "Unexpected server UUID" << serverUuid.toString() << "expected:" << m_connection->currentHost()->uuid();
         emit invalidServerUuid(serverUuid);
