@@ -1,3 +1,10 @@
+nymea-app (1.6.26) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Switch to demo server with authentication
+
+ -- jenkins <developer@nymea.io>  Mon, 27 Feb 2023 00:49:40 +0100
+
 nymea-app (1.6.25) bionic; urgency=medium
 
   [ Michael Zanetti ]
