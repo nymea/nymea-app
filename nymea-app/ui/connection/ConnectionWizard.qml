@@ -19,7 +19,8 @@ WizardPageBase {
         pageStack.push(connectionSelectionComponent)
     }
     onExtraButtonPressed: {
-        var host = nymeaDiscovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2222")
+        var host = nymeaDiscovery.nymeaHosts.createWanHost("Demo server", "nymea://nymea.nymea.io:2223")
+        engine.jsonRpcClient.addToken("{6c047fec-78da-46af-990a-8f687216ae1b}", "demousertoken");
         engine.jsonRpcClient.connectToHost(host)
     }
 
