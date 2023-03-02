@@ -208,6 +208,7 @@ Page {
                     engine: typeIds.length > 0 ? _engine : null
                     thingId: thing.id
                     live: true
+                    sourceFilter: LogsModel.SourceStates
                     //                    graphSeries: series
                     viewStartTime: new Date(d.startTime.getTime() - d.range * 60000)
 
@@ -256,6 +257,7 @@ Page {
                     objectName: "temp: " + thing.name
                     engine: typeIds.length > 0 ? _engine : null
                     thingId: thing.id
+                    sourceFilter: LogsModel.SourceStates
                     live: true
                     //                    graphSeries: series
                     viewStartTime: new Date(d.startTime.getTime() - d.range * 60000)
@@ -305,6 +307,7 @@ Page {
                     objectName: "hum: " + thing.name
                     engine: typeIds.length > 0 ? _engine : null
                     thingId: thing.id
+                    sourceFilter: LogsModel.SourceStates
                     live: true
                     //                    graphSeries: series
                     viewStartTime: new Date(d.startTime.getTime() - d.range * 60000)
@@ -351,6 +354,7 @@ Page {
                     objectName: "voc: " + thing.name
                     engine: typeIds.length > 0 ? _engine : null
                     thingId: thing.id
+                    sourceFilter: LogsModel.SourceStates
                     live: true
                     //                    graphSeries: series
                     viewStartTime: new Date(d.startTime.getTime() - d.range * 60000)
@@ -411,6 +415,7 @@ Page {
                         ret.push(thing.thingClass.stateTypes.findByName("closed").id)
                         return ret;
                     }
+                    sourceFilter: LogsModel.SourceStates
                     live: true
                     viewStartTime: new Date(d.startTime.getTime() - d.range * 60000)
                 }
@@ -465,13 +470,12 @@ Page {
                     typeIds: {
                         var ret = [];
                         var heatingOnStateType = thing.thingClass.stateTypes.findByName("heatingOn")
-                        print("**** has heatingOn")
                         if (heatingOnStateType) {
-                            print("**** true")
                             ret.push(heatingOnStateType.id)
                         }
                         return ret;
                     }
+                    sourceFilter: LogsModel.SourceStates
                     live: true
                     //                    graphSeries: heatingUpperSeries
                     viewStartTime: dateTimeAxis.min
