@@ -148,44 +148,44 @@ SettingsPageBase {
         }
     }
 
-    SettingsPageSectionHeader {
-        text: qsTr("Outdoor sensors")
-    }
+//    SettingsPageSectionHeader {
+//        text: qsTr("Outdoor sensors")
+//    }
 
-    Repeater {
-        model: zoneWrapper.outdoorSensors
-        delegate: ThingDelegate {
-            Layout.fillWidth: true
-            thing: zoneWrapper.outdoorSensors.get(index)
-            progressive: false
-            canDelete: true
-            onDeleteClicked: {
-                acManager.removeZoneOutdoorSensor(zone.id, thing.id)
-            }
-        }
-    }
+//    Repeater {
+//        model: zoneWrapper.outdoorSensors
+//        delegate: ThingDelegate {
+//            Layout.fillWidth: true
+//            thing: zoneWrapper.outdoorSensors.get(index)
+//            progressive: false
+//            canDelete: true
+//            onDeleteClicked: {
+//                acManager.removeZoneOutdoorSensor(zone.id, thing.id)
+//            }
+//        }
+//    }
 
-    Button {
-        Layout.fillWidth: true
-        Layout.margins: Style.margins
-        text: qsTr("Add outdoor sensor")
-        onClicked: {
-            var page = pageStack.push(selectThingComponent, {
-                                          acManager: acManager,
-                                          zone: zone,
-                                          interfaces: ["temperaturesensor", "humiditysensor", "vocsensor", "pm25sensor"],
-                                          hiddenThingIds: zone.outdoorSensors,
-                                          title: qsTr("Select outdoor sensors"),
-                                          placeHolderTitle: qsTr("No sensors installed"),
-                                          placeHolderText: qsTr("Before a sensor be assigned to this zone, it needs to be connected to nymea."),
-                                          placeHolderButtonText: qsTr("Setup sensors"),
-                                          placeHolderFilterInterface: "sensor"
-                                      })
-            page.selected.connect(function(thingId) {
-                acManager.addZoneOutdoorSensor(zone.id, thingId)
-            })
-        }
-    }
+//    Button {
+//        Layout.fillWidth: true
+//        Layout.margins: Style.margins
+//        text: qsTr("Add outdoor sensor")
+//        onClicked: {
+//            var page = pageStack.push(selectThingComponent, {
+//                                          acManager: acManager,
+//                                          zone: zone,
+//                                          interfaces: ["temperaturesensor", "humiditysensor", "vocsensor", "pm25sensor"],
+//                                          hiddenThingIds: zone.outdoorSensors,
+//                                          title: qsTr("Select outdoor sensors"),
+//                                          placeHolderTitle: qsTr("No sensors installed"),
+//                                          placeHolderText: qsTr("Before a sensor be assigned to this zone, it needs to be connected to nymea."),
+//                                          placeHolderButtonText: qsTr("Setup sensors"),
+//                                          placeHolderFilterInterface: "sensor"
+//                                      })
+//            page.selected.connect(function(thingId) {
+//                acManager.addZoneOutdoorSensor(zone.id, thingId)
+//            })
+//        }
+//    }
 
     SettingsPageSectionHeader {
         text: qsTr("Notifications")
