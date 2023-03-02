@@ -55,6 +55,7 @@ class LogsModel : public QAbstractListModel, public QQmlParserStatus
     Q_PROPERTY(QDateTime startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
     Q_PROPERTY(QDateTime endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
     Q_PROPERTY(QDateTime viewStartTime READ viewStartTime WRITE setViewStartTime NOTIFY viewStartTimeChanged)
+    Q_PROPERTY(SourceFilters sourceFilter READ sourceFilter WRITE setSourceFilter NOTIFY sourceFilterChanged)
     Q_PROPERTY(int fetchBlockSize READ fetchBlockSize WRITE setFetchBlockSize NOTIFY fetchBlockSizeChanged)
 
 public:
@@ -67,6 +68,18 @@ public:
         RoleLoggingEventType,
         RoleErrorCode
     };
+    enum SourceFilter {
+        SourceNone = 0x00,
+        SourceSystem = 0x01,
+        SourceRules = 0x02,
+        SourceEvents = 0x04,
+        SourceStates = 0x08,
+        SourceActions = 0x10,
+        SourceAll = 0xff
+    };
+    Q_DECLARE_FLAGS(SourceFilters, SourceFilter)
+    Q_FLAG(SourceFilters)
+
     explicit LogsModel(QObject *parent = nullptr);
     virtual ~LogsModel() = default;
 
@@ -100,6 +113,9 @@ public:
     QDateTime viewStartTime() const;
     void setViewStartTime(const QDateTime &viewStartTime);
 
+    SourceFilters sourceFilter() const;
+    void setSourceFilter(SourceFilters sourceFilter);
+
     int fetchBlockSize() const;
     void setFetchBlockSize(int fetchBlockSize);
 
@@ -117,6 +133,7 @@ signals:
     void startTimeChanged();
     void endTimeChanged();
     void viewStartTimeChanged();
+    void sourceFilterChanged();
     void fetchBlockSizeChanged();
 
     void logEntryAdded(LogEntry *entry);
@@ -133,6 +150,7 @@ protected:
     QDateTime m_startTime;
     QDateTime m_endTime;
     QDateTime m_viewStartTime;
+    SourceFilters m_sourceFilter = SourceAll;
 
     bool m_busy = false;
     bool m_live = false;
