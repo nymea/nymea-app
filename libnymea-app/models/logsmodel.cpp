@@ -44,7 +44,6 @@ NYMEA_LOGGING_CATEGORY(dcLogEngine, "LogEngine")
 
 LogsModel::LogsModel(QObject *parent) : QAbstractListModel(parent)
 {
-
 }
 
 Engine *LogsModel::engine() const
@@ -206,6 +205,19 @@ void LogsModel::setViewStartTime(const QDateTime &viewStartTime)
                 fetchMore();
             }
         }
+    }
+}
+
+LogsModel::SourceFilters LogsModel::sourceFilter() const
+{
+    return m_sourceFilter;
+}
+
+void LogsModel::setSourceFilter(SourceFilters sourceFilter)
+{
+    if (m_sourceFilter != sourceFilter) {
+        m_sourceFilter = sourceFilter;
+        emit sourceFilterChanged();
     }
 }
 
@@ -403,6 +415,24 @@ void LogsModel::fetchMore(const QModelIndex &parent)
         }
         params.insert("typeIds", typeIds);
     }
+    QVariantList loggingSourceFilter;
+    QMetaEnum loggingSourcesEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
+    if (m_sourceFilter.testFlag(SourceSystem)) {
+        loggingSourceFilter.append(loggingSourcesEnum.valueToKey(LogEntry::LoggingSourceSystem));
+    }
+    if (m_sourceFilter.testFlag(SourceRules)) {
+        loggingSourceFilter.append(loggingSourcesEnum.valueToKey(LogEntry::LoggingSourceRules));
+    }
+    if (m_sourceFilter.testFlag(SourceEvents)) {
+        loggingSourceFilter.append(loggingSourcesEnum.valueToKey(LogEntry::LoggingSourceEvents));
+    }
+    if (m_sourceFilter.testFlag(SourceStates)) {
+        loggingSourceFilter.append(loggingSourcesEnum.valueToKey(LogEntry::LoggingSourceStates));
+    }
+    if (m_sourceFilter.testFlag(SourceActions)) {
+        loggingSourceFilter.append(loggingSourcesEnum.valueToKey(LogEntry::LoggingSourceActions));
+    }
+    params.insert("loggingSources", loggingSourceFilter);
     if (!m_startTime.isNull() && !m_endTime.isNull()) {
         QVariantList timeFilters;
         QVariantMap timeFilter;
@@ -416,7 +446,7 @@ void LogsModel::fetchMore(const QModelIndex &parent)
     params.insert("offset", m_list.count() - m_generatedEntries);
 
     qCInfo(dcLogEngine()) << "Fetching logs from:" << m_list.count() - m_generatedEntries << "max" << m_blockSize;
-    qCDebug(dcLogEngine()) << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    qCCritical(dcLogEngine()) << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 
     m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
     m_fetchStartTime = QDateTime::currentDateTime();

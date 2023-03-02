@@ -53,11 +53,11 @@ class LogEntry : public QObject
 
 public:
     enum LoggingSource {
-        LoggingSourceSystem,
-        LoggingSourceEvents,
-        LoggingSourceActions,
-        LoggingSourceStates,
-        LoggingSourceRules
+        LoggingSourceSystem = 0x01,
+        LoggingSourceEvents = 0x02,
+        LoggingSourceActions = 0x04,
+        LoggingSourceStates = 0x08,
+        LoggingSourceRules = 0x10
     };
     Q_ENUM(LoggingSource)
     Q_DECLARE_FLAGS(LoggingSources, LoggingSource)

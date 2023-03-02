@@ -120,11 +120,11 @@ quint64 BoolSeriesAdapter::findIndex(qulonglong timestamp)
     int range = idx;
     int i = 0;
     while (true) {
-        qWarning() << "CNT:" << m_series->count()
-                   << "first:" << QDateTime::fromMSecsSinceEpoch(m_series->at(1).x())
-                   << "last:" << QDateTime::fromMSecsSinceEpoch(m_series->at(m_series->count()- 2).x())
-                   << "current:" << idx << QDateTime::fromMSecsSinceEpoch(m_series->at(idx).x())
-                   << "search:" << QDateTime::fromMSecsSinceEpoch(timestamp);
+//        qWarning() << "CNT:" << m_series->count()
+//                   << "first:" << QDateTime::fromMSecsSinceEpoch(m_series->at(1).x())
+//                   << "last:" << QDateTime::fromMSecsSinceEpoch(m_series->at(m_series->count()- 2).x())
+//                   << "current:" << idx << QDateTime::fromMSecsSinceEpoch(m_series->at(idx).x())
+//                   << "search:" << QDateTime::fromMSecsSinceEpoch(timestamp);
         if (timestamp >= m_series->at(idx).x() && timestamp < m_series->at(idx-1).x()) {
             return idx;
         }
