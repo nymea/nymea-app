@@ -1,3 +1,11 @@
+nymea-app (1.6.27) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide outdoor sensor settings in AC settings
+  * Fix ac charts also showing actions
+
+ -- jenkins <developer@nymea.io>  Thu, 02 Mar 2023 23:31:36 +0100
+
 nymea-app (1.6.26) bionic; urgency=medium
 
   [ Michael Zanetti ]
