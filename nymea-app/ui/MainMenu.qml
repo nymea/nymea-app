@@ -154,6 +154,7 @@ Drawer {
                                 anchors { right: parent.right; verticalCenter: parent.verticalCenter; margins: Style.margins }
                                 width: Style.iconSize + Style.margins
                                 height: width
+                                enabled: topSectionLayout.configureConnections
                                 onClicked: {
                                     tokenSettings.setValue(hostDelegate.configuredHost.uuid, "")
                                     configuredHostsModel.removeHost(index)
