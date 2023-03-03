@@ -1,3 +1,10 @@
+nymea-app (1.6.28) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the main menus remove buttons being clickable when hidden
+
+ -- jenkins <developer@nymea.io>  Fri, 03 Mar 2023 12:15:57 +0100
+
 nymea-app (1.6.27) bionic; urgency=medium
 
   [ Michael Zanetti ]
