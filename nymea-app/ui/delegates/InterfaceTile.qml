@@ -57,7 +57,7 @@ MainPageTile {
         // Only one item? Go streight to the thing page
         if (thingsProxy.count === 1) {
             if (!iface) {
-                page = "GenericDevicePage.qml";
+                page = "GenericThingPage.qml";
             } else {
                 page = NymeaUtils.interfaceListToDevicePage([iface.name]);
             }

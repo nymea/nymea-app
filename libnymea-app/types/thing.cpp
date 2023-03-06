@@ -218,6 +218,32 @@ void Thing::setStateValue(const QUuid &stateTypeId, const QVariant &value)
     }
 }
 
+QList<QUuid> Thing::loggedStateTypeIds() const
+{
+    return m_loggedStateTypeIds;
+}
+
+void Thing::setLoggedStateTypeIds(const QList<QUuid> &loggedStateTypeIds)
+{
+    if (m_loggedStateTypeIds != loggedStateTypeIds) {
+        m_loggedStateTypeIds = loggedStateTypeIds;
+        emit loggedStateTypeIdsChanged();
+    }
+}
+
+QList<QUuid> Thing::loggedEventTypeIds() const
+{
+    return m_loggedEventTypeIds;
+}
+
+void Thing::setLoggedEventTypeIds(const QList<QUuid> &loggedEventTypeIds)
+{
+    if (m_loggedEventTypeIds != loggedEventTypeIds) {
+        m_loggedEventTypeIds = loggedEventTypeIds;
+        emit loggedEventTypeIdsChanged();
+    }
+}
+
 int Thing::executeAction(const QString &actionName, const QVariantList &params)
 {
     ActionType *actionType = m_thingClass->actionTypes()->findByName(actionName);

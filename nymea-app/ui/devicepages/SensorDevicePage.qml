@@ -142,10 +142,20 @@ ThingPageBase {
                         property State state: root.thing.stateByName(interfaceStateMap[modelData])
                         property string interfaceName: modelData
 
-                        sourceComponent: graphComponent
+                        sourceComponent: engine.jsonRpcClient.ensureServerVersion("8.0") ? stateChartComponent : graphComponent
 
                     }
                 }
+            }
+        }
+
+        Component {
+            id: stateChartComponent
+            StateChart {
+                thing: root.thing
+                stateType: parent.stateType
+                color: app.interfaceToColor(interfaceName)
+
             }
         }
 

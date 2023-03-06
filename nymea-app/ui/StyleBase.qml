@@ -98,7 +98,7 @@ Item {
 
     // Icon/graph colors for various interfaces
     property var interfaceColors: {
-        "temperaturesensor": red,
+        "temperaturesensor": orange,
         "humiditysensor": lightBlue,
         "moisturesensor": blue,
         "lightsensor": yellow,

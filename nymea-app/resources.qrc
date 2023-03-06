@@ -41,7 +41,7 @@
         <file>ui/customviews/WeatherView.qml</file>
         <file>ui/devicepages/MediaThingPage.qml</file>
         <file>ui/devicepages/ButtonThingPage.qml</file>
-        <file>ui/devicepages/GenericDevicePage.qml</file>
+        <file>ui/devicepages/GenericThingPage.qml</file>
         <file>ui/devicepages/WeatherDevicePage.qml</file>
         <file>ui/devicepages/SensorDevicePage.qml</file>
         <file>ui/devicepages/ThingPageBase.qml</file>
@@ -90,6 +90,7 @@
         <file>ui/delegates/ThingDelegate.qml</file>
         <file>ui/delegates/InterfaceTile.qml</file>
         <file>ui/system/LogViewerPage.qml</file>
+        <file>ui/system/LogViewerPagePre18.qml</file>
         <file>ui/system/PluginsPage.qml</file>
         <file>ui/system/PluginParamsPage.qml</file>
         <file>ui/system/AboutNymeaPage.qml</file>
@@ -309,5 +310,7 @@
         <file>ui/mainviews/airconditioning/EditZonePage.qml</file>
         <file>ui/mainviews/airconditioning/EditZoneThingsPage.qml</file>
         <file>ui/mainviews/airconditioning/LegendDelegate.qml</file>
+        <file>ui/customviews/StateChart.qml</file>
+        <file>ui/devicepages/ThingLogPage.qml</file>
     </qresource>
 </RCC>

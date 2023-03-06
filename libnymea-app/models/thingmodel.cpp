@@ -48,6 +48,20 @@ QVariant ThingModel::data(const QModelIndex &index, int role) const
     if (role == RoleId) {
         return m_list.at(index.row());
     }
+    if (role == RoleName) {
+        StateType* stateType = m_device->thingClass()->stateTypes()->getStateType(m_list.at(index.row()));
+        if (stateType) {
+            return stateType->name();
+        }
+        ActionType* actionType = m_device->thingClass()->actionTypes()->getActionType(m_list.at(index.row()));
+        if (actionType) {
+            return actionType->name();
+        }
+        EventType* eventType = m_device->thingClass()->eventTypes()->getEventType(m_list.at(index.row()));
+        if (eventType) {
+            return eventType->name();
+        }
+    }
     if (role == RoleType) {
         StateType* stateType = m_device->thingClass()->stateTypes()->getStateType(m_list.at(index.row()));
         if (stateType) {
@@ -87,6 +101,7 @@ QHash<int, QByteArray> ThingModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleId, "id");
+    roles.insert(RoleName, "name");
     roles.insert(RoleType, "type");
     roles.insert(RoleDisplayName, "displayName");
     roles.insert(RoleWritable, "writable");

@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2023, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -36,14 +36,10 @@ import Nymea 1.0
 import "../components"
 import "../customviews"
 
-// Legacy for jsonrpc < 8.0
-
 Page {
     id: root
 
     property Thing thing: null
-    property alias device: root.thing
-    property var filterTypeIds: []
 
     header: NymeaHeader {
         text: qsTr("History for %1").arg(root.thing.name)
@@ -57,16 +53,48 @@ Page {
         }
     }
 
-    LogsModelNg {
+    NewLogsModel {
         id: logsModelNg
         engine: _engine
-        thingId: root.thing.id
-        typeIds: root.filterTypeIds.length > 0
-                 ? root.filterTypeIds
-                 : filterEnabled
-                   ? [filterDeviceModel.getData(filterComboBox.currentIndex, ThingModel.RoleId)]
-                   : []
-        live: true
+        columns: [root.stateType.name]
+        sources: ["states-" + root.thing.id, "events-" + root.thing.id, "actions-" + root.thing.id]
+        filter: {
+            if (!filterEnabled) {
+                return ({})
+            }
+            print("*** filter updated", isStateFilter, isEventFilter, isActionFilter, filterTypeName, thing.thingClass.stateTypes.findByName(filterTypeName))
+            if (isStateFilter) {
+                return ({state: filterTypeName})
+            }
+            if (isEventFilter) {
+                return ({event: filterTypeName})
+            }
+            if (isActionFilter) {
+                return ({action: filterTypeName})
+            }
+            return ({})
+        }
+        property string filterTypeName: filterDeviceModel.getData(filterComboBox.currentIndex, ThingModel.RoleName)
+        property bool isStateFilter: thing.thingClass.stateTypes.findByName(filterTypeName) !== null
+        property bool isEventFilter: thing.thingClass.eventTypes.findByName(filterTypeName) !== null
+        property bool isActionFilter: thing.thingClass.actionTypes.findByName(filterTypeName) !== null
+
+        onFilterChanged: {
+            logsModelNg.clear()
+            logsModelNg.fetchLogs()
+        }
+
+//        thingId: root.thing.id
+//        typeIds: root.filterTypeIds.length > 0
+//                 ? root.filterTypeIds
+//                 : filterEnabled
+//                   ? [filterDeviceModel.getData(filterComboBox.currentIndex, ThingModel.RoleId)]
+//                   : []
+//        live: true
+
+        onEntriesAdded: {
+            console.log("entries added", JSON.stringify(entries))
+        }
 
         property bool filterEnabled: false
     }
@@ -163,42 +191,27 @@ Page {
         delegate: ItemDelegate {
             id: entryDelegate
             width: parent.width
+            property NewLogEntry entry: logsModelNg.get(index)
 
-            property StateType stateType: model.source === LogEntry.LoggingSourceStates ? root.thing.thingClass.stateTypes.getStateType(model.typeId) : null
-            property EventType eventType: model.source === LogEntry.LoggingSourceEvents ? root.thing.thingClass.eventTypes.getEventType(model.typeId) : null
-            property ActionType actionType: model.source === LogEntry.LoggingSourceActions ? root.thing.thingClass.actionTypes.getActionType(model.typeId) : null
+            property StateType stateType: entry && entry.values.hasOwnProperty("state") ? root.thing.thingClass.stateTypes.findByName(entry.values.state) : null
+            property EventType eventType: entry && entry.values.hasOwnProperty("event") ? root.thing.thingClass.eventTypes.findByName(entry.values.event) : null
+            property ActionType actionType: entry && entry.values.hasOwnProperty("action") ? root.thing.thingClass.actionTypes.findByName(entry.values.action) : null
 
             contentItem: RowLayout {
                 ColorIcon {
                     Layout.preferredWidth: Style.iconSize
                     Layout.preferredHeight: width
                     Layout.alignment: Qt.AlignVCenter
-                    color: {
-                        switch (model.source) {
-                        case LogEntry.LoggingSourceStates:
-                        case LogEntry.LoggingSourceSystem:
-                        case LogEntry.LoggingSourceActions:
-                        case LogEntry.LoggingSourceEvents:
-                            return Style.accentColor
-                        case LogEntry.LoggingSourceRules:
-                            if (model.loggingEventType === LogEntry.LoggingEventTypeActiveChange) {
-                                return model.value === true ? "green" : Style.iconColor
-                            }
-                            return Style.accentColor
-                        }
-                    }
+                    color: Style.accentColor
                     name: {
-                        switch (model.source) {
-                        case LogEntry.LoggingSourceStates:
+                        if (entryDelegate.stateType) {
                             return "../images/state.svg"
-                        case LogEntry.LoggingSourceSystem:
-                            return "../images/system-shutdown.svg"
-                        case LogEntry.LoggingSourceActions:
-                            return "../images/action.svg"
-                        case LogEntry.LoggingSourceEvents:
+                        }
+                        if (entryDelegate.eventType) {
                             return "../images/event.svg"
-                        case LogEntry.LoggingSourceRules:
-                            return "../images/magic.svg"
+                        }
+                        if (entryDelegate.actionType) {
+                            return "../images/action.svg"
                         }
                     }
                 }
@@ -206,12 +219,13 @@ Page {
                     RowLayout {
                         Label {
                             text: {
-                                switch (model.source) {
-                                case LogEntry.LoggingSourceStates:
+                                if (entryDelegate.stateType) {
                                     return entryDelegate.stateType.displayName
-                                case LogEntry.LoggingSourceEvents:
+                                }
+                                if (entryDelegate.eventType) {
                                     return entryDelegate.eventType.displayName
-                                case LogEntry.LoggingSourceActions:
+                                }
+                                if (entryDelegate.actionType) {
                                     return entryDelegate.actionType.displayName
                                 }
                             }
@@ -232,8 +246,7 @@ Page {
                             id: valueLoader
                             Layout.fillWidth: true
                             sourceComponent: {
-                                switch (model.source) {
-                                case LogEntry.LoggingSourceStates:
+                                if (entryDelegate.stateType) {
                                     switch (entryDelegate.stateType.type.toLowerCase()) {
                                     case "bool":
                                         return boolComponent;
@@ -249,12 +262,17 @@ Page {
                                         return labelComponent
 
                                     }
-                                case LogEntry.LoggingSourceActions:
-                                    return labelComponent;
-                                case LogEntry.LoggingSourceEvents:
 
-                                    break;
                                 }
+
+//                                switch (model.source) {
+//                                case LogEntry.LoggingSourceStates:
+//                                case LogEntry.LoggingSourceActions:
+//                                    return labelComponent;
+//                                case LogEntry.LoggingSourceEvents:
+
+//                                    break;
+//                                }
 
                                 return labelComponent
                             }
@@ -262,7 +280,7 @@ Page {
                                 when: entryDelegate.stateType != null
                                 target: valueLoader.item;
                                 property: "value";
-                                value: entryDelegate.stateType ? Types.toUiValue(model.value, entryDelegate.stateType.unit) : model.value
+                                value: entryDelegate.stateType ? Types.toUiValue(entry.values[entry.values.state], entryDelegate.stateType.unit) : ""
                             }
                             Binding {
                                 when: entryDelegate.stateType != null
@@ -279,13 +297,13 @@ Page {
                                         return ""
                                     }
 
-                                    var ret = ""
-                                    var values = model.value.split(",")
+                                    var ret = []
+                                    var values = JSON.parse(model.values.params)
                                     for (var i = 0; i < entryDelegate.actionType.paramTypes.count; i++) {
                                         var paramType = entryDelegate.actionType.paramTypes.get(i)
-                                        ret += Types.toUiValue(values[i], paramType.unit) + " " + Types.toUiUnit(paramType.unit)
+                                        ret.push(paramType.displayName + ": " + Types.toUiValue(values[paramType.name], paramType.unit) + " " + Types.toUiUnit(paramType.unit))
                                     }
-                                    return ret
+                                    return ret.join(", ")
                                 }
                             }
                             Binding {
@@ -297,13 +315,13 @@ Page {
                                         return ""
                                     }
 
-                                    var ret = ""
-                                    var values = model.value.split(",")
+                                    var ret = []
+                                    var values = JSON.parse(entry.values.params)
                                     for (var i = 0; i < entryDelegate.eventType.paramTypes.count; i++) {
                                         var paramType = entryDelegate.eventType.paramTypes.get(i)
-                                        ret += Types.toUiValue(values[i], paramType.unit) + " " + Types.toUiUnit(paramType.unit)
+                                        ret.push(paramType.displayName + ": " + Types.toUiValue(values[paramType.name], paramType.unit) + " " + Types.toUiUnit(paramType.unit))
                                     }
-                                    return ret
+                                    return ret.join(", ")
                                 }
                             }
                         }

@@ -42,6 +42,8 @@ Page {
     property Thing thing: null
     property StateType stateType: null
 
+    readonly property bool isLogged: thing.loggedStateTypeIds.indexOf(stateType.id) >= 0
+
     readonly property bool canShowGraph: {
         switch (root.stateType.type) {
         case "Int":
@@ -58,71 +60,115 @@ Page {
         onBackPressed: pageStack.pop()
     }
 
-    LogsModelNg {
-        id: logsModelNg
+    NewLogsModel {
+        id: logsModel
         engine: _engine
-        thingId: root.thing.id
-        typeIds: [root.stateType.id]
-        live: true
+        columns: [root.stateType.name]
+        source: "states-" + root.thing.id
+        filter: ({state: root.stateType.name})
     }
 
-    ColumnLayout {
-        anchors.fill: parent
+    Component.onCompleted: {
+        print("loaded statelogpage for", root.stateType)
+    }
 
-        TabBar {
-            id: tabBar
+    GridLayout {
+        anchors.fill: parent
+        columns: app.landscape ? 2 : 1
+
+        StateChart {
             Layout.fillWidth: true
-            visible: root.canShowGraph
-            TabButton {
-                text: qsTr("Log")
-            }
-            TabButton {
-                text: qsTr("Graph")
-            }
+            thing: root.thing
+            stateType: root.stateType
         }
 
-        SwipeView {
-            id: swipeView
+        ListView {
+            id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
-            currentIndex: tabBar.currentIndex
-            interactive: false
+            implicitWidth: 400
+            model: logsModel
+            clip: true
+            ScrollBar.vertical: ScrollBar {}
 
-            GenericTypeLogView {
-                id: logView
-                width: swipeView.width
-                height: swipeView.height
-
-                logsModel: logsModelNg
-
-                onAddRuleClicked: {
-                    var value = logView.logsModel.get(index).value
-                    var typeId = logView.logsModel.get(index).typeId
-                    var rule = engine.ruleManager.createNewRule();
-                    var stateEvaluator = rule.createStateEvaluator();
-                    stateEvaluator.stateDescriptor.thingId = thing.id;
-                    stateEvaluator.stateDescriptor.stateTypeId = typeId;
-                    stateEvaluator.stateDescriptor.value = value;
-                    stateEvaluator.stateDescriptor.valueOperator = StateDescriptor.ValueOperatorEquals;
-                    rule.setStateEvaluator(stateEvaluator);
-                    rule.name = root.thing.name + " - " + stateType.displayName + " = " + value;
-
-                    var rulePage = pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing});
-                    rulePage.addRule(rule);
-                }
-            }
-
-            Loader {
-                id: graphLoader
-                width: swipeView.width
-                height: swipeView.height
-                Component.onCompleted: {
-                    var source;
-                    source = Qt.resolvedUrl("../customviews/GenericTypeGraph.qml");
-                    setSource(source, {thing: root.thing, stateType: root.stateType})
-                }
+            delegate: NymeaItemDelegate {
+                width: listView.width
+                property NewLogEntry entry: logsModel.get(index)
+                text: entry.values[root.stateType.name]
+                subText: entry.timestamp.toLocaleString(Qt.locale())
+                progressive: false
+                Component.onCompleted: print("delegate:", JSON.stringify(entry.values), root.stateType.name, entry.values[root.stateType.name])
             }
         }
+
+//        TabBar {
+//            id: tabBar
+//            Layout.fillWidth: true
+//            visible: root.canShowGraph
+//            TabButton {
+//                text: qsTr("Log")
+//            }
+//            TabButton {
+//                text: qsTr("Graph")
+//            }
+//        }
+
+//        SwipeView {
+//            id: swipeView
+//            Layout.fillWidth: true
+//            Layout.fillHeight: true
+//            currentIndex: tabBar.currentIndex
+//            interactive: false
+
+//            GenericTypeLogView {
+//                id: logView
+//                width: swipeView.width
+//                height: swipeView.height
+
+//                logsModel: logsModelNg
+
+//                onAddRuleClicked: {
+//                    var value = logView.logsModel.get(index).value
+//                    var typeId = logView.logsModel.get(index).typeId
+//                    var rule = engine.ruleManager.createNewRule();
+//                    var stateEvaluator = rule.createStateEvaluator();
+//                    stateEvaluator.stateDescriptor.thingId = thing.id;
+//                    stateEvaluator.stateDescriptor.stateTypeId = typeId;
+//                    stateEvaluator.stateDescriptor.value = value;
+//                    stateEvaluator.stateDescriptor.valueOperator = StateDescriptor.ValueOperatorEquals;
+//                    rule.setStateEvaluator(stateEvaluator);
+//                    rule.name = root.thing.name + " - " + stateType.displayName + " = " + value;
+
+//                    var rulePage = pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing});
+//                    rulePage.addRule(rule);
+//                }
+//            }
+
+//            Loader {
+//                id: graphLoader
+//                width: swipeView.width
+//                height: swipeView.height
+//                Component.onCompleted: {
+//                    var source;
+//                    source = Qt.resolvedUrl("../customviews/GenericTypeGraph.qml");
+//                    setSource(source, {thing: root.thing, stateType: root.stateType})
+//                }
+//            }
+//        }
+    }
+
+    EmptyViewPlaceholder {
+        anchors.centerIn: parent
+        width: parent.width - app.margins * 2
+        title: qsTr("Logging not enabled")
+        text: qsTr("This state is not being logged.")
+        imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+        buttonText: qsTr("Enable logging")
+        visible: !root.isLogged
+        onButtonClicked: {
+
+        }
+
     }
 }
 

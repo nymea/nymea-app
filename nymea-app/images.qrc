@@ -305,5 +305,7 @@
         <file>ui/images/infinity.svg</file>
         <file>ui/images/edit-paste.svg</file>
         <file>ui/images/list-move.svg</file>
+        <file>ui/images/system-log-out.svg</file>
+        <file>ui/images/system-restart.svg</file>
     </qresource>
 </RCC>

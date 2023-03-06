@@ -45,19 +45,35 @@ DashboardDelegateBase {
     readonly property StateType stateType: thing ? thing.thingClass.stateTypes.getStateType(item.stateTypeId) : null
     readonly property State state: thing ? thing.states.getState(item.stateTypeId) : null
 
-    contentItem: GenericTypeGraph {
+    contentItem: StateChart {
         id: graph
         width: root.width
         height: root.height
-        title: root.state && root.stateType ? root.thing.name + " " + Types.toUiValue(root.state.value, root.stateType.unit) + Types.toUiUnit(root.stateType.unit) : ""
+        title: root.state && root.stateType ? root.thing.name + ", " + root.stateType.displayName + ": " + Types.toUiValue(root.state.value, root.stateType.unit).toFixed(0) + Types.toUiUnit(root.stateType.unit) : ""
 
         thing: root.thing
-        color: "blue"//app.interfaceToColor(interfaceName)
-        iconSource: ""// app.interfaceToIcon(interfaceName)
+        color: root.thing ? app.interfaceToColor(root.thing.thingClass.interfaces[0]) : Style.accentColor
+//        iconSource: ""// app.interfaceToIcon(interfaceName)
         implicitHeight: width * .6
 //        property string interfaceName: parent.interfaceName
         stateType: root.stateType
-        property State state: root.state
+//        property State state: root.state
+
     }
+
+//    contentItem: GenericTypeGraph {
+//        id: graph
+//        width: root.width
+//        height: root.height
+//        title: root.state && root.stateType ? root.thing.name + " " + Types.toUiValue(root.state.value, root.stateType.unit) + Types.toUiUnit(root.stateType.unit) : ""
+
+//        thing: root.thing
+//        color: "blue"//app.interfaceToColor(interfaceName)
+//        iconSource: ""// app.interfaceToIcon(interfaceName)
+//        implicitHeight: width * .6
+////        property string interfaceName: parent.interfaceName
+//        stateType: root.stateType
+//        property State state: root.state
+//    }
 }
 

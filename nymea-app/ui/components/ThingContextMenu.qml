@@ -55,7 +55,7 @@ AutoSizeMenu {
         pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing})
     }
     function openGenericThingPage() {
-        pageStack.push(Qt.resolvedUrl("../devicepages/GenericDevicePage.qml"), {thing: root.thing})
+        pageStack.push(Qt.resolvedUrl("../devicepages/GenericThingPage.qml"), {thing: root.thing})
     }
     function toggleFavorite() {
         if (favoritesProxy.count === 0) {
@@ -74,7 +74,11 @@ AutoSizeMenu {
     }
 
     function openThingLogPage() {
-        pageStack.push(Qt.resolvedUrl("../devicepages/DeviceLogPage.qml"), {thing: root.thing });
+        if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+            pageStack.push(Qt.resolvedUrl("../devicepages/ThingLogPage.qml"), {thing: root.thing });
+        } else {
+            pageStack.push(Qt.resolvedUrl("../devicepages/DeviceLogPage.qml"), {thing: root.thing });
+        }
     }
 
     function writeNfcTag() {

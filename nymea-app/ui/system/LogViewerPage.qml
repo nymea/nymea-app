@@ -55,8 +55,15 @@ Page {
 
     LogsModel {
         id: logsModel
-        engine: _engine
+        //engine: _engine
         live: true
+    }
+
+    NewLogsModel {
+        id: newLogsModel
+        engine: _engine
+//        sources: ["core", "rules", "scripts"]
+        source: "core"
     }
 
     BusyIndicator {
@@ -66,7 +73,7 @@ Page {
 
     ListView {
         id: listView
-        model: logsModel
+        model: newLogsModel
         anchors.fill: parent
         clip: true
         headerPositioning: ListView.OverlayHeader
@@ -84,14 +91,28 @@ Page {
             visible: listView.model.busy
         }
 
-        delegate: ItemDelegate {
+        delegate: NymeaItemDelegate {
             id: delegate
-            width: parent.width
-            property Thing thing: engine.thingManager.things.getThing(model.thingId)
+            width: listView.width
             leftPadding: 0
             rightPadding: 0
             topPadding: 0
             bottomPadding: 0
+            property NewLogEntry entry: newLogsModel.get(index)
+            property string event: entry.values.event
+            property string shutdownReason: {
+                switch (entry.values.shutdownReason) {
+                case "ShutdownReasonTerm":
+                    return qsTr("Terminated by system")
+                case "ShutdownReasonQuit":
+                    return qsTr("Application quit")
+                case "ShutdownReasonFailure":
+                    return qsTr("Application error")
+                default:
+                    return qsTr("Unknown reason")
+                }
+            }
+
             contentItem: RowLayout {
                 id: contentColumn
                 anchors { left: parent.left; right: parent.right; margins: app.margins / 2 }
@@ -99,32 +120,24 @@ Page {
                     Layout.preferredWidth: Style.iconSize
                     Layout.preferredHeight: width
                     Layout.alignment: Qt.AlignVCenter
-                    color: {
-                        switch (model.source) {
-                        case LogEntry.LoggingSourceStates:
-                        case LogEntry.LoggingSourceSystem:
-                        case LogEntry.LoggingSourceActions:
-                        case LogEntry.LoggingSourceEvents:
-                            return Style.accentColor
-                        case LogEntry.LoggingSourceRules:
-                            if (model.loggingEventType === LogEntry.LoggingEventTypeActiveChange) {
-                                return model.value === true ? "green" : Style.iconColor
-                            }
-                            return Style.accentColor
-                        }
-                    }
+                    color: delegate.event == "started"
+                           ? Style.accentColor
+                           : delegate.entry.values.shutdownReason === "ShutdownReasonFailure"
+                             ? Style.red
+                             : Style.iconColor
                     name: {
-                        switch (model.source) {
-                        case LogEntry.LoggingSourceStates:
-                            return "../images/state.svg"
-                        case LogEntry.LoggingSourceSystem:
-                            return "../images/system-shutdown.svg"
-                        case LogEntry.LoggingSourceActions:
-                            return "../images/action.svg"
-                        case LogEntry.LoggingSourceEvents:
-                            return "../images/event.svg"
-                        case LogEntry.LoggingSourceRules:
-                            return "../images/magic.svg"
+                        switch (delegate.event) {
+                        case "started":
+                            return "system-restart"
+                        case "stopped":
+                            switch (delegate.entry.values.shutdownReason) {
+                            case "ShutdownReasonQuit":
+                                return "system-logout"
+                            case "ShutdownReasonTerm":
+                                return "system-shutdown"
+                            case "ShutdownReasonFailure":
+                                return "dialog-error-symbolic"
+                            }
                         }
                     }
                 }
@@ -132,54 +145,30 @@ Page {
                     RowLayout {
                         Label {
                             Layout.fillWidth: true
-                            text: model.source === LogEntry.LoggingSourceSystem ?
-                                      qsTr("%1 Server").arg(Configuration.systemName)
-                                    : model.source === LogEntry.LoggingSourceRules ?
-                                          engine.ruleManager.rules.getRule(model.typeId).name
-                                        : delegate.thing.name
+                            text: {
+                                switch (delegate.event) {
+                                case "started":
+                                    return qsTr("Started")
+                                case "stopped":
+                                    return qsTr("Stopped")
+                                default:
+                                    console.warn("LogViewer: Unhand event", delegate.event)
+                                    return qsTr(delegate.event)
+                                }
+                            }
                             elide: Text.ElideRight
                         }
                         Label {
                             text: Qt.formatDateTime(model.timestamp,"dd.MM.yy - hh:mm:ss")
                             elide: Text.ElideRight
-                            font.pixelSize: app.smallFont
+                            font: Style.smallFont
                         }
                     }
                     Label {
-                        text : {
-                            switch (model.source) {
-                            case LogEntry.LoggingSourceStates:
-                                var stateType = delegate.thing.thingClass.stateTypes.getStateType(model.typeId);
-                                return "%1 -> %2 %3".arg(stateType.displayName).arg(Types.toUiValue(model.value, stateType.unit)).arg(Types.toUiUnit(stateType.unit));
-                            case LogEntry.LoggingSourceSystem:
-                                return model.loggingEventType === LogEntry.LoggingEventTypeActiveChange ? qsTr("System started") : "N/A"
-                            case LogEntry.LoggingSourceActions:
-                                return "%1 (%2)".arg(delegate.thing.thingClass.actionTypes.getActionType(model.typeId).displayName).arg(model.value);
-                            case LogEntry.LoggingSourceEvents:
-                                return "%1 (%2)".arg(delegate.thing.thingClass.eventTypes.getEventType(model.typeId).displayName).arg(model.value);
-                            case LogEntry.LoggingSourceRules:
-                                switch (model.loggingEventType) {
-                                case LogEntry.LoggingEventTypeTrigger:
-                                    return qsTr("Rule triggered");
-                                case LogEntry.LoggingEventTypeActionsExecuted:
-                                    return qsTr("Actions executed");
-                                case LogEntry.LoggingEventTypeActiveChange:
-                                    return model.value === true ? qsTr("Rule active") : qsTr("Rule inactive")
-                                case LogEntry.LoggingEventTypeExitActionsExecuted:
-                                    return qsTr("Exit actions executed");
-                                case LogEntry.LoggingEventTypeEnabledChange:
-                                    return qsTr("Enabled changed");
-                                default:
-                                    print("Unhandled logging event type", model.loggingEventType)
-                                }
-                                return "N/A"
-                            default:
-                                print("unhandled logging source:", model.source)
-                            }
-                            return "N/A";
-                        }
+                        text: delegate.shutdownReason
+                        visible: delegate.event == "stopped"
                         elide: Text.ElideRight
-                        font.pixelSize: app.smallFont
+                        font: Style.smallFont
                     }
                 }
             }
