@@ -951,6 +951,17 @@ Thing* ThingManager::unpackThing(ThingManager *thingManager, const QVariantMap &
     }
     thing->setStates(states);
 
+
+    QList<QUuid> loggedStateTypeIds;
+    foreach (const QVariant &uuid, thingMap.value("loggedStateTypeIds").toList()) {
+        loggedStateTypeIds.append(uuid.toUuid());
+    }
+    thing->setLoggedStateTypeIds(loggedStateTypeIds);
+    QList<QUuid> loggedEventTypeIds;
+    foreach (const QVariant &uuid, thingMap.value("loggedEventTypeIds").toList()) {
+        loggedEventTypeIds.append(uuid.toUuid());
+    }
+    thing->setLoggedEventTypeIds(loggedEventTypeIds);
     return thing;
 }
 

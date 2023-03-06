@@ -74,7 +74,7 @@ Item {
         } else if (interfaceList.indexOf("cleaningrobot") >= 0) {
             page = "CleaningRobotThingPage.qml";
         } else {
-            page = "GenericDevicePage.qml";
+            page = "GenericThingPage.qml";
         }
         print("Selecting page", page, "for interface list:", interfaceList)
         return page;

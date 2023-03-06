@@ -128,7 +128,12 @@ ThingPageBase {
                     }
                     onClicked: {
                         swipe.close();
-                        pageStack.push(Qt.resolvedUrl("DeviceLogPage.qml"), {thing: root.thing, filterTypeIds: [model.id]})
+                        print("opening logs for", delegate.stateType)
+                        if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+                            pageStack.push(Qt.resolvedUrl("StateLogPage.qml"), {thing: root.thing, stateType: delegate.stateType})
+                        } else {
+                            pageStack.push(Qt.resolvedUrl("DeviceLogPage.qml"), {thing: root.thing, filterTypeIds: [model.id]})
+                        }
                     }
                 }
             }
@@ -269,16 +274,14 @@ ThingPageBase {
                 when: !stateDelegate.valueCacheDirty && stateDelegate.pendingActionId === -1
             }
             Binding {
-                target: stateDelegateLoader.item
+                target: stateDelegateLoader.item.hasOwnProperty("from") ? stateDelegateLoader.item : null
                 property: "from"
                 value: stateDelegate.thingState.minValue
-                when: stateDelegateLoader.item.hasOwnProperty("from")
             }
             Binding {
-                target: stateDelegateLoader.item
+                target: stateDelegateLoader.item.hasOwnProperty("to") ? stateDelegateLoader.item : null
                 property: "to"
                 value: stateDelegate.thingState.maxValue
-                when: stateDelegateLoader.item.hasOwnProperty("to")
             }
             Binding {
                 target: stateDelegateLoader.item.hasOwnProperty("unit") ? stateDelegateLoader.item : null

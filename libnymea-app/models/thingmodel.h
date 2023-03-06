@@ -52,6 +52,7 @@ public:
     enum Roles {
         RoleId,
         RoleType,
+        RoleName,
         RoleDisplayName,
         RoleWritable
     };

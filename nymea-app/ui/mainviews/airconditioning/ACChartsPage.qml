@@ -31,6 +31,7 @@ Page {
         id: d
 
         property date now: new Date()
+        property int sampleRate: NewLogsModel.SampleRate15Mins
 
         property int range: 60 * 24
 
@@ -203,28 +204,29 @@ Page {
                 readonly property Thing thing: zoneWrapper.thermostats.get(index)
                 property XYSeries series: null
 
-                readonly property LogsModel logsModel: LogsModel {
+                readonly property NewLogsModel logsModel: NewLogsModel {
                     objectName: "temp: " + thing.name
-                    engine: typeIds.length > 0 ? _engine : null
-                    thingId: thing.id
-                    live: true
-                    sourceFilter: LogsModel.SourceStates
-                    //                    graphSeries: series
-                    viewStartTime: new Date(d.startTime.getTime() - d.range * 60000)
+                    engine: _engine
+                    source: "states-" + thing.id
+                    filter: ({state: "temperature"})
+                    startTime: new Date(d.startTime.getTime() - d.range * 60000)
+                    endTime: new Date(d.endTime.getTime() + d.range * 60000)
+                    sampleRate: d.sampleRate
 
-                    fetchBlockSize: 500
-
-                    typeIds: {
-                        var ret = [];
-                        ret.push(thing.thingClass.stateTypes.findByName("temperature").id)
-                        return ret;
+                    onEntriesAdded: {
+                        for (var i = 0; i < entries.length; i++) {
+                            var entry = entries[i]
+                            var value = entry.values["temperature"]
+                            if (value == null) {
+                                value = 0;
+                            }
+                            series.insert(index + i, entry.timestamp, value)
+                        }
                     }
-                }
-
-                XYSeriesAdapter {
-                    logsModel: thermostatDelegate.logsModel
-                    xySeries: series
-                    sampleRate: XYSeriesAdapter.SampleRate10Minutes
+                    onEntriesRemoved: {
+                        series.removePoints(index, count)
+                    }
+                    Component.onCompleted: fetchLogs()
                 }
 
                 Component.onCompleted: {
@@ -253,28 +255,29 @@ Page {
                 readonly property Thing thing: zoneWrapper.indoorTempSensors.get(index)
                 property XYSeries series: null
 
-                readonly property LogsModel logsModel: LogsModel {
+                readonly property NewLogsModel logsModel: NewLogsModel {
                     objectName: "temp: " + thing.name
-                    engine: typeIds.length > 0 ? _engine : null
-                    thingId: thing.id
-                    sourceFilter: LogsModel.SourceStates
-                    live: true
-                    //                    graphSeries: series
-                    viewStartTime: new Date(d.startTime.getTime() - d.range * 60000)
-
-                    fetchBlockSize: 500
-
-                    typeIds: {
-                        var ret = [];
-                        ret.push(thing.thingClass.stateTypes.findByName("temperature").id)
-                        return ret;
+                    engine: _engine
+                    source: "states-" + thing.id
+                    filter: ({state: "temperature"})
+                    startTime: new Date(d.startTime.getTime() - d.range * 60000)
+                    endTime: new Date(d.endTime.getTime() + d.range * 60000)
+                    sampleRate: d.sampleRate
+                    onEntriesAdded: {
+                        for (var i = 0; i < entries.length; i++) {
+                            var entry = entries[i]
+                            var value = entry.values["temperature"]
+                            if (value == null) {
+                                value = 0;
+                            }
+                            series.insert(index + i, entry.timestamp, value)
+                        }
                     }
-                }
+                    onEntriesRemoved: {
+                        series.removePoints(index, count)
+                    }
+                    Component.onCompleted: fetchLogs()
 
-                XYSeriesAdapter {
-                    logsModel: tempDelegate.logsModel
-                    xySeries: series
-                    sampleRate: XYSeriesAdapter.SampleRate10Minutes
                 }
 
                 Component.onCompleted: {
@@ -303,27 +306,29 @@ Page {
                 readonly property Thing thing: zoneWrapper.indoorHumiditySensors.get(index)
                 property XYSeries series: null
 
-                readonly property LogsModel logsModel: LogsModel {
+                readonly property NewLogsModel logsModel: NewLogsModel {
                     objectName: "hum: " + thing.name
-                    engine: typeIds.length > 0 ? _engine : null
-                    thingId: thing.id
-                    sourceFilter: LogsModel.SourceStates
-                    live: true
-                    //                    graphSeries: series
-                    viewStartTime: new Date(d.startTime.getTime() - d.range * 60000)
-                    fetchBlockSize: 500
+                    engine: _engine
+                    source: "states-" + thing.id
+                    filter: ({state: "humidity"})
+                    startTime: new Date(d.startTime.getTime() - d.range * 60000)
+                    endTime: new Date(d.endTime.getTime() + d.range * 60000)
+                    sampleRate: d.sampleRate
 
-                    typeIds: {
-                        var ret = [];
-                        ret.push(thing.thingClass.stateTypes.findByName("humidity").id)
-                        return ret;
+                    onEntriesAdded: {
+                        for (var i = 0; i < entries.length; i++) {
+                            var entry = entries[i]
+                            var value = entry.values["humidity"]
+                            if (value == null) {
+                                value = 0;
+                            }
+                            series.insert(index + i, entry.timestamp, value)
+                        }
                     }
-                }
-
-                XYSeriesAdapter {
-                    logsModel: humidityDelegate.logsModel
-                    xySeries: series
-                    sampleRate: XYSeriesAdapter.SampleRate10Minutes
+                    onEntriesRemoved: {
+                        series.removePoints(index, count)
+                    }
+                    Component.onCompleted: fetchLogs()
                 }
 
                 Component.onCompleted: {
@@ -345,7 +350,7 @@ Page {
 
         Repeater {
             id: vocRepeater
-            model: zoneWrapper.indoorVocSensors
+//            model: zoneWrapper.indoorVocSensors
             delegate: Item {
                 id: vocDelegate
                 readonly property Thing thing: zoneWrapper.indoorVocSensors.get(index)
@@ -391,7 +396,7 @@ Page {
         }
 
         Repeater {
-            model: zoneWrapper.windowSensors
+//            model: zoneWrapper.windowSensors
             delegate: Item {
                 id: closableDelegate
                 readonly property Thing thing: zoneWrapper.windowSensors.get(index)
@@ -446,7 +451,7 @@ Page {
         }
 
         Repeater {
-            model: zoneWrapper.thermostats.count
+//            model: zoneWrapper.thermostats.count
             delegate: Item {
                 id: heatingDelegate
                 readonly property Thing thing: zoneWrapper.thermostats.get(index)

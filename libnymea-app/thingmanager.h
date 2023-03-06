@@ -182,4 +182,6 @@ private:
     QDateTime m_connectionBenchmark;
 };
 
+Q_DECLARE_METATYPE(QList<QUuid>)
+
 #endif // THINGMANAGER_H

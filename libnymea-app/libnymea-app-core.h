@@ -68,6 +68,7 @@
 #include "models/barseriesadapter.h"
 #include "models/xyseriesadapter.h"
 #include "models/boolseriesadapter.h"
+#include "models/newlogsmodel.h"
 #include "models/interfacesproxy.h"
 #include "configuration/nymeaconfiguration.h"
 #include "configuration/serverconfiguration.h"
@@ -277,6 +278,9 @@ void registerQmlTypes() {
     qmlRegisterType<BarSeriesAdapter>(uri, 1, 0, "BarSeriesAdapter");
     qmlRegisterType<XYSeriesAdapter>(uri, 1, 0, "XYSeriesAdapter");
     qmlRegisterType<BoolSeriesAdapter>(uri, 1, 0, "BoolSeriesAdapter");
+
+    qmlRegisterType<NewLogsModel>(uri, 1, 0, "NewLogsModel");
+    qmlRegisterUncreatableType<NewLogEntry>(uri, 1, 0, "NewLogEntry", "Get them from NewLogsModel");
 
     qmlRegisterUncreatableType<TagsManager>(uri, 1, 0, "TagsManager", "Get it from Engine");
     qmlRegisterUncreatableType<Tags>(uri, 1, 0, "Tags", "Get it from TagsManager");

@@ -57,33 +57,125 @@ ThingPageBase {
                 Layout.fillWidth: true
                 columns: Math.min(width / 300, 4)
 
-                GenericTypeGraph {
+                Loader {
                     Layout.fillWidth: true
-                    thing: root.thing
-                    stateType: root.thingClass.stateTypes.findByName("temperature")
-                    iconSource: app.interfaceToIcon("temperaturesensor")
-                    color: app.interfaceToColor("temperaturesensor")
+                    sourceComponent: {
+                        if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+                            return tempComponent
+                        }
+                        return tempComponentPre18
+                    }
                 }
-                GenericTypeGraph {
-                    Layout.fillWidth: true
-                    thing: root.thing
-                    stateType: root.thingClass.stateTypes.findByName("humidity")
-                    iconSource: app.interfaceToIcon("humiditysensor")
-                    color: app.interfaceToColor("humiditysensor")
+
+                Component {
+                    id: tempComponent
+                    StateChart {
+                        thing: root.thing
+                        stateType: root.thingClass.stateTypes.findByName("temperature")
+                        color: app.interfaceToColor("temperaturesensor")
+                    }
                 }
-                GenericTypeGraph {
-                    Layout.fillWidth: true
-                    thing: root.thing
-                    stateType: root.thingClass.stateTypes.findByName("pressure")
-                    iconSource: app.interfaceToIcon("pressuresensor")
-                    color: app.interfaceToColor("pressuresensor")
+
+                Component {
+                    id: tempComponentPre18
+
+                    GenericTypeGraph {
+                        Layout.fillWidth: true
+                        thing: root.thing
+                        stateType: root.thingClass.stateTypes.findByName("temperature")
+                        iconSource: app.interfaceToIcon("temperaturesensor")
+                        color: app.interfaceToColor("temperaturesensor")
+                    }
                 }
-                GenericTypeGraph {
+
+                Loader {
                     Layout.fillWidth: true
-                    thing: root.thing
-                    stateType: root.thingClass.stateTypes.findByName("windSpeed")
-                    iconSource: app.interfaceToIcon("windspeedsensor")
-                    color: app.interfaceToColor("windspeedsensor")
+                    sourceComponent: {
+                        if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+                            return humidityComponent
+                        }
+                        return humidityComponentPre18
+                    }
+                }
+
+                Component {
+                    id: humidityComponent
+                    StateChart {
+                        thing: root.thing
+                        stateType: root.thingClass.stateTypes.findByName("humidity")
+                        color: app.interfaceToColor("humiditysensor")
+                    }
+                }
+
+                Component {
+                    id: humidityComponentPre18
+                    GenericTypeGraph {
+                        Layout.fillWidth: true
+                        thing: root.thing
+                        stateType: root.thingClass.stateTypes.findByName("humidity")
+                        iconSource: app.interfaceToIcon("humiditysensor")
+                        color: app.interfaceToColor("humiditysensor")
+                    }
+                }
+
+                Loader {
+                    Layout.fillWidth: true
+                    sourceComponent: {
+                        if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+                            return pressureComponent
+                        }
+                        return pressureComponentPre18
+                    }
+                }
+
+                Component {
+                    id: pressureComponent
+                    StateChart {
+                        thing: root.thing
+                        stateType: root.thingClass.stateTypes.findByName("pressure")
+                        color: app.interfaceToColor("pressuresensor")
+                    }
+                }
+
+                Component {
+                    id: pressureComponentPre18
+                    GenericTypeGraph {
+                        Layout.fillWidth: true
+                        thing: root.thing
+                        stateType: root.thingClass.stateTypes.findByName("pressure")
+                        iconSource: app.interfaceToIcon("pressuresensor")
+                        color: app.interfaceToColor("pressuresensor")
+                    }
+                }
+
+                Loader {
+                    Layout.fillWidth: true
+                    sourceComponent: {
+                        if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+                            return windSpeedComponent
+                        }
+                        return windSpeedComponentPre18
+                    }
+                }
+
+                Component {
+                    id: windSpeedComponent
+                    StateChart {
+                        thing: root.thing
+                        stateType: root.thingClass.stateTypes.findByName("windSpeed")
+                        color: app.interfaceToColor("windspeedsensor")
+                    }
+                }
+
+                Component {
+                    id: windSpeedComponentPre18
+                    GenericTypeGraph {
+                        Layout.fillWidth: true
+                        thing: root.thing
+                        stateType: root.thingClass.stateTypes.findByName("windSpeed")
+                        iconSource: app.interfaceToIcon("windspeedsensor")
+                        color: app.interfaceToColor("windspeedsensor")
+                    }
                 }
             }
         }

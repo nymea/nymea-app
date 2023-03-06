@@ -140,7 +140,7 @@ ItemDelegate {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 text: root.subText
-                font.pixelSize: root.prominentSubText ? Style.smallFont : app.extraSmallFont
+                font.pixelSize: root.prominentSubText ? Style.smallFont.pixelSize : Style.extraSmallFont.pixelSize
                 color: root.prominentSubText ? Material.foreground : Material.color(Material.Grey)
                 wrapMode: root.wrapTexts ? Text.WordWrap : Text.NoWrap
                 maximumLineCount: root.wrapTexts ? 2 : 1

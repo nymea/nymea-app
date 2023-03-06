@@ -175,7 +175,13 @@ Page {
                 text: qsTr("Log viewer")
                 subText: qsTr("View system log")
                 visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
-                onClicked: pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
+                onClicked: {
+                    if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+                        pageStack.push(Qt.resolvedUrl("system/LogViewerPage.qml"))
+                    } else {
+                        pageStack.push(Qt.resolvedUrl("system/LogViewerPagePre18.qml"))
+                    }
+                }
             }
 
             SettingsTile {
