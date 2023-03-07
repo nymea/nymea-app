@@ -139,7 +139,7 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 text: qsTr("Password")
             }
-            PasswordTextField {
+            ConsolinnoPasswordTextField {
                 id: passwordTextField
                 Layout.fillWidth: true
                 minPasswordLength: 8

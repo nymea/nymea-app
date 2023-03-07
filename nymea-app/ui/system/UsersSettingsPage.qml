@@ -184,7 +184,7 @@ SettingsPageBase {
                 wrapMode: Text.WordWrap
             }
 
-            PasswordTextField {
+            ConsolinnoPasswordTextField {
                 id: passwordTextField
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins
@@ -447,7 +447,7 @@ SettingsPageBase {
                     Layout.alignment: Qt.AlignTop
                     Layout.topMargin: Style.smallMargins
                 }
-                PasswordTextField {
+                ConsolinnoPasswordTextField {
                     id: passwordTextField
                     Layout.fillWidth: true
                 }

@@ -412,7 +412,7 @@ SettingsPageBase {
                 placeholderText: qsTr("SSID")
             }
 
-            PasswordTextField {
+            ConsolinnoPasswordTextField {
                 id: passwordTextField
                 Layout.fillWidth: true
                 minPasswordLength: 8

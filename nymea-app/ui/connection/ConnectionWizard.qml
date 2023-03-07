@@ -621,7 +621,7 @@ WizardPageBase {
                     text: qsTr("Password")
                 }
 
-                PasswordTextField {
+                ConsolinnoPasswordTextField {
                     id: passwordTextField
                     Layout.fillWidth: true
                     signup: false
@@ -664,7 +664,7 @@ WizardPageBase {
                     text: ssid
                 }
 
-                PasswordTextField {
+                ConsolinnoPasswordTextField {
                     id: passwordTextField
                     Layout.fillWidth: true
                     signup: false

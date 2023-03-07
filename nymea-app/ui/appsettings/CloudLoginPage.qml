@@ -184,7 +184,7 @@ SettingsPageBase {
         }
         RowLayout {
             Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            PasswordTextField {
+            ConsolinnoPasswordTextField {
                 id: passwordTextField
                 Layout.fillWidth: true
                 signup: false
@@ -326,7 +326,7 @@ SettingsPageBase {
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins; Layout.topMargin: app.margins
                 text: qsTr("Password")
             }
-            PasswordTextField {
+            ConsolinnoPasswordTextField {
                 id: passwordTextField
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                 Layout.fillWidth: true
@@ -532,7 +532,7 @@ SettingsPageBase {
                 text: qsTr("Pick a new password:")
             }
 
-            PasswordTextField {
+            ConsolinnoPasswordTextField {
                 id: passwordTextField
                 minPasswordLength: 8
                 requireLowerCaseLetter: true
