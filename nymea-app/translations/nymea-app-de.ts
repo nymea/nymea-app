@@ -2,6 +2,29 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE">
 <context>
+    <name>ACSettingsPage</name>
+    <message>
+        <source>Configure zones</source>
+        <translation>Zonen einrichten</translation>
+    </message>
+    <message>
+        <source>Zone %1</source>
+        <translation>Zone %1</translation>
+    </message>
+    <message>
+        <source>No zones configured.</source>
+        <translation>Keine Zonen eingerichtet.</translation>
+    </message>
+    <message>
+        <source>Start with configuring your zones.</source>
+        <translation>Beginne damit Zonen einzurichten.</translation>
+    </message>
+    <message>
+        <source>Add zone</source>
+        <translation>Zone hinzufügen</translation>
+    </message>
+</context>
+<context>
     <name>AboutNymeaPage</name>
     <message>
         <source>Server UUID:</source>
@@ -108,6 +131,37 @@
     <message>
         <source>Server: %1</source>
         <translation>Server: %1</translation>
+    </message>
+</context>
+<context>
+    <name>AirConditioningView</name>
+    <message>
+        <source>Air conditioning plugin not installed.</source>
+        <translation>Raumklima-Plugin ist nicht installiert.</translation>
+    </message>
+    <message>
+        <source>To set up air conditioning, install the air conditioning plugin.</source>
+        <translation>Um die Klimatisierung einzurichten, installiere das Raumklima-Plugin.</translation>
+    </message>
+    <message>
+        <source>Install A/C plugin</source>
+        <translation>Raumklima-Plugin installieren</translation>
+    </message>
+    <message>
+        <source>No zones configured.</source>
+        <translation>Keine Zonen eingerichtet.</translation>
+    </message>
+    <message>
+        <source>Start with configuring your zones.</source>
+        <translation>Beginne damit Zonen einzurichten.</translation>
+    </message>
+    <message>
+        <source>Add zone</source>
+        <translation>Zone hinzufügen</translation>
+    </message>
+    <message>
+        <source>Zone %1</source>
+        <translation>Zone %1</translation>
     </message>
 </context>
 <context>
@@ -223,6 +277,40 @@
     <message>
         <source>Last scan</source>
         <translation>Letzter Scan</translation>
+    </message>
+</context>
+<context>
+    <name>BigZoneStatusIcons</name>
+    <message>
+        <source>Automatic mode</source>
+        <translation>Automatik-Modus</translation>
+    </message>
+    <message>
+        <source>Manual mode</source>
+        <translation>Manueller Modus</translation>
+    </message>
+    <message>
+        <source>Time schedule not active</source>
+        <translation>Zeitschaltung nicht aktiv</translation>
+    </message>
+    <message>
+        <source>Time schedule active</source>
+        <translation>Zeitschaltung aktiv</translation>
+    </message>
+    <message>
+        <source>All windows closed</source>
+        <translation>Alle Fenster geschlossen</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n window(s) open</source>
+        <translation>
+            <numerusform>%n Fenster geöffnet</numerusform>
+            <numerusform>%n Fenster geöffnet</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>%1% humidity</source>
+        <translation>%1% Luftfeuchtigkeit</translation>
     </message>
 </context>
 <context>
@@ -579,6 +667,14 @@
         <source>System information</source>
         <translation>Systeminformationen</translation>
     </message>
+    <message>
+        <source>Add</source>
+        <translation>Hinzufügen</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Schließen</translation>
+    </message>
 </context>
 <context>
     <name>ConnectionInterfaceDelegate</name>
@@ -709,42 +805,6 @@
         <translation>Gib die Verbindungsinformationen für dein nymea System ein</translation>
     </message>
     <message>
-        <source>Protocol</source>
-        <translation>Protokoll</translation>
-    </message>
-    <message>
-        <source>TCP</source>
-        <translation>TCP</translation>
-    </message>
-    <message>
-        <source>Websocket</source>
-        <translation>Websocket</translation>
-    </message>
-    <message>
-        <source>Remote proxy</source>
-        <translation>Ferverbindungs-Proxy-Server</translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation>Adresse:</translation>
-    </message>
-    <message>
-        <source>Proxy address:</source>
-        <translation>Proxy-Adresse:</translation>
-    </message>
-    <message>
-        <source>%1 UUID:</source>
-        <translation>%1 UUID:</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation>Port:</translation>
-    </message>
-    <message>
-        <source>SSL:</source>
-        <translation>SSL:</translation>
-    </message>
-    <message>
         <source>Wired connection</source>
         <translation>Kabelgebundene Verbindung</translation>
     </message>
@@ -869,17 +929,6 @@
     <message>
         <source>Consumers balance</source>
         <translation>Verbraucherbilanz</translation>
-    </message>
-</context>
-<context>
-    <name>ConsumersBarChart</name>
-    <message>
-        <source>Consumers</source>
-        <translation>Verbraucher</translation>
-    </message>
-    <message>
-        <source>Unknown</source>
-        <translation>Unbekannt</translation>
     </message>
 </context>
 <context>
@@ -1712,6 +1761,152 @@
     </message>
 </context>
 <context>
+    <name>EditZonePage</name>
+    <message>
+        <source>Edit %1</source>
+        <translation>%1 bearbeiten</translation>
+    </message>
+    <message>
+        <source>Zone information</source>
+        <translation>Zoneninformationen</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Assigned things</source>
+        <translation>Zugewiesene &quot;Things&quot;</translation>
+    </message>
+    <message>
+        <source>Temperature settings</source>
+        <translation>Temperatureinstellungen</translation>
+    </message>
+    <message>
+        <source>Base temperature</source>
+        <translation>Basistemperatur</translation>
+    </message>
+    <message>
+        <source>Set time schedule</source>
+        <translation>Zeitschaltung einstellen</translation>
+    </message>
+    <message>
+        <source>Remove this zone</source>
+        <translation>Diese Zone entfernen</translation>
+    </message>
+</context>
+<context>
+    <name>EditZoneThingsPage</name>
+    <message>
+        <source>Things in zone %1</source>
+        <translation>&quot;Things&quot; in Zone %1</translation>
+    </message>
+    <message>
+        <source>Thermostats</source>
+        <translation>Thermostate</translation>
+    </message>
+    <message>
+        <source>Add thermostat</source>
+        <translation>Thermostat hinzufügen</translation>
+    </message>
+    <message>
+        <source>Add thermostats</source>
+        <translation>Thermostate hinzufügen</translation>
+    </message>
+    <message>
+        <source>No thermostats installed</source>
+        <translation>Keine Thermostate installiert</translation>
+    </message>
+    <message>
+        <source>Before a thermostat can be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation>Bevor ein Thermostat einer Zone zugewiesen werden kann, muss es zu nymea hinzugefügt werden.</translation>
+    </message>
+    <message>
+        <source>Setup thermostats</source>
+        <translation>Thermostate einrichten</translation>
+    </message>
+    <message>
+        <source>Window sensors</source>
+        <translation>Fenstersensoren</translation>
+    </message>
+    <message>
+        <source>Add window sensor</source>
+        <translation>Fenstersensor hinzufügen</translation>
+    </message>
+    <message>
+        <source>Add window sensors</source>
+        <translation>Fenstersensoren hinzufügen</translation>
+    </message>
+    <message>
+        <source>No window sensors installed</source>
+        <translation>Keine Fenstersensoren installiert</translation>
+    </message>
+    <message>
+        <source>Before a window sensor can be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation>Bevor ein Fenstersensor einer Zone zugewiesen werden kann, muss er an nymea angebunden werden.</translation>
+    </message>
+    <message>
+        <source>Setup window sensor</source>
+        <translation>Fenstersensor einrichten</translation>
+    </message>
+    <message>
+        <source>Indoor sensors</source>
+        <translation>Inneraumsensoren</translation>
+    </message>
+    <message>
+        <source>Add indoor sensor</source>
+        <translation>Inneraumsensor hinzufügen</translation>
+    </message>
+    <message>
+        <source>Add indoor sensors</source>
+        <translation>Innenraumsensoren hinzufügen</translation>
+    </message>
+    <message>
+        <source>No sensors installed</source>
+        <translation>Keine Sensoren installiert</translation>
+    </message>
+    <message>
+        <source>Before a sensor be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation>Bevor ein Sensor einer Zone zugewiesen werden kann, muss er an nymea angebunden werden.</translation>
+    </message>
+    <message>
+        <source>Setup sensors</source>
+        <translation>Sensoren einrichten</translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation>Benachrichtigungen</translation>
+    </message>
+    <message>
+        <source>Add notification target</source>
+        <translation>Benachrichtingsziel hinzufügen</translation>
+    </message>
+    <message>
+        <source>Select notification target</source>
+        <translation>Benachrichtigungs-&quot;Thing&quot; auswählen</translation>
+    </message>
+    <message>
+        <source>No notification things installed</source>
+        <translation>Keine Benachrichtigungsziele installiert</translation>
+    </message>
+    <message>
+        <source>Before a notification target can be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation>Bevor ein Benachrichtigungsziel einer Zone zugewiesen werden kann, muss es zuerst in nymea eingerichtet werden.</translation>
+    </message>
+    <message>
+        <source>Setup notification targets</source>
+        <translation>Benachrichtigungsziel einrichten</translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation>&quot;Things&quot; hinzufügen</translation>
+    </message>
+</context>
+<context>
     <name>EnergySettingsPage</name>
     <message>
         <source>Energy settings</source>
@@ -1772,12 +1967,12 @@
         <translation>Oh oh!</translation>
     </message>
     <message>
-        <source>An unexpected error happened. We&apos;re sorry for that.</source>
-        <translation>Ein unerwarteter Fehler ist passiert. Dies tut uns leid.</translation>
-    </message>
-    <message>
         <source>Error code: %1</source>
         <translation>Fehler-Nummer: %1</translation>
+    </message>
+    <message>
+        <source>An unexpected error happened. Sorry about that.</source>
+        <translation>Ein unerwarteter Fehler ist aufgetreten.</translation>
     </message>
 </context>
 <context>
@@ -2226,6 +2421,13 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>uncategorized</source>
         <translation>nicht kategorisiert</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n things</source>
+        <translation>
+            <numerusform>%n &quot;Thing&quot;</numerusform>
+            <numerusform>%n &quot;Things&quot;</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -3477,10 +3679,6 @@ Bitte versuche es erneut.</translation>
         <translation>Bei Leerlauf zurück zum Startbildschirm</translation>
     </message>
     <message>
-        <source>Show connection tabs</source>
-        <translation>Verbindungs-Reiter anzeigen</translation>
-    </message>
-    <message>
         <source>Style changed</source>
         <translation>Stil geändert</translation>
     </message>
@@ -3683,6 +3881,49 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Dashboard</source>
         <translation>Dashboard</translation>
+    </message>
+    <message>
+        <source>AC</source>
+        <translation>AC</translation>
+    </message>
+</context>
+<context>
+    <name>ManualConnectionEntry</name>
+    <message>
+        <source>Protocol</source>
+        <translation>Protokoll</translation>
+    </message>
+    <message>
+        <source>TCP</source>
+        <translation>TCP</translation>
+    </message>
+    <message>
+        <source>Websocket</source>
+        <translation>Websocket</translation>
+    </message>
+    <message>
+        <source>Remote proxy</source>
+        <translation>Ferverbindungs-Proxy-Server</translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation>Adresse:</translation>
+    </message>
+    <message>
+        <source>Proxy address:</source>
+        <translation>Proxy-Adresse:</translation>
+    </message>
+    <message>
+        <source>%1 UUID:</source>
+        <translation>%1 UUID:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Port:</translation>
+    </message>
+    <message>
+        <source>SSL:</source>
+        <translation>SSL:</translation>
     </message>
 </context>
 <context>
@@ -4466,6 +4707,10 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <source>Create connection</source>
         <translation>Verbindung erstellen</translation>
     </message>
+    <message>
+        <source>An unexpected error happened.</source>
+        <translation>Ein unerwarteter Fehler ist aufgetreten.</translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -4517,6 +4762,18 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     <message>
         <source>Type</source>
         <translation>Typ</translation>
+    </message>
+    <message>
+        <source>Looking for something else?</source>
+        <translation>Auf der Suche nach etwas anderem?</translation>
+    </message>
+    <message>
+        <source>Try to install more plugins.</source>
+        <translation>Installiere mehr Plugins.</translation>
+    </message>
+    <message>
+        <source>Install plugins</source>
+        <translation>Plugins installieren</translation>
     </message>
 </context>
 <context>
@@ -4811,6 +5068,14 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <extracomment>Select ...</extracomment>
         <translation>Vibrationssensor</translation>
     </message>
+    <message>
+        <source>Door/Window sensors</source>
+        <translation>Tür-/Fenstersensoren</translation>
+    </message>
+    <message>
+        <source>Ozone sensors</source>
+        <translation>Ozonsensoren</translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -4926,24 +5191,32 @@ Möchtest Du fortfahren?</translation>
         <translation>ist</translation>
     </message>
     <message>
-        <source>is not</source>
-        <translation>ist nicht</translation>
+        <source>is equal to</source>
+        <translation>ist gleich wie</translation>
     </message>
     <message>
-        <source>is greater</source>
-        <translation>ist größer</translation>
+        <source>is not equal to</source>
+        <translation>ist anders als</translation>
     </message>
     <message>
-        <source>is smaller</source>
-        <translation>ist kleiner</translation>
+        <source>is greater than</source>
+        <translation>ist größer als</translation>
     </message>
     <message>
-        <source>is greater or equal</source>
+        <source>is less than</source>
+        <translation>ist kleiner als</translation>
+    </message>
+    <message>
+        <source>is greater than or equal to</source>
         <translation>ist größer oder gleich</translation>
     </message>
     <message>
-        <source>is smaller or equal</source>
+        <source>is less than or equal to</source>
         <translation>ist kleiner oder gleich</translation>
+    </message>
+    <message>
+        <source>is not </source>
+        <translation>ist nicht</translation>
     </message>
 </context>
 <context>
@@ -5325,10 +5598,6 @@ Möchtest Du fortfahren?</translation>
         <translation>OK</translation>
     </message>
     <message>
-        <source>New connection</source>
-        <translation>Neue Verbindung</translation>
-    </message>
-    <message>
         <source>The version of the %1 system you are trying to connect to is too old. This app requires at least API version %2 but this %1 system only supports API version %3. Please update your %1 system.</source>
         <translation>Die Version dieses %1 Systems ist zu alt. Diese App benötigt mindestens API Version %2, dieses %1 System unterstützt jedoch nur API Version %3. Bitte update Dein %1 System.</translation>
     </message>
@@ -5559,28 +5828,12 @@ Möchtest Du fortfahren?</translation>
         <translation>ist anders als</translation>
     </message>
     <message>
-        <source>is smaller than</source>
-        <translation>ist kleiner als</translation>
-    </message>
-    <message>
         <source>is greater than</source>
         <translation>ist größer als</translation>
     </message>
     <message>
-        <source>is smaller or equal than</source>
-        <translation>ist kleiner oder gleich</translation>
-    </message>
-    <message>
-        <source>is greater or equal than</source>
-        <translation>ist größer oder gleich</translation>
-    </message>
-    <message>
         <source>is</source>
         <translation>ist</translation>
-    </message>
-    <message>
-        <source>is not</source>
-        <translation>ist nicht</translation>
     </message>
     <message>
         <source>a static value:</source>
@@ -5597,6 +5850,22 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Select a state</source>
         <translation>Zustand auswählen</translation>
+    </message>
+    <message>
+        <source>is less than</source>
+        <translation>ist kleiner als</translation>
+    </message>
+    <message>
+        <source>is greater than or equal to</source>
+        <translation>ist größer oder gleich wie</translation>
+    </message>
+    <message>
+        <source>is less than or equal to</source>
+        <translation>ist kleiner oder gleich wie</translation>
+    </message>
+    <message>
+        <source>is not </source>
+        <translation>ist nicht</translation>
     </message>
 </context>
 <context>
@@ -5632,18 +5901,6 @@ Möchtest Du fortfahren?</translation>
 <context>
     <name>SensorDevicePage</name>
     <message>
-        <source>Last seen:</source>
-        <translation>Zuletzt gesehen:</translation>
-    </message>
-    <message>
-        <source>Sunrise:</source>
-        <translation>Sonnenaufgang:</translation>
-    </message>
-    <message>
-        <source>Sunset:</source>
-        <translation>Sonnenuntergang:</translation>
-    </message>
-    <message>
         <source>Presence</source>
         <translation>Präsenz</translation>
     </message>
@@ -5685,15 +5942,7 @@ Möchtest Du fortfahren?</translation>
     </message>
 </context>
 <context>
-    <name>SensorsDeviceListPage</name>
-    <message>
-        <source>Sensors</source>
-        <translation>Sensoren</translation>
-    </message>
-    <message>
-        <source>Heating</source>
-        <translation>Heizung</translation>
-    </message>
+    <name>SensorListDelegate</name>
     <message>
         <source>Closed</source>
         <translation>Geschlossen</translation>
@@ -5727,14 +5976,6 @@ Möchtest Du fortfahren?</translation>
         <translation>Trocken</translation>
     </message>
     <message>
-        <source>On</source>
-        <translation>An</translation>
-    </message>
-    <message>
-        <source>Off</source>
-        <translation>Aus</translation>
-    </message>
-    <message>
         <source>Fire</source>
         <translation>Feuer</translation>
     </message>
@@ -5743,12 +5984,35 @@ Möchtest Du fortfahren?</translation>
         <translation>Kein Feuer</translation>
     </message>
     <message>
+        <source>On</source>
+        <translation>An</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation>Aus</translation>
+    </message>
+    <message>
         <source>Last vibration: %1</source>
         <translation>Letzte Vibration: %1</translation>
     </message>
     <message>
         <source>Not moved yet</source>
         <translation>Noch nicht bewegt</translation>
+    </message>
+</context>
+<context>
+    <name>SensorsDeviceListPage</name>
+    <message>
+        <source>Sensors</source>
+        <translation>Sensoren</translation>
+    </message>
+    <message>
+        <source>Heating</source>
+        <translation>Heizung</translation>
+    </message>
+    <message>
+        <source>Thermostats</source>
+        <translation>Thermostate</translation>
     </message>
 </context>
 <context>
@@ -6259,6 +6523,17 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
 </context>
 <context>
+    <name>TemperatureScheduleEditor</name>
+    <message>
+        <source>Remove</source>
+        <translation>Entfernen</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+</context>
+<context>
     <name>ThingClassDetailsPage</name>
     <message>
         <source>Type</source>
@@ -6477,6 +6752,80 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>every year</source>
         <translation>jährlich</translation>
+    </message>
+</context>
+<context>
+    <name>TimeOverrideDialog</name>
+    <message>
+        <source>Manual mode</source>
+        <translation>Manueller Modus</translation>
+    </message>
+    <message>
+        <source>Select how long the manual temperature setpoint should be kept.</source>
+        <translation>Wähle aus wie lange der manuelle Modus beibehalten werden soll.</translation>
+    </message>
+    <message>
+        <source>Eventual</source>
+        <translation>Ereignis</translation>
+    </message>
+    <message>
+        <source>Until the temperature is changed by some other event.</source>
+        <translation>Bis die Temperature durch ein anderes Ereignis verändert wird.</translation>
+    </message>
+    <message>
+        <source>Forever</source>
+        <translation>Für immer</translation>
+    </message>
+    <message>
+        <source>Until manually removed or changed.</source>
+        <translation>Bis er manuell beendet oder geändert wird.</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>Zeit</translation>
+    </message>
+    <message>
+        <source>For a specified amount of time.</source>
+        <translation>Für eine bestimmte Zeit.</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Entfernen</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>TimeSchedulePage</name>
+    <message>
+        <source>Monday</source>
+        <translation>Montag</translation>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation>Dienstag</translation>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation>Mittwoch</translation>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation>Donnerstag</translation>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation>Freitag</translation>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation>Samstag</translation>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation>Sonntag</translation>
     </message>
 </context>
 <context>
@@ -7856,6 +8205,21 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
             <numerusform>%n Gerät (%1 getrennt)</numerusform>
             <numerusform>%n Geräte (%1 getrennt)</numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>ZoneView</name>
+    <message>
+        <source>No things in this zone.</source>
+        <translation>Keine &quot;Things&quot; in dieser Zone.</translation>
+    </message>
+    <message>
+        <source>In order for this zone zo be useful, assign some things to it.</source>
+        <translation>Damit diese Zone einen Nutzen hat, ordne ihr einige &quot;Things&quot; zu.</translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation>&quot;Things&quot; hinzufügen</translation>
     </message>
 </context>
 <context>
