@@ -2,6 +2,29 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="nl">
 <context>
+    <name>ACSettingsPage</name>
+    <message>
+        <source>Configure zones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zone %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No zones configured.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start with configuring your zones.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AboutNymeaPage</name>
     <message>
         <source>Connection:</source>
@@ -107,6 +130,37 @@
     </message>
     <message>
         <source>Server: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AirConditioningView</name>
+    <message>
+        <source>Air conditioning plugin not installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To set up air conditioning, install the air conditioning plugin.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install A/C plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No zones configured.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start with configuring your zones.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zone %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -223,6 +277,40 @@
     <message>
         <source>Last scan</source>
         <translation>Laatste scan</translation>
+    </message>
+</context>
+<context>
+    <name>BigZoneStatusIcons</name>
+    <message>
+        <source>Automatic mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manual mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time schedule not active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time schedule active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All windows closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n window(s) open</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>%1% humidity</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -579,6 +667,14 @@
         <source>System information</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectionInterfaceDelegate</name>
@@ -709,42 +805,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Protocol</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>TCP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Websocket</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remote proxy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Proxy address:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 UUID:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SSL:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Wired connection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -868,17 +928,6 @@
     <name>ConsumerStatsPage</name>
     <message>
         <source>Consumers balance</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ConsumersBarChart</name>
-    <message>
-        <source>Consumers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1706,6 +1755,152 @@
     </message>
 </context>
 <context>
+    <name>EditZonePage</name>
+    <message>
+        <source>Edit %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zone information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">Naam</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Assigned things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Temperature settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Base temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set time schedule</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove this zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EditZoneThingsPage</name>
+    <message>
+        <source>Things in zone %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thermostats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add thermostat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add thermostats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No thermostats installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Before a thermostat can be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup thermostats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Window sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add window sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add window sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No window sensors installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Before a window sensor can be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup window sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Indoor sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add indoor sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add indoor sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No sensors installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Before a sensor be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add notification target</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select notification target</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No notification things installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Before a notification target can be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup notification targets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>EnergySettingsPage</name>
     <message>
         <source>Energy settings</source>
@@ -1766,12 +1961,12 @@
         <translation></translation>
     </message>
     <message>
-        <source>An unexpected error happened. We&apos;re sorry for that.</source>
+        <source>Error code: %1</source>
         <translation></translation>
     </message>
     <message>
-        <source>Error code: %1</source>
-        <translation></translation>
+        <source>An unexpected error happened. Sorry about that.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2219,6 +2414,13 @@ Please try again.</source>
     <message>
         <source>uncategorized</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n things</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -3470,10 +3672,6 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>Show connection tabs</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Style changed</source>
         <translation></translation>
     </message>
@@ -3675,6 +3873,49 @@ Please try again.</source>
     </message>
     <message>
         <source>Dashboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AC</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ManualConnectionEntry</name>
+    <message>
+        <source>Protocol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TCP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Websocket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remote proxy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Proxy address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 UUID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSL:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4455,6 +4696,10 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Create connection</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>An unexpected error happened.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -4506,6 +4751,18 @@ Use a timeout value greater or equal to 10 ms.</source>
     <message>
         <source>Type</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Looking for something else?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Try to install more plugins.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install plugins</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4800,6 +5057,14 @@ Use a timeout value greater or equal to 10 ms.</source>
         <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Door/Window sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ozone sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -4913,24 +5178,32 @@ Do you want to proceed?</source>
         <translation></translation>
     </message>
     <message>
-        <source>is not</source>
-        <translation></translation>
+        <source>is equal to</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>is greater</source>
-        <translation></translation>
+        <source>is not equal to</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>is smaller</source>
-        <translation></translation>
+        <source>is greater than</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>is greater or equal</source>
-        <translation></translation>
+        <source>is less than</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>is smaller or equal</source>
-        <translation></translation>
+        <source>is greater than or equal to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is less than or equal to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is not </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5312,10 +5585,6 @@ Do you want to proceed?</source>
         <translation></translation>
     </message>
     <message>
-        <source>New connection</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>The version of the %1 system you are trying to connect to is too old. This app requires at least API version %2 but this %1 system only supports API version %3. Please update your %1 system.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5546,27 +5815,11 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>is smaller than</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>is greater than</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>is smaller or equal than</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>is greater or equal than</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>is</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>is not</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5583,6 +5836,22 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Select a state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is less than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is greater than or equal to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is less than or equal to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is not </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5647,18 +5916,6 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Last seen:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sunrise:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sunset:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Daytime</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5672,15 +5929,7 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
-    <name>SensorsDeviceListPage</name>
-    <message>
-        <source>Sensors</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Heating</source>
-        <translation type="unfinished"></translation>
-    </message>
+    <name>SensorListDelegate</name>
     <message>
         <source>Closed</source>
         <translation type="unfinished"></translation>
@@ -5714,14 +5963,6 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>On</source>
-        <translation type="unfinished">Aan</translation>
-    </message>
-    <message>
-        <source>Off</source>
-        <translation type="unfinished">Uit</translation>
-    </message>
-    <message>
         <source>Fire</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5730,11 +5971,34 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>On</source>
+        <translation type="unfinished">Aan</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished">Uit</translation>
+    </message>
+    <message>
         <source>Last vibration: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Not moved yet</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SensorsDeviceListPage</name>
+    <message>
+        <source>Sensors</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Heating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thermostats</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6243,6 +6507,17 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
 </context>
 <context>
+    <name>TemperatureScheduleEditor</name>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Verwijderen</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+</context>
+<context>
     <name>ThingClassDetailsPage</name>
     <message>
         <source>Type</source>
@@ -6461,6 +6736,80 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>every year</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>TimeOverrideDialog</name>
+    <message>
+        <source>Manual mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select how long the manual temperature setpoint should be kept.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Eventual</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Until the temperature is changed by some other event.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forever</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Until manually removed or changed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For a specified amount of time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Verwijderen</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+</context>
+<context>
+    <name>TimeSchedulePage</name>
+    <message>
+        <source>Monday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7840,6 +8189,21 @@ Please only use this if you are sure you want this and consider reporting the is
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>ZoneView</name>
+    <message>
+        <source>No things in this zone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order for this zone zo be useful, assign some things to it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

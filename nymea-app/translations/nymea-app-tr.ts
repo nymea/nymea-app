@@ -2,6 +2,29 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="tr">
 <context>
+    <name>ACSettingsPage</name>
+    <message>
+        <source>Configure zones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zone %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No zones configured.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start with configuring your zones.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AboutNymeaPage</name>
     <message>
         <source>Connection:</source>
@@ -107,6 +130,37 @@
     </message>
     <message>
         <source>Server: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AirConditioningView</name>
+    <message>
+        <source>Air conditioning plugin not installed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To set up air conditioning, install the air conditioning plugin.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install A/C plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No zones configured.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start with configuring your zones.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zone %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -223,6 +277,39 @@
     <message>
         <source>Last scan</source>
         <translation>Son tarama</translation>
+    </message>
+</context>
+<context>
+    <name>BigZoneStatusIcons</name>
+    <message>
+        <source>Automatic mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manual mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time schedule not active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time schedule active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All windows closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n window(s) open</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>%1% humidity</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -579,6 +666,14 @@
         <source>System information</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Ekle</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectionInterfaceDelegate</name>
@@ -709,42 +804,6 @@
         <translation type="unfinished">Lütfen nymea sisteminiz için bağlantı bilgilerini girin</translation>
     </message>
     <message>
-        <source>Protocol</source>
-        <translation type="unfinished">Protokol</translation>
-    </message>
-    <message>
-        <source>TCP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Websocket</source>
-        <translation type="unfinished">Web yuvası</translation>
-    </message>
-    <message>
-        <source>Remote proxy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation type="unfinished">Adres:</translation>
-    </message>
-    <message>
-        <source>Proxy address:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 UUID:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="unfinished">bağlantı:</translation>
-    </message>
-    <message>
-        <source>SSL:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Wired connection</source>
         <translation type="unfinished">Kablolu bağlantı</translation>
     </message>
@@ -869,17 +928,6 @@
     <message>
         <source>Consumers balance</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ConsumersBarChart</name>
-    <message>
-        <source>Consumers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unknown</source>
-        <translation type="unfinished">Bilinmeyen</translation>
     </message>
 </context>
 <context>
@@ -1709,6 +1757,152 @@
     </message>
 </context>
 <context>
+    <name>EditZonePage</name>
+    <message>
+        <source>Edit %1</source>
+        <translation type="unfinished">%1&apos;i düzenle</translation>
+    </message>
+    <message>
+        <source>Zone information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished">İsim</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Assigned things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Temperature settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Base temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set time schedule</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove this zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EditZoneThingsPage</name>
+    <message>
+        <source>Things in zone %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thermostats</source>
+        <translation type="unfinished">termostatlar</translation>
+    </message>
+    <message>
+        <source>Add thermostat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add thermostats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No thermostats installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Before a thermostat can be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup thermostats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Window sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add window sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add window sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No window sensors installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Before a window sensor can be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup window sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Indoor sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add indoor sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add indoor sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No sensors installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Before a sensor be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation type="unfinished">Bildirimler</translation>
+    </message>
+    <message>
+        <source>Add notification target</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select notification target</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No notification things installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Before a notification target can be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup notification targets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation type="unfinished">Bir şeyler ekle</translation>
+    </message>
+</context>
+<context>
     <name>EnergySettingsPage</name>
     <message>
         <source>Energy settings</source>
@@ -1769,12 +1963,12 @@
         <translation>oh çabuk!</translation>
     </message>
     <message>
-        <source>An unexpected error happened. We&apos;re sorry for that.</source>
-        <translation>Beklenmeyen bir hata oluştu. Bunun için üzgünüz.</translation>
-    </message>
-    <message>
         <source>Error code: %1</source>
         <translation>Hata kodu: %1</translation>
+    </message>
+    <message>
+        <source>An unexpected error happened. Sorry about that.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2215,6 +2409,12 @@ Please try again.</source>
     <message>
         <source>uncategorized</source>
         <translation>kategorize edilmemiş</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n things</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -3457,10 +3657,6 @@ Please try again.</source>
         <translation>Boştayken eve dön</translation>
     </message>
     <message>
-        <source>Show connection tabs</source>
-        <translation>Bağlantı sekmelerini göster</translation>
-    </message>
-    <message>
         <source>Style changed</source>
         <translation>Stil değişti</translation>
     </message>
@@ -3663,6 +3859,49 @@ Please try again.</source>
     <message>
         <source>Dashboard</source>
         <translation>Gösterge Paneli</translation>
+    </message>
+    <message>
+        <source>AC</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ManualConnectionEntry</name>
+    <message>
+        <source>Protocol</source>
+        <translation type="unfinished">Protokol</translation>
+    </message>
+    <message>
+        <source>TCP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Websocket</source>
+        <translation type="unfinished">Web yuvası</translation>
+    </message>
+    <message>
+        <source>Remote proxy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation type="unfinished">Adres:</translation>
+    </message>
+    <message>
+        <source>Proxy address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 UUID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="unfinished">bağlantı:</translation>
+    </message>
+    <message>
+        <source>SSL:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4442,6 +4681,10 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Create connection</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>An unexpected error happened.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -4493,6 +4736,18 @@ Use a timeout value greater or equal to 10 ms.</source>
     <message>
         <source>Type</source>
         <translation>Tip</translation>
+    </message>
+    <message>
+        <source>Looking for something else?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Try to install more plugins.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install plugins</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4787,6 +5042,14 @@ Use a timeout value greater or equal to 10 ms.</source>
         <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Door/Window sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ozone sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -4901,24 +5164,32 @@ Do you want to proceed?</source>
         <translation></translation>
     </message>
     <message>
-        <source>is not</source>
-        <translation>değil</translation>
+        <source>is equal to</source>
+        <translation type="unfinished">eşittir</translation>
     </message>
     <message>
-        <source>is greater</source>
-        <translation>daha büyüktür</translation>
+        <source>is not equal to</source>
+        <translation type="unfinished">eşit değildir</translation>
     </message>
     <message>
-        <source>is smaller</source>
-        <translation>daha küçük</translation>
+        <source>is greater than</source>
+        <translation type="unfinished">daha büyüktür</translation>
     </message>
     <message>
-        <source>is greater or equal</source>
-        <translation>daha büyük veya eşittir</translation>
+        <source>is less than</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>is smaller or equal</source>
-        <translation>daha küçük veya eşittir</translation>
+        <source>is greater than or equal to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is less than or equal to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is not </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5300,10 +5571,6 @@ Do you want to proceed?</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <source>New connection</source>
-        <translation>Yeni bağlantı</translation>
-    </message>
-    <message>
         <source>The version of the %1 system you are trying to connect to is too old. This app requires at least API version %2 but this %1 system only supports API version %3. Please update your %1 system.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5534,28 +5801,12 @@ Do you want to proceed?</source>
         <translation>eşit değildir</translation>
     </message>
     <message>
-        <source>is smaller than</source>
-        <translation>den daha küçük</translation>
-    </message>
-    <message>
         <source>is greater than</source>
         <translation>daha büyüktür</translation>
     </message>
     <message>
-        <source>is smaller or equal than</source>
-        <translation>daha küçük veya eşittir</translation>
-    </message>
-    <message>
-        <source>is greater or equal than</source>
-        <translation>daha büyük veya eşittir</translation>
-    </message>
-    <message>
         <source>is</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>is not</source>
-        <translation>değil</translation>
     </message>
     <message>
         <source>a static value:</source>
@@ -5572,6 +5823,22 @@ Do you want to proceed?</source>
     <message>
         <source>Select a state</source>
         <translation>Bir ülke seçin</translation>
+    </message>
+    <message>
+        <source>is less than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is greater than or equal to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is less than or equal to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is not </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5607,18 +5874,6 @@ Do you want to proceed?</source>
 <context>
     <name>SensorDevicePage</name>
     <message>
-        <source>Last seen:</source>
-        <translation>Son görülen:</translation>
-    </message>
-    <message>
-        <source>Sunrise:</source>
-        <translation>Gündoğumu:</translation>
-    </message>
-    <message>
-        <source>Sunset:</source>
-        <translation>Gün batımı:</translation>
-    </message>
-    <message>
         <source>Presence</source>
         <translation>Mevcudiyet</translation>
     </message>
@@ -5660,54 +5915,38 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
-    <name>SensorsDeviceListPage</name>
-    <message>
-        <source>Sensors</source>
-        <translation>Sensörler</translation>
-    </message>
-    <message>
-        <source>Heating</source>
-        <translation>Isıtma</translation>
-    </message>
+    <name>SensorListDelegate</name>
     <message>
         <source>Closed</source>
-        <translation>Kapalı</translation>
+        <translation type="unfinished">Kapalı</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation>Açık</translation>
+        <translation type="unfinished">Açık</translation>
     </message>
     <message>
         <source>Presence</source>
-        <translation>Mevcudiyet</translation>
+        <translation type="unfinished">Mevcudiyet</translation>
     </message>
     <message>
         <source>Vacant</source>
-        <translation>Boş</translation>
+        <translation type="unfinished">Boş</translation>
     </message>
     <message>
         <source>Daytime</source>
-        <translation>Gündüz</translation>
+        <translation type="unfinished">Gündüz</translation>
     </message>
     <message>
         <source>Nighttime</source>
-        <translation>gece vakti</translation>
+        <translation type="unfinished">gece vakti</translation>
     </message>
     <message>
         <source>Wet</source>
-        <translation>Islak</translation>
+        <translation type="unfinished">Islak</translation>
     </message>
     <message>
         <source>Dry</source>
-        <translation>Kuru</translation>
-    </message>
-    <message>
-        <source>On</source>
-        <translation>Açık</translation>
-    </message>
-    <message>
-        <source>Off</source>
-        <translation>Kapalı</translation>
+        <translation type="unfinished">Kuru</translation>
     </message>
     <message>
         <source>Fire</source>
@@ -5718,12 +5957,35 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>On</source>
+        <translation type="unfinished">Açık</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished">Kapalı</translation>
+    </message>
+    <message>
         <source>Last vibration: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Not moved yet</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SensorsDeviceListPage</name>
+    <message>
+        <source>Sensors</source>
+        <translation>Sensörler</translation>
+    </message>
+    <message>
+        <source>Heating</source>
+        <translation>Isıtma</translation>
+    </message>
+    <message>
+        <source>Thermostats</source>
+        <translation type="unfinished">termostatlar</translation>
     </message>
 </context>
 <context>
@@ -6232,6 +6494,17 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
 </context>
 <context>
+    <name>TemperatureScheduleEditor</name>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ThingClassDetailsPage</name>
     <message>
         <source>Type</source>
@@ -6450,6 +6723,80 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>every year</source>
         <translation>her yıl</translation>
+    </message>
+</context>
+<context>
+    <name>TimeOverrideDialog</name>
+    <message>
+        <source>Manual mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select how long the manual temperature setpoint should be kept.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Eventual</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Until the temperature is changed by some other event.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forever</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Until manually removed or changed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For a specified amount of time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TimeSchedulePage</name>
+    <message>
+        <source>Monday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tuesday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wednesday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thursday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Friday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Saturday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sunday</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7823,6 +8170,21 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>ZoneView</name>
+    <message>
+        <source>No things in this zone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order for this zone zo be useful, assign some things to it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation type="unfinished">Bir şeyler ekle</translation>
     </message>
 </context>
 <context>
