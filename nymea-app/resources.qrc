@@ -316,5 +316,7 @@
         <file>ui/devicepages/NotificationsThingPage.qml</file>
         <file>ui/devicepages/ActionLogPage.qml</file>
         <file>ui/devicepages/EventLogPage.qml</file>
+        <file>../LICENSE.APACHE2</file>
+        <file>../LICENSE.UFL</file>
     </qresource>
 </RCC>
