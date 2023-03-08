@@ -87,6 +87,14 @@ Item {
     property color rose: "#cd5c95"
     property color darkGreen: "#5ccd5e"
 
+    property color powerAcquisitionColor: red
+    property color powerReturnColor: yellow
+    property color powerConsumptionColor: blue
+    property color powerSelfProductionConsumptionColor: green
+    property color powerBatteryChargingColor: purple
+    property color powerBatteryDischargingColor: orange
+    property color powerBatteryIdleColor: lime
+
     // Icon/graph colors for various interfaces
     property var interfaceColors: {
         "temperaturesensor": red,

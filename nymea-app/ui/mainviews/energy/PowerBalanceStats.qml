@@ -299,7 +299,7 @@ StatsBase {
                     BarSet {
                         id: consumptionSet
                         label: qsTr("Consumed")
-                        color: Qt.rgba(Style.blue.r, Style.blue.g, Style.blue.b, opacity)
+                        color: Qt.rgba(Style.powerConsumptionColor.r, Style.powerConsumptionColor.g, Style.powerConsumptionColor.b, opacity)
                         borderColor: color
                         borderWidth: 0
                         property real opacity: d.selectedSet == null || d.selectedSet == consumptionSet ? 1 : 0.3
@@ -314,7 +314,7 @@ StatsBase {
                     BarSet {
                         id: productionSet
                         label: qsTr("Produced")
-                        color: Qt.rgba(Style.green.r, Style.green.g, Style.green.b, opacity)
+                        color: Qt.rgba(Style.powerSelfProductionConsumptionColor.r, Style.powerSelfProductionConsumptionColor.g, Style.powerSelfProductionConsumptionColor.b, opacity)
                         borderColor: color
                         borderWidth: 0
                         property real opacity: d.selectedSet == null || d.selectedSet == productionSet ? 1 : 0.3
@@ -329,7 +329,7 @@ StatsBase {
                     BarSet {
                         id: acquisitionSet
                         label: qsTr("From grid")
-                        color: Qt.rgba(Style.red.r, Style.red.g, Style.red.b, opacity)
+                        color: Qt.rgba(Style.powerAcquisitionColor.r, Style.powerAcquisitionColor.g, Style.powerAcquisitionColor.b, opacity)
                         borderColor: color
                         borderWidth: 0
                         property real opacity: d.selectedSet == null || d.selectedSet == acquisitionSet ? 1 : 0.3
@@ -344,7 +344,7 @@ StatsBase {
                     BarSet {
                         id: returnSet
                         label: qsTr("To grid")
-                        color: Qt.rgba(Style.yellow.r, Style.yellow.g, Style.yellow.b, opacity)
+                        color: Qt.rgba(Style.powerReturnColor.r, Style.powerReturnColor.g, Style.powerReturnColor.b, opacity)
                         borderColor: color
                         borderWidth: 0
                         property real opacity: d.selectedSet == null || d.selectedSet == returnSet ? 1 : 0.3
@@ -383,7 +383,7 @@ StatsBase {
                         ColorIcon {
                             name: "powersocket"
                             size: Style.smallIconSize
-                            color: Style.blue
+                            color: Style.powerConsumptionColor
                         }
                         Label {
                             width: parent.parent.width - x
@@ -412,7 +412,7 @@ StatsBase {
                         ColorIcon {
                             name: "weathericons/weather-clear-day"
                             size: Style.smallIconSize
-                            color: Style.green
+                            color: Style.powerSelfProductionConsumptionColor
                         }
                         Label {
                             width: parent.parent.width - x
@@ -442,12 +442,12 @@ StatsBase {
                             ColorIcon {
                                 name: "power-grid"
                                 size: Style.smallIconSize
-                                color: Style.red
+                                color: Style.powerAcquisitionColor
                             }
                             ColorIcon {
                                 name: "arrow-down"
                                 size: Style.smallIconSize
-                                color: Style.red
+                                color: Style.powerAcquisitionColor
                             }
                         }
                         Label {
@@ -477,12 +477,12 @@ StatsBase {
                             ColorIcon {
                                 name: "power-grid"
                                 size: Style.smallIconSize
-                                color: Style.yellow
+                                color: Style.powerReturnColor
                             }
                             ColorIcon {
                                 name: "arrow-up"
                                 size: Style.smallIconSize
-                                color: Style.yellow
+                                color: Style.powerReturnColor
                             }
                         }
                         Label {
@@ -651,7 +651,7 @@ StatsBase {
                             Rectangle {
                                 width: Style.extraSmallFont.pixelSize
                                 height: width
-                                color: Style.blue
+                                color: Style.powerConsumptionColor
                             }
                             Label {
                                 text: d.startOffset !== undefined ? qsTr("Consumed: %1 kWh").arg(consumptionSet.at(toolTip.idx).toFixed(2)) : ""
@@ -663,7 +663,7 @@ StatsBase {
                             Rectangle {
                                 width: Style.extraSmallFont.pixelSize
                                 height: width
-                                color: Style.green
+                                color: Style.powerSelfProductionConsumptionColor
                             }
                             Label {
                                 text: d.startOffset !== undefined ? qsTr("Produced: %1 kWh").arg(productionSet.at(toolTip.idx).toFixed(2)) : ""
@@ -674,7 +674,7 @@ StatsBase {
                             Rectangle {
                                 width: Style.extraSmallFont.pixelSize
                                 height: width
-                                color: Style.red
+                                color: Style.powerAcquisitionColor
                             }
                             Label {
                                 text: d.startOffset !== undefined ? qsTr("From grid: %1 kWh").arg(acquisitionSet.at(toolTip.idx).toFixed(2)) :""
@@ -685,7 +685,7 @@ StatsBase {
                             Rectangle {
                                 width: Style.extraSmallFont.pixelSize
                                 height: width
-                                color: Style.yellow
+                                color: Style.powerReturnColor
                             }
                             Label {
                                 text: d.startOffset !== undefined ? qsTr("To grid: %1 kWh").arg(returnSet.at(toolTip.idx).toFixed(2)) : ""
