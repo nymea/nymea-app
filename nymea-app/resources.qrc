@@ -290,5 +290,7 @@
         <file>ui/mainviews/energy/ConsumerStatsPage.qml</file>
         <file>ui/mainviews/energy/ConsumersPieChartPage.qml</file>
         <file>ui/connection/ManualConnectionEntry.qml</file>
+        <file>../LICENSE.APACHE2</file>
+        <file>../LICENSE.UFL</file>
     </qresource>
 </RCC>

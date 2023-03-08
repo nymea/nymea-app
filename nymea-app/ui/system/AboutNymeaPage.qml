@@ -39,7 +39,7 @@ SettingsPageBase {
     title: qsTr("About %1").arg(Configuration.systemName)
 
 
-    ConsolinnoImprint {
+    ConsolinnoImprintSystem {
         id: imprint
         Layout.fillWidth: true
         title: Configuration.systemName
