@@ -54,13 +54,13 @@ TabButton {
                 width: Style.iconSize
                 height: Style.iconSize
                 name: root.iconSource
-                color: Style.foregroundColor
+                color: Style.navBarForegroundColor
             }
             Label {
                 id: textLabel
                 text: root.text
                 font.pixelSize: app.smallFont
-                color: Style.foregroundColor
+                color: Style.navBarForegroundColor
             }
         }
     }
