@@ -98,6 +98,7 @@ ItemDelegate {
                         }
                         return textFieldComponent;
                     case "color":
+                    case "qcolor":
                         return colorPreviewComponent;
                     }
                     console.warn("Param Delegate: Fallback to stringComponent", root.paramType.name, root.paramType.type)
@@ -114,6 +115,7 @@ ItemDelegate {
 
                 switch (root.paramType.type.toLowerCase()) {
                 case "color":
+                case "qcolor":
                     return colorPickerComponent
                 }
                 return null;
