@@ -126,34 +126,34 @@ Item {
 
                 if (root.toGrid > 0) {
                     size = root.toGrid / biggest
-                    drawDottedCurve(ctx, solarPos, gridPos, size, Style.yellow)
+                    drawDottedCurve(ctx, solarPos, gridPos, size, Style.powerReturnColor)
                 }
 
                 if (energyManager.currentPowerProduction < 0 && root.fromProduction) {
                     size = root.fromProduction / biggest
-                    drawDottedCurve(ctx, solarPos, consumptionPos, size, Style.green)
+                    drawDottedCurve(ctx, solarPos, consumptionPos, size, Style.powerSelfProductionConsumptionColor)
                 }
 
                 if (batteries.count > 0) {
                     if (energyManager.currentPowerStorage > 0) {
                         if (energyManager.currentPowerProduction < 0) {
                             size = Math.abs(energyManager.currentPowerStorage) / biggest
-                            drawDottedCurve(ctx, solarPos, storagePos, size, Style.purple)
+                            drawDottedCurve(ctx, solarPos, storagePos, size, Style.powerBatteryChargingColor)
                         } else {
                             size = Math.abs(energyManager.currentPowerStorage) / biggest
-                            drawDottedCurve(ctx, gridPos, storagePos, size, Style.purple)
+                            drawDottedCurve(ctx, gridPos, storagePos, size, Style.powerBatteryChargingColor)
                         }
                     }
 
                     if (energyManager.currentPowerStorage < 0) {
                         size = Math.abs(energyManager.currentPowerStorage) / biggest
-                        drawDottedCurve(ctx, storagePos, consumptionPos, size, Style.orange)
+                        drawDottedCurve(ctx, storagePos, consumptionPos, size, Style.powerBatteryDischargingColor)
                     }
                 }
 
                 if (energyManager.currentPowerAcquisition > 0) {
                     size = Math.abs(energyManager.currentPowerAcquisition) / biggest
-                    drawDottedCurve(ctx, gridPos, consumptionPos, size, Style.red)
+                    drawDottedCurve(ctx, gridPos, consumptionPos, size, Style.powerAcquisitionColor)
                 }
 
                 ctx.restore();
@@ -247,13 +247,13 @@ Item {
                     holeSize: 0.8
 
                     PieSlice {
-                        color: Style.red
+                        color: Style.powerAcquisitionColor
                         borderColor: color
                         borderWidth: 0
                         value: root.fromGrid
                     }
                     PieSlice {
-                        color: Style.yellow
+                        color: Style.powerReturnColor
                         borderColor: color
                         borderWidth: 0
                         value: root.toGrid
@@ -317,19 +317,19 @@ Item {
                     holeSize: 0.8
 
                     PieSlice {
-                        color: Style.yellow
+                        color: Style.powerReturnColor
                         borderColor: color
                         borderWidth: 0
                         value: root.toGrid
                     }
                     PieSlice {
-                        color: Style.purple
+                        color: Style.powerBatteryChargingColor
                         borderColor: color
                         borderWidth: 0
                         value: root.toStorage
                     }
                     PieSlice {
-                        color: Style.green
+                        color: Style.powerSelfProductionConsumptionColor
                         borderColor: color
                         borderWidth: 0
                         value: root.fromProduction
@@ -390,19 +390,19 @@ Item {
                     holeSize: 0.8
 
                     PieSlice {
-                        color: Style.green
+                        color: Style.powerSelfProductionConsumptionColor
                         borderColor: color
                         borderWidth: 0
                         value: root.fromProduction
                     }
                     PieSlice {
-                        color: Style.orange
+                        color: Style.powerBatteryDischargingColor
                         borderColor: color
                         borderWidth: 0
                         value: root.fromStorage
                     }
                     PieSlice {
-                        color: Style.red
+                        color: Style.powerAcquisitionColor
                         borderColor: color
                         borderWidth: 0
                         value: root.fromGrid
@@ -500,10 +500,10 @@ Item {
 
                     PieSlice {
                         color: energyManager.currentPowerStorage == 0
-                               ? Style.lime
+                               ? Style.powerBatteryIdleColor
                                : root.toStorage > 0
-                                 ? Style.purple
-                                 : Style.orange
+                                 ? Style.powerBatteryChargingColor
+                                 : Style.powerBatteryDischargingColor
                         borderColor: color
                         borderWidth: 0
                         value: batteryChart.averageLevel

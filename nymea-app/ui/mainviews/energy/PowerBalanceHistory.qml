@@ -81,10 +81,10 @@ Item {
         target: powerBalanceLogs
 
         onEntriesAddedIdx: {
-            print("entries added", index, count)
+//            print("entries added", index, count)
             for (var i = 0; i < count; i++) {
                 var entry = powerBalanceLogs.get(index + i)
-                print("got entry", entry.timestamp)
+//                print("got entry", entry.timestamp)
 
                 zeroSeries.ensureValue(entry.timestamp)
                 // For debugging, to see if the other maths line up with the plain production graph
@@ -290,7 +290,7 @@ Item {
                     id: selfProductionConsumptionSeries
                     axisX: dateTimeAxis
                     axisY: valueAxis
-                    color: Style.green
+                    color: Style.powerSelfProductionConsumptionColor
 //                    borderWidth: 2
                     borderColor: color
                     name: qsTr("From self production")
@@ -351,7 +351,7 @@ Item {
                     id: toStorageSeries
                     axisX: dateTimeAxis
                     axisY: valueAxis
-                    color: Style.purple
+                    color: Style.powerBatteryChargingColor
                     borderWidth: 0
                     borderColor: color
                     opacity: d.selectedSeries == null || d.selectedSeries == toStorageSeries ? 1 : 0.3
@@ -381,7 +381,7 @@ Item {
                     id: returnSeries
                     axisX: dateTimeAxis
                     axisY: valueAxis
-                    color: Style.yellow
+                    color: Style.powerReturnColor
                     borderWidth: 0
                     borderColor: color
                     name: qsTr("To grid")
@@ -412,7 +412,7 @@ Item {
                     id: fromStorageSeries
                     axisX: dateTimeAxis
                     axisY: valueAxis
-                    color: Style.orange
+                    color: Style.powerBatteryDischargingColor
                     borderWidth: 0
                     borderColor: color
                     name: qsTr("From battery")
@@ -441,7 +441,7 @@ Item {
                     id: acquisitionSeries
                     axisX: dateTimeAxis
                     axisY: valueAxis
-                    color: Style.red
+                    color: Style.powerAcquisitionColor
                     borderWidth: 0
                     borderColor: color
                     name: qsTr("From grid")
@@ -491,7 +491,7 @@ Item {
                     id: consumptionSeries
                     axisX: dateTimeAxis
                     axisY: valueAxis
-                    color: Style.red
+                    color: Style.powerAcquisitionColor
                     width: 1
                     name: "Total consumption"
                     visible: false
@@ -563,12 +563,12 @@ Item {
                             ColorIcon {
                                 name: "power-grid"
                                 size: Style.smallIconSize
-                                color: Style.red
+                                color: Style.powerAcquisitionColor
                             }
                             ColorIcon {
                                 name: "arrow-down"
                                 size: Style.smallIconSize
-                                color: Style.red
+                                color: Style.powerAcquisitionColor
                             }
                         }
                         Label {
@@ -599,12 +599,12 @@ Item {
                             ColorIcon {
                                 name: "power-grid"
                                 size: Style.smallIconSize
-                                color: Style.yellow
+                                color: Style.powerReturnColor
                             }
                             ColorIcon {
                                 name: "arrow-up"
                                 size: Style.smallIconSize
-                                color: Style.yellow
+                                color: Style.powerReturnColor
                             }
                         }
                         Label {
@@ -636,12 +636,12 @@ Item {
                             ColorIcon {
                                 name: "battery/battery-080"
                                 size: Style.smallIconSize
-                                color: Style.purple
+                                color: Style.powerBatteryChargingColor
                             }
                             ColorIcon {
                                 name: "plus"
                                 size: Style.smallIconSize
-                                color: Style.purple
+                                color: Style.powerBatteryChargingColor
                             }
                         }
                         Label {
@@ -673,12 +673,12 @@ Item {
                             ColorIcon {
                                 name: "battery/battery-040"
                                 size: Style.smallIconSize
-                                color: Style.orange
+                                color: Style.powerBatteryDischargingColor
                             }
                             ColorIcon {
                                 name: "minus"
                                 size: Style.smallIconSize
-                                color: Style.orange
+                                color: Style.powerBatteryDischargingColor
                             }
                         }
                         Label {
@@ -845,7 +845,7 @@ Item {
                             Rectangle {
                                 width: Style.extraSmallFont.pixelSize
                                 height: width
-                                color: toolTip.entry && toolTip.entry.acquisition >= 0 ? Style.red : Style.yellow
+                                color: toolTip.entry && toolTip.entry.acquisition >= 0 ? Style.powerAcquisitionColor : Style.powerReturnColor
                             }
 
                             Label {
@@ -867,7 +867,7 @@ Item {
                             Rectangle {
                                 width: Style.extraSmallFont.pixelSize
                                 height: width
-                                color: Style.green
+                                color: Style.powerSelfProductionConsumptionColor
                             }
 
                             Label {
@@ -890,7 +890,7 @@ Item {
                             Rectangle {
                                 width: Style.extraSmallFont.pixelSize
                                 height: width
-                                color: toolTip.entry && toolTip.entry.storage > 0 ? Style.purple : Style.orange
+                                color: toolTip.entry && toolTip.entry.storage > 0 ? Style.powerBatteryChargingColor : Style.powerBatteryDischargingColor
                             }
 
                             Label {
