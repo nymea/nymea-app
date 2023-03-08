@@ -4,6 +4,7 @@ Item {
     property color backgroundColor: "#fafafa"
     property color foregroundColor: "#202020"
     property color unobtrusiveForegroundColor: Qt.tint(foregroundColor, Qt.rgba(backgroundColor.r, backgroundColor.g, backgroundColor.b, 0.4))
+    property color navBarForegroundColor: foregroundColor
 
     property color accentColor: "#57baae"
     property color iconColor: "#808080"
