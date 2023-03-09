@@ -1,3 +1,11 @@
+nymea-app (1.7.0) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Ignore return code 3010 from vcredist package.
+  * Bump version to 1.7
+
+ -- jenkins <developer@nymea.io>  Thu, 09 Mar 2023 23:19:56 +0100
+
 nymea-app (1.6.31) bionic; urgency=medium
 
   [ Michael Zanetti ]
