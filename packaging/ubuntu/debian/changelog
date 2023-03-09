@@ -5,7 +5,7 @@ nymea-app (1.6.31) bionic; urgency=medium
   * Allow styling of tabbar icon color
   * Fix color picker for interface based rule action
 
- -- jenkins <developer@nymea.io>  Wed, 08 Mar 2023 23:16:22 +0100
+ -- jenkins <developer@nymea.io>  Thu, 09 Mar 2023 12:52:25 +0100
 
 nymea-app (1.6.29) bionic; urgency=medium
 
