@@ -110,26 +110,22 @@ int main(int argc, char *argv[])
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     application.installTranslator(&qtTranslator);
 
-
-    QTranslator appTranslator;
-    bool translationResult = appTranslator.load("nymea-app-" + QLocale().name(), ":/translations/");
-    if (translationResult) {
-        qCDebug(dcApplication()) << "Loaded translation for locale" << QLocale();
-    } else {
-        qCInfo(dcApplication()) << "Failed to load translations for locale" << QLocale();
+    QStringList loadedTranslations;
+    foreach (const QFileInfo &qmFile, QDir(":/translations").entryInfoList({"*.qm"})) {
+        if (loadedTranslations.contains(qmFile.baseName())) {
+            continue;
+        }
+        QTranslator *translator = new QTranslator();
+        bool loadResult = translator->load(qmFile.baseName() + "." + QLocale().name(), ":/translations");
+        if (loadResult) {
+            application.installTranslator(translator);
+            loadedTranslations.append(qmFile.baseName());
+            qCInfo(dcApplication()) << "Loaded translation" << qmFile.baseName();
+        } else {
+            delete translator;
+            qCInfo(dcApplication()) << "Failed to load translation" << qmFile.baseName();
+        }
     }
-    application.installTranslator(&appTranslator);
-
-#ifdef OVERLAY_PATH
-    QTranslator overlayTranslator;
-    translationResult = overlayTranslator.load(QString("%1-%2").arg(APPLICATION_NAME).arg(QLocale().name()), ":/translations");
-    if (translationResult) {
-        qCDebug(dcApplication()) << "Loaded overlay translation for locale" << QString("%1-%2").arg(APPLICATION_NAME).arg(QLocale().name());
-    } else {
-        qCInfo(dcApplication()) << "Failed to load overlay translations for locale" << QString("%1-%2").arg(APPLICATION_NAME).arg(QLocale().name());
-    }
-    application.installTranslator(&overlayTranslator);
-#endif
 
     Nymea::Core::registerQmlTypes();
     Nymea::AirConditioning::registerQmlTypes();
