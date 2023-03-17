@@ -100,13 +100,13 @@ SettingsPageBase {
 
     SettingsPageSectionHeader {
         text: qsTr("Admin")
-        visible: (userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin) && !engine.jsonRpcClient.pushButtonAuthAvailable
+        visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && !engine.jsonRpcClient.pushButtonAuthAvailable
     }
 
     NymeaItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Manage users")
-        visible: (userManager.userInfo.scopes & UserInfo.PermissionScopeAdmin) && !engine.jsonRpcClient.pushButtonAuthAvailable
+        visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && !engine.jsonRpcClient.pushButtonAuthAvailable
         iconName: "../images/contact-group.svg"
         onClicked: {
             pageStack.push(manageUsersComponent)
