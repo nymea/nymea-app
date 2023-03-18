@@ -1,3 +1,13 @@
+nymea-app (1.7.1) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide user admin settings for unprivileged users
+  * Fix overlapping views at startup
+  * Allow overriding the IOS_TEAM_ID
+  * Change how translations are loaded
+
+ -- jenkins <developer@nymea.io>  Sat, 18 Mar 2023 01:06:25 +0100
+
 nymea-app (1.7.0) bionic; urgency=medium
 
   [ Michael Zanetti ]
