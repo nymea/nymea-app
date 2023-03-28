@@ -62,6 +62,7 @@ public:
 
     void clear();
 
+    Q_INVOKABLE SerialPort *find(const QString &systemLocation) const;
     Q_INVOKABLE virtual SerialPort *get(int index) const;
 
 signals:

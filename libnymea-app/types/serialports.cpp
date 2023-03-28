@@ -99,6 +99,16 @@ void SerialPorts::clear()
     emit countChanged();
 }
 
+SerialPort *SerialPorts::find(const QString &systemLocation) const
+{
+    for (int i = 0; i < m_serialPorts.count(); i++) {
+        if (m_serialPorts.at(i)->systemLocation() == systemLocation) {
+            return m_serialPorts.at(i);
+        }
+    }
+    return nullptr;
+}
+
 SerialPort *SerialPorts::get(int index) const
 {
     if (index < 0 || index >= m_serialPorts.count()) {
