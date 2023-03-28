@@ -90,7 +90,7 @@ ItemDelegate {
 
     contentItem: RowLayout {
         id: innerLayout
-        spacing: app.margins
+        spacing: Style.margins
         Item {
             Layout.preferredHeight: root.iconSize
             Layout.preferredWidth: height
@@ -140,7 +140,7 @@ ItemDelegate {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 text: root.subText
-                font.pixelSize: root.prominentSubText ? app.smallFont : app.extraSmallFont
+                font.pixelSize: root.prominentSubText ? Style.smallFont : app.extraSmallFont
                 color: root.prominentSubText ? Material.foreground : Material.color(Material.Grey)
                 wrapMode: root.wrapTexts ? Text.WordWrap : Text.NoWrap
                 maximumLineCount: root.wrapTexts ? 2 : 1
@@ -159,7 +159,7 @@ ItemDelegate {
                 id: secondaryIconMouseArea
                 enabled: false
                 anchors.fill: parent
-                anchors.margins: -app.margins
+                anchors.margins: -Style.margins
                 onClicked: root.secondaryIconClicked();
             }
         }
