@@ -1,3 +1,11 @@
+nymea-app (1.7.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a typo in german translation
+  * Add a find() method to SerialPorts
+
+ -- jenkins <developer@nymea.io>  Tue, 28 Mar 2023 19:53:28 +0200
+
 nymea-app (1.7.1) bionic; urgency=medium
 
   [ Michael Zanetti ]
