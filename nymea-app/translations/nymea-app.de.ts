@@ -1957,7 +1957,7 @@
     </message>
     <message>
         <source>To get an overview of your current energy usage, set up an energy meter.</source>
-        <translation>Um einen Überblick über deinen Energieverbrauch zu bekommen, richte einen Stromgzähler ein.</translation>
+        <translation>Um einen Überblick über deinen Energieverbrauch zu bekommen, richte einen Stromzähler ein.</translation>
     </message>
 </context>
 <context>
