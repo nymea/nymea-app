@@ -375,6 +375,8 @@ Item {
                         readonly property Thing thing: consumers.get(index)
                         property AreaSeries series: null
 
+                        property QHash valueCache: QHash {}
+
                         function calculateBaseValue(timestamp) {
                             if (index > 0) {
                                 return consumersRepeater.itemAt(index - 1).calculateValue(timestamp)
@@ -383,6 +385,12 @@ Item {
                         }
 
                         function calculateValue(timestamp) {
+                            var cached = valueCache.value(timestamp)
+//                            print("ached:", cached)
+                            if (cached !== undefined) {
+                                return cached//valueCache.value(timestamp)
+                            }
+
                             var ret = calculateBaseValue(timestamp)
 
                             var entry = logs.find(timestamp)
@@ -390,6 +398,7 @@ Item {
                                 ret += entry.currentPower;
                             }
 
+                            valueCache.insert(timestamp, ret);
 //                            print("calculating value for", thing.name, timestamp, ret)
                             return ret
                         }
@@ -408,11 +417,21 @@ Item {
                             series.lowerSeries.removePoints(0, 1);
                             series.upperSeries.removePoints(0, 1);
 
+                            var oldestTimestamp = null
+                            var newestTimestamp = null
+
                             for (var i = 0; i < count; i++) {
                                 var entry = logs.get(index + i)
 //                                    print("got thing entry", thing.name, entry.timestamp, entry.currentPower, index + i)
 
-                                zeroSeries.ensureValue(entry.timestamp)
+//                                zeroSeries.ensureValue(entry.timestamp)
+                                if (oldestTimestamp == null || entry.timestamp < oldestTimestamp) {
+                                    oldestTimestamp = entry.timestamp;
+                                }
+                                if (newestTimestamp == null || entry.timestamp > newestTimestamp) {
+                                    newestTimestamp = entry.timestamp;
+                                }
+
                                 valueAxis.adjustMax(entry.currentPower)
 
                                 insertEntry(index + i, entry)
@@ -420,6 +439,9 @@ Item {
                                     d.now = entry.timestamp
                                 }
                             }
+
+                            zeroSeries.ensureValue(oldestTimestamp)
+                            zeroSeries.ensureValue(newestTimestamp)
 
                             // Add the leading 0-value entry back
                             series.lowerSeries.insert(0, series.upperSeries.at(0).x, 0)

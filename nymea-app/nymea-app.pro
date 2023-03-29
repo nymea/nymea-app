@@ -42,7 +42,8 @@ HEADERS += \
     pushnotifications.h \
     platformhelper.h \
     ruletemplates/messages.h \
-    utils/privacypolicyhelper.h
+    utils/privacypolicyhelper.h \
+    utils/qhashqml.h
 
 SOURCES += main.cpp \
     configuredhostsmodel.cpp \
@@ -56,7 +57,8 @@ SOURCES += main.cpp \
     pushnotifications.cpp \
     platformhelper.cpp \
     platformintegration/generic/screenhelper.cpp \
-    utils/privacypolicyhelper.cpp
+    utils/privacypolicyhelper.cpp \
+    utils/qhashqml.cpp
 
 RESOURCES += resources.qrc \
     ruletemplates.qrc \

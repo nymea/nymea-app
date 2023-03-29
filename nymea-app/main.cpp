@@ -36,6 +36,7 @@
 #include <QSysInfo>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include "utils/qhashqml.h"
 
 #include "libnymea-app-core.h"
 #include "libnymea-app-airconditioning.h"
@@ -183,6 +184,7 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<DashboardWebViewItem>("Nymea", 1, 0, "DashboardWebViewItem", "");
 
     qmlRegisterSingletonType<PrivacyPolicyHelper>("NymeaApp.Utils", 1, 0, "PrivacyPolicyHelper", PrivacyPolicyHelper::qmlProvider);
+    qmlRegisterType<QHashQml>("NymeaApp.Utils", 1, 0, "QHash");
 
     qmlRegisterType<MouseObserver>("Nymea", 1, 0, "MouseObserver");
 
