@@ -376,6 +376,8 @@ Item {
                         property AreaSeries series: null
 
                         property QHash valueCache: QHash {}
+                        property LineSeries lowerSeries: null
+                        property LineSeries upperSeries: null
 
                         function calculateBaseValue(timestamp) {
                             if (index > 0) {
@@ -407,18 +409,24 @@ Item {
 //                            print("inserting entry for", thing.name, entry.timestamp)
 
                             var baseValue = calculateBaseValue(entry.timestamp);
-                            series.lowerSeries.insert(idx, entry.timestamp.getTime(), baseValue)
-                            series.upperSeries.insert(idx, entry.timestamp.getTime(), baseValue + entry.currentPower)
+                            lowerSeries.insert(idx, entry.timestamp.getTime(), baseValue)
+                            upperSeries.insert(idx, entry.timestamp.getTime(), baseValue + entry.currentPower)
                         }
 
                         function addEntries(index, count) {
 //                            print("adding entries for", thing.name)
-                            // Remove the leading 0-value entry
-                            series.lowerSeries.removePoints(0, 1);
-                            series.upperSeries.removePoints(0, 1);
+                            series.lowerSeries = null;
+                            series.upperSeries = null;
 
                             var oldestTimestamp = null
                             var newestTimestamp = null
+
+
+                            // Remove the leading 0-value entry
+                            lowerSeries.removePoints(0, 1);
+                            upperSeries.removePoints(0, 1);
+
+
 
                             for (var i = 0; i < count; i++) {
                                 var entry = logs.get(index + i)
@@ -444,8 +452,11 @@ Item {
                             zeroSeries.ensureValue(newestTimestamp)
 
                             // Add the leading 0-value entry back
-                            series.lowerSeries.insert(0, series.upperSeries.at(0).x, 0)
-                            series.upperSeries.insert(0, series.upperSeries.at(0).x, 0)
+                            lowerSeries.insert(0, upperSeries.at(0).x, 0)
+                            upperSeries.insert(0, upperSeries.at(0).x, 0)
+
+                            series.upperSeries = upperSeries;
+                            series.lowerSeries = lowerSeries;
                         }
 
                         readonly property ThingPowerLogs logs: ThingPowerLogs {
@@ -462,15 +473,15 @@ Item {
 
                             onEntriesRemoved: {
                                 // Remove the leading 0-value entry
-                                consumerDelegate.series.lowerSeries.removePoints(0, 1);
-                                consumerDelegate.series.upperSeries.removePoints(0, 1);
+                                consumerDelegate.lowerSeries.removePoints(0, 1);
+                                consumerDelegate.upperSeries.removePoints(0, 1);
 
-                                consumerDelegate.series.lowerSeries.removePoints(index, count)
-                                consumerDelegate.series.upperSeries.removePoints(index, count)
+                                consumerDelegate.lowerSeries.removePoints(index, count)
+                                consumerDelegate.upperSeries.removePoints(index, count)
 
                                 // Add the leading 0-value entry back
-                                consumerDelegate.series.lowerSeries.insert(0, consumerDelegate.series.upperSeries.at(0).x, 0)
-                                consumerDelegate.series.upperSeries.insert(0, consumerDelegate.series.upperSeries.at(0).x, 0)
+                                consumerDelegate.lowerSeries.insert(0, consumerDelegate.series.upperSeries.at(0).x, 0)
+                                consumerDelegate.upperSeries.insert(0, consumerDelegate.series.upperSeries.at(0).x, 0)
 
                                 zeroSeries.shrink()
                             }
@@ -493,8 +504,8 @@ Item {
 
                         Component.onCompleted: {
                             series = chartView.createSeries(ChartView.SeriesTypeArea, thing.name, dateTimeAxis, valueAxis)
-                            series.lowerSeries = lineSeriesComponent.createObject(series)
-                            series.upperSeries = lineSeriesComponent.createObject(series)
+                            lowerSeries = lineSeriesComponent.createObject(series)
+                            upperSeries = lineSeriesComponent.createObject(series)
                             series.color = NymeaUtils.generateColor(Style.generationBaseColor, index)
                             series.opacity = Qt.binding(function() {
                                 return d.selectedSeries == null || d.selectedSeries == series ? 1 : 0.3
@@ -503,8 +514,8 @@ Item {
                             series.borderColor = series.color                            
 
                             // Add a first point at 0 value
-                            series.lowerSeries.insert(0, new Date().getTime(), 0)
-                            series.upperSeries.insert(0, new Date().getTime(), 0)
+                            lowerSeries.insert(0, new Date().getTime(), 0)
+                            upperSeries.insert(0, new Date().getTime(), 0)
                         }
 
                         Component.onDestruction: {
