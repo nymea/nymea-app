@@ -82,14 +82,25 @@ Item {
 
         onEntriesAddedIdx: {
 //            print("entries added", index, count)
+            selfProductionConsumptionSeries.upperSeries = null
+            selfProductionConsumptionSeries.lowerSeries = null
+            toStorageSeries.upperSeries = null
+            toStorageSeries.lowerSeries = null
+            fromStorageSeries.upperSeries = null
+            fromStorageSeries.lowerSeries = null
+            returnSeries.upperSeries = null
+            returnSeries.lowerSeries = null
+            acquisitionSeries.upperSeries = null
+            acquisitionSeries.lowerSeries = null
+
             for (var i = 0; i < count; i++) {
                 var entry = powerBalanceLogs.get(index + i)
 //                print("got entry", entry.timestamp)
 
                 zeroSeries.ensureValue(entry.timestamp)
-                // For debugging, to see if the other maths line up with the plain production graph
                 productionSeries.insertEntry(index + i, entry)
-                consumptionSeries.insertEntry(index + i, entry)
+                // For debugging, to see if the other maths line up with the plain production graph
+//                consumptionSeries.insertEntry(index + i, entry)
                 selfProductionConsumptionSeries.insertEntry(index + i, entry)
                 toStorageSeries.insertEntry(index + i, entry)
                 fromStorageSeries.insertEntry(index + i, entry)
@@ -99,6 +110,16 @@ Item {
                     d.now = entry.timestamp
                 }
             }
+            selfProductionConsumptionSeries.upperSeries = selfProductionConsumptionUpperSeries
+            selfProductionConsumptionSeries.lowerSeries = zeroSeries
+            toStorageSeries.upperSeries = toStorageUpperSeries
+            toStorageSeries.lowerSeries = selfProductionConsumptionUpperSeries
+            fromStorageSeries.upperSeries = fromStorageUpperSeries
+            fromStorageSeries.lowerSeries = selfProductionConsumptionUpperSeries
+            returnSeries.upperSeries = returnUpperSeries
+            returnSeries.lowerSeries = toStorageUpperSeries
+            acquisitionSeries.upperSeries = acquisitionUpperSeries
+            acquisitionSeries.lowerSeries = fromStorageUpperSeries
         }
 
         onEntriesRemoved: {
@@ -108,7 +129,7 @@ Item {
             toStorageUpperSeries.removePoints(index, count)
             selfProductionConsumptionUpperSeries.removePoints(index, count)
             productionSeries.removePoints(index, count)
-            consumptionSeries.removePoints(index, count)
+//            consumptionSeries.removePoints(index, count)
             zeroSeries.shrink()
         }
     }
