@@ -1,3 +1,10 @@
+nymea-app (1.7.3) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Optimize loading performance of the energy history charts
+
+ -- jenkins <developer@nymea.io>  Thu, 30 Mar 2023 09:41:03 +0200
+
 nymea-app (1.7.2) bionic; urgency=medium
 
   [ Michael Zanetti ]
