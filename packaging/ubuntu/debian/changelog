@@ -1,3 +1,11 @@
+nymea-app (1.7.4) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Handle inline controls for virtual switch and button
+  * Add WindowCovering zigbee cluster id
+
+ -- jenkins <developer@nymea.io>  Tue, 04 Apr 2023 19:47:35 +0200
+
 nymea-app (1.7.3) bionic; urgency=medium
 
   [ Michael Zanetti ]
