@@ -354,9 +354,8 @@ public:
 
         // Closures
         ZigbeeClusterIdShadeConfiguration     = 0x0100,
-
-        // Door Lock
         ZigbeeClusterIdDoorLock               = 0x0101,
+        ZigbeeClusterWindowCovering           = 0x0102,
 
         // Heating, Ventilation and Air-Conditioning (HVAC)
         ZigbeeClusterIdPumpConfigurationControl = 0x0200,
