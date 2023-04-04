@@ -65,6 +65,15 @@ MainPageTile {
                 return null
             }
 
+            // virtual switch
+            if (root.thing.thingClass.id == "{8ea0a168-74ff-4445-8c13-74aab195af4e}") {
+                return lightsComponent;
+            }
+            // virtual button
+            if (root.thing.thingClass.id == "{820b2f2d-0d92-48c8-8fd4-f94ce8fc4103}") {
+                return virtualButtonComponent;
+            }
+
             for (var i = 0; i < root.thing.thingClass.interfaces.length; i++) {
                 switch (root.thing.thingClass.interfaces[i]) {
                 case "closable":
@@ -136,6 +145,35 @@ MainPageTile {
                     powerParam["paramTypeId"] = actionType.paramTypes.get(0).id;
                     powerParam["value"] = !powerState.value;
                     params.push(powerParam)
+                    engine.thingManager.executeAction(thing.id, actionType.id, params);
+                }
+            }
+        }
+    }
+
+    Component {
+        id: virtualButtonComponent
+        RowLayout {
+            property Thing thing: null
+
+            Item {
+                Layout.fillWidth: true
+            }
+
+            ItemDelegate {
+                Layout.preferredWidth: Style.iconSize
+                Layout.preferredHeight: width
+                Layout.rightMargin: app.margins / 2
+                Layout.alignment: Qt.AlignVCenter
+                padding: 0; topPadding: 0; bottomPadding: 0
+
+                contentItem: ColorIcon {
+                    name: app.interfaceToIcon("power")
+                    color: Style.iconColor
+                }
+                onClicked: {
+                    var actionType = thing.thingClass.actionTypes.findByName("press");
+                    var params = [];
                     engine.thingManager.executeAction(thing.id, actionType.id, params);
                 }
             }
