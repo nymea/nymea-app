@@ -53,7 +53,7 @@ SettingsPageBase {
             imageSource: "/ui/images/delete.svg"
             text: qsTr("Remove node")
             onClicked: {
-                var popup = removeZigbeeNodeDialogComponent.createObject(app)
+                var popup = removeZigbeeNodeDialogComponent.createObject(app, {zigbeeNode: root.node})
                 popup.open()
             }
         }
@@ -120,6 +120,26 @@ SettingsPageBase {
                     break;
                 default:
                     props.error = error;
+                }
+                var comp = Qt.createComponent("/ui/components/ErrorDialog.qml")
+                var popup = comp.createObject(app, props)
+                popup.open();
+            }
+        }
+
+        onRemoveNodeReply: {
+            if (commandId == d.pendingCommandId) {
+                var props = {};
+                switch (error) {
+                case ZigbeeManager.ZigbeeErrorNoError:
+                    pageStack.pop();
+                    return;
+                case ZigbeeManager.ZigbeeErrorNetworkError:
+                    props.text = qsTr("An error happened in the ZigBee network when creating the binding.");
+                    break;
+                default:
+                    props.error = error;
+                    return;
                 }
                 var comp = Qt.createComponent("/ui/components/ErrorDialog.qml")
                 var popup = comp.createObject(app, props)
