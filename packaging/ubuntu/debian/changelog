@@ -1,3 +1,10 @@
+nymea-app (1.7.5) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix removing a zigbee node from within the nodes view
+
+ -- jenkins <developer@nymea.io>  Fri, 07 Apr 2023 13:17:33 +0200
+
 nymea-app (1.7.4) bionic; urgency=medium
 
   [ Michael Zanetti ]
