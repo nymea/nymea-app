@@ -1,3 +1,11 @@
+nymea-app (1.7.6) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the script editor breaking when trying to add a new script with
+    errors
+
+ -- jenkins <developer@nymea.io>  Sun, 09 Apr 2023 23:51:34 +0200
+
 nymea-app (1.7.5) bionic; urgency=medium
 
   [ Michael Zanetti ]
