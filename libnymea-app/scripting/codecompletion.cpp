@@ -961,6 +961,11 @@ void CodeCompletion::moveCursor(CodeCompletion::MoveOperation moveOperation, int
         emit cursorPositionChanged();
         return;
     }
+    case MoveOperationAbsoluteLine:
+        m_cursor.movePosition(QTextCursor::Start);
+        m_cursor.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor, count - 1);
+        emit cursorPositionChanged();
+        break;
     }
 }
 

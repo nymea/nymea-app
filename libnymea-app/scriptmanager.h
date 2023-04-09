@@ -44,6 +44,14 @@ class ScriptManager : public QObject
     Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
 
 public:
+    enum ScriptError {
+        ScriptErrorNoError,
+        ScriptErrorScriptNotFound,
+        ScriptErrorInvalidScript,
+        ScriptErrorHardwareFailure
+    };
+    Q_ENUM(ScriptError)
+
     explicit ScriptManager(JsonRpcClient* jsonClient, QObject *parent = nullptr);
 
     void init();
@@ -59,11 +67,11 @@ public slots:
     int fetchScript(const QUuid &id);
 
 signals:
-    void addScriptReply(int id, const QString &scriptError, const QUuid &scriptId, const QStringList &errors);
-    void editScriptReply(int id, const QString &scriptError, const QStringList &errors);
-    void renameScriptReply(int id, const QString &scriptError);
-    void removeScriptReply(int id, const QString &scriptError);
-    void fetchScriptReply(int id, const QString &scriptError, const QString &content);
+    void addScriptReply(int id, ScriptError status, const QUuid &scriptId, const QStringList &errors);
+    void editScriptReply(int id, ScriptError status, const QStringList &errors);
+    void renameScriptReply(int id, ScriptError status);
+    void removeScriptReply(int id, ScriptError status);
+    void fetchScriptReply(int id, ScriptError status, const QString &content);
 
     void scriptMessage(const QUuid &scriptId, const QString &type, const QString &message);
     void fetchingDataChanged();

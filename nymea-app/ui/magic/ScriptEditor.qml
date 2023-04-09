@@ -149,18 +149,24 @@ Page {
     Connections {
         target: engine.scriptManager
         onAddScriptReply: {
-            deployReply(id, scriptError, errors)
-            d.scriptId = scriptId;
+            print("Add reply", status)
+            deployReply(id, status, errors)
+            if (status == ScriptManager.ScriptErrorNoError) {
+                d.scriptId = scriptId;
+            }
         }
-        onEditScriptReply: deployReply(id, scriptError, errors)
-        function deployReply(id, scriptError, errors) {
+        onEditScriptReply: {
+            print("Edit reply", status)
+            deployReply(id, status, errors)
+        }
+        function deployReply(id, status, errors) {
             if (id === d.callId) {
                 d.callId = -1;
-                if (scriptError === "ScriptErrorNoError") {
+                if (status === ScriptManager.ScriptErrorNoError) {
                     d.oldContent = scriptEdit.text;
                     infoPane.hide();
                     errorPane.hide();
-                } else if (scriptError === "ScriptErrorInvalidScript") {
+                } else if (status === ScriptManager.ScriptErrorInvalidScript) {
                     errorPane.show();
                 }
                 errorModel.update(errors)
@@ -168,7 +174,7 @@ Page {
         }
 
         onFetchScriptReply: {
-            if (id == d.callId && scriptError == "ScriptErrorNoError") {
+            if (id == d.callId && status == ScriptManager.ScriptErrorNoError) {
                 d.callId = -1;
                 d.oldContent = content;
 
@@ -433,9 +439,35 @@ Page {
                     }
 
                     delegate: Label {
+                        id: errorDelegate
                         width: parent.width
                         text: model.line + ":" + model.column + ": " + model.message
                         font: scriptEdit.font
+                        MouseArea {
+                            anchors.fill: parent
+                            acceptedButtons: Qt.LeftButton | Qt.RightButton
+                            onClicked: {
+                                if (mouse.button == Qt.LeftButton) {
+                                    scriptEdit.forceActiveFocus()
+                                    completion.moveCursor(CodeCompletion.MoveOperationAbsoluteLine, model.line)
+                                } else {
+                                    print("rmb")
+                                    var popup = rmbMenuComponent.createObject(errorDelegate, {x: mouseX})
+                                    popup.copy.connect(function() {
+                                        PlatformHelper.toClipBoard(errorDelegate.text)
+                                    })
+                                    popup.copyAll.connect(function() {
+                                        var text = [];
+                                        for (var i = 0; i < errorModel.count; i++) {
+                                            var line = errorModel.get(i)
+                                            text.push(line.line + ":" + line.column + ": " + line.message)
+                                        }
+                                        PlatformHelper.toClipBoard(text.join("\n"))
+                                    })
+                                    popup.open()
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -505,5 +537,22 @@ Page {
 
     BusyOverlay {
         shown: d.callId != -1
+    }
+
+    Component {
+        id: rmbMenuComponent
+        Menu {
+            signal copy()
+            signal copyAll()
+
+            MenuItem {
+                text: qsTr("Copy")
+                onClicked: copy()
+            }
+            MenuItem {
+                text: qsTr("Copy all")
+                onClicked: copyAll()
+            }
+        }
     }
 }

@@ -55,6 +55,7 @@ public:
         MoveOperationNextLine,
         MoveOperationPreviousWord,
         MoveOperationNextWord,
+        MoveOperationAbsoluteLine,
     };
     Q_ENUM(MoveOperation)
 

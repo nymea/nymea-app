@@ -36,6 +36,8 @@
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcScriptManager, "Scripts")
 
+#include <QMetaEnum>
+
 ScriptManager::ScriptManager(JsonRpcClient *jsonClient, QObject *parent):
     QObject(parent),
     m_client(jsonClient)
@@ -116,15 +118,19 @@ void ScriptManager::onScriptsFetched(int /*commandId*/, const QVariantMap &param
 
 void ScriptManager::onScriptFetched(int commandId, const QVariantMap &params)
 {
+    QMetaEnum metaEnum = QMetaEnum::fromType<ScriptError>();
+    ScriptError status = static_cast<ScriptError>(metaEnum.keyToValue(params.value("scriptError").toByteArray()));
     emit fetchScriptReply(commandId,
-                       params.value("scriptError").toString(),
+                       status,
                        params.value("content").toString());
 }
 
 void ScriptManager::onScriptAdded(int commandId, const QVariantMap &params)
 {
+    QMetaEnum metaEnum = QMetaEnum::fromType<ScriptError>();
+    ScriptError status = static_cast<ScriptError>(metaEnum.keyToValue(params.value("scriptError").toByteArray()));
     emit addScriptReply(commandId,
-                     params.value("scriptError").toString(),
+                     status,
                      params.value("script").toMap().value("id").toUuid(),
                      params.value("errors").toStringList());
 
@@ -132,20 +138,26 @@ void ScriptManager::onScriptAdded(int commandId, const QVariantMap &params)
 
 void ScriptManager::onScriptEdited(int commandId, const QVariantMap &params)
 {
+    QMetaEnum metaEnum = QMetaEnum::fromType<ScriptError>();
+    ScriptError status = static_cast<ScriptError>(metaEnum.keyToValue(params.value("scriptError").toByteArray()));
     emit editScriptReply(commandId,
-                      params.value("scriptError").toString(),
+                      status,
                       params.value("errors").toStringList());
 
 }
 
 void ScriptManager::onScriptRenamed(int commandId, const QVariantMap &params)
 {
-    emit renameScriptReply(commandId, params.value("scriptError").toString());
+    QMetaEnum metaEnum = QMetaEnum::fromType<ScriptError>();
+    ScriptError status = static_cast<ScriptError>(metaEnum.keyToValue(params.value("scriptError").toByteArray()));
+    emit renameScriptReply(commandId, status);
 }
 
 void ScriptManager::onScriptRemoved(int commandId, const QVariantMap &params)
 {
-    emit removeScriptReply(commandId, params.value("scriptError").toString());
+    QMetaEnum metaEnum = QMetaEnum::fromType<ScriptError>();
+    ScriptError status = static_cast<ScriptError>(metaEnum.keyToValue(params.value("scriptError").toByteArray()));
+    emit removeScriptReply(commandId, status);
 }
 
 void ScriptManager::onNotificationReceived(const QVariantMap &params)
