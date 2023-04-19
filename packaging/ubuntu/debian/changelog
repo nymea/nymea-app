@@ -1,3 +1,10 @@
+nymea-app (1.7.7) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for the new log engine (protocol version 8.0)
+
+ -- jenkins <developer@nymea.io>  Wed, 19 Apr 2023 12:27:56 +0200
+
 nymea-app (1.7.6) bionic; urgency=medium
 
   [ Michael Zanetti ]
