@@ -1,3 +1,10 @@
+nymea-app (1.7.8) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix dashboard chart item for legacy charts
+
+ -- jenkins <developer@nymea.io>  Thu, 20 Apr 2023 14:22:50 +0200
+
 nymea-app (1.7.7) bionic; urgency=medium
 
   [ Michael Zanetti ]
