@@ -45,35 +45,53 @@ DashboardDelegateBase {
     readonly property StateType stateType: thing ? thing.thingClass.stateTypes.getStateType(item.stateTypeId) : null
     readonly property State state: thing ? thing.states.getState(item.stateTypeId) : null
 
-    contentItem: StateChart {
-        id: graph
+    contentItem: Loader {
         width: root.width
         height: root.height
-        title: root.state && root.stateType ? root.thing.name + ", " + root.stateType.displayName + ": " + Types.toUiValue(root.state.value, root.stateType.unit).toFixed(0) + Types.toUiUnit(root.stateType.unit) : ""
-
-        thing: root.thing
-        color: root.thing ? app.interfaceToColor(root.thing.thingClass.interfaces[0]) : Style.accentColor
-//        iconSource: ""// app.interfaceToIcon(interfaceName)
-        implicitHeight: width * .6
-//        property string interfaceName: parent.interfaceName
-        stateType: root.stateType
-//        property State state: root.state
-
+        sourceComponent: {
+            if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+                return stateChartComponent
+            } else {
+                return graphComponent
+            }
+        }
     }
 
-//    contentItem: GenericTypeGraph {
-//        id: graph
-//        width: root.width
-//        height: root.height
-//        title: root.state && root.stateType ? root.thing.name + " " + Types.toUiValue(root.state.value, root.stateType.unit) + Types.toUiUnit(root.stateType.unit) : ""
+    Component {
+        id: stateChartComponent
 
-//        thing: root.thing
-//        color: "blue"//app.interfaceToColor(interfaceName)
-//        iconSource: ""// app.interfaceToIcon(interfaceName)
-//        implicitHeight: width * .6
-////        property string interfaceName: parent.interfaceName
-//        stateType: root.stateType
-//        property State state: root.state
-//    }
+        StateChart {
+            id: graph
+            title: root.state && root.stateType ? root.thing.name + ", " + root.stateType.displayName + ": " + Types.toUiValue(root.state.value, root.stateType.unit).toFixed(0) + Types.toUiUnit(root.stateType.unit) : ""
+
+            thing: root.thing
+            color: root.thing ? app.interfaceToColor(root.thing.thingClass.interfaces[0]) : Style.accentColor
+    //        iconSource: ""// app.interfaceToIcon(interfaceName)
+            implicitHeight: width * .6
+    //        property string interfaceName: parent.interfaceName
+            stateType: root.stateType
+    //        property State state: root.state
+
+        }
+    }
+
+
+    Component {
+        id: graphComponent
+
+        GenericTypeGraph {
+            id: graph
+            title: root.state && root.stateType ? root.thing.name + " " + Types.toUiValue(root.state.value, root.stateType.unit) + Types.toUiUnit(root.stateType.unit) : ""
+
+            thing: root.thing
+            color: "blue"//app.interfaceToColor(interfaceName)
+            iconSource: ""// app.interfaceToIcon(interfaceName)
+            implicitHeight: width * .6
+    //        property string interfaceName: parent.interfaceName
+            stateType: root.stateType
+            property State state: root.state
+        }
+    }
+
 }
 
