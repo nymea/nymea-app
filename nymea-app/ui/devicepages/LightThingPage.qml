@@ -43,13 +43,13 @@ ThingPageBase {
     readonly property State powerState: thing.stateByName("power")
 
     readonly property State brightnessState: thing.stateByName("brightness")
-    readonly property ActionType brightnessActionType: thingClass.actionTypes.findByName("brightness");
+    readonly property ActionType brightnessActionType: thing.thingClass.actionTypes.findByName("brightness");
 
     readonly property State colorState: thing.stateByName("color")
 
-    readonly property StateType ctStateType: thingClass.stateTypes.findByName("colorTemperature")
+    readonly property StateType ctStateType: thing.thingClass.stateTypes.findByName("colorTemperature")
     readonly property State ctState: thing.stateByName("colorTemperature")
-    readonly property ActionType ctActionType: thingClass.actionTypes.findByName("colorTemperature")
+    readonly property ActionType ctActionType: thing.thingClass.actionTypes.findByName("colorTemperature")
 
     readonly property int statesCount: (powerState !== null ? 1 : 0) +
                                        (brightnessState !== null ? 1 : 0) +

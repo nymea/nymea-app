@@ -37,7 +37,7 @@ Item {
         }
 
         onEntriesRemoved: {
-            consumptionUpperSeries.removePoints(index, count)
+            consumptionUpperSeries.removePoints(index, Math.min(count, consumptionUpperSeries.count))
             zeroSeries.shrink()
         }
     }
@@ -423,8 +423,12 @@ Item {
 
 
                             // Remove the leading 0-value entry
-                            lowerSeries.removePoints(0, 1);
-                            upperSeries.removePoints(0, 1);
+                            if (lowerSeries.count > 0) {
+                                lowerSeries.removePoints(0, 1);
+                            }
+                            if (upperSeries.count > 0) {
+                                upperSeries.removePoints(0, 1);
+                            }
 
 
 
@@ -472,12 +476,25 @@ Item {
                             }
 
                             onEntriesRemoved: {
-                                // Remove the leading 0-value entry
-                                consumerDelegate.lowerSeries.removePoints(0, 1);
-                                consumerDelegate.upperSeries.removePoints(0, 1);
+                                // Note QtCharts crash when calling removePoints() for points that don't exist.
+                                // Additionally it may decide to ignore values we add, e.g. if we try to add an Inf or undefined value for whatever reason
+                                // So, even though in theory the series should always 1:1 reflect the model, it may not do so in practice and we'll have to make sure not crash here
 
-                                consumerDelegate.lowerSeries.removePoints(index, count)
-                                consumerDelegate.upperSeries.removePoints(index, count)
+                                // Remove the leading 0-value entry
+                                if (consumerDelegate.lowerSeries.count > 0) {
+                                    consumerDelegate.lowerSeries.removePoints(0, 1);
+                                }
+                                if (consumerDelegate.upperSeries.count > 0) {
+                                    consumerDelegate.upperSeries.removePoints(0, 1);
+                                }
+
+                                print("removing:", index, count, "from", consumerDelegate.lowerSeries.count, consumerDelegate.upperSeries.count)
+                                if (consumerDelegate.lowerSeries.count >= index + count) {
+                                    consumerDelegate.lowerSeries.removePoints(index, count)
+                                }
+                                if (consumerDelegate.upperSeries.count >= index + count) {
+                                    consumerDelegate.upperSeries.removePoints(index, count)
+                                }
 
                                 // Add the leading 0-value entry back
                                 consumerDelegate.lowerSeries.insert(0, consumerDelegate.series.upperSeries.at(0).x, 0)

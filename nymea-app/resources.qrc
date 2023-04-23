@@ -50,7 +50,6 @@
         <file>ui/devicepages/ShutterDevicePage.qml</file>
         <file>ui/devicepages/GarageThingPage.qml</file>
         <file>ui/devicepages/AwningThingPage.qml</file>
-        <file>ui/devicepages/NotificationsDevicePage.qml</file>
         <file>ui/devicepages/LightThingPage.qml</file>
         <file>ui/devicepages/FingerprintReaderDevicePage.qml</file>
         <file>ui/devicepages/DeviceLogPage.qml</file>
@@ -314,5 +313,6 @@
         <file>ui/mainviews/airconditioning/LegendDelegate.qml</file>
         <file>ui/customviews/StateChart.qml</file>
         <file>ui/devicepages/ThingLogPage.qml</file>
+        <file>ui/devicepages/NotificationsThingPage.qml</file>
     </qresource>
 </RCC>

@@ -207,8 +207,7 @@ Page {
                 readonly property NewLogsModel logsModel: NewLogsModel {
                     objectName: "temp: " + thing.name
                     engine: _engine
-                    source: "states-" + thing.id
-                    filter: ({state: "temperature"})
+                    source: "state-" + thing.id + "-temperature"
                     startTime: new Date(d.startTime.getTime() - d.range * 60000)
                     endTime: new Date(d.endTime.getTime() + d.range * 60000)
                     sampleRate: d.sampleRate
@@ -258,8 +257,7 @@ Page {
                 readonly property NewLogsModel logsModel: NewLogsModel {
                     objectName: "temp: " + thing.name
                     engine: _engine
-                    source: "states-" + thing.id
-                    filter: ({state: "temperature"})
+                    source: "state-" + thing.id + "-temperature"
                     startTime: new Date(d.startTime.getTime() - d.range * 60000)
                     endTime: new Date(d.endTime.getTime() + d.range * 60000)
                     sampleRate: d.sampleRate
@@ -309,8 +307,7 @@ Page {
                 readonly property NewLogsModel logsModel: NewLogsModel {
                     objectName: "hum: " + thing.name
                     engine: _engine
-                    source: "states-" + thing.id
-                    filter: ({state: "humidity"})
+                    source: "state-" + thing.id + "-humidity"
                     startTime: new Date(d.startTime.getTime() - d.range * 60000)
                     endTime: new Date(d.endTime.getTime() + d.range * 60000)
                     sampleRate: d.sampleRate
@@ -344,38 +341,37 @@ Page {
                 Component.onDestruction: {
                     chartView.removeSeries(series)
                 }
-
             }
         }
 
         Repeater {
             id: vocRepeater
-//            model: zoneWrapper.indoorVocSensors
+            model: zoneWrapper.indoorVocSensors
             delegate: Item {
                 id: vocDelegate
                 readonly property Thing thing: zoneWrapper.indoorVocSensors.get(index)
                 property XYSeries series: null
-                readonly property LogsModel logsModel: LogsModel {
+                readonly property NewLogsModel logsModel: NewLogsModel {
                     objectName: "voc: " + thing.name
-                    engine: typeIds.length > 0 ? _engine : null
-                    thingId: thing.id
-                    sourceFilter: LogsModel.SourceStates
-                    live: true
-                    //                    graphSeries: series
-                    viewStartTime: new Date(d.startTime.getTime() - d.range * 60000)
-                    fetchBlockSize: 500
-
-                    typeIds: {
-                        var ret = [];
-                        ret.push(thing.thingClass.stateTypes.findByName("voc").id)
-                        return ret;
+                    engine: _engine
+                    source: "state-" + thing.id + "-voc"
+                    startTime: new Date(d.startTime.getTime() - d.range * 60000)
+                    endTime: new Date(d.endTime.getTime() + d.range * 60000)
+                    sampleRate: d.sampleRate
+                    onEntriesAdded: {
+                        for (var i = 0; i < entries.length; i++) {
+                            var entry = entries[i]
+                            var value = entry.values["voc"]
+                            if (value == null) {
+                                value = 0;
+                            }
+                            series.insert(index + i, entry.timestamp, value)
+                        }
                     }
-                }
-
-                XYSeriesAdapter {
-                    logsModel: vocDelegate.logsModel
-                    xySeries: series
-                    sampleRate: XYSeriesAdapter.SampleRate10Minutes
+                    onEntriesRemoved: {
+                        series.removePoints(index, count)
+                    }
+                    Component.onCompleted: fetchLogs()
                 }
 
                 Component.onCompleted: {
@@ -411,18 +407,13 @@ Page {
                     XYPoint {x: dateTimeAxis.max.getTime(); y: 0}
                 }
 
-                readonly property LogsModel logsModel: LogsModel {
+                readonly property NewLogsModel logsModel: NewLogsModel {
                     id: logsModelNg
                     engine: typeIds.length ? _engine : null
-                    thingId: thing ? thing.id : ""
-                    typeIds: {
-                        var ret = [];
-                        ret.push(thing.thingClass.stateTypes.findByName("closed").id)
-                        return ret;
-                    }
-                    sourceFilter: LogsModel.SourceStates
-                    live: true
-                    viewStartTime: new Date(d.startTime.getTime() - d.range * 60000)
+                    source: "state-" + thing.id + "-closed"
+                    startTime: new Date(d.startTime.getTime() - d.range * 60000)
+                    endTime: new Date(d.endTime.getTime() + d.range * 60000)
+                    sampleRate: d.sampleRate
                 }
 
                 BoolSeriesAdapter {
@@ -675,8 +666,9 @@ Page {
             delegate: TooltipDelegate {
                 visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
                 thing: thermostatsRepeater.itemAt(index).thing
-                entry: thermostatsRepeater.itemAt(index).logsModel.findClosest(tooltips.timestamp)
+                entry: thermostatsRepeater.itemAt(index).logsModel.find(tooltips.timestamp)
                 color: app.interfaceToColor("temperaturesensor")
+                valueName: "temperature"
                 axis: temperatureAxis
                 x: tooltips.tooltipX
                 width: tooltips.tooltipWidth
@@ -693,7 +685,8 @@ Page {
             delegate: TooltipDelegate {
                 visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
                 thing: tempRepeater.itemAt(index).thing
-                entry: tempRepeater.itemAt(index).logsModel.findClosest(tooltips.timestamp)
+                entry: tempRepeater.itemAt(index).logsModel.find(tooltips.timestamp)
+                valueName: "temperature"
                 color: app.interfaceToColor("temperaturesensor")
                 axis: temperatureAxis
                 x: tooltips.tooltipX
@@ -711,8 +704,9 @@ Page {
             delegate: TooltipDelegate {
                 visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
                 thing: humidityRepeater.itemAt(index).thing
-                entry: humidityRepeater.itemAt(index).logsModel.findClosest(tooltips.timestamp)
+                entry: humidityRepeater.itemAt(index).logsModel.find(tooltips.timestamp)
                 color: app.interfaceToColor("humiditysensor")
+                valueName: "humidity"
                 axis: humidityAxis
                 x: tooltips.tooltipX
                 width: tooltips.tooltipWidth
@@ -729,7 +723,8 @@ Page {
             delegate: TooltipDelegate {
                 visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
                 thing: vocRepeater.itemAt(index).thing
-                entry: vocRepeater.itemAt(index).logsModel.findClosest(tooltips.timestamp)
+                entry: vocRepeater.itemAt(index).logsModel.find(tooltips.timestamp)
+                valueName: "voc"
                 color: app.interfaceToColor("vocsensor")
                 axis: vocAxis
                 x: tooltips.tooltipX

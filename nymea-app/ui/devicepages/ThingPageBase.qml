@@ -37,9 +37,8 @@ import "../components"
 Page {
     id: root
     property Thing thing: null
-    readonly property ThingClass thingClass: thing.thingClass
 
-    property bool showLogsButton: true
+    property bool showLogsButton: false
     property bool showDetailsButton: true
     property bool showBrowserButton: true
     property bool popStackOnBackButton: true
@@ -59,7 +58,7 @@ Page {
 
         HeaderButton {
             imageSource: "../images/folder.svg"
-            visible: root.thingClass.browsable && root.showBrowserButton
+            visible: root.thing.thingClass.browsable && root.showBrowserButton
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("DeviceBrowserPage.qml"), {thing: root.thing})
             }
