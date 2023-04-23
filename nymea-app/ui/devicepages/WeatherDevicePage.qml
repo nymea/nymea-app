@@ -71,7 +71,7 @@ ThingPageBase {
                     id: tempComponent
                     StateChart {
                         thing: root.thing
-                        stateType: root.thingClass.stateTypes.findByName("temperature")
+                        stateType: root.thing.thingClass.stateTypes.findByName("temperature")
                         color: app.interfaceToColor("temperaturesensor")
                     }
                 }
@@ -82,7 +82,7 @@ ThingPageBase {
                     GenericTypeGraph {
                         Layout.fillWidth: true
                         thing: root.thing
-                        stateType: root.thingClass.stateTypes.findByName("temperature")
+                        stateType: root.thing.thingClass.stateTypes.findByName("temperature")
                         iconSource: app.interfaceToIcon("temperaturesensor")
                         color: app.interfaceToColor("temperaturesensor")
                     }
@@ -102,7 +102,7 @@ ThingPageBase {
                     id: humidityComponent
                     StateChart {
                         thing: root.thing
-                        stateType: root.thingClass.stateTypes.findByName("humidity")
+                        stateType: root.thing.thingClass.stateTypes.findByName("humidity")
                         color: app.interfaceToColor("humiditysensor")
                     }
                 }
@@ -112,7 +112,7 @@ ThingPageBase {
                     GenericTypeGraph {
                         Layout.fillWidth: true
                         thing: root.thing
-                        stateType: root.thingClass.stateTypes.findByName("humidity")
+                        stateType: root.thing.thingClass.stateTypes.findByName("humidity")
                         iconSource: app.interfaceToIcon("humiditysensor")
                         color: app.interfaceToColor("humiditysensor")
                     }
@@ -132,7 +132,7 @@ ThingPageBase {
                     id: pressureComponent
                     StateChart {
                         thing: root.thing
-                        stateType: root.thingClass.stateTypes.findByName("pressure")
+                        stateType: root.thing.thingClass.stateTypes.findByName("pressure")
                         color: app.interfaceToColor("pressuresensor")
                     }
                 }
@@ -142,7 +142,7 @@ ThingPageBase {
                     GenericTypeGraph {
                         Layout.fillWidth: true
                         thing: root.thing
-                        stateType: root.thingClass.stateTypes.findByName("pressure")
+                        stateType: root.thing.thingClass.stateTypes.findByName("pressure")
                         iconSource: app.interfaceToIcon("pressuresensor")
                         color: app.interfaceToColor("pressuresensor")
                     }
@@ -162,7 +162,7 @@ ThingPageBase {
                     id: windSpeedComponent
                     StateChart {
                         thing: root.thing
-                        stateType: root.thingClass.stateTypes.findByName("windSpeed")
+                        stateType: root.thing.thingClass.stateTypes.findByName("windSpeed")
                         color: app.interfaceToColor("windspeedsensor")
                     }
                 }
@@ -172,7 +172,7 @@ ThingPageBase {
                     GenericTypeGraph {
                         Layout.fillWidth: true
                         thing: root.thing
-                        stateType: root.thingClass.stateTypes.findByName("windSpeed")
+                        stateType: root.thing.thingClass.stateTypes.findByName("windSpeed")
                         iconSource: app.interfaceToIcon("windspeedsensor")
                         color: app.interfaceToColor("windspeedsensor")
                     }

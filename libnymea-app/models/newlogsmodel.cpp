@@ -58,7 +58,7 @@ void NewLogsModel::componentComplete()
 bool NewLogsModel::canFetchMore(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_canFetchMore;
+    return m_canFetchMore && m_sources.count() == 1;
 }
 
 void NewLogsModel::fetchMore(const QModelIndex &parent)
@@ -185,6 +185,19 @@ void NewLogsModel::setSampleRate(SampleRate sampleRate)
     }
 }
 
+Qt::SortOrder NewLogsModel::sortOrder() const
+{
+    return m_sortOrder;
+}
+
+void NewLogsModel::setSortOrder(Qt::SortOrder sortOrder)
+{
+    if (m_sortOrder != sortOrder) {
+        m_sortOrder = sortOrder;
+        emit sortOrderChanged();
+    }
+}
+
 bool NewLogsModel::busy() const
 {
     return m_busy;
@@ -217,30 +230,30 @@ NewLogEntry *NewLogsModel::find(const QDateTime &timestamp) const
         qint64 diff = timestamp.msecsTo(entry->timestamp());
         if (entry->timestamp() > timestamp) {
 //            qCDebug(dcLogEngine()) << "entry is newer than searched:" << entry->timestamp().toString() << timestamp.toString();
-            if (idx == m_list.count() - 1) {
+            if (idx == 0) {
 //                qCDebug(dcLogEngine()) << "Is oldest.";
                 return entry;
             }
-            NewLogEntry *previousEntry = m_list.at(idx+1);
+            NewLogEntry *previousEntry = m_list.at(idx-1);
             if (previousEntry->timestamp() < timestamp) {
                 qint64 previousDiff = timestamp.msecsTo(previousEntry->timestamp());
 //                qCDebug(dcLogEngine()) << "time between this and previous:" << entry->timestamp().toString() << previousEntry->timestamp().toString() << (qAbs(previousDiff) < qAbs(diff) ? "next" : "this");
                 return qAbs(previousDiff) < qAbs(diff) ? previousEntry : entry;
             }
-            idx += jump;
+            idx -= jump;
         } else if (entry->timestamp() < timestamp) {
 //            qCDebug(dcLogEngine()) << "entry is older than searched:" << entry->timestamp().toString() << timestamp.toString();
-            if (idx == 0) {
+            if (idx == m_list.count() - 1) {
 //                qCDebug(dcLogEngine()) << "Is newest.";
                 return entry;
             }
-            NewLogEntry *nextEntry = m_list.at(idx-1);
+            NewLogEntry *nextEntry = m_list.at(idx+1);
             if (nextEntry->timestamp() > timestamp) {
                 qint64 nextDiff = timestamp.msecsTo(nextEntry->timestamp());
 //                qCDebug(dcLogEngine()) << "time between next and this:" << nextEntry->timestamp().toString() << "-" << entry->timestamp().toString()  << (qAbs(nextDiff) > qAbs(diff) ? "prev" : "this");
                 return qAbs(nextDiff) < qAbs(diff) ? nextEntry : entry;
             }
-            idx -= jump;
+            idx += jump;
         }
         jump = qMax(1, jump / 2);
     };
@@ -269,57 +282,52 @@ void NewLogsModel::fetchLogs()
         {"filter", m_filter}
     };
 
-    if (!m_startTime.isNull() && !m_endTime.isNull()) {
-        QDateTime startTime;
-        QDateTime endTime;
 
-        QDateTime oldestExisting = m_list.count() > 0 ? m_list.last()->timestamp() : QDateTime();
-        QDateTime newestExisting = m_list.count() > 0 ? m_list.first()->timestamp() : QDateTime();
-        qCDebug(dcLogEngine()) << "request timeframe: " << m_startTime.toString() << " - " << m_endTime.toString();
-        qCDebug(dcLogEngine()) << "existing timeframe:" << oldestExisting.toString() << "- " << newestExisting.toString();
+    if (m_sampleRate == SampleRateAny) { // Discrete logs
 
-        if (oldestExisting.isNull() || newestExisting.isNull()) {
-            startTime = m_startTime;
-            endTime = qMin(QDateTime::currentDateTime(), m_endTime);
+        if (!m_startTime.isNull() && !m_endTime.isNull()) { // Either specific time frame
+            params.insert("startTime", m_startTime.toMSecsSinceEpoch());
+            params.insert("endTime", m_endTime.toMSecsSinceEpoch());
+
         } else {
-
-            if (m_startTime < oldestExisting) {
-                startTime = m_startTime;
-                endTime = qMin(QDateTime::currentDateTime(), qMin(m_endTime, oldestExisting));
-            } else if (newestExisting < m_endTime) {
-                startTime = qMax(m_startTime, newestExisting);
-                endTime = qMin(QDateTime::currentDateTime(), m_endTime);
-            } else {
-                // Nothing to do...
-                return;
+            params.insert("limit", m_blockSize);
+            if (m_list.count() > 0) {
+                params.insert("offset", m_lastOffset);
+                if (m_lastOffset == 0) {
+                    if (m_endTime.isNull()) {
+                        m_currentNewest = QDateTime::currentDateTime();
+                    } else {
+                        m_currentNewest = m_endTime;
+                    }
+                }
+                params.insert("endTime", m_currentNewest.toMSecsSinceEpoch());
+                m_lastOffset += m_blockSize;
             }
         }
 
-        qCDebug(dcLogEngine()) << "Actual request:" << startTime.toString() << " - " << endTime.toString();
-        params.insert("startTime", startTime.toMSecsSinceEpoch());
-        params.insert("endTime", endTime.toMSecsSinceEpoch());
-        QMetaEnum sampleRateEnum = QMetaEnum::fromType<SampleRate>();
-        params.insert("sampleRate", sampleRateEnum.valueToKey(m_sampleRate));
     } else {
-        params.insert("limit", m_blockSize);
-        if (m_list.count() > 0) {
-            params.insert("offset", m_list.count() - 1); // -1 because we'll fetch the last existing one again as the receiving logic checks if timestamps line up for proper insertion. It will be removed again there
-            params.insert("endTime", m_list.first()->timestamp().toMSecsSinceEpoch());
+        if (!m_startTime.isNull() && !m_endTime.isNull()) {
+            params.insert("startTime", m_startTime.toMSecsSinceEpoch());
+            params.insert("endTime", m_endTime.toMSecsSinceEpoch());
+
+            QMetaEnum sampleRateEnum = QMetaEnum::fromType<SampleRate>();
+            params.insert("sampleRate", sampleRateEnum.valueToKey(m_sampleRate));
+        } else {
+            qCWarning(dcLogEngine()) << "startTime and endTime is required when asking for resampling";
+            return;
         }
     }
 
-//    if (!m_startTime.isNull()) {
-//        params.insert("startTime", m_startTime.toMSecsSinceEpoch());
-//    }
-//    if (!m_endTime.isNull()) {
-//        params.insert("endTime", m_endTime.toMSecsSinceEpoch());
-//    }
+    QMetaEnum sortOrderEnum = QMetaEnum::fromType<Qt::SortOrder>();
+    params.insert("sortOrder", sortOrderEnum.valueToKey(m_sortOrder));
+
     qCDebug(dcLogEngine()) << "Fetching logs:" << QJsonDocument::fromVariant(params).toJson();
     m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
 }
 
 void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
 {
+    Q_UNUSED(commandId)
 
     QList<NewLogEntry*> entries;
     foreach (const QVariant &entryVariant, data.value("logEntries").toList()) {
@@ -329,77 +337,37 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
         QVariantMap values = map.value("values").toMap();
         NewLogEntry *entry = new NewLogEntry(source, timestamp, values, this);
         entries.append(entry);
+
     }
 
     m_canFetchMore = entries.count() >= m_blockSize;
-    qCDebug(dcLogEngine()) << "Logs received:" << entries.count() << "Requested:" << m_blockSize;
+    qCDebug(dcLogEngine()) << "Logs received:" << entries.count();
 
-    if (!entries.isEmpty()) {
-        qCDebug(dcLogEngine()) << "Logs received:" << entries.first()->timestamp().toString() << " - " << entries.last()->timestamp().toString();
-        if (m_list.isEmpty()) {
-            qCDebug(dcLogEngine()) << "Inserting into emptry model";
-            beginInsertRows(QModelIndex(), 0, entries.count() - 1);
-            m_list.append(entries);
-            endInsertRows();
-            emit entriesAdded(0, entries);
+    if (entries.empty()) {
+        return;
+    }
 
-        } else if (entries.last()->timestamp() == m_list.last()->timestamp()) {
-            qCDebug(dcLogEngine()) << "First item of new list already existing... no new data...";
-            qDeleteAll(entries);
+    if (!m_startTime.isNull() && !m_endTime.isNull()) {
+        beginResetModel();
+        QList<NewLogEntry*> oldEntries = m_list;
+        m_list.clear();
+        endResetModel();
+        emit entriesRemoved(0, oldEntries.count());
+        qDeleteAll(oldEntries);
 
-        } else if (entries.last()->timestamp() < m_list.last()->timestamp()) {
-            if (entries.first()->timestamp() == m_list.last()->timestamp()) {
-                qCDebug(dcLogEngine()) << "Appending received items";
-                beginRemoveRows(QModelIndex(), m_list.count() - 1, m_list.count() - 1);
-                m_list.takeLast()->deleteLater();
-                endRemoveRows();
-                emit entriesRemoved(m_list.count(), 1);
+        beginInsertRows(QModelIndex(), 0, entries.count() - 1);
+        m_list = entries;
+        endInsertRows();
+        emit entriesAdded(0, entries);
 
-                int insertIdx = m_list.count();
-                beginInsertRows(QModelIndex(), insertIdx, insertIdx + entries.count() - 1);
-                m_list = m_list + entries;
-                endInsertRows();
-                emit entriesAdded(insertIdx, entries);
-            } else {
-                // Start of fetched entries does not line up with end of existing entries. Discarding existing entries
-                qCDebug(dcLogEngine()) << "Start of fetched entries does not line up with end of existing entries. Discarding existing entries" << entries.first()->timestamp().toString() << " - " << m_list.last()->timestamp().toString();
-                clear();
-
-                // If the mismatch is in the visible area, we'll discard everything and fetch again
-                // Else if the mismatch is outside the visible area, we'll just discard the old data and work with what we received
-                if ((entries.first()->timestamp() >= m_endTime && entries.last()->timestamp() >= m_endTime)
-                        || (entries.first()->timestamp() <= m_startTime && entries.last()->timestamp() <= m_endTime)) {
-                    clear();
-                    beginInsertRows(QModelIndex(), 0, entries.count() - 1);
-                    m_list.append(entries);
-                    endInsertRows();
-                    emit entriesAdded(0, entries);
-                } else {
-                    clear();
-                    fetchLogs();
-                }
-            }
-
-        } else if (entries.last()->timestamp() == m_list.first()->timestamp()) {
-            beginRemoveRows(QModelIndex(), 0, 0);
-            m_list.takeAt(0)->deleteLater();
-            endRemoveRows();
-            emit entriesRemoved(0, 1);
-            qCDebug(dcLogEngine()) << "Prepending received items";
-            beginInsertRows(QModelIndex(), 0, entries.count() - 1);
-            m_list = entries + m_list;
-            endInsertRows();
-            emit entriesAdded(0, entries);
-
-        } else {
-            // End of fetched entries does not line up with start of existing entries. Discarding existing entries
-            qCDebug(dcLogEngine()) << "End of fetched entries does not line up with start of existing entries" << m_list.last()->timestamp().toString() << " - " << m_list.first()->timestamp().toString();
-            clear();
-            beginInsertRows(QModelIndex(), 0, entries.count() - 1);
-            m_list.append(entries);
-            endInsertRows();
-            emit entriesAdded(0, entries);
-        }
+    } else {
+        beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + entries.count() - 1);
+        qSort(entries.begin(), entries.end(), [](NewLogEntry *left, NewLogEntry *right){
+            return left->timestamp() > right->timestamp();
+        });
+        m_list.append(entries);
+        endInsertRows();
+        emit entriesAdded(m_list.count(), entries);
     }
 
     emit countChanged();

@@ -80,8 +80,11 @@ ThingPageBase {
             Layout.fillWidth: true
             topPadding: model.type === ThingModel.TypeActionType ? app.margins / 2 : 0
             bottomPadding: 0
+
             contentItem: Loader {
                 id: inlineLoader
+                Layout.fillWidth: true
+                Layout.preferredHeight: Style.smallDelegateHeight
                 sourceComponent: {
                     switch (model.type) {
                     case ThingModel.TypeStateType:
@@ -113,7 +116,19 @@ ThingPageBase {
                 }
             }
 
-            onClicked: swipe.close()
+            onClicked: {
+                print("clicked")
+                if (swipe.complete) {
+                    swipe.close()
+                } else {
+                    swipe.open(SwipeDelegate.Right)
+                }
+            }
+            Connections {
+                target: flickable
+                onContentYChanged: if (swipe.completed) swipe.close()
+            }
+
             onPressAndHold: swipe.open(SwipeDelegate.Right)
             swipe.right: RowLayout {
                 height: delegate.height

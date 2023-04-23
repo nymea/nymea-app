@@ -136,11 +136,32 @@ ThingPageBase {
         }
 
 
+        Loader {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            sourceComponent: {
+                if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+                    return logViewComponent
+                } else {
+                    return logViewComponentPre80
+                }
+            }
+        }
+    }
+
+    Component {
+        id: logViewComponentPre80
         ListView {
             id: logView
             Layout.fillHeight: true
             Layout.fillWidth: true
             clip: true
+
+            BusyIndicator {
+                anchors.centerIn: parent
+                visible: logsModel.busy
+                running: visible
+            }
 
             model: LogsModel {
                 id: logsModel
@@ -206,7 +227,7 @@ ThingPageBase {
                                                           {
                                                               timestamp: model.timestamp,
                                                               notificationTitle: itemDelegate.title,
-                                                              notificationBody: itemDelegate.text,
+                                                              notificationBody: itemDelegate.tet,
                                                               errorCode: model.errorCode
                                                           });
                     popup.open();
@@ -225,10 +246,98 @@ ThingPageBase {
         }
     }
 
-    BusyIndicator {
-        anchors.centerIn: parent
-        visible: logsModel.busy
-        running: visible
+    Component {
+        id: logViewComponent
+        ListView {
+            id: logView
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            clip: true
+
+            BusyIndicator {
+                anchors.centerIn: parent
+                visible: logsModel.busy
+                running: visible
+            }
+
+            model: NewLogsModel {
+                id: logsModel
+                engine: _engine
+//                live: true
+                source: "action-" + root.thing.id + "-notify"
+            }
+
+            delegate: BigTile {
+                id: itemDelegate
+                showHeader: false
+                width: logView.width - app.margins
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                property var params: JSON.parse(model.values.params)
+
+                contentItem: RowLayout {
+                    ColumnLayout {
+                        Label {
+                            Layout.fillWidth: true
+                            text: itemDelegate.params.title
+                            elide: Text.ElideRight
+                        }
+                        GridLayout {
+                            Layout.fillWidth: true
+                            columns: textLabel.implicitWidth + dateLayout.implicitWidth < width ? 2 : 1
+
+                            Label {
+                                id: textLabel
+                                Layout.fillWidth: true
+                                text: itemDelegate.params.body
+                                font.pixelSize: app.smallFont
+                                wrapMode: Text.WordWrap
+                            }
+
+                            RowLayout {
+                                id: dateLayout
+                                Layout.fillWidth: true
+                                spacing: app.margins / 2
+                                Label {
+                                    Layout.fillWidth: true
+                                    horizontalAlignment: Text.AlignRight
+                                    text: Qt.formatDateTime(model.timestamp)
+                                    font.pixelSize: app.extraSmallFont
+                                }
+                                ColorIcon {
+                                    Layout.preferredWidth: Style.smallIconSize
+                                    Layout.preferredHeight: Style.smallIconSize
+                                    name: "../images/dialog-warning-symbolic.svg"
+                                    color: "red"
+                                    visible: model.values.status !== "ThingErrorNoError"
+                                }
+                            }
+                        }
+                    }
+                }
+
+                onClicked: {
+                    var popup = detailsPopup.createObject(root,
+                                                          {
+                                                              timestamp: model.timestamp,
+                                                              notificationTitle: itemDelegate.params.title,
+                                                              notificationBody: itemDelegate.params.body,
+                                                              errorCode: model.status
+                                                          });
+                    popup.open();
+                }
+            }
+
+            EmptyViewPlaceholder {
+                anchors.centerIn: parent
+                width: parent.width - app.margins * 2
+                title: qsTr("No messages sent yet.")
+                text: qsTr("Sent messages will appear here.")
+                imageSource: "../images/messaging-app-symbolic.svg"
+                buttonVisible: false
+                visible: logsModel.count == 0 && !logsModel.busy
+            }
+        }
     }
 
     Component {
@@ -248,7 +357,7 @@ ThingPageBase {
 
                     Label {
                         Layout.fillWidth: true
-                        text: detailsDialog.errorCode == "" ? qsTr("Date sent") : qsTr("Sending failed")
+                        text: detailsDialog.errorCode == "" || detailsDialog.errorCode == "ThingErrorNoError" ? qsTr("Date sent") : qsTr("Sending failed")
                         font.bold: true
                     }
                     Label {
@@ -266,7 +375,7 @@ ThingPageBase {
             }
 
             Label {
-                Layout.topMargin: app.margins
+                Layout.topMargin: Style.margins
                 Layout.fillWidth: true
                 text: qsTr("Title")
                 font.bold: true

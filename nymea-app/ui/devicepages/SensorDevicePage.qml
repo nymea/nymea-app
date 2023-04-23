@@ -73,7 +73,7 @@ ThingPageBase {
         Component.onCompleted: {
             var supportedInterfaces = Object.keys(interfaceStateMap)
             for (var i = 0; i < supportedInterfaces.length; i++) {
-                if (root.thingClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
+                if (root.thing.thingClass.interfaces.indexOf(supportedInterfaces[i]) >= 0) {
                     append({name: supportedInterfaces[i]});
                 }
             }
@@ -138,7 +138,7 @@ ThingPageBase {
                         Layout.fillWidth: true
                         Layout.preferredHeight: item.implicitHeight
 
-                        property StateType stateType: root.thingClass.stateTypes.findByName(interfaceStateMap[modelData])
+                        property StateType stateType: root.thing.thingClass.stateTypes.findByName(interfaceStateMap[modelData])
                         property State state: root.thing.stateByName(interfaceStateMap[modelData])
                         property string interfaceName: modelData
 

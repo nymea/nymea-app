@@ -643,6 +643,11 @@ int ThingManager::executeBrowserItemAction(const QUuid &thingId, const QString &
     return m_jsonClient->sendCommand("Integrations.ExecuteBrowserItemAction", data, this, "executeBrowserItemActionResponse");
 }
 
+int ThingManager::setStateLogging(const QUuid &thingId, const QUuid &stateTypeId, bool enabled)
+{
+    return m_jsonClient->sendCommand("Integrations.SetStateLogging", {{"thingId", thingId}, {"stateTypeId", stateTypeId}, {"enabled", enabled}}, this, "setStateLoggingResponse");
+}
+
 int ThingManager::connectIO(const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, bool inverted)
 {
     QVariantMap data;
@@ -692,6 +697,12 @@ void ThingManager::connectIOResponse(int commandId, const QVariantMap &params)
 void ThingManager::disconnectIOResponse(int commandId, const QVariantMap &params)
 {
     qDebug() << "DisconnectIO response" << commandId << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+}
+
+void ThingManager::setStateLoggingResponse(int commandId, const QVariantMap &params)
+{
+    Q_UNUSED(commandId)
+    qCDebug(dcThingManager()) << "Set state logging response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 }
 
 Vendor *ThingManager::unpackVendor(const QVariantMap &vendorMap)

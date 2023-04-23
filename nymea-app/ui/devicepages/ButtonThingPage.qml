@@ -44,54 +44,161 @@ ThingPageBase {
 
     readonly property State powerState: thing ? thing.stateByName("power") : null
 
-    EmptyViewPlaceholder {
-        anchors { left: parent.left; right: parent.right; margins: app.margins }
-        anchors.verticalCenter: parent.verticalCenter
-
-        title: qsTr("This switch has not been used yet.")
-        text: qsTr("Press a button on the switch to see logs appearing here.")
-        visible: !logsModel.busy && logsModel.count === 0 && !root.isVirtual
-        buttonVisible: false
-        imageSource: "../images/system-shutdown.svg"
-    }
-
-    GenericTypeLogView {
-        id: logView
+    Loader {
         anchors.fill: parent
         visible: !root.isVirtual
-
-        logsModel: LogsModel {
-            id: logsModel
-            engine: _engine
-            thingId: root.thing.id
-            live: true
-            typeIds: {
-                var ret = [];
-                ret.push(root.thing.thingClass.eventTypes.findByName("pressed").id)
-                if (root.thing.thingClass.eventTypes.findByName("longPressed")) {
-                    ret.push(root.thing.thingClass.eventTypes.findByName("longPressed").id)
-                }
-                return ret;
+        sourceComponent: {
+            if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+                return logViewComponent
+            } else {
+                return logViewComponentPre80
             }
         }
+    }
 
-        onAddRuleClicked: {
-            var value = logView.logsModel.get(index).value
-            var typeId = logView.logsModel.get(index).typeId
-            var rule = engine.ruleManager.createNewRule();
-            var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
-            eventDescriptor.thingId = root.thing.id;
-            var eventType = root.thing.thingClass.eventTypes.getEventType(typeId);
-            eventDescriptor.eventTypeId = eventType.id;
-            rule.name = root.thing.name + " - " + eventType.displayName;
-            if (eventType.paramTypes.count === 1) {
-                var paramType = eventType.paramTypes.get(0);
-                eventDescriptor.paramDescriptors.setParamDescriptor(paramType.id, value, ParamDescriptor.ValueOperatorEquals);
-                rule.eventDescriptors.addEventDescriptor(eventDescriptor);
-                rule.name = rule.name + " - " + value
+    Component {
+        id: logViewComponent
+
+        ListView {
+            id: logView
+            anchors.fill: parent
+            ScrollBar.vertical: ScrollBar {}
+
+            model: NewLogsModel {
+                id: logsModel
+                engine: _engine
+                sources: ["event-" + root.thing.id + "-pressed", "event-" + root.thing.id + "-longPressed"]
+//                live: true
             }
-            var rulePage = pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing});
-            rulePage.addRule(rule);
+
+            delegate: NymeaItemDelegate {
+                id: entryDelegate
+                width: logView.width
+
+                property NewLogEntry entry: logsModel.get(index)
+                property EventType eventType: {
+                    switch (entry.source) {
+                    case "event-" + root.thing.id + "-pressed":
+                        return root.thing.thingClass.eventTypes.findByName("pressed")
+                    case "event-" + root.thing.id + "-longPressed":
+                        return root.thing.thingClass.eventTypes.findByName("longPressed")
+                    }
+                    return null
+                }
+
+                contentItem: ColumnLayout {
+                    RowLayout {
+                        Label {
+                            text: entryDelegate.eventType.displayName
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                            font: Style.smallFont
+                        }
+                        Label {
+                            text: Qt.formatDateTime(model.timestamp,"dd.MM.yy hh:mm:ss")
+                            elide: Text.ElideRight
+                            font.pixelSize: app.smallFont
+                            enabled: false
+                        }
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        text: {
+                            var ret = []
+                            var values = JSON.parse(entry.values.params)
+                            for (var i = 0; i < entryDelegate.eventType.paramTypes.count; i++) {
+                                var paramType = entryDelegate.eventType.paramTypes.get(i)
+                                ret.push(paramType.displayName + ": " + Types.toUiValue(values[paramType.name], paramType.unit) + " " + Types.toUiUnit(paramType.unit))
+                            }
+                            return ret.join(", ")
+                        }
+                    }
+                }
+            }
+
+//            onAddRuleClicked: {
+//                var value = logView.logsModel.get(index).value
+//                var typeId = logView.logsModel.get(index).typeId
+//                var rule = engine.ruleManager.createNewRule();
+//                var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
+//                eventDescriptor.thingId = root.thing.id;
+//                var eventType = root.thing.thingClass.eventTypes.getEventType(typeId);
+//                eventDescriptor.eventTypeId = eventType.id;
+//                rule.name = root.thing.name + " - " + eventType.displayName;
+//                if (eventType.paramTypes.count === 1) {
+//                    var paramType = eventType.paramTypes.get(0);
+//                    eventDescriptor.paramDescriptors.setParamDescriptor(paramType.id, value, ParamDescriptor.ValueOperatorEquals);
+//                    rule.eventDescriptors.addEventDescriptor(eventDescriptor);
+//                    rule.name = rule.name + " - " + value
+//                }
+//                var rulePage = pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing});
+//                rulePage.addRule(rule);
+//            }
+
+            EmptyViewPlaceholder {
+                anchors { left: parent.left; right: parent.right; margins: app.margins }
+                anchors.verticalCenter: parent.verticalCenter
+
+                title: qsTr("This switch has not been used yet.")
+                text: qsTr("Press a button on the switch to see logs appearing here.")
+                visible: !logsModel.busy && logsModel.count === 0
+                buttonVisible: false
+                imageSource: "../images/system-shutdown.svg"
+            }
+        }
+    }
+
+    Component {
+        id: logViewComponentPre80
+
+        GenericTypeLogView {
+            id: logView
+            anchors.fill: parent
+
+            logsModel: LogsModel {
+                id: logsModel
+                engine: _engine
+                thingId: root.thing.id
+                live: true
+                typeIds: {
+                    var ret = [];
+                    ret.push(root.thing.thingClass.eventTypes.findByName("pressed").id)
+                    if (root.thing.thingClass.eventTypes.findByName("longPressed")) {
+                        ret.push(root.thing.thingClass.eventTypes.findByName("longPressed").id)
+                    }
+                    return ret;
+                }
+            }
+
+            onAddRuleClicked: {
+                var value = logView.logsModel.get(index).value
+                var typeId = logView.logsModel.get(index).typeId
+                var rule = engine.ruleManager.createNewRule();
+                var eventDescriptor = rule.eventDescriptors.createNewEventDescriptor();
+                eventDescriptor.thingId = root.thing.id;
+                var eventType = root.thing.thingClass.eventTypes.getEventType(typeId);
+                eventDescriptor.eventTypeId = eventType.id;
+                rule.name = root.thing.name + " - " + eventType.displayName;
+                if (eventType.paramTypes.count === 1) {
+                    var paramType = eventType.paramTypes.get(0);
+                    eventDescriptor.paramDescriptors.setParamDescriptor(paramType.id, value, ParamDescriptor.ValueOperatorEquals);
+                    rule.eventDescriptors.addEventDescriptor(eventDescriptor);
+                    rule.name = rule.name + " - " + value
+                }
+                var rulePage = pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing});
+                rulePage.addRule(rule);
+            }
+
+            EmptyViewPlaceholder {
+                anchors { left: parent.left; right: parent.right; margins: app.margins }
+                anchors.verticalCenter: parent.verticalCenter
+
+                title: qsTr("This switch has not been used yet.")
+                text: qsTr("Press a button on the switch to see logs appearing here.")
+                visible: !logsModel.busy && logsModel.count === 0 && !root.isVirtual
+                buttonVisible: false
+                imageSource: "../images/system-shutdown.svg"
+            }
         }
     }
 

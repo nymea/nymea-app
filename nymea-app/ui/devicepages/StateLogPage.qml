@@ -58,14 +58,30 @@ Page {
     header: NymeaHeader {
         text: qsTr("History for %1").arg(root.stateType.displayName)
         onBackPressed: pageStack.pop()
+
+        HeaderButton {
+            imageSource: "delete"
+            onClicked: {
+                var popup = deleteLogsComponent.createObject(root)
+                popup.open()
+            }
+
+            Component {
+                id: deleteLogsComponent
+                NymeaDialog {
+                    title: qsTr("Remove logs?")
+                    text: qsTr("Do you want to remove the log for this state and disable logging?")
+                    onAccepted: engine.thingManager.setStateLogging(root.thing.id, root.stateType.id, false)
+                }
+            }
+        }
     }
 
     NewLogsModel {
         id: logsModel
         engine: _engine
-        columns: [root.stateType.name]
-        source: "states-" + root.thing.id
-        filter: ({state: root.stateType.name})
+        source: "state-" + root.thing.id + "-" + root.stateType.name
+        sortOrder: Qt.DescendingOrder
     }
 
     Component.onCompleted: {
@@ -75,12 +91,20 @@ Page {
     GridLayout {
         anchors.fill: parent
         columns: app.landscape ? 2 : 1
+        visible: root.isLogged
 
-        StateChart {
+        Loader {
             Layout.fillWidth: true
-            thing: root.thing
-            stateType: root.stateType
+            active: root.canShowGraph
+
+            sourceComponent: Component {
+                StateChart {
+                    thing: root.thing
+                    stateType: root.stateType
+                }
+            }
         }
+
 
         ListView {
             id: listView
@@ -100,61 +124,6 @@ Page {
                 Component.onCompleted: print("delegate:", JSON.stringify(entry.values), root.stateType.name, entry.values[root.stateType.name])
             }
         }
-
-//        TabBar {
-//            id: tabBar
-//            Layout.fillWidth: true
-//            visible: root.canShowGraph
-//            TabButton {
-//                text: qsTr("Log")
-//            }
-//            TabButton {
-//                text: qsTr("Graph")
-//            }
-//        }
-
-//        SwipeView {
-//            id: swipeView
-//            Layout.fillWidth: true
-//            Layout.fillHeight: true
-//            currentIndex: tabBar.currentIndex
-//            interactive: false
-
-//            GenericTypeLogView {
-//                id: logView
-//                width: swipeView.width
-//                height: swipeView.height
-
-//                logsModel: logsModelNg
-
-//                onAddRuleClicked: {
-//                    var value = logView.logsModel.get(index).value
-//                    var typeId = logView.logsModel.get(index).typeId
-//                    var rule = engine.ruleManager.createNewRule();
-//                    var stateEvaluator = rule.createStateEvaluator();
-//                    stateEvaluator.stateDescriptor.thingId = thing.id;
-//                    stateEvaluator.stateDescriptor.stateTypeId = typeId;
-//                    stateEvaluator.stateDescriptor.value = value;
-//                    stateEvaluator.stateDescriptor.valueOperator = StateDescriptor.ValueOperatorEquals;
-//                    rule.setStateEvaluator(stateEvaluator);
-//                    rule.name = root.thing.name + " - " + stateType.displayName + " = " + value;
-
-//                    var rulePage = pageStack.push(Qt.resolvedUrl("../magic/ThingRulesPage.qml"), {thing: root.thing});
-//                    rulePage.addRule(rule);
-//                }
-//            }
-
-//            Loader {
-//                id: graphLoader
-//                width: swipeView.width
-//                height: swipeView.height
-//                Component.onCompleted: {
-//                    var source;
-//                    source = Qt.resolvedUrl("../customviews/GenericTypeGraph.qml");
-//                    setSource(source, {thing: root.thing, stateType: root.stateType})
-//                }
-//            }
-//        }
     }
 
     EmptyViewPlaceholder {
@@ -166,9 +135,9 @@ Page {
         buttonText: qsTr("Enable logging")
         visible: !root.isLogged
         onButtonClicked: {
-
+            print("enabming logging")
+            engine.thingManager.setStateLogging(root.thing.id, root.stateType.id, true)
         }
-
     }
 }
 

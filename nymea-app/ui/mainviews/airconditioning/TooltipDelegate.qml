@@ -8,16 +8,19 @@ import Nymea.AirConditioning 1.0
 import QtCharts 2.3
 
 NymeaToolTip {
+    id: root
     width: layout.implicitWidth + Style.smallMargins * 2
     height: layout.implicitHeight + Style.smallMargins * 2
 
     property Thing thing: null
-    property LogEntry entry: null
+    property NewLogEntry entry: null
+    property string valueName: ""
     property alias color: rect.color
     property ValueAxis axis: null
     property int unit: Types.UnitNone
 
-    readonly property int realY: entry ? Math.min(Math.max(mouseArea.height - (entry.value * mouseArea.height / axis.max) - height / 2 /*- Style.margins*/, 0), mouseArea.height - height) : 0
+    readonly property var value: entry.values[valueName]
+    readonly property int realY: entry ? Math.min(Math.max(mouseArea.height - (root.value * mouseArea.height / axis.max) - height / 2 /*- Style.margins*/, 0), mouseArea.height - height) : 0
     property int fixedY: 0
     y: fixedY // Animated
 
@@ -32,7 +35,7 @@ NymeaToolTip {
             height: width
         }
         Label {
-            text: "%1: %2%3".arg(thing.name).arg(entry ? round(Types.toUiValue(entry.value, unit)) : "-").arg(Types.toUiUnit(unit))
+            text: "%1: %2%3".arg(thing.name).arg(entry ? round(Types.toUiValue(root.value, unit)) : "-").arg(Types.toUiUnit(unit))
             Layout.fillWidth: true
             font: Style.extraSmallFont
             elide: Text.ElideMiddle

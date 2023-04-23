@@ -123,13 +123,17 @@ Item {
         }
 
         onEntriesRemoved: {
-            acquisitionUpperSeries.removePoints(index, count)
-            returnUpperSeries.removePoints(index, count)
-            fromStorageUpperSeries.removePoints(index, count)
-            toStorageUpperSeries.removePoints(index, count)
-            selfProductionConsumptionUpperSeries.removePoints(index, count)
-            productionSeries.removePoints(index, count)
-//            consumptionSeries.removePoints(index, count)
+            // Note QtCharts crash when calling removePoints() for points that don't exist.
+            // Additionally it may decide to ignore values we add, e.g. if we try to add an Inf or undefined value for whatever reason
+            // So, even though in theory the series should always 1:1 reflect the model, it may not do so in practice and we'll have to make sure not crash here
+
+            acquisitionUpperSeries.removePoints(index, Math.min(count, acquisitionUpperSeries.count - index))
+            returnUpperSeries.removePoints(index, Math.min(count, returnUpperSeries.count - index))
+            fromStorageUpperSeries.removePoints(index, Math.min(count, fromStorageUpperSeries.count - index))
+            toStorageUpperSeries.removePoints(index, Math.min(count, toStorageUpperSeries.count -index))
+            selfProductionConsumptionUpperSeries.removePoints(index, Math.min(count, selfProductionConsumptionUpperSeries.count - index))
+            productionSeries.removePoints(index, Math.min(count, productionSeries.count - index))
+//            consumptionSeries.removePoints(index, Math.min(count, consumptionSeries.count - index))
             zeroSeries.shrink()
         }
     }
