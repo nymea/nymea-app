@@ -1,3 +1,10 @@
+nymea-app (1.7.10) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve new logging stuff further
+
+ -- jenkins <developer@nymea.io>  Tue, 25 Apr 2023 00:01:05 +0200
+
 nymea-app (1.7.9) bionic; urgency=medium
 
   [ Michael Zanetti ]
