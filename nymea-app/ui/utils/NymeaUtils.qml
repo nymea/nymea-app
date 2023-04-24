@@ -54,7 +54,7 @@ Item {
         } else if (interfaceList.indexOf("awning") >= 0) {
             page = "AwningThingPage.qml";
         } else if (interfaceList.indexOf("notifications") >= 0) {
-            page = "NotificationsDevicePage.qml";
+            page = "NotificationsThingPage.qml";
         } else if (interfaceList.indexOf("fingerprintreader") >= 0) {
             page = "FingerprintReaderDevicePage.qml";
         } else if (interfaceList.indexOf("evcharger") >= 0) {

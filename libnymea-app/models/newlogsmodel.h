@@ -19,6 +19,7 @@ class NewLogsModel : public QAbstractListModel, public QQmlParserStatus
     Q_PROPERTY(QDateTime startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
     Q_PROPERTY(QDateTime endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
     Q_PROPERTY(SampleRate sampleRate READ sampleRate WRITE setSampleRate NOTIFY sampleRateChanged)
+    Q_PROPERTY(Qt::SortOrder sortOrder READ sortOrder WRITE setSortOrder NOTIFY sortOrderChanged)
 
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
@@ -79,6 +80,9 @@ public:
     SampleRate sampleRate() const;
     void setSampleRate(SampleRate sampleRate);
 
+    Qt::SortOrder sortOrder() const;
+    void setSortOrder(Qt::SortOrder sortOrder);
+
     bool busy() const;
 
     Q_INVOKABLE NewLogEntry *get(int index) const;
@@ -101,6 +105,7 @@ signals:
     void startTimeChanged();
     void endTimeChanged();
     void sampleRateChanged();
+    void sortOrderChanged();
 
     void entriesAdded(int index, const QList<NewLogEntry*> &entries);
     void entriesRemoved(int index, int count);
@@ -113,14 +118,21 @@ private:
     QStringList m_sources;
     QStringList m_columns;
     QVariantMap m_filter;
+    Qt::SortOrder m_sortOrder = Qt::AscendingOrder;
+
+    bool m_busy = false;
+
+    // For time based sampling
     QDateTime m_startTime;
     QDateTime m_endTime;
     SampleRate m_sampleRate = SampleRateAny;
 
+    // For continuous scrolling lists
     bool m_completed = false;
     bool m_canFetchMore = true;
-    bool m_busy = false;
-    int m_blockSize = 30;
+    int m_blockSize = 5;
+    int m_lastOffset = 0;
+    QDateTime m_currentNewest;
 
     QList<NewLogEntry*> m_list;
 };

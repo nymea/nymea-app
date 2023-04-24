@@ -55,10 +55,8 @@ Item {
         id: logsModel
         engine: root.thing && root.stateType ? _engine : null
         source: root.thing ? "state-" + thing.id + "-" + root.stateType.name : ""
-        //        columns: [root.stateType.name]
-//        filter: root.stateType ? ({state: root.stateType.name}) : ({})
-        startTime: new Date(d.startTime.getTime() - d.range * 60000)
-        endTime: new Date(d.endTime.getTime() + d.range * 60000)
+        startTime: new Date(d.startTime.getTime() - d.range * 1.1 * 60000)
+        endTime: new Date(d.endTime.getTime() + d.range * 1.1 * 60000)
         sampleRate: d.sampleRate
 
         property double minValue
@@ -66,11 +64,11 @@ Item {
 
         onEntriesAdded: {
             print("**** entries added", index, entries.length, "entries in series:", valueSeries.count, "in model", logsModel.count)
-            if (valueSeries.count == 0) {
-                print("adding zero item", new Date())
-                valueSeries.insert(0, new Date(), 0)
-                zeroSeries.ensureValue(new Date())
-            }
+//            if (valueSeries.count == 0) {
+//                print("adding zero item", new Date())
+//                valueSeries.insert(0, new Date(), 0)
+//                zeroSeries.ensureValue(new Date())
+//            }
 
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i]
@@ -83,17 +81,17 @@ Item {
                         value = false;
                     }
                     // for booleans, we'll insert the opposite value right before the new one so the position is doubled
-                    // +1 because the is the "new" value at the beginning
-                    var insertIdx = (index + i) * 2 + 1
-                    valueSeries.insert(insertIdx, entry.timestamp, value)
-                    valueSeries.insert(insertIdx + 1, entry.timestamp.getTime() - 500, !value)
+                    var insertIdx = (index + i) * 2
+                    valueSeries.insert(insertIdx, entry.timestamp.getTime() - 500, !value)
+                    valueSeries.insert(insertIdx+1, entry.timestamp, value)
 
-                    if (insertIdx == 1) {
-                        // first index, we'll have to update the "now" value
-                        valueSeries.removePoints(0, 1);
-                        valueSeries.insert(0, entry.timestamp.getTime() + 2000, value)
-                        zeroSeries.ensureValue(new Date(entry.timestamp.getTime() + 2000))
-                    }
+
+//                        valueSeries.removePoints(0, 1);
+//                    if (insertIdx == 0) {
+//                        // first index, we'll have to update the "now" value
+//                        valueSeries.insert(0, entry.timestamp.getTime() + 2000, value)
+//                        zeroSeries.ensureValue(new Date(entry.timestamp.getTime() + 2000))
+//                    }
 
                 } else {
                     var value = entry.values[root.stateType.name]
@@ -104,25 +102,27 @@ Item {
                     minValue = minValue == undefined ? value : Math.min(minValue, value)
                     maxValue = maxValue == undefined ? value : Math.max(maxValue, value)
 
-                    var insertIdx = (index + i) + 1
+                    var insertIdx = index + i
                     valueSeries.insert(insertIdx, entry.timestamp, value)
-
-                    if (insertIdx == 1) {
-                        // first index, we'll have to update the "now" value
-                        valueSeries.removePoints(0, 1);
-                        valueSeries.insert(0, entry.timestamp.getTime() + 2000, value)
-                        zeroSeries.ensureValue(new Date(entry.timestamp.getTime() + 2000))
-                    }
                 }
             }
+
+            if (root.stateType.type.toLowerCase() == "bool") {
+                var last = valueSeries.at(valueSeries.count-1);
+                if (last.x < d.endTime) {
+                    valueSeries.append(d.endTime, last.y)
+                    zeroSeries.ensureValue(d.endTime)
+                }
+            }
+
             print("added entries. now in series:", valueSeries.count)
         }
         onEntriesRemoved: {
             print("removing:", index, count, valueSeries.count)
             if (root.stateType.type.toLowerCase() == "bool") {
-                valueSeries.removePoints((index * 2) + 1, count * 2)
+                valueSeries.removePoints((index * 2) /*+ 1*/, count * 2)
             } else {
-                valueSeries.removePoints(index + 1, count)
+                valueSeries.removePoints(index /*+ 1*/, count)
             }
 
             zeroSeries.shrink()
@@ -291,24 +291,24 @@ Item {
                     borderWidth: 2
                     lowerSeries: LineSeries {
                         id: zeroSeries
-                        XYPoint { x: dateTimeAxis.max.getTime(); y: 0 }
                         XYPoint { x: dateTimeAxis.min.getTime(); y: 0 }
+                        XYPoint { x: dateTimeAxis.max.getTime(); y: 0 }
                         function ensureValue(timestamp) {
                             if (count == 0) {
                                 append(timestamp, 0)
                             } else if (count == 1) {
                                 if (timestamp.getTime() < at(0).x) {
-                                    append(timestamp, 0)
-                                } else {
                                     insert(0, timestamp, 0)
+                                } else {
+                                    append(timestamp, 0)
                                 }
                             } else {
-                                if (timestamp.getTime() < at(1).x) {
-                                    remove(1)
-                                    append(timestamp, 0)
-                                } else if (timestamp.getTime() > at(0).x) {
+                                if (timestamp.getTime() < at(0).x) {
                                     remove(0)
                                     insert(0, timestamp, 0)
+                                } else if (timestamp.getTime() > at(1).x) {
+                                    remove(1)
+                                    append(timestamp, 0)
                                 }
                             }
                         }
@@ -468,14 +468,14 @@ Item {
                     backgroundRect: Qt.rect(mouseArea.x + toolTip.x, mouseArea.y + toolTip.y, toolTip.width, toolTip.height)
 
                     property var timestamp: new Date(d.startTime.getTime() + (mouseArea.mouseX * (d.endTime.getTime() - d.startTime.getTime()) / mouseArea.width) )
-                    property NewLogEntry entry: logsModel.find(timestamp)
+                    property NewLogEntry entry: logsModel.count > 0 ? logsModel.find(timestamp) : null
 
                     // eX : eT = w : duration
                     property int entryX: entry ? (entry.timestamp.getTime() - d.startTime.getTime()) * mouseArea.width / (d.endTime.getTime() - d.startTime.getTime()) : 0
                     property int xOnRight: Math.max(0, entryX) + Style.smallMargins
                     property int xOnLeft: Math.min(entryX, mouseArea.width) - Style.smallMargins - width
                     x: xOnRight + width < mouseArea.width ? xOnRight : xOnLeft
-                    property double value: toolTip.entry ? entry.values[root.stateType.name] : 0
+                    property var value: entry ? entry.values[root.stateType.name] : null
                     y: Math.min(Math.max(mouseArea.height - (value * mouseArea.height / valueAxis.max) - height - Style.margins, 0), mouseArea.height - height)
 
                     width: tooltipLayout.implicitWidth + Style.smallMargins * 2
@@ -497,16 +497,11 @@ Item {
                         Label {
                             Layout.fillWidth: true
                             elide: Text.ElideRight
-                            property double value: toolTip.entry
-                                                   ? (toolTip.entry.acquisition >= 0 ? toolTip.entry.consumption : Math.max(0, -toolTip.entry.production))
-                                                   : 0
-                            property bool translate: value >= 1000
-                            property double translatedValue: value / (translate ? 1000 : 1)
-                            text: toolTip.entry == null
-                                  ? ""
+                            text: toolTip.value === null
+                                  ? qsTr("No data")
                                   : root.stateType.type.toLowerCase() == "bool"
                                     ? root.stateType.displayName + ": " + (toolTip.value ? qsTr("Yes") : qsTr("No"))
-                                    : Types.toUiValue(toolTip.entry.values[root.stateType.name], root.stateType.unit).toFixed(root.roundTo) + Types.toUiUnit(root.stateType.unit)
+                                    : Types.toUiValue(toolTip.value, root.stateType.unit).toFixed(root.roundTo) + Types.toUiUnit(root.stateType.unit)
                             font: Style.smallFont
                         }
 

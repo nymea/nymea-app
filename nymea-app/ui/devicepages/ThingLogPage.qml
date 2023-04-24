@@ -47,41 +47,51 @@ Page {
 
         HeaderButton {
             imageSource: "../images/filters.svg"
-            color: logsModelNg.filterEnabled ? Style.accentColor : Style.iconColor
-            onClicked: logsModelNg.filterEnabled = !logsModelNg.filterEnabled
+            color: logsModel.filterEnabled ? Style.accentColor : Style.iconColor
+            onClicked: logsModel.filterEnabled = !logsModel.filterEnabled
             visible: root.filterTypeIds.length === 0
         }
     }
 
     NewLogsModel {
-        id: logsModelNg
+        id: logsModel
         engine: _engine
-        columns: [root.stateType.name]
-        sources: ["states-" + root.thing.id, "events-" + root.thing.id, "actions-" + root.thing.id]
-        filter: {
-            if (!filterEnabled) {
-                return ({})
+//        columns: [root.stateType.name]
+        sources: {
+            var ret = []
+            if (filterEnabled) {
+                if (isStateFilter) {
+                    ret.push("state-" + root.thing.id + "-" + filterTypeName)
+                } else if (isEventFilter) {
+                    ret.push("event-" + root.thing.id + "-" + filterTypeName)
+                } else if (isActionFilter) {
+                    ret.push("action-" + root.thing.id + "-" + filterTypeName)
+                }
+                return ret;
             }
-            print("*** filter updated", isStateFilter, isEventFilter, isActionFilter, filterTypeName, thing.thingClass.stateTypes.findByName(filterTypeName))
-            if (isStateFilter) {
-                return ({state: filterTypeName})
+
+            for (var i = 0; i < root.thing.thingClass.stateTypes.count; i++) {
+                var stateType = root.thing.thingClass.stateTypes.get(i)
+                ret.push("state-" + root.thing.id + "-" + stateType.name)
             }
-            if (isEventFilter) {
-                return ({event: filterTypeName})
+            for (var i = 0; i < root.thing.thingClass.eventTypes.count; i++) {
+                var eventType = root.thing.thingClass.eventTypes.get(i)
+                ret.push("event-" + root.thing.id + "-" + eventType.name)
             }
-            if (isActionFilter) {
-                return ({action: filterTypeName})
+            for (var i = 0; i < root.thing.thingClass.actionTypes.count; i++) {
+                var actionType = root.thing.thingClass.actionTypes.get(i)
+                ret.push("action-" + root.thing.id + "-" + actionType.name)
             }
-            return ({})
+            return ret;
         }
         property string filterTypeName: filterDeviceModel.getData(filterComboBox.currentIndex, ThingModel.RoleName)
         property bool isStateFilter: thing.thingClass.stateTypes.findByName(filterTypeName) !== null
         property bool isEventFilter: thing.thingClass.eventTypes.findByName(filterTypeName) !== null
         property bool isActionFilter: thing.thingClass.actionTypes.findByName(filterTypeName) !== null
 
-        onFilterChanged: {
-            logsModelNg.clear()
-            logsModelNg.fetchLogs()
+        onSourcesChanged: {
+            logsModel.clear()
+            logsModel.fetchLogs()
         }
 
 //        thingId: root.thing.id
@@ -109,7 +119,7 @@ Page {
         anchors { left: parent.left; top: parent.top; right: parent.right }
         Behavior on height { NumberAnimation { duration: 120; easing.type: Easing.InOutQuad } }
 
-        height: logsModelNg.filterEnabled ? implicitHeight + app.margins * 2 : 0
+        height: logsModel.filterEnabled ? implicitHeight + app.margins * 2 : 0
         Material.elevation: 1
 
         leftPadding: 0; rightPadding: 0; topPadding: 0; bottomPadding: 0
@@ -180,22 +190,22 @@ Page {
     ListView {
         anchors { left: parent.left; top: graphLoader.bottom; right: parent.right; bottom: parent.bottom }
         clip: true
-        model: logsModelNg
+        model: logsModel
         ScrollBar.vertical: ScrollBar {}
 
         BusyIndicator {
             anchors.centerIn: parent
-            visible: logsModelNg.busy
+            visible: logsModel.busy
         }
 
         delegate: ItemDelegate {
             id: entryDelegate
             width: parent.width
-            property NewLogEntry entry: logsModelNg.get(index)
+            property NewLogEntry entry: logsModel.get(index)
 
-            property StateType stateType: entry && entry.values.hasOwnProperty("state") ? root.thing.thingClass.stateTypes.findByName(entry.values.state) : null
-            property EventType eventType: entry && entry.values.hasOwnProperty("event") ? root.thing.thingClass.eventTypes.findByName(entry.values.event) : null
-            property ActionType actionType: entry && entry.values.hasOwnProperty("action") ? root.thing.thingClass.actionTypes.findByName(entry.values.action) : null
+            property StateType stateType: entry && entry.source.indexOf("state-") == 0 ? root.thing.thingClass.stateTypes.findByName(entry.source.replace(/.*-.*-/, "")) : null
+            property EventType eventType: entry && entry.source.indexOf("event-") == 0 ? root.thing.thingClass.eventTypes.findByName(entry.source.replace(/.*-.*-/, "")) : null
+            property ActionType actionType: entry && entry.source.indexOf("action-") == 0 ? root.thing.thingClass.actionTypes.findByName(entry.source.replace(/.*-.*-/, "")) : null
 
             contentItem: RowLayout {
                 ColorIcon {
@@ -280,7 +290,7 @@ Page {
                                 when: entryDelegate.stateType != null
                                 target: valueLoader.item;
                                 property: "value";
-                                value: entryDelegate.stateType ? Types.toUiValue(entry.values[entry.values.state], entryDelegate.stateType.unit) : ""
+                                value: entryDelegate.stateType ? Types.toUiValue(entry.values[entryDelegate.stateType.name], entryDelegate.stateType.unit) : ""
                             }
                             Binding {
                                 when: entryDelegate.stateType != null

@@ -44,7 +44,7 @@ ThingPageBase {
 
     readonly property StateType targetTemperatureStateType: thing.thingClass.stateTypes.findByName("targetTemperature")
     readonly property State targetTemperatureState: targetTemperatureStateType ? thing.states.getState(targetTemperatureStateType.id) : null
-    readonly property StateType powerStateType: thingClass.stateTypes.findByName("power")
+    readonly property StateType powerStateType: thing.thingClass.stateTypes.findByName("power")
     readonly property State powerState: powerStateType ? thing.states.getState(powerStateType.id) : null
     readonly property StateType temperatureStateType: thing.thingClass.stateTypes.findByName("temperature")
     readonly property State temperatureState: temperatureStateType ? thing.states.getState(temperatureStateType.id) : null
