@@ -57,6 +57,7 @@ class Thing : public QObject
     Q_PROPERTY(ThingClass *thingClass READ thingClass CONSTANT)
     Q_PROPERTY(QList<QUuid> loggedStateTypeIds READ loggedStateTypeIds NOTIFY loggedStateTypeIdsChanged)
     Q_PROPERTY(QList<QUuid> loggedEventTypeIds READ loggedEventTypeIds NOTIFY loggedEventTypeIdsChanged)
+    Q_PROPERTY(QList<QUuid> loggedActionTypeIds READ loggedActionTypeIds NOTIFY loggedActionTypeIdsChanged)
 
 public:
     enum ThingSetupStatus {
@@ -130,6 +131,9 @@ public:
     QList<QUuid> loggedEventTypeIds() const;
     void setLoggedEventTypeIds(const QList<QUuid> &loggedEventTypeIds);
 
+    QList<QUuid> loggedActionTypeIds() const;
+    void setLoggedActionTypeIds(const QList<QUuid> &loggedActionTypeIds);
+
     ThingClass *thingClass() const;
 
     Q_INVOKABLE bool hasState(const QUuid &stateTypeId) const;
@@ -150,6 +154,7 @@ signals:
     void statesChanged();
     void loggedStateTypeIdsChanged();
     void loggedEventTypeIdsChanged();
+    void loggedActionTypeIdsChanged();
     void eventTriggered(const QUuid &eventTypeId, const QVariantList &params);
 
 signals:
@@ -168,6 +173,7 @@ protected:
     ThingClass *m_thingClass = nullptr;
     QList<QUuid> m_loggedStateTypeIds;
     QList<QUuid> m_loggedEventTypeIds;
+    QList<QUuid> m_loggedActionTypeIds;
 
     QList<int> m_pendingActions;
 };

@@ -68,8 +68,11 @@ ThingPageBase {
                 id: logsModel
                 engine: _engine
                 sources: ["event-" + root.thing.id + "-pressed", "event-" + root.thing.id + "-longPressed"]
-//                live: true
+                live: true
+                fetchBlockSize: 200 // As paging doesn't work with multiple sources
             }
+
+            Component.onCompleted: print("**************** created", logsModel.sources)
 
             delegate: NymeaItemDelegate {
                 id: entryDelegate

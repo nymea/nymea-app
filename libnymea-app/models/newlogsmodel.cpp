@@ -1,6 +1,7 @@
 #include "newlogsmodel.h"
 
 #include "engine.h"
+#include "logmanager.h"
 
 #include "logging.h"
 //NYMEA_LOGGING_CATEGORY(dcLogEngine, "LogEngine")
@@ -58,7 +59,8 @@ void NewLogsModel::componentComplete()
 bool NewLogsModel::canFetchMore(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_canFetchMore && m_sources.count() == 1;
+    // Cannot fetchMore when there are multiple sources as paging doesn't really work in that case
+    return m_canFetchMore && (m_sources.count() == 1 || m_list.isEmpty());
 }
 
 void NewLogsModel::fetchMore(const QModelIndex &parent)
@@ -83,13 +85,19 @@ Engine *NewLogsModel::engine() const
 
 void NewLogsModel::setEngine(Engine *engine)
 {
-    if (m_engine != engine) {
-        m_engine = engine;
-        emit engineChanged();
+    if (m_engine == engine) {
+        return;
+    }
 
-//        if (m_completed && m_canFetchMore) {
-//            fetchMore();
-//        }
+    if (m_engine) {
+        disconnect(m_engine->logManager(), &LogManager::logEntryReceived, this, &NewLogsModel::newLogEntryReceived);
+    }
+
+    m_engine = engine;
+    emit engineChanged();
+
+    if (m_engine) {
+        connect(m_engine->logManager(), &LogManager::logEntryReceived, this, &NewLogsModel::newLogEntryReceived);
     }
 }
 
@@ -203,6 +211,32 @@ bool NewLogsModel::busy() const
     return m_busy;
 }
 
+bool NewLogsModel::live() const
+{
+    return m_live;
+}
+
+void NewLogsModel::setLive(bool live)
+{
+    if (m_live != live) {
+        m_live = live;
+        emit liveChanged();
+    }
+}
+
+int NewLogsModel::fetchBlockSize() const
+{
+    return m_blockSize;
+}
+
+void NewLogsModel::setFetchBlockSize(int fetchBlockSize)
+{
+    if (m_blockSize != fetchBlockSize) {
+        m_blockSize = fetchBlockSize;
+        emit fetchBlockSizeChanged();
+    }
+}
+
 NewLogEntry *NewLogsModel::get(int index) const
 {
     if (index < 0 || index >= m_list.count()) {
@@ -266,6 +300,8 @@ void NewLogsModel::clear()
     beginResetModel();
     qDeleteAll(m_list);
     m_list.clear();
+    m_currentNewest = QDateTime();
+    m_lastOffset = 0;
     endResetModel();
     emit countChanged();
     emit entriesRemoved(0, count);
@@ -292,17 +328,13 @@ void NewLogsModel::fetchLogs()
         } else {
             params.insert("limit", m_blockSize);
             if (m_list.count() > 0) {
-                params.insert("offset", m_lastOffset);
-                if (m_lastOffset == 0) {
-                    if (m_endTime.isNull()) {
-                        m_currentNewest = QDateTime::currentDateTime();
-                    } else {
-                        m_currentNewest = m_endTime;
-                    }
+                if (m_currentNewest.isNull()) {
+                    m_currentNewest = QDateTime::currentDateTime();
                 }
+                params.insert("offset", m_lastOffset);
                 params.insert("endTime", m_currentNewest.toMSecsSinceEpoch());
-                m_lastOffset += m_blockSize;
             }
+            m_lastOffset += m_blockSize;
         }
 
     } else {
@@ -367,8 +399,31 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
         });
         m_list.append(entries);
         endInsertRows();
-        emit entriesAdded(m_list.count(), entries);
+        emit entriesAdded(m_list.count() - entries.count(), entries);
     }
 
     emit countChanged();
+}
+
+void NewLogsModel::newLogEntryReceived(const QVariantMap &map)
+{
+    QString source = map.value("source").toString();
+    QDateTime timestamp = QDateTime::fromMSecsSinceEpoch(map.value("timestamp").toULongLong());
+    QVariantMap values = map.value("values").toMap();
+
+    if (m_sources.contains(source) && m_sampleRate == SampleRateAny) {
+        NewLogEntry *entry = new NewLogEntry(source, timestamp, values, this);
+        if (m_sortOrder == Qt::AscendingOrder) {
+            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+            m_list.append(entry);
+            endInsertRows();
+            emit entriesAdded(m_list.count() - 1, {entry});
+        } else {
+            beginInsertRows(QModelIndex(), 0, 0);
+            m_list.prepend(entry);
+            endInsertRows();
+            emit entriesAdded(0, {entry});
+        }
+        emit countChanged();
+    }
 }
