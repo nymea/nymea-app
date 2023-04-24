@@ -145,7 +145,13 @@ ThingPageBase {
                         swipe.close();
                         print("opening logs for", delegate.stateType)
                         if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
-                            pageStack.push(Qt.resolvedUrl("StateLogPage.qml"), {thing: root.thing, stateType: delegate.stateType})
+                            if (delegate.stateType) {
+                                pageStack.push(Qt.resolvedUrl("StateLogPage.qml"), {thing: root.thing, stateType: delegate.stateType})
+                            } else if (delegate.eventType) {
+                                pageStack.push(Qt.resolvedUrl("EventLogPage.qml"), {thing: root.thing, eventType: delegate.eventType})
+                            } else if (delegate.actionType) {
+                                pageStack.push(Qt.resolvedUrl("ActionLogPage.qml"), {thing: root.thing, actionType: delegate.actionType})
+                            }
                         } else {
                             pageStack.push(Qt.resolvedUrl("DeviceLogPage.qml"), {thing: root.thing, filterTypeIds: [model.id]})
                         }
@@ -347,10 +353,13 @@ ThingPageBase {
             }
             Timer { id: pendingTimer; interval: 1000; repeat: false; running: false }
 
-            Button {
-                text: actionType.displayName
+            Label {
                 Layout.fillWidth: true
+                text: actionType.displayName
+            }
 
+            Button {
+                Layout.fillWidth: true
 
                 onClicked: {
                     if (actionDelegate.actionType.paramTypes.count === 0) {

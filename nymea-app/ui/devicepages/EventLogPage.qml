@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2023, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -40,23 +40,12 @@ Page {
     id: root
 
     property Thing thing: null
-    property StateType stateType: null
+    property EventType eventType: null
 
-    readonly property bool isLogged: thing.loggedStateTypeIds.indexOf(stateType.id) >= 0
-
-    readonly property bool canShowGraph: {
-        switch (root.stateType.type) {
-        case "Int":
-        case "Double":
-        case "Bool":
-            return true;
-        }
-        print("not showing graph for", root.stateType.type)
-        return false;
-    }
+    readonly property bool isLogged: thing.loggedEventTypeIds.indexOf(eventType.id) >= 0
 
     header: NymeaHeader {
-        text: qsTr("History for %1").arg(root.stateType.displayName)
+        text: qsTr("History for %1").arg(root.eventType.displayName)
         onBackPressed: pageStack.pop()
 
         HeaderButton {
@@ -71,8 +60,9 @@ Page {
                 id: deleteLogsComponent
                 NymeaDialog {
                     title: qsTr("Remove logs?")
-                    text: qsTr("Do you want to remove the log for this state and disable logging?")
-                    onAccepted: engine.thingManager.setStateLogging(root.thing.id, root.stateType.id, false)
+                    text: qsTr("Do you want to remove the log for this event and disable logging?")
+                    standardButtons: Dialog.No | Dialog.Yes
+                    onAccepted: engine.thingManager.setEventLogging(root.thing.id, root.eventType.id, false)
                 }
             }
         }
@@ -81,49 +71,64 @@ Page {
     NewLogsModel {
         id: logsModel
         engine: _engine
-        source: "state-" + root.thing.id + "-" + root.stateType.name
+        source: "event-" + root.thing.id + "-" + root.eventType.name
         sortOrder: Qt.DescendingOrder
     }
 
-    Component.onCompleted: {
-        print("loaded statelogpage for", root.stateType)
-    }
 
-    GridLayout {
-        anchors.fill: parent
-        columns: app.landscape ? 2 : 1
+    ListView {
+        id: listView
         visible: root.isLogged
+        model: logsModel
+        clip: true
+        anchors.fill: parent
+        ScrollBar.vertical: ScrollBar {}
 
-        Loader {
-            Layout.fillWidth: true
-            active: root.canShowGraph
+        delegate: NymeaItemDelegate {
+            id: delegate
+            width: listView.width
+            height: contentColumn.implicitHeight + Style.margins
+            leftPadding: 0
+            rightPadding: 0
+            topPadding: 0
+            bottomPadding: 0
+            property NewLogEntry entry: logsModel.get(index)
 
-            sourceComponent: Component {
-                StateChart {
-                    thing: root.thing
-                    stateType: root.stateType
+            contentItem: RowLayout {
+                id: contentColumn
+                anchors { left: parent.left; right: parent.right; margins: app.margins / 2 }
+                ColorIcon {
+                    Layout.preferredWidth: Style.iconSize
+                    Layout.preferredHeight: width
+                    Layout.alignment: Qt.AlignVCenter
+                    name: "event"
                 }
-            }
+                ColumnLayout {
+                    Label {
+                        Layout.fillWidth: true
+                        text: Qt.formatDateTime(model.timestamp,"dd.MM.yy - hh:mm:ss")
+                        elide: Text.ElideRight
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: {
+                            var ret = []
+                            var values = JSON.parse(entry.values.params)
+                            for (var i = 0; i < root.eventType.paramTypes.count; i++) {
+                                var paramType = root.eventType.paramTypes.get(i)
+                                ret.push(paramType.displayName + ": " + Types.toUiValue(values[paramType.name], paramType.unit) + " " + Types.toUiUnit(paramType.unit))
+                            }
+                            return ret.join("<br>")
+                        }
+                        textFormat: Text.RichText
+                        elide: Text.ElideRight
+                        font: Style.smallFont
+                        visible: text.length > 0
+                    }
+                }
         }
 
-
-        ListView {
-            id: listView
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            implicitWidth: 400
-            model: logsModel
-            clip: true
-            ScrollBar.vertical: ScrollBar {}
-
-            delegate: NymeaItemDelegate {
-                width: listView.width
-                property NewLogEntry entry: logsModel.get(index)
-                text: entry.values[root.stateType.name]
-                subText: entry.timestamp.toLocaleString(Qt.locale())
-                progressive: false
-                Component.onCompleted: print("delegate:", JSON.stringify(entry.values), root.stateType.name, entry.values[root.stateType.name])
-            }
         }
     }
 

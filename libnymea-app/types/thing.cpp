@@ -244,6 +244,19 @@ void Thing::setLoggedEventTypeIds(const QList<QUuid> &loggedEventTypeIds)
     }
 }
 
+QList<QUuid> Thing::loggedActionTypeIds() const
+{
+    return m_loggedActionTypeIds;
+}
+
+void Thing::setLoggedActionTypeIds(const QList<QUuid> &loggedActionTypeIds)
+{
+    if (m_loggedActionTypeIds != loggedActionTypeIds) {
+        m_loggedActionTypeIds = loggedActionTypeIds;
+        emit loggedActionTypeIdsChanged();
+    }
+}
+
 int Thing::executeAction(const QString &actionName, const QVariantList &params)
 {
     ActionType *actionType = m_thingClass->actionTypes()->findByName(actionName);

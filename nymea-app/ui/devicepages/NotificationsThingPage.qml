@@ -265,6 +265,7 @@ ThingPageBase {
                 engine: _engine
 //                live: true
                 source: "action-" + root.thing.id + "-notify"
+                sortOrder: Qt.DescendingOrder
             }
 
             delegate: BigTile {
