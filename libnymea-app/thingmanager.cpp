@@ -973,11 +973,13 @@ Thing* ThingManager::unpackThing(ThingManager *thingManager, const QVariantMap &
         loggedEventTypeIds.append(uuid.toUuid());
     }
     thing->setLoggedEventTypeIds(loggedEventTypeIds);
+    QList<QUuid> loggedActionTypeIds;
+    foreach (const QVariant &uuid, thingMap.value("loggedActionTypeIds").toList()) {
+        loggedActionTypeIds.append(uuid.toUuid());
+    }
+    thing->setLoggedActionTypeIds(loggedActionTypeIds);
     return thing;
 }
-
-
-
 
 QVariantMap ThingManager::packParam(Param *param)
 {

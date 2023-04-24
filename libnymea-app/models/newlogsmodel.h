@@ -21,9 +21,11 @@ class NewLogsModel : public QAbstractListModel, public QQmlParserStatus
     Q_PROPERTY(SampleRate sampleRate READ sampleRate WRITE setSampleRate NOTIFY sampleRateChanged)
     Q_PROPERTY(Qt::SortOrder sortOrder READ sortOrder WRITE setSortOrder NOTIFY sortOrderChanged)
 
+    Q_PROPERTY(int fetchBlockSize READ fetchBlockSize WRITE setFetchBlockSize NOTIFY fetchBlockSizeChanged)
+    Q_PROPERTY(bool live READ live WRITE setLive NOTIFY liveChanged)
+
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
-//    Q_PROPERTY(bool live READ live WRITE setLive NOTIFY liveChanged)
 
 public:
     enum Role {
@@ -85,6 +87,12 @@ public:
 
     bool busy() const;
 
+    bool live() const;
+    void setLive(bool live);
+
+    int fetchBlockSize() const;
+    void setFetchBlockSize(int fetchBlockSize);
+
     Q_INVOKABLE NewLogEntry *get(int index) const;
     Q_INVOKABLE NewLogEntry *find(const QDateTime &timestamp) const;
 
@@ -107,11 +115,15 @@ signals:
     void sampleRateChanged();
     void sortOrderChanged();
 
+    void liveChanged();
+    void fetchBlockSizeChanged();
+
     void entriesAdded(int index, const QList<NewLogEntry*> &entries);
     void entriesRemoved(int index, int count);
 
 private slots:
     void logsReply(int commandId, const QVariantMap &data);
+    void newLogEntryReceived(const QVariantMap &map);
 
 private:
     Engine *m_engine = nullptr;
@@ -122,6 +134,8 @@ private:
 
     bool m_busy = false;
 
+    bool m_live = true;
+
     // For time based sampling
     QDateTime m_startTime;
     QDateTime m_endTime;
@@ -130,7 +144,7 @@ private:
     // For continuous scrolling lists
     bool m_completed = false;
     bool m_canFetchMore = true;
-    int m_blockSize = 5;
+    int m_blockSize = 50;
     int m_lastOffset = 0;
     QDateTime m_currentNewest;
 
