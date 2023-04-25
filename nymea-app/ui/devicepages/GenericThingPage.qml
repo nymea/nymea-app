@@ -358,8 +358,10 @@ ThingPageBase {
                 text: actionType.displayName
             }
 
-            Button {
-                Layout.fillWidth: true
+            ProgressButton {
+//                Layout.fillWidth: true
+                imageSource: "send"
+                longpressEnabled: false
 
                 onClicked: {
                     if (actionDelegate.actionType.paramTypes.count === 0) {
@@ -423,6 +425,7 @@ ThingPageBase {
             Item {
                 Layout.preferredHeight: preferredSize
                 Layout.preferredWidth: preferredSize
+                visible: preferredSize > 0
                 property int preferredSize: actionDelegate.pendingActionId !== -1 || pendingTimer.running ? Style.iconSize : 0
                 Behavior on preferredSize { NumberAnimation { duration: 100 } }
 
