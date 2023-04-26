@@ -355,11 +355,17 @@ void NewLogsModel::fetchLogs()
 
     qCDebug(dcLogEngine()) << "Fetching logs:" << QJsonDocument::fromVariant(params).toJson();
     m_engine->jsonRpcClient()->sendCommand("Logging.GetLogEntries", params, this, "logsReply");
+
+    m_busy = true;
+    emit busyChanged();
 }
 
 void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
 {
     Q_UNUSED(commandId)
+
+    m_busy = false;
+    emit busyChanged();
 
     QList<NewLogEntry*> entries;
     foreach (const QVariant &entryVariant, data.value("logEntries").toList()) {
@@ -375,10 +381,6 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
     m_canFetchMore = entries.count() >= m_blockSize;
     qCDebug(dcLogEngine()) << "Logs received:" << entries.count();
 
-    if (entries.empty()) {
-        return;
-    }
-
     if (!m_startTime.isNull() && !m_endTime.isNull()) {
         beginResetModel();
         QList<NewLogEntry*> oldEntries = m_list;
@@ -387,22 +389,27 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
         emit entriesRemoved(0, oldEntries.count());
         qDeleteAll(oldEntries);
 
-        beginInsertRows(QModelIndex(), 0, entries.count() - 1);
-        m_list = entries;
-        endInsertRows();
-        emit entriesAdded(0, entries);
+        if (!entries.isEmpty()) {
+            beginInsertRows(QModelIndex(), 0, entries.count() - 1);
+            m_list = entries;
+            endInsertRows();
+            emit entriesAdded(0, entries);
+        }
+        emit countChanged();
 
     } else {
-        beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + entries.count() - 1);
-        qSort(entries.begin(), entries.end(), [](NewLogEntry *left, NewLogEntry *right){
-            return left->timestamp() > right->timestamp();
-        });
-        m_list.append(entries);
-        endInsertRows();
-        emit entriesAdded(m_list.count() - entries.count(), entries);
+        if (!entries.isEmpty()) {
+            beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + entries.count() - 1);
+            qSort(entries.begin(), entries.end(), [](NewLogEntry *left, NewLogEntry *right){
+                return left->timestamp() > right->timestamp();
+            });
+            m_list.append(entries);
+            endInsertRows();
+            emit entriesAdded(m_list.count() - entries.count(), entries);
+            emit countChanged();
+        }
     }
 
-    emit countChanged();
 }
 
 void NewLogsModel::newLogEntryReceived(const QVariantMap &map)
