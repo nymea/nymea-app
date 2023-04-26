@@ -73,6 +73,7 @@ Page {
                 NymeaDialog {
                     title: qsTr("Remove logs?")
                     text: qsTr("Do you want to remove the log for this state and disable logging?")
+                    standardButtons: Dialog.Yes | Dialog.No
                     onAccepted: engine.thingManager.setStateLogging(root.thing.id, root.stateType.id, false)
                 }
             }

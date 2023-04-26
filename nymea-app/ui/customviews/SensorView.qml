@@ -119,7 +119,8 @@ Item {
                             "phsensor",
                             "pressuresensor",
                             "waterlevelsensor",
-                            "windspeedsensor"
+                            "windspeedsensor",
+                            "noisesensor"
                         ]
                 if (progressInterfaces.indexOf(root.interfaceName) >= 0) {
                     return progressComponent
