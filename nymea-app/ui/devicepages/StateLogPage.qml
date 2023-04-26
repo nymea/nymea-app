@@ -45,10 +45,11 @@ Page {
     readonly property bool isLogged: thing.loggedStateTypeIds.indexOf(stateType.id) >= 0
 
     readonly property bool canShowGraph: {
-        switch (root.stateType.type) {
-        case "Int":
-        case "Double":
-        case "Bool":
+        switch (root.stateType.type.toLowerCase()) {
+        case "int":
+        case "uint":
+        case "double":
+        case "bool":
             return true;
         }
         print("not showing graph for", root.stateType.type)
@@ -72,6 +73,7 @@ Page {
                 NymeaDialog {
                     title: qsTr("Remove logs?")
                     text: qsTr("Do you want to remove the log for this state and disable logging?")
+                    standardButtons: Dialog.Yes | Dialog.No
                     onAccepted: engine.thingManager.setStateLogging(root.thing.id, root.stateType.id, false)
                 }
             }
@@ -119,10 +121,9 @@ Page {
             delegate: NymeaItemDelegate {
                 width: listView.width
                 property NewLogEntry entry: logsModel.get(index)
-                text: entry.values[root.stateType.name]
+                text: Types.toUiValue(entry.values[root.stateType.name], root.stateType.unit) + " " + Types.toUiUnit(root.stateType.unit)
                 subText: entry.timestamp.toLocaleString(Qt.locale())
                 progressive: false
-                Component.onCompleted: print("delegate:", JSON.stringify(entry.values), root.stateType.name, entry.values[root.stateType.name])
             }
         }
     }

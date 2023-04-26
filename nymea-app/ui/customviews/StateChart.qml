@@ -53,11 +53,18 @@ Item {
 
     NewLogsModel {
         id: logsModel
-        engine: root.thing && root.stateType ? _engine : null
+        engine: _engine
         source: root.thing ? "state-" + thing.id + "-" + root.stateType.name : ""
         startTime: new Date(d.startTime.getTime() - d.range * 1.1 * 60000)
         endTime: new Date(d.endTime.getTime() + d.range * 1.1 * 60000)
         sampleRate: d.sampleRate
+
+        Component.onCompleted: {
+            if (source != "") {
+                fetchLogs()
+            }
+        }
+        onSourceChanged: fetchLogs()
 
         property double minValue
         property double maxValue
@@ -127,10 +134,6 @@ Item {
 
             zeroSeries.shrink()
         }
-
-        onEngineChanged: fetchLogs()
-        Component.onCompleted: fetchLogs()
-
     }
 
     ColumnLayout {
@@ -183,6 +186,7 @@ Item {
             onTabSelected: {
                 d.now = new Date()
                 logsModel.clear()
+                print("*** tab selected")
                 logsModel.fetchLogs()
             }
         }
@@ -190,6 +194,7 @@ Item {
         Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
+
 
             ChartView {
                 id: chartView
@@ -208,6 +213,41 @@ Item {
                 legend.font: Style.extraSmallFont
                 legend.visible: false
 
+                ActivityIndicator {
+                    anchors.centerIn: parent
+                    visible: logsModel.busy
+                    opacity: .5
+                }
+
+                Label {
+                    anchors.centerIn: parent
+                    visible: !logsModel.busy && logsModel.count == 0
+                    text: qsTr("No data")
+                    font: Style.smallFont
+                    opacity: .5
+                }
+
+                Label {
+                    x: chartView.x + chartView.plotArea.x + (chartView.plotArea.width - width) / 2
+                    y: chartView.y + chartView.plotArea.y + Style.smallMargins
+                    text: {
+                        switch (d.sampleRate) {
+                        case NewLogsModel.SampleRate1Min:
+                            return d.startTime.toLocaleDateString(Qt.locale(), Locale.LongFormat)
+                        case NewLogsModel.SampleRate15Mins:
+                        case NewLogsModel.SampleRate1Hour:
+                        case NewLogsModel.SampleRate3Hours:
+                        case NewLogsModel.SampleRate1Day:
+                        case NewLogsModel.SampleRate1Week:
+                        case NewLogsModel.SampleRate1Month:
+                        case NewLogsModel.SampleRate1Year:
+                            return d.startTime.toLocaleDateString(Qt.locale(), Locale.ShortFormat) + " - " + d.endTime.toLocaleDateString(Qt.locale(), Locale.ShortFormat)
+                        }
+                    }
+                    font: Style.smallFont
+                    opacity: ((new Date().getTime() - d.now.getTime()) / d.sampleRate / 60000) > d.visibleValues ? .5 : 0
+                    Behavior on opacity { NumberAnimation {} }
+                }
                 ValueAxis {
                     id: valueAxis
                     min: logsModel.minValue == undefined || logsModel.minValue == 0
@@ -217,28 +257,31 @@ Item {
                          ? 0
                          : logsModel.maxValue + 5
 
-                    labelFormat: ""
+                    labelFormat: "%0.0f " + Types.toUiUnit(root.stateType.unit)
                     gridLineColor: Style.tileOverlayColor
                     labelsVisible: false
                     lineVisible: false
                     titleVisible: false
                     shadesVisible: false
+                    labelsFont: Style.extraSmallFont
+                    labelsColor: Style.foregroundColor
 
                 }
+                // Overriding the labels with our own as printf struggles with special chars
                 Item {
                     id: labelsLayout
                     x: Style.smallMargins
                     y: chartView.plotArea.y
                     height: chartView.plotArea.height
                     width: chartView.plotArea.x - x
-                    visible: root.stateType.type.toLowerCase() != "bool"
+                    visible: root.stateType.type.toLowerCase() != "bool" && logsModel.minValue != logsModel.maxValue
                     Repeater {
                         model: valueAxis.tickCount
                         delegate: Label {
                             y: parent.height / (valueAxis.tickCount - 1) * index - font.pixelSize / 2
                             width: parent.width - Style.smallMargins
                             horizontalAlignment: Text.AlignRight
-                            text: root.stateType ? Types.toUiValue(((valueAxis.max - (index * valueAxis.max / (valueAxis.tickCount - 1)))), root.stateType.unit).toFixed(0) + Types.toUiUnit(root.stateType.unit) : ""
+                            text: root.stateType ? Types.toUiValue(((valueAxis.max - (index * valueAxis.max / (valueAxis.tickCount - 1)))), root.stateType.unit).toFixed(0) + " " + Types.toUiUnit(root.stateType.unit) : ""
                             verticalAlignment: Text.AlignTop
                             font: Style.extraSmallFont
                         }
@@ -457,12 +500,12 @@ Item {
                     width: 1
                     color: Style.foregroundColor
                     x: Math.min(mouseArea.width, Math.max(0, toolTip.entryX))
-                    visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
+                    visible: toolTip.visible
                 }
 
                 NymeaToolTip {
                     id: toolTip
-                    visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
+                    visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging && logsModel.count > 0
 
                     backgroundItem: chartView
                     backgroundRect: Qt.rect(mouseArea.x + toolTip.x, mouseArea.y + toolTip.y, toolTip.width, toolTip.height)
