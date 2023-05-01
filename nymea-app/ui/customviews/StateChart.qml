@@ -71,12 +71,6 @@ Item {
 
         onEntriesAdded: {
             print("**** entries added", index, entries.length, "entries in series:", valueSeries.count, "in model", logsModel.count)
-//            if (valueSeries.count == 0) {
-//                print("adding zero item", new Date())
-//                valueSeries.insert(0, new Date(), 0)
-//                zeroSeries.ensureValue(new Date())
-//            }
-
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i]
                 //                print("entry", entry.timestamp, entry.source, JSON.stringify(entry.values))
@@ -91,14 +85,6 @@ Item {
                     var insertIdx = (index + i) * 2
                     valueSeries.insert(insertIdx, entry.timestamp.getTime() - 500, !value)
                     valueSeries.insert(insertIdx+1, entry.timestamp, value)
-
-
-//                        valueSeries.removePoints(0, 1);
-//                    if (insertIdx == 0) {
-//                        // first index, we'll have to update the "now" value
-//                        valueSeries.insert(0, entry.timestamp.getTime() + 2000, value)
-//                        zeroSeries.ensureValue(new Date(entry.timestamp.getTime() + 2000))
-//                    }
 
                 } else {
                     var value = entry.values[root.stateType.name]
@@ -127,9 +113,12 @@ Item {
         onEntriesRemoved: {
             print("removing:", index, count, valueSeries.count)
             if (root.stateType.type.toLowerCase() == "bool") {
-                valueSeries.removePoints((index * 2) /*+ 1*/, count * 2)
+                valueSeries.removePoints(index * 2, count * 2)
+                if (valueSeries.count == 1) {
+                    valueSeries.removePoints(0, 1);
+                }
             } else {
-                valueSeries.removePoints(index /*+ 1*/, count)
+                valueSeries.removePoints(index, count)
             }
 
             zeroSeries.shrink()
