@@ -17,6 +17,7 @@ import android.content.IntentFilter;
 import android.content.BroadcastReceiver;
 import android.location.LocationManager;
 import androidx.core.content.FileProvider;
+import chip.devicecontroller.*;
 
 public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActivity
 {
@@ -41,6 +42,8 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = getApplicationContext();
+
+        ChipDeviceController.loadJni();
     }
 
     public void onNewIntent (Intent intent) {

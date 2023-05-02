@@ -82,7 +82,7 @@ linux:!android:!ubports: {
 android {
     include(../3rdParty/android/android_openssl/openssl.pri)
 
-    ANDROID_MIN_SDK_VERSION = 21
+    ANDROID_MIN_SDK_VERSION = 26
     ANDROID_TARGET_SDK_VERSION = 33
 
     QT += androidextras
@@ -120,6 +120,9 @@ android {
         INCLUDEPATH += $${top_srcdir}/3rdParty/android/firebase_cpp_sdk/include
         LIBS += -L$${top_srcdir}/3rdParty/android/firebase_cpp_sdk/libs/android/$$ANDROID_TARGET_ARCH/c++/ -lfirebase_messaging -lfirebase_app
     }
+
+    ANDROID_EXTRA_LIBS += $${top_srcdir}/3rdParty/android/CHIP/jniLibs/$$ANDROID_TARGET_ARCH/libCHIPController.so \
+    $${top_srcdir}/3rdParty/android/CHIP/jniLibs/armeabi-v7a/libCHIPController.so
 }
 
 macx: {
