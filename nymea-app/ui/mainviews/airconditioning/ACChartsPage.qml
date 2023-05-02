@@ -47,6 +47,27 @@ Page {
             date.setTime(date.getTime() + 2000)
             return date;
         }
+
+        function refreshAll() {
+            for (var i = 0; i < thermostatsRepeater.count; i++) {
+                thermostatsRepeater.itemAt(i).logsModel.fetchLogs()
+            }
+            for (var i = 0; i < tempRepeater.count; i++) {
+                tempRepeater.itemAt(i).logsModel.fetchLogs()
+            }
+            for (var i = 0; i < humidityRepeater.count; i++) {
+                humidityRepeater.itemAt(i).logsModel.fetchLogs()
+            }
+            for (var i = 0; i < vocRepeater.count; i++) {
+                vocRepeater.itemAt(i).logsModel.fetchLogs()
+            }
+            for (var i = 0; i < windowOpenRepeater.count; i++) {
+                windowOpenRepeater.itemAt(i).logsModel.fetchLogs()
+            }
+            for (var i = 0; i < heatingRepeater.count; i++) {
+                heatingRepeater.itemAt(i).logsModel.fetchLogs()
+            }
+        }
     }
 
 
@@ -82,10 +103,9 @@ Page {
                 }
             }
             onTabSelected: {
-                d.now = new Date()
-//                logsModel.clear()
                 print("*** tab selected")
-//                logsModel.fetchLogs()
+                d.now = new Date()
+                d.refreshAll();
             }
         }
 
@@ -749,6 +769,7 @@ Page {
                     mouseArea.tooltipping = false;
 
                     if (mouseArea.dragging) {
+                        d.refreshAll()
                         mouseArea.dragging = false;
                     }
                 }
@@ -803,24 +824,7 @@ Page {
                     interval: 300
                     repeat: false
                     onTriggered: {
-                        for (var i = 0; i < thermostatsRepeater.count; i++) {
-                            thermostatsRepeater.itemAt(i).logsModel.fetchLogs()
-                        }
-                        for (var i = 0; i < tempRepeater.count; i++) {
-                            tempRepeater.itemAt(i).logsModel.fetchLogs()
-                        }
-                        for (var i = 0; i < humidityRepeater.count; i++) {
-                            humidityRepeater.itemAt(i).logsModel.fetchLogs()
-                        }
-                        for (var i = 0; i < vocRepeater.count; i++) {
-                            vocRepeater.itemAt(i).logsModel.fetchLogs()
-                        }
-                        for (var i = 0; i < windowOpenRepeater.count; i++) {
-                            windowOpenRepeater.itemAt(i).logsModel.fetchLogs()
-                        }
-                        for (var i = 0; i < heatingRepeater.count; i++) {
-                            heatingRepeater.itemAt(i).logsModel.fetchLogs()
-                        }
+                        d.refreshAll();
                     }
                 }
 
@@ -1014,12 +1018,12 @@ Page {
             }
             LegendDelegate {
                 Layout.fillWidth: true
-                color: Qt.rgba(Style.green.r, Style.green.g, Style.green.b, 0.1)
+                color: Qt.rgba(Style.green.r, Style.green.g, Style.green.b, 0.2)
                 text: qsTr("Window open")
             }
             LegendDelegate {
                 Layout.fillWidth: true
-                color: Qt.rgba(Style.red.r, Style.red.g, Style.red.b, 0.1)
+                color: Qt.rgba(Style.red.r, Style.red.g, Style.red.b, 0.2)
                 text: qsTr("Heating on")
             }
         }
