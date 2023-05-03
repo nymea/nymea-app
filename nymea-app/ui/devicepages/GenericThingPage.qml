@@ -224,7 +224,9 @@ ThingPageBase {
                     if (stateDelegate.stateType.unit === Types.UnitUnixTime) {
                         sourceComp = "DateTimeDelegate.qml";
                     } else if (isWritable) {
-                        if (stateDelegate.stateType.minValue !== undefined && stateDelegate.stateType.maxValue !== undefined) {
+                        if (stateDelegate.stateType.allowedValues.length > 0) {
+                            sourceComp = "ComboBoxDelegate.qml";
+                        } else if (stateDelegate.stateType.minValue !== undefined && stateDelegate.stateType.maxValue !== undefined) {
                             sourceComp = "SliderDelegate.qml";
                         } else {
                             sourceComp = "SpinBoxDelegate.qml";
