@@ -1,3 +1,10 @@
+nymea-app (1.7.14) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Use a ComboBox for number states with allowedValues
+
+ -- jenkins <developer@nymea.io>  Wed, 03 May 2023 19:27:16 +0200
+
 nymea-app (1.7.13) bionic; urgency=medium
 
   [ Michael Zanetti ]
