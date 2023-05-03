@@ -84,7 +84,7 @@ Page {
             GridLayout {
                 columns: app.landscape ? 2 : 1
                 Layout.alignment: app.landscape ? Qt.AlignHCenter : Qt.AlignLeft
-                Layout.margins: app.margins
+                Layout.margins: Style.margins
                 Layout.fillWidth: !app.landscape
 
                 Label {
@@ -124,15 +124,16 @@ Page {
 
                 Label {
                     text: qsTr("Repeat")
-                    Layout.topMargin: app.margins
+                    Layout.topMargin: Style.margins
                 }
 
                 RowLayout {
                     Layout.fillWidth: true
-                    Layout.topMargin: app.landscape ? app.margins : 0
+                    Layout.topMargin: app.landscape ? Style.margins : 0
 
                     ComboBox {
                         id: repeatingBox
+                        Layout.fillWidth: true
                         model: [qsTr("never"), qsTr("hourly"), qsTr("daily"), qsTr("weekly"), qsTr("monthly"), qsTr("yearly")]
 
                         currentIndex: {
@@ -158,13 +159,13 @@ Page {
 
                 Label {
                     text: qsTr("Date")
-                    Layout.topMargin: app.margins
+                    Layout.topMargin: Style.margins
                     visible: root.isDateBased
                 }
 
                 RowLayout {
                     Layout.fillHeight: !app.landscape
-                    Layout.topMargin: app.landscape ? app.margins : 0
+                    Layout.topMargin: app.landscape ? Style.margins : 0
                     visible: root.isDateBased
                     ComboBox {
                         id: dayBox
@@ -210,7 +211,7 @@ Page {
 
                 Label {
                     text: qsTr("Weekdays")
-                    Layout.topMargin: app.margins
+                    Layout.topMargin: Style.margins
                     visible: root.isWeekDayBased
                 }
 
@@ -219,7 +220,7 @@ Page {
                     property var weekDays: root.timeEventItem.repeatingOption.weekDays
                     visible: root.isWeekDayBased
                     Layout.fillWidth: !app.landscape
-                    Layout.topMargin: app.landscape ? app.margins : 0
+                    Layout.topMargin: app.landscape ? Style.margins : 0
                     delegate: ToolButton {
                         text: model.shortName
                         checked: weekDayRow.weekDays.indexOf(index + 1) >= 0
@@ -239,7 +240,7 @@ Page {
 
                 Label {
                     text: qsTr("Day of month")
-                    Layout.topMargin: app.margins
+                    Layout.topMargin: Style.margins
                     visible: root.isMonthDayBased
                     Layout.alignment: Qt.AlignLeft | Qt.AlignTop
                 }
@@ -248,7 +249,7 @@ Page {
                     id: monthDayGrid
                     columns: Math.sqrt(children.length)
                     Layout.fillWidth: !app.landscape
-                    Layout.topMargin: app.landscape ? app.margins : 0
+                    Layout.topMargin: app.landscape ? Style.margins : 0
                     visible: root.isMonthDayBased
                     property var monthDays: root.timeEventItem.repeatingOption.monthDays
                     Repeater {
@@ -275,7 +276,7 @@ Page {
 
             Button {
                 Layout.fillWidth: !app.landscape
-                Layout.margins: app.margins
+                Layout.margins: Style.margins
                 Layout.alignment: Qt.AlignRight
                 text: qsTr("OK")
                 onClicked: {
