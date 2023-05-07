@@ -133,11 +133,10 @@ Page {
         width: parent.width - app.margins * 2
         title: qsTr("Logging not enabled")
         text: qsTr("This state is not being logged.")
-        imageSource: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
+        imageSource: "../images/logs.svg"
         buttonText: qsTr("Enable logging")
         visible: !root.isLogged
         onButtonClicked: {
-            print("enabming logging")
             engine.thingManager.setStateLogging(root.thing.id, root.stateType.id, true)
         }
     }
