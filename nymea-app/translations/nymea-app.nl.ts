@@ -2,6 +2,33 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="nl">
 <context>
+    <name>ACChartsPage</name>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Window open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Heating on</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ACSettingsPage</name>
     <message>
         <source>Configure zones</source>
@@ -104,6 +131,49 @@
     <message>
         <source>Oswald font by The Oswald Project</source>
         <translation>Oswald font door The Oswald Project</translation>
+    </message>
+</context>
+<context>
+    <name>ActionLogPage</name>
+    <message>
+        <source>History for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove logs?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to remove the log for this action and disable logging?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>success</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failure: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logging not enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This action is not being logged.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1992,6 +2062,33 @@
     </message>
 </context>
 <context>
+    <name>EventLogPage</name>
+    <message>
+        <source>History for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove logs?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to remove the log for this event and disable logging?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logging not enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This event is not being logged.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FavoritesView</name>
     <message>
         <source>There are no favorite things yet.</source>
@@ -2240,26 +2337,26 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>GenericDevicePage</name>
+    <name>GenericThingPage</name>
     <message>
         <source>States</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Events</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation></translation>
+        <translation type="unfinished">Annuleren</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation type="unfinished">OK</translation>
     </message>
 </context>
 <context>
@@ -3519,36 +3616,67 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
+        <source>Terminated by system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Application quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Application error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown reason</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stopped</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LogViewerPagePre18</name>
+    <message>
+        <source>Log viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>%1 Server</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>System started</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rule triggered</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Actions executed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rule active</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rule inactive</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exit actions executed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enabled changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4766,22 +4894,14 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
 </context>
 <context>
-    <name>NotificationsDevicePage</name>
+    <name>NotificationsThingPage</name>
     <message>
         <source>Title</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Text</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Notification details</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Date sent</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No messages sent yet.</source>
@@ -4789,6 +4909,14 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Sent messages will appear here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notification details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date sent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5709,6 +5837,14 @@ Do you want to proceed?</source>
         <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy all</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ScriptsPage</name>
@@ -6400,6 +6536,37 @@ A consumer, not consuming anything</extracomment>
     </message>
 </context>
 <context>
+    <name>StateChart</name>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>StateEvaluatorDelegate</name>
     <message>
         <source>and all of those</source>
@@ -6433,12 +6600,24 @@ A consumer, not consuming anything</extracomment>
         <translation></translation>
     </message>
     <message>
-        <source>Log</source>
-        <translation></translation>
+        <source>Remove logs?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Graph</source>
-        <translation></translation>
+        <source>Do you want to remove the log for this state and disable logging?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logging not enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This state is not being logged.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable logging</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6619,6 +6798,25 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Thing runs out of battery!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ThingLogPage</name>
+    <message>
+        <source>History for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

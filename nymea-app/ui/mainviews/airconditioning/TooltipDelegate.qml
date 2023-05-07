@@ -15,6 +15,7 @@ NymeaToolTip {
     property Thing thing: null
     property NewLogEntry entry: null
     property string valueName: ""
+    property alias iconSource: icon.name
     property alias color: rect.color
     property ValueAxis axis: null
     property int unit: Types.UnitNone
@@ -29,10 +30,18 @@ NymeaToolTip {
         anchors.fill: parent
         anchors.margins: Style.smallMargins
 
+        ColorIcon {
+            id: icon
+            size: Style.smallIconSize
+            color: root.color
+            visible: name != ""
+        }
+
         Rectangle {
             id: rect
             width: Style.extraSmallFont.pixelSize
             height: width
+            visible: !icon.visible
         }
         Label {
             text: "%1: %2%3".arg(thing.name).arg(entry ? round(Types.toUiValue(root.value, unit)) : "-").arg(Types.toUiUnit(unit))

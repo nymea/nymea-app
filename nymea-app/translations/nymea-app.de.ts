@@ -2,6 +2,33 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE">
 <context>
+    <name>ACChartsPage</name>
+    <message>
+        <source>Hours</source>
+        <translation>Stunden</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Tage</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation>Wochen</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Monate</translation>
+    </message>
+    <message>
+        <source>Window open</source>
+        <translation>Fenster geöffnet</translation>
+    </message>
+    <message>
+        <source>Heating on</source>
+        <translation>Heizung an</translation>
+    </message>
+</context>
+<context>
     <name>ACSettingsPage</name>
     <message>
         <source>Configure zones</source>
@@ -104,6 +131,49 @@
     <message>
         <source>Oswald font by The Oswald Project</source>
         <translation>Oswald Schrift von &quot;The Oswald Project&quot;</translation>
+    </message>
+</context>
+<context>
+    <name>ActionLogPage</name>
+    <message>
+        <source>History for %1</source>
+        <translation>Protokoll für %1</translation>
+    </message>
+    <message>
+        <source>Remove logs?</source>
+        <translation>Protokoll entfernen?</translation>
+    </message>
+    <message>
+        <source>Do you want to remove the log for this action and disable logging?</source>
+        <translation>Möchtest Du das Protokoll für diese Aktion entfernen und das Protokollieren deaktivieren?</translation>
+    </message>
+    <message>
+        <source>User action</source>
+        <translation>Benutzeraktion</translation>
+    </message>
+    <message>
+        <source>Automation</source>
+        <translation>Automatisierung</translation>
+    </message>
+    <message>
+        <source>success</source>
+        <translation>Erfolgreich</translation>
+    </message>
+    <message>
+        <source>Failure: %1</source>
+        <translation>Fehlgeschlagen: %1</translation>
+    </message>
+    <message>
+        <source>Logging not enabled</source>
+        <translation>Protokollieren nicht aktiv</translation>
+    </message>
+    <message>
+        <source>Enable logging</source>
+        <translation>Protokollieren aktivieren?</translation>
+    </message>
+    <message>
+        <source>This action is not being logged.</source>
+        <translation>Diese Aktion wird nicht protokolliert.</translation>
     </message>
 </context>
 <context>
@@ -1998,6 +2068,33 @@
     </message>
 </context>
 <context>
+    <name>EventLogPage</name>
+    <message>
+        <source>History for %1</source>
+        <translation>Protokoll für %1</translation>
+    </message>
+    <message>
+        <source>Remove logs?</source>
+        <translation>Protokoll entfernen?</translation>
+    </message>
+    <message>
+        <source>Do you want to remove the log for this event and disable logging?</source>
+        <translation>Möchtest Du das Protokoll für dieses Ereignis entfernen und das Protokollieren deaktivieren?</translation>
+    </message>
+    <message>
+        <source>Logging not enabled</source>
+        <translation>Protokoll nicht aktiv</translation>
+    </message>
+    <message>
+        <source>Enable logging</source>
+        <translation>Protokollieren aktivieren?</translation>
+    </message>
+    <message>
+        <source>This event is not being logged.</source>
+        <translation>Dieses Ereignis wird nicht protokolliert.</translation>
+    </message>
+</context>
+<context>
     <name>FavoritesView</name>
     <message>
         <source>There are no favorite things yet.</source>
@@ -2247,7 +2344,7 @@ Bitte versuche es erneut.</translation>
     </message>
 </context>
 <context>
-    <name>GenericDevicePage</name>
+    <name>GenericThingPage</name>
     <message>
         <source>States</source>
         <translation>Zustände</translation>
@@ -3526,6 +3623,37 @@ Bitte versuche es erneut.</translation>
         <translation>Log anzeigen</translation>
     </message>
     <message>
+        <source>Terminated by system</source>
+        <translation>Von System beendet</translation>
+    </message>
+    <message>
+        <source>Application quit</source>
+        <translation>Anwenung beendet</translation>
+    </message>
+    <message>
+        <source>Application error</source>
+        <translation>Absturz</translation>
+    </message>
+    <message>
+        <source>Unknown reason</source>
+        <translation>Unbekannter Grund</translation>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation>Gestartet</translation>
+    </message>
+    <message>
+        <source>Stopped</source>
+        <translation>Gestoppt</translation>
+    </message>
+</context>
+<context>
+    <name>LogViewerPagePre18</name>
+    <message>
+        <source>Log viewer</source>
+        <translation>Protokollansicht</translation>
+    </message>
+    <message>
         <source>%1 Server</source>
         <translation>%1 Server</translation>
     </message>
@@ -4777,7 +4905,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
 </context>
 <context>
-    <name>NotificationsDevicePage</name>
+    <name>NotificationsThingPage</name>
     <message>
         <source>Title</source>
         <translation>Titel</translation>
@@ -4787,20 +4915,20 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <translation>Text</translation>
     </message>
     <message>
-        <source>Notification details</source>
-        <translation>Benachrichtigungs-Details</translation>
-    </message>
-    <message>
-        <source>Date sent</source>
-        <translation>Sende-Datum</translation>
-    </message>
-    <message>
         <source>No messages sent yet.</source>
         <translation>Es wurden noch keine Nachrichten versendet.</translation>
     </message>
     <message>
         <source>Sent messages will appear here.</source>
         <translation>Gesendete Nachrichten werden hier aufscheinen.</translation>
+    </message>
+    <message>
+        <source>Notification details</source>
+        <translation>Benachrichtigungs-Details</translation>
+    </message>
+    <message>
+        <source>Date sent</source>
+        <translation>Sende-Datum</translation>
     </message>
     <message>
         <source>Sending failed</source>
@@ -5722,6 +5850,14 @@ Möchtest Du fortfahren?</translation>
         <source>Reload</source>
         <translation>Erneut laden</translation>
     </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopieren</translation>
+    </message>
+    <message>
+        <source>Copy all</source>
+        <translation>Alle kopieren</translation>
+    </message>
 </context>
 <context>
     <name>ScriptsPage</name>
@@ -6413,6 +6549,37 @@ A consumer, not consuming anything</extracomment>
     </message>
 </context>
 <context>
+    <name>StateChart</name>
+    <message>
+        <source>Hours</source>
+        <translation>Stunden</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Tage</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation>Wochen</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Monate</translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation>Keine Daten</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nein</translation>
+    </message>
+</context>
+<context>
     <name>StateEvaluatorDelegate</name>
     <message>
         <source>and all of those</source>
@@ -6442,16 +6609,28 @@ A consumer, not consuming anything</extracomment>
 <context>
     <name>StateLogPage</name>
     <message>
-        <source>Log</source>
-        <translation>Protokoll</translation>
-    </message>
-    <message>
-        <source>Graph</source>
-        <translation>Diagramm</translation>
-    </message>
-    <message>
         <source>History for %1</source>
         <translation>Protokoll für %1</translation>
+    </message>
+    <message>
+        <source>Remove logs?</source>
+        <translation>Protokoll entfernen?</translation>
+    </message>
+    <message>
+        <source>Do you want to remove the log for this state and disable logging?</source>
+        <translation>Möchtest Du das Protokoll für diesen Zustand entfernen und das Protokollieren deaktivieren?</translation>
+    </message>
+    <message>
+        <source>Logging not enabled</source>
+        <translation>Protokoll nicht aktiv</translation>
+    </message>
+    <message>
+        <source>This state is not being logged.</source>
+        <translation>Dieser Zustand wird nicht protokolliert</translation>
+    </message>
+    <message>
+        <source>Enable logging</source>
+        <translation>Protokoll aktivieren?</translation>
     </message>
 </context>
 <context>
@@ -6636,6 +6815,25 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Thing runs out of battery!</source>
         <translation>Die Batterie neigt sich dem Ende zu!</translation>
+    </message>
+</context>
+<context>
+    <name>ThingLogPage</name>
+    <message>
+        <source>History for %1</source>
+        <translation>Protokoll für %1</translation>
+    </message>
+    <message>
+        <source>Filter by</source>
+        <translation>Filtern nach</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nein</translation>
     </message>
 </context>
 <context>

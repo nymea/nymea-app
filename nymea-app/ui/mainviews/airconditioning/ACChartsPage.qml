@@ -61,6 +61,7 @@ Page {
             for (var i = 0; i < vocRepeater.count; i++) {
                 vocRepeater.itemAt(i).logsModel.fetchLogs()
             }
+
             for (var i = 0; i < windowOpenRepeater.count; i++) {
                 windowOpenRepeater.itemAt(i).logsModel.fetchLogs()
             }
@@ -897,6 +898,7 @@ Page {
                         thing: thermostatsRepeater.itemAt(index).thing
                         entry: thermostatsRepeater.itemAt(index).logsModel.find(tooltips.timestamp)
                         color: app.interfaceToColor("temperaturesensor")
+                        iconSource: app.interfaceToIcon("temperaturesensor")
                         valueName: "temperature"
                         axis: temperatureAxis
                         x: tooltips.tooltipX
@@ -917,6 +919,7 @@ Page {
                         entry: tempRepeater.itemAt(index).logsModel.find(tooltips.timestamp)
                         valueName: "temperature"
                         color: app.interfaceToColor("temperaturesensor")
+                        iconSource: app.interfaceToIcon("temperaturesensor")
                         axis: temperatureAxis
                         x: tooltips.tooltipX
                         width: tooltips.tooltipWidth
@@ -935,6 +938,7 @@ Page {
                         thing: humidityRepeater.itemAt(index).thing
                         entry: humidityRepeater.itemAt(index).logsModel.find(tooltips.timestamp)
                         color: app.interfaceToColor("humiditysensor")
+                        iconSource: app.interfaceToIcon("humiditysensor")
                         valueName: "humidity"
                         axis: humidityAxis
                         x: tooltips.tooltipX
@@ -955,6 +959,7 @@ Page {
                         entry: vocRepeater.itemAt(index).logsModel.find(tooltips.timestamp)
                         valueName: "voc"
                         color: app.interfaceToColor("vocsensor")
+                        iconSource: app.interfaceToIcon("vocsensor")
                         axis: vocAxis
                         x: tooltips.tooltipX
                         width: tooltips.tooltipWidth
