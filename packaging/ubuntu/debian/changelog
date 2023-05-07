@@ -1,3 +1,11 @@
+nymea-app (1.7.15) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+  * Improve tooltips in new charts
+
+ -- jenkins <developer@nymea.io>  Mon, 08 May 2023 00:33:00 +0200
+
 nymea-app (1.7.14) bionic; urgency=medium
 
   [ Michael Zanetti ]
