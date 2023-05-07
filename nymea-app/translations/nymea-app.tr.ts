@@ -2,6 +2,33 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="tr">
 <context>
+    <name>ACChartsPage</name>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Window open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Heating on</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ACSettingsPage</name>
     <message>
         <source>Configure zones</source>
@@ -104,6 +131,49 @@
     <message>
         <source>Oswald font by The Oswald Project</source>
         <translation>Oswald yazı tipi by The Oswald Project</translation>
+    </message>
+</context>
+<context>
+    <name>ActionLogPage</name>
+    <message>
+        <source>History for %1</source>
+        <translation type="unfinished">%1 için geçmiş</translation>
+    </message>
+    <message>
+        <source>Remove logs?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to remove the log for this action and disable logging?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>success</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failure: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logging not enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This action is not being logged.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -672,7 +742,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">kapalı</translation>
     </message>
 </context>
 <context>
@@ -1994,6 +2064,33 @@
     </message>
 </context>
 <context>
+    <name>EventLogPage</name>
+    <message>
+        <source>History for %1</source>
+        <translation type="unfinished">%1 için geçmiş</translation>
+    </message>
+    <message>
+        <source>Remove logs?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to remove the log for this event and disable logging?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logging not enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This event is not being logged.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FavoritesView</name>
     <message>
         <source>There are no favorite things yet.</source>
@@ -2242,26 +2339,26 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>GenericDevicePage</name>
+    <name>GenericThingPage</name>
     <message>
         <source>States</source>
-        <translation>Devletler</translation>
+        <translation type="unfinished">Ülkeler</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation>Hareketler</translation>
+        <translation type="unfinished">Hareketler</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation>Olaylar</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation type="unfinished">İptal</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>tamam</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3504,36 +3601,67 @@ Please try again.</source>
         <translation>Günlük görüntüleyici</translation>
     </message>
     <message>
+        <source>Terminated by system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Application quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Application error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown reason</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stopped</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LogViewerPagePre18</name>
+    <message>
+        <source>Log viewer</source>
+        <translation type="unfinished">Günlük görüntüleyici</translation>
+    </message>
+    <message>
         <source>%1 Server</source>
-        <translation>%1 Sunucu</translation>
+        <translation type="unfinished">%1 Sunucu</translation>
     </message>
     <message>
         <source>System started</source>
-        <translation>Sistem başlatıldı</translation>
+        <translation type="unfinished">Sistem başlatıldı</translation>
     </message>
     <message>
         <source>Rule triggered</source>
-        <translation>Kural tetiklendi</translation>
+        <translation type="unfinished">Kural tetiklendi</translation>
     </message>
     <message>
         <source>Actions executed</source>
-        <translation>Yürütülen eylemler</translation>
+        <translation type="unfinished">Yürütülen eylemler</translation>
     </message>
     <message>
         <source>Rule active</source>
-        <translation>Kural etkin</translation>
+        <translation type="unfinished">Kural etkin</translation>
     </message>
     <message>
         <source>Rule inactive</source>
-        <translation>Kural etkin değil</translation>
+        <translation type="unfinished">Kural etkin değil</translation>
     </message>
     <message>
         <source>Exit actions executed</source>
-        <translation>Yürütülen çıkış işlemleri</translation>
+        <translation type="unfinished">Yürütülen çıkış işlemleri</translation>
     </message>
     <message>
         <source>Enabled changed</source>
-        <translation>Etkin değiştirildi</translation>
+        <translation type="unfinished">Etkin değiştirildi</translation>
     </message>
 </context>
 <context>
@@ -4751,42 +4879,42 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
 </context>
 <context>
-    <name>NotificationsDevicePage</name>
+    <name>NotificationsThingPage</name>
     <message>
         <source>Title</source>
-        <translation>Başlık</translation>
+        <translation type="unfinished">Başlık</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation>Metin</translation>
-    </message>
-    <message>
-        <source>Notification details</source>
-        <translation>Bildirim ayrıntıları</translation>
-    </message>
-    <message>
-        <source>Date sent</source>
-        <translation>Tarih gönderildi</translation>
+        <translation type="unfinished">Metin</translation>
     </message>
     <message>
         <source>No messages sent yet.</source>
-        <translation>Henüz mesaj gönderilmedi.</translation>
+        <translation type="unfinished">Henüz mesaj gönderilmedi.</translation>
     </message>
     <message>
         <source>Sent messages will appear here.</source>
-        <translation>Gönderilen mesajlar burada görünecektir.</translation>
+        <translation type="unfinished">Gönderilen mesajlar burada görünecektir.</translation>
+    </message>
+    <message>
+        <source>Notification details</source>
+        <translation type="unfinished">Bildirim ayrıntıları</translation>
+    </message>
+    <message>
+        <source>Date sent</source>
+        <translation type="unfinished">Tarih gönderildi</translation>
     </message>
     <message>
         <source>Sending failed</source>
-        <translation>Gönderim başarısız</translation>
+        <translation type="unfinished">Gönderim başarısız</translation>
     </message>
     <message>
         <source>Resend</source>
-        <translation>Yeniden gönder</translation>
+        <translation type="unfinished">Yeniden gönder</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>Kapat</translation>
+        <translation type="unfinished">kapalı</translation>
     </message>
 </context>
 <context>
@@ -5695,6 +5823,14 @@ Do you want to proceed?</source>
         <source>Reload</source>
         <translation>Tekrar yükle</translation>
     </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy all</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ScriptsPage</name>
@@ -6386,6 +6522,37 @@ A consumer, not consuming anything</extracomment>
     </message>
 </context>
 <context>
+    <name>StateChart</name>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>StateEvaluatorDelegate</name>
     <message>
         <source>and all of those</source>
@@ -6419,12 +6586,24 @@ A consumer, not consuming anything</extracomment>
         <translation>%1 için geçmiş</translation>
     </message>
     <message>
-        <source>Log</source>
-        <translation>Kayıt</translation>
+        <source>Remove logs?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Graph</source>
-        <translation>grafik</translation>
+        <source>Do you want to remove the log for this state and disable logging?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logging not enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This state is not being logged.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable logging</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6607,6 +6786,25 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>Thing runs out of battery!</source>
         <translation>Pil bitiyor!</translation>
+    </message>
+</context>
+<context>
+    <name>ThingLogPage</name>
+    <message>
+        <source>History for %1</source>
+        <translation type="unfinished">%1 için geçmiş</translation>
+    </message>
+    <message>
+        <source>Filter by</source>
+        <translation type="unfinished">Tarafından filtre</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7737,7 +7935,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">kapalı</translation>
     </message>
     <message numerus="yes">
         <source>%n device(s)</source>

@@ -2,6 +2,33 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ko">
 <context>
+    <name>ACChartsPage</name>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Window open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Heating on</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ACSettingsPage</name>
     <message>
         <source>Configure zones</source>
@@ -103,6 +130,49 @@
     </message>
     <message>
         <source>Oswald font by The Oswald Project</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ActionLogPage</name>
+    <message>
+        <source>History for %1</source>
+        <translation type="unfinished">%1에 대한 기록</translation>
+    </message>
+    <message>
+        <source>Remove logs?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to remove the log for this action and disable logging?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>success</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failure: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logging not enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This action is not being logged.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1994,6 +2064,33 @@
     </message>
 </context>
 <context>
+    <name>EventLogPage</name>
+    <message>
+        <source>History for %1</source>
+        <translation type="unfinished">%1에 대한 기록</translation>
+    </message>
+    <message>
+        <source>Remove logs?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to remove the log for this event and disable logging?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logging not enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This event is not being logged.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FavoritesView</name>
     <message>
         <source>There are no favorite things yet.</source>
@@ -2243,26 +2340,26 @@ Please try again.</source>
     </message>
 </context>
 <context>
-    <name>GenericDevicePage</name>
+    <name>GenericThingPage</name>
     <message>
         <source>States</source>
-        <translation>상태</translation>
+        <translation type="unfinished">상태</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation>작동(조치)</translation>
+        <translation type="unfinished">작동(조치)</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation>이벤트</translation>
+        <translation type="unfinished">이벤트</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>취소</translation>
+        <translation type="unfinished">취소</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation type="unfinished">확인</translation>
     </message>
 </context>
 <context>
@@ -3505,36 +3602,67 @@ Please try again.</source>
         <translation>기록 보기</translation>
     </message>
     <message>
+        <source>Terminated by system</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Application quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Application error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown reason</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stopped</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LogViewerPagePre18</name>
+    <message>
+        <source>Log viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>%1 Server</source>
-        <translation>%1 서버</translation>
+        <translation type="unfinished">%1 서버</translation>
     </message>
     <message>
         <source>System started</source>
-        <translation>시스템 시작</translation>
+        <translation type="unfinished">시스템 시작</translation>
     </message>
     <message>
         <source>Rule triggered</source>
-        <translation>규칙 작동됨</translation>
+        <translation type="unfinished">규칙 작동됨</translation>
     </message>
     <message>
         <source>Actions executed</source>
-        <translation>실행된 동작</translation>
+        <translation type="unfinished">실행된 동작</translation>
     </message>
     <message>
         <source>Rule active</source>
-        <translation>규칙 활성</translation>
+        <translation type="unfinished">규칙 활성</translation>
     </message>
     <message>
         <source>Rule inactive</source>
-        <translation>규칙 사용 안 함</translation>
+        <translation type="unfinished">규칙 사용 안 함</translation>
     </message>
     <message>
         <source>Exit actions executed</source>
-        <translation>실행된 작업 종료</translation>
+        <translation type="unfinished">실행된 작업 종료</translation>
     </message>
     <message>
         <source>Enabled changed</source>
-        <translation>사용 가능 변경됨</translation>
+        <translation type="unfinished">사용 가능 변경됨</translation>
     </message>
 </context>
 <context>
@@ -4752,22 +4880,14 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
 </context>
 <context>
-    <name>NotificationsDevicePage</name>
+    <name>NotificationsThingPage</name>
     <message>
         <source>Title</source>
-        <translation>제목</translation>
+        <translation type="unfinished">제목</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation>내용</translation>
-    </message>
-    <message>
-        <source>Notification details</source>
-        <translation>알림 내역</translation>
-    </message>
-    <message>
-        <source>Date sent</source>
-        <translation>보낸 날짜</translation>
+        <translation type="unfinished">내용</translation>
     </message>
     <message>
         <source>No messages sent yet.</source>
@@ -4776,6 +4896,14 @@ Use a timeout value greater or equal to 10 ms.</source>
     <message>
         <source>Sent messages will appear here.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notification details</source>
+        <translation type="unfinished">알림 내역</translation>
+    </message>
+    <message>
+        <source>Date sent</source>
+        <translation type="unfinished">보낸 날짜</translation>
     </message>
     <message>
         <source>Sending failed</source>
@@ -5696,6 +5824,14 @@ Do you want to proceed?</source>
         <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy all</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ScriptsPage</name>
@@ -6387,6 +6523,37 @@ A consumer, not consuming anything</extracomment>
     </message>
 </context>
 <context>
+    <name>StateChart</name>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>StateEvaluatorDelegate</name>
     <message>
         <source>and all of those</source>
@@ -6420,12 +6587,24 @@ A consumer, not consuming anything</extracomment>
         <translation>%1에 대한 기록</translation>
     </message>
     <message>
-        <source>Log</source>
-        <translation>기록</translation>
+        <source>Remove logs?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Graph</source>
-        <translation>그래프</translation>
+        <source>Do you want to remove the log for this state and disable logging?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logging not enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This state is not being logged.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable logging</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6606,6 +6785,25 @@ Please only use this if you are sure you want this and consider reporting the is
     <message>
         <source>Thing runs out of battery!</source>
         <translation type="unfinished">배터리가 다 됐네요!</translation>
+    </message>
+</context>
+<context>
+    <name>ThingLogPage</name>
+    <message>
+        <source>History for %1</source>
+        <translation type="unfinished">%1에 대한 기록</translation>
+    </message>
+    <message>
+        <source>Filter by</source>
+        <translation type="unfinished">필터 기준</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
