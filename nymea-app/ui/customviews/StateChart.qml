@@ -359,45 +359,6 @@ Item {
                 }
             }
 
-
-            RowLayout {
-                id: legend
-                anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
-                anchors.leftMargin: chartView.plotArea.x
-                height: Style.smallIconSize
-                anchors.margins: Style.margins
-                visible: false
-
-                Item {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    //                        opacity: selfProductionConsumptionSeries.opacity
-                    MouseArea {
-                        anchors.fill: parent
-                        anchors.topMargin: -Style.smallMargins
-                        anchors.bottomMargin: -Style.smallMargins
-                        //                            onClicked: d.selectSeries(selfProductionConsumptionSeries)
-                    }
-                    Row {
-                        anchors.centerIn: parent
-                        spacing: Style.smallMargins
-                        ColorIcon {
-                            name: "weathericons/weather-clear-day"
-                            size: Style.smallIconSize
-                            color: Style.green
-                        }
-                        Label {
-                            width: parent.parent.width - x
-                            elide: Text.ElideRight
-                            visible: legend.width > 500
-                            text: qsTr("Produced")
-                            anchors.verticalCenter: parent.verticalCenter
-                            font: Style.smallFont
-                        }
-                    }
-                }
-            }
-
             MouseArea {
                 id: mouseArea
                 anchors.fill: parent
@@ -526,15 +487,33 @@ Item {
                             font: Style.smallFont
                         }
 
-                        Label {
-                            Layout.fillWidth: true
-                            elide: Text.ElideRight
-                            text: toolTip.value === null
-                                  ? qsTr("No data")
-                                  : root.stateType.type.toLowerCase() == "bool"
-                                    ? root.stateType.displayName + ": " + (toolTip.value ? qsTr("Yes") : qsTr("No"))
-                                    : Types.toUiValue(toolTip.value, root.stateType.unit).toFixed(root.roundTo) + Types.toUiUnit(root.stateType.unit)
-                            font: Style.smallFont
+                        RowLayout {
+
+                            ColorIcon {
+                                id: icon
+                                size: Style.smallIconSize
+                                name: root.iconSource
+                                color: root.color
+                                visible: name != ""
+                            }
+
+                            Rectangle {
+                                width: Style.extraSmallFont.pixelSize
+                                height: width
+                                color: root.color
+                                visible: !icon.visible
+                            }
+
+                            Label {
+                                Layout.fillWidth: true
+                                elide: Text.ElideRight
+                                text: toolTip.value === null
+                                      ? qsTr("No data")
+                                      : root.stateType.type.toLowerCase() == "bool"
+                                        ? root.stateType.displayName + ": " + (toolTip.value ? qsTr("Yes") : qsTr("No"))
+                                        : Types.toUiValue(toolTip.value, root.stateType.unit).toFixed(root.roundTo) + Types.toUiUnit(root.stateType.unit)
+                                font: Style.extraSmallFont
+                            }
                         }
 
                     }
