@@ -155,6 +155,7 @@ ThingPageBase {
                 thing: root.thing
                 stateType: parent.stateType
                 color: app.interfaceToColor(interfaceName)
+                iconSource: app.interfaceToIcon(interfaceName)
 
             }
         }
