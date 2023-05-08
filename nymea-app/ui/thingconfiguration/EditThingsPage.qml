@@ -56,24 +56,20 @@ Page {
 
     QtObject {
         id: d
-        property var thingToRemove: null
+        property int pendingCommandId: -1
     }
 
     Connections {
         target: engine.thingManager
         onRemoveThingReply: {
-            if (!d.thingToRemove) {
+            if (commandId != d.pendingCommandId) {
                 return;
             }
 
+            d.pendingCommandId = -1
+
             switch (thingError) {
             case Thing.ThingErrorNoError:
-                d.thingToRemove = null;
-                return;
-            case Thing.ThingErrorThingInRule:
-                var removeMethodComponent = Qt.createComponent(Qt.resolvedUrl("../components/RemoveThingMethodDialog.qml"))
-                var popup = removeMethodComponent.createObject(root, {thing: d.thingToRemove, rulesList: ruleIds});
-                popup.open();
                 return;
             default:
                 var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
@@ -112,13 +108,28 @@ Page {
                     pageStack.push(Qt.resolvedUrl("ConfigureThingPage.qml"), {thing: thing})
                 }
                 onDeleteClicked: {
-                    d.thingToRemove = thing;
-                    engine.thingManager.removeThing(d.thingToRemove.id)
+                    var popup = removeDialogComponent.createObject(root, {thing: thing})
+                    popup.open()
                 }
             }
         }
     }
 
+    Component {
+        id: removeDialogComponent
+        NymeaDialog {
+            id: removeDialog
+            title: qsTr("Remove thing?")
+            text: qsTr("Are you sure you want to remove %1 and all associated settings?").arg(thing.name)
+            standardButtons: Dialog.Yes | Dialog.No
+
+            property Thing thing: null
+
+            onAccepted: {
+                d.pendingCommand = engine.thingManager.removeThing(thing.id)
+            }
+        }
+    }
 
     EmptyViewPlaceholder {
         anchors { left: parent.left; right: parent.right; margins: app.margins }

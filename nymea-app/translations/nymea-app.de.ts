@@ -683,6 +683,14 @@
         <source>ID</source>
         <translation>ID</translation>
     </message>
+    <message>
+        <source>Remove thing?</source>
+        <translation>&quot;Thing&quot; entfernen?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove %1 and all associated settings?</source>
+        <translation>Bist Du sicher, dass %1 und alle zugehörigen Einstellungen entfernt werden sollen?</translation>
+    </message>
 </context>
 <context>
     <name>ConnectingPage</name>
@@ -1725,6 +1733,14 @@
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
         <translation>Damit Dein %1 System sich nützlich machen kann, füge einige &quot;Things&quot; hinzu.</translation>
+    </message>
+    <message>
+        <source>Remove thing?</source>
+        <translation>&quot;Thing&quot; entfernen?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove %1 and all associated settings?</source>
+        <translation>Bist Du sicher, dass %1 und alle zugehörigen Einstellungen entfernt werden sollen?</translation>
     </message>
 </context>
 <context>
