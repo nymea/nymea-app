@@ -1,3 +1,10 @@
+nymea-app (1.7.17) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update android's libssl to latest version
+
+ -- jenkins <developer@nymea.io>  Mon, 08 May 2023 17:09:18 +0200
+
 nymea-app (1.7.16) bionic; urgency=medium
 
   [ Michael Zanetti ]
