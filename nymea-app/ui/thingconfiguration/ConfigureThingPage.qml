@@ -38,6 +38,7 @@ import "../delegates"
 SettingsPageBase {
     id: root
     property Thing thing: null
+    busy: d.pendingCommand != -1
 
     header: NymeaHeader {
         text: root.thing.name
@@ -80,7 +81,8 @@ SettingsPageBase {
         }
 
         function deleteThing() {
-            engine.thingManager.removeThing(root.thing.id)
+            var popup = removeDialogComponent.createObject(root)
+            popup.open()
         }
 
         function reconfigureThing() {
@@ -101,20 +103,26 @@ SettingsPageBase {
     Connections {
         target: engine.thingManager
         onRemoveThingReply: {
+            if (d.pendingCommand != commandId) {
+                return;
+            }
+
+            d.pendingCommand = -1
+
             switch (thingError) {
             case Thing.ThingErrorNoError:
                 pageStack.pop();
-                return;
-            case Thing.ThingErrorThingInRule:
-                var removeMethodComponent = Qt.createComponent(Qt.resolvedUrl("../components/RemoveThingMethodDialog.qml"))
-                var popup = removeMethodComponent.createObject(root, {thing: root.thing, rulesList: ruleIds});
-                popup.open();
                 return;
             default:
                 var popup = errorDialog.createObject(root, {error: thingError})
                 popup.open();
             }
         }
+    }
+
+    QtObject {
+        id: d
+        property int pendingCommand: -1
     }
 
     SettingsPageSectionHeader {
@@ -287,6 +295,20 @@ SettingsPageBase {
     Component {
         id: errorDialog
         ErrorDialog { }
+    }
+
+    Component {
+        id: removeDialogComponent
+        NymeaDialog {
+            id: removeDialog
+            title: qsTr("Remove thing?")
+            text: qsTr("Are you sure you want to remove %1 and all associated settings?").arg(root.thing.name)
+            standardButtons: Dialog.Yes | Dialog.No
+
+            onAccepted: {
+                d.pendingCommand = engine.thingManager.removeThing(root.thing.id)
+            }
+        }
     }
 
     Component {
