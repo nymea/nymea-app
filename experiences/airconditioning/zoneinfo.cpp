@@ -155,6 +155,7 @@ void ZoneInfo::setNotifications(const QList<QUuid> &notifications)
 {
     if (m_notifications != notifications) {
         m_notifications = notifications;
+        emit notificationsChanged();
     }
 }
 
