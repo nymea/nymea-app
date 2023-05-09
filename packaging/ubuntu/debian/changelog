@@ -1,3 +1,10 @@
+nymea-app (1.7.18) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a missing changed signal in AC settings
+
+ -- jenkins <developer@nymea.io>  Tue, 09 May 2023 09:12:44 +0200
+
 nymea-app (1.7.17) bionic; urgency=medium
 
   [ Michael Zanetti ]
