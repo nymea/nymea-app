@@ -2532,7 +2532,7 @@ Please try again.</source>
         <source>%n things</source>
         <translation>
             <numerusform>%n thing</numerusform>
-            <numerusform>%n thigns</numerusform>
+            <numerusform>%n things</numerusform>
         </translation>
     </message>
 </context>
