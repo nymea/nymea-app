@@ -69,10 +69,10 @@ Item {
         property double minValue
         property double maxValue
 
-        onEntriesAdded: {
-            print("**** entries added", index, entries.length, "entries in series:", valueSeries.count, "in model", logsModel.count)
-            for (var i = 0; i < entries.length; i++) {
-                var entry = entries[i]
+        onEntriesAddedIdx: {
+            print("**** entries added", index, count, "entries in series:", valueSeries.count, "in model", logsModel.count)
+            for (var i = 0; i < count; i++) {
+                var entry = logsModel.get(i)
                 //                print("entry", entry.timestamp, entry.source, JSON.stringify(entry.values))
                 zeroSeries.ensureValue(entry.timestamp)
 

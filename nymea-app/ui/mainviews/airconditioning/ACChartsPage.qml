@@ -323,9 +323,9 @@ Page {
                                 }
                             }
 
-                            onEntriesAdded: {
-                                for (var i = 0; i < entries.length; i++) {
-                                    var entry = entries[i]
+                            onEntriesAddedIdx: {
+                                for (var i = 0; i < count; i++) {
+                                    var entry = logsModel.get(i)
                                     var value = entry.values["temperature"]
                                     if (value == null) {
                                         value = 0;
@@ -380,9 +380,9 @@ Page {
                                 }
                             }
 
-                            onEntriesAdded: {
-                                for (var i = 0; i < entries.length; i++) {
-                                    var entry = entries[i]
+                            onEntriesAddedIdx: {
+                                for (var i = 0; i < count; i++) {
+                                    var entry = logsModel.get(i)
                                     var value = entry.values["temperature"]
                                     if (value == null) {
                                         value = 0;
@@ -438,9 +438,9 @@ Page {
                                 }
                             }
 
-                            onEntriesAdded: {
-                                for (var i = 0; i < entries.length; i++) {
-                                    var entry = entries[i]
+                            onEntriesAddedIdx: {
+                                for (var i = 0; i < count; i++) {
+                                    var entry = logsModel.get(i)
                                     var value = entry.values["humidity"]
                                     if (value == null) {
                                         value = 0;
@@ -491,9 +491,9 @@ Page {
                                     chartView.busyCounter--
                                 }
                             }
-                            onEntriesAdded: {
-                                for (var i = 0; i < entries.length; i++) {
-                                    var entry = entries[i]
+                            onEntriesAddedIdx: {
+                                for (var i = 0; i < count; i++) {
+                                    var entry = logsModel.get(i)
                                     var value = entry.values["voc"]
                                     if (value == null) {
                                         value = 0;
@@ -580,9 +580,9 @@ Page {
                                     chartView.busyCounter--
                                 }
                             }
-                            onEntriesAdded: {
-                                for (var i = 0; i < entries.length; i++) {
-                                    var entry = entries[i]
+                            onEntriesAddedIdx: {
+                                for (var i = 0; i < count; i++) {
+                                    var entry = logsModel.get(i)
                                     var value = entry.values["closed"]
                                     if (value == null) {
                                         value = false;
@@ -690,9 +690,9 @@ Page {
                                     chartView.busyCounter--
                                 }
                             }
-                            onEntriesAdded: {
-                                for (var i = 0; i < entries.length; i++) {
-                                    var entry = entries[i]
+                            onEntriesAddedIdx: {
+                                for (var i = 0; i < count; i++) {
+                                    var entry = logsModel.get(i)
                                     var value = entry.values["heatingOn"]
                                     if (value == null) {
                                         value = false;

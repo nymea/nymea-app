@@ -13,6 +13,10 @@ Q_DECLARE_LOGGING_CATEGORY(dcLogEngine)
 NewLogsModel::NewLogsModel(QObject *parent)
     : QAbstractListModel{parent}
 {
+    // Workaround for older Qt versions (5.12 and older) which can't deal with the QList<EnergyLogEntry*> argument
+    connect(this, &NewLogsModel::entriesAdded, this, [this](int index, const QList<NewLogEntry*> &entries){
+        emit entriesAddedIdx(index, entries.count());
+    });
 
 }
 
