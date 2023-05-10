@@ -119,6 +119,7 @@ signals:
     void fetchBlockSizeChanged();
 
     void entriesAdded(int index, const QList<NewLogEntry*> &entries);
+    void entriesAddedIdx(int index, int count);
     void entriesRemoved(int index, int count);
 
 private slots:
