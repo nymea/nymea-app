@@ -1,3 +1,11 @@
+nymea-app (1.7.19) bionic; urgency=medium
+
+  [ Danfro ]
+  * add build folder to .gitignore
+  * fix typo thigns to things
+
+ -- jenkins <developer@nymea.io>  Wed, 10 May 2023 22:38:47 +0200
+
 nymea-app (1.7.18) bionic; urgency=medium
 
   [ Michael Zanetti ]
