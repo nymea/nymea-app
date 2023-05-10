@@ -11,3 +11,4 @@ Thumbs.db
 *.pro.user*
 
 packaging/android/nymeaapp.properties
+build
