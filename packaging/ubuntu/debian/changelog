@@ -1,3 +1,10 @@
+nymea-app (1.7.20) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix new charts for older Qt versions
+
+ -- jenkins <developer@nymea.io>  Wed, 10 May 2023 23:19:50 +0200
+
 nymea-app (1.7.19) bionic; urgency=medium
 
   [ Danfro ]
