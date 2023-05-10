@@ -70,6 +70,8 @@ public:
     static void notificationActionReceivedJNI(JNIEnv *env, jobject /*thiz*/, jstring data);
     static void locationServicesEnabledChangedJNI();
 
+    void startMatterCommissioning() override;
+
 private:
     static void permissionRequestFinished(const QtAndroid::PermissionResultMap &);
 };

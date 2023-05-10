@@ -244,6 +244,11 @@ bool PlatformHelper::locationServicesEnabled() const
     return true;
 }
 
+void PlatformHelper::startMatterCommissioning()
+{
+
+}
+
 QObject *PlatformHelper::platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)

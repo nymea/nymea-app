@@ -121,8 +121,10 @@ android {
         LIBS += -L$${top_srcdir}/3rdParty/android/firebase_cpp_sdk/libs/android/$$ANDROID_TARGET_ARCH/c++/ -lfirebase_messaging -lfirebase_app
     }
 
-    ANDROID_EXTRA_LIBS += $${top_srcdir}/3rdParty/android/CHIP/jniLibs/$$ANDROID_TARGET_ARCH/libCHIPController.so \
-    $${top_srcdir}/3rdParty/android/CHIP/jniLibs/armeabi-v7a/libCHIPController.so
+    ANDROID_EXTRA_LIBS += $${top_srcdir}/3rdParty/android/CHIP/jniLibs/armeabi-v7a/libCHIPController.so \
+    $${top_srcdir}/3rdParty/android/CHIP/jniLibs/armeabi-v7a/libCHIPController.so \
+    $${top_srcdir}/3rdParty/android/CHIP/jniLibs/x86_64/libCHIPController.so \
+    $${top_srcdir}/3rdParty/android/CHIP/jniLibs/x86/libCHIPController.so
 }
 
 macx: {

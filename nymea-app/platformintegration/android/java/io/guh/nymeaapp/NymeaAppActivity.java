@@ -5,6 +5,7 @@ import java.io.File;
 import android.util.Log;
 import android.content.Intent;
 import android.content.Context;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.os.Build;
 import android.telephony.TelephonyManager;
@@ -18,6 +19,15 @@ import android.content.BroadcastReceiver;
 import android.location.LocationManager;
 import androidx.core.content.FileProvider;
 import chip.devicecontroller.*;
+import androidx.annotation.NonNull;
+import com.google.android.gms.home.matter.Matter;
+import com.google.android.gms.home.matter.commissioning.CommissioningRequest;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnFailureListener;
+
+import android.content.ComponentName;
+import androidx.lifecycle.MutableLiveData;
 
 public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActivity
 {
@@ -27,6 +37,44 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
     private static native void darkModeEnabledChangedJNI();
     private static native void notificationActionReceivedJNI(String data);
     private static native void locationServicesEnabledChangedJNI();
+
+    private MutableLiveData m_commissionDeviceIntentSender = new MutableLiveData<IntentSender>();
+//    private ActivityResultLauncher<IntentSenderRequest> m_activityResultLauncher = new ActivityResultLauncher<IntentSenderRequest>();
+
+
+    private ActivityResultLauncher<IntentSenderRequest> m_activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(),
+    new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri uri) {
+                // Handle the returned Uri
+//            // handle intent result here
+//            if (result.getResultCode() == RESULT_OK) {
+//                SignInCredential credential = null;
+//                try {
+//                    credential = oneTapClient.getSignInCredentialFromIntent(result.getData());
+//                    String idToken = credential.getGoogleIdToken();
+//                    String username = credential.getId();
+//                    String password = credential.getPassword();
+//                    if (idToken != null) {
+//                        // Got an ID token from Google. Use it to authenticate
+//                        // with your backend.
+//                        Log.d(TAG, "Got ID token.");
+//                    } else if (password != null) {
+//                        // Got a saved username and password. Use them to authenticate
+//                        // with your backend.
+//                        Log.d(TAG, "Got password.");
+//                    }
+//                } catch (ApiException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            else {
+//                //...
+//            }
+            }
+        });
+
+
 
     private BroadcastReceiver m_gpsSwitchStateReceiver = new BroadcastReceiver() {
         @Override
@@ -137,5 +185,34 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
         // This was deprecated in API 28
         int mode = Settings.Secure.getInt(getApplicationContext().getContentResolver(), Settings.Secure.LOCATION_MODE, Settings.Secure.LOCATION_MODE_OFF);
         return (mode != Settings.Secure.LOCATION_MODE_OFF);
+    }
+
+    public void startMatterCommissioning() {
+        Log.d(TAG, "startMatterCommissioning");
+
+
+        CommissioningRequest commissionDeviceRequest =
+            CommissioningRequest.builder()
+//                .setCommissioningService(new ComponentName(context, NymeaAppService.class))
+                .build();
+
+        Matter.getCommissioningClient(context)
+        .commissionDevice(commissionDeviceRequest)
+        .addOnSuccessListener(this, new OnSuccessListener<IntentSender>() {
+            @Override
+            public void onSuccess(IntentSender result) {
+                Log.d(TAG, "Matter commissioning started!");
+                m_commissionDeviceIntentSender.postValue(result);
+                IntentSenderRequest request = IntentSenderRequest.Builder(result).build();
+                m_activityResultLauncher.launch(request);
+            }
+        })
+        .addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Matter commissioning failed!");
+                Log.e(TAG, e.toString());
+            }
+        });
     }
 }

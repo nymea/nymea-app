@@ -278,6 +278,19 @@ Drawer {
                 }
                 NymeaItemDelegate {
                     Layout.fillWidth: true
+                    text: qsTr("Commission matter device")
+                    iconName: "../images/things.svg"
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
+                             && NymeaUtils.hasPermissionScope(root.currentEngine.jsonRpcClient.permissions, UserInfo.PermissionScopeConfigureThings)
+                             && root.currentEngine.jsonRpcClient.connected
+                    progressive: false
+                    onClicked: {
+                        PlatformHelper.startMatterCommissioning()
+                        root.close();
+                    }
+                }
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
                     text: qsTr("Magic")
                     iconName: "../images/magic.svg"
                     progressive: false

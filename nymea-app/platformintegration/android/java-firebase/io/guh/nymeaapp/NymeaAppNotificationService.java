@@ -18,7 +18,6 @@ import android.provider.Settings.System;
 import android.os.Build;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-
 import androidx.core.app.NotificationCompat;
 
 import java.util.Random;

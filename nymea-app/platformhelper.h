@@ -111,6 +111,8 @@ public:
 
     virtual bool locationServicesEnabled() const;
 
+    Q_INVOKABLE virtual void startMatterCommissioning();
+
 signals:
     void screenTimeoutChanged();
     void screenBrightnessChanged();

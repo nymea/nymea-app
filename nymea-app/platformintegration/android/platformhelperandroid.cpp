@@ -293,3 +293,8 @@ void PlatformHelperAndroid::locationServicesEnabledChangedJNI()
         emit platformHelper->locationServicesEnabledChanged();
     }
 }
+
+void PlatformHelperAndroid::startMatterCommissioning()
+{
+    QtAndroid::androidActivity().callMethod<void>("startMatterCommissioning", "()V");
+}
