@@ -90,7 +90,7 @@ MainViewBase {
         visible: !engine.thingManager.fetchingData && (!engine.jsonRpcClient.experiences.hasOwnProperty("AirConditioning") || engine.jsonRpcClient.experiences["AirConditioning"] < "0.1")
         title: qsTr("Air conditioning plugin not installed.")
         text: qsTr("To set up air conditioning, install the air conditioning plugin.")
-        imageSource: "../images/smartmeter.svg"
+        imageSource: "../images/sensors.svg"
         buttonText: qsTr("Install A/C plugin")
         buttonVisible: packagesFilterModel.count > 0
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../system/PackageListPage.qml"), {filter: "nymea-experience-plugin-airconditioning"})
