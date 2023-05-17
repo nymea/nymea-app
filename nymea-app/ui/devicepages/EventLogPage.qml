@@ -134,6 +134,16 @@ Page {
     EmptyViewPlaceholder {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
+        title: qsTr("No data")
+        text: qsTr("This event has not been triggered yet.")
+        imageSource: "../images/logs.svg"
+        visible: root.isLogged && logsModel.count == 0
+        buttonVisible: false
+    }
+
+    EmptyViewPlaceholder {
+        anchors.centerIn: parent
+        width: parent.width - app.margins * 2
         title: qsTr("Logging not enabled")
         text: qsTr("This event is not being logged.")
         imageSource: "../images/logs.svg"
