@@ -99,6 +99,8 @@ public:
     Q_INVOKABLE int executeBrowserItem(const QUuid &thingId, const QString &itemId);
     Q_INVOKABLE int executeBrowserItemAction(const QUuid &thingId, const QString &itemId, const QUuid &actionTypeId, const QVariantList &params = QVariantList());
     Q_INVOKABLE int setStateLogging(const QUuid &thingId, const QUuid &stateTypeId, bool enabled);
+    Q_INVOKABLE int setActionLogging(const QUuid &thingId, const QUuid &actionTypeId, bool enabled);
+    Q_INVOKABLE int setEventLogging(const QUuid &thingId, const QUuid &eventTypeId, bool enabled);
 
     Q_INVOKABLE int connectIO(const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, bool inverted);
     Q_INVOKABLE int disconnectIO(const QUuid &ioConnectionId);
@@ -125,6 +127,8 @@ private:
     Q_INVOKABLE void connectIOResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void disconnectIOResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setStateLoggingResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setActionLoggingResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setEventLoggingResponse(int commandId, const QVariantMap &params);
 
 public slots:
     ThingGroup* createGroup(Interface *interface, ThingsProxy *things);

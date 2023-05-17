@@ -648,6 +648,16 @@ int ThingManager::setStateLogging(const QUuid &thingId, const QUuid &stateTypeId
     return m_jsonClient->sendCommand("Integrations.SetStateLogging", {{"thingId", thingId}, {"stateTypeId", stateTypeId}, {"enabled", enabled}}, this, "setStateLoggingResponse");
 }
 
+int ThingManager::setActionLogging(const QUuid &thingId, const QUuid &actionTypeId, bool enabled)
+{
+    return m_jsonClient->sendCommand("Integrations.SetActionLogging", {{"thingId", thingId}, {"actionTypeId", actionTypeId}, {"enabled", enabled}}, this, "setActionLoggingResponse");
+}
+
+int ThingManager::setEventLogging(const QUuid &thingId, const QUuid &eventTypeId, bool enabled)
+{
+    return m_jsonClient->sendCommand("Integrations.SetEventLogging", {{"thingId", thingId}, {"eventTypeId", eventTypeId}, {"enabled", enabled}}, this, "setStateLoggingResponse");
+}
+
 int ThingManager::connectIO(const QUuid &inputThingId, const QUuid &inputStateTypeId, const QUuid &outputThingId, const QUuid &outputStateTypeId, bool inverted)
 {
     QVariantMap data;
@@ -703,6 +713,18 @@ void ThingManager::setStateLoggingResponse(int commandId, const QVariantMap &par
 {
     Q_UNUSED(commandId)
     qCDebug(dcThingManager()) << "Set state logging response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+}
+
+void ThingManager::setActionLoggingResponse(int commandId, const QVariantMap &params)
+{
+    Q_UNUSED(commandId)
+    qCDebug(dcThingManager()) << "Set action logging response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+}
+
+void ThingManager::setEventLoggingResponse(int commandId, const QVariantMap &params)
+{
+    Q_UNUSED(commandId)
+    qCDebug(dcThingManager()) << "Set event logging response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
 }
 
 Vendor *ThingManager::unpackVendor(const QVariantMap &vendorMap)
