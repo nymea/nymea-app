@@ -20,6 +20,7 @@ Item {
     property string iconSource: ""
     property alias title: titleLabel.text
     property bool titleVisible: true
+    property bool inverted: false
 
     readonly property State valueState: thing && stateType ? thing.states.getState(stateType.id) : null
     readonly property StateType connectedStateType: hasConnectable ? thing.thingClass.stateTypes.findByName("connected") : null
@@ -81,6 +82,8 @@ Item {
                     if (value == null) {
                         value = false;
                     }
+                    value *= root.inverted ? -1 : 1
+
                     // for booleans, we'll insert the opposite value right before the new one so the position is doubled
                     var insertIdx = (index + i) * 2
                     valueSeries.insert(insertIdx, entry.timestamp.getTime() - 500, !value)
@@ -91,6 +94,7 @@ Item {
                     if (value == null) {
                         value = 0;
                     }
+                    value *= root.inverted ? -1 : 1
 
                     minValue = minValue == undefined ? value : Math.min(minValue, value)
                     maxValue = maxValue == undefined ? value : Math.max(maxValue, value)
@@ -264,13 +268,18 @@ Item {
                     height: chartView.plotArea.height
                     width: chartView.plotArea.x - x
                     visible: root.stateType.type.toLowerCase() != "bool" && logsModel.minValue != logsModel.maxValue
+                    property double range: Math.abs(valueAxis.max - valueAxis.min)
+                    property double stepSize: range / (valueAxis.tickCount - 1)
+
                     Repeater {
                         model: valueAxis.tickCount
                         delegate: Label {
                             y: parent.height / (valueAxis.tickCount - 1) * index - font.pixelSize / 2
                             width: parent.width - Style.smallMargins
                             horizontalAlignment: Text.AlignRight
-                            text: root.stateType ? Types.toUiValue(((valueAxis.max - (index * valueAxis.max / (valueAxis.tickCount - 1)))), root.stateType.unit).toFixed(0) + " " + Types.toUiUnit(root.stateType.unit) : ""
+                            property double offset: (valueAxis.tickCount - index - 1) * labelsLayout.stepSize
+                            property double value: valueAxis.min + offset
+                            text: root.stateType ? Types.toUiValue(value, root.stateType.unit).toFixed(0) + " " + Types.toUiUnit(root.stateType.unit) : ""
                             verticalAlignment: Text.AlignTop
                             font: Style.extraSmallFont
                         }
@@ -468,7 +477,7 @@ Item {
                     property int xOnRight: Math.max(0, entryX) + Style.smallMargins
                     property int xOnLeft: Math.min(entryX, mouseArea.width) - Style.smallMargins - width
                     x: xOnRight + width < mouseArea.width ? xOnRight : xOnLeft
-                    property var value: entry ? entry.values[root.stateType.name] : null
+                    property var value: entry ? entry.values[root.stateType.name] * (root.inverted ? -1 : 1) : null
                     y: Math.min(Math.max(mouseArea.height - (value * mouseArea.height / valueAxis.max) - height - Style.margins, 0), mouseArea.height - height)
 
                     width: tooltipLayout.implicitWidth + Style.smallMargins * 2
