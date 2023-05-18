@@ -71,7 +71,6 @@ DashboardDelegateBase {
     //        property string interfaceName: parent.interfaceName
             stateType: root.stateType
     //        property State state: root.state
-
         }
     }
 
