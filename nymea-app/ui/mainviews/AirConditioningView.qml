@@ -49,7 +49,7 @@ MainViewBase {
         {
             iconSource: "/ui/images/configure.svg",
             color: Style.iconColor,
-            visible: acManager.zoneInfos.count > 0,
+            visible: acManager.zoneInfos.count > 0 && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin),
             trigger: function() {
                 pageStack.push("airconditioning/ACSettingsPage.qml", {acManager: acManager});
             }
