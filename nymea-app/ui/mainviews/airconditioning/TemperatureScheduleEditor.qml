@@ -212,7 +212,7 @@ ColumnLayout {
                 print("clicked")
                 if (movedSchedule != null && Math.abs(mouseX - startMouseX) < 5) {
                     print("opening")
-                    var dialog = editDialogComponent.createObject(root, {schedule: movedSchedule})
+                    var dialog = editDialogComponent.createObject(root.parent, {schedule: movedSchedule})
                     dialog.open()
 
                 }
