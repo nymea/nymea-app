@@ -35,6 +35,7 @@ import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 import QtCharts 2.2
 import Nymea 1.0
+import NymeaApp.Utils 1.0
 import Nymea.AirConditioning 1.0
 import "qrc:/ui/components"
 import "qrc:/ui/delegates"
