@@ -1,3 +1,11 @@
+nymea-app (1.8.5) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve group editing popup
+  * Elide labels in Selection tabs
+
+ -- jenkins <developer@nymea.io>  Wed, 24 May 2023 20:02:13 +0200
+
 nymea-app (1.8.4) bionic; urgency=medium
 
   [ Michael Zanetti ]
