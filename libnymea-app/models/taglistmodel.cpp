@@ -104,10 +104,6 @@ bool TagListModel::containsValue(const QString &tagValue)
 
 void TagListModel::update()
 {
-    beginResetModel();
-    qDeleteAll(m_list);
-    m_list.clear();
-
     for (int i = 0; i < m_tagsProxy->rowCount(); i++) {
         Tag *tag = m_tagsProxy->get(i);
 
@@ -120,11 +116,33 @@ void TagListModel::update()
         }
         if (!found) {
             Tag *t = new Tag(tag->tagId(), tag->value(), this);
+            t->setThingId(tag->thingId());
+            t->setRuleId(tag->ruleId());
+            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
             m_list.append(t);
+            endInsertRows();
         }
     }
 
-    endResetModel();
+    QMutableListIterator<Tag*> it(m_list);
+    while (it.hasNext()) {
+        Tag *tag = it.next();
+        bool found = false;
+        for (int i = 0; i < m_tagsProxy->rowCount(); i++) {
+            Tag *tagInSource = m_tagsProxy->get(i);
+            if (tag->tagId() == tagInSource->tagId() && tag->value() == tagInSource->value()) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            int idx = m_list.indexOf(tag);
+            beginRemoveRows(QModelIndex(), idx, idx);
+            m_list.at(idx)->deleteLater();
+            it.remove();
+            endRemoveRows();
+        }
+    }
     emit countChanged();
 }
 
