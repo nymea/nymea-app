@@ -40,7 +40,10 @@ Rectangle {
                 height: label.implicitHeight + Style.smallMargins
                 Label {
                     id: label
-                    anchors.centerIn: parent
+                    anchors.fill: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
                     text: modelData
                 }
                 MouseArea {
