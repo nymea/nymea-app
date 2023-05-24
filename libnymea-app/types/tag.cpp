@@ -81,3 +81,8 @@ void Tag::setValue(const QString &value)
         emit valueChanged();
     }
 }
+
+bool Tag::equals(Tag *other) const
+{
+    return m_tagId == other->tagId() && m_thingId == other->thingId() && m_ruleId == other->ruleId() && m_value == other->value();
+}

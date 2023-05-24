@@ -59,6 +59,8 @@ public:
     QString value() const;
     void setValue(const QString &value);
 
+    bool equals(Tag *other) const;
+
 signals:
     void valueChanged();
 
