@@ -51,7 +51,6 @@ class NymeaConfiguration : public QObject
 
     Q_PROPERTY(QString serverName READ serverName WRITE setServerName NOTIFY serverNameChanged)
 
-    Q_PROPERTY(bool cloudEnabled READ cloudEnabled WRITE setCloudEnabled NOTIFY cloudEnabledChanged)
     Q_PROPERTY(bool debugServerEnabled READ debugServerEnabled WRITE setDebugServerEnabled NOTIFY debugServerEnabledChanged)
 
     Q_PROPERTY(ServerConfigurations* tcpServerConfigurations READ tcpServerConfigurations CONSTANT)
@@ -80,9 +79,6 @@ public:
 
     bool debugServerEnabled() const;
     void setDebugServerEnabled(bool debugServerEnabled);
-
-    bool cloudEnabled() const;
-    void setCloudEnabled(bool cloudEnabled);
 
     ServerConfigurations *tcpServerConfigurations() const;
     ServerConfigurations *webSocketServerConfigurations() const;
@@ -118,7 +114,6 @@ private:
     Q_INVOKABLE void setDebugServerEnabledResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setServerNameResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setTimezoneResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void setCloudEnabledResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setTcpConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void deleteTcpConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setWebSocketConfigReply(int commandId, const QVariantMap &params);
@@ -140,7 +135,6 @@ signals:
     void fetchingDataChanged();
     void debugServerEnabledChanged();
     void serverNameChanged();
-    void cloudEnabledChanged();
 
 private:
     JsonRpcClient* m_client = nullptr;
@@ -148,7 +142,6 @@ private:
     bool m_fetchingData = false;
     bool m_debugServerEnabled = false;
     QString m_serverName;
-    bool m_cloudEnabled = false;
 
     ServerConfigurations *m_tcpServerConfigurations = nullptr;
     ServerConfigurations *m_webSocketServerConfigurations = nullptr;
