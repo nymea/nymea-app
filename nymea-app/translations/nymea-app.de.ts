@@ -649,7 +649,7 @@
     </message>
     <message>
         <source>Connect Inputs/Outputs</source>
-        <translation>Verbundene Ein-/Ausgäange</translation>
+        <translation>Verbundene Ein-/Ausgänge</translation>
     </message>
     <message>
         <source>Connect &quot;%1&quot; to:</source>
@@ -711,8 +711,8 @@
         <translation>Der Zielrechner hat unsere Verbindung abgelehnt. Das bedeutet wahrscheinlich, dass %1 nicht auf diesem System läuft. Startet es vielleicht gerade neu?</translation>
     </message>
     <message>
-        <source>An unrecovareable SSL Error happened. Please make sure certificates are installed correctly.</source>
-        <translation>Ein unbekannter SSL Fehler ist aufgetreten. Bitte stelle sicher, dass die Zertifikate korrekt installiert sind.</translation>
+        <source>An unrecoverable SSL Error happened. Please make sure certificates are installed correctly.</source>
+        <translation>Ein nicht behebbarer SSL Fehler ist aufgetreten. Bitte stelle sicher, dass die Zertifikate korrekt installiert sind.</translation>
     </message>
     <message>
         <source>The SSL Certificate is not trusted.</source>
@@ -720,7 +720,7 @@
     </message>
     <message>
         <source>An unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
-        <translation>Ein unbekannter Fehler ist aufgetreten. Dies tut uns leid. (Fehlercode: %1)</translation>
+        <translation>Ein Fehler ist aufgetreten. Dies tut uns leid. (Fehlercode: %1)</translation>
     </message>
     <message>
         <source>%1 could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
@@ -820,7 +820,7 @@
     </message>
     <message>
         <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
-        <translation>Um nymea zu nutzen wird eine nymea:core Installation auf einem Compunter in Deinem Netzwerk benötigt. Dies könnte ein Raspberry Pi oder ein normaler Linux PC sein.</translation>
+        <translation>Um nymea zu nutzen wird eine nymea:core Installation auf einem Computer in Deinem Netzwerk benötigt. Dies könnte ein Raspberry Pi oder ein normaler Linux PC sein.</translation>
     </message>
     <message>
         <source>Please follow the installation instructions on %1 to install a nymea system.</source>
@@ -1364,7 +1364,7 @@
     </message>
     <message>
         <source>View live log</source>
-        <translation>Anwendungsprozokoll zeigen</translation>
+        <translation>Anwendungsprotokoll zeigen</translation>
     </message>
     <message>
         <source>Configure logging categories</source>
@@ -1969,7 +1969,7 @@
     </message>
     <message>
         <source>Add notification target</source>
-        <translation>Benachrichtingsziel hinzufügen</translation>
+        <translation>Benachrichtigungsziel hinzufügen</translation>
     </message>
     <message>
         <source>Select notification target</source>
@@ -2031,7 +2031,7 @@
     </message>
     <message>
         <source>Install energy plugin</source>
-        <translation>Energie-Addon installieren</translation>
+        <translation>Energie-Plugin installieren</translation>
     </message>
     <message>
         <source>Energy plugin not installed.</source>
@@ -2193,7 +2193,7 @@
     </message>
     <message>
         <source>Right thumb</source>
-        <translation>Rchter Daumen</translation>
+        <translation>Rechter Daumen</translation>
     </message>
     <message>
         <source>Right index finger</source>
@@ -2555,7 +2555,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Battery level entered critical state</source>
-        <translation>Batterieladung betritt kritischen Bereich</translation>
+        <translation>Batterieladung hat kritischen Bereich erreicht</translation>
     </message>
     <message>
         <source>Notification services</source>
@@ -2607,7 +2607,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Powered things</source>
-        <translation>Einschageschaltete &quot;Things&quot;</translation>
+        <translation>Eingeschaltete &quot;Things&quot;</translation>
     </message>
     <message>
         <source>Thing is turned on</source>
@@ -2807,7 +2807,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Connectable things</source>
-        <translation>Verbundene &quot;Things&quot;</translation>
+        <translation>Verbindbare &quot;Things&quot;</translation>
     </message>
     <message>
         <source>Accounts</source>
@@ -2819,7 +2819,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>User login changed</source>
-        <translation>Butzer-Login geändert</translation>
+        <translation>Benutzer-Login geändert</translation>
     </message>
     <message>
         <source>Alert</source>
@@ -2895,7 +2895,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Lights color temperature is</source>
-        <translation>Lighttemperatur ist</translation>
+        <translation>Lichttemperatur ist</translation>
     </message>
     <message>
         <source>A lights color temperature has changed</source>
@@ -3427,7 +3427,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Total consumed energy changed</source>
-        <translation>Gesamtenergieverbraucht geändert</translation>
+        <translation>Gesamtenergieverbrauch geändert</translation>
     </message>
     <message>
         <source>Total energy produced</source>
@@ -3443,11 +3443,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Cooling enabled</source>
-        <translation>Kühlung aktivert</translation>
+        <translation>Kühlung aktiviert</translation>
     </message>
     <message>
         <source>Cooling enabled changed</source>
-        <translation>Kühlung aktivert oder deaktiviert</translation>
+        <translation>Kühlung aktiviert oder deaktiviert</translation>
     </message>
     <message>
         <source>Enable cooling</source>
@@ -3640,11 +3640,11 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Terminated by system</source>
-        <translation>Von System beendet</translation>
+        <translation>Vom System beendet</translation>
     </message>
     <message>
         <source>Application quit</source>
-        <translation>Anwenung beendet</translation>
+        <translation>Anwendung beendet</translation>
     </message>
     <message>
         <source>Application error</source>
@@ -3773,7 +3773,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Your e-mail address</source>
-        <translation>Deine e-mail Adresse</translation>
+        <translation>Deine E-Mail Adresse</translation>
     </message>
     <message>
         <source>Required</source>
@@ -3793,7 +3793,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation></translation>
+        <translation>E-Mail</translation>
     </message>
 </context>
 <context>
@@ -3860,7 +3860,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Imperial</source>
-        <translation>Imperialistisch</translation>
+        <translation>Angloamerikanisch</translation>
     </message>
     <message>
         <source>Appearance</source>
@@ -4047,7 +4047,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Remote proxy</source>
-        <translation>Ferverbindungs-Proxy-Server</translation>
+        <translation>Fernverbindungs-Proxy-Server</translation>
     </message>
     <message>
         <source>Address:</source>
@@ -4514,7 +4514,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>%1 is already used</source>
-        <translation>%1 ist bereits benutzt</translation>
+        <translation>%1 wird bereits benutzt</translation>
     </message>
     <message>
         <source>Can&apos;t be blank</source>
@@ -5072,7 +5072,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     <message>
         <source>switchable thing</source>
         <extracomment>Select ...</extracomment>
-        <translation>einschalbare Geräte</translation>
+        <translation>einschaltbare Geräte</translation>
     </message>
     <message>
         <source>daylight sensor</source>
@@ -5205,7 +5205,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Nitrogen dioxide level</source>
-        <translation>Nitrogen-Dioxid Wert</translation>
+        <translation>Stickstoffdioxid Wert</translation>
     </message>
     <message>
         <source>vibration sensor</source>
@@ -6705,7 +6705,7 @@ A consumer, not consuming anything</extracomment>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
 Do you want to proceed?</source>
-        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Miuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.
+        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Minuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.
 Möchtest Du fortfahren?</translation>
     </message>
     <message>
@@ -7240,7 +7240,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>The given username is already in use. Please choose a different username.</source>
-        <translation>Der gewählte Benutzername ist bereits verwendet. Bitte wähle einen anderen Benutzernamen.</translation>
+        <translation>Der gewählte Benutzername wird bereits verwendet. Bitte wähle einen anderen Benutzernamen.</translation>
     </message>
     <message>
         <source>User information</source>
@@ -8631,15 +8631,15 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <name>ruleNameTemplate for daylightsensor</name>
     <message>
         <source>Turn on %1 while it&apos;s dark outside</source>
-        <translation>%1 einschalten während es drausen dunkel ist</translation>
+        <translation>%1 einschalten während es draußen dunkel ist</translation>
     </message>
     <message>
         <source>Turn on %1 when it gets dark outside (%0)</source>
-        <translation>Schalte %1 ein wenn es drausen dunkel wird (%0)</translation>
+        <translation>Schalte %1 ein wenn es draußen dunkel wird (%0)</translation>
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
-        <translation>Alle Lichter einschalten wenn es drausen dunkel wird</translation>
+        <translation>Alle Lichter einschalten wenn es draußen dunkel wird</translation>
     </message>
 </context>
 <context>
