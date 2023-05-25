@@ -106,18 +106,6 @@ void NymeaConfiguration::setDebugServerEnabled(bool debugServerEnabled)
     m_client->sendCommand("Configuration.SetDebugServerEnabled", params, this, "setDebugServerEnabledResponse");
 }
 
-bool NymeaConfiguration::cloudEnabled() const
-{
-    return m_cloudEnabled;
-}
-
-void NymeaConfiguration::setCloudEnabled(bool cloudEnabled)
-{
-    QVariantMap params;
-    params.insert("enabled", cloudEnabled);
-    m_client->sendCommand("Configuration.SetCloudEnabled", params, this, "setCloudEnabledResponse");
-}
-
 ServerConfigurations *NymeaConfiguration::tcpServerConfigurations() const
 {
     return m_tcpServerConfigurations;
@@ -302,8 +290,6 @@ void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariant
     m_serverName = basicConfig.value("serverName").toString();
     emit serverNameChanged();
     QVariantMap cloudConfig = params.value("cloud").toMap();
-    m_cloudEnabled = cloudConfig.value("enabled").toBool();
-    emit cloudEnabledChanged();
 
     tcpServerConfigurations()->clear();
     foreach (const QVariant &tcpServerVariant, params.value("tcpServerConfigurations").toList()) {
@@ -354,11 +340,6 @@ void NymeaConfiguration::setTimezoneResponse(int commandId, const QVariantMap &p
 void NymeaConfiguration::getCloudConfigurationResponse(const QVariantMap &params)
 {
     qCDebug(dcNymeaConfiguration) << "Cloud config reply" << params;
-}
-
-void NymeaConfiguration::setCloudEnabledResponse(int commandId, const QVariantMap &params)
-{
-    qCDebug(dcNymeaConfiguration) << "Set cloud enabled:" << commandId << params;
 }
 
 void NymeaConfiguration::setDebugServerEnabledResponse(int commandId, const QVariantMap &params)
@@ -467,11 +448,6 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
         m_serverName = configMap.value("serverName").toString();
         emit serverNameChanged();
         qCDebug(dcNymeaConfiguration()) << "Basic configuration changed. Server name:" << m_serverName << "Debug server enabled:" << m_debugServerEnabled;
-    } else if (notif == "Configuration.CloudConfigurationChanged") {
-        QVariantMap configMap = params.value("cloudConfiguration").toMap();
-        qCDebug(dcNymeaConfiguration()) << "Cloud coniguration changed" << configMap;
-        m_cloudEnabled = configMap.value("enabled").toBool();
-        emit cloudEnabledChanged();
     } else if (notif == "Configuration.TcpServerConfigurationChanged") {
         QVariantMap configMap = params.value("tcpServerConfiguration").toMap();
         QString id = configMap.value("id").toString();
