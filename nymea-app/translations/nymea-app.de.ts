@@ -711,7 +711,7 @@
         <translation>Der Zielrechner hat unsere Verbindung abgelehnt. Das bedeutet wahrscheinlich, dass %1 nicht auf diesem System läuft. Startet es vielleicht gerade neu?</translation>
     </message>
     <message>
-        <source>An unrecoverable SSL Error happened. Please make sure certificates are installed correctly.</source>
+        <source>An unrecovareable SSL Error happened. Please make sure certificates are installed correctly.</source>
         <translation>Ein nicht behebbarer SSL Fehler ist aufgetreten. Bitte stelle sicher, dass die Zertifikate korrekt installiert sind.</translation>
     </message>
     <message>
