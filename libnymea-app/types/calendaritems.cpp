@@ -66,6 +66,7 @@ void CalendarItems::removeCalendarItem(int index)
     beginRemoveRows(QModelIndex(), index, index);
     m_list.takeAt(index)->deleteLater();
     endRemoveRows();
+    emit countChanged();
 }
 
 CalendarItem *CalendarItems::createNewCalendarItem() const

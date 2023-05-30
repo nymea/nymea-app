@@ -100,11 +100,18 @@ Page {
         addEventDescriptor(true);
     }
 
-    function selectEventDescriptorData(eventDescriptor) {
+    function selectEventDescriptorData(eventDescriptor, destroyOnCancel) {
+        if (destroyOnCancel == undefined) {
+            destroyOnCancel = true
+        }
+
         var eventPage = pageStack.push(Qt.resolvedUrl("SelectEventDescriptorPage.qml"), {text: "Select event", eventDescriptor: eventDescriptor});
         eventPage.onBackPressed.connect(function() {
             eventPage.StackView.onRemoved.connect(function() {
-                eventDescriptor.destroy();
+                if (destroyOnCancel) {
+                    print("destroying event descriptor")
+                    eventDescriptor.destroy();
+                }
             });
             pageStack.pop();
         })
@@ -482,6 +489,9 @@ Page {
                     implicitWidth: parent.width
                     eventDescriptor: root.rule.eventDescriptors.get(index)
                     onRemoveEventDescriptor: root.rule.eventDescriptors.removeEventDescriptor(index)
+                    onClicked: {
+                        selectEventDescriptorData(eventDescriptor, false)
+                    }
                 }
             }
 
