@@ -37,7 +37,7 @@ import "../components"
 ItemDelegate {
 
     id: root
-    property var stateEvaluator: null
+    property StateEvaluator stateEvaluator: null
     readonly property Thing thing: stateEvaluator ? engine.thingManager.things.getThing(stateEvaluator.stateDescriptor.thingId) : null
     readonly property StateType stateType: thing ? thing.thingClass.stateTypes.getStateType(stateEvaluator.stateDescriptor.stateTypeId) : null
 
@@ -56,12 +56,20 @@ ItemDelegate {
         page.thingSelected.connect(function(thing) {
             root.stateEvaluator.stateDescriptor.interfaceName = "";
             root.stateEvaluator.stateDescriptor.thingId = thing.id;
-            selectStateDescriptorData()
+            var statePage = selectStateDescriptorData()
+            statePage.done.connect(function() {
+                pageStack.pop(StackView.Immediate)
+                pageStack.pop()
+            })
         });
         page.interfaceSelected.connect(function(interfaceName) {
             root.stateEvaluator.stateDescriptor.thingId = "";
             root.stateEvaluator.stateDescriptor.interfaceName = interfaceName;
-            selectStateDescriptorData();
+            var statePage = selectStateDescriptorData();
+            statePage.done.connect(function() {
+                pageStack.pop(StackView.Immediate)
+                pageStack.pop()
+            })
         });
     }
     function editInterfaceStateDescriptor() {
@@ -73,10 +81,11 @@ ItemDelegate {
             pageStack.pop();
         })
         statePage.done.connect(function() {
+            pageStack.pop(statePage, StackView.Immediate);
             pageStack.pop();
-            pageStack.pop();
-            pageStack.pop();
+//            pageStack.pop();
         })
+        return statePage
     }
 
     contentItem: ColumnLayout {
@@ -85,7 +94,12 @@ ItemDelegate {
             stateEvaluator: root.stateEvaluator
             swipe.enabled: root.canDelete
             onClicked: {
-                var page = pageStack.push(stateQuestionPageComponent);
+                print("opening editor:", root.stateEvaluator.stateDescriptor.thingId)
+                if (root.stateEvaluator.stateDescriptor.thingId.toString() !== "{00000000-0000-0000-0000-000000000000}") {
+                    selectStateDescriptorData()
+                } else {
+                    var page = pageStack.push(stateQuestionPageComponent);
+                }
             }
             onDeleteClicked: {
                 root.deleteClicked()
