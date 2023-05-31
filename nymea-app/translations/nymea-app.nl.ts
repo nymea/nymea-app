@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="nl">
+<TS version="2.1" language="nl_NL">
 <context>
     <name>ACChartsPage</name>
     <message>
@@ -2287,7 +2287,7 @@ Probeer het nog een keer.</translation>
     </message>
     <message>
         <source>Connect your garage doors in order to control them from here.</source>
-        <translation>Maak verbinding met je garagedeuren om ze hier te controleren.</translation>
+        <translation>Maak verbinding met je garagedeuren om ze hier te bedienen.</translation>
     </message>
     <message>
         <source>Add things</source>
@@ -2553,535 +2553,535 @@ Probeer het nog een keer.</translation>
     </message>
     <message>
         <source>Battery level is critical</source>
-        <translation type="unfinished"></translation>
+        <translation>Batterij niveau is kritiek</translation>
     </message>
     <message>
         <source>Battery level entered critical state</source>
-        <translation type="unfinished"></translation>
+        <translation>Batterij niveau is kritiek geworden</translation>
     </message>
     <message>
         <source>Notification services</source>
-        <translation type="unfinished"></translation>
+        <translation>Meldingen</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <source>Message body</source>
-        <translation type="unfinished"></translation>
+        <translation>Inhoud van het bericht</translation>
     </message>
     <message>
         <source>Send notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Verstuur melding</translation>
     </message>
     <message>
         <source>Lights</source>
-        <translation type="unfinished"></translation>
+        <translation>Lampen</translation>
     </message>
     <message>
         <source>Light is turned on</source>
-        <translation type="unfinished"></translation>
+        <translation>Lamp is aangezet</translation>
     </message>
     <message>
         <source>A light is turned on or off</source>
-        <translation type="unfinished"></translation>
+        <translation>Lamp is aan- of uitgezet</translation>
     </message>
     <message>
         <source>Turn lights on or off</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet lampen aan of uit</translation>
     </message>
     <message>
         <source>Temperature sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatuursensoren</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatuur</translation>
     </message>
     <message>
         <source>Temperature has changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatuur is veranderd</translation>
     </message>
     <message>
         <source>Closable things</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluitbare dingen</translation>
     </message>
     <message>
         <source>Powered things</source>
-        <translation type="unfinished"></translation>
+        <translation>Dingen op het stroomnet</translation>
     </message>
     <message>
         <source>Thing is turned on</source>
-        <translation type="unfinished"></translation>
+        <translation>Ding is aangezet</translation>
     </message>
     <message>
         <source>A thing is turned on or off</source>
-        <translation type="unfinished"></translation>
+        <translation>Een ding is aan- of uitgezet</translation>
     </message>
     <message>
         <source>Turn things on or off</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet dingen aan of uit</translation>
     </message>
     <message>
         <source>Dimmable lights</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimbare lampen</translation>
     </message>
     <message>
         <source>Light&apos;s brightness is</source>
-        <translation type="unfinished"></translation>
+        <translation>Helderheid van de lamp is</translation>
     </message>
     <message>
         <source>A light&apos;s brightness has changed</source>
-        <translation type="unfinished"></translation>
+        <translation>De helderheid van een lamp is veranderd</translation>
     </message>
     <message>
         <source>Set lights brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel de helderheid van lampen in</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluiten</translation>
     </message>
     <message>
         <source>Presence sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Aanwezigheidssensoren</translation>
     </message>
     <message>
         <source>Is present</source>
-        <translation type="unfinished"></translation>
+        <translation>Is aanwezig</translation>
     </message>
     <message>
         <source>Presence changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Aanwezigheid is veranderd</translation>
     </message>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Jaloezieën</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Open</translation>
     </message>
     <message>
         <source>Awnings</source>
-        <translation type="unfinished"></translation>
+        <translation>Zonneschermen</translation>
     </message>
     <message>
         <source>Shutters</source>
-        <translation type="unfinished"></translation>
+        <translation>Shutters</translation>
     </message>
     <message>
         <source>Humidity sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Luchtvochtigheidssensoren</translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation type="unfinished"></translation>
+        <translation>Luchtvochtigheid</translation>
     </message>
     <message>
         <source>Humidity changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Luchtvochtigheid is veranderd</translation>
     </message>
     <message>
         <source>Daylight sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Daglicht sensoren</translation>
     </message>
     <message>
         <source>Daylight</source>
-        <translation type="unfinished"></translation>
+        <translation>Daglicht</translation>
     </message>
     <message>
         <source>Daylight changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Daglicht is veranderd</translation>
     </message>
     <message>
         <source>EV charger</source>
-        <translation type="unfinished"></translation>
+        <translation>EV oplader</translation>
     </message>
     <message>
         <source>Charging</source>
-        <translation type="unfinished"></translation>
+        <translation>Opladen</translation>
     </message>
     <message>
         <source>Charging changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Opladen is veranderd</translation>
     </message>
     <message>
         <source>Enable charging</source>
-        <translation type="unfinished"></translation>
+        <translation>Opladen inschakelen</translation>
     </message>
     <message>
         <source>Speakers</source>
-        <translation type="unfinished"></translation>
+        <translation>Speakers</translation>
     </message>
     <message>
         <source>Increase volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Verhoog volume</translation>
     </message>
     <message>
         <source>Decrease volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Verlaag volume</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation type="unfinished"></translation>
+        <translation>Gateways</translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbonden</translation>
     </message>
     <message>
         <source>Connected changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinding is veranderd</translation>
     </message>
     <message>
         <source>Heating enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwarming is ingeschakeld</translation>
     </message>
     <message>
         <source>Heating enabled changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingeschakelde verwarming is veranderd</translation>
     </message>
     <message>
         <source>Enable heating</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwarming inschakelen</translation>
     </message>
     <message>
         <source>Media players</source>
-        <translation type="unfinished"></translation>
+        <translation>Media spelers</translation>
     </message>
     <message>
         <source>Playback status</source>
-        <translation type="unfinished"></translation>
+        <translation>Afspeelstatus</translation>
     </message>
     <message>
         <source>Playback status changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Afspeelstatus is veranderd</translation>
     </message>
     <message>
         <source>Set playback status</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel afspeelstatus in</translation>
     </message>
     <message>
         <source>Light intensity</source>
-        <translation type="unfinished"></translation>
+        <translation>Lichtintensiteit</translation>
     </message>
     <message>
         <source>Light intensity changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Lichtintensiteit is veranderd</translation>
     </message>
     <message>
         <source>Media controllers</source>
-        <translation type="unfinished"></translation>
+        <translation>Mediacontrollers</translation>
     </message>
     <message>
         <source>Start playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Start met afspelen</translation>
     </message>
     <message>
         <source>Stop playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop met afspelen</translation>
     </message>
     <message>
         <source>Pause playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Pauzeer afspelen</translation>
     </message>
     <message>
         <source>Skip back</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorige</translation>
     </message>
     <message>
         <source>Skip next</source>
-        <translation type="unfinished"></translation>
+        <translation>Volgende</translation>
     </message>
     <message>
         <source>Access control systems</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegangscontrole systeem</translation>
     </message>
     <message>
         <source>Access granted</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegang toegestaan</translation>
     </message>
     <message>
         <source>Access denied</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegang geweigerd</translation>
     </message>
     <message>
         <source>Connectable things</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindbare dingen</translation>
     </message>
     <message>
         <source>Accounts</source>
-        <translation type="unfinished"></translation>
+        <translation>Accounts</translation>
     </message>
     <message>
         <source>User is logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruiker is ingelogd</translation>
     </message>
     <message>
         <source>User login changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Loginstatus van gebruiker is veranderd</translation>
     </message>
     <message>
         <source>Alert</source>
-        <translation type="unfinished"></translation>
+        <translation>Melding</translation>
     </message>
     <message>
         <source>Simple closables</source>
-        <translation type="unfinished"></translation>
+        <translation>Eenvoudige sloten</translation>
     </message>
     <message>
         <source>Closables</source>
-        <translation type="unfinished"></translation>
+        <translation>Sloten</translation>
     </message>
     <message>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <source>Barcode scanners</source>
-        <translation type="unfinished"></translation>
+        <translation>Streepjescode scanners</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Inhoud</translation>
     </message>
     <message>
         <source>Code scanned</source>
-        <translation type="unfinished"></translation>
+        <translation>Streepjescode gescand</translation>
     </message>
     <message>
         <source>Battery level</source>
-        <translation type="unfinished"></translation>
+        <translation>Batterijniveau</translation>
     </message>
     <message>
         <source>Battery level changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Batterijniveau is veranderd</translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakelaars</translation>
     </message>
     <message>
         <source>Button pressed</source>
-        <translation type="unfinished"></translation>
+        <translation>Knop ingedruk</translation>
     </message>
     <message>
         <source>Closable sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Raam-/deursensoren</translation>
     </message>
     <message>
         <source>Closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Gesloten</translation>
     </message>
     <message>
         <source>Opened or closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Geopend of gesloten</translation>
     </message>
     <message>
         <source>CO2 sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>CO2 sensor</translation>
     </message>
     <message>
         <source>CO2 level</source>
-        <translation type="unfinished"></translation>
+        <translation>CO2 niveau</translation>
     </message>
     <message>
         <source>CO2 level changed</source>
-        <translation type="unfinished"></translation>
+        <translation>CO2 niveau is veranderd</translation>
     </message>
     <message>
         <source>Color temperature light</source>
-        <translation type="unfinished"></translation>
+        <translation>Lamp met kleurtemperatuur</translation>
     </message>
     <message>
         <source>Lights color temperature is</source>
-        <translation type="unfinished"></translation>
+        <translation>De kleurtemperatuur van de lamp is</translation>
     </message>
     <message>
         <source>A lights color temperature has changed</source>
-        <translation type="unfinished"></translation>
+        <translation>De kleurtemperatuur van een lamp is veranderd</translation>
     </message>
     <message>
         <source>Set lights color temperature</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel de kleurtemperatuur van een lamp in</translation>
     </message>
     <message>
         <source>Color lights</source>
-        <translation type="unfinished"></translation>
+        <translation>Kleurenlamp</translation>
     </message>
     <message>
         <source>Light&apos;s color is</source>
-        <translation type="unfinished"></translation>
+        <translation>De kleur van de lamp is</translation>
     </message>
     <message>
         <source>A light&apos;s color has changed</source>
-        <translation type="unfinished"></translation>
+        <translation>De kleur van een lamp is veranderd</translation>
     </message>
     <message>
         <source>Set lights color</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel de kleur van de lamp in</translation>
     </message>
     <message>
         <source>Conductivity sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Vermogensmeter</translation>
     </message>
     <message>
         <source>Conductivity</source>
-        <translation type="unfinished"></translation>
+        <translation>Vermogen</translation>
     </message>
     <message>
         <source>Conductivity changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Vermogen is veranderd</translation>
     </message>
     <message>
         <source>Doorbells</source>
-        <translation type="unfinished"></translation>
+        <translation>Deurbellen</translation>
     </message>
     <message>
         <source>Doorbell pressed</source>
-        <translation type="unfinished"></translation>
+        <translation>Deurbel is ingedrukt</translation>
     </message>
     <message>
         <source>Moving</source>
-        <translation type="unfinished"></translation>
+        <translation>Beweging</translation>
     </message>
     <message>
         <source>Moving changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Beweging is veranderd</translation>
     </message>
     <message>
         <source>Maximum charging current</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale laadstroom</translation>
     </message>
     <message>
         <source>Maximum charging current changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale laadstroom is veranderd</translation>
     </message>
     <message>
         <source>Set maximum charging current</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel maximale laadstroom in</translation>
     </message>
     <message>
         <source>Percentage</source>
-        <translation type="unfinished"></translation>
+        <translation>Percentage</translation>
     </message>
     <message>
         <source>Percentage changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Percentage is veranderd</translation>
     </message>
     <message>
         <source>Set percentage</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel percentage in</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>Fast forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Snel vooruitspoelen</translation>
     </message>
     <message>
         <source>Fast rewind</source>
-        <translation type="unfinished"></translation>
+        <translation>Snel terugspoelen</translation>
     </message>
     <message>
         <source>Navigation pad</source>
-        <translation type="unfinished"></translation>
+        <translation>Navigatiepad</translation>
     </message>
     <message>
         <source>To</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar</translation>
     </message>
     <message>
         <source>Navigate</source>
-        <translation type="unfinished"></translation>
+        <translation>Navigeer</translation>
     </message>
     <message>
         <source>Smart meter</source>
-        <translation type="unfinished"></translation>
+        <translation>Slimme meter</translation>
     </message>
     <message>
         <source>Smart meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Slimme meters</translation>
     </message>
     <message>
         <source>Total energy consumed</source>
-        <translation type="unfinished"></translation>
+        <translation>Totale gebruikte energie</translation>
     </message>
     <message>
         <source>Current power</source>
-        <translation type="unfinished"></translation>
+        <translation>Huidig stroomniveau</translation>
     </message>
     <message>
         <source>Current power changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Stroomniveau is gewijzigd</translation>
     </message>
     <message>
         <source>Mute</source>
-        <translation type="unfinished"></translation>
+        <translation>Dempen</translation>
     </message>
     <message>
         <source>Muted</source>
-        <translation type="unfinished"></translation>
+        <translation>Gedempt</translation>
     </message>
     <message>
         <source>Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume</translation>
     </message>
     <message>
         <source>Volume changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume is veranderd</translation>
     </message>
     <message>
         <source>Set volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel volume in</translation>
     </message>
     <message>
         <source>User access control systems</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlesysteem voor gebruikerstoegang</translation>
     </message>
     <message>
         <source>Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikers</translation>
     </message>
     <message>
         <source>Users changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikers zijn veranderd</translation>
     </message>
     <message>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruiker</translation>
     </message>
     <message>
         <source>Add user</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg gebruiker toe</translation>
     </message>
     <message>
         <source>Remove user</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder gebruiker</translation>
     </message>
     <message>
         <source>Fingerprint readers</source>
-        <translation type="unfinished"></translation>
+        <translation>Vingerafdruklezers</translation>
     </message>
     <message>
         <source>Finger</source>
-        <translation type="unfinished"></translation>
+        <translation>Vinger</translation>
     </message>
     <message>
         <source>Garage doors</source>
-        <translation type="unfinished"></translation>
+        <translation>Garagedeuren</translation>
     </message>
     <message>
         <source>State</source>
-        <translation type="unfinished"></translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>State changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Status is veranderd</translation>
     </message>
     <message>
         <source>Intermediate position</source>
@@ -3093,518 +3093,520 @@ Probeer het nog een keer.</translation>
     </message>
     <message>
         <source>Incoming events</source>
-        <translation type="unfinished"></translation>
+        <translation>Inkomende gebeurtenissen</translation>
     </message>
     <message>
         <source>Triggered</source>
-        <translation type="unfinished"></translation>
+        <translation>Geactiveerd</translation>
     </message>
     <message>
         <source>Light sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Lichtsensoren</translation>
     </message>
     <message>
         <source>Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Knoppen</translation>
     </message>
     <message>
         <source>Long pressed</source>
-        <translation type="unfinished"></translation>
+        <translation>Lang ingedrukt</translation>
     </message>
     <message>
         <source>Media sources</source>
-        <translation type="unfinished"></translation>
+        <translation>Media bronnen</translation>
     </message>
     <message>
         <source>Title changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel is veranderd</translation>
     </message>
     <message>
         <source>Artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Artiest</translation>
     </message>
     <message>
         <source>Artist changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Artiest is veranderd</translation>
     </message>
     <message>
         <source>Collection</source>
-        <translation type="unfinished"></translation>
+        <translation>Collectie</translation>
     </message>
     <message>
         <source>Collection changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Collectie is veranderd</translation>
     </message>
     <message>
         <source>Artwork</source>
-        <translation type="unfinished"></translation>
+        <translation>Artwork</translation>
     </message>
     <message>
         <source>Artwork changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Artwork is veranderd</translation>
     </message>
     <message>
         <source>Moisture sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Vochtigheidssensor</translation>
     </message>
     <message>
         <source>Moisture</source>
-        <translation type="unfinished"></translation>
+        <translation>Vochtigheid</translation>
     </message>
     <message>
         <source>Moisture changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Vochtigheid is veranderd</translation>
     </message>
     <message>
         <source>Button name</source>
-        <translation type="unfinished"></translation>
+        <translation>Knop naam</translation>
     </message>
     <message>
         <source>Pressed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingedrukt</translation>
     </message>
     <message>
         <source>Noise sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Geluidssensoren</translation>
     </message>
     <message>
         <source>Noise level</source>
-        <translation type="unfinished"></translation>
+        <translation>Geluidsniveau</translation>
     </message>
     <message>
         <source>Noise level changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Geluidsniveau is veranderd</translation>
     </message>
     <message>
         <source>Outgoing events</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitgaande gebeurtenissen</translation>
     </message>
     <message>
         <source>Trigger</source>
-        <translation type="unfinished"></translation>
+        <translation>Aanleiding</translation>
     </message>
     <message>
         <source>Power sockets</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopcontacten</translation>
     </message>
     <message>
         <source>Powered</source>
-        <translation type="unfinished"></translation>
+        <translation>Onder stroom</translation>
     </message>
     <message>
         <source>Turned on/off</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan-/uitgezet</translation>
     </message>
     <message>
         <source>Turn on/off</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet aan/uit</translation>
     </message>
     <message>
         <source>Power switches</source>
-        <translation type="unfinished"></translation>
+        <translation>Lichtschakelaars</translation>
     </message>
     <message>
         <source>Pressure sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Druksensoren</translation>
     </message>
     <message>
         <source>Pressure</source>
-        <translation type="unfinished"></translation>
+        <translation>Druk</translation>
     </message>
     <message>
         <source>Pressure changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Druk is veranderd</translation>
     </message>
     <message>
         <source>Shuffle</source>
-        <translation type="unfinished"></translation>
+        <translation>Willekeurig afspelen</translation>
     </message>
     <message>
         <source>Shuffle changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Willekeurig afspelen is veranderd</translation>
     </message>
     <message>
         <source>Set shuffle</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel willekeurig afsprelen in</translation>
     </message>
     <message>
         <source>Repeat</source>
-        <translation type="unfinished"></translation>
+        <translation>Herhalen</translation>
     </message>
     <message>
         <source>Repeat changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Herhalen is veranderd</translation>
     </message>
     <message>
         <source>Set repeat</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel herhalen in</translation>
     </message>
     <message>
         <source>Smart locks</source>
-        <translation type="unfinished"></translation>
+        <translation>Slimme sloten</translation>
     </message>
     <message>
         <source>Unlatch</source>
-        <translation type="unfinished"></translation>
+        <translation>Ontgrendelen</translation>
     </message>
     <message>
         <source>Thermostats</source>
-        <translation type="unfinished"></translation>
+        <translation>Thermostaten</translation>
     </message>
     <message>
         <source>Target temperature</source>
-        <translation type="unfinished"></translation>
+        <translation>Doeltemperatuur</translation>
     </message>
     <message>
         <source>Target temperature changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Doeltemperatuur is veranderd</translation>
     </message>
     <message>
         <source>Set target temperature</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel doeltemperatuur in</translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation type="unfinished"></translation>
+        <translation>Weer</translation>
     </message>
     <message>
         <source>Weather description</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschrijving van het weer</translation>
     </message>
     <message>
         <source>Weather description changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschrijving van het weer is veranderd</translation>
     </message>
     <message>
         <source>Weather condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Weersomstandigheden</translation>
     </message>
     <message>
         <source>Weather condition changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Weersomstandigheden zijn veranderd</translation>
     </message>
     <message>
         <source>Temperature changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatuur is veranderd</translation>
     </message>
     <message>
         <source>Wind speed changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Windsnelheid is veranderd</translation>
     </message>
     <message>
         <source>Wind direction</source>
-        <translation type="unfinished"></translation>
+        <translation>Windrichting</translation>
     </message>
     <message>
         <source>Wind direction changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Windrichting is veranderd</translation>
     </message>
     <message>
         <source>Wind speed sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Windsnelheidssensoren</translation>
     </message>
     <message>
         <source>Wind speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Windsnelheid</translation>
     </message>
     <message>
         <source>Wireless devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Draadloze apparaten</translation>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation type="unfinished"></translation>
+        <translation>Signaalsterkte</translation>
     </message>
     <message>
         <source>Signal strength changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Signaalsterkte is veranderd</translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation type="unfinished">Sensors</translation>
+        <translation>Sensoren</translation>
     </message>
     <message>
         <source>Heating</source>
-        <translation type="unfinished">Verwarming</translation>
+        <translation>Verwarming</translation>
     </message>
     <message>
         <source>Irrigation</source>
-        <translation type="unfinished">Irrigatie</translation>
+        <translation>Irrigatie</translation>
     </message>
     <message>
         <source>Ventilation</source>
-        <translation type="unfinished">Ventilatie</translation>
+        <translation>Ventilatie</translation>
     </message>
     <message>
         <source>Navigation pad with menu</source>
-        <translation type="unfinished">Navigatiepad met menu</translation>
+        <translation>Navigatiepad met menu</translation>
     </message>
     <message>
         <source>Operate</source>
-        <translation type="unfinished">Bedienen</translation>
+        <translation>Bedienen</translation>
     </message>
     <message>
         <source>Water sensors</source>
-        <translation type="unfinished">Watersensoren</translation>
+        <translation>Watersensoren</translation>
     </message>
     <message>
         <source>Water detected</source>
-        <translation type="unfinished">Water gedetecteerd</translation>
+        <translation>Water gedetecteerd</translation>
     </message>
     <message>
         <source>Water detected changed</source>
-        <translation type="unfinished">Gedetecteerd water is veranderd</translation>
+        <translation>Gedetecteerd water is veranderd</translation>
     </message>
     <message>
         <source>Charging started or stopped</source>
-        <translation type="unfinished">Opladen gestart of gestopt</translation>
+        <translation>Opladen gestart of gestopt</translation>
     </message>
     <message>
         <source>Discharging</source>
-        <translation type="unfinished">Ontladen</translation>
+        <translation>Ontladen</translation>
     </message>
     <message>
         <source>Discharging started or stopped</source>
-        <translation type="unfinished">Ontladen gestart of gestopt</translation>
+        <translation>Ontladen gestart of gestopt</translation>
     </message>
     <message>
         <source>Plugged in</source>
-        <translation type="unfinished">Ingeplugd</translation>
+        <translation>Ingeplugd</translation>
     </message>
     <message>
         <source>Plugged in or out</source>
-        <translation type="unfinished">In- of uitgeplugd</translation>
+        <translation>In- of uitgeplugd</translation>
     </message>
     <message>
         <source>Cleaning robots</source>
-        <translation type="unfinished">Schoonmaakrobots</translation>
+        <translation>Schoonmaakrobots</translation>
     </message>
     <message>
         <source>Robot state</source>
-        <translation type="unfinished">Robotstatus</translation>
+        <translation>Robotstatus</translation>
     </message>
     <message>
         <source>Robot state changed</source>
-        <translation type="unfinished">Robotstatus gewijzigd</translation>
+        <translation>Robotstatus is veranderd</translation>
     </message>
     <message>
         <source>Start cleaning</source>
-        <translation type="unfinished">Begin met schoonmaken</translation>
+        <translation>Begin met schoonmaken</translation>
     </message>
     <message>
         <source>Stop cleaning</source>
-        <translation type="unfinished">Stop met schoonmaken</translation>
+        <translation>Stop met schoonmaken</translation>
     </message>
     <message>
         <source>Pause cleaning</source>
-        <translation type="unfinished">Pauseer het schoonmaken</translation>
+        <translation>Pauseer het schoonmaken</translation>
     </message>
     <message>
         <source>Return to base</source>
-        <translation type="unfinished">Keer terug naar het startpunt</translation>
+        <translation>Keer terug naar het startpunt</translation>
     </message>
     <message>
         <source>CO sensor</source>
-        <translation type="unfinished">CO sensor</translation>
+        <translation>CO sensor</translation>
     </message>
     <message>
         <source>CO level</source>
-        <translation type="unfinished">CO niveau</translation>
+        <translation>CO niveau</translation>
     </message>
     <message>
         <source>CO level changed</source>
-        <translation type="unfinished">CO niveau gewijzigd</translation>
+        <translation>CO niveau is veranderd</translation>
     </message>
     <message>
         <source>Flammable gas sensor</source>
-        <translation type="unfinished">Gassensor (brandgevaar)</translation>
+        <translation>Gassensor (brandgevaar)</translation>
     </message>
     <message>
         <source>Flammable gas level</source>
-        <translation type="unfinished">Gasniveau (brandgevaar)</translation>
+        <translation>Gasniveau (brandgevaar)</translation>
     </message>
     <message>
         <source>Flammable gas level changed</source>
-        <translation type="unfinished">Gasniveau gewijzigd (brandgevaar)</translation>
+        <translation>Gasniveau is veranderd (brandgevaar)</translation>
     </message>
     <message>
         <source>Total consumed energy changed</source>
-        <translation type="unfinished">Totaal verbruikte energie gewijzigd</translation>
+        <translation>Totaal verbruikte energie is veranderd</translation>
     </message>
     <message>
         <source>Total energy produced</source>
-        <translation type="unfinished">Totale energie geproduceerd</translation>
+        <translation>Totale energie geproduceerd</translation>
     </message>
     <message>
         <source>Total produced energy changed</source>
-        <translation type="unfinished">Totaal geproduceerde energie gewijzigd</translation>
+        <translation>Totaal geproduceerde energie is veranderd</translation>
     </message>
     <message>
         <source>Cooling</source>
-        <translation type="unfinished">Koeling</translation>
+        <translation>Koeling</translation>
     </message>
     <message>
         <source>Cooling enabled</source>
-        <translation type="unfinished">Koeling ingeschakeld</translation>
+        <translation>Koeling ingeschakeld</translation>
     </message>
     <message>
         <source>Cooling enabled changed</source>
-        <translation type="unfinished">Koeling gewijzigd</translation>
+        <translation>Koeling is veranderd</translation>
     </message>
     <message>
         <source>Enable cooling</source>
-        <translation type="unfinished">Schakel koeling in</translation>
+        <translation>Schakel koeling in</translation>
     </message>
     <message>
         <source>Air flow rate</source>
-        <translation type="unfinished">Volume van de luchtstroom</translation>
+        <translation>Volume van de luchtstroom</translation>
     </message>
     <message>
         <source>Air flow rate changed</source>
-        <translation type="unfinished">Volume van de luchtstroom is gewijzigd</translation>
+        <translation>Volume van de luchtstroom is veranderd</translation>
     </message>
     <message>
         <source>Set air flow rate</source>
-        <translation type="unfinished">Stel het volume van de luchtstroom in</translation>
+        <translation>Stel het volume van de luchtstroom in</translation>
     </message>
     <message>
         <source>Fire sensors</source>
-        <translation type="unfinished">Brandmelders</translation>
+        <translation>Brandmelders</translation>
     </message>
     <message>
         <source>Fire detected</source>
-        <translation type="unfinished">Brand gedetecteerd</translation>
+        <translation>Brand gedetecteerd</translation>
     </message>
     <message>
         <source>Fire detected changed</source>
-        <translation type="unfinished">Gedetecteerde brand gewijzigd</translation>
+        <translation>Gedetecteerde brand is veranderd</translation>
     </message>
     <message>
         <source>Vibration sensors</source>
-        <translation type="unfinished">Trillingssensoren</translation>
+        <translation>Trillingssensoren</translation>
     </message>
     <message>
         <source>Vibration detected</source>
-        <translation type="unfinished">Trilling gedetecteerd</translation>
+        <translation>Trilling gedetecteerd</translation>
     </message>
 </context>
 <context>
     <name>IrrigationDevicePage</name>
     <message>
         <source>Turn %1 off at %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zet %1 uit om/op %2</translation>
     </message>
     <message>
         <source>Watering since</source>
-        <translation type="unfinished"></translation>
+        <translation>Geeft water vanaf</translation>
     </message>
     <message>
         <source>Last watering</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatste bewatering</translation>
     </message>
     <message>
         <source>This irrigation has not been used yet</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit irrigatiesysteem is nog niet gebruikt</translation>
     </message>
     <message numerus="yes">
         <source>%n minute(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n minuut</numerusform>
+            <numerusform>%n minuten</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n uur</numerusform>
+            <numerusform>%n uren</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n dag</numerusform>
+            <numerusform>%n dagen</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n minute(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n minuut geleden</numerusform>
+            <numerusform>%n minuten geleden</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n uur geleden</numerusform>
+            <numerusform>%n uren geleden</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n dag geleden</numerusform>
+            <numerusform>%n dagen geleden</numerusform>
         </translation>
     </message>
     <message>
         <source>Watering until</source>
         <extracomment>Irrigation will be turned of at, e.g. 09:00</extracomment>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Irrigatiesysteem wordt uitgeschakeld om bijv. 09.00 uur</translatorcomment>
+        <translation>Watergeven tot</translation>
     </message>
     <message>
         <source>Turn off in</source>
         <extracomment>Turn on irrigation for, e.g. 5 minutes</extracomment>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Schakel uit over bijv. 5 minuten</translatorcomment>
+        <translation>Schakel uit over</translation>
     </message>
     <message>
         <source>Water for</source>
-        <translation type="unfinished"></translation>
+        <translation>Geef water gedurende</translation>
     </message>
     <message>
         <source>1 minute</source>
-        <translation type="unfinished"></translation>
+        <translation>1 minuut</translation>
     </message>
     <message>
         <source>2 minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>2 minuten</translation>
     </message>
     <message>
         <source>5 minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>5 minuten</translation>
     </message>
     <message>
         <source>15 minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>15 minuten</translation>
     </message>
     <message>
         <source>30 minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>30 minuten</translation>
     </message>
     <message>
         <source>1 hour</source>
-        <translation type="unfinished"></translation>
+        <translation>1 uur</translation>
     </message>
     <message numerus="yes">
         <source>%n minute(s) left</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n minuut resterend</numerusform>
+            <numerusform>%n minuten resterend</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s) left</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n uur resterend</numerusform>
+            <numerusform>%n uren resterend</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s) left</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n dag resterend</numerusform>
+            <numerusform>%n dagen resterend</numerusform>
         </translation>
     </message>
 </context>
@@ -3612,512 +3614,512 @@ Probeer het nog een keer.</translation>
     <name>LightThingPage</name>
     <message>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Kleur</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatuur</translation>
     </message>
     <message>
         <source>Brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Helderheid</translation>
     </message>
     <message>
         <source>Power</source>
-        <translation type="unfinished"></translation>
+        <translation>Stroom</translation>
     </message>
 </context>
 <context>
     <name>LightThingsListPage</name>
     <message>
         <source>Lights</source>
-        <translation type="unfinished"></translation>
+        <translation>Lampen</translation>
     </message>
 </context>
 <context>
     <name>LogViewerPage</name>
     <message>
         <source>Log viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Log scherm</translation>
     </message>
     <message>
         <source>Terminated by system</source>
-        <translation type="unfinished"></translation>
+        <translation>Beëindigd door het systeem</translation>
     </message>
     <message>
         <source>Application quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicatie gestopt</translation>
     </message>
     <message>
         <source>Application error</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicatiefout</translation>
     </message>
     <message>
         <source>Unknown reason</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekende reden</translation>
     </message>
     <message>
         <source>Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestart</translation>
     </message>
     <message>
         <source>Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestopt</translation>
     </message>
 </context>
 <context>
     <name>LogViewerPagePre18</name>
     <message>
         <source>Log viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Log scherm</translation>
     </message>
     <message>
         <source>%1 Server</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Server</translation>
     </message>
     <message>
         <source>System started</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeem gestart</translation>
     </message>
     <message>
         <source>Rule triggered</source>
-        <translation type="unfinished"></translation>
+        <translation>Regel geactiveerd</translation>
     </message>
     <message>
         <source>Actions executed</source>
-        <translation type="unfinished"></translation>
+        <translation>Actie uitgevoerd</translation>
     </message>
     <message>
         <source>Rule active</source>
-        <translation type="unfinished"></translation>
+        <translation>Regel actief</translation>
     </message>
     <message>
         <source>Rule inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Regel inactief</translation>
     </message>
     <message>
         <source>Exit actions executed</source>
-        <translation type="unfinished"></translation>
+        <translation>Beëindig uitgevoerde acties</translation>
     </message>
     <message>
         <source>Enabled changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inschakelen is veranderd</translation>
     </message>
 </context>
 <context>
     <name>LoggingCategories</name>
     <message>
         <source>Logging categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Log categorieën</translation>
     </message>
     <message>
         <source>Critical</source>
-        <translation type="unfinished"></translation>
+        <translation>Kritiek</translation>
     </message>
     <message>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Waarschuwing</translation>
     </message>
     <message>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informatie</translation>
     </message>
     <message>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>Debug</translation>
     </message>
 </context>
 <context>
     <name>LoginPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Welkom bij %1!</translation>
     </message>
     <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorry, dat was niet goed. Probeer het nog eens.</translation>
     </message>
     <message>
         <source>The email you&apos;ve entered isn&apos;t valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het e-mailadres dat je hebt ingevoerd is niet geldig.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please log in.</source>
-        <translation type="unfinished"></translation>
+        <translation>Log in om je %1 systeem te gebruiken.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1 system is installed correctly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging iets fout met de gebruikersopslag. Controlleer of je %1 systeem goed is geïnstalleerd.</translation>
     </message>
     <message>
         <source>The username you&apos;ve entered isn&apos;t valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>De gebruikersnaam die je hebt ingevoerd is niet geldig.</translation>
     </message>
     <message>
         <source>The username you&apos;ve entered is already used.</source>
-        <translation type="unfinished"></translation>
+        <translation>De gebruikersnaam die je hebt ingevoerd is al in gebruik.</translation>
     </message>
     <message>
         <source>The password you&apos;ve chosen is too weak.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het wachtwoord dat je hebt ingevoerd is te zwak.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please create an account.</source>
-        <translation type="unfinished"></translation>
+        <translation>Creëer een account om je %1 systeem te gebruiken.</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersnaam</translation>
     </message>
     <message>
         <source>Your e-mail address</source>
-        <translation type="unfinished"></translation>
+        <translation>Je e-mailadres</translation>
     </message>
     <message>
         <source>Required</source>
-        <translation type="unfinished"></translation>
+        <translation>Vereist</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">Wachtwoord</translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <source>Your name</source>
-        <translation type="unfinished"></translation>
+        <translation>Je naam</translation>
     </message>
     <message>
         <source>Optional</source>
-        <translation type="unfinished"></translation>
+        <translation>Optioneel</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail</translation>
     </message>
 </context>
 <context>
     <name>LookAndFeelSettingsPage</name>
     <message>
         <source>Look and feel</source>
-        <translation type="unfinished"></translation>
+        <translation>Look en feel</translation>
     </message>
     <message>
         <source>View mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Kijkmodus</translation>
     </message>
     <message>
         <source>Windowed</source>
-        <translation type="unfinished"></translation>
+        <translation>Scherm</translation>
     </message>
     <message>
         <source>Maximized</source>
-        <translation type="unfinished"></translation>
+        <translation>Gemaximaliseerd</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>Volledig scherm</translation>
     </message>
     <message>
         <source>Return to home on idle</source>
-        <translation type="unfinished"></translation>
+        <translation>Keer terug naar het startscherm als inactief</translation>
     </message>
     <message>
         <source>Style changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Stijl is veranderd</translation>
     </message>
     <message>
         <source>The application needs to be restarted for style changes to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Om de stijlveranderingen door te voeren, moet je de applicatie opnieuw opstarten.</translation>
     </message>
     <message>
         <source>Turn screen off when idle</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet het scherm uit als inactief</translation>
     </message>
     <message>
         <source>Screen off timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Scherm uit timeout</translation>
     </message>
     <message>
         <source>seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>seconden</translation>
     </message>
     <message>
         <source>Screen brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Schermhelderheid</translation>
     </message>
     <message>
         <source>Automatic</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisch</translation>
     </message>
     <message>
         <source>Unit system</source>
-        <translation type="unfinished"></translation>
+        <translation>Afmetingen</translation>
     </message>
     <message>
         <source>Metric</source>
-        <translation type="unfinished"></translation>
+        <translation>Metrisch systeem</translation>
     </message>
     <message>
         <source>Imperial</source>
-        <translation type="unfinished"></translation>
+        <translation>Imperiaal systeem</translation>
     </message>
     <message>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Uiterlijk</translation>
     </message>
     <message>
         <source>Regional</source>
-        <translation type="unfinished"></translation>
+        <translation>Regionaal</translation>
     </message>
     <message>
         <source>Behavior</source>
-        <translation type="unfinished"></translation>
+        <translation>Gedrag</translation>
     </message>
 </context>
 <context>
     <name>MagicPage</name>
     <message>
         <source>Magic</source>
-        <translation type="unfinished"></translation>
+        <translation>Magie</translation>
     </message>
     <message>
         <source>There is no magic set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is nog geen magie ingesteld.</translation>
     </message>
     <message>
         <source>Use magic to make your things smart! In a few easy steps you&apos;ll have your things wired up and work for you.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik magie om je dingen slim te maken! Met een paar simpele stappen zorg je ervoor dat je dingen voor jou werken.</translation>
     </message>
     <message>
         <source>Add some magic</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg wat magie toe</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Set up now</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel nu in</translation>
     </message>
     <message>
         <source>Celsi°s</source>
-        <translation type="unfinished"></translation>
+        <translation>Celcius</translation>
     </message>
     <message>
         <source>There is no drexel und weiss heating system set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is nog geen verwarmingssysteem van drexel en weiss ingesteld.</translation>
     </message>
     <message>
         <source>Current air quality</source>
-        <translation type="unfinished"></translation>
+        <translation>Huidige luchtkwaliteit</translation>
     </message>
     <message>
         <source>Current temperature</source>
-        <translation type="unfinished"></translation>
+        <translation>Huidige temperatuur</translation>
     </message>
     <message>
         <source>Temperature, °C</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatuur, °C</translation>
     </message>
     <message>
         <source>Automate this thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatiseer dit ding</translation>
     </message>
     <message>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto</translation>
     </message>
     <message>
         <source>Party</source>
-        <translation type="unfinished"></translation>
+        <translation>Feest</translation>
     </message>
     <message>
         <source>Manual</source>
-        <translation type="unfinished"></translation>
+        <translation>Handmatig</translation>
     </message>
 </context>
 <context>
     <name>MainMenu</name>
     <message>
         <source>Configure things</source>
-        <translation type="unfinished"></translation>
+        <translation>Dingen instellen</translation>
     </message>
     <message>
         <source>Magic</source>
-        <translation type="unfinished"></translation>
+        <translation>Magie</translation>
     </message>
     <message>
         <source>Configure main view</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel het thuisscherm in</translation>
     </message>
     <message>
         <source>App settings</source>
-        <translation type="unfinished"></translation>
+        <translation>App instellingen</translation>
     </message>
     <message>
         <source>System settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeem instellingen</translation>
     </message>
     <message>
         <source>New connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe verbinding</translation>
     </message>
     <message>
         <source>Set up another...</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel een andere in...</translation>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Favorieten</translation>
     </message>
     <message>
         <source>Things</source>
-        <translation type="unfinished"></translation>
+        <translation>Dingen</translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation type="unfinished"></translation>
+        <translation>Scènes</translation>
     </message>
     <message>
         <source>Loading data...</source>
-        <translation type="unfinished"></translation>
+        <translation>Gegevens laden...</translation>
     </message>
     <message>
         <source>Connected to</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbonden met</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbreek de verbinding</translation>
     </message>
     <message>
         <source>Groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Groepen</translation>
     </message>
     <message>
         <source>Garages</source>
-        <translation type="unfinished"></translation>
+        <translation>Garages</translation>
     </message>
     <message>
         <source>Energy</source>
-        <translation type="unfinished"></translation>
+        <translation>Energie</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Gereed</translation>
     </message>
     <message>
         <source>Configure</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellen</translation>
     </message>
     <message>
         <source>Dashboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Dashboard</translation>
     </message>
     <message>
         <source>AC</source>
-        <translation type="unfinished"></translation>
+        <translation>Airco</translation>
     </message>
 </context>
 <context>
     <name>ManualConnectionEntry</name>
     <message>
         <source>Protocol</source>
-        <translation type="unfinished"></translation>
+        <translation>Protocol</translation>
     </message>
     <message>
         <source>TCP</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP</translation>
     </message>
     <message>
         <source>Websocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Websocket</translation>
     </message>
     <message>
         <source>Remote proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Remote proxy</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres:</translation>
     </message>
     <message>
         <source>Proxy address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy adres:</translation>
     </message>
     <message>
         <source>%1 UUID:</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 UUID:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Poort:</translation>
     </message>
     <message>
         <source>SSL:</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL:</translation>
     </message>
 </context>
 <context>
     <name>MediaBrowser</name>
     <message>
         <source>Sorry. An error happened launching the item. (Error code: %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorry, er ging iets fout toen we het item activeerden. (Foutcode: %1)</translation>
     </message>
 </context>
 <context>
     <name>MediaDeviceListPage</name>
     <message>
         <source>Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>No playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Er wordt niets afgespeeld</translation>
     </message>
 </context>
 <context>
     <name>MediaPlayer</name>
     <message>
         <source>No playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Er wordt niets afgespeeld</translation>
     </message>
     <message>
         <source>Select input</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer input</translation>
     </message>
     <message>
         <source>Equalizer preset</source>
-        <translation type="unfinished"></translation>
+        <translation>Equalizer instelling</translation>
     </message>
 </context>
 <context>
     <name>MediaView</name>
     <message>
         <source>There are no media players set up.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn geen mediaspelers ingesteld.</translation>
     </message>
     <message>
         <source>Connect your media players in order to control them from here.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbind je mediaspelers om ze hier te bedienen.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg dingen toe</translation>
     </message>
 </context>
 <context>
