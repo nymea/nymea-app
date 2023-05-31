@@ -5,50 +5,50 @@
     <name>ACChartsPage</name>
     <message>
         <source>Hours</source>
-        <translation type="unfinished"></translation>
+        <translation>Uren</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="unfinished"></translation>
+        <translation>Dagen</translation>
     </message>
     <message>
         <source>Weeks</source>
-        <translation type="unfinished"></translation>
+        <translation>Weken</translation>
     </message>
     <message>
         <source>Months</source>
-        <translation type="unfinished"></translation>
+        <translation>Maanden</translation>
     </message>
     <message>
         <source>Window open</source>
-        <translation type="unfinished"></translation>
+        <translation>Raam open</translation>
     </message>
     <message>
         <source>Heating on</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwarming aan</translation>
     </message>
 </context>
 <context>
     <name>ACSettingsPage</name>
     <message>
         <source>Configure zones</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel zones in</translation>
     </message>
     <message>
         <source>Zone %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Zone %1</translation>
     </message>
     <message>
         <source>No zones configured.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen zones ingesteld.</translation>
     </message>
     <message>
         <source>Start with configuring your zones.</source>
-        <translation type="unfinished"></translation>
+        <translation>Begin met het instellen van zones.</translation>
     </message>
     <message>
         <source>Add zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg zone toe</translation>
     </message>
 </context>
 <context>
@@ -59,11 +59,11 @@
     </message>
     <message>
         <source>Server UUID:</source>
-        <translation></translation>
+        <translation>Server UUID:</translation>
     </message>
     <message>
         <source>Server version:</source>
-        <translation></translation>
+        <translation>Server versie:</translation>
     </message>
     <message>
         <source>JSON-RPC version:</source>
@@ -71,7 +71,7 @@
     </message>
     <message>
         <source>Qt version:</source>
-        <translation></translation>
+        <translation>Qt versie:</translation>
     </message>
     <message>
         <source>Built with %1</source>
@@ -87,11 +87,11 @@
     </message>
     <message>
         <source>ID copied to clipboard</source>
-        <translation type="unfinished">ID gekopieerd naar clipboard</translation>
+        <translation>ID gekopieerd naar klembord</translation>
     </message>
     <message>
         <source>Serial copied to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Serienummer gekopieerd naar klembord</translation>
     </message>
 </context>
 <context>
@@ -137,43 +137,43 @@
     <name>ActionLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Historie van %1</translation>
     </message>
     <message>
         <source>Remove logs?</source>
-        <translation type="unfinished"></translation>
+        <translation>Logs verwijderen?</translation>
     </message>
     <message>
         <source>Do you want to remove the log for this action and disable logging?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wil je het log van deze actie verwijderen en het bijhouden van logs uitschakelen?</translation>
     </message>
     <message>
         <source>User action</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersactie</translation>
     </message>
     <message>
         <source>Automation</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisering</translation>
     </message>
     <message>
         <source>success</source>
-        <translation type="unfinished"></translation>
+        <translation>succes</translation>
     </message>
     <message>
         <source>Failure: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Foutmelding: %1</translation>
     </message>
     <message>
         <source>Logging not enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Log bijhouden uitgeschakeld</translation>
     </message>
     <message>
         <source>Enable logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Log bijhouden inschakelen</translation>
     </message>
     <message>
         <source>This action is not being logged.</source>
-        <translation type="unfinished"></translation>
+        <translation>Van deze actie wordt geen log bijgehouden.</translation>
     </message>
 </context>
 <context>
@@ -188,7 +188,7 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Toevoegen</translation>
     </message>
     <message>
         <source>WebSocket server interfaces</source>
@@ -207,86 +207,86 @@
     <name>AirConditioningView</name>
     <message>
         <source>Air conditioning plugin not installed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Air conditioning plugin niet geïnstalleerd.</translation>
     </message>
     <message>
         <source>To set up air conditioning, install the air conditioning plugin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Installeer de air conditioning plugin om air conditioning in te stellen.</translation>
     </message>
     <message>
         <source>Install A/C plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Installeer de air conditioning plugin</translation>
     </message>
     <message>
         <source>No zones configured.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen zones ingesteld.</translation>
     </message>
     <message>
         <source>Start with configuring your zones.</source>
-        <translation type="unfinished"></translation>
+        <translation>Begin met het instellen van zones.</translation>
     </message>
     <message>
         <source>Add zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg zone toe</translation>
     </message>
     <message>
         <source>Zone %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Zone %1</translation>
     </message>
 </context>
 <context>
     <name>AirQualityIndex</name>
     <message>
         <source>Very low</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeer laag</translation>
     </message>
     <message>
         <source>Low</source>
-        <translation type="unfinished"></translation>
+        <translation>Laag</translation>
     </message>
     <message>
         <source>Medium</source>
-        <translation type="unfinished"></translation>
+        <translation>Gemiddeld</translation>
     </message>
     <message>
         <source>High</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoog</translation>
     </message>
     <message>
         <source>Very high</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeer hoog</translation>
     </message>
     <message>
         <source>Excellent</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitstekend</translation>
     </message>
     <message>
         <source>Good</source>
-        <translation type="unfinished"></translation>
+        <translation>Goed</translation>
     </message>
     <message>
         <source>Moderate</source>
-        <translation type="unfinished"></translation>
+        <translation>Gemiddeld</translation>
     </message>
     <message>
         <source>Poor</source>
-        <translation type="unfinished"></translation>
+        <translation>Slecht</translation>
     </message>
     <message>
         <source>Unhealthy</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongezond</translation>
     </message>
     <message>
         <source>Unhealthy for sensitive groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongezond voor kwetsbare groepen</translation>
     </message>
     <message>
         <source>Very unhealthy</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeer ongezond</translation>
     </message>
     <message>
         <source>Hazardeous</source>
-        <translation type="unfinished"></translation>
+        <translation>Schadelijk</translation>
     </message>
 </context>
 <context>
@@ -304,7 +304,7 @@
     </message>
     <message>
         <source>Look &amp; feel</source>
-        <translation></translation>
+        <translation>Look &amp; feel</translation>
     </message>
     <message>
         <source>Customize the app&apos;s look and behavior</source>
@@ -312,7 +312,7 @@
     </message>
     <message>
         <source>Developer options</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>About %1</source>
@@ -324,7 +324,7 @@
     </message>
     <message>
         <source>Access tools for debugging and error reporting</source>
-        <translation>Toegang tot tools voor debug en error overzichten</translation>
+        <translation>Gereedschap voor debugging en foutonderzoek</translation>
     </message>
 </context>
 <context>
@@ -353,34 +353,34 @@
     <name>BigZoneStatusIcons</name>
     <message>
         <source>Automatic mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatische modus</translation>
     </message>
     <message>
         <source>Manual mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Handmatige modus</translation>
     </message>
     <message>
         <source>Time schedule not active</source>
-        <translation type="unfinished"></translation>
+        <translation>Tijdschema niet actief</translation>
     </message>
     <message>
         <source>Time schedule active</source>
-        <translation type="unfinished"></translation>
+        <translation>Tijdschema actief</translation>
     </message>
     <message>
         <source>All windows closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle ramen gesloten</translation>
     </message>
     <message numerus="yes">
         <source>%n window(s) open</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n raam open</numerusform>
+            <numerusform>%n ramen open</numerusform>
         </translation>
     </message>
     <message>
         <source>%1% humidity</source>
-        <translation type="unfinished"></translation>
+        <translation>%1% luchtvochtigheid</translation>
     </message>
 </context>
 <context>
@@ -425,7 +425,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -455,7 +455,7 @@
     </message>
     <message>
         <source>Press a button on the switch to see logs appearing here.</source>
-        <translation>Druk op een knop op de schakelaar om logging te zien verschijnen.</translation>
+        <translation>Druk op een knop op de schakelaar om hier de logs te zien verschijnen.</translation>
     </message>
 </context>
 <context>
@@ -529,7 +529,7 @@
     </message>
     <message>
         <source>nymea UUID:</source>
-        <translation></translation>
+        <translation>nymea UUID:</translation>
     </message>
     <message>
         <source>Organisation:</source>
@@ -537,11 +537,11 @@
     </message>
     <message>
         <source>Common name:</source>
-        <translation></translation>
+        <translation>Gewone naam:</translation>
     </message>
     <message>
         <source>Fingerprint:</source>
-        <translation></translation>
+        <translation>Vingerafdruk:</translation>
     </message>
 </context>
 <context>
@@ -552,7 +552,7 @@
     </message>
     <message>
         <source>The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?</source>
-        <translation>Het certificaat voor dit  %1 systeem is gewijzigd. Dit kan optreden als de configuratie gewijzigd is, maar kan ook betekenen, dat er is ingebroken op uw systeem. Wilt u het nieuwe certificaat accepteren?</translation>
+        <translation>Het certificaat voor dit %1 systeem is gewijzigd. Dit kan gebeuren als de configuratie is gewijzigd is. Maar het kan ook betekenen dat er is ingebroken op uw systeem. Wilt u het nieuwe certificaat accepteren?</translation>
     </message>
 </context>
 <context>
@@ -574,27 +574,27 @@
     <name>Configuration</name>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Hulp</translation>
+        <translation>Help</translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation type="unfinished"></translation>
+        <translation>Forum</translation>
     </message>
     <message>
         <source>Telegram</source>
-        <translation type="unfinished"></translation>
+        <translation>Telegram</translation>
     </message>
     <message>
         <source>Discord</source>
-        <translation type="unfinished"></translation>
+        <translation>Discord</translation>
     </message>
     <message>
         <source>Twitter</source>
-        <translation type="unfinished"></translation>
+        <translation>Twitter</translation>
     </message>
     <message>
         <source>Facebook</source>
-        <translation type="unfinished"></translation>
+        <translation>Facebook</translation>
     </message>
 </context>
 <context>
@@ -613,7 +613,7 @@
     </message>
     <message>
         <source>Reconfigure</source>
-        <translation>Opnieuw configureren</translation>
+        <translation>Opnieuw instellen</translation>
     </message>
     <message>
         <source>Information</source>
@@ -673,54 +673,54 @@
     </message>
     <message>
         <source>Vendor</source>
-        <translation type="unfinished"></translation>
+        <translation>Fabrikant</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Remove thing?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ding verwijderen?</translation>
     </message>
     <message>
         <source>Are you sure you want to remove %1 and all associated settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je %1 wilt verwijderen, samen met de bijbehorende instellingen?</translation>
     </message>
 </context>
 <context>
     <name>ConnectingPage</name>
     <message>
         <source>Connecting...</source>
-        <translation></translation>
+        <translation>Verbinden...</translation>
     </message>
     <message>
         <source>The network connection failed.</source>
-        <translation></translation>
+        <translation>Verbinden met het netwerk is niet mogelijk.</translation>
     </message>
     <message>
         <source>It seems you&apos;re not connected to the network.</source>
-        <translation></translation>
+        <translation>Het lijkt erop dat je niet verbonden bent met het netwerk.</translation>
     </message>
     <message>
         <source>The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it&apos;s restarting?</source>
-        <translation></translation>
+        <translation>De host heeft de verbinding afgewezen. Dit betekent mogelijk dat %1 niet actief is op deze host. Misschien is het aan het herstarten?</translation>
     </message>
     <message>
         <source>An unrecovareable SSL Error happened. Please make sure certificates are installed correctly.</source>
-        <translation></translation>
+        <translation>Er ging iets fout met het SSL certificaat en dit kan niet worden hersteld. Zorg ervoor dat de certificaten correct geïnstalleerd zijn.</translation>
     </message>
     <message>
         <source>The SSL Certificate is not trusted.</source>
-        <translation></translation>
+        <translation>Het SSL certificaat wordt niet vertrouwd.</translation>
     </message>
     <message>
         <source>An unknown error happened. We&apos;re very sorry for that. (Error code: %1)</source>
-        <translation></translation>
+        <translation>Er vond een onbekende fout plaats. Onze excuses daarvoor (foutcode: %1)</translation>
     </message>
     <message>
         <source>%1 could not be found on this address. Please make sure you entered the address correctly and that the system is powered on.</source>
@@ -743,232 +743,232 @@
     </message>
     <message>
         <source>System information</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeem informatie</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Toevoegen</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluiten</translation>
     </message>
 </context>
 <context>
     <name>ConnectionInterfaceDelegate</name>
     <message>
         <source>Interface: %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Any</source>
-        <translation></translation>
+        <translation>Elke</translation>
     </message>
     <message>
         <source>localhost</source>
-        <translation></translation>
+        <translation>localhost</translation>
     </message>
     <message>
         <source>Port: %1</source>
-        <translation></translation>
+        <translation>Poort: %1</translation>
     </message>
 </context>
 <context>
     <name>ConnectionInterfacesPage</name>
     <message>
         <source>Connection interfaces</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connection settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindingsinstellingen</translation>
     </message>
     <message>
         <source>Remote connection</source>
-        <translation type="unfinished">Connectie op afstand</translation>
+        <translation>Verbinding op afstand</translation>
     </message>
     <message>
         <source>Enabling the remote connection will allow connecting to this %1 system from anywhere.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als je verbinding op afstand inschakelt, is het mogelijk om van overal verbinding te maken met dit %1 systeem.</translation>
     </message>
     <message>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingeschakeld</translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitgeschakeld</translation>
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Geavanceerd</translation>
     </message>
 </context>
 <context>
     <name>ConnectionWizard</name>
     <message>
         <source>Welcome</source>
-        <translation type="unfinished"></translation>
+        <translation>Welkom</translation>
     </message>
     <message>
         <source>This wizard will guide you through the process of setting up a new nymea system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze wizard helpt je om een nieuw nymea systeem op te zetten.</translation>
     </message>
     <message>
         <source>Demo mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Demonstratie modus</translation>
     </message>
     <message>
         <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Om nymea te gebruiken, moet je nymea:core installeren op een computer in je netwerk. Dit kan een Raspberry Pi zijn, of een Linux computer.</translation>
     </message>
     <message>
         <source>Please follow the installation instructions on %1 to install a nymea system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Volg de installatie instructies op %1 om een nymea systeem te installeren.</translation>
     </message>
     <message>
         <source>Connectivity</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindingen</translation>
     </message>
     <message>
         <source>How would you like to connect nymea to your network?</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoe wil je nymea met je netwerk verbinden?</translation>
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>Sla over</translation>
     </message>
     <message>
         <source>Wired network</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedraad netwerk</translation>
     </message>
     <message>
         <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbind nymea met een netwerkkabel met je netwerk. Voor de beste prestaties is dit de aanbevolen werkwijze.</translation>
     </message>
     <message>
         <source>Wireless network</source>
-        <translation type="unfinished"></translation>
+        <translation>Draadloos netwerk</translation>
     </message>
     <message>
         <source>Connect nymea to your WiFi network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbind nymea met je WiFi netwerk.</translation>
     </message>
     <message>
         <source>If your nymea system is already connected to the network you can skip this step.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als je nymea systeem al is verbonden met het netwerk, kun je deze stap overslaan.</translation>
     </message>
     <message>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinding</translation>
     </message>
     <message>
         <source>Select nymea system</source>
-        <translation type="unfinished"></translation>
+        <translation>Kies je nymea systeem</translation>
     </message>
     <message>
         <source>Manual connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Handmatige verbinding</translation>
     </message>
     <message>
         <source>Please wait while your nymea system is being discovered.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wacht alsjeblieft tot je nymea systeem is gevonden.</translation>
     </message>
     <message>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informatie</translation>
     </message>
     <message>
         <source>Please enter the connection information for your nymea system</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer de verbindingsinformatie van je nymea systeem in</translation>
     </message>
     <message>
         <source>Wired connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedrade verbinding</translation>
     </message>
     <message>
         <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbind het nymea systeem met een ethernet kabel aan je netwerk en zet het aan.</translation>
     </message>
     <message>
         <source>Wireless connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Draadloze verbinding</translation>
     </message>
     <message>
         <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet het nymea systeem aan door de stroomkabel in te pluggen en wacht tot het systeem opstart.</translation>
     </message>
     <message>
         <source>Wireless setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Draadloze opstart</translation>
     </message>
     <message>
         <source>Searching for the nymea system...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoeken naar het nymea systeem...</translation>
     </message>
     <message>
         <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bluetooth lijkt niet beschikbaar te zijn op dit systeem.</translation>
     </message>
     <message>
         <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bluetooth is uitgeschakeld. Zet Bluetooth aan op dit apparaat.</translation>
     </message>
     <message>
         <source>Connecting to the nymea system...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinden met het nymea systeem...</translation>
     </message>
     <message>
         <source>Select the WiFi you want to use.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer het WiFi netwerk dat je wilt gebruiken.</translation>
     </message>
     <message>
         <source>Hidden Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Verborgen netwerk</translation>
     </message>
     <message>
         <source>Hidden WiFi</source>
-        <translation type="unfinished"></translation>
+        <translation>Verborgen WiFi</translation>
     </message>
     <message>
         <source>Enter the information for the hidden WiFi</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer de informatie voor het verborgen WiFi netwerk in</translation>
     </message>
     <message>
         <source>SSID</source>
-        <translation type="unfinished"></translation>
+        <translation>SSID</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">Wachtwoord</translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <source>Enter the password for the WiFi network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer het wachtwoord voor het WiFi netwerk in.</translation>
     </message>
     <message>
         <source>An error happened in the Bluetooth connection. Please try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging iets fout met de Bluetooth verbinding. Probeer het opnieuw.</translation>
     </message>
     <message>
         <source>Please wait while the nymea system is being connected to the WiFi.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wacht tot het nymea systeem is verbonden met het WiFi netwerk.</translation>
     </message>
     <message>
         <source>The nymea system has been connected successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het nymea systeem is succesvol verbonden.</translation>
     </message>
     <message>
         <source>You can now go ahead and configure your nymea system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je kunt nu doorgaan en je nymea systeem instellen.</translation>
     </message>
     <message>
         <source>Waiting for your nymea setup to appear in the network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wacht tot nymea zichtbaar wordt in het netwerk.</translation>
     </message>
     <message>
         <source>Location services are disabled. Please enable location services on this device in order to search for nearby nymea systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Locatieservices zijn uitgeschakeld. Schakel locatieservices op dit apparaat in om te zoeken naar nymea systemen in de nabijheid.</translation>
     </message>
 </context>
 <context>
@@ -979,27 +979,27 @@
     </message>
     <message>
         <source>Hours</source>
-        <translation type="unfinished"></translation>
+        <translation>Uren</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="unfinished"></translation>
+        <translation>Dagen</translation>
     </message>
     <message>
         <source>Weeks</source>
-        <translation type="unfinished"></translation>
+        <translation>Weken</translation>
     </message>
     <message>
         <source>Months</source>
-        <translation type="unfinished"></translation>
+        <translation>Maanden</translation>
     </message>
     <message>
         <source>Years</source>
-        <translation type="unfinished"></translation>
+        <translation>Jaren</translation>
     </message>
     <message>
         <source>No data available</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen gegevens beschikbaar</translation>
     </message>
 </context>
 <context>
@@ -1017,31 +1017,31 @@
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend</translation>
     </message>
     <message>
         <source>Total</source>
-        <translation type="unfinished"></translation>
+        <translation>Totaal</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation type="unfinished"></translation>
+        <translation>Uren</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="unfinished"></translation>
+        <translation>Dagen</translation>
     </message>
     <message>
         <source>Weeks</source>
-        <translation type="unfinished"></translation>
+        <translation>Weken</translation>
     </message>
     <message>
         <source>Months</source>
-        <translation type="unfinished"></translation>
+        <translation>Maanden</translation>
     </message>
     <message>
         <source>No data available</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen gegevens beschikbaar</translation>
     </message>
 </context>
 <context>
@@ -1059,11 +1059,11 @@
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend</translation>
     </message>
     <message>
         <source>Total</source>
-        <translation type="unfinished"></translation>
+        <translation>Totaal</translation>
     </message>
     <message>
         <source></source>
@@ -1081,60 +1081,60 @@
     <name>CurrentConsumptionBalancePieChart</name>
     <message>
         <source>Total</source>
-        <translation type="unfinished"></translation>
+        <translation>Totaal</translation>
     </message>
     <message>
         <source>From grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Van het net</translation>
     </message>
     <message>
         <source>From self production</source>
-        <translation type="unfinished"></translation>
+        <translation>Uit eigen opwekking</translation>
     </message>
     <message>
         <source>From battery</source>
-        <translation type="unfinished"></translation>
+        <translation>Van de batterij</translation>
     </message>
     <message>
         <source>My energy consumption</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijn energieverbruik</translation>
     </message>
 </context>
 <context>
     <name>CurrentPowerBalancePage</name>
     <message>
         <source>My energy mix</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijn energiemix</translation>
     </message>
 </context>
 <context>
     <name>CurrentPowerBalancePieChart</name>
     <message>
         <source>My energy mix</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijn energiemix</translation>
     </message>
 </context>
 <context>
     <name>CurrentProductionBalancePieChart</name>
     <message>
         <source>My energy production</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijn energieproductie</translation>
     </message>
     <message>
         <source>Total</source>
-        <translation type="unfinished"></translation>
+        <translation>Totaal</translation>
     </message>
     <message>
         <source>Consumed</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbruikt</translation>
     </message>
     <message>
         <source>To grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar het net</translation>
     </message>
     <message>
         <source>To battery</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar de batterij</translation>
     </message>
 </context>
 <context>
@@ -1180,7 +1180,7 @@
     </message>
     <message>
         <source>Web view</source>
-        <translation>Web view</translation>
+        <translation>Webview</translation>
     </message>
     <message>
         <source>Name</source>
@@ -1238,7 +1238,7 @@
     <name>DashboardWebViewDelegate</name>
     <message>
         <source>Web view is not supported on this platform.</source>
-        <translation>Web view wordt op dit platform niet ondersteund.</translation>
+        <translation>Webview wordt op dit platform niet ondersteund.</translation>
     </message>
     <message>
         <source>Location</source>
@@ -1246,7 +1246,7 @@
     </message>
     <message>
         <source>Enter a URL</source>
-        <translation>Voeg een URL in</translation>
+        <translation>Voer een URL in</translation>
     </message>
     <message>
         <source>Size</source>
@@ -1273,90 +1273,90 @@
     <name>DatePicker</name>
     <message>
         <source>January</source>
-        <translation></translation>
+        <translation>Januari</translation>
     </message>
     <message>
         <source>February</source>
-        <translation></translation>
+        <translation>Februari</translation>
     </message>
     <message>
         <source>March</source>
-        <translation></translation>
+        <translation>Maart</translation>
     </message>
     <message>
         <source>April</source>
-        <translation></translation>
+        <translation>April</translation>
     </message>
     <message>
         <source>May</source>
-        <translation></translation>
+        <translation>Mei</translation>
     </message>
     <message>
         <source>June</source>
-        <translation></translation>
+        <translation>Juni</translation>
     </message>
     <message>
         <source>July</source>
-        <translation></translation>
+        <translation>Juli</translation>
     </message>
     <message>
         <source>August</source>
-        <translation></translation>
+        <translation>Augustus</translation>
     </message>
     <message>
         <source>September</source>
-        <translation></translation>
+        <translation>September</translation>
     </message>
     <message>
         <source>October</source>
-        <translation></translation>
+        <translation>Oktober</translation>
     </message>
     <message>
         <source>November</source>
-        <translation></translation>
+        <translation>November</translation>
     </message>
     <message>
         <source>December</source>
-        <translation></translation>
+        <translation>December</translation>
     </message>
     <message>
         <source>Mon</source>
-        <translation></translation>
+        <translation>Ma</translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation></translation>
+        <translation>Di</translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation></translation>
+        <translation>Wo</translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation></translation>
+        <translation>Do</translation>
     </message>
     <message>
         <source>Fri</source>
-        <translation></translation>
+        <translation>Vr</translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation></translation>
+        <translation>Za</translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation></translation>
+        <translation>Zo</translation>
     </message>
 </context>
 <context>
     <name>DeveloperOptionsPage</name>
     <message>
         <source>Developer options</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Logging</source>
-        <translation></translation>
+        <translation>Log bijhouden</translation>
     </message>
     <message>
         <source>Application logs enabled</source>
@@ -1375,317 +1375,321 @@
     <name>DeveloperTools</name>
     <message>
         <source>Developer tools</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Debug server enabled</source>
-        <translation></translation>
+        <translation>Debug server ingeschakeld</translation>
     </message>
     <message>
         <source>In order to access the debug interface, please enable the web server.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The web server cannot be reached on %1.</source>
-        <translation></translation>
+        <translation>De webserver kan niet bereikt worden op %1.</translation>
     </message>
     <message>
         <source>Please enable the web server to be accessed on this address.</source>
-        <translation></translation>
+        <translation>Sta de webserver toe om op dit adres bereikt te worden.</translation>
     </message>
     <message>
         <source>Debug server</source>
-        <translation></translation>
+        <translation>Debug server</translation>
     </message>
     <message>
         <source>Debug interface active at %1.</source>
-        <translation>Debug interface actief op %1.</translation>
+        <translation type="unfinished">Debug interface actief op %1.</translation>
     </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
     <message>
         <source>Browse %1</source>
-        <translation></translation>
+        <translation type="unfinished">Blader %1</translation>
     </message>
     <message>
         <source>Error: %1</source>
-        <translation></translation>
+        <translation>Fout: %1</translation>
     </message>
 </context>
 <context>
     <name>DeviceLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation></translation>
+        <translation>Historie voor %1</translation>
     </message>
     <message>
         <source>Filter by</source>
-        <translation></translation>
+        <translation>Filteren op</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Nee</translation>
     </message>
 </context>
 <context>
     <name>DoorbellDevicePage</name>
     <message>
         <source>History</source>
-        <translation></translation>
+        <translation>Historie</translation>
     </message>
 </context>
 <context>
     <name>EditCalendarItemPage</name>
     <message>
         <source>Pick a time frame</source>
-        <translation></translation>
+        <translation>Kies een periode</translation>
     </message>
     <message>
         <source>From</source>
-        <translation></translation>
+        <translation>Van</translation>
     </message>
     <message>
         <source>Jan</source>
-        <translation></translation>
+        <translation>Jan</translation>
     </message>
     <message>
         <source>Feb</source>
-        <translation></translation>
+        <translation>Feb</translation>
     </message>
     <message>
         <source>Mar</source>
-        <translation></translation>
+        <translation>Mrt</translation>
     </message>
     <message>
         <source>Apr</source>
-        <translation></translation>
+        <translation>Apr</translation>
     </message>
     <message>
         <source>May</source>
-        <translation></translation>
+        <translation>Mei</translation>
     </message>
     <message>
         <source>Jun</source>
-        <translation></translation>
+        <translation>Jun</translation>
     </message>
     <message>
         <source>Jul</source>
-        <translation></translation>
+        <translation>Jul</translation>
     </message>
     <message>
         <source>Aug</source>
-        <translation></translation>
+        <translation>Aug</translation>
     </message>
     <message>
         <source>Sep</source>
-        <translation></translation>
+        <translation>Sep</translation>
     </message>
     <message>
         <source>Oct</source>
-        <translation></translation>
+        <translation>Okt</translation>
     </message>
     <message>
         <source>Nov</source>
-        <translation></translation>
+        <translation>Nov</translation>
     </message>
     <message>
         <source>Dez</source>
-        <translation></translation>
+        <translatorcomment>Typo in source text. Should be Dec.</translatorcomment>
+        <translation>Dec</translation>
     </message>
     <message>
         <source>To</source>
-        <translation></translation>
+        <translation>Naar</translation>
     </message>
     <message>
         <source>Repeat</source>
-        <translation></translation>
+        <translation>Herhaal</translation>
     </message>
     <message>
         <source>never</source>
-        <translation></translation>
+        <translation>nooit</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation></translation>
+        <translation>elk uur</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation></translation>
+        <translation>dagelijks</translation>
     </message>
     <message>
         <source>weekly</source>
-        <translation></translation>
+        <translation>wekelijks</translation>
     </message>
     <message>
         <source>monthly</source>
-        <translation></translation>
+        <translation>maandelijks</translation>
     </message>
     <message>
         <source>yearly</source>
-        <translation></translation>
+        <translation>jaarlijks</translation>
     </message>
     <message>
         <source>Weekdays</source>
-        <translation></translation>
+        <translation>Weekdagen</translation>
     </message>
     <message>
         <source>Day of month</source>
-        <translation></translation>
+        <translation>Dag van de maand</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>EditRulePage</name>
     <message>
         <source>Add new magic</source>
-        <translation></translation>
+        <translation>Voeg nieuwe magie toe</translation>
     </message>
     <message>
         <source>Edit %1</source>
-        <translation></translation>
+        <translation>Bewerk %1</translation>
     </message>
     <message>
         <source>Cancel?</source>
-        <translation></translation>
+        <translation>Annuleren?</translation>
     </message>
     <message>
         <source>Any changes to the rule will be lost.</source>
-        <translation></translation>
+        <translation>Alle wijzigingen in deze regel gaan verloren.</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation></translation>
+        <translation>Naam:</translation>
     </message>
     <message>
         <source>This rule is enabled</source>
-        <translation></translation>
+        <translation>Deze regel is ingeschakeld</translation>
     </message>
     <message>
         <source>Execute actions when something happens.</source>
-        <translation></translation>
+        <translation>Voer acties uit als iets gebeurt.</translation>
     </message>
     <message>
         <source>When any of these events happen...</source>
-        <translation></translation>
+        <translation>Als één van deze gebeurtenissen plaatsvindt...</translation>
     </message>
     <message>
         <source>Examples:
 • When a button is pressed...
 • When the temperature changes...
 • At 7 am...</source>
-        <translation></translation>
+        <translation>Voorbeelden:
+• Als een knop wordt ingedrukt...
+• Als de temperatuur verandert...
+• Om 7.00 uur...</translation>
     </message>
     <message>
         <source>Configure...</source>
-        <translation></translation>
+        <translation>Instellen...</translation>
     </message>
     <message>
         <source>Add another...</source>
-        <translation></translation>
+        <translation>Voeg nog één toe...</translation>
     </message>
     <message>
         <source>Do something while a condition is met.</source>
-        <translation></translation>
+        <translation>Doe iets als aan een voorwaarde is voldaan.</translation>
     </message>
     <message>
         <source>...but only if those conditions are met...</source>
-        <translation></translation>
+        <translation>... maar alleen als aan deze voorwaarden is voldaan...</translation>
     </message>
     <message>
         <source>When this condition...</source>
-        <translation></translation>
+        <translation>Als deze voorwaarde...</translation>
     </message>
     <message>
         <source>When time is in...</source>
-        <translation></translation>
+        <translation type="unfinished">Als de tijd is tussen...</translation>
     </message>
     <message>
         <source>...during this time...</source>
-        <translation></translation>
+        <translation>...gedurende deze tijd...</translation>
     </message>
     <message>
         <source>Create a scene.</source>
-        <translation></translation>
+        <translation>Creëer een scène.</translation>
     </message>
     <message>
         <source>...come true, execute those actions:</source>
-        <translation></translation>
+        <translation>...gebeuren, voer dan deze acties uit:</translation>
     </message>
     <message>
         <source>...execute those actions:</source>
-        <translation></translation>
+        <translation>...voer deze acties uit:</translation>
     </message>
     <message>
         <source>Just pick some actions which will be executed when the scene is activated. Scenes are like any other magic except they can also be activated manually.</source>
-        <translation></translation>
+        <translation>Kies acties die uitgevoerd moeten worden als de scène wordt geactiveerd. Scènes zijn hetzelfde als magie, maar kunnen ook handmatig worden geactiveerd.</translation>
     </message>
     <message>
         <source>Add an action...</source>
-        <translation></translation>
+        <translation>Voeg een actie toe...</translation>
     </message>
     <message>
         <source>Add another action...</source>
-        <translation></translation>
+        <translation>Voeg nog een actie toe...</translation>
     </message>
     <message>
         <source>If the condition isn&apos;t met, execute those actions instead:</source>
-        <translation></translation>
+        <translation>Als niet aan de voorwaarde is voldaan, voer dan in plaats daarvan deze acties uit:</translation>
     </message>
     <message>
         <source>Add event</source>
-        <translation></translation>
+        <translation>Voeg een gebeurtenis toe</translation>
     </message>
     <message>
         <source>When one of my things triggers an event</source>
-        <translation></translation>
+        <translation>Als één van mijn dingen een gebeurtenis laat plaatsvinden</translation>
     </message>
     <message>
         <source>When a thing of a given type triggers an event</source>
-        <translation></translation>
+        <translation>Als een bepaald type ding een gebeurtenis laat plaatsvinden</translation>
     </message>
     <message>
         <source>At a particular time or date</source>
-        <translation></translation>
+        <translation>Op een bepaalde tijd of datum</translation>
     </message>
     <message>
         <source>Add condition...</source>
-        <translation></translation>
+        <translation>Voeg een voorwaarde toe...</translation>
     </message>
     <message>
         <source>When one of my things is in a certain state</source>
-        <translation></translation>
+        <translation>Als één van mijn dingen een bepaalde status heeft</translation>
     </message>
     <message>
         <source>When a thing of a given type enters a state</source>
-        <translation></translation>
+        <translation>Als een ding van een bepaald type een status krijgt</translation>
     </message>
     <message>
         <source>During a given time</source>
-        <translation></translation>
+        <translation>Gedurende een bepaalde periode</translation>
     </message>
     <message>
         <source>Add action...</source>
-        <translation></translation>
+        <translation>Voeg een actie toe...</translation>
     </message>
     <message>
         <source>Execute an action on one of my things</source>
-        <translation></translation>
+        <translation>Voer een actie uit met één van mijn dingen</translation>
     </message>
     <message>
         <source>Execute an action on an entire kind of things</source>
-        <translation></translation>
+        <translation>Voer een actie uit op alle dingen van een bepaald type</translation>
     </message>
     <message>
         <source>This is a scene</source>
-        <translation></translation>
+        <translation>Dit is een scène</translation>
     </message>
     <message>
         <source>Execute those actions:</source>
@@ -1693,754 +1697,759 @@
     </message>
     <message>
         <source>When the condition isn&apos;t met any more, execute those actions:</source>
-        <translation>Als de conditie niet meer geldig is, voer deze acties uit:</translation>
+        <translation>Als de voorwaarde niet meer geldig is, voer deze acties uit:</translation>
     </message>
     <message>
         <source>Examples:
 • While I&apos;m at home...
 • While the TV is on...
 • Between 9 am and 6 pm...</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorbeelden:
+• Terwijl ik thuis ben...
+• Terwijl de TV aan is...
+• Tussen 9.00 uur en 18.00 uur...</translation>
     </message>
 </context>
 <context>
     <name>EditStateEvaluatorPage</name>
     <message>
         <source>Conditions</source>
-        <translation></translation>
+        <translation>Voorwaarden</translation>
     </message>
 </context>
 <context>
     <name>EditThingsPage</name>
     <message>
         <source>Configure Things</source>
-        <translation></translation>
+        <translation>Dingen instellen</translation>
     </message>
     <message>
         <source>There are no things set up yet.</source>
-        <translation></translation>
+        <translation>Er zijn nog geen dingen ingesteld.</translation>
     </message>
     <message>
         <source>Add a thing</source>
-        <translation></translation>
+        <translation>Voeg een ding toe</translation>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation></translation>
+        <translation>Ga verder en voeg een paar dingen toe, zodat je je %1 systeem kunt gebruiken.</translation>
     </message>
     <message>
         <source>Remove thing?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ding verwijderen?</translation>
     </message>
     <message>
         <source>Are you sure you want to remove %1 and all associated settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je %1 wilt verwijderen, samen met de bijbehorende instellingen?</translation>
     </message>
 </context>
 <context>
     <name>EditTimeEventItemPage</name>
     <message>
         <source>Pick a time</source>
-        <translation></translation>
+        <translation>Kies een tijd</translation>
     </message>
     <message>
         <source>Time</source>
-        <translation></translation>
+        <translation>Tijd</translation>
     </message>
     <message>
         <source>Repeat</source>
-        <translation></translation>
+        <translation>Herhaal</translation>
     </message>
     <message>
         <source>never</source>
-        <translation></translation>
+        <translation>nooit</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation></translation>
+        <translation>elk uur</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation></translation>
+        <translation>dagelijks</translation>
     </message>
     <message>
         <source>weekly</source>
-        <translation></translation>
+        <translation>wekelijks</translation>
     </message>
     <message>
         <source>monthly</source>
-        <translation></translation>
+        <translation>maandelijks</translation>
     </message>
     <message>
         <source>yearly</source>
-        <translation></translation>
+        <translation>jaarlijks</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation></translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <source>Jan</source>
-        <translation></translation>
+        <translation>Jan</translation>
     </message>
     <message>
         <source>Feb</source>
-        <translation></translation>
+        <translation>Feb</translation>
     </message>
     <message>
         <source>Mar</source>
-        <translation></translation>
+        <translation>Mrt</translation>
     </message>
     <message>
         <source>Apr</source>
-        <translation></translation>
+        <translation>Apr</translation>
     </message>
     <message>
         <source>May</source>
-        <translation></translation>
+        <translation>Mei</translation>
     </message>
     <message>
         <source>Jun</source>
-        <translation></translation>
+        <translation>Jun</translation>
     </message>
     <message>
         <source>Jul</source>
-        <translation></translation>
+        <translation>Jul</translation>
     </message>
     <message>
         <source>Aug</source>
-        <translation></translation>
+        <translation>Aug</translation>
     </message>
     <message>
         <source>Sep</source>
-        <translation></translation>
+        <translation>Sep</translation>
     </message>
     <message>
         <source>Oct</source>
-        <translation></translation>
+        <translation>Okt</translation>
     </message>
     <message>
         <source>Nov</source>
-        <translation></translation>
+        <translation>Nov</translation>
     </message>
     <message>
         <source>Dez</source>
-        <translation></translation>
+        <translatorcomment>Typo in source code. Should be Dec</translatorcomment>
+        <translation>Dec</translation>
     </message>
     <message>
         <source>Weekdays</source>
-        <translation></translation>
+        <translation>Weekdagen</translation>
     </message>
     <message>
         <source>Day of month</source>
-        <translation></translation>
+        <translation>Dag van de maand</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>EditZonePage</name>
     <message>
         <source>Edit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Bewerk %1</translation>
     </message>
     <message>
         <source>Zone information</source>
-        <translation type="unfinished"></translation>
+        <translation>Zone informatie</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Assigned things</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegewezen dingen</translation>
     </message>
     <message>
         <source>Temperature settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatuur instellingen</translation>
     </message>
     <message>
         <source>Base temperature</source>
-        <translation type="unfinished"></translation>
+        <translation>Basistemperatuur</translation>
     </message>
     <message>
         <source>Set time schedule</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel tijdschema in</translation>
     </message>
     <message>
         <source>Remove this zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder deze zone</translation>
     </message>
 </context>
 <context>
     <name>EditZoneThingsPage</name>
     <message>
         <source>Things in zone %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Dingen in zone %1</translation>
     </message>
     <message>
         <source>Thermostats</source>
-        <translation type="unfinished"></translation>
+        <translation>Thermostaten</translation>
     </message>
     <message>
         <source>Add thermostat</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg thermostaat toe</translation>
     </message>
     <message>
         <source>Add thermostats</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg thermostaten toe</translation>
     </message>
     <message>
         <source>No thermostats installed</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen thermostaten geïnstalleerd</translation>
     </message>
     <message>
         <source>Before a thermostat can be assigned to this zone, it needs to be connected to nymea.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voordat je een thermostaat aan deze zone kunt toewijzen, moet hij verbonden zijn met nymea.</translation>
     </message>
     <message>
         <source>Setup thermostats</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel thermostaten in</translation>
     </message>
     <message>
         <source>Window sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Raamsensoren</translation>
     </message>
     <message>
         <source>Add window sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg raamsensor toe</translation>
     </message>
     <message>
         <source>Add window sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg raamsensoren toe</translation>
     </message>
     <message>
         <source>No window sensors installed</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen raamsensoren geïnstalleerd</translation>
     </message>
     <message>
         <source>Before a window sensor can be assigned to this zone, it needs to be connected to nymea.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voordat je een raamsensor aan deze zone kunt toewijzen, moet hij verbonden zijn met nymea.</translation>
     </message>
     <message>
         <source>Setup window sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel raamsensor in</translation>
     </message>
     <message>
         <source>Indoor sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Binnenhuissensor</translation>
     </message>
     <message>
         <source>Add indoor sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg binnenhuissensor toe</translation>
     </message>
     <message>
         <source>Add indoor sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg binnenhuissensoren toe</translation>
     </message>
     <message>
         <source>No sensors installed</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen sensoren geïnstalleerd</translation>
     </message>
     <message>
         <source>Before a sensor be assigned to this zone, it needs to be connected to nymea.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voordat je een sensor aan deze zone kunt toewijzen, moet hij verbonden zijn met nymea.</translation>
     </message>
     <message>
         <source>Setup sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel sensoren in</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Meldingen</translation>
     </message>
     <message>
         <source>Add notification target</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een meldingsdoel toe</translation>
     </message>
     <message>
         <source>Select notification target</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een meldingsdoel</translation>
     </message>
     <message>
         <source>No notification things installed</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen meldingsdingen geïnstalleerd</translation>
     </message>
     <message>
         <source>Before a notification target can be assigned to this zone, it needs to be connected to nymea.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voordat je een meldingsdoel aan deze zone kunt toewijzen, moet het verbonden zijn met nymea.</translation>
     </message>
     <message>
         <source>Setup notification targets</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel meldingsdoelen in</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg dingen toe</translation>
     </message>
 </context>
 <context>
     <name>EnergySettingsPage</name>
     <message>
         <source>Energy settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Energie instellingen</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Algemeen</translation>
     </message>
     <message>
         <source>Multiple energy meters are installed in the system. Please select the one you&apos;d like to use as the root meter. That is, the one measuring the entire household.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn meerdere energiemeters in dit systeem geïnstalleerd. Selecteer de meter die je als centrale meter wilt gebruiken. Dat is de meter die het verbruik van het hele huishouden bijhoudt.</translation>
     </message>
     <message>
         <source>Root meter</source>
-        <translation type="unfinished"></translation>
+        <translation>Centrale meter</translation>
     </message>
     <message>
         <source>Consumers</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbruikers</translation>
     </message>
     <message>
         <source>Uncheck individual consumers to hide them from the energy charts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verberg individuele verbruikers in de energiegrafieken door het vinkje te verwijderen.</translation>
     </message>
 </context>
 <context>
     <name>EnergyView</name>
     <message>
         <source>There are no energy meters installed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn geen energiemeters geïnstalleerd.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg dingen toe</translation>
     </message>
     <message>
         <source>Install energy plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Installeer de energie plugin</translation>
     </message>
     <message>
         <source>Energy plugin not installed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Energie plugin niet geïnstalleerd.</translation>
     </message>
     <message>
         <source>To get an overview of your current energy usage, install the energy plugin.</source>
-        <translation type="unfinished"></translation>
+        <translation>Installeer de energie plugin om een overzicht te krijgen van je huisige energieverbruik.</translation>
     </message>
     <message>
         <source>To get an overview of your current energy usage, set up an energy meter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel een energiemeter in om een overzicht te krijgen van je huidige energieverbruik.</translation>
     </message>
 </context>
 <context>
     <name>ErrorDialog</name>
     <message>
         <source>Oh snap!</source>
-        <translation></translation>
+        <translation>Oeps!</translation>
     </message>
     <message>
         <source>Error code: %1</source>
-        <translation></translation>
+        <translation>Foutcode: %1</translation>
     </message>
     <message>
         <source>An unexpected error happened. Sorry about that.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging onverwacht iets fout. Sorry daarvoor.</translation>
     </message>
 </context>
 <context>
     <name>EvChargerThingPage</name>
     <message>
         <source>Maximum charging current</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale laadstroom</translation>
     </message>
     <message>
         <source>The car is not plugged in.</source>
-        <translation type="unfinished"></translation>
+        <translation>De auto is niet ingeplugd.</translation>
     </message>
     <message>
         <source>Currently charging at %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan het opladen met %1.</translation>
     </message>
 </context>
 <context>
     <name>EventDescriptorDelegate</name>
     <message>
         <source>anytime</source>
-        <translation></translation>
+        <translation>op elk moment</translation>
     </message>
 </context>
 <context>
     <name>EventLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Historie voor %1</translation>
     </message>
     <message>
         <source>Remove logs?</source>
-        <translation type="unfinished"></translation>
+        <translation>Logs verwijderen?</translation>
     </message>
     <message>
         <source>Do you want to remove the log for this event and disable logging?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wil je het log van deze gebeurtenis verwijderen en het bijhouden van logs uitschakelen?</translation>
     </message>
     <message>
         <source>Logging not enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Log bijhouden uitgeschakeld</translation>
     </message>
     <message>
         <source>Enable logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Log bijhouden inschakelen</translation>
     </message>
     <message>
         <source>This event is not being logged.</source>
-        <translation type="unfinished"></translation>
+        <translation>Van deze gebeurtenis wordt geen log bijgehouden.</translation>
     </message>
 </context>
 <context>
     <name>FavoritesView</name>
     <message>
         <source>There are no favorite things yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen favoriete dingen.</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen dingen ingesteld. Om favorieten de gebruiken, moet je eerst dingen toevoegen.</translation>
     </message>
     <message>
         <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als je veel dingen hebt ingesteld, kun je de meest belangrijke dingen als favoriet markeren. Zo hou je het overzicht. Klik de ster bij een ding aan om een ding als favoriet te markeren.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg dingen toe</translation>
     </message>
 </context>
 <context>
     <name>FingerprintReaderDevicePage</name>
     <message>
         <source>Manage access</source>
-        <translation></translation>
+        <translation>Toegang beheren</translation>
     </message>
     <message>
         <source>Access log:</source>
-        <translation></translation>
+        <translation>Toegangslog:</translation>
     </message>
     <message>
         <source>Access granted for user %1</source>
-        <translation></translation>
+        <translation>Toegang toegestaan voor gebruiker %1</translation>
     </message>
     <message>
         <source>Access denied</source>
-        <translation></translation>
+        <translation>Toegang geweigerd</translation>
     </message>
     <message>
         <source>Manage users</source>
-        <translation></translation>
+        <translation>Gebruikers beheren</translation>
     </message>
     <message>
         <source>There are no fingerprints registered with this lock</source>
-        <translation></translation>
+        <translation>Voor dit slot zijn geen vingerafdrukken geregistreerd</translation>
     </message>
     <message>
         <source>The following users have valid fingerprints for this lock</source>
-        <translation></translation>
+        <translation>De volgende gebruikers hebben geldige vingerafdrukken voor dit slot</translation>
     </message>
     <message>
         <source>Add a fingerprint</source>
-        <translation></translation>
+        <translation>Voeg een vingerafdruk toe</translation>
     </message>
     <message>
         <source>Add a new fingerprint</source>
-        <translation></translation>
+        <translation>Voeg een nieuwe vingerafdruk toe</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation></translation>
+        <translation>Gebruikersnaam</translation>
     </message>
     <message>
         <source>Finger</source>
-        <translation></translation>
+        <translation>Vinger</translation>
     </message>
     <message>
         <source>Left thumb</source>
-        <translation></translation>
+        <translation>Linker duim</translation>
     </message>
     <message>
         <source>Left index finger</source>
-        <translation></translation>
+        <translation>Linker wijsvinger</translation>
     </message>
     <message>
         <source>Left middle finger</source>
-        <translation></translation>
+        <translation>Linker middelvinger</translation>
     </message>
     <message>
         <source>Left ring finger</source>
-        <translation></translation>
+        <translation>Linker ringvinger</translation>
     </message>
     <message>
         <source>Left pinky finger</source>
-        <translation></translation>
+        <translation>Linker pink</translation>
     </message>
     <message>
         <source>Right thumb</source>
-        <translation></translation>
+        <translation>Rechter duim</translation>
     </message>
     <message>
         <source>Right index finger</source>
-        <translation></translation>
+        <translation>Rechter wijsvinger</translation>
     </message>
     <message>
         <source>Right middle finger</source>
-        <translation></translation>
+        <translation>Rechter middelvinger</translation>
     </message>
     <message>
         <source>Right ring finger</source>
-        <translation></translation>
+        <translation>Rechter ringvinger</translation>
     </message>
     <message>
         <source>Right pinky finger</source>
-        <translation></translation>
+        <translation>Rechter pink</translation>
     </message>
     <message>
         <source>Add user</source>
-        <translation></translation>
+        <translation>Voeg gebruiker toe</translation>
     </message>
     <message>
         <source>Please scan the fingerprint now</source>
-        <translation></translation>
+        <translation>Scan nu de vingerafdruk</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation></translation>
+        <translation>Oeps</translation>
     </message>
     <message>
         <source>All done!</source>
-        <translation></translation>
+        <translation>Alles is gereed!</translation>
     </message>
     <message>
         <source>Fingerprint could not be read.
 Please try again.</source>
-        <translation></translation>
+        <translation>De vingerafdruk kan niet gelezen worden.
+Probeer het nog een keer.</translation>
     </message>
     <message>
         <source>Fingerprint added!</source>
-        <translation></translation>
+        <translation>Vingerafdruk toegevoegd!</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Access request details</source>
-        <translation></translation>
+        <translation>Details van de toegangsverzoeken</translation>
     </message>
     <message>
         <source>Date/Time</source>
-        <translation></translation>
+        <translation>Datum/tijd</translation>
     </message>
     <message>
         <source>User</source>
-        <translation></translation>
+        <translation>Gebruiker</translation>
     </message>
     <message>
         <source>Fingerprint</source>
-        <translation></translation>
+        <translation>Vingerafdruk</translation>
     </message>
 </context>
 <context>
     <name>GarageThingsListPage</name>
     <message>
         <source>My %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijn %1</translation>
     </message>
     <message>
         <source>My things</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijn dingen</translation>
     </message>
     <message>
         <source>All my things</source>
-        <translation type="unfinished"></translation>
+        <translation>Al mijn dingen</translation>
     </message>
 </context>
 <context>
     <name>GaragesView</name>
     <message>
         <source>There are no garage doors set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen garagedeuren ingesteld.</translation>
     </message>
     <message>
         <source>Connect your garage doors in order to control them from here.</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak verbinding met je garagedeuren om ze hier te controleren.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg dingen toe</translation>
     </message>
 </context>
 <context>
     <name>GeneralSettingsPage</name>
     <message>
         <source>Name</source>
-        <translation></translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Time zone</source>
-        <translation></translation>
+        <translation>Tijdzone</translation>
     </message>
     <message>
         <source>General settings</source>
-        <translation></translation>
+        <translation>Algemene instellingen</translation>
     </message>
     <message>
         <source>Set date and time automatically</source>
-        <translation></translation>
+        <translation>Stel datum en tijd automatisch in</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation></translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <source>Time</source>
-        <translation></translation>
+        <translation>Tijd</translation>
     </message>
     <message>
         <source>General</source>
-        <translation></translation>
+        <translation>Algemeen</translation>
     </message>
     <message>
         <source>Date and time</source>
-        <translation></translation>
+        <translation>Datum en tijd</translation>
     </message>
     <message>
         <source>System</source>
-        <translation></translation>
+        <translation>Systeem</translation>
     </message>
     <message>
         <source>Restart %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Herstart %1</translation>
     </message>
     <message>
         <source>Are you sure you want to restart %1 now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je %1 nu wilt herstarten?</translation>
     </message>
     <message>
         <source>Reboot %1 system</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 systeem volledig afsluiten en opnieuw opstarten</translation>
     </message>
     <message>
         <source>Are you sure you want to reboot your %1 sytem now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je %1 systeem nu volledig wilt afsluiten en opnieuw opstarten?</translation>
     </message>
     <message>
         <source>Shut down %1 system</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 systeem afsluiten</translation>
     </message>
     <message>
         <source>Are you sure you want to shut down your %1 sytem now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je %1 systeem nu wilt afsluiten?</translation>
     </message>
 </context>
 <context>
     <name>GenericThingPage</name>
     <message>
         <source>States</source>
-        <translation type="unfinished"></translation>
+        <translation>Statussen</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Acties</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebeurtenissen</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>GenericThingsListPage</name>
     <message>
         <source>My %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijn %1</translation>
     </message>
     <message>
         <source>My things</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijn dingen</translation>
     </message>
     <message>
         <source>All my things</source>
-        <translation type="unfinished"></translation>
+        <translation>Al mijn dingen</translation>
     </message>
 </context>
 <context>
     <name>GenericTypeGraph</name>
     <message>
         <source>Not connected</source>
-        <translation></translation>
+        <translation>Niet verbonden</translation>
     </message>
     <message numerus="yes">
         <source>%n seconds</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n seconde</numerusform>
             <numerusform>%n secondes</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n minutes</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n minuut</numerusform>
             <numerusform>%n minuten</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n hours</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n uur</numerusform>
             <numerusform>%n uren</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n days</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n dag</numerusform>
             <numerusform>%n dagen</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n weeks</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n week</numerusform>
             <numerusform>%n weken</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n months</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n maand</numerusform>
             <numerusform>%n maanden</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n years</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n jaar</numerusform>
             <numerusform>%n jaren</numerusform>
         </translation>
@@ -2450,89 +2459,89 @@ Please try again.</source>
     <name>GenericTypeLogView</name>
     <message>
         <source>Magic</source>
-        <translation></translation>
+        <translation>Magie</translation>
     </message>
 </context>
 <context>
     <name>Graph</name>
     <message>
         <source>Sorry, there isn&apos;t enough data to display a graph here yet!</source>
-        <translation></translation>
+        <translation>Sorry, er zijn nog niet genoeg gegevens om een grafiek weer te geven!</translation>
     </message>
 </context>
 <context>
     <name>GroupsView</name>
     <message>
         <source>There are no groups set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen groepen ingesteld.</translation>
     </message>
     <message>
         <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je kunt dingen groeperen om ze gezamenlijk te controleren. Dat is bijvoorbeeld handig bij een kamer. Selecteer het groepssymbool om dingen aan een groep toe te voegen.</translation>
     </message>
 </context>
 <context>
     <name>Imprint</name>
     <message>
         <source>Developer options are now enabled. If you have found this by accident, it is most likely not of any use for you. It will just enable some nerdy developer gibberish in the app. Tap the icon another 10 times to disable it again.</source>
-        <translation></translation>
+        <translation>Opties voor ontwikkelaars zijn nu ingeschakeld. Als je dit per ongeluk hebt gevonden, heb je er waarschijnlijk niet zoveel aan. Het zorgt ervoor dat je wat nerderige ontwikkelaars codetaal te zien krijgt in de app. Klik nog eens 10 keer op het icoontje om de opties voor ontwikkelaars weer uit te schakelen.</translation>
     </message>
     <message>
         <source>Developer options are now disabled.</source>
-        <translation></translation>
+        <translation>Opties voor ontwikkelaars zijn nu uitgeschakeld.</translation>
     </message>
     <message>
         <source>Howdy cowboy!</source>
-        <translation></translation>
+        <translation type="unfinished">Howdy cowboy!</translation>
     </message>
     <message>
         <source>Visit the nymea website</source>
-        <translation></translation>
+        <translation>Bezoek de nymea website</translation>
     </message>
     <message>
         <source>Visit GitHub page</source>
-        <translation></translation>
+        <translation>Bezoek de GitHub pagina</translation>
     </message>
     <message>
         <source>View privacy policy</source>
-        <translation></translation>
+        <translation>Bekijk het privacybeleid</translation>
     </message>
     <message>
         <source>Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.</source>
-        <translation></translation>
+        <translation>Qt is een geregistreerd handelsmerk van The Qt Company Ltd. en haar dochterondernemingen.</translation>
     </message>
     <message>
         <source>Visit the Qt website</source>
-        <translation></translation>
+        <translation>Bezoek de Qt website</translation>
     </message>
     <message>
         <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation></translation>
+        <translation>nymea is een geregistreerd handelsmerk van nymea GmbH.</translation>
     </message>
     <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
-        <translation></translation>
+        <translation>Gelicentieerd onder de voorwaarden van de GNU General Public License, versie 3. Bezoek de GitHub pagina voor de broncode en de build instructies.</translation>
     </message>
     <message>
         <source>Software license</source>
-        <translation></translation>
+        <translation>Software licentie</translation>
     </message>
     <message>
         <source>Additional software licenses</source>
-        <translation></translation>
+        <translation>Aanvullende software licenties</translation>
     </message>
 </context>
 <context>
     <name>InterfaceTile</name>
     <message>
         <source>uncategorized</source>
-        <translation type="unfinished"></translation>
+        <translation>niet gecategoriseerd</translation>
     </message>
     <message numerus="yes">
         <source>%n things</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n ding</numerusform>
+            <numerusform>%n dingen</numerusform>
         </translation>
     </message>
 </context>
@@ -2540,943 +2549,943 @@ Please try again.</source>
     <name>Interfaces</name>
     <message>
         <source>Battery powered devices</source>
-        <translation></translation>
+        <translation>Apparaten met een batterij</translation>
     </message>
     <message>
         <source>Battery level is critical</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Battery level entered critical state</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Notification services</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Title</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Message body</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Send notification</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Lights</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Light is turned on</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>A light is turned on or off</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn lights on or off</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Temperature sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Temperature has changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Closable things</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Powered things</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Thing is turned on</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>A thing is turned on or off</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn things on or off</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Dimmable lights</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Light&apos;s brightness is</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>A light&apos;s brightness has changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set lights brightness</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Close</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Presence sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Is present</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Presence changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Blinds</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Awnings</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shutters</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Humidity sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Humidity changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Daylight sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Daylight</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Daylight changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>EV charger</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Charging</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Charging changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enable charging</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Speakers</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Increase volume</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Decrease volume</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connected changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Heating enabled</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Heating enabled changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enable heating</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media players</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Playback status</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Playback status changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set playback status</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Light intensity</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Light intensity changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media controllers</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Start playback</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Stop playback</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause playback</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Skip back</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Skip next</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Access control systems</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Access granted</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Access denied</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connectable things</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Accounts</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>User is logged in</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>User login changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Alert</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Simple closables</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Closables</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Stop</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Barcode scanners</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Content</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Code scanned</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Battery level</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Battery level changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Button pressed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Closable sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Closed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Opened or closed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>CO2 sensor</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>CO2 level</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>CO2 level changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Color temperature light</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Lights color temperature is</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>A lights color temperature has changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set lights color temperature</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Color lights</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Light&apos;s color is</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>A light&apos;s color has changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set lights color</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Conductivity sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Conductivity</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Conductivity changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Doorbells</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Doorbell pressed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Moving</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Moving changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Maximum charging current</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Maximum charging current changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set maximum charging current</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Percentage</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Percentage changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set percentage</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fast forward</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fast rewind</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Navigation pad</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>To</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Navigate</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Smart meter</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Smart meters</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Total energy consumed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Current power</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Current power changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mute</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Muted</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Volume</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Volume changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set volume</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>User access control systems</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Users</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Users changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>User</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add user</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove user</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fingerprint readers</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Finger</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Garage doors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>State</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>State changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Intermediate position</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Intermediate position changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Incoming events</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Triggered</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Light sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Buttons</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Long pressed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media sources</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Title changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Artist</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Artist changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Collection</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Collection changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Artwork</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Artwork changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Moisture sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Moisture</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Moisture changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Button name</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pressed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Noise sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Noise level</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Noise level changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Outgoing events</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Trigger</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Power sockets</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Powered</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turned on/off</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn on/off</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Power switches</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pressure sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pressure</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pressure changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shuffle</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shuffle changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set shuffle</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Repeat</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Repeat changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set repeat</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Smart locks</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unlatch</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Thermostats</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Target temperature</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Target temperature changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set target temperature</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Weather description</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Weather description changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Weather condition</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Weather condition changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Temperature changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wind speed changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wind direction</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wind direction changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wind speed sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wind speed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wireless devices</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Signal strength changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation></translation>
+        <translation type="unfinished">Sensors</translation>
     </message>
     <message>
         <source>Heating</source>
-        <translation></translation>
+        <translation type="unfinished">Verwarming</translation>
     </message>
     <message>
         <source>Irrigation</source>
-        <translation></translation>
+        <translation type="unfinished">Irrigatie</translation>
     </message>
     <message>
         <source>Ventilation</source>
-        <translation></translation>
+        <translation type="unfinished">Ventilatie</translation>
     </message>
     <message>
         <source>Navigation pad with menu</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Navigatiepad met menu</translation>
     </message>
     <message>
         <source>Operate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bedienen</translation>
     </message>
     <message>
         <source>Water sensors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Watersensoren</translation>
     </message>
     <message>
         <source>Water detected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Water gedetecteerd</translation>
     </message>
     <message>
         <source>Water detected changed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gedetecteerd water is veranderd</translation>
     </message>
     <message>
         <source>Charging started or stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Opladen gestart of gestopt</translation>
     </message>
     <message>
         <source>Discharging</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ontladen</translation>
     </message>
     <message>
         <source>Discharging started or stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ontladen gestart of gestopt</translation>
     </message>
     <message>
         <source>Plugged in</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ingeplugd</translation>
     </message>
     <message>
         <source>Plugged in or out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">In- of uitgeplugd</translation>
     </message>
     <message>
         <source>Cleaning robots</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schoonmaakrobots</translation>
     </message>
     <message>
         <source>Robot state</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Robotstatus</translation>
     </message>
     <message>
         <source>Robot state changed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Robotstatus gewijzigd</translation>
     </message>
     <message>
         <source>Start cleaning</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Begin met schoonmaken</translation>
     </message>
     <message>
         <source>Stop cleaning</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stop met schoonmaken</translation>
     </message>
     <message>
         <source>Pause cleaning</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pauseer het schoonmaken</translation>
     </message>
     <message>
         <source>Return to base</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keer terug naar het startpunt</translation>
     </message>
     <message>
         <source>CO sensor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">CO sensor</translation>
     </message>
     <message>
         <source>CO level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">CO niveau</translation>
     </message>
     <message>
         <source>CO level changed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">CO niveau gewijzigd</translation>
     </message>
     <message>
         <source>Flammable gas sensor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gassensor (brandgevaar)</translation>
     </message>
     <message>
         <source>Flammable gas level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gasniveau (brandgevaar)</translation>
     </message>
     <message>
         <source>Flammable gas level changed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gasniveau gewijzigd (brandgevaar)</translation>
     </message>
     <message>
         <source>Total consumed energy changed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Totaal verbruikte energie gewijzigd</translation>
     </message>
     <message>
         <source>Total energy produced</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Totale energie geproduceerd</translation>
     </message>
     <message>
         <source>Total produced energy changed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Totaal geproduceerde energie gewijzigd</translation>
     </message>
     <message>
         <source>Cooling</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Koeling</translation>
     </message>
     <message>
         <source>Cooling enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Koeling ingeschakeld</translation>
     </message>
     <message>
         <source>Cooling enabled changed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Koeling gewijzigd</translation>
     </message>
     <message>
         <source>Enable cooling</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schakel koeling in</translation>
     </message>
     <message>
         <source>Air flow rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Volume van de luchtstroom</translation>
     </message>
     <message>
         <source>Air flow rate changed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Volume van de luchtstroom is gewijzigd</translation>
     </message>
     <message>
         <source>Set air flow rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stel het volume van de luchtstroom in</translation>
     </message>
     <message>
         <source>Fire sensors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Brandmelders</translation>
     </message>
     <message>
         <source>Fire detected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Brand gedetecteerd</translation>
     </message>
     <message>
         <source>Fire detected changed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gedetecteerde brand gewijzigd</translation>
     </message>
     <message>
         <source>Vibration sensors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Trillingssensoren</translation>
     </message>
     <message>
         <source>Vibration detected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Trilling gedetecteerd</translation>
     </message>
 </context>
 <context>
@@ -3629,7 +3638,7 @@ Please try again.</source>
     <name>LogViewerPage</name>
     <message>
         <source>Log viewer</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Terminated by system</source>
@@ -3722,23 +3731,23 @@ Please try again.</source>
     <name>LoginPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The email you&apos;ve entered isn&apos;t valid.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>In order to use your %1 system, please log in.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>An error happened with the user storage. Please make sure your %1 system is installed correctly.</source>
@@ -3793,141 +3802,141 @@ Please try again.</source>
     <name>LookAndFeelSettingsPage</name>
     <message>
         <source>Look and feel</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>View mode</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Windowed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Maximized</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Return to home on idle</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Style changed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The application needs to be restarted for style changes to take effect.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn screen off when idle</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Screen off timeout</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>seconds</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Screen brightness</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Automatic</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unit system</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Metric</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Imperial</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Appearance</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Regional</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Behavior</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MagicPage</name>
     <message>
         <source>Magic</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>There is no magic set up yet.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Use magic to make your things smart! In a few easy steps you&apos;ll have your things wired up and work for you.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add some magic</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Set up now</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Celsi°s</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>There is no drexel und weiss heating system set up yet.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Current air quality</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Current temperature</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Temperature, °C</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Automate this thing</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Auto</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Party</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Manual</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3965,35 +3974,35 @@ Please try again.</source>
     <name>MainPage</name>
     <message>
         <source>Favorites</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Things</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Loading data...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connected to</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Groups</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Garages</source>
@@ -4074,11 +4083,11 @@ Please try again.</source>
     <name>MediaDeviceListPage</name>
     <message>
         <source>Media</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No playback</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4464,337 +4473,337 @@ Use a timeout value greater or equal to 10 ms.</source>
     <name>MqttBrokerSettingsPage</name>
     <message>
         <source>MQTT broker</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MQTT Server Interfaces</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MQTT permissions</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Client ID: %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Username: %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MqttPolicyPage</name>
     <message>
         <source>Mqtt permission</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Client ID:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>E.g. Sensor_1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1 is already used</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Can&apos;t be blank</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Optional</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allowed publish topics</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Allowed subscribe filters</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Client info</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NetworkSettingsPage</name>
     <message>
         <source>Network settings</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wireless network</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unmanaged</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unavailable</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disconnected</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Deactivating</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Failed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Preparing</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Configuring</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Waiting for password</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Setting IP configuration</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Checking IP configuration</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Secondaries</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Current connection state</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Asleep</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disconnecting</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connecting</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Locally connected</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Site connected</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Globally connected</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Networking enabled</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enable or disable networking altogether</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disable networking?</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wired network</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Plugged in</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unplugged</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enable or disable WiFi</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disable WiFi?</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>WiFi networks</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Authenticate</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enter the password for %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Current connection</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>SSID</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MAC Address</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 system any more. Do not proceed unless you know what your are doing.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Do you want to proceed?</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>General</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No wired network interfaces available</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enabled</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No wireless hardware available.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The access point cannot be found.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The network interface cannot be found.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid network device type.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wireless networking is disabled.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The wireless connection failed.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Networking is disabled.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The network manager is not available.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hosting access point</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Network management is unavailable on this system.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Access Point</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Create Access Point</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connect to wireless network</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hidden Network</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connected to</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>IPv4 Address</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>IPv6 Address</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>WiFi frequency</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No wireless network interfaces available</source>
@@ -4849,29 +4858,29 @@ Use a timeout value greater or equal to 10 ms.</source>
     <name>NewMagicPage</name>
     <message>
         <source>New magic</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NewScenePage</name>
     <message>
         <source>New scene</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>NewThingMagicPage</name>
     <message>
         <source>New magic</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Create some magic manually</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>New magic for %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>A thing</source>
@@ -4882,19 +4891,19 @@ Use a timeout value greater or equal to 10 ms.</source>
     <name>NewThingPage</name>
     <message>
         <source>Set up new thing</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Vendor</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>All</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Type</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Looking for something else?</source>
@@ -4952,213 +4961,213 @@ Use a timeout value greater or equal to 10 ms.</source>
     <name>Nymea</name>
     <message>
         <source>Lighting</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Media</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pressure</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Noise level</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>CO2 level</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Incoming Events</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Events</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shutters</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Blinds</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Awnings</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Access control</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Smart meters</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>EV-chargers</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Power sockets</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Uncategorized</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>light</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>battery powered thing</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>connectable thing</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>switchable thing</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>daylight sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>presence sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Doorbells</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>doorbell</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>alert</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>button</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>access control</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>smart meter</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>media player</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fingerprint reader</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>moisture sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>thing to notify</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Garage doors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Heating</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Accounts</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Smartlocks</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>smartlock</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Irrigation</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ventilation</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>irrigation</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>ventilation</source>
         <extracomment>Select ...</extracomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Thermostats</source>
@@ -5319,7 +5328,7 @@ Do you want to proceed?</source>
     <name>ParamDescriptorDelegate</name>
     <message>
         <source>is</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>is equal to</source>
@@ -5354,35 +5363,35 @@ Do you want to proceed?</source>
     <name>PasswordTextField</name>
     <message>
         <source>Pick a password</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Minimum %1 characters</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Lowercase letters</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Uppercase letters</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Numbers</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Special characters</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Confirm password</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Password</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5396,7 +5405,7 @@ Do you want to proceed?</source>
     <name>PluginsPage</name>
     <message>
         <source>Plugins</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Installed integration plugins</source>
@@ -5677,22 +5686,22 @@ Do you want to proceed?</source>
     <name>PowerSocketsDeviceListPage</name>
     <message>
         <source>My %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PushButtonAuthPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sorry, something went wrong during the setup. Try again please.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Authentication required</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please press the button on your %1 gateway to authenticate this device.</source>
@@ -5722,11 +5731,11 @@ Do you want to proceed?</source>
     <name>RootItem</name>
     <message>
         <source>Connection error</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The version of the %1 system you are trying to connect to is too old. This app requires at least API version %2 but this %1 system only supports API version %3. Please update your %1 system.</source>
@@ -5741,19 +5750,19 @@ Do you want to proceed?</source>
     <name>RuleActionDelegate</name>
     <message>
         <source>%1 - %2</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1: %2</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>value from event</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unknown item</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Yes</source>
@@ -5773,11 +5782,11 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>only if %1 %2 %3</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>and %1 %2 %3</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5807,43 +5816,43 @@ Do you want to proceed?</source>
     <name>ScriptEditor</name>
     <message>
         <source>Did you know...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>nymea:app is available for all kinds of devices. In order to edit scripts we recommend to use nymea:app on your personal computer or connect a keyboard to your tablet.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unsaved changes</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>There are unsaved changes in the script. Do you want to discard the changes?</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Script name</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Help</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Deploy script</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The script has not been deployed because it contains errors.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Errors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Console</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>An autosaved version of this script has been loaded. Deploy to store this version or reload to restore the deployed version.</source>
@@ -5866,30 +5875,30 @@ Do you want to proceed?</source>
     <name>ScriptsPage</name>
     <message>
         <source>Scripts</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add new script</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No scripts are installed yet.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Press &quot;Add script&quot; to get started.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add script</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SelectBrowserItemActionPage</name>
     <message>
         <source>Select item</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5907,7 +5916,7 @@ Do you want to proceed?</source>
     <name>SelectEventDescriptorParamsPage</name>
     <message>
         <source>Only consider event if</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Only consider state change if</source>
@@ -5918,41 +5927,41 @@ Do you want to proceed?</source>
     <name>SelectRuleActionPage</name>
     <message>
         <source>Open an item on this thing...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SelectRuleActionParamsPage</name>
     <message>
         <source>Use static value as parameter</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Use event parameter</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Use a thing&apos;s state value</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Insert value here</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select a state</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SelectStateDescriptorParamsPage</name>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Condition</source>
@@ -6011,30 +6020,30 @@ Do you want to proceed?</source>
     <name>SelectStatePage</name>
     <message>
         <source>Select state</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SelectThingPage</name>
     <message>
         <source>Any %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select kind of things</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select thing</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6143,7 +6152,7 @@ Do you want to proceed?</source>
     <name>SensorsDeviceListPage</name>
     <message>
         <source>Sensors</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Heating</source>
@@ -6158,118 +6167,118 @@ Do you want to proceed?</source>
     <name>ServerConfigurationDialog</name>
     <message>
         <source>Server configuration</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Interface</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Any</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Localhost</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Custom</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Login required</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>General</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Change system name and time zone</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Log viewer</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>View system log</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MQTT broker</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Configure the MQTT broker</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Web server</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Configure the web server</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Plugins</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>List and cofigure installed plugins</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Developer tools</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Access tools for debugging and error reporting</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Find server UUID and versions</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>System update</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>System settings</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Networking</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Configure the system&apos;s network connection</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>User settings</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Configure who can log in</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>ZigBee</source>
@@ -6316,87 +6325,87 @@ Do you want to proceed?</source>
     <name>SetupWizard</name>
     <message>
         <source>Search again</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add thing manually</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Searching for things...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Too bad...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No things of this kind could be found...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Name the thing:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Thing reconfigured!</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Thing added!</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>All done. You can now start using %1.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Something went wrong setting up this thing...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>First setup</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Welcome to %1!</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Next</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OAuth is not supported on this platform. Please use this app on a different device to set up this thing.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>In order to use OAuth on this platform, make sure qml-module-qtwebview is installed.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Reconfigure %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set up %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Discover %1</source>
@@ -6427,14 +6436,14 @@ Do you want to proceed?</source>
     <name>ShutterDeviceListPage</name>
     <message>
         <source>Shutters</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SimpleStateEvaluatorDelegate</name>
     <message>
         <source>Press to edit condition</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Yes</source>
@@ -6456,7 +6465,7 @@ Do you want to proceed?</source>
     <name>SmartMeterDeviceListPage</name>
     <message>
         <source>Smart meters</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Returning %1</source>
@@ -6586,34 +6595,34 @@ A consumer, not consuming anything</extracomment>
     <name>StateEvaluatorDelegate</name>
     <message>
         <source>and all of those</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>or any of those</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add a condition</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Edit condition...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>When one of my things is in a certain state</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>When a thing of a given type enters a state</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>StateLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove logs?</source>
@@ -6640,54 +6649,54 @@ A consumer, not consuming anything</extracomment>
     <name>SystemUpdatePage</name>
     <message>
         <source>System update</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Your system is up to date.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Update all</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Configure update sources</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enable package source</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Checking for updates...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Check for updates</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
         <source>%n update(s) available</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message>
         <source>Check again</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Install or remove software</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Failure adding repository.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
@@ -6716,31 +6725,31 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>ThingClassDetailsPage</name>
     <message>
         <source>Type</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Parameters</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>ID copied to clipboard</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Events</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>States</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Interfaces</source>
@@ -6893,63 +6902,63 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>TimeEventDelegate</name>
     <message>
         <source>At %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>repeated %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>never</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>daily</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mon</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fri</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>weekly on %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>monthly on the %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>every year</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7061,54 +7070,54 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>UpdateRunningOverlay</name>
     <message>
         <source>System update in progress...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please wait</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The system may restart in order to complete the update. %1:app will reconnect automatically after the update.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>UsersSettingsPage</name>
     <message>
         <source>User settings</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The given password is not valid.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Permission denied.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The new password could not be stored.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Un unexpected error happened when changing the password. We&apos;re sorry for this. (Error code: %1)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Change password</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Created on %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please enter the new password for %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>OK</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Edit user information</source>
@@ -7235,100 +7244,100 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>WeatherDeviceListPage</name>
     <message>
         <source>Weather</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>WeatherView</name>
     <message>
         <source>N</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>NE</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>E</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>SE</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>S</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>SW</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>W</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>NW</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>WebServerConfigurationDialog</name>
     <message>
         <source>Server configuration</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Interface</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Any</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Localhost</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Custom</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Login required</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Public folder</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>WebServerSettingsPage</name>
     <message>
         <source>Web server</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Web server interfaces</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8424,26 +8433,26 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>description for accesscontroltemplates</name>
     <message>
         <source>Alert me on denied access attempts</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Notify my about access</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Notify my about user access</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>description for buttontemplates</name>
     <message>
         <source>Switch a light</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn off all lights</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn on lights</source>
@@ -8458,22 +8467,22 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>description for daylightsensor</name>
     <message>
         <source>Turn on a light while it&apos;s dark outside</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn on a light when it gets dark outside</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>description for doorbellruletemplates</name>
     <message>
         <source>Alert on doorbell ring</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8494,7 +8503,7 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>description for mediatemplates</name>
     <message>
         <source>Dim light while watching TV</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Automatic night mode</source>
@@ -8521,15 +8530,15 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>description for notificationtemplates</name>
     <message>
         <source>Notify me when a device runs out of battery</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Notify me when a thing gets disconnected</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Notify me when a thing connects</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Notify me when something dries out</source>
@@ -8540,97 +8549,97 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>description for presencesensortemplates</name>
     <message>
         <source>Turn on something while being present</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn off something when leaving</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn off everything when leaving</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn off all lights when leaving</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn on something when arriving</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>description for smartmetertemplates</name>
     <message>
         <source>Charge my car while producing energy</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn on heating while producing energy</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>description for thermostattemplates</name>
     <message>
         <source>Set temperature while I&apos;m home</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for accesscontroltemplates</name>
     <message>
         <source>Denied access attempt on %0</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Access granted on %0</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Access granted to user on %0</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for buttontemplates</name>
     <message>
         <source>%0 turns on %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%0 turns off %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%0 switches %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn off everything with %0</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for daylightsensor</name>
     <message>
         <source>Turn on %1 while it&apos;s dark outside</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn on %1 when it gets dark outside (%0)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for doorbellruletemplates</name>
     <message>
         <source>Alert %1 when someone is at %0</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8651,7 +8660,7 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>ruleNameTemplate for mediatemplates</name>
     <message>
         <source>%0 dims %1 for movie time</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Automatic night mode on %0</source>
@@ -8678,15 +8687,15 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>ruleNameTemplate for notificationtemplates</name>
     <message>
         <source>Low battery alert for %0</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disconnect alert for %0</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connection notification for %0</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Notify %1 when %0 dries out</source>
@@ -8697,48 +8706,48 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>ruleNameTemplate for presencesensortemplates</name>
     <message>
         <source>Turn on %1 while %0 reports presence</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn off %1 when %0 reports leaving</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn off everything when %0 reports leaving</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn off all lights when %0 reports leaving</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turn on %1 when %0 reports arriving</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for smartmetertemplates</name>
     <message>
         <source>Smart car charging</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Smart heating</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for template</name>
     <message>
         <source>%0 ...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for thermostattemplates</name>
     <message>
         <source>Set temperature while I&apos;m home</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
