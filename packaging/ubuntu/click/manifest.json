@@ -14,7 +14,7 @@
             "push-helper": "push.json"
         }
     },
-    "version": "1.7.21",
+    "version": "1.8.9",
     "maintainer": "nymea GmbH <developer@nymea.io>",
     "framework" : "ubuntu-sdk-20.04"
 }
