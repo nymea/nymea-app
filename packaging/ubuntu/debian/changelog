@@ -1,3 +1,11 @@
+nymea-app (1.8.11) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Remove old logs view from the thing context menu
+  * Disable dashboard longpress editmode
+
+ -- jenkins <developer@nymea.io>  Tue, 06 Jun 2023 21:17:44 +0200
+
 nymea-app (1.8.10) bionic; urgency=medium
 
   [ Michael Zanetti ]
