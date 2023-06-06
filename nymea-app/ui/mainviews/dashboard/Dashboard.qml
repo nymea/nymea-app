@@ -80,11 +80,12 @@ MainViewBase {
         contentWidth: width
         bottomMargin: root.bottomMargin
 
-        MouseArea {
-            width: flickable.contentWidth
-            height: flickable.contentHeight
-            onPressAndHold: root.editMode = true
-        }
+        // Disabling this as it causes collisions when items in the dashboard use longpresses
+//        MouseArea {
+//            width: flickable.contentWidth
+//            height: flickable.contentHeight
+//            onPressAndHold: root.editMode = true
+//        }
 
         GridLayout {
             id: layout
