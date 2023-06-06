@@ -62,7 +62,17 @@ DashboardDelegateBase {
 
         StateChart {
             id: graph
-            title: root.state && root.stateType ? root.thing.name + ", " + root.stateType.displayName + ": " + Types.toUiValue(root.state.value, root.stateType.unit).toFixed(0) + Types.toUiUnit(root.stateType.unit) : ""
+            title: {
+                if (!root.state || !root.stateType) {
+                    return ""
+                }
+
+                var ret = root.thing.name + ", " + root.stateType.displayName
+                if (["int", "uint", "double"].indexOf(root.stateType.type.toLowerCase()) >= 0) {
+                    ret += ": " + Types.toUiValue(root.state.value, root.stateType.unit).toFixed(0) + Types.toUiUnit(root.stateType.unit)
+                }
+                return ret
+            }
 
             thing: root.thing
             color: root.thing ? app.interfaceToColor(root.thing.thingClass.interfaces[0]) : Style.accentColor
