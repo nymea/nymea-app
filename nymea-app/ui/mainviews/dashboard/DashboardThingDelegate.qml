@@ -49,6 +49,5 @@ DashboardDelegateBase {
         thing: engine.thingManager.fetchingData ? null : engine.thingManager.things.getThing(root.item.thingId)
 
         onClicked: pageStack.push(Qt.resolvedUrl("../../devicepages/" + NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces)), {thing: thing})
-        onPressAndHold: root.longPressed()
     }
 }
