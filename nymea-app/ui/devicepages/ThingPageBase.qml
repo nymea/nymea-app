@@ -38,7 +38,6 @@ Page {
     id: root
     property Thing thing: null
 
-    property bool showLogsButton: false
     property bool showDetailsButton: true
     property bool showBrowserButton: true
     property bool popStackOnBackButton: true
@@ -75,7 +74,6 @@ Page {
         x: parent.width - width
         thing: root.thing
         showDetails: root.showDetailsButton
-        showLogs: root.showLogsButton
     }
 
     Connections {

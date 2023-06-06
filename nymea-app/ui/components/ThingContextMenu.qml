@@ -9,7 +9,6 @@ AutoSizeMenu {
     property Thing thing: null
 
     property bool showDetails: true
-    property bool showLogs: true
 
     Component.onCompleted: {
         if (Configuration.magicEnabled) {
@@ -20,9 +19,6 @@ AutoSizeMenu {
             root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Details"), iconSource: "../images/info.svg", functionName: "openGenericThingPage"}))
         }
 //            root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Settings"), iconSource: "../images/configure.svg", functionName: "openThingSettingsPage"}))
-        if (root.showLogs) {
-            root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Logs"), iconSource: "../images/logs.svg", functionName: "openThingLogPage"}))
-        }
 
         root.addItem(menuEntryComponent.createObject(root,
             {
