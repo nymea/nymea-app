@@ -1,3 +1,10 @@
+nymea-app (1.8.10) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix dashboard charts title for non-numeric states
+
+ -- jenkins <developer@nymea.io>  Tue, 06 Jun 2023 14:45:54 +0200
+
 nymea-app (1.8.9) bionic; urgency=medium
 
   [ alpha-rd ]
