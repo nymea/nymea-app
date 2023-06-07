@@ -43,13 +43,13 @@ CodeCompletion::CodeCompletion(QObject *parent):
     QObject(parent)
 {
     m_classes.insert("Item", ClassInfo("Item", {"id"}));
-    m_classes.insert("ThingAction", ClassInfo("ThingAction", {"id", "thingId", "actionTypeId", "actionName"}, {}, {"execute"}));
+    m_classes.insert("ThingAction", ClassInfo("ThingAction", {"id", "thingId", "actionTypeId", "actionName"}, {}, {"execute"}, {"onExecuted"}));
     m_classes.insert("ThingState", ClassInfo("ThingState", {"id", "thingId", "stateTypeId", "stateName", "value"}, {"minimumValue", "maximumValue"}, {}, {"onValueChanged"}));
     m_classes.insert("ThingEvent", ClassInfo("ThingEvent", {"id", "thingId", "eventTypeId", "eventName"}, {}, {}, {"onTriggered"}));
     m_classes.insert("InterfaceAction", ClassInfo("InterfaceAction", {"id", "interfaceName", "actionName"}, {}, {"execute"}));
     m_classes.insert("InterfaceEvent", ClassInfo("InterfaceEvent", {"id", "interfaceName", "eventName"}, {}, {}, {"onTriggered"}));
     m_classes.insert("InterfaceState", ClassInfo("InterfaceState", {"id", "interfaceName", "stateName"}, {}, {}, {"onStateChanged"}));
-    m_classes.insert("Thing", ClassInfo("Thing", {"id", "thingId"}, {"name"}, {"executeAction", "setStateValue"}, {"onEventTriggered", "onStateValueChanged"}));
+    m_classes.insert("Thing", ClassInfo("Thing", {"id", "thingId"}, {"name"}, {"executeAction", "setStateValue"}, {"onEventTriggered", "onStateValueChanged", "onActionExecuted"}));
     m_classes.insert("Things", ClassInfo("Things", {"id", "filterInterface"}, {"count"}, {"get", "getThing"}, {"onThingAdded", "onThingRemoved", "onCountChanged"}));
     m_classes.insert("Timer", ClassInfo("Timer", {"id", "interval", "running", "repeat"}, {}, {"start", "stop"}, {"onTriggered"}));
     m_classes.insert("Alarm", ClassInfo("Alarm", {"id", "time", "endTime", "weekDays"}, {"active"}, {}, {"onTriggered", "onActiveChanged"}));
@@ -65,6 +65,34 @@ CodeCompletion::CodeCompletion(QObject *parent):
     m_attachedClasses.insert("Component", ClassInfo("Component", {}, {}, {}, {"onCompleted", "onDestruction", "onDestroyed"}));
     m_attachedClasses.insert("Alarm", ClassInfo("Alarm", {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "AllDays"}, {}, {}));
     m_attachedClasses.insert("Animation", ClassInfo("Animation", {"Infinite"}, {}, {}));
+    m_attachedClasses.insert("Action", ClassInfo("Action", {"TriggeredByUser", "TriggeredByRule", "TriggeredByScript"}, {}, {}));
+    m_attachedClasses.insert("Thing", ClassInfo("Thing", {"ThingErrorNoError",
+                                                          "ThingErrorPluginNotFound",
+                                                          "ThingErrorVendorNotFound",
+                                                          "ThingErrorThingNotFound",
+                                                          "ThingErrorThingClassNotFound",
+                                                          "ThingErrorActionTypeNotFound",
+                                                          "ThingErrorStateTypeNotFound",
+                                                          "ThingErrorEventTypeNotFound",
+                                                          "ThingErrorThingDescriptorNotFound",
+                                                          "ThingErrorMissingParameter",
+                                                          "ThingErrorInvalidParameter",
+                                                          "ThingErrorSetupFailed",
+                                                          "ThingErrorDuplicateUuid",
+                                                          "ThingErrorCreationMethodNotSupported",
+                                                          "ThingErrorSetupMethodNotSupported",
+                                                          "ThingErrorHardwareNotAvailable",
+                                                          "ThingErrorHardwareFailure",
+                                                          "ThingErrorAuthenticationFailure",
+                                                          "ThingErrorThingInUse",
+                                                          "ThingErrorThingInRule",
+                                                          "ThingErrorThingIsChild",
+                                                          "ThingErrorPairingTransactionIdNotFound",
+                                                          "ThingErrorParameterNotWritable",
+                                                          "ThingErrorItemNotFound",
+                                                          "ThingErrorItemNotExecutable",
+                                                          "ThingErrorUnsupportedFeature",
+                                                          "ThingErrorTimeout"}, {}, {}));
 
     m_genericSyntax.insert("property", "property ");
     m_genericSyntax.insert("function", "function ");
