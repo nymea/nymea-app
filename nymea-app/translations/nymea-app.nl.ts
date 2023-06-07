@@ -180,11 +180,11 @@
     <name>AdvancedConnectionInterfacesPage</name>
     <message>
         <source>Connection interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindingsinterfaces</translation>
     </message>
     <message>
         <source>TCP server interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP server interfaces</translation>
     </message>
     <message>
         <source>Add</source>
@@ -192,15 +192,15 @@
     </message>
     <message>
         <source>WebSocket server interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Websocket server interfaces</translation>
     </message>
     <message>
         <source>Remote connection server interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Server interfaces voor verbinding op afstand</translation>
     </message>
     <message>
         <source>Server: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Server: %1</translation>
     </message>
 </context>
 <context>
@@ -312,7 +312,7 @@
     </message>
     <message>
         <source>Developer options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opties voor ontwikkelaars</translation>
     </message>
     <message>
         <source>About %1</source>
@@ -361,11 +361,11 @@
     </message>
     <message>
         <source>Time schedule not active</source>
-        <translation>Tijdschema niet actief</translation>
+        <translation>Tijdplanning niet actief</translation>
     </message>
     <message>
         <source>Time schedule active</source>
-        <translation>Tijdschema actief</translation>
+        <translation>Tijdplanning actief</translation>
     </message>
     <message>
         <source>All windows closed</source>
@@ -758,7 +758,7 @@
     <name>ConnectionInterfaceDelegate</name>
     <message>
         <source>Interface: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Interface: %1</translation>
     </message>
     <message>
         <source>Any</source>
@@ -777,7 +777,7 @@
     <name>ConnectionInterfacesPage</name>
     <message>
         <source>Connection interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindingsinterfaces</translation>
     </message>
     <message>
         <source>Connection settings</source>
@@ -975,7 +975,7 @@
     <name>ConsumerStats</name>
     <message>
         <source>Consumers totals</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbruikers totalen</translation>
     </message>
     <message>
         <source>Hours</source>
@@ -1006,14 +1006,14 @@
     <name>ConsumerStatsPage</name>
     <message>
         <source>Consumers balance</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbruikersbalans</translation>
     </message>
 </context>
 <context>
     <name>ConsumersHistory</name>
     <message>
         <source>Consumers history</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbruikershistorie</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -1048,14 +1048,14 @@
     <name>ConsumersHistoryPage</name>
     <message>
         <source>Power balance totals</source>
-        <translation type="unfinished"></translation>
+        <translation>Totalen van mijn energiebalans</translation>
     </message>
 </context>
 <context>
     <name>ConsumersPieChart</name>
     <message>
         <source>Consumers balance</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbruikersbalans</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -1074,7 +1074,7 @@
     <name>ConsumersPieChartPage</name>
     <message>
         <source>Consumers balance</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbruikersbalans</translation>
     </message>
 </context>
 <context>
@@ -1352,7 +1352,7 @@
     <name>DeveloperOptionsPage</name>
     <message>
         <source>Developer options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opties voor ontwikkelaars</translation>
     </message>
     <message>
         <source>Logging</source>
@@ -1375,7 +1375,7 @@
     <name>DeveloperTools</name>
     <message>
         <source>Developer tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Hulpmiddelen voor ontwikkelaars</translation>
     </message>
     <message>
         <source>Debug server enabled</source>
@@ -1383,7 +1383,7 @@
     </message>
     <message>
         <source>In order to access the debug interface, please enable the web server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet de webserver aan om toegang te krijgen tot de debug interface.</translation>
     </message>
     <message>
         <source>The web server cannot be reached on %1.</source>
@@ -1399,14 +1399,14 @@
     </message>
     <message>
         <source>Debug interface active at %1.</source>
-        <translation type="unfinished">Debug interface actief op %1.</translation>
+        <translation>Debug interface actief op %1.</translation>
     </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
     <message>
         <source>Browse %1</source>
-        <translation type="unfinished">Blader %1</translation>
+        <translation>Blader %1</translation>
     </message>
     <message>
         <source>Error: %1</source>
@@ -1609,7 +1609,7 @@
     </message>
     <message>
         <source>When time is in...</source>
-        <translation type="unfinished">Als de tijd is tussen...</translation>
+        <translation>Als de tijd tussen...</translation>
     </message>
     <message>
         <source>...during this time...</source>
@@ -1617,7 +1617,7 @@
     </message>
     <message>
         <source>Create a scene.</source>
-        <translation>Creëer een scène.</translation>
+        <translation>Maak een scène.</translation>
     </message>
     <message>
         <source>...come true, execute those actions:</source>
@@ -1880,7 +1880,7 @@
     </message>
     <message>
         <source>Set time schedule</source>
-        <translation>Stel tijdschema in</translation>
+        <translation>Stel tijdplanning in</translation>
     </message>
     <message>
         <source>Remove this zone</source>
@@ -2492,7 +2492,7 @@ Probeer het nog een keer.</translation>
     </message>
     <message>
         <source>Howdy cowboy!</source>
-        <translation type="unfinished">Howdy cowboy!</translation>
+        <translation>Hallo daar!</translation>
     </message>
     <message>
         <source>Visit the nymea website</source>
@@ -2825,7 +2825,7 @@ Probeer het nog een keer.</translation>
     </message>
     <message>
         <source>Alert</source>
-        <translation>Melding</translation>
+        <translation>Waarschuwing</translation>
     </message>
     <message>
         <source>Simple closables</source>
@@ -2873,7 +2873,7 @@ Probeer het nog een keer.</translation>
     </message>
     <message>
         <source>Closed</source>
-        <translation>Gesloten</translation>
+        <translation>Dicht</translation>
     </message>
     <message>
         <source>Opened or closed</source>
@@ -3085,11 +3085,11 @@ Probeer het nog een keer.</translation>
     </message>
     <message>
         <source>Intermediate position</source>
-        <translation type="unfinished"></translation>
+        <translation>Tussenpositie</translation>
     </message>
     <message>
         <source>Intermediate position changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Tussenpositie is veranderd</translation>
     </message>
     <message>
         <source>Incoming events</source>
@@ -3433,11 +3433,11 @@ Probeer het nog een keer.</translation>
     </message>
     <message>
         <source>Total energy produced</source>
-        <translation>Totale energie geproduceerd</translation>
+        <translation>Totale opgewekte energie</translation>
     </message>
     <message>
         <source>Total produced energy changed</source>
-        <translation>Totaal geproduceerde energie is veranderd</translation>
+        <translation>Totaal opgewekte energie is veranderd</translation>
     </message>
     <message>
         <source>Cooling</source>
@@ -3492,7 +3492,7 @@ Probeer het nog een keer.</translation>
     <name>IrrigationDevicePage</name>
     <message>
         <source>Turn %1 off at %2</source>
-        <translation type="unfinished">Zet %1 uit om/op %2</translation>
+        <translation>Zet %1 uit om %2</translation>
     </message>
     <message>
         <source>Watering since</source>
@@ -3733,7 +3733,7 @@ Probeer het nog een keer.</translation>
     <name>LoginPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation type="unfinished">Welkom bij %1!</translation>
+        <translation>Welkom bij %1!</translation>
     </message>
     <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
@@ -4000,7 +4000,7 @@ Probeer het nog een keer.</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation>Verbreek de verbinding</translation>
+        <translation>Verbreek verbinding</translation>
     </message>
     <message>
         <source>Groups</source>
@@ -4126,1653 +4126,1659 @@ Probeer het nog een keer.</translation>
     <name>ModbusRtuAddMasterPage</name>
     <message>
         <source>Add a new Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een nieuwe Modbus RTU master toe</translation>
     </message>
     <message>
         <source>Serial ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Seriële poorten</translation>
     </message>
     <message>
         <source>Serial port</source>
-        <translation type="unfinished"></translation>
+        <translation>Seriële poort</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschrijving</translation>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">Fabrikant</translation>
+        <translation>Fabrikant</translation>
     </message>
     <message>
         <source>Serialnumber</source>
-        <translation type="unfinished"></translation>
+        <translation>Serienummer</translation>
     </message>
     <message>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Baudrate</translation>
     </message>
     <message>
         <source>Parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Pariteit</translation>
     </message>
     <message>
         <source>Data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Databits</translation>
     </message>
     <message>
         <source>Stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopbits</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Toevoegen</translation>
     </message>
     <message>
         <source>Select a serial port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een seriële poort.</translation>
     </message>
     <message>
         <source>There are no serial ports available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn geen seriële poorten beschikbaar.</translation>
     </message>
     <message>
         <source>Please make sure the Modbus RTU interface is connected to the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zorg dat de Modbus RTU interface met het systeem is verbonden.</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Pad</translation>
     </message>
     <message>
         <source>Request retries</source>
-        <translation type="unfinished"></translation>
+        <translation>Hernieuwde verzoeken</translation>
     </message>
     <message>
         <source>Request timeout [ms]</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzoek timeout [ms]</translation>
     </message>
     <message>
         <source>Configure Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master instellen</translation>
     </message>
 </context>
 <context>
     <name>ModbusRtuReconfigureMasterPage</name>
     <message>
         <source>Serial ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Seriële poorten</translation>
     </message>
     <message>
         <source>UUID</source>
-        <translation type="unfinished"></translation>
+        <translation>UUID</translation>
     </message>
     <message>
         <source>Serial port</source>
-        <translation type="unfinished"></translation>
+        <translation>Seriële poort</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschrijving</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend</translation>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">Fabrikant</translation>
+        <translation>Fabrikant</translation>
     </message>
     <message>
         <source>Serialnumber</source>
-        <translation type="unfinished"></translation>
+        <translation>Serienummer</translation>
     </message>
     <message>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Baudrate</translation>
     </message>
     <message>
         <source>Parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Pariteit</translation>
     </message>
     <message>
         <source>Data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Databits</translation>
     </message>
     <message>
         <source>Stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopbits</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation type="unfinished">Toepassen</translation>
+        <translation>Toepassen</translation>
     </message>
     <message>
         <source>Select a serial port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een seriële poort.</translation>
     </message>
     <message>
         <source>There are no serial ports available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn geen seriële poorten beschikbaar.</translation>
     </message>
     <message>
         <source>Please make sure the Modbus RTU interface is connected to the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zorg dat de Modbus RTU interface met het systeem is verbonden.</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Pad</translation>
     </message>
     <message>
         <source>Request retries</source>
-        <translation type="unfinished"></translation>
+        <translation>Hernieuwde verzoeken</translation>
     </message>
     <message>
         <source>Request timeout [ms]</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzoek timeout [ms]</translation>
     </message>
     <message>
         <source>Reconfigure Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master opnieuw instellen</translation>
     </message>
 </context>
 <context>
     <name>ModbusRtuSettingsPage</name>
     <message>
         <source>Modbus RTU</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU</translation>
     </message>
     <message>
         <source>Add Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master toevoegen</translation>
     </message>
     <message>
         <source>The serial port is not available any more.</source>
-        <translation type="unfinished"></translation>
+        <translation>De seriële poort is niet meer beschikbaar.</translation>
     </message>
     <message>
         <source>Modbus is not supported on this platform.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus wordt op dit platform niet ondersteund.</translation>
     </message>
     <message>
         <source>Unknown baud rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekende baudrate</translation>
     </message>
     <message>
         <source>No parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen pariteit</translation>
     </message>
     <message>
         <source>Even parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Even pariteit</translation>
     </message>
     <message>
         <source>Odd parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Oneven pariteit</translation>
     </message>
     <message>
         <source>Space parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Scheid pariteit</translation>
     </message>
     <message>
         <source>Mark parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Markeer pariteit</translation>
     </message>
     <message>
         <source>Unknown parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekende pariteit</translation>
     </message>
     <message>
         <source>5 data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>5 databits</translation>
     </message>
     <message>
         <source>6 data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>6 databits</translation>
     </message>
     <message>
         <source>7 data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>7 databits</translation>
     </message>
     <message>
         <source>8 data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>8 databits</translation>
     </message>
     <message>
         <source>Unknown data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekende databits</translation>
     </message>
     <message>
         <source>One stop bit</source>
-        <translation type="unfinished"></translation>
+        <translation>Eén stopbit</translation>
     </message>
     <message>
         <source>One and a half stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Anderhalve stopbit</translation>
     </message>
     <message>
         <source>Two stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Twee stopbits</translation>
     </message>
     <message>
         <source>Unknown stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekende stopbits</translation>
     </message>
     <message>
         <source>Modbus RTU masters</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU masters</translation>
     </message>
     <message>
         <source>Modbus RTU is not supported on this platorm.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus wordt op dit platform niet ondersteund.</translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbonden</translation>
     </message>
     <message>
         <source>Disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet verbonden</translation>
     </message>
     <message>
         <source>Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master</translation>
     </message>
     <message>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informatie</translation>
     </message>
     <message>
         <source>Connection status</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindingsstatus</translation>
     </message>
     <message>
         <source>UUID</source>
-        <translation type="unfinished"></translation>
+        <translation>UUID</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Baudrate</translation>
     </message>
     <message>
         <source>Parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Pariteit</translation>
     </message>
     <message>
         <source>Data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Databits</translation>
     </message>
     <message>
         <source>Stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopbits</translation>
     </message>
     <message>
         <source>Reconfigure</source>
-        <translation type="unfinished">Opnieuw configureren</translation>
+        <translation>Opnieuw instellen</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Pad</translation>
     </message>
     <message>
         <source>Request retries</source>
-        <translation type="unfinished"></translation>
+        <translation>Hernieuwde verzoeken</translation>
     </message>
     <message>
         <source>Request timeout [ms]</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzoek timeout [ms]</translation>
     </message>
     <message>
         <source>There are no Modbus RTU masters set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen Modbus RTU masters ingesteld.</translation>
     </message>
     <message>
         <source>In order to use Modbus RTU devices, add a new Modbus RTU master.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een nieuwe Modbus RTU master toe om Modbus RTU apparaten te gebruiken.</translation>
     </message>
     <message>
         <source>The Modbus RTU hardware could not be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>De Modbus RTU hardware is niet beschikbaar.</translation>
     </message>
     <message>
         <source>The selected Modbus RTU master does not exist any more.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde Modbus RTU master bestaat niet meer.</translation>
     </message>
     <message>
         <source>Unable to connect to the Modbus RTU master.
 
 Maybe the hardware is already in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinding met de Modbus RTU master komt niet tot stand.
+
+Misschien is de hardware al in gebruik.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this Modbus RTU master?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je deze Modbus RTU master wilt verwijderen?</translation>
     </message>
     <message>
         <source>Please note that all related things will stop working until you assign a new Modbus RTU master to them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Let op: alle dingen die je hiermee hebt verbonden, stoppen met werken tot je ze aan een nieuwe Modbus RTU master koppelt.</translation>
     </message>
     <message>
         <source>Remove Modbus RTU master</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU master verwijderen</translation>
     </message>
     <message>
         <source>The specified timeout value is not valid.
 
 Use a timeout value greater or equal to 10 ms.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze timeout waarde is niet geldig.
+
+Gebruik een timeout waarde die groter of gelijk is dan 10 ms.</translation>
     </message>
 </context>
 <context>
     <name>MqttBrokerSettingsPage</name>
     <message>
         <source>MQTT broker</source>
-        <translation type="unfinished"></translation>
+        <translation>MQTT broker</translation>
     </message>
     <message>
         <source>MQTT Server Interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>MQTT server interfaces</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Toevoegen</translation>
     </message>
     <message>
         <source>MQTT permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>MQTT toestemmingen</translation>
     </message>
     <message>
         <source>Client ID: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliënt ID: %1</translation>
     </message>
     <message>
         <source>Username: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersnaam: %1</translation>
     </message>
 </context>
 <context>
     <name>MqttPolicyPage</name>
     <message>
         <source>Mqtt permission</source>
-        <translation type="unfinished"></translation>
+        <translation>MQTT toestemming</translation>
     </message>
     <message>
         <source>Client ID:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliënt ID:</translation>
     </message>
     <message>
         <source>E.g. Sensor_1</source>
-        <translation type="unfinished"></translation>
+        <translation>Bijv. Sensor_1</translation>
     </message>
     <message>
         <source>%1 is already used</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 is al in gebruik</translation>
     </message>
     <message>
         <source>Can&apos;t be blank</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan niet leeg zijn</translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersnaam:</translation>
     </message>
     <message>
         <source>Optional</source>
-        <translation type="unfinished"></translation>
+        <translation>Optioneel</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wachtwoord:</translation>
     </message>
     <message>
         <source>Allowed publish topics</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegestane onderwerpen voor publiceren</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Toevoegen</translation>
     </message>
     <message>
         <source>Allowed subscribe filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegestane filters voor abonneren</translation>
     </message>
     <message>
         <source>Client info</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliënt informatie</translation>
     </message>
 </context>
 <context>
     <name>NetworkSettingsPage</name>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk instellingen</translation>
     </message>
     <message>
         <source>Wireless network</source>
-        <translation type="unfinished"></translation>
+        <translation>Draadloos netwerk</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend</translation>
     </message>
     <message>
         <source>Unmanaged</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet beheerd</translation>
     </message>
     <message>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet beschikbaar</translation>
     </message>
     <message>
         <source>Disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet verbonden</translation>
     </message>
     <message>
         <source>Deactivating</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met deactiveren</translation>
     </message>
     <message>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Mislukt</translation>
     </message>
     <message>
         <source>Preparing</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met voorbereiden</translation>
     </message>
     <message>
         <source>Configuring</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met instellen</translation>
     </message>
     <message>
         <source>Waiting for password</source>
-        <translation type="unfinished"></translation>
+        <translation>Wachten op het wachtwoord</translation>
     </message>
     <message>
         <source>Setting IP configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig de IP instellingen vast te leggen</translation>
     </message>
     <message>
         <source>Checking IP configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig de IP instellingen te controleren</translation>
     </message>
     <message>
         <source>Secondaries</source>
-        <translation type="unfinished"></translation>
+        <translation>Secundaire opties</translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbonden</translation>
     </message>
     <message>
         <source>Current connection state</source>
-        <translation type="unfinished"></translation>
+        <translation>Huidige verbindingsstatus</translation>
     </message>
     <message>
         <source>Asleep</source>
-        <translation type="unfinished"></translation>
+        <translation>In slaap</translation>
     </message>
     <message>
         <source>Disconnecting</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig verbinding te verbreken</translation>
     </message>
     <message>
         <source>Connecting</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig te verbinden</translation>
     </message>
     <message>
         <source>Locally connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokaal verbonden</translation>
     </message>
     <message>
         <source>Site connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Site verbonden</translation>
     </message>
     <message>
         <source>Globally connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Globaal verbonden</translation>
     </message>
     <message>
         <source>Networking enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkgebruik ingeschakeld</translation>
     </message>
     <message>
         <source>Enable or disable networking altogether</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel netwerkgebruik helemaal in of uit</translation>
     </message>
     <message>
         <source>Disable networking?</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkgebruik uitschakelen?</translation>
     </message>
     <message>
         <source>Wired network</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedraad netwerk</translation>
     </message>
     <message>
         <source>Plugged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingeplugd</translation>
     </message>
     <message>
         <source>Unplugged</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitgeplugd</translation>
     </message>
     <message>
         <source>Enable or disable WiFi</source>
-        <translation type="unfinished"></translation>
+        <translation>WiFi in- of uitschakelen</translation>
     </message>
     <message>
         <source>Disable WiFi?</source>
-        <translation type="unfinished"></translation>
+        <translation>WiFi uitschakelen?</translation>
     </message>
     <message>
         <source>WiFi networks</source>
-        <translation type="unfinished"></translation>
+        <translation>WiFi netwerken</translation>
     </message>
     <message>
         <source>Authenticate</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegang bevestigen</translation>
     </message>
     <message>
         <source>Enter the password for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer het wachtwoord in voor %1</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Current connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Huidige verbinding</translation>
     </message>
     <message>
         <source>SSID</source>
-        <translation type="unfinished"></translation>
+        <translation>SSID</translation>
     </message>
     <message>
         <source>MAC Address</source>
-        <translation type="unfinished"></translation>
+        <translation>MAC adres</translation>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation type="unfinished"></translation>
+        <translation>Signaalsterkte</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbreek verbinding</translation>
     </message>
     <message>
         <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 system any more. Do not proceed unless you know what your are doing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als je het netwerk uitschakelt, wordt de verbinding met alle cliënten verbroken. Je kunt dan niet meer op afstand met dit %1 systeem verbinden. Ga alleen verder als je weet waar je mee bezig bent.</translation>
     </message>
     <message>
         <source>Do you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wil je verdergaan?</translation>
     </message>
     <message>
         <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als je WiFi  uitschakelt, wordt de WiFi-verbinding met alle cliënten verbroken. Je kunt dan niet meer op afstand met dit %1 systeem verbinden, tenzij er een verbinding is via een LAN-kabel.</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Algemeen</translation>
     </message>
     <message>
         <source>No wired network interfaces available</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn geen bedrade netwerk interfaces beschikbaar</translation>
     </message>
     <message>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingeschakeld</translation>
     </message>
     <message>
         <source>No wireless hardware available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is geen draadloze hardware beschikbaar.</translation>
     </message>
     <message>
         <source>The access point cannot be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan het toegangspunt (access point) niet vinden.</translation>
     </message>
     <message>
         <source>The network interface cannot be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan de netwerkinterface niet vinden.</translation>
     </message>
     <message>
         <source>Invalid network device type.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit type netwerkapparaat is niet geldig.</translation>
     </message>
     <message>
         <source>Wireless networking is disabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Draadloos netwerkgebruik is uitgeschakeld.</translation>
     </message>
     <message>
         <source>The wireless connection failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinden met het draadloze netwerk is niet mogelijk.</translation>
     </message>
     <message>
         <source>Networking is disabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkgebruik is uitgeschakeld.</translation>
     </message>
     <message>
         <source>The network manager is not available.</source>
-        <translation type="unfinished"></translation>
+        <translation>De netwerkmanager is niet beschikbaar.</translation>
     </message>
     <message>
         <source>Hosting access point</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegangspunt hosten</translation>
     </message>
     <message>
         <source>Network management is unavailable on this system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkmanagement is niet beschikbaar op dit systeem.</translation>
     </message>
     <message>
         <source>Access Point</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegangspunt (access point)</translation>
     </message>
     <message>
         <source>Create Access Point</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak een toegangspunt</translation>
     </message>
     <message>
         <source>Connect to wireless network</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak verbinding met het draadloze netwerk</translation>
     </message>
     <message>
         <source>Hidden Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Verborgen netwerk</translation>
     </message>
     <message>
         <source>Connected to</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbonden met</translation>
     </message>
     <message>
         <source>IPv4 Address</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv4 adres</translation>
     </message>
     <message>
         <source>IPv6 Address</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv6 adres</translation>
     </message>
     <message>
         <source>WiFi frequency</source>
-        <translation type="unfinished"></translation>
+        <translation>WiFi frequentie</translation>
     </message>
     <message>
         <source>No wireless network interfaces available</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn geen draadloze netwerk interfaces beschikbaar</translation>
     </message>
     <message>
         <source>New wired connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe bedrade verbinding</translation>
     </message>
     <message>
         <source>Method</source>
-        <translation type="unfinished"></translation>
+        <translation>Methode</translation>
     </message>
     <message>
         <source>Automatic (DHCP client)</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisch (DHCP cliënt)</translation>
     </message>
     <message>
         <source>Manual</source>
-        <translation type="unfinished"></translation>
+        <translation>Handmatig</translation>
     </message>
     <message>
         <source>Shared (DHCP server)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gedeeld (DHCP server)</translation>
     </message>
     <message>
         <source>Address settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres instellingen</translation>
     </message>
     <message>
         <source>IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>IP adres</translation>
     </message>
     <message>
         <source>Gateway</source>
-        <translation type="unfinished"></translation>
+        <translation>Gateway</translation>
     </message>
     <message>
         <source>DNS</source>
-        <translation type="unfinished"></translation>
+        <translation>DNS</translation>
     </message>
     <message>
         <source>Create connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak verbinding</translation>
     </message>
     <message>
         <source>An unexpected error happened.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging onverwacht iets fout.</translation>
     </message>
 </context>
 <context>
     <name>NewMagicPage</name>
     <message>
         <source>New magic</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe magie</translation>
     </message>
 </context>
 <context>
     <name>NewScenePage</name>
     <message>
         <source>New scene</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe scène</translation>
     </message>
 </context>
 <context>
     <name>NewThingMagicPage</name>
     <message>
         <source>New magic</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe magie</translation>
     </message>
     <message>
         <source>Create some magic manually</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak handmatig wat magie</translation>
     </message>
     <message>
         <source>New magic for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe magie voor %1</translation>
     </message>
     <message>
         <source>A thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Een ding</translation>
     </message>
 </context>
 <context>
     <name>NewThingPage</name>
     <message>
         <source>Set up new thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel een nieuw ding in</translation>
     </message>
     <message>
         <source>Vendor</source>
-        <translation type="unfinished"></translation>
+        <translation>Fabrikant</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>Looking for something else?</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoek je iets anders?</translation>
     </message>
     <message>
         <source>Try to install more plugins.</source>
-        <translation type="unfinished"></translation>
+        <translation>Probeer meer plugins te installeren.</translation>
     </message>
     <message>
         <source>Install plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Installeer plugins</translation>
     </message>
 </context>
 <context>
     <name>NotificationsThingPage</name>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekst</translation>
     </message>
     <message>
         <source>No messages sent yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nog geen berichten verzonden.</translation>
     </message>
     <message>
         <source>Sent messages will appear here.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzonden berichten verschijnen hier.</translation>
     </message>
     <message>
         <source>Notification details</source>
-        <translation type="unfinished"></translation>
+        <translation>Details van de melding</translation>
     </message>
     <message>
         <source>Date sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzenddatum</translation>
     </message>
     <message>
         <source>Sending failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzenden mislukt</translation>
     </message>
     <message>
         <source>Resend</source>
-        <translation type="unfinished"></translation>
+        <translation>Opnieuw verzenden</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluiten</translation>
     </message>
 </context>
 <context>
     <name>Nymea</name>
     <message>
         <source>Lighting</source>
-        <translation type="unfinished"></translation>
+        <translation>Verlichting</translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation type="unfinished"></translation>
+        <translation>Weer</translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Sensoren</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Media</translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakelaars</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation type="unfinished"></translation>
+        <translation>Gateways</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Meldingen</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatuur</translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation type="unfinished"></translation>
+        <translation>Luchtvochtigheid</translation>
     </message>
     <message>
         <source>Pressure</source>
-        <translation type="unfinished"></translation>
+        <translation>Druk</translation>
     </message>
     <message>
         <source>Noise level</source>
-        <translation type="unfinished"></translation>
+        <translation>Geluidsniveau</translation>
     </message>
     <message>
         <source>CO2 level</source>
-        <translation type="unfinished"></translation>
+        <translation>CO2 niveau</translation>
     </message>
     <message>
         <source>Incoming Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Inkomende gebeurtenissen</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebeurtenissen</translation>
     </message>
     <message>
         <source>Shutters</source>
-        <translation type="unfinished"></translation>
+        <translation>Shutters</translation>
     </message>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Jaloezieën</translation>
     </message>
     <message>
         <source>Awnings</source>
-        <translation type="unfinished"></translation>
+        <translation>Zonneschermen</translation>
     </message>
     <message>
         <source>Access control</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegangscontrole</translation>
     </message>
     <message>
         <source>Smart meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Slimme meters</translation>
     </message>
     <message>
         <source>EV-chargers</source>
-        <translation type="unfinished"></translation>
+        <translation>EV oplader</translation>
     </message>
     <message>
         <source>Power sockets</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopcontacten</translation>
     </message>
     <message>
         <source>Uncategorized</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet gecategoriseerd</translation>
     </message>
     <message>
         <source>light</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>lamp</translation>
     </message>
     <message>
         <source>sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>sensor</translation>
     </message>
     <message>
         <source>battery powered thing</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>ding met een batterij</translation>
     </message>
     <message>
         <source>connectable thing</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>verbindbaar ding</translation>
     </message>
     <message>
         <source>switchable thing</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>ding dat aan en uit kan</translation>
     </message>
     <message>
         <source>daylight sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>daglichtsensor</translation>
     </message>
     <message>
         <source>presence sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>aanwezigheidssensor</translation>
     </message>
     <message>
         <source>Doorbells</source>
-        <translation type="unfinished"></translation>
+        <translation>Deurbellen</translation>
     </message>
     <message>
         <source>doorbell</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>deurbel</translation>
     </message>
     <message>
         <source>alert</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>waarschuwing</translation>
     </message>
     <message>
         <source>button</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>knop</translation>
     </message>
     <message>
         <source>access control</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>toegangscontrole</translation>
     </message>
     <message>
         <source>smart meter</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>slimme meter</translation>
     </message>
     <message>
         <source>media player</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>mediaspeler</translation>
     </message>
     <message>
         <source>Fingerprint reader</source>
-        <translation type="unfinished"></translation>
+        <translation>vingerafdruklezer</translation>
     </message>
     <message>
         <source>moisture sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>vochtigheidssensor</translation>
     </message>
     <message>
         <source>thing to notify</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>ding voor meldingen</translation>
     </message>
     <message>
         <source>Garage doors</source>
-        <translation type="unfinished"></translation>
+        <translation>Garagedeuren</translation>
     </message>
     <message>
         <source>Heating</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwarming</translation>
     </message>
     <message>
         <source>Accounts</source>
-        <translation type="unfinished"></translation>
+        <translation>Accounts</translation>
     </message>
     <message>
         <source>Smartlocks</source>
-        <translation type="unfinished"></translation>
+        <translation>Slimme sloten</translation>
     </message>
     <message>
         <source>smartlock</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>slim slot</translation>
     </message>
     <message>
         <source>Irrigation</source>
-        <translation type="unfinished"></translation>
+        <translation>Irrigatie</translation>
     </message>
     <message>
         <source>Ventilation</source>
-        <translation type="unfinished"></translation>
+        <translation>Ventilatie</translation>
     </message>
     <message>
         <source>irrigation</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>irrigatie</translation>
     </message>
     <message>
         <source>ventilation</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>ventilatie</translation>
     </message>
     <message>
         <source>Thermostats</source>
-        <translation type="unfinished"></translation>
+        <translation>Thermostaten</translation>
     </message>
     <message>
         <source>Barcode scanners</source>
-        <translation type="unfinished"></translation>
+        <translation>Streepjescode scanners</translation>
     </message>
     <message>
         <source>Cleaning robots</source>
-        <translation type="unfinished"></translation>
+        <translation>Schoonmaakrobots</translation>
     </message>
     <message>
         <source>CO level</source>
-        <translation type="unfinished"></translation>
+        <translation>CO niveau</translation>
     </message>
     <message>
         <source>Flammable gas level</source>
-        <translation type="unfinished"></translation>
+        <translation>Gasniveau (brandgevaar)</translation>
     </message>
     <message>
         <source>Cooling</source>
-        <translation type="unfinished"></translation>
+        <translation>Koeling</translation>
     </message>
     <message>
         <source>Electric cars</source>
-        <translation type="unfinished"></translation>
+        <translation>Elektrische auto&apos;s</translation>
     </message>
     <message>
         <source>VOC level</source>
-        <translation type="unfinished"></translation>
+        <translation>VOC niveau</translation>
     </message>
     <message>
         <source>Nitrogen dioxide level</source>
-        <translation type="unfinished"></translation>
+        <translation>Stikstofdioxide niveau</translation>
     </message>
     <message>
         <source>vibration sensor</source>
         <extracomment>Select ...</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>trillingssensor</translation>
     </message>
     <message>
         <source>Door/Window sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Deur-/raamsensor</translation>
     </message>
     <message>
         <source>Ozone sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Ozonsensor</translation>
     </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
     <name>NymeaSwipeDelegate</name>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
     <name>NymeaUtils</name>
     <message>
         <source>Admin</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer</translation>
     </message>
     <message>
         <source>Control things</source>
-        <translation type="unfinished"></translation>
+        <translation>Dingen beheren</translation>
     </message>
     <message>
         <source>Configure things</source>
-        <translation type="unfinished"></translation>
+        <translation>Dingen instellen</translation>
     </message>
     <message>
         <source>Execute magic</source>
-        <translation type="unfinished"></translation>
+        <translation>Magie uitvoeren</translation>
     </message>
     <message>
         <source>Configure magic</source>
-        <translation type="unfinished"></translation>
+        <translation>Magie instellen</translation>
     </message>
 </context>
 <context>
     <name>PackageDetailsPage</name>
     <message>
         <source>Package information</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakket informatie</translation>
     </message>
     <message>
         <source>Installed version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geïnstalleerde versie:</translation>
     </message>
     <message>
         <source>Not installed</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet geïnstalleerd</translation>
     </message>
     <message>
         <source>Candidate version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kandidaat versie:</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Bijwerken</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Installeren</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je staat op het punt om het systeem te updaten. Deze update kan een aantal minuten duren. In die tijd kan je %1 niet goed werken, of herstarten.</translation>
     </message>
     <message>
         <source>
 Do you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Wil je doorgaan?</translation>
     </message>
     <message>
         <source>Start update</source>
-        <translation type="unfinished"></translation>
+        <translation>Begin met bijwerken</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
 Do you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>Je staat op het punt om het systeem te updaten. Deze update kan een aantal minuten duren. In die tijd kan je %1 niet goed werken, of herstarten.
+Wil je doorgaan?</translation>
     </message>
     <message>
         <source>Remove package</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder het pakket</translation>
     </message>
 </context>
 <context>
     <name>PackageListPage</name>
     <message>
         <source>All packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle pakketten</translation>
     </message>
     <message>
         <source>No package found</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen pakket gevonden</translation>
     </message>
     <message>
         <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorry. We konden geen pakket vinden dat bij de zoekterm %1 paste.</translation>
     </message>
 </context>
 <context>
     <name>ParamDescriptorDelegate</name>
     <message>
         <source>is</source>
-        <translation type="unfinished"></translation>
+        <translation>is</translation>
     </message>
     <message>
         <source>is equal to</source>
-        <translation type="unfinished"></translation>
+        <translation>is gelijk aan</translation>
     </message>
     <message>
         <source>is not equal to</source>
-        <translation type="unfinished"></translation>
+        <translation>is niet gelijk aan</translation>
     </message>
     <message>
         <source>is greater than</source>
-        <translation type="unfinished"></translation>
+        <translation>is groter dan</translation>
     </message>
     <message>
         <source>is less than</source>
-        <translation type="unfinished"></translation>
+        <translation>is kleiner dan</translation>
     </message>
     <message>
         <source>is greater than or equal to</source>
-        <translation type="unfinished"></translation>
+        <translation>is groter dan of gelijk aan</translation>
     </message>
     <message>
         <source>is less than or equal to</source>
-        <translation type="unfinished"></translation>
+        <translation>is kleiner dan of gelijk aan</translation>
     </message>
     <message>
         <source>is not </source>
-        <translation type="unfinished"></translation>
+        <translation>is niet </translation>
     </message>
 </context>
 <context>
     <name>PasswordTextField</name>
     <message>
         <source>Pick a password</source>
-        <translation type="unfinished"></translation>
+        <translation>Kies een wachtwoord</translation>
     </message>
     <message>
         <source>Minimum %1 characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimaal %1 tekens</translation>
     </message>
     <message>
         <source>Lowercase letters</source>
-        <translation type="unfinished"></translation>
+        <translation>Kleine letters</translation>
     </message>
     <message>
         <source>Uppercase letters</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdletters</translation>
     </message>
     <message>
         <source>Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Cijfers</translation>
     </message>
     <message>
         <source>Special characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Speciale tekens</translation>
     </message>
     <message>
         <source>Confirm password</source>
-        <translation type="unfinished"></translation>
+        <translation>Bevestig wachtwoord</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Wachtwoord</translation>
     </message>
 </context>
 <context>
     <name>PluginParamsPage</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Instellingen</translation>
+        <translation>Instellingen</translation>
     </message>
 </context>
 <context>
     <name>PluginsPage</name>
     <message>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugins</translation>
     </message>
     <message>
         <source>Installed integration plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Geïnstalleerde integratie plugins</translation>
     </message>
     <message>
         <source>Install more plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Installeer meer plugins</translation>
     </message>
 </context>
 <context>
     <name>PowerBalanceHistory</name>
     <message>
         <source>My power balance history</source>
-        <translation type="unfinished"></translation>
+        <translation>Historie van mijn energiebalans</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation type="unfinished"></translation>
+        <translation>Uren</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="unfinished"></translation>
+        <translation>Dagen</translation>
     </message>
     <message>
         <source>Weeks</source>
-        <translation type="unfinished"></translation>
+        <translation>Weken</translation>
     </message>
     <message>
         <source>Months</source>
-        <translation type="unfinished"></translation>
+        <translation>Maanden</translation>
     </message>
     <message>
         <source>No data available</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen gegevens beschikbaar</translation>
     </message>
     <message>
         <source>From self production</source>
-        <translation type="unfinished"></translation>
+        <translation>Uit eigen opwekking</translation>
     </message>
     <message>
         <source>To battery</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar de batterij</translation>
     </message>
     <message>
         <source>To grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar het net</translation>
     </message>
     <message>
         <source>From battery</source>
-        <translation type="unfinished"></translation>
+        <translation>Van de batterij</translation>
     </message>
     <message>
         <source>From grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Van het net</translation>
     </message>
     <message>
         <source>Produced</source>
-        <translation type="unfinished"></translation>
+        <translation>Opgewekt</translation>
     </message>
     <message>
         <source>Consumed: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikt: %1 %2</translation>
     </message>
     <message>
         <source>Produced: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Opgewekt: %1 %2</translation>
     </message>
     <message>
         <source>From grid: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Van het net: %1 %2</translation>
     </message>
     <message>
         <source>To grid: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar het net: %1 %2</translation>
     </message>
     <message>
         <source>From self production: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Uit eigen opwekking: %1 %2</translation>
     </message>
     <message>
         <source>To battery: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar de batterij: %1 %2</translation>
     </message>
     <message>
         <source>From battery: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Van de batterij: %1 %2</translation>
     </message>
 </context>
 <context>
     <name>PowerBalanceHistoryPage</name>
     <message>
         <source>My power balance history</source>
-        <translation type="unfinished"></translation>
+        <translation>Historie van mijn energiebalans</translation>
     </message>
 </context>
 <context>
     <name>PowerBalanceStats</name>
     <message>
         <source>Totals</source>
-        <translation type="unfinished"></translation>
+        <translation>Totalen</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation type="unfinished"></translation>
+        <translation>Uren</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="unfinished"></translation>
+        <translation>Dagen</translation>
     </message>
     <message>
         <source>Weeks</source>
-        <translation type="unfinished"></translation>
+        <translation>Weken</translation>
     </message>
     <message>
         <source>Months</source>
-        <translation type="unfinished"></translation>
+        <translation>Maanden</translation>
     </message>
     <message>
         <source>Years</source>
-        <translation type="unfinished"></translation>
+        <translation>Jaren</translation>
     </message>
     <message>
         <source>Consumed</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbruikt</translation>
     </message>
     <message>
         <source>Produced</source>
-        <translation type="unfinished"></translation>
+        <translation>Opgewekt</translation>
     </message>
     <message>
         <source>From grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Van het net</translation>
     </message>
     <message>
         <source>To grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar het net</translation>
     </message>
     <message>
         <source>Consumed: %1 kWh</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikt: %1 kWh</translation>
     </message>
     <message>
         <source>Produced: %1 kWh</source>
-        <translation type="unfinished"></translation>
+        <translation>Opgewekt: %1 kWh</translation>
     </message>
     <message>
         <source>From grid: %1 kWh</source>
-        <translation type="unfinished"></translation>
+        <translation>Van het net: %1 kWh</translation>
     </message>
     <message>
         <source>To grid: %1 kWh</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar het net: %1 kWh</translation>
     </message>
     <message>
         <source>No data available</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen gegevens beschikbaar</translation>
     </message>
 </context>
 <context>
     <name>PowerBalanceStatsPage</name>
     <message>
         <source>Power balance totals</source>
-        <translation type="unfinished"></translation>
+        <translation>Totalen van mijn energiebalans</translation>
     </message>
 </context>
 <context>
     <name>PowerConsumptionBalanceHistory</name>
     <message>
         <source>My consumption history</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijn verbruikshistorie</translation>
     </message>
     <message>
         <source>Self production</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigen opwekking</translation>
     </message>
     <message>
         <source>From battery</source>
-        <translation type="unfinished"></translation>
+        <translation>Van de batterij</translation>
     </message>
     <message>
         <source>From grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Van het net</translation>
     </message>
     <message>
         <source>Total consumption: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Totaal verbruik: %1 %2</translation>
     </message>
     <message>
         <source>Self production: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigen opwekking: %1 %2</translation>
     </message>
     <message>
         <source>From battery: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Van de batterij: %1 %2</translation>
     </message>
     <message>
         <source>From grid: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Van het net: %1 %2</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation type="unfinished"></translation>
+        <translation>Uren</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="unfinished"></translation>
+        <translation>Dagen</translation>
     </message>
     <message>
         <source>Weeks</source>
-        <translation type="unfinished"></translation>
+        <translation>Weken</translation>
     </message>
     <message>
         <source>Months</source>
-        <translation type="unfinished"></translation>
+        <translation>Maanden</translation>
     </message>
     <message>
         <source>No data available</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen gegevens beschikbaar</translation>
     </message>
 </context>
 <context>
     <name>PowerProductionBalanceHistory</name>
     <message>
         <source>My production history</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijn opwekhistorie</translation>
     </message>
     <message>
         <source>Consumed</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbruikt</translation>
     </message>
     <message>
         <source>To battery</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar de batterij</translation>
     </message>
     <message>
         <source>To grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar het net</translation>
     </message>
     <message>
         <source>Total production: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Totale opgewekt: %1 %2</translation>
     </message>
     <message>
         <source>Consumed: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbruikt: %1 %2</translation>
     </message>
     <message>
         <source>To battery: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar de batterij: %1 %2</translation>
     </message>
     <message>
         <source>To grid: %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar het net: %1 %2</translation>
     </message>
     <message>
         <source>Hours</source>
-        <translation type="unfinished"></translation>
+        <translation>Uren</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="unfinished"></translation>
+        <translation>Dagen</translation>
     </message>
     <message>
         <source>Weeks</source>
-        <translation type="unfinished"></translation>
+        <translation>Weken</translation>
     </message>
     <message>
         <source>Months</source>
-        <translation type="unfinished"></translation>
+        <translation>Maanden</translation>
     </message>
     <message>
         <source>No data available</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen gegevens beschikbaar</translation>
     </message>
 </context>
 <context>
     <name>PowerSocketsDeviceListPage</name>
     <message>
         <source>My %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijn %1</translation>
     </message>
 </context>
 <context>
     <name>PushButtonAuthPage</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Welkom bij %1!</translation>
     </message>
     <message>
         <source>Sorry, something went wrong during the setup. Try again please.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorry, er ging iets fout bij het instellen. Probeer het opnieuw.</translation>
     </message>
     <message>
         <source>Authentication required</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegangsbevestiging vereist</translation>
     </message>
     <message>
         <source>Please press the button on your %1 gateway to authenticate this device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Druk de knop op je %1 gateway in om dit apparaat te bevestigen.</translation>
     </message>
 </context>
 <context>
     <name>RemoveThingMethodDialog</name>
     <message>
         <source>This thing is currently used in one or more rules:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit ding wordt gebruikt in één of meer regels:</translation>
     </message>
     <message>
         <source>Remove all those rules</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder deze regels allemaal</translation>
     </message>
     <message>
         <source>Update rules, removing this thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Werk de regels bij, terwijl dit ding wordt verwijderd</translation>
     </message>
     <message>
         <source>Don&apos;t remove this thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder dit ding niet</translation>
     </message>
 </context>
 <context>
     <name>RootItem</name>
     <message>
         <source>Connection error</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindingsfout</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>The version of the %1 system you are trying to connect to is too old. This app requires at least API version %2 but this %1 system only supports API version %3. Please update your %1 system.</source>
-        <translation type="unfinished"></translation>
+        <translation>De versie van het %1 systeem waar je mee probeert te verbinden, is te oud. Deze app vereist ten minste API versie %2, maar dit %1 systeem ondersteunt alleen API versie %3. Werk je %1 systeem bij voordat je verder gaat.</translation>
     </message>
     <message>
         <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to API version %2 but this %1 system provides API version %3. Please update %4.</source>
-        <translation type="unfinished"></translation>
+        <translation>De versie van het %1 systeem waar je mee probeert te verbinden, is te nieuw. Deze app ondersteunt maximaal API versie %2, maar dit %1 systeem gebruikt API versie %3. Werk %4 bij voordat je verder gaat.</translation>
     </message>
 </context>
 <context>
     <name>RuleActionDelegate</name>
     <message>
         <source>%1 - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 - %2</translation>
     </message>
     <message>
         <source>%1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1: %2</translation>
     </message>
     <message>
         <source>value from event</source>
-        <translation type="unfinished"></translation>
+        <translation>waarde van gebeurtenis</translation>
     </message>
     <message>
         <source>Unknown item</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend item</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Nee</translation>
     </message>
 </context>
 <context>
@@ -5784,1977 +5790,1982 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>only if %1 %2 %3</source>
-        <translation type="unfinished"></translation>
+        <translation>alleen als %1 %2 %3</translation>
     </message>
     <message>
         <source>and %1 %2 %3</source>
-        <translation type="unfinished"></translation>
+        <translation>en %1 %2 %3</translation>
     </message>
 </context>
 <context>
     <name>ScenesView</name>
     <message>
         <source>There are no scenes set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen scènes ingesteld.</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen dingen ingesteld. Om scènes de gebruiken, moet je eerst dingen toevoegen.</translation>
     </message>
     <message>
         <source>Scenes provide a useful way to control your things with just one click.</source>
-        <translation type="unfinished"></translation>
+        <translation>Met scènes kun je je dingen met één klik bedienen.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg dingen toe</translation>
     </message>
     <message>
         <source>Add scenes</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg scènes toe</translation>
     </message>
 </context>
 <context>
     <name>ScriptEditor</name>
     <message>
         <source>Did you know...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wist je dat...</translation>
     </message>
     <message>
         <source>nymea:app is available for all kinds of devices. In order to edit scripts we recommend to use nymea:app on your personal computer or connect a keyboard to your tablet.</source>
-        <translation type="unfinished"></translation>
+        <translation>nymea:app beschikbar is voor allerlei apparaten? Om scripts bij te werken adviseren we je om nymea:app op je computer of laptop te gebruiken, of een toetsenbord met je tablet te verbinden.</translation>
     </message>
     <message>
         <source>Unsaved changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet opgeslagen veranderingen</translation>
     </message>
     <message>
         <source>There are unsaved changes in the script. Do you want to discard the changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Je het nog niet alle veranderingen in het script opgeslagen. Wil je de veranderingen verwijderen?</translation>
     </message>
     <message>
         <source>Script name</source>
-        <translation type="unfinished"></translation>
+        <translation>Script naam</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Help</translation>
     </message>
     <message>
         <source>Deploy script</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer het script uit</translation>
     </message>
     <message>
         <source>The script has not been deployed because it contains errors.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het script wordt nog niet uitgevoerd omdat er fouten in zitten.</translation>
     </message>
     <message>
         <source>Errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Fouten</translation>
     </message>
     <message>
         <source>Console</source>
-        <translation type="unfinished"></translation>
+        <translation>Console</translation>
     </message>
     <message>
         <source>An autosaved version of this script has been loaded. Deploy to store this version or reload to restore the deployed version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is een versie van dit script geladen die automatisch is bewaard. Voer uit om deze versie op te slaan, of laad opnieuw om de eerder uitgevoerde versie te herstellen.</translation>
     </message>
     <message>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>Opnieuw laden</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Copy all</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles kopiëren</translation>
     </message>
 </context>
 <context>
     <name>ScriptsPage</name>
     <message>
         <source>Scripts</source>
-        <translation type="unfinished"></translation>
+        <translation>Scripts</translation>
     </message>
     <message>
         <source>Add new script</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg nieuw script toe</translation>
     </message>
     <message>
         <source>No scripts are installed yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen scripts geïnstalleerd.</translation>
     </message>
     <message>
         <source>Press &quot;Add script&quot; to get started.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik op &quot;voeg script toe&quot; om te beginnen.</translation>
     </message>
     <message>
         <source>Add script</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg script toe</translation>
     </message>
 </context>
 <context>
     <name>SelectBrowserItemActionPage</name>
     <message>
         <source>Select item</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een item</translation>
     </message>
 </context>
 <context>
     <name>SelectEventDescriptorPage</name>
     <message>
         <source>State change</source>
-        <translation type="unfinished"></translation>
+        <translation>Status is veranderd</translation>
     </message>
     <message>
         <source>Event</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebeurtenis</translation>
     </message>
 </context>
 <context>
     <name>SelectEventDescriptorParamsPage</name>
     <message>
         <source>Only consider event if</source>
-        <translation type="unfinished"></translation>
+        <translation>Overweeg de gebeurtenis alleen als</translation>
     </message>
     <message>
         <source>Only consider state change if</source>
-        <translation type="unfinished"></translation>
+        <translation>Overweeg de statusverandering alleen als</translation>
     </message>
 </context>
 <context>
     <name>SelectRuleActionPage</name>
     <message>
         <source>Open an item on this thing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Open een item op dit ding...</translation>
     </message>
 </context>
 <context>
     <name>SelectRuleActionParamsPage</name>
     <message>
         <source>Use static value as parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik een statische waarde als parameter</translation>
     </message>
     <message>
         <source>Use event parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik een gebeurtenisparameter</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Use a thing&apos;s state value</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik de statuswaarde van een ding</translation>
     </message>
     <message>
         <source>Insert value here</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer hier een waarde in</translation>
     </message>
     <message>
         <source>Select a state</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een status</translation>
     </message>
 </context>
 <context>
     <name>SelectStateDescriptorParamsPage</name>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorwaarde</translation>
     </message>
     <message>
         <source>is equal to</source>
-        <translation type="unfinished"></translation>
+        <translation>is gelijk aan</translation>
     </message>
     <message>
         <source>is not equal to</source>
-        <translation type="unfinished"></translation>
+        <translation>is niet gelijk aan</translation>
     </message>
     <message>
         <source>is greater than</source>
-        <translation type="unfinished"></translation>
+        <translation>is groter dan</translation>
     </message>
     <message>
         <source>is</source>
-        <translation type="unfinished"></translation>
+        <translation>is</translation>
     </message>
     <message>
         <source>a static value:</source>
-        <translation type="unfinished"></translation>
+        <translation>een statische waarde:</translation>
     </message>
     <message>
         <source>another thing&apos;s state:</source>
-        <translation type="unfinished"></translation>
+        <translation>status van een ander ding:</translation>
     </message>
     <message>
         <source>Insert value here</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer hier een waarde in</translation>
     </message>
     <message>
         <source>Select a state</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een status</translation>
     </message>
     <message>
         <source>is less than</source>
-        <translation type="unfinished"></translation>
+        <translation>is kleiner dan</translation>
     </message>
     <message>
         <source>is greater than or equal to</source>
-        <translation type="unfinished"></translation>
+        <translation>is groter dan of gelijk aan</translation>
     </message>
     <message>
         <source>is less than or equal to</source>
-        <translation type="unfinished"></translation>
+        <translation>is kleiner dan of gelijk aan</translation>
     </message>
     <message>
         <source>is not </source>
-        <translation type="unfinished"></translation>
+        <translation>is niet </translation>
     </message>
 </context>
 <context>
     <name>SelectStatePage</name>
     <message>
         <source>Select state</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een status</translation>
     </message>
 </context>
 <context>
     <name>SelectThingPage</name>
     <message>
         <source>Any %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Elke %1</translation>
     </message>
     <message>
         <source>Select kind of things</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een type dingen</translation>
     </message>
     <message>
         <source>Select %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer %1</translation>
     </message>
     <message>
         <source>Select thing</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een ding</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>SensorDevicePage</name>
     <message>
         <source>Presence</source>
-        <translation type="unfinished"></translation>
+        <translation>Aanwezigheid</translation>
     </message>
     <message>
         <source>Vacant</source>
-        <translation type="unfinished"></translation>
+        <translation>Afwezig</translation>
     </message>
     <message>
         <source>Nighttime</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;s Nachts</translation>
     </message>
     <message>
         <source>Closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Dicht</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Open</translation>
     </message>
     <message>
         <source>Wet</source>
-        <translation type="unfinished"></translation>
+        <translation>Nat</translation>
     </message>
     <message>
         <source>Dry</source>
-        <translation type="unfinished"></translation>
+        <translation>Droog</translation>
     </message>
     <message>
         <source>Daytime</source>
-        <translation type="unfinished"></translation>
+        <translation>Overdag</translation>
     </message>
     <message>
         <source>Fire</source>
-        <translation type="unfinished"></translation>
+        <translation>Brand</translation>
     </message>
     <message>
         <source>No fire</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen brand</translation>
     </message>
 </context>
 <context>
     <name>SensorListDelegate</name>
     <message>
         <source>Closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Dicht</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Open</translation>
     </message>
     <message>
         <source>Presence</source>
-        <translation type="unfinished"></translation>
+        <translation>Aanwezigheid</translation>
     </message>
     <message>
         <source>Vacant</source>
-        <translation type="unfinished"></translation>
+        <translation>Afwezig</translation>
     </message>
     <message>
         <source>Daytime</source>
-        <translation type="unfinished"></translation>
+        <translation>Overdag</translation>
     </message>
     <message>
         <source>Nighttime</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;s Nachts</translation>
     </message>
     <message>
         <source>Wet</source>
-        <translation type="unfinished"></translation>
+        <translation>Nat</translation>
     </message>
     <message>
         <source>Dry</source>
-        <translation type="unfinished"></translation>
+        <translation>Droog</translation>
     </message>
     <message>
         <source>Fire</source>
-        <translation type="unfinished"></translation>
+        <translation>Brand</translation>
     </message>
     <message>
         <source>No fire</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen brand</translation>
     </message>
     <message>
         <source>On</source>
-        <translation type="unfinished">Aan</translation>
+        <translation>Aan</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation type="unfinished">Uit</translation>
+        <translation>Uit</translation>
     </message>
     <message>
         <source>Last vibration: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatste trilling: %1</translation>
     </message>
     <message>
         <source>Not moved yet</source>
-        <translation type="unfinished"></translation>
+        <translation>Nog niet bewogen</translation>
     </message>
 </context>
 <context>
     <name>SensorsDeviceListPage</name>
     <message>
         <source>Sensors</source>
-        <translation type="unfinished"></translation>
+        <translation>Sensoren</translation>
     </message>
     <message>
         <source>Heating</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwarming</translation>
     </message>
     <message>
         <source>Thermostats</source>
-        <translation type="unfinished"></translation>
+        <translation>Thermostaten</translation>
     </message>
 </context>
 <context>
     <name>ServerConfigurationDialog</name>
     <message>
         <source>Server configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Server instellingen</translation>
     </message>
     <message>
         <source>Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Interface</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Elke</translation>
     </message>
     <message>
         <source>Localhost</source>
-        <translation type="unfinished"></translation>
+        <translation>Localhost</translation>
     </message>
     <message>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>Aangepast</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Poort:</translation>
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL ingeschakeld</translation>
     </message>
     <message>
         <source>Login required</source>
-        <translation type="unfinished"></translation>
+        <translation>Inloggen verplicht</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Algemeen</translation>
     </message>
     <message>
         <source>Change system name and time zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Verander de systeem naam en de tijdzone</translation>
     </message>
     <message>
         <source>Log viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Log scherm</translation>
     </message>
     <message>
         <source>View system log</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekijk systeem log</translation>
     </message>
     <message>
         <source>MQTT broker</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Configure the MQTT broker</source>
-        <translation type="unfinished"></translation>
+        <translation>MQTT broker instellen</translation>
     </message>
     <message>
         <source>Web server</source>
-        <translation type="unfinished"></translation>
+        <translation>Webserver</translation>
     </message>
     <message>
         <source>Configure the web server</source>
-        <translation type="unfinished"></translation>
+        <translation>Webserver instellen</translation>
     </message>
     <message>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugins</translation>
     </message>
     <message>
         <source>List and cofigure installed plugins</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>typo in source text: cofigure -&gt; configure</translatorcomment>
+        <translation>Maak een lijst van de geïnstalleerde plugins en stel ze in</translation>
     </message>
     <message>
         <source>Developer tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Hulpmiddelen voor ontwikkelaars</translation>
     </message>
     <message>
         <source>Access tools for debugging and error reporting</source>
-        <translation type="unfinished"></translation>
+        <translation>Gereedschap voor debugging en foutonderzoek</translation>
     </message>
     <message>
         <source>Find server UUID and versions</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekijk de server UUID en versies</translation>
     </message>
     <message>
         <source>System update</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeem bijwerken</translation>
     </message>
     <message>
         <source>System settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeem instellingen</translation>
     </message>
     <message>
         <source>Networking</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkgebruik</translation>
     </message>
     <message>
         <source>Configure the system&apos;s network connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel de netwerkverbinding van het systeem in</translation>
     </message>
     <message>
         <source>User settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersinstellingen</translation>
     </message>
     <message>
         <source>Configure who can log in</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel in wie kan inloggen</translation>
     </message>
     <message>
         <source>ZigBee</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee</translation>
     </message>
     <message>
         <source>Configure ZigBee networks</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel Zigbee netwerken in</translation>
     </message>
     <message>
         <source>Update your %1 system</source>
-        <translation type="unfinished"></translation>
+        <translation>Werk je %1 systeem bij</translation>
     </message>
     <message>
         <source>About %1</source>
-        <translation type="unfinished">Over %1</translation>
+        <translation>Over %1</translation>
     </message>
     <message>
         <source>Modbus RTU</source>
-        <translation type="unfinished"></translation>
+        <translation>Modbus RTU</translation>
     </message>
     <message>
         <source>Configure Modbus RTU master interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel de Modbus RTU master interfaces in</translation>
     </message>
     <message>
         <source>Connection settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindingsinstellingen</translation>
     </message>
     <message>
         <source>Configure how applications can connect to this system</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel in hoe applicaties met dit systeem kunnen verbinden</translation>
     </message>
     <message>
         <source>Z-Wave</source>
-        <translation type="unfinished"></translation>
+        <translation>Z-Wave</translation>
     </message>
     <message>
         <source>Configure Z-Wave networks</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel Z-Wave netwerken in</translation>
     </message>
 </context>
 <context>
     <name>SetupWizard</name>
     <message>
         <source>Search again</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoek opnieuw</translation>
     </message>
     <message>
         <source>Add thing manually</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg handmatig een ding toe</translation>
     </message>
     <message>
         <source>Searching for things...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoek naar dingen...</translation>
     </message>
     <message>
         <source>Too bad...</source>
-        <translation type="unfinished"></translation>
+        <translation>Helaas...</translation>
     </message>
     <message>
         <source>No things of this kind could be found...</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan geen dingen van dit type vinden...</translation>
     </message>
     <message>
         <source>Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zorg dat je dingen verbonden zijn en goed zijn ingesteld, probeer opnieuw te zoeken of ga terug en kies een ander soort dingen.</translation>
     </message>
     <message>
         <source>Name the thing:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geef het ding een naam:</translation>
     </message>
     <message>
         <source>Thing reconfigured!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ding opnieuw ingesteld!</translation>
     </message>
     <message>
         <source>Thing added!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ding toegevoegd!</translation>
     </message>
     <message>
         <source>Uh oh</source>
-        <translation type="unfinished"></translation>
+        <translation>Oeps</translation>
     </message>
     <message>
         <source>All done. You can now start using %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klaar! Je kunt nu beginnen met het gebruiken van %1.</translation>
     </message>
     <message>
         <source>Something went wrong setting up this thing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging iets fout bij het instellen van dit ding...</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>First setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Eerste keer instellen</translation>
     </message>
     <message>
         <source>Welcome to %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Welkom bij %1!</translation>
     </message>
     <message>
         <source>This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit %1 systeem is nog niet ingesteld. Deze wizard helpt je met een paar simpele stappen om het systeem in te stellen.</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Volgende</translation>
     </message>
     <message>
         <source>OAuth is not supported on this platform. Please use this app on a different device to set up this thing.</source>
-        <translation type="unfinished"></translation>
+        <translation>OAuth wordt door dit platform niet ondersteund. Gebruik deze app op een ander apparaat om dit ding in te stellen.</translation>
     </message>
     <message>
         <source>In order to use OAuth on this platform, make sure qml-module-qtwebview is installed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zorg dat qml-module-qtwebview is geïnstalleerd om OAuth op dit platform te gebruiken.</translation>
     </message>
     <message>
         <source>Reconfigure %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel %1 opnieuw in</translation>
     </message>
     <message>
         <source>Set up %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel %1 in</translation>
     </message>
     <message>
         <source>Discover %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ontdek %1</translation>
     </message>
     <message>
         <source>Discovery options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opties voor ontdekken</translation>
     </message>
     <message>
         <source>Nymea found the following things</source>
-        <translation type="unfinished"></translation>
+        <translation>Nymea heeft de volgende dingen gevonden</translation>
     </message>
     <message>
         <source>Thing parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Dingparameters</translation>
     </message>
     <message>
         <source>Login required</source>
-        <translation type="unfinished"></translation>
+        <translation>Inloggen verplicht</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersnaam</translation>
     </message>
 </context>
 <context>
     <name>ShutterDeviceListPage</name>
     <message>
         <source>Shutters</source>
-        <translation type="unfinished"></translation>
+        <translation>Shutters</translation>
     </message>
 </context>
 <context>
     <name>SimpleStateEvaluatorDelegate</name>
     <message>
         <source>Press to edit condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik om de voorwaarde te bewerken</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Nee</translation>
     </message>
 </context>
 <context>
     <name>SmartMeterChart</name>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend</translation>
     </message>
 </context>
 <context>
     <name>SmartMeterDeviceListPage</name>
     <message>
         <source>Smart meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Slimme meters</translation>
     </message>
     <message>
         <source>Returning %1</source>
         <extracomment>e.g. Returning 5kW</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1 teruggeven aan het net</translation>
     </message>
     <message>
         <source>Obtaining %1</source>
         <extracomment>e.g. Obtaining 5kW</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1 van het net halen</translation>
     </message>
     <message>
         <source>Discharging at %1</source>
         <extracomment>e.g. Discharging at 5kW</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Ontladen op %1</translation>
     </message>
     <message>
         <source>Charging at %1</source>
         <extracomment>e.g. Charging at 5kW</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Laden op %1</translation>
     </message>
     <message>
         <source>Producing %1</source>
         <extracomment>e.g. Producing 5kW</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1 opwekken</translation>
     </message>
     <message>
         <source>Idling</source>
         <extracomment>A producer, not producing anything
 ----------
 A consumer, not consuming anything</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Geen veranderingen</translation>
     </message>
     <message>
         <source>Consuming %1</source>
         <extracomment>e.g. Consuming 5kW</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>%1 verbruiken</translation>
     </message>
 </context>
 <context>
     <name>SmartMeterDevicePage</name>
     <message>
         <source>Idle</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen veranderingen</translation>
     </message>
     <message>
         <source>Charging</source>
-        <translation type="unfinished"></translation>
+        <translation>Opladen</translation>
     </message>
     <message>
         <source>Discharging</source>
-        <translation type="unfinished"></translation>
+        <translation>Ontladen</translation>
     </message>
     <message>
         <source>Producing</source>
-        <translation type="unfinished"></translation>
+        <translation>Opwekken</translation>
     </message>
     <message>
         <source>Consuming</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbruiken</translation>
     </message>
     <message>
         <source>Returning</source>
-        <translation type="unfinished"></translation>
+        <translation>Teruggeven</translation>
     </message>
     <message>
         <source>Obtaining</source>
-        <translation type="unfinished"></translation>
+        <translation>Van het net halen</translation>
     </message>
     <message>
         <source>At the current rate, the battery will be fully charged at %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Met de huidige snelheid is de batterij volledig opgeladen om %1.</translation>
     </message>
     <message>
         <source>At the current rate, the battery will last until %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Met de huidige snelheid kun je de batterij gebruiken tot %1.</translation>
     </message>
     <message>
         <source>Total consumption: %1 kWh</source>
-        <translation type="unfinished"></translation>
+        <translation>Totaal verbruik: %1 kWh</translation>
     </message>
     <message>
         <source>Total production: %1 kWh</source>
-        <translation type="unfinished"></translation>
+        <translation>Totaal opgewekt: %1 kWh</translation>
     </message>
     <message>
         <source>Total acquisition: %1 kWh</source>
-        <translation type="unfinished"></translation>
+        <translation>Totaal van het net gehaald: %1 kWh</translation>
     </message>
     <message>
         <source>Total return: %1 kWh</source>
-        <translation type="unfinished"></translation>
+        <translation>Totaal teruggegeven aan het net: %1 kWh</translation>
     </message>
 </context>
 <context>
     <name>StateChart</name>
     <message>
         <source>Hours</source>
-        <translation type="unfinished"></translation>
+        <translation>Uren</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="unfinished"></translation>
+        <translation>Dagen</translation>
     </message>
     <message>
         <source>Weeks</source>
-        <translation type="unfinished"></translation>
+        <translation>Weken</translation>
     </message>
     <message>
         <source>Months</source>
-        <translation type="unfinished"></translation>
+        <translation>Maanden</translation>
     </message>
     <message>
         <source>No data</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen gegevens</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Nee</translation>
     </message>
 </context>
 <context>
     <name>StateEvaluatorDelegate</name>
     <message>
         <source>and all of those</source>
-        <translation type="unfinished"></translation>
+        <translation>en al deze</translation>
     </message>
     <message>
         <source>or any of those</source>
-        <translation type="unfinished"></translation>
+        <translation>of één van deze</translation>
     </message>
     <message>
         <source>Add a condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een voorwaarde toe</translation>
     </message>
     <message>
         <source>Edit condition...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bewerk een voorwaarde...</translation>
     </message>
     <message>
         <source>When one of my things is in a certain state</source>
-        <translation type="unfinished"></translation>
+        <translation>Als één van mijn dingen een bepaalde status heeft</translation>
     </message>
     <message>
         <source>When a thing of a given type enters a state</source>
-        <translation type="unfinished"></translation>
+        <translation>Als een ding van een bepaald type een status krijgt</translation>
     </message>
 </context>
 <context>
     <name>StateLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Historie van %1</translation>
     </message>
     <message>
         <source>Remove logs?</source>
-        <translation type="unfinished"></translation>
+        <translation>Logs verwijderen?</translation>
     </message>
     <message>
         <source>Do you want to remove the log for this state and disable logging?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wil je het log van deze gebeurtenis verwijderen en het bijhouden van logs uitschakelen?</translation>
     </message>
     <message>
         <source>Logging not enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Log bijhouden uitgeschakeld</translation>
     </message>
     <message>
         <source>This state is not being logged.</source>
-        <translation type="unfinished"></translation>
+        <translation>Van deze status wordt geen log bijgehouden.</translation>
     </message>
     <message>
         <source>Enable logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Log bijhouden inschakelen</translation>
     </message>
 </context>
 <context>
     <name>SystemUpdatePage</name>
     <message>
         <source>System update</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeem bijwerken</translation>
     </message>
     <message>
         <source>Your system is up to date.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je systeem is volledig bijgewerkt.</translation>
     </message>
     <message>
         <source>Update all</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles bijwerken</translation>
     </message>
     <message>
         <source>Configure update sources</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel de bronnen voor bijwerken in</translation>
     </message>
     <message>
         <source>Enable package source</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel de bron voor het pakket in</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ik kijk of het systeem bijgewerkt kan worden...</translation>
     </message>
     <message>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Kijk of het systeem bijgewerkt kan worden</translation>
     </message>
     <message numerus="yes">
         <source>%n update(s) available</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n update beschikbaar</numerusform>
+            <numerusform>%n updates beschikbaar</numerusform>
         </translation>
     </message>
     <message>
         <source>Check again</source>
-        <translation type="unfinished"></translation>
+        <translation>Controleer opnieuw</translation>
     </message>
     <message>
         <source>Install or remove software</source>
-        <translation type="unfinished"></translation>
+        <translation>Installeer of verwijder software</translation>
     </message>
     <message>
         <source>Failure adding repository.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het toevoegen van een opslagplaats is mislukt.</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
 Do you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>Je staat op het punt om het systeem te updaten. Deze update kan een aantal minuten duren. In die tijd kan je %1 niet goed werken, of herstarten.
+Wil je doorgaan?</translation>
     </message>
     <message>
         <source>Enabling additional software sources allows to install unreleased %1 packages.
 This can potentially break your system and lead to problems.
 Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als je toestemming geeft om extra softwarebronnen te gebruiken, kunnen %1 pakketten geïnstalleerd worden die nog niet officieel zijn uitgegeven.
+Dit kan ervoor zorgen dat je systeem niet meer goed functioneert.
+Gebruik deze optie alleen als je zeker weet dat je dit wilt.
+Als je fouten in de niet-officiële software vindt, geef deze dan door aan de ontwikkelaars.</translation>
     </message>
 </context>
 <context>
     <name>TemperatureScheduleEditor</name>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>ThingClassDetailsPage</name>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Parameters</translation>
     </message>
     <message>
         <source>ID copied to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>ID gekopieerd naar klembord</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebeurtenissen</translation>
     </message>
     <message>
         <source>States</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Acties</translation>
     </message>
     <message>
         <source>Interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Interfaces</translation>
     </message>
 </context>
 <context>
     <name>ThingContextMenu</name>
     <message>
         <source>Magic</source>
-        <translation type="unfinished"></translation>
+        <translation>Magie</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Details</translation>
     </message>
     <message>
         <source>Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Logs</translation>
     </message>
     <message>
         <source>Mark as favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak favoriet</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder uit favorieten</translation>
     </message>
     <message>
         <source>Grouping</source>
-        <translation type="unfinished"></translation>
+        <translation>Groeperen</translation>
     </message>
     <message>
         <source>Write NFC tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Schrijf naar NFC tag</translation>
     </message>
     <message>
         <source>Groups for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Groepen voor %1</translation>
     </message>
     <message>
         <source>New group</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe groep</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>ThingInfoPane</name>
     <message>
         <source>Thing is being set up...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ding is ingesteld...</translation>
     </message>
     <message>
         <source>Thing setup failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ding instellen is mislukt!</translation>
     </message>
     <message>
         <source>Thing is not connected!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ding is niet verbonden!</translation>
     </message>
     <message>
         <source>Update available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Update beschikbaar!</translation>
     </message>
     <message>
         <source>Updating...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan het bijwerken...</translation>
     </message>
     <message>
         <source>Thing runs out of battery!</source>
-        <translation type="unfinished"></translation>
+        <translation>De batterij van dit ding raakt leeg!</translation>
     </message>
 </context>
 <context>
     <name>ThingLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Historie van %1</translation>
     </message>
     <message>
         <source>Filter by</source>
-        <translation type="unfinished"></translation>
+        <translation>Filteren op</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Nee</translation>
     </message>
 </context>
 <context>
     <name>ThingRulesPage</name>
     <message>
         <source>Magic involving %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Magie met %1</translation>
     </message>
     <message>
         <source>There&apos;s no magic involving %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is geen magie met %1.</translation>
     </message>
     <message>
         <source>Add some using the wizard stick!</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg iets toe met de magische toverstok!</translation>
     </message>
 </context>
 <context>
     <name>ThingStatusIcons</name>
     <message>
         <source>An update for %1 is available. Do you want to start the update now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Je kunt %1 bijwerken. Wil je daar nu mee beginnen?</translation>
     </message>
     <message>
         <source>Current version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Huidige versie: %1</translation>
     </message>
     <message>
         <source>Available version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschikbare versie: %1</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Bijwerken</translation>
     </message>
 </context>
 <context>
     <name>ThingsView</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Welkom bij %1!</translation>
     </message>
     <message>
         <source>There are no things set up yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen dingen ingesteld.</translation>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ga verder en voeg een paar dingen toe, zodat je je %1 systeem kunt gebruiken.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg dingen toe</translation>
     </message>
 </context>
 <context>
     <name>TimeEventDelegate</name>
     <message>
         <source>At %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Om %1</translation>
     </message>
     <message>
         <source>repeated %1</source>
-        <translation type="unfinished"></translation>
+        <translation>herhalend %1</translation>
     </message>
     <message>
         <source>never</source>
-        <translation type="unfinished"></translation>
+        <translation>nooit</translation>
     </message>
     <message>
         <source>hourly</source>
-        <translation type="unfinished"></translation>
+        <translation>elk uur</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation type="unfinished"></translation>
+        <translation>dagelijks</translation>
     </message>
     <message>
         <source>Mon</source>
-        <translation type="unfinished"></translation>
+        <translation>Ma</translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation type="unfinished"></translation>
+        <translation>Di</translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation type="unfinished"></translation>
+        <translation>Wo</translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation type="unfinished"></translation>
+        <translation>Do</translation>
     </message>
     <message>
         <source>Fri</source>
-        <translation type="unfinished"></translation>
+        <translation>Vr</translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation type="unfinished"></translation>
+        <translation>Za</translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation type="unfinished"></translation>
+        <translation>Zo</translation>
     </message>
     <message>
         <source>weekly on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>wekelijks op %1</translation>
     </message>
     <message>
         <source>monthly on the %1</source>
-        <translation type="unfinished"></translation>
+        <translation>maandelijks op de %1</translation>
     </message>
     <message>
         <source>every year</source>
-        <translation type="unfinished"></translation>
+        <translation>elk jaar</translation>
     </message>
 </context>
 <context>
     <name>TimeOverrideDialog</name>
     <message>
         <source>Manual mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Handmatige modus</translation>
     </message>
     <message>
         <source>Select how long the manual temperature setpoint should be kept.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kies hoe lang de handmatige temperatuurinstelling bewaard moet worden.</translation>
     </message>
     <message>
         <source>Eventual</source>
-        <translation type="unfinished"></translation>
+        <translation>Bij een gebeurtenis</translation>
     </message>
     <message>
         <source>Until the temperature is changed by some other event.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tot de temperatuur door een andere gebeurtenis wordt veranderd.</translation>
     </message>
     <message>
         <source>Forever</source>
-        <translation type="unfinished"></translation>
+        <translation>Voor altijd</translation>
     </message>
     <message>
         <source>Until manually removed or changed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Totdat het handmatig wordt verwijderd of veranderd.</translation>
     </message>
     <message>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Tijd</translation>
     </message>
     <message>
         <source>For a specified amount of time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voor een bepaalde periode.</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>TimeSchedulePage</name>
     <message>
         <source>Monday</source>
-        <translation type="unfinished"></translation>
+        <translation>Maandag</translation>
     </message>
     <message>
         <source>Tuesday</source>
-        <translation type="unfinished"></translation>
+        <translation>Dinsdag</translation>
     </message>
     <message>
         <source>Wednesday</source>
-        <translation type="unfinished"></translation>
+        <translation>Woensdag</translation>
     </message>
     <message>
         <source>Thursday</source>
-        <translation type="unfinished"></translation>
+        <translation>Donderdag</translation>
     </message>
     <message>
         <source>Friday</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrijdag</translation>
     </message>
     <message>
         <source>Saturday</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaterdag</translation>
     </message>
     <message>
         <source>Sunday</source>
-        <translation type="unfinished"></translation>
+        <translation>Zondag</translation>
     </message>
 </context>
 <context>
     <name>TunnelProxyServerConfigurationDialog</name>
     <message>
         <source>Proxy server configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellingen van de proxy server</translation>
     </message>
     <message>
         <source>Proxy server address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy server adres:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Poort:</translation>
     </message>
     <message>
         <source>Require login</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak inloggen verplicht</translation>
     </message>
     <message>
         <source>Not requiring a login for the remote connection will allow anyone on the internet to connect to your %1 system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als je inloggen niet verplicht maakt bij de verbinding op afstand, kan iedereen op het internet verbinding maken met je %1 systeem.</translation>
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL ingeschakeld</translation>
     </message>
     <message>
         <source>Ignore SSL errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Negeer SSL fouten</translation>
     </message>
 </context>
 <context>
     <name>UpdateRunningOverlay</name>
     <message>
         <source>System update in progress...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met het bijwerken van je systeem...</translation>
     </message>
     <message>
         <source>Please wait</source>
-        <translation type="unfinished"></translation>
+        <translation>Even geduld</translation>
     </message>
     <message>
         <source>The system may restart in order to complete the update. %1:app will reconnect automatically after the update.</source>
-        <translation type="unfinished"></translation>
+        <translation>Om het bijwerken af te ronden, kan je systeem opnieuw opstarten. Na het bijwerken maakt %1:app automatisch opnieuw verbinding.</translation>
     </message>
 </context>
 <context>
     <name>UsersSettingsPage</name>
     <message>
         <source>User settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersinstellingen</translation>
     </message>
     <message>
         <source>The given password is not valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit wachtwoord is niet geldig.</translation>
     </message>
     <message>
         <source>Permission denied.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toestemming geweigerd.</translation>
     </message>
     <message>
         <source>The new password could not be stored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het nieuwe wachtwoord kan niet worden opgeslagen.</translation>
     </message>
     <message>
         <source>Un unexpected error happened when changing the password. We&apos;re sorry for this. (Error code: %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging onverwacht iets fout toen je het wachtwoord veranderde. Sorry daarvoor. (Foutcode: %1)</translation>
     </message>
     <message>
         <source>Change password</source>
-        <translation type="unfinished"></translation>
+        <translation>Verander het wachtwoord</translation>
     </message>
     <message>
         <source>Created on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gemaakt op %1</translation>
     </message>
     <message>
         <source>Please enter the new password for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer het nieuwe wachtwoord in voor %1</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Edit user information</source>
-        <translation type="unfinished"></translation>
+        <translation>Bewerk de gebruikersinformatie</translation>
     </message>
     <message>
         <source>Manage authorized devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer de geauthoriseerde apparaten</translation>
     </message>
     <message>
         <source>Admin</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer</translation>
     </message>
     <message>
         <source>Manage users</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikers beheren</translation>
     </message>
     <message>
         <source>Your name</source>
-        <translation type="unfinished"></translation>
+        <translation>Je naam</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <source>Un unexpected error happened when creating the user. We&apos;re sorry for this. (Error code: %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging onverwacht iets fout toen je de gebruiker toevoegde. Sorry daarvoor. (Foutcode: %1)</translation>
     </message>
     <message>
         <source>Device access</source>
-        <translation type="unfinished"></translation>
+        <translation>Apparaattoegang</translation>
     </message>
     <message>
         <source>Remove device access</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder apparaattoegang</translation>
     </message>
     <message>
         <source>Are you sure you want to remove %1 from accessing your %2 system?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je de toegang van %1 tot je %2 systeem wilt verwijderen?</translation>
     </message>
     <message>
         <source>Devices / Apps accessing %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Apparaten / Apps met toegang tot %1</translation>
     </message>
     <message>
         <source>Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikers</translation>
     </message>
     <message>
         <source>Manage users for this %1 system</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer gebruikers voor dit %1 systeem</translation>
     </message>
     <message>
         <source>Manage %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer %1</translation>
     </message>
     <message>
         <source>Remove user</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder gebruiker</translation>
     </message>
     <message>
         <source>User information for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersinformatie voor %1</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Opslaan</translation>
     </message>
     <message>
         <source>Permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>Toestemmingen</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Remove this user</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder deze gebruiker</translation>
     </message>
     <message>
         <source>Add a user</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een gebruiker toe</translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersnaam:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wachtwoord:</translation>
     </message>
     <message>
         <source>Full name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Volledige naam:</translation>
     </message>
     <message>
         <source>e-mail:</source>
-        <translation type="unfinished"></translation>
+        <translation>e-mail:</translation>
     </message>
     <message>
         <source>Create new user</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een nieuwe gebruiker toe</translation>
     </message>
     <message>
         <source>The given username is not valid. It needs to be at least three characters long and not contain special characters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze gebruikersnaam is niet geldig. Een gebruikersnaam moet minstens 3 letters of cijfers hebben en geen speciale tekens.</translation>
     </message>
     <message>
         <source>The given username is already in use. Please choose a different username.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze gebruikersnaam bestaat al. Kies een andere gebruikersnaam.</translation>
     </message>
     <message>
         <source>User information</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersinformatie</translation>
     </message>
 </context>
 <context>
     <name>WeatherDeviceListPage</name>
     <message>
         <source>Weather</source>
-        <translation type="unfinished"></translation>
+        <translation>Weer</translation>
     </message>
 </context>
 <context>
     <name>WeatherView</name>
     <message>
         <source>N</source>
-        <translation type="unfinished"></translation>
+        <translation>N</translation>
     </message>
     <message>
         <source>NE</source>
-        <translation type="unfinished"></translation>
+        <translation>NO</translation>
     </message>
     <message>
         <source>E</source>
-        <translation type="unfinished"></translation>
+        <translation>O</translation>
     </message>
     <message>
         <source>SE</source>
-        <translation type="unfinished"></translation>
+        <translation>ZO</translation>
     </message>
     <message>
         <source>S</source>
-        <translation type="unfinished"></translation>
+        <translation>Z</translation>
     </message>
     <message>
         <source>SW</source>
-        <translation type="unfinished"></translation>
+        <translation>ZW</translation>
     </message>
     <message>
         <source>W</source>
-        <translation type="unfinished"></translation>
+        <translation>W</translation>
     </message>
     <message>
         <source>NW</source>
-        <translation type="unfinished"></translation>
+        <translation>NW</translation>
     </message>
 </context>
 <context>
     <name>WebServerConfigurationDialog</name>
     <message>
         <source>Server configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Server instellingen</translation>
     </message>
     <message>
         <source>Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Interface</translation>
     </message>
     <message>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Elke</translation>
     </message>
     <message>
         <source>Localhost</source>
-        <translation type="unfinished"></translation>
+        <translation>Localhost</translation>
     </message>
     <message>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>Aangepast</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Poort:</translation>
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL ingeschakeld</translation>
     </message>
     <message>
         <source>Login required</source>
-        <translation type="unfinished"></translation>
+        <translation>Inloggen verplicht</translation>
     </message>
     <message>
         <source>Public folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Openbare map</translation>
     </message>
 </context>
 <context>
     <name>WebServerSettingsPage</name>
     <message>
         <source>Web server</source>
-        <translation type="unfinished"></translation>
+        <translation>Webserver</translation>
     </message>
     <message>
         <source>Web server interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Webserver interfaces</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Toevoegen</translation>
     </message>
 </context>
 <context>
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Terug</translation>
+        <translation>Terug</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Volgende</translation>
     </message>
 </context>
 <context>
     <name>WriteNfcTagPage</name>
     <message>
         <source>Write NFC tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Schrijf naar NFC tag</translation>
     </message>
     <message>
         <source>Tap an NFC tag to link it to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik op een NFC tag om deze met %1 te verbinden.</translation>
     </message>
     <message>
         <source>Writing NFC tag...</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar NFC tag aan het schrijven...</translation>
     </message>
     <message>
         <source>NFC tag linked to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>NFC tag verbonden met %1.</translation>
     </message>
     <message>
         <source>Failed linking the NFC tag to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het verbinden van de NFC tag met %1 is mislukt.</translation>
     </message>
     <message>
         <source>Required tag size: %1 bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>Benodigde tag grootte: %1 bytes</translation>
     </message>
     <message>
         <source>Add action</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een actie toe</translation>
     </message>
 </context>
 <context>
     <name>ZWaveAddNetworkPage</name>
     <message>
         <source>Add a new Z-Wave network</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een nieuw Z-Wave netwerk toe</translation>
     </message>
     <message>
         <source>The selected adapter is already in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>De adapter die je selecteerde is al in gebruik.</translation>
     </message>
     <message>
         <source>An error happened in the ZWave backend.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging iets fout in de Z-Wave software.</translation>
     </message>
     <message>
         <source>Available serial ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschikbare seriële poorten</translation>
     </message>
     <message>
         <source>Please verify that the Z-Wave adapter is properly connected to a serial port and select the appropriate port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Controleer of de Z-Wave adapter goed is verbonden met de seriële poort en selecteer de juiste poort.</translation>
     </message>
 </context>
 <context>
     <name>ZWaveNetworkPage</name>
     <message>
         <source>Z-Wave network</source>
-        <translation type="unfinished"></translation>
+        <translation>Z-Wave netwerk</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Hulp</translation>
+        <translation>Help</translation>
     </message>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk instellingen</translation>
     </message>
     <message>
         <source>Un unexpected error happened in the Z-Wave backend.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging onverwacht iets fout in de Z-Wave software.</translation>
     </message>
     <message>
         <source>The operation could not be started because the Z-Wave network is busy. Please try again later.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het Z-Wave netwerk is druk. Daarom konden we niet beginnen. Probeer het later nog eens.</translation>
     </message>
     <message>
         <source>An unexpected error happened. Status code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging onverwacht iets fout. Statuscode: %1</translation>
     </message>
     <message>
         <source>Include Z-Wave device</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een Z-Wave apparaat toe</translation>
     </message>
     <message>
         <source>The Z-Wave network is now accepting new devices for inclusion. Please start the pairing procedure from the Z-Wave device you want to add to the network. Check the device manual for further details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je kunt nu nieuwe apparaten aan het Z-Wave netwerk toevoegen. Start de koppelprocedure op het Z-Wave apparaat dat je aan het netwerk wilt toevoegen. In de handleiding van het apparaat staat hoe dat moet.</translation>
     </message>
     <message>
         <source>Exclude Z-Wave device</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder Z-Wave apparaat</translation>
     </message>
     <message>
         <source>The Z-Wave network is now accepting devices for exclusion. Please start the pairing procedure from the Z-Wave device you want to remove from the network. Check the device manual for further details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je kunt nu  apparaten van het Z-Wave netwerk verwijderen. Start de ontkoppelprocedure op het Z-Wave apparaat dat je van het netwerk wilt verwijderen. In de handleiding van het apparaat staat hoe dat moet.</translation>
     </message>
     <message>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk</translation>
     </message>
     <message>
         <source>Network state:</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk status:</translation>
     </message>
     <message>
         <source>Online</source>
-        <translation type="unfinished"></translation>
+        <translation>Online</translation>
     </message>
     <message>
         <source>Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Offline</translation>
     </message>
     <message>
         <source>Starting</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan het opstarten</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout</translation>
     </message>
     <message>
         <source>Device management</source>
-        <translation type="unfinished"></translation>
+        <translation>Apparaatbeheer</translation>
     </message>
     <message>
         <source>Add a new device</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een nieuw apparaat toe</translation>
     </message>
     <message>
         <source>Remove a device</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder een apparaat</translation>
     </message>
     <message>
         <source>Connected devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbonden apparaten</translation>
     </message>
     <message>
         <source>There are no Z-Wave devices connected yet. Open the network for new devices to join and start the pairing procedure from the Z-Wave device. Please refer to the devices manual for more information on how to start the pairing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen Z-Wave apparaten verbonden. Stel het netwerk open voor nieuwe apparaten en start de koppelprocedure op het Z-Wave apparaat. In de handleiding van het apparaat staat hoe je de procedure start.</translation>
     </message>
     <message>
         <source>Initializing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan het voorbereiden...</translation>
     </message>
     <message>
         <source>%1 things</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dingen</translation>
     </message>
     <message>
         <source>Network controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkcontroller</translation>
     </message>
     <message>
         <source>Unrecognized device</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend apparaat</translation>
     </message>
     <message>
         <source>Node ID:</source>
-        <translation type="unfinished"></translation>
+        <translation>Node ID:</translation>
     </message>
     <message>
         <source>Device type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Apparaat type:</translation>
     </message>
     <message>
         <source>Node type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Node type:</translation>
     </message>
     <message>
         <source>Role:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rol:</translation>
     </message>
     <message>
         <source>Z-Wave plus:</source>
-        <translation type="unfinished"></translation>
+        <translation>Z-Wave Plus:</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Nee</translation>
     </message>
     <message>
         <source>Beaming supported:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitzenden ondersteund:</translation>
     </message>
     <message>
         <source>Signal strength:</source>
-        <translation type="unfinished"></translation>
+        <translation>Signaalsterkte:</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versie:</translation>
     </message>
     <message>
         <source>Associated things</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerelateerde dingen</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Remove Z-Wave node</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder Z-Wave node</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this node from the network?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je deze node uit het netwerk wilt verwijderen?</translation>
     </message>
     <message>
         <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Let op: als deze node met een ding is verbonden, wordt dit ding ook uit het systeem verwijderd.</translation>
     </message>
     <message>
         <source>Sleepy device</source>
-        <translation type="unfinished"></translation>
+        <translation>Apparaat is in slaapstand</translation>
     </message>
     <message>
         <source>Z-Wave network help</source>
-        <translation type="unfinished"></translation>
+        <translation>Z-Wave netwerk help</translation>
     </message>
     <message>
         <source>Z-Wave router</source>
-        <translation type="unfinished"></translation>
+        <translation>Z-Wave router</translation>
     </message>
     <message>
         <source>Z-Wave end device</source>
-        <translation type="unfinished"></translation>
+        <translation>Z-Wave eindapparaat</translation>
     </message>
     <message>
         <source>Security mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Veiligheidsmodus:</translation>
     </message>
     <message>
         <source>Security device:</source>
-        <translation type="unfinished"></translation>
+        <translation>Veiligheidsapparaat:</translation>
     </message>
 </context>
 <context>
     <name>ZWaveNetworkSettingsPage</name>
     <message>
         <source>Z-Wave network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Z-Wave netwerkinstellingen</translation>
     </message>
     <message>
         <source>An error happened in the ZWave backend.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging iets fout in de Z-Wave software.</translation>
     </message>
     <message>
         <source>Network information</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkinformatie</translation>
     </message>
     <message>
         <source>Network state</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk status</translation>
     </message>
     <message>
         <source>The network is online</source>
-        <translation type="unfinished"></translation>
+        <translation>Het netwerk is online</translation>
     </message>
     <message>
         <source>The network is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Het netwerk is offline</translation>
     </message>
     <message>
         <source>The network is starting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Het netwerk is aan het opstarten...</translation>
     </message>
     <message>
         <source>The network is in an error state.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er gaat iets fout in het netwerk.</translation>
     </message>
     <message>
         <source>Home ID:</source>
-        <translation type="unfinished"></translation>
+        <translation>Huis ID:</translation>
     </message>
     <message>
         <source>Controller type</source>
-        <translation type="unfinished"></translation>
+        <translation>Controller type</translation>
     </message>
     <message>
         <source>Primary</source>
-        <translation type="unfinished"></translation>
+        <translation>Primaire</translation>
     </message>
     <message>
         <source>Secondary</source>
-        <translation type="unfinished"></translation>
+        <translation>Secundaire</translation>
     </message>
     <message>
         <source>Static</source>
-        <translation type="unfinished"></translation>
+        <translation>Statisch</translation>
     </message>
     <message>
         <source>Bridge</source>
-        <translation type="unfinished"></translation>
+        <translation>Brug</translation>
     </message>
     <message>
         <source>Hardware information</source>
-        <translation type="unfinished"></translation>
+        <translation>Hardware informatie</translation>
     </message>
     <message>
         <source>Serial port</source>
-        <translation type="unfinished"></translation>
+        <translation>Seriële poort</translation>
     </message>
     <message>
         <source>Manage network</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer het netwerk</translation>
     </message>
     <message>
         <source>Remove network</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder het netwerk</translation>
     </message>
     <message>
         <source>Factory reset controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Reset de controller en zet de begininstellingen terug</translation>
     </message>
     <message>
         <source>Are you sure you want to factory reset the controller? This will recreate the network and remove all associated devices from the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je de controller wilt resetten naar de begininstellingen? Je stelt dan het netwerk helemaal opnieuw in. Alle apparaten die met het systeem verbonden zijn, worden verwijderd.</translation>
     </message>
     <message>
         <source>Reset controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Reset de controller</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the network and all associated devices from the system?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je het netwerk en alle apparaten die ermee verbonden zijn van het systeem wilt verwijderen?</translation>
     </message>
 </context>
 <context>
     <name>ZWaveSettingsPage</name>
     <message>
         <source>Z-Wave</source>
-        <translation type="unfinished"></translation>
+        <translation>Z-Wave</translation>
     </message>
     <message>
         <source>Add Z-Wave network</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een Z-Wave netwerk toe</translation>
     </message>
     <message>
         <source>There are no Z-Wave networks set up yet. In order to use Z-Wave, create a Z-Wave network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen Z-Wave netwerken ingesteld. Maak een Z-Wave netwerk om Z-Wave te gebruiken.</translation>
     </message>
     <message>
         <source>Z-Wave is not available on this system as no Z-Wave backend is installed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Z-Wave is niet beschikbaar op dit systeem omdat de Z-Wave software niet is geïnstalleerd.</translation>
     </message>
     <message>
         <source>Add network</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een netwerk toe</translation>
     </message>
     <message>
         <source>Z-Wave Plus network</source>
-        <translation type="unfinished"></translation>
+        <translation>Z-Wave Plus netwerk</translation>
     </message>
     <message>
         <source>Z-Wave network</source>
-        <translation type="unfinished"></translation>
+        <translation>Z-Wave netwerk</translation>
     </message>
     <message>
         <source>Network state:</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk status:</translation>
     </message>
     <message>
         <source>Online</source>
-        <translation type="unfinished"></translation>
+        <translation>Online</translation>
     </message>
     <message>
         <source>Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Offline</translation>
     </message>
     <message>
         <source>Starting</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan het opstarten</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout</translation>
     </message>
     <message>
         <source>Adapter:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adapter:</translation>
     </message>
     <message numerus="yes">
         <source>%n device(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n apparaat</numerusform>
+            <numerusform>%n apparaten</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n device(s) (%1 disconnected)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n apparaat (%1 niet verbonden)</numerusform>
+            <numerusform>%n apparaten (%1 niet verbonden)</numerusform>
         </translation>
     </message>
 </context>
@@ -7762,235 +7773,235 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>ZigbeeAddNetworkPage</name>
     <message>
         <source>The selected adapter is not available or the selected serial port configration is incorrect.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde adapter is niet beschikbaar of de geselecteerde seriële poort is niet goed ingesteld.</translation>
     </message>
     <message>
         <source>The selected adapter is already in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>De adapter die je selecteerde is al in gebruik.</translation>
     </message>
     <message>
         <source>Hardware not available</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen hardware beschikbaar</translation>
     </message>
     <message>
         <source>No ZigBee adapters or serial ports are available on this system. Connect a ZigBee adapter via USB or UART serial port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn geen Zigbee adapters of seriële poorten beschikbaar op dit systeem. Verbind een Zigbee adapter via USB of een UART seriële poort.</translation>
     </message>
     <message>
         <source>Available ZigBee adapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschikbare Zigbee adapters</translation>
     </message>
     <message>
         <source>Please select the ZigBee adapter on which the new network will be created.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer de Zigbee adapter waarop het nieuwe netwerk gemaakt moet worden.</translation>
     </message>
     <message>
         <source>Available serial ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschikbare seriële poorten</translation>
     </message>
     <message>
         <source>Please verify that the ZigBee adapter is properly connected to a serial port and select the appropriate port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Controleer of de Zigbee adapter goed is verbonden met de seriële poort en selecteer de juiste poort.</translation>
     </message>
     <message>
         <source>Serial port options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opties voor de seriële poort</translation>
     </message>
     <message>
         <source>Please select the serial port options for using the ZigBee adapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer de opties voor de seriële poort om de Zigbee adapter te gebruiken</translation>
     </message>
     <message>
         <source>Adapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Adapter</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Baudrate</translation>
     </message>
     <message>
         <source>Add a new ZigBee network</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een nieuw Zigbee netwerk toe</translation>
     </message>
     <message>
         <source>Add ZigBee network</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een Zigbee netwerk toe</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanaal</translation>
     </message>
     <message>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto</translation>
     </message>
     <message>
         <source>Auto light link</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatische lichtkoppeling</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>ZigBee network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee netwerkinstellingen</translation>
     </message>
 </context>
 <context>
     <name>ZigbeeNetworkPage</name>
     <message>
         <source>ZigBee network</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee netwerk</translation>
     </message>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk instellingen</translation>
     </message>
     <message>
         <source>The selected adapter is not available or the selected serial port configration is incorrect.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde adapter is niet beschikbaar of de geselecteerde seriële poort is niet goed ingesteld.</translation>
     </message>
     <message>
         <source>The selected adapter is already in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>De adapter die je selecteerde is al in gebruik.</translation>
     </message>
     <message>
         <source>Online</source>
-        <translation type="unfinished"></translation>
+        <translation>Online</translation>
     </message>
     <message>
         <source>Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Offline</translation>
     </message>
     <message>
         <source>Starting</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan het opstarten</translation>
     </message>
     <message>
         <source>Updating</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan het bijwerken</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout</translation>
     </message>
     <message>
         <source>Open for %0 s</source>
-        <translation type="unfinished"></translation>
+        <translation>Nog %0 seconden open</translation>
     </message>
     <message>
         <source>Closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Dicht</translation>
     </message>
     <message>
         <source>Open for new devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Open voor nieuwe apparaten</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this node from the network?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je deze node uit het netwerk wilt verwijderen?</translation>
     </message>
     <message>
         <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Let op: als deze node met een ding is verbonden, wordt dit ding ook uit het systeem verwijderd.</translation>
     </message>
     <message>
         <source>ZigBee network help</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee netwerk help</translation>
     </message>
     <message>
         <source>Sleepy device</source>
-        <translation type="unfinished"></translation>
+        <translation>Apparaat is in slaapstand</translation>
     </message>
     <message>
         <source>Remove ZigBee node</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder Zigbee node</translation>
     </message>
     <message>
         <source>ZigBee router</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee router</translation>
     </message>
     <message>
         <source>ZigBee end device</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee eindapparaat</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Hulp</translation>
+        <translation>Help</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen Zigbee apparaten verbonden. Stel het netwerk open voor nieuwe apparaten en start de koppelprocedure op het Zigbee apparaat. In de handleiding van het apparaat staat hoe je de procedure start.</translation>
     </message>
     <message>
         <source>%1 things</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dingen</translation>
     </message>
     <message>
         <source>Unrecognized device</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend apparaat</translation>
     </message>
     <message>
         <source>IEEE address:</source>
-        <translation type="unfinished"></translation>
+        <translation>IEEE adres:</translation>
     </message>
     <message>
         <source>Network address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkadres:</translation>
     </message>
     <message>
         <source>Signal strength:</source>
-        <translation type="unfinished"></translation>
+        <translation>Signaalsterkte:</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versie:</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend</translation>
     </message>
     <message>
         <source>Associated things</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerelateerde dingen</translation>
     </message>
     <message>
         <source>Initializing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan het voorbereiden...</translation>
     </message>
     <message>
         <source>Network state</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk status</translation>
     </message>
     <message>
         <source>Extend</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitbreiden</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluiten</translation>
     </message>
     <message numerus="yes">
         <source>%n device(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n apparaat</numerusform>
+            <numerusform>%n apparaten</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n device(s) (%1 disconnected)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n apparaat (%1 niet verbonden)</numerusform>
+            <numerusform>%n apparaten (%1 niet verbonden)</numerusform>
         </translation>
     </message>
 </context>
@@ -7998,421 +8009,421 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>ZigbeeNetworkSettingsPage</name>
     <message>
         <source>ZigBee network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee netwerkinstellingen</translation>
     </message>
     <message>
         <source>Network information</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkinformatie</translation>
     </message>
     <message>
         <source>Network state</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk status</translation>
     </message>
     <message>
         <source>The network is online</source>
-        <translation type="unfinished"></translation>
+        <translation>Het netwerk is online</translation>
     </message>
     <message>
         <source>The network is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Het netwerk is offline</translation>
     </message>
     <message>
         <source>The network is starting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Het netwerk is aan het opstarten...</translation>
     </message>
     <message>
         <source>The controller is currently installing an update</source>
-        <translation type="unfinished"></translation>
+        <translation>De controller wordt op dit moment bijgewerkt</translation>
     </message>
     <message>
         <source>The network is in an error state.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er gaat iets fout in het netwerk.</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanaal</translation>
     </message>
     <message>
         <source>Network PAN ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk PAN ID</translation>
     </message>
     <message>
         <source>Hardware information</source>
-        <translation type="unfinished"></translation>
+        <translation>Hardware informatie</translation>
     </message>
     <message>
         <source>MAC address:</source>
-        <translation type="unfinished"></translation>
+        <translation>MAC adres:</translation>
     </message>
     <message>
         <source>Serial port</source>
-        <translation type="unfinished"></translation>
+        <translation>Seriële poort</translation>
     </message>
     <message>
         <source>Baud rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Baudrate</translation>
     </message>
     <message>
         <source>Controller backend</source>
-        <translation type="unfinished"></translation>
+        <translation>Controller software</translation>
     </message>
     <message>
         <source>Controller firmware version</source>
-        <translation type="unfinished"></translation>
+        <translation>Firmwareversie van decontroller</translation>
     </message>
     <message>
         <source>Manage network</source>
-        <translation type="unfinished"></translation>
+        <translation>Beheer het netwerk</translation>
     </message>
     <message>
         <source>Remove network</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder het netwerk</translation>
     </message>
     <message>
         <source>Factory reset controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Reset de controller en zet de begininstellingen terug</translation>
     </message>
     <message>
         <source>Are you sure you want to factory reset the controller? This will recreate the network and remove all associated devices from the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je de controller wilt resetten naar de begininstellingen? Je stelt dan het netwerk helemaal opnieuw in. Alle apparaten die met het systeem verbonden zijn, worden verwijderd.</translation>
     </message>
     <message>
         <source>Reset controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Reset de controller</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the network and all associated devices from the system?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je het netwerk en alle apparaten die ermee verbonden zijn van het systeem wilt verwijderen?</translation>
     </message>
     <message>
         <source>Network map</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkkaart</translation>
     </message>
 </context>
 <context>
     <name>ZigbeeNetworkTopologyPage</name>
     <message>
         <source>ZigBee network map</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee netwerkkaart</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Hulp</translation>
+        <translation>Help</translation>
     </message>
     <message>
         <source>Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Apparaat</translation>
     </message>
     <message>
         <source>Links</source>
-        <translation type="unfinished"></translation>
+        <translation>Koppelingen</translation>
     </message>
     <message>
         <source>Routes</source>
-        <translation type="unfinished"></translation>
+        <translation>Routes</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres:</translation>
     </message>
     <message>
         <source>Model:</source>
-        <translation type="unfinished"></translation>
+        <translation>Model:</translation>
     </message>
     <message>
         <source>Manufacturer:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fabrikant:</translation>
     </message>
     <message>
         <source>Last seen:</source>
-        <translation type="unfinished"></translation>
+        <translation>Voor het laatst gezien:</translation>
     </message>
     <message>
         <source>Neighbor</source>
-        <translation type="unfinished"></translation>
+        <translation>Buurman</translation>
     </message>
     <message>
         <source>To</source>
-        <translation type="unfinished"></translation>
+        <translation>Naar</translation>
     </message>
     <message>
         <source>Via</source>
-        <translation type="unfinished"></translation>
+        <translation>Via</translation>
     </message>
     <message>
         <source>ZigBee topology help</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee topologie help</translation>
     </message>
     <message>
         <source>Node relationship</source>
-        <translation type="unfinished"></translation>
+        <translation>Node relaties</translation>
     </message>
     <message>
         <source>Sibling</source>
-        <translation type="unfinished"></translation>
+        <translation>Zuster</translation>
     </message>
     <message>
         <source>Parent</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouder</translation>
     </message>
     <message>
         <source>Child</source>
-        <translation type="unfinished"></translation>
+        <translation>Kind</translation>
     </message>
     <message>
         <source>Previous child</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorige kind</translation>
     </message>
     <message>
         <source>Depth in network</source>
-        <translation type="unfinished"></translation>
+        <translation>Diepte in het netwerk</translation>
     </message>
     <message>
         <source>Permit join</source>
-        <translation type="unfinished"></translation>
+        <translation>Sta verbinding toe</translation>
     </message>
     <message>
         <source>Route status</source>
-        <translation type="unfinished"></translation>
+        <translation>Route status</translation>
     </message>
     <message>
         <source>Route active</source>
-        <translation type="unfinished"></translation>
+        <translation>Route actief</translation>
     </message>
     <message>
         <source>Route inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Route inactief</translation>
     </message>
     <message>
         <source>Route failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Route mislukt</translation>
     </message>
     <message>
         <source>Discovery in progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met ontdekken</translation>
     </message>
     <message>
         <source>Validation in progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met valideren</translation>
     </message>
 </context>
 <context>
     <name>ZigbeeNodePage</name>
     <message>
         <source>ZigBee node info</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee node informatie</translation>
     </message>
     <message>
         <source>Remove node</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder node</translation>
     </message>
     <message>
         <source>An error happened in the ZigBee network when creating the binding.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging iets fout in het Zigbee netwerk tijdens het maken van de binding.</translation>
     </message>
     <message>
         <source>The ZigBee device did not respond. Please try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het Zigbee apparaat reageerde niet. Probeer het nog eens.</translation>
     </message>
     <message>
         <source>An error happened in the ZigBee network when removing the binding.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er ging iets fout in het Zigbee netwerk tijdens het verwijderen van de binding.</translation>
     </message>
     <message>
         <source>Model</source>
-        <translation type="unfinished"></translation>
+        <translation>Model</translation>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">Fabrikant</translation>
+        <translation>Fabrikant</translation>
     </message>
     <message>
         <source>IEEE address</source>
-        <translation type="unfinished"></translation>
+        <translation>IEEE adres</translation>
     </message>
     <message>
         <source>Network address</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkadres</translation>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation type="unfinished"></translation>
+        <translation>Signaalsterkte</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versie</translation>
     </message>
     <message>
         <source>Associated things</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerelateerde dingen</translation>
     </message>
     <message>
         <source>Bindings</source>
-        <translation type="unfinished"></translation>
+        <translation>Bindingen</translation>
     </message>
     <message>
         <source>Group: 0x%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Groep: 0x%1</translation>
     </message>
     <message>
         <source>Add binding</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een binding toe</translation>
     </message>
     <message>
         <source>Remove ZigBee node</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder Zigbee node</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this node from the network?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet je zeker dat je deze node uit het netwerk wilt verwijderen?</translation>
     </message>
     <message>
         <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Let op: als deze node met een ding is verbonden, wordt dit ding ook uit het systeem verwijderd.</translation>
     </message>
     <message>
         <source>Device endpoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Apparaat eindpunt</translation>
     </message>
     <message>
         <source>Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliënt</translation>
     </message>
     <message>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Server</translation>
     </message>
     <message>
         <source>Source endpoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Bron eindpunt</translation>
     </message>
     <message>
         <source>Coordinator</source>
-        <translation type="unfinished"></translation>
+        <translation>Coördinator</translation>
     </message>
     <message>
         <source>%1 things</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dingen</translation>
     </message>
     <message>
         <source>Unrecognized device</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekend apparaat</translation>
     </message>
     <message>
         <source>Destination endpoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestemmings eindpunt</translation>
     </message>
     <message>
         <source>Cluster</source>
-        <translation type="unfinished"></translation>
+        <translation>Cluster</translation>
     </message>
     <message>
         <source>Wake up %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak %1 wakker</translation>
     </message>
     <message>
         <source>The selected node is a sleepy device. Please wake up the device by pressing a button.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde node is aan apparaat in slaapstand. Maak het apparaat wakker door een knop in te drukken.</translation>
     </message>
     <message>
         <source>Show detailed information about the node</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon gedetailleerde informatie over de node</translation>
     </message>
     <message>
         <source>Node descriptor</source>
-        <translation type="unfinished"></translation>
+        <translation>Node bijschrift</translation>
     </message>
     <message>
         <source>ZigBee node descriptor</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee node bijschrift</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Copied to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Gekopieerd naar klembord</translation>
     </message>
     <message>
         <source>Target</source>
-        <translation type="unfinished"></translation>
+        <translation>Doel</translation>
     </message>
     <message>
         <source>Node</source>
-        <translation type="unfinished"></translation>
+        <translation>Node</translation>
     </message>
     <message>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Groep</translation>
     </message>
     <message>
         <source>Group address</source>
-        <translation type="unfinished"></translation>
+        <translation>Groep adres</translation>
     </message>
 </context>
 <context>
     <name>ZigbeeSettingsPage</name>
     <message>
         <source>ZigBee</source>
-        <translation type="unfinished"></translation>
+        <translation>Zigbee</translation>
     </message>
     <message>
         <source>Add ZigBee network</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een Zigbee netwerk toe</translation>
     </message>
     <message>
         <source>There are no ZigBee networks set up yet. In order to use ZigBee, create a ZigBee network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn nog geen Zigbee netwerken ingesteld. Maak een Zigbee netwerk om Zigbee te gebruiken.</translation>
     </message>
     <message>
         <source>Add network</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een netwerk toe</translation>
     </message>
     <message>
         <source>Network state:</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk status:</translation>
     </message>
     <message>
         <source>Online</source>
-        <translation type="unfinished"></translation>
+        <translation>Online</translation>
     </message>
     <message>
         <source>Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Offline</translation>
     </message>
     <message>
         <source>Starting</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan het opstarten</translation>
     </message>
     <message>
         <source>Updating</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan het bijwerken</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout</translation>
     </message>
     <message>
         <source>Adapter:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adapter:</translation>
     </message>
     <message numerus="yes">
         <source>%n device(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n apparaat</numerusform>
+            <numerusform>%n apparaten</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n device(s) (%1 disconnected)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n apparaat (%1 niet verbonden)</numerusform>
+            <numerusform>%n apparaten (%1 niet verbonden)</numerusform>
         </translation>
     </message>
 </context>
@@ -8420,336 +8431,336 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>ZoneView</name>
     <message>
         <source>No things in this zone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen dingen in deze zone.</translation>
     </message>
     <message>
         <source>In order for this zone zo be useful, assign some things to it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg een paar dingen aan deze zone toe, zodat je de zone kunt gebruiken.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg dingen toe</translation>
     </message>
 </context>
 <context>
     <name>description for accesscontroltemplates</name>
     <message>
         <source>Alert me on denied access attempts</source>
-        <translation type="unfinished"></translation>
+        <translation>Waarschuw me als de toegang wordt geweigerd</translation>
     </message>
     <message>
         <source>Notify my about access</source>
-        <translation type="unfinished"></translation>
+        <translation>Stuur me een melding over toegang</translation>
     </message>
     <message>
         <source>Notify my about user access</source>
-        <translation type="unfinished"></translation>
+        <translation>Stuur me een melding over gebruikerstoegang</translation>
     </message>
 </context>
 <context>
     <name>description for buttontemplates</name>
     <message>
         <source>Switch a light</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet een lamp aan of uit</translation>
     </message>
     <message>
         <source>Turn off all lights</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet alle lampen uit</translation>
     </message>
     <message>
         <source>Turn on lights</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet de lampen aan</translation>
     </message>
     <message>
         <source>Turn off lights</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet de lampen uit</translation>
     </message>
 </context>
 <context>
     <name>description for daylightsensor</name>
     <message>
         <source>Turn on a light while it&apos;s dark outside</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet een lamp aan als het buiten donker is</translation>
     </message>
     <message>
         <source>Turn on a light when it gets dark outside</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet een lamp aan als het buiten donker wordt</translation>
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet alle lampen aan als het buiten donker wordt</translation>
     </message>
 </context>
 <context>
     <name>description for doorbellruletemplates</name>
     <message>
         <source>Alert on doorbell ring</source>
-        <translation type="unfinished"></translation>
+        <translation>Waarschuwing als de deurbel gaat</translation>
     </message>
 </context>
 <context>
     <name>description for irrigationtemplates</name>
     <message>
         <source>Schedule an irrigation</source>
-        <translation type="unfinished"></translation>
+        <translation>Plan watergeven in</translation>
     </message>
 </context>
 <context>
     <name>description for lighttemplates</name>
     <message>
         <source>Wake up with light</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik een lamp als wekker</translation>
     </message>
 </context>
 <context>
     <name>description for mediatemplates</name>
     <message>
         <source>Dim light while watching TV</source>
-        <translation type="unfinished"></translation>
+        <translation>Dim de lamp tijdens het TV-kijken</translation>
     </message>
     <message>
         <source>Automatic night mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatische nachtstand</translation>
     </message>
     <message>
         <source>Play/pause music by button press</source>
-        <translation type="unfinished"></translation>
+        <translation>Speel/pauzeer de muziek als de knop wordt ingedrukt</translation>
     </message>
     <message>
         <source>Toggle mute by button press</source>
-        <translation type="unfinished"></translation>
+        <translation>Verander dempen als de knop wordt ingedrukt</translation>
     </message>
     <message>
         <source>Increase volume by button press</source>
-        <translation type="unfinished"></translation>
+        <translation>Verhoog het volume als de knop wordt ingedrukt</translation>
     </message>
     <message>
         <source>Decrease volume by button press</source>
-        <translation type="unfinished"></translation>
+        <translation>Verlaag het volume als de knop wordt ingedrukt</translation>
     </message>
 </context>
 <context>
     <name>description for notificationtemplates</name>
     <message>
         <source>Notify me when a device runs out of battery</source>
-        <translation type="unfinished"></translation>
+        <translation>Stuur me een melding als de batterij van een apparaat leegraakt</translation>
     </message>
     <message>
         <source>Notify me when a thing gets disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Stuur me een melding als een ding niet meer verbonden is</translation>
     </message>
     <message>
         <source>Notify me when a thing connects</source>
-        <translation type="unfinished"></translation>
+        <translation>Stuur me een melding als een ding verbinding maakt</translation>
     </message>
     <message>
         <source>Notify me when something dries out</source>
-        <translation type="unfinished"></translation>
+        <translation>Stuur me een melding als iets verdroogt</translation>
     </message>
 </context>
 <context>
     <name>description for presencesensortemplates</name>
     <message>
         <source>Turn on something while being present</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet iets aan als er iemand aanwezig is</translation>
     </message>
     <message>
         <source>Turn off something when leaving</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet iets uit bij vertrek</translation>
     </message>
     <message>
         <source>Turn off everything when leaving</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet alles uit bij vertrek</translation>
     </message>
     <message>
         <source>Turn off all lights when leaving</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet alle lampen uit bij vertrek</translation>
     </message>
     <message>
         <source>Turn on something when arriving</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet iets aan bij aankomst</translation>
     </message>
 </context>
 <context>
     <name>description for smartmetertemplates</name>
     <message>
         <source>Charge my car while producing energy</source>
-        <translation type="unfinished"></translation>
+        <translation>Laad mijn auto op als er energie wordt opgewekt</translation>
     </message>
     <message>
         <source>Turn on heating while producing energy</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet de verwarming aan als er energie wordt opgewekt</translation>
     </message>
 </context>
 <context>
     <name>description for thermostattemplates</name>
     <message>
         <source>Set temperature while I&apos;m home</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for accesscontroltemplates</name>
     <message>
         <source>Denied access attempt on %0</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegang geweigerd op %0</translation>
     </message>
     <message>
         <source>Access granted on %0</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegang toegestaan op %0</translation>
     </message>
     <message>
         <source>Access granted to user on %0</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegang toegestaan aan gebruiker op %0</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for buttontemplates</name>
     <message>
         <source>%0 turns on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%0 gaat aan %1</translation>
     </message>
     <message>
         <source>%0 turns off %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%0 gaat uit %1</translation>
     </message>
     <message>
         <source>%0 switches %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%0 verandert %1</translation>
     </message>
     <message>
         <source>Turn off everything with %0</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet alles uit met %0</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for daylightsensor</name>
     <message>
         <source>Turn on %1 while it&apos;s dark outside</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet %1 aan als het buiten donker is</translation>
     </message>
     <message>
         <source>Turn on %1 when it gets dark outside (%0)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet %1 aan als het buiten donker wordt (%0)</translation>
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet alle lampen aan als het buiten donker wordt</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for doorbellruletemplates</name>
     <message>
         <source>Alert %1 when someone is at %0</source>
-        <translation type="unfinished"></translation>
+        <translation>Waarschuw %1 als iemand bij %0 is</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for irrigationtemplates</name>
     <message>
         <source>Schedule for %0</source>
-        <translation type="unfinished"></translation>
+        <translation>Planning voor %0</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for lighttemplates</name>
     <message>
         <source>Wake up with %0</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik %0 als wekker</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for mediatemplates</name>
     <message>
         <source>%0 dims %1 for movie time</source>
-        <translation type="unfinished"></translation>
+        <translation>%0 dimt %1 bij het kijken van een film</translation>
     </message>
     <message>
         <source>Automatic night mode on %0</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatische nachtstand om %0</translation>
     </message>
     <message>
         <source>%1 toggles play/pause on %0</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 verandert spelen/pauzeren om %0</translation>
     </message>
     <message>
         <source>%1 toggles mute on %0</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 verandert dempen om %0</translation>
     </message>
     <message>
         <source>%1 increases volume on %0</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 verhoogt het volume om %0</translation>
     </message>
     <message>
         <source>%1 decreases volume on %0</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 verlaagt het volume om %0</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for notificationtemplates</name>
     <message>
         <source>Low battery alert for %0</source>
-        <translation type="unfinished"></translation>
+        <translation>Waarschuwing &apos;batterij leeg&apos; voor %0</translation>
     </message>
     <message>
         <source>Disconnect alert for %0</source>
-        <translation type="unfinished"></translation>
+        <translation>Waarschuwing &apos;niet verbonden&apos; voor %0</translation>
     </message>
     <message>
         <source>Connection notification for %0</source>
-        <translation type="unfinished"></translation>
+        <translation>Melding &apos;verbonden&apos; voor %0</translation>
     </message>
     <message>
         <source>Notify %1 when %0 dries out</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak melding bij %1 als %0 verdroogt</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for presencesensortemplates</name>
     <message>
         <source>Turn on %1 while %0 reports presence</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet %1 aan als %0 aanwezigheid registreert</translation>
     </message>
     <message>
         <source>Turn off %1 when %0 reports leaving</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet %1 uit als %0 vertrek registreert</translation>
     </message>
     <message>
         <source>Turn off everything when %0 reports leaving</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet alles uit als %0 vertrek registreert</translation>
     </message>
     <message>
         <source>Turn off all lights when %0 reports leaving</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet alle lampen uit als %0 vertrek registreert</translation>
     </message>
     <message>
         <source>Turn on %1 when %0 reports arriving</source>
-        <translation type="unfinished"></translation>
+        <translation>Zet %1 aan als %0 aankomst registreert</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for smartmetertemplates</name>
     <message>
         <source>Smart car charging</source>
-        <translation type="unfinished"></translation>
+        <translation>Slim opladen van de auto</translation>
     </message>
     <message>
         <source>Smart heating</source>
-        <translation type="unfinished"></translation>
+        <translation>Slimme verwarming</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for template</name>
     <message>
         <source>%0 ...</source>
-        <translation type="unfinished"></translation>
+        <translation>%0 ...</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for thermostattemplates</name>
     <message>
         <source>Set temperature while I&apos;m home</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel de temperatuur in als ik thuis ben</translation>
     </message>
 </context>
 </TS>
