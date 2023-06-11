@@ -245,12 +245,12 @@ Item {
                     id: valueAxis
                     min: logsModel.minValue == undefined || logsModel.minValue == 0
                          ? 0
-                         : logsModel.minValue - 5
+                         : root.stateType.minValue ? Math.max(logsModel.minValue - 5, root.stateType.minValue) : logsModel.minValue - 5
                     max: logsModel.maxValue == undefined || logsModel.maxValue == 0
                          ? 0
-                         : logsModel.maxValue + 5
+                         : root.stateType.maxValue ? Math.min(logsModel.maxValue + 5, root.stateType.maxValue) : logsModel.maxValue + 5
 
-                    labelFormat: "%0.0f " + Types.toUiUnit(root.stateType.unit)
+                    labelFormat: "%0." + labelsLayout.precision + "f " + Types.toUiUnit(root.stateType.unit)
                     gridLineColor: Style.tileOverlayColor
                     labelsVisible: false
                     lineVisible: false
@@ -270,6 +270,7 @@ Item {
                     visible: root.stateType.type.toLowerCase() != "bool" && logsModel.minValue != logsModel.maxValue
                     property double range: Math.abs(valueAxis.max - valueAxis.min)
                     property double stepSize: range / (valueAxis.tickCount - 1)
+                    property int precision: valueAxis.max - valueAxis.min < 5 ? 2 : 0
 
                     Repeater {
                         model: valueAxis.tickCount
@@ -279,7 +280,7 @@ Item {
                             horizontalAlignment: Text.AlignRight
                             property double offset: (valueAxis.tickCount - index - 1) * labelsLayout.stepSize
                             property double value: valueAxis.min + offset
-                            text: root.stateType ? Types.toUiValue(value, root.stateType.unit).toFixed(0) + " " + Types.toUiUnit(root.stateType.unit) : ""
+                            text: root.stateType ? Types.toUiValue(value, root.stateType.unit).toFixed(labelsLayout.precision) + " " + Types.toUiUnit(root.stateType.unit) : ""
                             verticalAlignment: Text.AlignTop
                             font: Style.extraSmallFont
                         }
