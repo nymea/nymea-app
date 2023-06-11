@@ -1,3 +1,10 @@
+nymea-app (1.8.13) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve charts axis labels for small value states
+
+ -- jenkins <developer@nymea.io>  Sun, 11 Jun 2023 19:43:35 +0200
+
 nymea-app (1.8.12) bionic; urgency=medium
 
   [ Michael Zanetti ]
