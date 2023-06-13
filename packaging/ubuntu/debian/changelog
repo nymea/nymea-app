@@ -1,3 +1,10 @@
+nymea-app (1.8.14) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Replace some Android support.v4 with androidx libraries
+
+ -- jenkins <developer@nymea.io>  Tue, 13 Jun 2023 19:32:25 +0200
+
 nymea-app (1.8.13) bionic; urgency=medium
 
   [ Michael Zanetti ]
