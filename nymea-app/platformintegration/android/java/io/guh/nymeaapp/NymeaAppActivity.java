@@ -28,6 +28,15 @@ import com.google.android.gms.tasks.OnFailureListener;
 
 import android.content.ComponentName;
 import androidx.lifecycle.MutableLiveData;
+import androidx.core.content.FileProvider;
+import androidx.core.app.ActivityCompat;
+import androidx.activity.result.contract.*;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+//import androidx.appcompat.app.AppCompatActivity;
 
 public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActivity
 {
@@ -39,41 +48,16 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
     private static native void locationServicesEnabledChangedJNI();
 
     private MutableLiveData m_commissionDeviceIntentSender = new MutableLiveData<IntentSender>();
-//    private ActivityResultLauncher<IntentSenderRequest> m_activityResultLauncher = new ActivityResultLauncher<IntentSenderRequest>();
+//    private ActivityResultLauncher<Intent> m_activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult());
 
 
-    private ActivityResultLauncher<IntentSenderRequest> m_activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(),
-    new ActivityResultCallback<Uri>() {
-            @Override
-            public void onActivityResult(Uri uri) {
-                // Handle the returned Uri
-//            // handle intent result here
-//            if (result.getResultCode() == RESULT_OK) {
-//                SignInCredential credential = null;
-//                try {
-//                    credential = oneTapClient.getSignInCredentialFromIntent(result.getData());
-//                    String idToken = credential.getGoogleIdToken();
-//                    String username = credential.getId();
-//                    String password = credential.getPassword();
-//                    if (idToken != null) {
-//                        // Got an ID token from Google. Use it to authenticate
-//                        // with your backend.
-//                        Log.d(TAG, "Got ID token.");
-//                    } else if (password != null) {
-//                        // Got a saved username and password. Use them to authenticate
-//                        // with your backend.
-//                        Log.d(TAG, "Got password.");
-//                    }
-//                } catch (ApiException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            else {
-//                //...
-//            }
-            }
-        });
-
+@Override
+protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+    Log.d(TAG, "************************ Activity result " + requestCode + " - " + resultCode);
+//    if (resultCode == Activity.RESULT_OK && requestCode == 123) {
+//        doSomeOperations();
+//    }
+}
 
 
     private BroadcastReceiver m_gpsSwitchStateReceiver = new BroadcastReceiver() {
@@ -92,6 +76,40 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
         this.context = getApplicationContext();
 
         ChipDeviceController.loadJni();
+
+
+//        m_activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(),
+//        new ActivityResultCallback<Uri>() {
+//                @Override
+//                public void onActivityResult(Uri uri) {
+//                    // Handle the returned Uri
+//    //            // handle intent result here
+//    //            if (result.getResultCode() == RESULT_OK) {
+//    //                SignInCredential credential = null;
+//    //                try {
+//    //                    credential = oneTapClient.getSignInCredentialFromIntent(result.getData());
+//    //                    String idToken = credential.getGoogleIdToken();
+//    //                    String username = credential.getId();
+//    //                    String password = credential.getPassword();
+//    //                    if (idToken != null) {
+//    //                        // Got an ID token from Google. Use it to authenticate
+//    //                        // with your backend.
+//    //                        Log.d(TAG, "Got ID token.");
+//    //                    } else if (password != null) {
+//    //                        // Got a saved username and password. Use them to authenticate
+//    //                        // with your backend.
+//    //                        Log.d(TAG, "Got password.");
+//    //                    }
+//    //                } catch (ApiException e) {
+//    //                    e.printStackTrace();
+//    //                }
+//    //            }
+//    //            else {
+//    //                //...
+//    //            }
+//                }
+//            });
+
     }
 
     public void onNewIntent (Intent intent) {
@@ -203,8 +221,11 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
             public void onSuccess(IntentSender result) {
                 Log.d(TAG, "Matter commissioning started!");
                 m_commissionDeviceIntentSender.postValue(result);
-                IntentSenderRequest request = IntentSenderRequest.Builder(result).build();
-                m_activityResultLauncher.launch(request);
+//                IntentSenderRequest request = IntentSenderRequest.Builder(result).build();
+//                m_activityResultLauncher.launch(request);
+
+                    Intent intent = new Intent(context, NymeaAppActivity.class);
+                    startActivityForResult(intent, 123);
             }
         })
         .addOnFailureListener(this, new OnFailureListener() {
