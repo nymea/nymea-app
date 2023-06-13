@@ -12,11 +12,11 @@ import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.os.Vibrator;
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
 import android.content.res.Configuration;
 import android.content.IntentFilter;
 import android.content.BroadcastReceiver;
 import android.location.LocationManager;
+import androidx.core.content.FileProvider;
 
 public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActivity
 {
