@@ -219,13 +219,19 @@ protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         .addOnSuccessListener(this, new OnSuccessListener<IntentSender>() {
             @Override
             public void onSuccess(IntentSender result) {
-                Log.d(TAG, "Matter commissioning started!");
+                Log.d(TAG, "Matter commissioning started! " + result.toString());
                 m_commissionDeviceIntentSender.postValue(result);
 //                IntentSenderRequest request = IntentSenderRequest.Builder(result).build();
 //                m_activityResultLauncher.launch(request);
 
-                    Intent intent = new Intent(context, NymeaAppActivity.class);
-                    startActivityForResult(intent, 123);
+                try {
+                    startIntentSender(result, null, 0, 0, 0);
+                } catch (Exception e) {
+                    Log.d(TAG, "Exception: " + e.toString());
+                }
+
+//                    Intent intent = new Intent(context, NymeaAppActivity.class);
+//                    startActivityForResult(intent, 123);
             }
         })
         .addOnFailureListener(this, new OnFailureListener() {

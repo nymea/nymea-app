@@ -122,7 +122,7 @@ android {
     }
 
     ANDROID_EXTRA_LIBS += $${top_srcdir}/3rdParty/android/CHIP/jniLibs/armeabi-v7a/libCHIPController.so \
-    $${top_srcdir}/3rdParty/android/CHIP/jniLibs/armeabi-v7a/libCHIPController.so \
+    $${top_srcdir}/3rdParty/android/CHIP/jniLibs/arm64-v8a/libCHIPController.so \
     $${top_srcdir}/3rdParty/android/CHIP/jniLibs/x86_64/libCHIPController.so \
     $${top_srcdir}/3rdParty/android/CHIP/jniLibs/x86/libCHIPController.so
 }
