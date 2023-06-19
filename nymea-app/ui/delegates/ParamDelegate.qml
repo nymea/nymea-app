@@ -59,14 +59,17 @@ ItemDelegate {
                                            && loader.sourceComponent !== stringComponent
             Label {
                 id: nameLabel
-                Layout.fillWidth: parent.labelFillsWidth
+                Layout.fillWidth: true//parent.labelFillsWidth
                 //                Layout.minimumWidth: parent.width / 2
                 text: root.paramType.displayName
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                font: Style.smallFont
                 elide: Text.ElideRight
             }
             Loader {
                 id: loader
                 Layout.fillWidth: !parent.labelFillsWidth
+                Layout.maximumWidth: parent.width / 2
                 sourceComponent: {
                     print("Loading ParamDelegate");
                     print("Writable:", root.writable, "type:", root.paramType.type, "min:", root.paramType.minValue, "max:", root.paramType.maxValue, "value:", root.param.value)
