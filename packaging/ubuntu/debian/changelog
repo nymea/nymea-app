@@ -1,3 +1,10 @@
+nymea-app (1.8.15) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve param delegates
+
+ -- jenkins <developer@nymea.io>  Mon, 19 Jun 2023 16:02:19 +0200
+
 nymea-app (1.8.14) bionic; urgency=medium
 
   [ Michael Zanetti ]
