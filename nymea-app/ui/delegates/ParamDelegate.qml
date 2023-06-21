@@ -53,8 +53,10 @@ ItemDelegate {
     bottomPadding: 0
     contentItem: ColumnLayout {
         id: contentItemColumn
+        anchors.fill: parent
         RowLayout {
-            spacing: app.margins
+            Layout.fillWidth: true
+            spacing: Style.margins
             property bool labelFillsWidth: loader.sourceComponent !== textFieldComponent
                                            && loader.sourceComponent !== stringComponent
             Label {
@@ -68,8 +70,8 @@ ItemDelegate {
             }
             Loader {
                 id: loader
-                Layout.fillWidth: !parent.labelFillsWidth
-                Layout.maximumWidth: parent.width / 2
+                Layout.fillWidth: true//!parent.labelFillsWidth
+                Layout.maximumWidth: root.nameVisible ? contentItemColumn.width / 2 : contentItemColumn.width
                 sourceComponent: {
                     print("Loading ParamDelegate");
                     print("Writable:", root.writable, "type:", root.paramType.type, "min:", root.paramType.minValue, "max:", root.paramType.maxValue, "value:", root.param.value)
@@ -124,7 +126,9 @@ ItemDelegate {
                 return null;
             }
         }
+
     }
+
 
     Component {
         id: stringComponent
@@ -166,7 +170,7 @@ ItemDelegate {
     Component {
         id: sliderComponent
         RowLayout {
-            spacing: app.margins
+            spacing: Style.margins
 
             Slider {
                 id: slider
@@ -215,7 +219,7 @@ ItemDelegate {
     Component {
         id: spinnerComponent
         RowLayout {
-            spacing: app.margins
+            spacing: Style.margins
 
             NymeaSpinBox {
                 id: spinbox
