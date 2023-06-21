@@ -1,3 +1,10 @@
+nymea-app (1.8.16) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix paramdelegate for editing rules
+
+ -- jenkins <developer@nymea.io>  Wed, 21 Jun 2023 20:13:57 +0200
+
 nymea-app (1.8.15) bionic; urgency=medium
 
   [ Michael Zanetti ]
