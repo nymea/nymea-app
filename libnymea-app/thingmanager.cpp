@@ -129,7 +129,6 @@ void ThingManager::notificationReceived(const QVariantMap &data)
         }
         QUuid stateTypeId = params.value("stateTypeId").toUuid();
         QVariant value = params.value("value");
-//        qDebug() << "Thing state changed for:" << dev->name() << "State name:" << dev->thingClass()->stateTypes()->getStateType(stateTypeId) << "value:" << value;
         State *state = thing->state(stateTypeId);
         state->setValue(value);
         if (params.contains("minValue")) {
@@ -137,6 +136,9 @@ void ThingManager::notificationReceived(const QVariantMap &data)
         }
         if (params.contains("maxValue")) {
             state->setMaxValue(params.value("maxValue"));
+        }
+        if (params.contains("possibleValues")) {
+            state->setPossibleValues(params.value("possibleValues").toList());
         }
         emit thingStateChanged(thing->id(), stateTypeId, value);
     } else if (notification == "Integrations.ThingAdded") {
@@ -851,7 +853,14 @@ StateType *ThingManager::unpackStateType(const QVariantMap &stateTypeMap, QObjec
     stateType->setDisplayName(stateTypeMap.value("displayName").toString());
     stateType->setIndex(stateTypeMap.value("index").toInt());
     stateType->setDefaultValue(stateTypeMap.value("defaultValue"));
-    stateType->setAllowedValues(stateTypeMap.value("possibleValues").toList());
+    QVariantList possibleValuesList = stateTypeMap.value("possibleValues").toList();
+    QVariantList possibleValuesNamesList = stateTypeMap.value("possibleValuesDisplayNames").toList();
+    QStringList possibleValuesDisplayNames;
+    for (int i = 0; i < possibleValuesList.count(); i++) {
+        QVariant possibleValue = possibleValuesList.at(i);
+        possibleValuesDisplayNames.append(possibleValuesNamesList.count() > i ? possibleValuesNamesList.at(i).toString() : possibleValue.toString());
+    }
+    stateType->setPossibleValues(stateTypeMap.value("possibleValues").toList(), possibleValuesDisplayNames);
     stateType->setType(stateTypeMap.value("type").toString());
     stateType->setMinValue(stateTypeMap.value("minValue"));
     stateType->setMaxValue(stateTypeMap.value("maxValue"));
@@ -861,6 +870,7 @@ StateType *ThingManager::unpackStateType(const QVariantMap &stateTypeMap, QObjec
     Types::IOType ioType = static_cast<Types::IOType>(metaEnum.keyToValue(stateTypeMap.value("ioType").toByteArray()));
     stateType->setIOType(ioType);
 
+    qCritical() << "*** possible vals" << stateType->name() << possibleValuesDisplayNames << stateTypeMap.value("possibleValuesDisplayNames").toList();
     return stateType;
 }
 
@@ -980,6 +990,11 @@ Thing* ThingManager::unpackThing(ThingManager *thingManager, const QVariantMap &
             state->setMaxValue(stateMap.value("maxValue"));
         } else {
             state->setMaxValue(stateType->maxValue());
+        }
+        if (stateMap.contains("possibleValues")) {
+            state->setPossibleValues(stateMap.value("possibleValues").toList());
+        } else {
+            state->setPossibleValues(stateType->possibleValues());
         }
     }
     thing->setStates(states);

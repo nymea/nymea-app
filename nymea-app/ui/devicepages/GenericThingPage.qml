@@ -199,7 +199,7 @@ ThingPageBase {
                 switch (stateDelegate.stateType.type.toLowerCase()) {
                 case "string":
                     if (isWritable) {
-                        if (stateDelegate.stateType.allowedValues.length > 0) {
+                        if (stateDelegate.stateType.possibleValues.length > 0) {
                             sourceComp = "ComboBoxDelegate.qml"
                         } else {
                             sourceComp = "TextFieldDelegate.qml";
@@ -252,12 +252,12 @@ ThingPageBase {
                 var maxValue = stateDelegate.stateType.maxValue !== undefined
                         ? stateDelegate.stateType.maxValue
                         : 2000000000;
-                print(stateDelegate.stateType.minValue)
-                print("pushing delegate for", stateDelegate.stateType.name, "from:", minValue, "to:", maxValue)
+                print("pushing delegate for", stateDelegate.stateType.name, "from:", minValue, "to:", maxValue, "possible:", stateDelegate.stateType.possibleValuesDisplayNames)
                 stateDelegateLoader.setSource("../delegates/statedelegates/" + sourceComp,
                                               {
-//                                                  value: root.thing.states.getState(stateType.id).value,
-                                                  possibleValues: stateDelegate.stateType.allowedValues,
+                                                  value: root.thing.states.getState(stateType.id).value,
+                                                  possibleValues: stateDelegate.stateType.possibleValues,
+                                                  possibleValuesDisplayNames: stateDelegate.stateType.possibleValuesDisplayNames,
                                                   from: minValue,
                                                   to: maxValue,
                                                   unit: stateDelegate.stateType.unit,
@@ -307,6 +307,30 @@ ThingPageBase {
                 value: stateDelegate.thingState.maxValue
             }
             Binding {
+                target: stateDelegateLoader.item.hasOwnProperty("possibleValues") ? stateDelegateLoader.item : null
+                property: "possibleValues"
+                value: stateDelegate.thingState.possibleValues
+            }
+            Binding {
+                target: stateDelegateLoader.item.hasOwnProperty("possibleValuesDisplayNames") ? stateDelegateLoader.item : null
+                property: "possibleValuesDisplayNames"
+                value: {
+                    print("updating displayNames", stateDelegate.thingState.possibleValues)
+                    var ret = []
+                    for (var i = 0; i < stateDelegate.thingState.possibleValues.length; i++) {
+                        var possibleValue = stateDelegate.thingState.possibleValues[i]
+                        var idx = stateDelegate.stateType.possibleValues.indexOf(possibleValue)
+                        print("value:", possibleValue, idx)
+                        if (idx >= 0) {
+                            ret.push(stateDelegate.stateType.possibleValuesDisplayNames[idx])
+                        } else {
+                            ret.push(possibleValue)
+                        }
+                    }
+                    return ret
+                }
+            }
+            Binding {
                 target: stateDelegateLoader.item.hasOwnProperty("unit") ? stateDelegateLoader.item : null
                 property: "unit"
                 value: stateDelegate.stateType.unit
@@ -315,6 +339,7 @@ ThingPageBase {
             Connections {
                 target: stateDelegateLoader.item && stateDelegateLoader.item.hasOwnProperty("changed") ? stateDelegateLoader.item : null
                 onChanged: {
+                    print("Value changed:", value)
                     stateDelegate.enqueueSetValue(value)
                 }
             }

@@ -79,6 +79,7 @@ ThingsListPageBase {
                         property bool isConsumer: itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0
                         property bool isProduction: currentPowerState.value < 0
                         property bool isConsumption: currentPowerState.value > 0
+                        property bool isIdling: currentPowerState.value === 0
                         property double absValue: Math.abs(currentPowerState.value)
                         property double cleanVale: (absValue / (absValue > 1000 ? 1000 : 1)).toFixed(1)
                         property string unit: absValue > 1000 ? "kW" : "W"
@@ -105,9 +106,11 @@ ThingsListPageBase {
                                     if (dataGrid.isProduction) {
                                         //: e.g. Discharging at 5kW
                                         return qsTr("Discharging at %1").arg(dataGrid.cleanVale + " " + dataGrid.unit)
-                                    } else {
+                                    } else if (dataGrid.isConsumption){
                                         //: e.g. Charging at 5kW
                                         return qsTr("Charging at %1").arg(dataGrid.cleanVale + " "  + dataGrid.unit)
+                                    } else {
+                                        return qsTr("Idling")
                                     }
 
                                 } else if (dataGrid.isProducer && !dataGrid.isConsumer) {

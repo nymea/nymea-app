@@ -46,7 +46,9 @@ class StateType : public QObject
     Q_PROPERTY(QString type READ type CONSTANT)
     Q_PROPERTY(int index READ index CONSTANT)
     Q_PROPERTY(QVariant defaultValue READ defaultValue CONSTANT)
-    Q_PROPERTY(QVariantList allowedValues READ allowedValues CONSTANT)
+    Q_PROPERTY(QVariantList allowedValues READ possibleValues CONSTANT) // Deprecated
+    Q_PROPERTY(QVariantList possibleValues READ possibleValues CONSTANT)
+    Q_PROPERTY(QStringList possibleValuesDisplayNames READ possibleValuesDisplayNames CONSTANT)
     Q_PROPERTY(Types::Unit unit READ unit CONSTANT)
     Q_PROPERTY(Types::IOType ioType READ ioType CONSTANT)
     Q_PROPERTY(QVariant minValue READ minValue CONSTANT)
@@ -74,8 +76,10 @@ public:
     QVariant defaultValue() const;
     void setDefaultValue(const QVariant &defaultValue);
 
-    QVariantList allowedValues() const;
-    void setAllowedValues(const QVariantList &allowedValues);
+    QVariantList possibleValues() const;
+    QStringList possibleValuesDisplayNames() const;
+    void setPossibleValues(const QVariantList &values, const QStringList &displayNames);
+    Q_INVOKABLE QString localizedValue(const QVariant &value) const;
 
     Types::Unit unit() const;
     void setUnit(const Types::Unit &unit);
@@ -96,7 +100,8 @@ private:
     QString m_type;
     int m_index;
     QVariant m_defaultValue;
-    QVariantList m_allowedValues;
+    QVariantList m_possibleValues;
+    QStringList m_possibleValuesDisplayNames;
     Types::Unit m_unit = Types::UnitNone;
     Types::IOType m_ioType = Types::IOTypeNone;
     QVariant m_minValue;

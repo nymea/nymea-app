@@ -100,14 +100,27 @@ void StateType::setDefaultValue(const QVariant &defaultValue)
     m_defaultValue = defaultValue;
 }
 
-QVariantList StateType::allowedValues() const
+QVariantList StateType::possibleValues() const
 {
-    return m_allowedValues;
+    return m_possibleValues;
 }
 
-void StateType::setAllowedValues(const QVariantList &allowedValues)
+void StateType::setPossibleValues(const QVariantList &values, const QStringList &displayNames)
 {
-    m_allowedValues = allowedValues;
+    Q_ASSERT_X(values.count() == displayNames.count(), "StateType", "Display names list length does not match values list length");
+    m_possibleValues = values;
+    m_possibleValuesDisplayNames = displayNames;
+}
+
+QStringList StateType::possibleValuesDisplayNames() const
+{
+    return m_possibleValuesDisplayNames;
+}
+
+QString StateType::localizedValue(const QVariant &value) const
+{
+    int idx = m_possibleValues.indexOf(value);
+    return m_possibleValuesDisplayNames.at(idx);
 }
 
 Types::Unit StateType::unit() const
