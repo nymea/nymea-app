@@ -87,3 +87,16 @@ void State::setMaxValue(const QVariant &maxValue)
         emit maxValueChanged();
     }
 }
+
+QVariantList State::possibleValues() const
+{
+    return m_possibleValues;
+}
+
+void State::setPossibleValues(const QVariantList &possibleValues)
+{
+    if (m_possibleValues != possibleValues) {
+        m_possibleValues = possibleValues;
+        emit possibleValuesChanged();
+    }
+}

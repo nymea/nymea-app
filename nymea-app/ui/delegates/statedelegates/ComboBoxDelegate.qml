@@ -36,12 +36,35 @@ import Nymea 1.0
 import "../../components"
 
 ComboBox {
+    id: root
     property var value
     property var possibleValues
+    property var possibleValuesDisplayNames
 
     signal changed(var value)
-    model: possibleValues
-    currentIndex: possibleValues.indexOf(value)
-    onActivated: changed(model[index])
-    Component.onCompleted: print("completed. values", possibleValues, "value", value)
+
+    function update() {
+        print("possible:", root.possibleValues, root.possibleValuesDisplayNames)
+        listModel.clear();
+        for (var i = 0; i < root.possibleValues.length; i++) {
+            var value = root.possibleValues[i]
+            var label = root.possibleValuesDisplayNames.length > i ? root.possibleValuesDisplayNames[i] : root.possibleValues[i]
+            listModel.append({value: value, label: label})
+        }
+        currentIndex = possibleValues.indexOf(root.value)
+    }
+
+    model: ListModel {
+        id: listModel
+    }
+    onActivated: changed(model.get(index).value)
+    textRole: "label"
+    Component.onCompleted: {
+        print("completed. values", possibleValues, "value", root.value)
+        update();
+    }
+    onPossibleValuesChanged: {
+        print("Possible values changed:", possibleValues)
+        update();
+    }
 }

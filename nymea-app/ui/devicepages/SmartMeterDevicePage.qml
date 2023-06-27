@@ -240,11 +240,13 @@ ThingPageBase {
                         ? qsTr("Total production: %1 kWh").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + root.totalEnergyProducedState.value.toFixed(2) + "</span>")
                         : root.isEnergyMeter
                           ? qsTr("Total acquisition: %1 kWh").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + root.totalEnergyConsumedState.value.toFixed(2) + "</span>") + "<br>" + qsTr("Total return: %1 kWh").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + root.totalEnergyProducedState.value.toFixed(2) + "</span>")
-                          : root.isBattery && isCharging
-                            ? qsTr("At the current rate, the battery will be fully charged at %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
-                            : root.isBattery && isDischarging
-                              ? qsTr("At the current rate, the battery will last until %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
-                              : ""
+                          : root.isBattery && root.batteryLevelState.value === 0
+                            ? qsTr("The battery is empty")
+                            : root.isBattery && root.isCharging
+                              ? qsTr("At the current rate, the battery will be fully charged at %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
+                              : root.isBattery && root.isDischarging
+                                ? qsTr("At the current rate, the battery will last until %1.").arg('<span style="font-size:' + Style.bigFont.pixelSize + 'px">' + endTime.toLocaleTimeString(Locale.ShortFormat) + "</span>")
+                                : ""
             }
         }
     }

@@ -43,6 +43,7 @@ class State : public QObject
     Q_PROPERTY(QVariant value READ value NOTIFY valueChanged)
     Q_PROPERTY(QVariant minValue READ minValue NOTIFY minValueChanged)
     Q_PROPERTY(QVariant maxValue READ maxValue NOTIFY maxValueChanged)
+    Q_PROPERTY(QVariantList possibleValues READ possibleValues NOTIFY possibleValuesChanged)
 
 public:
     explicit State(const QUuid &thingId, const QUuid &stateTypeId, const QVariant &value, QObject *parent = nullptr);
@@ -59,18 +60,22 @@ public:
     QVariant maxValue() const;
     void setMaxValue(const QVariant &maxValue);
 
+    QVariantList possibleValues() const;
+    void setPossibleValues(const QVariantList &possibleValues);
+
 private:
     QUuid m_thingId;
     QUuid m_stateTypeId;
     QVariant m_value;
     QVariant m_minValue;
     QVariant m_maxValue;
+    QVariantList m_possibleValues;
 
 signals:
     void valueChanged();
     void minValueChanged();
     void maxValueChanged();
-
+    void possibleValuesChanged();
 };
 
 #endif // STATE_H

@@ -54,6 +54,8 @@ ItemDelegate {
     contentItem: ColumnLayout {
         id: contentItemColumn
         anchors.fill: parent
+        anchors.leftMargin: Style.margins
+        anchors.rightMargin: Style.margins
         RowLayout {
             Layout.fillWidth: true
             spacing: Style.margins
