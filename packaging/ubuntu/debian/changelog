@@ -1,3 +1,10 @@
+nymea-app (1.8.18) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for dynamic and localized possibleValues on states
+
+ -- jenkins <developer@nymea.io>  Wed, 28 Jun 2023 12:44:15 +0200
+
 nymea-app (1.8.17) bionic; urgency=medium
 
   [ alpha-rd ]
