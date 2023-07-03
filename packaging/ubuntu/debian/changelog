@@ -1,3 +1,10 @@
+nymea-app (1.8.19) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix SSL enabled checkbox when editing a tunnel proxy connection
+
+ -- jenkins <developer@nymea.io>  Mon, 03 Jul 2023 17:34:08 +0200
+
 nymea-app (1.8.18) bionic; urgency=medium
 
   [ Michael Zanetti ]
