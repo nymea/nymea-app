@@ -143,6 +143,6 @@ void TunnelProxyServerConfiguration::setIgnoreSslErrors(bool ignoreSslErrors)
 
 ServerConfiguration *TunnelProxyServerConfiguration::clone() const
 {
-    TunnelProxyServerConfiguration *ret = new TunnelProxyServerConfiguration(id(), address(), port(), authenticationEnabled(), ignoreSslErrors());
+    TunnelProxyServerConfiguration *ret = new TunnelProxyServerConfiguration(id(), address(), port(), authenticationEnabled(), sslEnabled(), ignoreSslErrors());
     return ret;
 }
