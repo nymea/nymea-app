@@ -276,6 +276,7 @@ SettingsPageBase {
                         })
                     }
                 }
+            }
 
             SettingsPageSectionHeader {
                 text: qsTr("Manage users for this %1 system").arg(Configuration.systemName)
