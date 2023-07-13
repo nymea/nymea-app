@@ -211,7 +211,7 @@ protected void onActivityResult (int requestCode, int resultCode, Intent data) {
 
         CommissioningRequest commissionDeviceRequest =
             CommissioningRequest.builder()
-//                .setCommissioningService(new ComponentName(context, NymeaAppService.class))
+                .setCommissioningService(new ComponentName(context, NymeaAppService.class))
                 .build();
 
         Matter.getCommissioningClient(context)
