@@ -7,6 +7,10 @@ import android.util.Log;
 import org.qtproject.qt5.android.bindings.QtService;
 
 
+import androidx.activity.*;
+import android.window.OnBackInvokedDispatcher;
+import android.window.OnBackInvokedCallback;
+
 import com.google.android.gms.home.matter.commissioning.CommissioningCompleteMetadata;
 import com.google.android.gms.home.matter.commissioning.CommissioningRequestMetadata;
 import com.google.android.gms.home.matter.commissioning.CommissioningService;
@@ -24,14 +28,15 @@ public class NymeaAppService extends QtService implements CommissioningService.C
 
     private static final String TAG = "nymea-app: NymeaAppService";
 
+    CommissioningService m_commissioningServiceDelegate;
+
     @Override
     public void onCreate() {
+        Log.i(TAG, "Creating Service 1");
         super.onCreate();
-        Log.i(TAG, "Creating Service");
+        Log.i(TAG, "Creating Service 2");
 
-
-
-        CommissioningService commissioningService = new CommissioningService.Builder(this).setCallback(this).build();
+        m_commissioningServiceDelegate = new CommissioningService.Builder(this).setCallback(this).build();
 
     }
 

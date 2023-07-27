@@ -75,7 +75,10 @@ protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         super.onCreate(savedInstanceState);
         this.context = getApplicationContext();
 
+
+
         ChipDeviceController.loadJni();
+
 
 
 //        m_activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(),
@@ -211,7 +214,8 @@ protected void onActivityResult (int requestCode, int resultCode, Intent data) {
 
         CommissioningRequest commissionDeviceRequest =
             CommissioningRequest.builder()
-                .setCommissioningService(new ComponentName(context, NymeaAppService.class))
+                .setCommissioningService(new ComponentName(context, MatterCommissioningService.class))
+//                .setCommissioningService(new ComponentName(context, NymeaAppActivity.class))
                 .build();
 
         Matter.getCommissioningClient(context)
@@ -242,4 +246,5 @@ protected void onActivityResult (int requestCode, int resultCode, Intent data) {
             }
         });
     }
+
 }

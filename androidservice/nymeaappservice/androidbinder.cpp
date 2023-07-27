@@ -15,10 +15,10 @@ AndroidBinder::AndroidBinder(NymeaAppService *service):
 
 bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndroidParcel &reply, QAndroidBinder::CallType flags)
 {
-    qDebug() << "onTransact: code " << code << ", flags " << int(flags);
 
 //    QString payload = data.readData();
     QString payload = data.handle().callObjectMethod<jstring>("readString").toString();
+    qDebug() << "onTransact: code " << code << ", flags " << int(flags) << payload;
 
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(payload.toUtf8(), &error);

@@ -46,6 +46,7 @@ HEADERS += \
 
 DISTFILES += \
     java/io/guh/nymeaapp/Action.java \
+    java/io/guh/nymeaapp/ChipClient.java \
     java/io/guh/nymeaapp/NymeaAppControlService.java \
     java/io/guh/nymeaapp/NymeaAppService.java \
     java/io/guh/nymeaapp/NymeaAppControlsActivity.java \
@@ -53,4 +54,5 @@ DISTFILES += \
     java/io/guh/nymeaapp/Thing.java \
     java/io/guh/nymeaapp/State.java \
     java/io/guh/nymeaapp/NymeaHost.java \
+    java/io/guh/nymeaapp/MatterCommissioningService.java \
     controlviews/Main.qml

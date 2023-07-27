@@ -11,7 +11,11 @@ int main(int argc, char *argv[])
 {
     qWarning() << "Service starting from a separate .so file";
 
-    QLoggingCategory::setFilterRules("qt.remoteobjects.debug=true\n");
+    QLoggingCategory::setFilterRules("qt.remoteobjects.debug=false\n"
+                                     "JsonRpc.debug=false\n"
+                                     "RuleManager.debug=false\n"
+                                     "NymeaConfiguration.debug=false\n"
+                                     "ThingManager.debug=false\n");
 
     QStringList args;
     for (int i = 0; i < argc; i++) {

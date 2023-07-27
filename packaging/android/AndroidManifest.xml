@@ -96,7 +96,7 @@
             <meta-data android:name="android.app.splash_screen_sticky" android:value="true"/>
         </activity>
         <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
-        <service android:name="io.guh.nymeaapp.NymeaAppService" android:process=":qt_service">
+        <service android:name="io.guh.nymeaapp.NymeaAppService" android:process=":qt_service" android:enableOnBackInvokedCallback="true">
             <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
             <meta-data android:name="android.app.repository" android:value="default"/>
             <meta-data android:name="android.app.qt_libs_resource_id" android:resource="@array/qt_libs"/>
@@ -114,6 +114,9 @@
             <meta-data android:name="android.app.background_running" android:value="true"/>
             <!-- Background running -->
             <meta-data android:name="android.app.lib_name" android:value="service"/>
+        </service>
+        <service android:name="io.guh.nymeaapp.MatterCommissioningService" android:exported="true">
+            <meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/>
         </service>
         <service android:name="com.google.firebase.messaging.MessageForwardingService">
             <meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/>
