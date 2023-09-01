@@ -1,3 +1,10 @@
+nymea-app (1.8.20) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a confirmation dialog when removing hosts
+
+ -- jenkins <developer@nymea.io>  Fri, 01 Sep 2023 12:37:02 +0200
+
 nymea-app (1.8.19) bionic; urgency=medium
 
   [ Michael Zanetti ]
