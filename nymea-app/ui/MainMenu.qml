@@ -29,6 +29,11 @@ Drawer {
 
     onClosed: topSectionLayout.configureConnections = false;
 
+    Settings {
+        id: tokenSettings
+        category: "jsonTokens"
+    }
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -107,11 +112,6 @@ Drawer {
                                 imageSource: "/ui/images/close.svg"
                                 visible: topSectionLayout.configureConnections && (autoConnectHost.length === 0 || index > 0)
                                 longpressEnabled: false
-
-                                Settings {
-                                    id: tokenSettings
-                                    category: "jsonTokens"
-                                }
                             }
                         }
 
@@ -156,9 +156,29 @@ Drawer {
                                 height: width
                                 enabled: topSectionLayout.configureConnections
                                 onClicked: {
-                                    tokenSettings.setValue(hostDelegate.configuredHost.uuid, "")
-                                    configuredHostsModel.removeHost(index)
+                                    print("host is:", hostDelegate.configuredHost.uuid)
+                                    if (hostDelegate.configuredHost.uuid != "{00000000-0000-0000-0000-000000000000}") {
+                                        var popup = askCloseDialog.createObject(app, {uuid: hostDelegate.configuredHost.uuid, index: index})
+                                        popup.open();
+                                    } else {
+                                        configuredHostsModel.removeHost(index)
+                                    }
                                 }
+                            }
+                        }
+                    }
+
+                    Component {
+                        id: askCloseDialog
+                        NymeaDialog {
+                            property string uuid
+                            property int index
+                            title: qsTr("Are you sure?")
+                            text: qsTr("Do you want to log out from %1 and remove it from your connections?").arg(configuredHostsModel.get(index).name)
+                            standardButtons: Dialog.Yes | Dialog.No
+                            onAccepted: {
+                                tokenSettings.setValue(uuid, "")
+                                configuredHostsModel.removeHost(index)
                             }
                         }
                     }
