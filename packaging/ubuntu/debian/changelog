@@ -1,3 +1,11 @@
+nymea-app (1.8.21) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add czech translation
+  * Remove debug print leftover
+
+ -- jenkins <developer@nymea.io>  Thu, 07 Sep 2023 15:42:57 +0200
+
 nymea-app (1.8.20) bionic; urgency=medium
 
   [ Michael Zanetti ]
