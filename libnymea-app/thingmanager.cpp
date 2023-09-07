@@ -870,7 +870,6 @@ StateType *ThingManager::unpackStateType(const QVariantMap &stateTypeMap, QObjec
     Types::IOType ioType = static_cast<Types::IOType>(metaEnum.keyToValue(stateTypeMap.value("ioType").toByteArray()));
     stateType->setIOType(ioType);
 
-    qCritical() << "*** possible vals" << stateType->name() << possibleValuesDisplayNames << stateTypeMap.value("possibleValuesDisplayNames").toList();
     return stateType;
 }
 
