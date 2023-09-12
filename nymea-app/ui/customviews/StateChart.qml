@@ -59,13 +59,25 @@ Item {
         startTime: new Date(d.startTime.getTime() - d.range * 1.1 * 60000)
         endTime: new Date(d.endTime.getTime() + d.range * 1.1 * 60000)
         sampleRate: d.sampleRate
+        sortOrder: Qt.DescendingOrder
 
         Component.onCompleted: {
-            if (source != "") {
+            print("****** completed")
+            ready = true
+            update()
+        }
+        property bool ready: false
+        onSourceChanged: {
+            print("***** source changed")
+            update()
+        }
+
+        function update() {
+            print("*********+ source", source, "start", startTime, "end", endTime, ready)
+            if (ready && source != "") {
                 fetchLogs()
             }
         }
-        onSourceChanged: fetchLogs()
 
         property double minValue
         property double maxValue
@@ -74,7 +86,7 @@ Item {
             print("**** entries added", index, count, "entries in series:", valueSeries.count, "in model", logsModel.count)
             for (var i = 0; i < count; i++) {
                 var entry = logsModel.get(i)
-                //                print("entry", entry.timestamp, entry.source, JSON.stringify(entry.values))
+                                print("entry", entry.timestamp, entry.source, JSON.stringify(entry.values))
                 zeroSeries.ensureValue(entry.timestamp)
 
                 if (root.stateType.type.toLowerCase() == "bool") {
@@ -86,8 +98,8 @@ Item {
 
                     // for booleans, we'll insert the opposite value right before the new one so the position is doubled
                     var insertIdx = (index + i) * 2
-                    valueSeries.insert(insertIdx, entry.timestamp.getTime() - 500, !value)
-                    valueSeries.insert(insertIdx+1, entry.timestamp, value)
+                    valueSeries.insert(insertIdx+1, entry.timestamp.getTime() - 500, !value)
+                    valueSeries.insert(insertIdx, entry.timestamp, value)
 
                 } else {
                     var value = entry.values[root.stateType.name]
@@ -105,9 +117,9 @@ Item {
             }
 
             if (root.stateType.type.toLowerCase() == "bool") {
-                var last = valueSeries.at(valueSeries.count-1);
+                var last = valueSeries.at(0);
                 if (last.x < d.endTime) {
-                    valueSeries.append(d.endTime, last.y)
+                    valueSeries.insert(0, d.endTime, last.y)
                     zeroSeries.ensureValue(d.endTime)
                 }
             }
@@ -333,22 +345,22 @@ Item {
                     borderWidth: 2
                     lowerSeries: LineSeries {
                         id: zeroSeries
-                        XYPoint { x: dateTimeAxis.min.getTime(); y: 0 }
                         XYPoint { x: dateTimeAxis.max.getTime(); y: 0 }
+                        XYPoint { x: dateTimeAxis.min.getTime(); y: 0 }
                         function ensureValue(timestamp) {
                             if (count == 0) {
                                 append(timestamp, 0)
                             } else if (count == 1) {
                                 if (timestamp.getTime() < at(0).x) {
-                                    insert(0, timestamp, 0)
-                                } else {
                                     append(timestamp, 0)
+                                } else {
+                                    insert(0, timestamp, 0)
                                 }
                             } else {
-                                if (timestamp.getTime() < at(0).x) {
+                                if (timestamp.getTime() > at(0).x) {
                                     remove(0)
                                     insert(0, timestamp, 0)
-                                } else if (timestamp.getTime() > at(1).x) {
+                                } else if (timestamp.getTime() < at(1).x) {
                                     remove(1)
                                     append(timestamp, 0)
                                 }
