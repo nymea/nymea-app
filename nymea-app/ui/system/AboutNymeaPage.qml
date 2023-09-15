@@ -97,5 +97,16 @@ SettingsPageBase {
                 ToolTip.show(qsTr("Serial copied to clipboard"), 500);
             }
         }
+        NymeaSwipeDelegate {
+            Layout.fillWidth: true
+            text: qsTr("Consolinno HEMS version")
+            subText: engine.jsonRpcClient.experiences.Hems
+            progressive: false
+            prominentSubText: false
+            onClicked: {
+                PlatformHelper.toClipBoard(engine.jsonRpcClient.experiences.Hems)
+                ToolTip.show(qsTr("HEMS version copied to clipboard"), 500);
+            }
+        }
     }
 }
