@@ -63,7 +63,8 @@ MainViewBase {
         "folder": "DashboardFolderDelegate.qml",
         "graph": "DashboardGraphDelegate.qml",
         "scene": "DashboardSceneDelegate.qml",
-        "webview": "DashboardWebViewDelegate.qml"
+        "webview": "DashboardWebViewDelegate.qml",
+        "state": "DashboardStateDelegate.qml"
     }
 
     onEditModeChanged: {

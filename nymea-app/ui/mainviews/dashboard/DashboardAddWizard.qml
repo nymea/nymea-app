@@ -77,6 +77,14 @@ NymeaDialog {
             }
             NymeaItemDelegate {
                 Layout.fillWidth: true
+                text: qsTr("State")
+                iconName: "state"
+                onClicked: {
+                    internalPageStack.push(addStateSelectThingComponent)
+                }
+            }
+            NymeaItemDelegate {
+                Layout.fillWidth: true
                 text: qsTr("Chart")
                 iconName: "chart"
                 onClicked: {
@@ -234,8 +242,47 @@ NymeaDialog {
                     }
                 }
             }
-
         }
+
+        Component {
+            id: addStateSelectThingComponent
+            ColumnLayout {
+                RowLayout {
+                    Layout.leftMargin: Style.margins
+                    Layout.rightMargin: Style.margins
+                    ColorIcon {
+                        name: "/ui/images/find.svg"
+                    }
+                    TextField {
+                        id: filterTextField
+                        Layout.fillWidth: true
+                    }
+                }
+                ListView {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.preferredHeight: Style.delegateHeight * 6
+                    clip: true
+
+                    ScrollBar.vertical: ScrollBar {}
+
+                    model: ThingsProxy {
+                        id: thingsProxy
+                        engine: _engine
+                        nameFilter: filterTextField.displayText
+                    }
+                    delegate: NymeaItemDelegate {
+                        text: model.name
+                        width: parent ? parent.width : 0 // silence warning on delegate descruction
+                        iconName: app.interfacesToIcon(thingsProxy.get(index).thingClass.interfaces)
+                        onClicked: {
+                            internalPageStack.push(addStateSelectStateComponent, {thing: thingsProxy.get(index)})
+                        }
+                    }
+                }
+            }
+        }
+
         Component {
             id: addGraphSelectStateComponent
             ListView {
@@ -252,6 +299,28 @@ NymeaDialog {
                     text: model.displayName
                     onClicked: {
                         root.dashboardModel.addGraphItem(thing.id, model.id, root.index)
+                        root.close()
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: addStateSelectStateComponent
+            ListView {
+                implicitHeight: Style.delegateHeight * 6
+                clip: true
+
+                ScrollBar.vertical: ScrollBar {}
+
+                property Thing thing: null
+                model: thing.thingClass.stateTypes
+                width: parent.width
+                delegate: NymeaItemDelegate {
+                    width: parent.width
+                    text: model.displayName
+                    onClicked: {
+                        root.dashboardModel.addStateItem(thing.id, model.id, root.index)
                         root.close()
                     }
                 }

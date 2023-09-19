@@ -163,3 +163,20 @@ void DashboardWebViewItem::setInteractive(bool interactive)
         emit changed();
     }
 }
+
+DashboardStateItem::DashboardStateItem(const QUuid &thingId, const QUuid &stateTypeId, QObject *parent):
+    DashboardItem("state", parent),
+    m_thingId(thingId),
+    m_stateTypeId(stateTypeId)
+{
+}
+
+QUuid DashboardStateItem::thingId() const
+{
+    return m_thingId;
+}
+
+QUuid DashboardStateItem::stateTypeId() const
+{
+    return m_stateTypeId;
+}

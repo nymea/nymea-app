@@ -314,5 +314,6 @@
         <file>ui/devicepages/NotificationsThingPage.qml</file>
         <file>ui/devicepages/ActionLogPage.qml</file>
         <file>ui/devicepages/EventLogPage.qml</file>
+        <file>ui/mainviews/dashboard/DashboardStateDelegate.qml</file>
     </qresource>
 </RCC>

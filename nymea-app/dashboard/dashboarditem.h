@@ -110,4 +110,18 @@ private:
     bool m_interactive = false;
 };
 
+class DashboardStateItem: public DashboardItem
+{
+    Q_OBJECT
+    Q_PROPERTY(QUuid thingId READ thingId CONSTANT)
+    Q_PROPERTY(QUuid stateTypeId READ stateTypeId CONSTANT)
+public:
+    explicit DashboardStateItem(const QUuid &thingId, const QUuid &stateTypeId, QObject *parent = nullptr);
+    QUuid thingId() const;
+    QUuid stateTypeId() const;
+private:
+    QUuid m_thingId;
+    QUuid m_stateTypeId;
+};
+
 #endif // DASHBOARDITEM_H

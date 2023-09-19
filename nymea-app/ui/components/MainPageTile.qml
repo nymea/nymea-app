@@ -154,7 +154,7 @@ Item {
                         anchors.centerIn: parent
                         width: parent.width
                         text: root.text.toUpperCase()
-                        font.pixelSize: app.smallFont
+                        font.pixelSize: Style.smallFont.pixelSize
                         font.letterSpacing: 1
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         horizontalAlignment: Text.AlignHCenter
