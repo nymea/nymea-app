@@ -1,3 +1,11 @@
+nymea-app (1.8.22) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add dashboard state delegate
+  * Fix some issues with logs
+
+ -- jenkins <developer@nymea.io>  Thu, 21 Sep 2023 09:55:21 +0200
+
 nymea-app (1.8.21) bionic; urgency=medium
 
   [ Michael Zanetti ]
