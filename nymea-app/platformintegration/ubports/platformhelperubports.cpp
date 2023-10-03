@@ -1,6 +1,3 @@
-#include <libnih.h>
-#include <libnih-dbus.h>
-
 #include "platformhelperubports.h"
 
 
@@ -36,7 +33,7 @@ QString PlatformHelperUBPorts::deviceSerial() const
 
 void PlatformHelperUBPorts::setupUriHandler()
 {
-    QString objectPath;
+    QString objectPath = QStringLiteral("/");
 
     if (!QDBusConnection::sessionBus().isConnected()) {
         qWarning() << "UCUriHandler: D-Bus session bus is not connected, ignoring.";
@@ -49,9 +46,16 @@ void PlatformHelperUBPorts::setupUriHandler()
         qWarning() << "UCUriHandler: Empty \"APP_ID\" environment variable, ignoring.";
         return;
     }
-    char* path = nih_dbus_path(NULL, "", applicationId.constData(), nullptr);
-    objectPath = QString::fromLocal8Bit(path);
-    nih_free(path);
+
+    // Convert applicationID into usable dbus object path
+    for (int i = 0; i < applicationId.size(); ++i) {
+        QChar ch = applicationId.at(i);
+        if (ch.isLetterOrNumber()) {
+            objectPath += ch;
+        } else {
+            objectPath += QString::asprintf("_%02x", ch.toLatin1());
+        }
+    }
 
     // Ensure handler is running on the main thread.
     QCoreApplication* instance = QCoreApplication::instance();
