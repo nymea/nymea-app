@@ -180,3 +180,23 @@ QUuid DashboardStateItem::stateTypeId() const
 {
     return m_stateTypeId;
 }
+
+DashboardSensorItem::DashboardSensorItem(const QUuid &thingId, const QStringList &interfaces, QObject *parent):
+    DashboardItem("sensor", parent),
+    m_thingId(thingId),
+    m_interfaces(interfaces)
+{
+    if (interfaces.count() > 1) {
+        setColumnSpan(2);
+    }
+}
+
+QUuid DashboardSensorItem::thingId() const
+{
+    return m_thingId;
+}
+
+QStringList DashboardSensorItem::interfaces() const
+{
+    return m_interfaces;
+}

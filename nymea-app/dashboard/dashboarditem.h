@@ -124,4 +124,18 @@ private:
     QUuid m_stateTypeId;
 };
 
+class DashboardSensorItem: public DashboardItem
+{
+    Q_OBJECT
+    Q_PROPERTY(QUuid thingId READ thingId CONSTANT)
+    Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
+public:
+    explicit DashboardSensorItem(const QUuid &thingId, const QStringList &interfaces, QObject *parent = nullptr);
+    QUuid thingId() const;
+    QStringList interfaces() const;
+private:
+    QUuid m_thingId;
+    QStringList m_interfaces;
+};
+
 #endif // DASHBOARDITEM_H

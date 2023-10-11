@@ -62,18 +62,18 @@ Item {
         sortOrder: Qt.DescendingOrder
 
         Component.onCompleted: {
-            print("****** completed")
+//            print("****** completed")
             ready = true
             update()
         }
         property bool ready: false
         onSourceChanged: {
-            print("***** source changed")
+//            print("***** source changed")
             update()
         }
 
         function update() {
-            print("*********+ source", source, "start", startTime, "end", endTime, ready)
+//            print("*********+ source", source, "start", startTime, "end", endTime, ready)
             if (ready && source != "") {
                 fetchLogs()
             }
@@ -83,10 +83,10 @@ Item {
         property double maxValue
 
         onEntriesAddedIdx: {
-            print("**** entries added", index, count, "entries in series:", valueSeries.count, "in model", logsModel.count)
+//            print("**** entries added", index, count, "entries in series:", valueSeries.count, "in model", logsModel.count)
             for (var i = 0; i < count; i++) {
                 var entry = logsModel.get(i)
-                                print("entry", entry.timestamp, entry.source, JSON.stringify(entry.values))
+//                                print("entry", entry.timestamp, entry.source, JSON.stringify(entry.values))
                 zeroSeries.ensureValue(entry.timestamp)
 
                 if (root.stateType.type.toLowerCase() == "bool") {

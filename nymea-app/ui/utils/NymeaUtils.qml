@@ -180,4 +180,33 @@ Item {
       var h= c && ((v==r) ? (g-b)/c : ((v==g) ? 2+(b-r)/c : 4+(r-g)/c));
       return [60*(h<0?h+6:h), v&&c/v, v];
     }
+
+    readonly property var sensorInterfaceStateMap: {
+        "temperaturesensor": "temperature",
+        "humiditysensor": "humidity",
+        "pressuresensor": "pressure",
+        "moisturesensor": "moisture",
+        "lightsensor": "lightIntensity",
+        "conductivitysensor": "conductivity",
+        "noisesensor": "noise",
+        "cosensor": "co",
+        "co2sensor": "co2",
+        "gassensor": "gasLevel",
+        "presencesensor": "isPresent",
+        "daylightsensor": "daylight",
+        "closablesensor": "closed",
+        "watersensor": "waterDetected",
+        "firesensor": "fireDetected",
+        "waterlevelsensor": "waterLevel",
+        "phsensor": "ph",
+        "o2sensor": "o2saturation",
+        "o3sensor": "o3",
+        "orpsensor": "orp",
+        "vocsensor": "voc",
+        "cosensor": "co",
+        "pm10sensor": "pm10",
+        "pm25sensor": "pm25",
+        "no2sensor": "no2"
+    }
+
 }

@@ -37,6 +37,7 @@ import Nymea 1.0
 import NymeaApp.Utils 1.0
 import "../../components"
 import "../../delegates"
+import "../../customviews"
 
 NymeaDialog {
     id: root
@@ -65,6 +66,14 @@ NymeaDialog {
                 iconName: "things"
                 onClicked: {
                     internalPageStack.push(addThingSelectionComponent)
+                }
+            }
+            NymeaItemDelegate {
+                Layout.fillWidth: true
+                iconName: "sensors"
+                text: qsTr("Sensor")
+                onClicked: {
+                    internalPageStack.push(addSensorComponent)
                 }
             }
             NymeaItemDelegate {
@@ -151,6 +160,168 @@ NymeaDialog {
                         }
                     }
                 }
+            }
+        }
+
+        Component {
+            id: addSensorComponent
+            ColumnLayout {
+                RowLayout {
+                    Layout.leftMargin: Style.margins
+                    Layout.rightMargin: Style.margins
+                    ColorIcon {
+                        name: "/ui/images/find.svg"
+                    }
+                    TextField {
+                        id: filterTextField
+                        Layout.fillWidth: true
+
+                    }
+                }
+
+                ListView {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.preferredHeight: Style.delegateHeight * 6
+                    clip: true
+                    model: ThingsProxy {
+                        id: thingsProxy
+                        engine: _engine
+                        nameFilter: filterTextField.displayText
+                        shownInterfaces: {
+                            var ret = []
+                            for (var key in NymeaUtils.sensorInterfaceStateMap) {
+                                ret.push(key)
+                            }
+                            return ret
+                        }
+                    }
+
+                    ScrollBar.vertical: ScrollBar {}
+
+                    delegate: NymeaItemDelegate {
+                        width: parent.width
+                        text: model.name
+                        iconName: app.interfacesToIcon(thingsProxy.get(index).thingClass.interfaces)
+                        progressive: false
+                        onClicked: {
+                            var thing = thingsProxy.get(index)
+                            var availableInterfaces = []
+                            print("checking ifaces", thingsProxy.shownInterfaces, "----", thing.thingClass.interfaces)
+                            for (var i = 0; i < thing.thingClass.interfaces.length; i++) {
+                                var iface = thing.thingClass.interfaces[i]
+                                print("checking", iface)
+                                if (thingsProxy.shownInterfaces.indexOf(iface) >= 0) {
+                                    availableInterfaces.push(iface);
+                                }
+                            }
+
+                            print("matching:", availableInterfaces)
+                            if (availableInterfaces.length == 1) {
+                                root.dashboardModel.addSensorItem(model.id, availableInterfaces[0], root.index)
+                                root.close();
+                            } else {
+                                print("opening with interfaces:", availableInterfaces)
+                                internalPageStack.push(addSensorSelectInterfaceComponent, {thing: thing, interfaces: availableInterfaces})
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: addSensorSelectInterfaceComponent
+            ColumnLayout {
+                id: addSensorSelectInterface
+                property Thing thing: null
+                property var interfaces: ([])
+
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    text: qsTr("Select depiction")
+                }
+
+                SensorListDelegate {
+                    Layout.fillWidth: true
+                    thing: addSensorSelectInterface.thing
+                    onClicked: {
+                        root.dashboardModel.addSensorItem(addSensorSelectInterface.thing.id, addSensorSelectInterface.interfaces, root.index)
+                        root.close();
+                    }
+                }
+
+
+                GridLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    columns: 2
+
+                    Repeater {
+                        model: addSensorSelectInterface.interfaces
+
+                        delegate: SensorView {
+                            thing: addSensorSelectInterface.thing
+                            interfaceName: modelData
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: width
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    root.dashboardModel.addSensorItem(addSensorSelectInterface.thing.id, [modelData], root.index)
+                                    root.close();
+                                }
+                            }
+                        }
+                    }
+                }
+
+//                ListView {
+//                    Layout.fillWidth: true
+//                    Layout.fillHeight: true
+//                    Layout.preferredHeight: Style.delegateHeight * 6
+//                    clip: true
+//                    model: InterfacesModel {
+//                        engine: _engine
+//                        things: ThingsProxy {
+//                            engine: _engine
+//                            shownThingIds: [addSensorSelectInterface.thing.id]
+//                        }
+////                        shownInterfaces: app.supportedInterfaces
+
+//                        shownInterfaces: addSensorSelectInterface.interfaces
+//                    }
+
+//                    ScrollBar.vertical: ScrollBar {}
+
+//                    delegate: NymeaItemDelegate {
+//                        readonly property StateType stateType: addSensorSelectInterface.thing.thingClass.stateTypes.findByName(NymeaUtils.sensorInterfaceStateMap[model.name])
+//                        width: parent.width
+//                        text: stateType.displayName
+//                        iconName: app.interfaceToIcon(model.name)
+//                        progressive: false
+//                        onClicked: {
+////                            var thing = thingsProxy.get(index)
+////                            var availableInterfaces = []
+////                            for (var i = 0; i < thing.thingClass.interfaces.count; i++) {
+////                                var iface = thing.thingClass.interfaces[i]
+////                                if (thingsProxy.shownInterfaces.indexOf(iface) >= 0) {
+////                                    availableInterfaces.push(iface);
+////                                }
+////                            }
+
+////                            if (availableInterfaces.length == 1) {
+////                                root.dashboardModel.addSensorItem(model.id, availableInterfaces[0], root.index)
+////                            } else {
+////                                internalPageStack.push(addSensorSelectInterfaceComponent, thing, availableInterfaces)
+////                            }
+
+////                            root.close();
+//                        }
+//                    }
+//                }
             }
         }
 
