@@ -42,6 +42,11 @@ BigThingTile {
         id: dataGrid
         columns: Math.floor(contentItem.width / 120)
 
+        Connections {
+            target: itemDelegate
+            onThingChanged: stateModel.update()
+        }
+
         ListModel {
             id: interfacesModel
             ListElement { interfaceName: "temperaturesensor"; stateName: "temperature" }
@@ -74,8 +79,13 @@ BigThingTile {
         }
         Repeater {
             model: ListModel {
+                id: stateModel
                 dynamicRoles: true
                 Component.onCompleted: {
+                    update()
+                }
+
+                function update() {
                     for (var i = 0; i < interfacesModel.count; i++) {
                         if (itemDelegate.thing.thingClass.interfaces.indexOf(interfacesModel.get(i).interfaceName) >= 0) {
                             append(interfacesModel.get(i))

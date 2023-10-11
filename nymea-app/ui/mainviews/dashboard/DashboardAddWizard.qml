@@ -57,63 +57,75 @@ NymeaDialog {
         implicitHeight: currentItem.implicitHeight
         clip: true
 
-        initialItem: ColumnLayout {
-            id: contentColumn
-            implicitHeight: childrenRect.height
-            NymeaItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("Thing")
-                iconName: "things"
-                onClicked: {
-                    internalPageStack.push(addThingSelectionComponent)
+        initialItem: Flickable {
+            id: flickable
+            width: internalPageStack.width
+            implicitHeight: contentColumn.implicitHeight
+            contentHeight: contentColumn.implicitHeight
+            contentWidth: width
+
+            ScrollBar.vertical: ScrollBar {}
+
+            ColumnLayout {
+                id: contentColumn
+                width: flickable.width
+                implicitHeight: childrenRect.height
+
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Thing")
+                    iconName: "things"
+                    onClicked: {
+                        internalPageStack.push(addThingSelectionComponent)
+                    }
                 }
-            }
-            NymeaItemDelegate {
-                Layout.fillWidth: true
-                iconName: "sensors"
-                text: qsTr("Sensor")
-                onClicked: {
-                    internalPageStack.push(addSensorComponent)
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Sensor")
+                    iconName: "sensors"
+                    onClicked: {
+                        internalPageStack.push(addSensorComponent)
+                    }
                 }
-            }
-            NymeaItemDelegate {
-                Layout.fillWidth: true
-                iconName: "folder"
-                text: qsTr("Folder")
-                onClicked: {
-                    internalPageStack.push(addFolderComponent)
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("State")
+                    iconName: "state"
+                    onClicked: {
+                        internalPageStack.push(addStateSelectThingComponent)
+                    }
                 }
-            }
-            NymeaItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("State")
-                iconName: "state"
-                onClicked: {
-                    internalPageStack.push(addStateSelectThingComponent)
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Chart")
+                    iconName: "chart"
+                    onClicked: {
+                        internalPageStack.push(addGraphSelectThingComponent)
+                    }
                 }
-            }
-            NymeaItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("Chart")
-                iconName: "chart"
-                onClicked: {
-                    internalPageStack.push(addGraphSelectThingComponent)
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    iconName: "folder"
+                    text: qsTr("Folder")
+                    onClicked: {
+                        internalPageStack.push(addFolderComponent)
+                    }
                 }
-            }
-            NymeaItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("Scene")
-                iconName: "slideshow"
-                onClicked: {
-                    internalPageStack.push(addSceneComponent)
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Scene")
+                    iconName: "slideshow"
+                    onClicked: {
+                        internalPageStack.push(addSceneComponent)
+                    }
                 }
-            }
-            NymeaItemDelegate {
-                Layout.fillWidth: true
-                text: qsTr("Web view")
-                iconName: "stock_website"
-                onClicked: {
-                    internalPageStack.push(addWebViewComponent)
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Web view")
+                    iconName: "stock_website"
+                    onClicked: {
+                        internalPageStack.push(addWebViewComponent)
+                    }
                 }
             }
         }
