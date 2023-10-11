@@ -433,6 +433,8 @@ ApplicationWindow {
             return Qt.resolvedUrl("images/stock_link.svg")
         case "electricvehicle":
             return Qt.resolvedUrl("images/car.svg")
+        case "update":
+            return Qt.resolvedUrl("images/system-update.svg")
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }
