@@ -1,3 +1,10 @@
+nymea-app (1.8.24) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix interface icon for update interface
+
+ -- jenkins <developer@nymea.io>  Wed, 11 Oct 2023 22:46:02 +0200
+
 nymea-app (1.8.23) bionic; urgency=medium
 
   [ Michael Zanetti ]
