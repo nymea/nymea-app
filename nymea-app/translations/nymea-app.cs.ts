@@ -175,6 +175,14 @@
         <source>This action is not being logged.</source>
         <translation>Tato akce není zaznamenána.</translation>
     </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished">Žádná data</translation>
+    </message>
+    <message>
+        <source>This action has not been executed yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AdvancedConnectionInterfacesPage</name>
@@ -1227,6 +1235,18 @@
         <source>OK</source>
         <translation>OK</translation>
     </message>
+    <message>
+        <source>Sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation type="unfinished">Stav</translation>
+    </message>
+    <message>
+        <source>Select depiction</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DashboardFolderDelegate</name>
@@ -2109,6 +2129,14 @@
     <message>
         <source>This event is not being logged.</source>
         <translation>Tato událost není zaznamenána.</translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished">Žádná data</translation>
+    </message>
+    <message>
+        <source>This event has not been triggered yet.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3984,6 +4012,14 @@ Prosím zkuste to znovu.</translation>
     <message>
         <source>Set up another...</source>
         <translation>Nastavit další...</translation>
+    </message>
+    <message>
+        <source>Are you sure?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to log out from %1 and remove it from your connections?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6582,6 +6618,10 @@ A consumer, not consuming anything</extracomment>
         <source>Total return: %1 kWh</source>
         <translation>Celková vráceno: %1 kWh</translation>
     </message>
+    <message>
+        <source>The battery is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StateChart</name>
@@ -6792,10 +6832,6 @@ Toto prosím používejte pouze v případě, že jste si jisti tím co děláte
     <message>
         <source>Details</source>
         <translation>Detaily</translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation>Protokoly</translation>
     </message>
     <message>
         <source>Mark as favorite</source>

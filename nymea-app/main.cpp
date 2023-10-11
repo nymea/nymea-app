@@ -183,6 +183,7 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<DashboardSceneItem>("Nymea", 1, 0, "DashboardSceneItem", "");
     qmlRegisterUncreatableType<DashboardWebViewItem>("Nymea", 1, 0, "DashboardWebViewItem", "");
     qmlRegisterUncreatableType<DashboardStateItem>("Nymea", 1, 0, "DashboardStateItem", "");
+    qmlRegisterUncreatableType<DashboardSensorItem>("Nymea", 1, 0, "DashboardSensorItem", "");
 
     qmlRegisterSingletonType<PrivacyPolicyHelper>("NymeaApp.Utils", 1, 0, "PrivacyPolicyHelper", PrivacyPolicyHelper::qmlProvider);
     qmlRegisterType<QHashQml>("NymeaApp.Utils", 1, 0, "QHash");

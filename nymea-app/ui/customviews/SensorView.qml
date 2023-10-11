@@ -12,33 +12,6 @@ Item {
     property Thing thing: null
     property string interfaceName: ""
 
-    property var interfaceStateMap: {
-        "temperaturesensor": "temperature",
-        "humiditysensor": "humidity",
-        "pressuresensor": "pressure",
-        "moisturesensor": "moisture",
-        "lightsensor": "lightIntensity",
-        "conductivitysensor": "conductivity",
-        "noisesensor": "noise",
-        "cosensor": "co",
-        "co2sensor": "co2",
-        "gassensor": "gasLevel",
-        "presencesensor": "isPresent",
-        "daylightsensor": "daylight",
-        "closablesensor": "closed",
-        "watersensor": "waterDetected",
-        "firesensor": "fireDetected",
-        "waterlevelsensor": "waterLevel",
-        "phsensor": "ph",
-        "o2sensor": "o2saturation",
-        "o3sensor": "o3",
-        "orpsensor": "orp",
-        "vocsensor": "voc",
-        "cosensor": "co",
-        "pm10sensor": "pm10",
-        "pm25sensor": "pm25",
-        "no2sensor": "no2"
-    }
 
     CircleBackground {
         id: background
@@ -46,8 +19,8 @@ Item {
         width: Math.min(parent.width, parent.height) - Style.margins
         height: width
 
-        readonly property StateType sensorStateType: root.thing ? root.thing.thingClass.stateTypes.findByName(interfaceStateMap[root.interfaceName]) : null
-        readonly property State sensorState: root.thing ? root.thing.stateByName(interfaceStateMap[interfaceName]) : null
+        readonly property StateType sensorStateType: root.thing ? root.thing.thingClass.stateTypes.findByName(NymeaUtils.sensorInterfaceStateMap[root.interfaceName]) : null
+        readonly property State sensorState: root.thing ? root.thing.stateByName(NymeaUtils.sensorInterfaceStateMap[interfaceName]) : null
 
         onColor: {
             if (root.interfaceName == "closablesensor") {
@@ -78,8 +51,8 @@ Item {
             anchors.centerIn: parent
             width: background.contentItem.width
             height: background.contentItem.height
-            property StateType stateType: root.thing.thingClass.stateTypes.findByName(interfaceStateMap[root.interfaceName])
-            property State state: root.thing.stateByName(interfaceStateMap[root.interfaceName])
+            property StateType stateType: root.thing.thingClass.stateTypes.findByName(NymeaUtils.sensorInterfaceStateMap[root.interfaceName])
+            property State state: root.thing.stateByName(NymeaUtils.sensorInterfaceStateMap[root.interfaceName])
             property string interfaceName: root.interfaceName
             property var minValue: {
                 if (["temperaturesensor"].indexOf(root.interfaceName) >= 0) {

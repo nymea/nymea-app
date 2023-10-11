@@ -64,7 +64,8 @@ MainViewBase {
         "graph": "DashboardGraphDelegate.qml",
         "scene": "DashboardSceneDelegate.qml",
         "webview": "DashboardWebViewDelegate.qml",
-        "state": "DashboardStateDelegate.qml"
+        "state": "DashboardStateDelegate.qml",
+        "sensor": "DashboardSensorDelegate.qml"
     }
 
     onEditModeChanged: {

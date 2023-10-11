@@ -175,6 +175,14 @@
         <source>This action is not being logged.</source>
         <translation>Diese Aktion wird nicht protokolliert.</translation>
     </message>
+    <message>
+        <source>No data</source>
+        <translation>Keine Daten</translation>
+    </message>
+    <message>
+        <source>This action has not been executed yet.</source>
+        <translation>Diese Aktion wurde noch nicht ausgeführt.</translation>
+    </message>
 </context>
 <context>
     <name>AdvancedConnectionInterfacesPage</name>
@@ -1226,6 +1234,18 @@
         <source>OK</source>
         <translation>OK</translation>
     </message>
+    <message>
+        <source>Sensor</source>
+        <translation>Sensor</translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation>Zustand</translation>
+    </message>
+    <message>
+        <source>Select depiction</source>
+        <translation>Darstellung auswählen</translation>
+    </message>
 </context>
 <context>
     <name>DashboardFolderDelegate</name>
@@ -2108,6 +2128,14 @@
     <message>
         <source>This event is not being logged.</source>
         <translation>Dieses Ereignis wird nicht protokolliert.</translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation>Keine Daten</translation>
+    </message>
+    <message>
+        <source>This event has not been triggered yet.</source>
+        <translation>Dieses Ereignis ist noch nicht aufgetreten.</translation>
     </message>
 </context>
 <context>
@@ -3966,6 +3994,14 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Set up another...</source>
         <translation>Ein weiteres einrichten...</translation>
+    </message>
+    <message>
+        <source>Are you sure?</source>
+        <translation>Bist Du sicher?</translation>
+    </message>
+    <message>
+        <source>Do you want to log out from %1 and remove it from your connections?</source>
+        <translation>Möchtest Du dich von %1 abmelden und die Verbindung entfernen?</translation>
     </message>
 </context>
 <context>
@@ -6563,6 +6599,10 @@ A consumer, not consuming anything</extracomment>
         <source>Total return: %1 kWh</source>
         <translation>Gesamte Netzeinspeisung: %1 kWh</translation>
     </message>
+    <message>
+        <source>The battery is empty</source>
+        <translation>Die Batterie ist leer</translation>
+    </message>
 </context>
 <context>
     <name>StateChart</name>
@@ -6772,10 +6812,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Details</source>
         <translation>Details</translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation>Protokoll</translation>
     </message>
     <message>
         <source>Mark as favorite</source>
