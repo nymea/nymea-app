@@ -175,6 +175,14 @@
         <source>This action is not being logged.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This action has not been executed yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AdvancedConnectionInterfacesPage</name>
@@ -1225,6 +1233,18 @@
         <source>OK</source>
         <translation type="unfinished">확인</translation>
     </message>
+    <message>
+        <source>Sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select depiction</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DashboardFolderDelegate</name>
@@ -2103,6 +2123,14 @@
     </message>
     <message>
         <source>This event is not being logged.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This event has not been triggered yet.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3944,6 +3972,14 @@ Please try again.</source>
     </message>
     <message>
         <source>Set up another...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to log out from %1 and remove it from your connections?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6537,6 +6573,10 @@ A consumer, not consuming anything</extracomment>
         <source>Total return: %1 kWh</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The battery is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StateChart</name>
@@ -6741,10 +6781,6 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

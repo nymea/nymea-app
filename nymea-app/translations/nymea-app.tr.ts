@@ -175,6 +175,14 @@
         <source>This action is not being logged.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This action has not been executed yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AdvancedConnectionInterfacesPage</name>
@@ -1225,6 +1233,18 @@
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
+    <message>
+        <source>Sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation type="unfinished">Durum</translation>
+    </message>
+    <message>
+        <source>Select depiction</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DashboardFolderDelegate</name>
@@ -2103,6 +2123,14 @@
     </message>
     <message>
         <source>This event is not being logged.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This event has not been triggered yet.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3944,6 +3972,14 @@ Please try again.</source>
     <message>
         <source>Set up another...</source>
         <translation>Başka bir tane ayarla...</translation>
+    </message>
+    <message>
+        <source>Are you sure?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to log out from %1 and remove it from your connections?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6536,6 +6572,10 @@ A consumer, not consuming anything</extracomment>
         <source>Total return: %1 kWh</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The battery is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StateChart</name>
@@ -6743,10 +6783,6 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>Details</source>
         <translation>Detaylar</translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation>Kayıtlar</translation>
     </message>
     <message>
         <source>Mark as favorite</source>

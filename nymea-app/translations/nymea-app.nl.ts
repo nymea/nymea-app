@@ -175,6 +175,14 @@
         <source>This action is not being logged.</source>
         <translation>Van deze actie wordt geen log bijgehouden.</translation>
     </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished">Geen gegevens</translation>
+    </message>
+    <message>
+        <source>This action has not been executed yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AdvancedConnectionInterfacesPage</name>
@@ -1226,6 +1234,18 @@
         <source>OK</source>
         <translation>OK</translation>
     </message>
+    <message>
+        <source>Sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation type="unfinished">Status</translation>
+    </message>
+    <message>
+        <source>Select depiction</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DashboardFolderDelegate</name>
@@ -2110,6 +2130,14 @@
     <message>
         <source>This event is not being logged.</source>
         <translation>Van deze gebeurtenis wordt geen log bijgehouden.</translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished">Geen gegevens</translation>
+    </message>
+    <message>
+        <source>This event has not been triggered yet.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3970,6 +3998,14 @@ Probeer het nog een keer.</translation>
     <message>
         <source>Set up another...</source>
         <translation>Stel een andere in...</translation>
+    </message>
+    <message>
+        <source>Are you sure?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to log out from %1 and remove it from your connections?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6568,6 +6604,10 @@ A consumer, not consuming anything</extracomment>
         <source>Total return: %1 kWh</source>
         <translation>Totaal teruggegeven aan het net: %1 kWh</translation>
     </message>
+    <message>
+        <source>The battery is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StateChart</name>
@@ -6778,10 +6818,6 @@ Als je fouten in de niet-officiële software vindt, geef deze dan door aan de on
     <message>
         <source>Details</source>
         <translation>Details</translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation>Logs</translation>
     </message>
     <message>
         <source>Mark as favorite</source>
