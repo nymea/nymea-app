@@ -85,6 +85,7 @@ Page {
         engine: _engine
         source: "state-" + root.thing.id + "-" + root.stateType.name
         sortOrder: Qt.DescendingOrder
+        live: true
     }
 
     Component.onCompleted: {

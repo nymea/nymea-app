@@ -69,6 +69,7 @@ ThingPageBase {
                 engine: _engine
                 sources: ["event-" + root.thing.id + "-pressed", "event-" + root.thing.id + "-longPressed"]
                 live: true
+                sortOrder: Qt.DescendingOrder
                 fetchBlockSize: 200 // As paging doesn't work with multiple sources
             }
 
