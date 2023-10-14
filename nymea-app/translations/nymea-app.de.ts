@@ -5818,7 +5818,7 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source></source>
         <comment>example: &quot;and temperature &gt; 5&quot;</comment>
-        <translation></translation>
+        <translation>Beispiel: &quot;und Temperatur &gt; 5&quot;</translation>
     </message>
     <message>
         <source>only if %1 %2 %3</source>
@@ -6573,7 +6573,7 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message>
         <source>Obtaining</source>
-        <translation></translation>
+        <translation>Erhaltend</translation>
     </message>
     <message>
         <source>At the current rate, the battery will be fully charged at %1.</source>
