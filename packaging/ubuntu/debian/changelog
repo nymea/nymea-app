@@ -1,3 +1,10 @@
+nymea-app (1.8.27) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow editing rule exitActions
+
+ -- jenkins <developer@nymea.io>  Sat, 14 Oct 2023 20:42:58 +0200
+
 nymea-app (1.8.26) bionic; urgency=medium
 
   [ Michael Zanetti ]
