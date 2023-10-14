@@ -1,3 +1,11 @@
+nymea-app (1.8.26) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix sensor list page delegate updating
+  * Fix Button event view
+
+ -- jenkins <developer@nymea.io>  Sat, 14 Oct 2023 13:36:24 +0200
+
 nymea-app (1.8.25) bionic; urgency=medium
 
   [ Michael Zanetti ]
