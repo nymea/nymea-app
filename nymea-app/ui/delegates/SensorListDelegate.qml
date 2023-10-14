@@ -86,6 +86,7 @@ BigThingTile {
                 }
 
                 function update() {
+                    clear();
                     for (var i = 0; i < interfacesModel.count; i++) {
                         if (itemDelegate.thing.thingClass.interfaces.indexOf(interfacesModel.get(i).interfaceName) >= 0) {
                             append(interfacesModel.get(i))
