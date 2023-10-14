@@ -5927,7 +5927,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Press &quot;Add script&quot; to get started.</source>
-        <translation>Drücke dden &quot;Script erstellen&quot; Knopf um loszulegen.</translation>
+        <translation>Drücke den &quot;Script erstellen&quot; Knopf um loszulegen.</translation>
     </message>
     <message>
         <source>Add script</source>
