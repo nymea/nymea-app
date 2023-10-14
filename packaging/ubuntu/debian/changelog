@@ -1,3 +1,10 @@
+nymea-app (1.8.28) bionic; urgency=medium
+
+  [ Daniel Frost ]
+  * fix typo dden to den
+
+ -- jenkins <developer@nymea.io>  Sat, 14 Oct 2023 22:01:18 +0200
+
 nymea-app (1.8.27) bionic; urgency=medium
 
   [ Michael Zanetti ]
