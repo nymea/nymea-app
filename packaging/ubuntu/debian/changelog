@@ -1,3 +1,10 @@
+nymea-app (1.8.29) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Invert state chart painting
+
+ -- jenkins <developer@nymea.io>  Tue, 17 Oct 2023 23:02:40 +0200
+
 nymea-app (1.8.28) bionic; urgency=medium
 
   [ Daniel Frost ]
