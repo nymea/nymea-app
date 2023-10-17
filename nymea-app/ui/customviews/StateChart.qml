@@ -59,7 +59,7 @@ Item {
         startTime: new Date(d.startTime.getTime() - d.range * 1.1 * 60000)
         endTime: new Date(d.endTime.getTime() + d.range * 1.1 * 60000)
         sampleRate: d.sampleRate
-        sortOrder: Qt.DescendingOrder
+        sortOrder: Qt.AscendingOrder
 
         Component.onCompleted: {
 //            print("****** completed")
@@ -345,24 +345,24 @@ Item {
                     borderWidth: 2
                     lowerSeries: LineSeries {
                         id: zeroSeries
-                        XYPoint { x: dateTimeAxis.max.getTime(); y: 0 }
                         XYPoint { x: dateTimeAxis.min.getTime(); y: 0 }
+                        XYPoint { x: dateTimeAxis.max.getTime(); y: 0 }
                         function ensureValue(timestamp) {
                             if (count == 0) {
                                 append(timestamp, 0)
                             } else if (count == 1) {
                                 if (timestamp.getTime() < at(0).x) {
-                                    append(timestamp, 0)
-                                } else {
                                     insert(0, timestamp, 0)
+                                } else {
+                                    append(timestamp, 0)
                                 }
                             } else {
                                 if (timestamp.getTime() > at(0).x) {
-                                    remove(0)
-                                    insert(0, timestamp, 0)
-                                } else if (timestamp.getTime() < at(1).x) {
                                     remove(1)
                                     append(timestamp, 0)
+                                } else if (timestamp.getTime() < at(1).x) {
+                                    remove(0)
+                                    insert(0, timestamp, 0)
                                 }
                             }
                         }

@@ -411,7 +411,7 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
         QVariantMap values = map.value("values").toMap();
         NewLogEntry *entry = new NewLogEntry(source, timestamp, values, this);
         entries.append(entry);
-
+        qCDebug(dcLogEngine()) << "Log entry:" << entry->timestamp() << entry->values();;
     }
 
     m_canFetchMore = entries.count() >= m_blockSize;
