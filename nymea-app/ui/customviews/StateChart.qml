@@ -95,11 +95,18 @@ Item {
                         value = false;
                     }
                     value *= root.inverted ? -1 : 1
+                    var previousEntry = i > 0 ? logsModel.get(i-1) : null;
+                    var previousValue = previousEntry ? previousEntry.values[root.stateType.name] : false
+                    if (previousValue == null) {
+                        previousValue = false
+                    }
 
-                    // for booleans, we'll insert the opposite value right before the new one so the position is doubled
+                    // for booleans, we'll insert the previous value right before the new one so the position is doubled
                     var insertIdx = (index + i) * 2
-                    valueSeries.insert(insertIdx+1, entry.timestamp.getTime() - 500, !value)
-                    valueSeries.insert(insertIdx, entry.timestamp, value)
+//                    print("inserting bool 1", insertIdx, entry.timestamp.getTime() - 500, !value, new Date(entry.timestamp.getTime() - 500))
+                    valueSeries.insert(insertIdx, entry.timestamp.getTime() - 500, previousValue)
+//                    print("inserting bool 2", insertIdx + 1, entry.timestamp.getTime(), value, entry.timestamp)
+                    valueSeries.insert(insertIdx+1, entry.timestamp, value)
 
                 } else {
                     var value = entry.values[root.stateType.name]
@@ -117,9 +124,9 @@ Item {
             }
 
             if (root.stateType.type.toLowerCase() == "bool") {
-                var last = valueSeries.at(0);
+                var last = valueSeries.at(valueSeries.count-1);
                 if (last.x < d.endTime) {
-                    valueSeries.insert(0, d.endTime, last.y)
+                    valueSeries.append(d.endTime, last.y)
                     zeroSeries.ensureValue(d.endTime)
                 }
             }
