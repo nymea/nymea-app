@@ -89,7 +89,7 @@ RowLayout {
         Layout.preferredHeight: Style.smallIconSize
         Layout.preferredWidth: height
         thing: root.thing
-        visible: root.thing.setupStatus == Thing.ThingSetupStatusComplete && (hasSignalStrength || !isConnected)
+        visible: root.thing.setupStatus == Thing.ThingSetupStatusComplete && root.thing.thingClass.interfaces.indexOf("connectable") >= 0 && (hasSignalStrength || !isConnected)
         Binding { target: connectionStatusIcon; property: "color"; value: root.color; when: root.color !== Style.iconColor }
         MouseArea {
             anchors.fill: parent

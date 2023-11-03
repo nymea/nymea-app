@@ -8,7 +8,7 @@ BigTile {
 
     property Thing thing: null
 
-    readonly property State connectedState: thing.stateByName("connected")
+    readonly property State connectedState: thing.thingClass.interfaces.indexOf("connectable") >= 0 && thing.stateByName("connected")
     readonly property bool isConnected: connectedState === null || connectedState.value === true
     readonly property bool isEnabled: thing.setupStatus == Thing.ThingSetupStatusComplete && isConnected
 
