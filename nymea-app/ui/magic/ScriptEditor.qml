@@ -336,18 +336,29 @@ Page {
                             return;
                         }
                         break;
+                    case Qt.Key_ZoomIn:
+                        scriptEdit.font.pixelSize++;
+                        event.accepted = true;
+                        break;
+                    case Qt.Key_hyphen:
                     case Qt.Key_Minus:
                         if (controlPressed(event)) {
                             scriptEdit.font.pixelSize--;
                             event.accepted = true;
                             return;
                         }
+                        break;
+                    case Qt.Key_ZoomOut:
+                        scriptEdit.font.pixelSize--;
+                        event.accepted = true;
+                        break;
                     case Qt.Key_Slash:
                         if (controlPressed(event)) {
                             completion.toggleComment(selectionStart, selectionEnd);
                             event.accepted = true;
                             return;
                         }
+                        break;
                     }
 
                     // Things to do only when we're autocompleting
