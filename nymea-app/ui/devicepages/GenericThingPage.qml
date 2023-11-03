@@ -136,6 +136,25 @@ ThingPageBase {
                 MouseArea {
                     Layout.fillHeight: true
                     Layout.preferredWidth: height
+                    visible: model.type === ThingModel.TypeStateType
+
+                    ColorIcon {
+                        anchors.fill: parent
+                        anchors.margins: app.margins
+                        name: "../images/edit-copy.svg"
+                    }
+                    onClicked: {
+                        swipe.close();
+                        print("opening logs for", delegate.stateType.id)
+                        PlatformHelper.toClipBoard(root.thing.states.getState(delegate.stateType.id).value)
+                        ToolTip.show(qsTr("ID copied to clipboard"), 500);
+
+                    }
+                }
+
+                MouseArea {
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: height
                     ColorIcon {
                         anchors.fill: parent
                         anchors.margins: app.margins
