@@ -326,7 +326,7 @@ void Connection::setManual(bool manual)
 
 int Connection::priority() const
 {
-    int prio = 0;
+    int prio = m_manualPriorityAdjust;
     if (m_online) {
         prio += 1000;
         prio -= qMin(500, (int)m_lastSeen.secsTo(QDateTime::currentDateTime()));
@@ -358,4 +358,14 @@ int Connection::priority() const
         prio += 1;
     }
     return prio;
+}
+
+void Connection::increasePriority()
+{
+    m_manualPriorityAdjust++;
+}
+
+void Connection::decreasePriority()
+{
+    m_manualPriorityAdjust--;
 }

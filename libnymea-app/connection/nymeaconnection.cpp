@@ -271,6 +271,7 @@ void NymeaConnection::onError(QAbstractSocket::SocketError error)
     if (!m_currentTransport) {
         // We're trying to connect and one of the transports failed...
         if (m_transportCandidates.contains(transport)) {
+            m_transportCandidates.value(transport)->decreasePriority();
             m_transportCandidates.remove(transport);
             transport->deleteLater();
         }
