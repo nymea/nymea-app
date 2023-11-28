@@ -6,7 +6,7 @@ nymea-app (1.8.31) bionic; urgency=medium
   * Add copy to clipboard action to generic state delegates
   * Improve ScriptEditor zoom keyboard keys
 
- -- jenkins <developer@nymea.io>  Fri, 03 Nov 2023 23:06:36 +0100
+ -- jenkins <developer@nymea.io>  Tue, 28 Nov 2023 09:06:03 +0100
 
 nymea-app (1.8.30) bionic; urgency=medium
 
