@@ -459,15 +459,15 @@ void NewLogsModel::newLogEntryReceived(const QVariantMap &map)
         qCritical() << "New entry!" << m_sources << source << m_sampleRate;
         NewLogEntry *entry = new NewLogEntry(source, timestamp, values, this);
         if (m_sortOrder == Qt::DescendingOrder) {
-            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
-            m_list.append(entry);
-            endInsertRows();
-            emit entriesAdded(m_list.count() - 1, {entry});
-        } else {
             beginInsertRows(QModelIndex(), 0, 0);
             m_list.prepend(entry);
             endInsertRows();
             emit entriesAdded(0, {entry});
+        } else {
+            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+            m_list.append(entry);
+            endInsertRows();
+            emit entriesAdded(m_list.count() - 1, {entry});
         }
         emit countChanged();
     }
