@@ -1,3 +1,10 @@
+nymea-app (1.8.33) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix ordering of live entries in logs
+
+ -- jenkins <developer@nymea.io>  Sun, 24 Dec 2023 00:05:51 +0100
+
 nymea-app (1.8.31) bionic; urgency=medium
 
   [ Michael Zanetti ]
