@@ -12,11 +12,6 @@ RowLayout {
 
     property color color: Style.iconColor
 
-    signal updateIconClicked();
-    signal batteryIconClicked();
-    signal connectionIconClicked();
-    signal setupIconClicked();
-
     UpdateStatusIcon {
         id: updateStatusIcon
         Layout.preferredHeight: Style.smallIconSize
@@ -28,30 +23,34 @@ RowLayout {
             anchors.fill: parent
             anchors.margins: -app.margins / 4
             onClicked: {
-                var dialogComponent = Qt.createComponent("NymeaDialog.qml")
-                var currentVersionState = root.thing.stateByName("currentVersion")
-                var availableVersionState = root.thing.stateByName("availableVersion")
-                var text = qsTr("An update for %1 is available. Do you want to start the update now?").arg(root.thing.name)
-                if (currentVersionState) {
-                    text += "\n\n" + qsTr("Current version: %1").arg(currentVersionState.value)
-                }
-                if (availableVersionState) {
-                    text += "\n\n" + qsTr("Available version: %1").arg(availableVersionState.value)
+                if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+                    pageStack.push("../devicepages/ThingStatusPage.qml", {thing: root.thing})
+                } else {
+                    var dialogComponent = Qt.createComponent("NymeaDialog.qml")
+                    var currentVersionState = root.thing.stateByName("currentVersion")
+                    var availableVersionState = root.thing.stateByName("availableVersion")
+                    var text = qsTr("An update for %1 is available. Do you want to start the update now?").arg(root.thing.name)
+                    if (currentVersionState) {
+                        text += "\n\n" + qsTr("Current version: %1").arg(currentVersionState.value)
+                    }
+                    if (availableVersionState) {
+                        text += "\n\n" + qsTr("Available version: %1").arg(availableVersionState.value)
+                    }
+
+                    var dialog = dialogComponent.createObject(app,
+                                                              {
+                                                                  headerIcon: "../images/system-update.svg",
+                                                                  title: qsTr("Update"),
+                                                                  text: text,
+                                                                  standardButtons: Dialog.Ok | Dialog.Cancel
+                                                              })
+                    dialog.accepted.connect(function() {
+                        print("starting update")
+                        engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("performUpdate").id)
+                    })
+                    dialog.open();
                 }
 
-                var dialog = dialogComponent.createObject(app,
-                                                          {
-                                                              headerIcon: "../images/system-update.svg",
-                                                              title: qsTr("Update"),
-                                                              text: text,
-                                                              standardButtons: Dialog.Ok | Dialog.Cancel
-                                                          })
-                dialog.accepted.connect(function() {
-                    print("starting update")
-                    engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("performUpdate").id)
-                })
-                dialog.open();
-                root.updateIconClicked()
             }
         }
     }
@@ -66,21 +65,24 @@ RowLayout {
             anchors.fill: parent
             anchors.margins: -app.margins / 4
             onClicked: {
-                root.batteryIconClicked()
-                var levelStateType = root.thing.thingClass.stateTypes.findByName("batteryLevel");
-                var criticalStateType = root.thing.thingClass.stateTypes.findByName("batteryCritical");
-                var stateTypes = []
-                if (levelStateType) {
-                    stateTypes.push(levelStateType.id)
+                if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+                    pageStack.push("../devicepages/ThingStatusPage.qml", {thing: root.thing})
+                } else {
+                    var levelStateType = root.thing.thingClass.stateTypes.findByName("batteryLevel");
+                    var criticalStateType = root.thing.thingClass.stateTypes.findByName("batteryCritical");
+                    var stateTypes = []
+                    if (levelStateType) {
+                        stateTypes.push(levelStateType.id)
+                    }
+                    if (criticalStateType) {
+                        stateTypes.push(criticalStateType.id)
+                    }
+                    pageStack.push("../devicepages/DeviceLogPage.qml",
+                                   {
+                                       thing: root.thing,
+                                       filterTypeIds: stateTypes
+                                   });
                 }
-                if (criticalStateType) {
-                    stateTypes.push(criticalStateType.id)
-                }
-                pageStack.push("../devicepages/DeviceLogPage.qml",
-                               {
-                                   thing: root.thing,
-                                   filterTypeIds: stateTypes
-                               });
             }
         }
     }
@@ -95,21 +97,24 @@ RowLayout {
             anchors.fill: parent
             anchors.margins: -app.margins / 4
             onClicked: {
-                root.connectionIconClicked()
-                var signalStateType = root.thing.thingClass.stateTypes.findByName("signalStrength")
-                var connectedStateType = root.thing.thingClass.stateTypes.findByName("connected")
-                var stateTypes = []
-                if (signalStateType) {
-                    stateTypes.push(signalStateType.id)
+                if (engine.jsonRpcClient.ensureServerVersion("8.0")) {
+                    pageStack.push("../devicepages/ThingStatusPage.qml", {thing: root.thing})
+                } else {
+                    var signalStateType = root.thing.thingClass.stateTypes.findByName("signalStrength")
+                    var connectedStateType = root.thing.thingClass.stateTypes.findByName("connected")
+                    var stateTypes = []
+                    if (signalStateType) {
+                        stateTypes.push(signalStateType.id)
+                    }
+                    if (connectedStateType) {
+                        stateTypes.push(connectedStateType.id)
+                    }
+                    pageStack.push("../devicepages/DeviceLogPage.qml",
+                                   {
+                                       thing: root.thing,
+                                       filterTypeIds: stateTypes
+                                   });
                 }
-                if (connectedStateType) {
-                    stateTypes.push(connectedStateType.id)
-                }
-                pageStack.push("../devicepages/DeviceLogPage.qml",
-                               {
-                                   thing: root.thing,
-                                   filterTypeIds: stateTypes
-                               });
             }
         }
     }
@@ -124,7 +129,6 @@ RowLayout {
             anchors.fill: parent
             anchors.margins: -app.margins / 4
             onClicked: {
-                root.setupIconClicked()
                 pageStack.push("../thingconfiguration/ConfigureThingPage.qml", { thing: root.thing });
             }
         }

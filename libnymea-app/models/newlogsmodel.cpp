@@ -429,8 +429,8 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
             beginInsertRows(QModelIndex(), 0, entries.count() - 1);
             m_list = entries;
             endInsertRows();
-            emit entriesAdded(0, entries);
         }
+        emit entriesAdded(0, entries);
         emit countChanged();
 
     } else {
@@ -441,9 +441,9 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
             });
             m_list.append(entries);
             endInsertRows();
-            emit entriesAdded(m_list.count() - entries.count(), entries);
-            emit countChanged();
         }
+        emit entriesAdded(m_list.count() - entries.count(), entries);
+        emit countChanged();
     }
 
 }

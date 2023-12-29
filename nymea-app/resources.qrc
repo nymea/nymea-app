@@ -316,5 +316,7 @@
         <file>ui/devicepages/EventLogPage.qml</file>
         <file>ui/mainviews/dashboard/DashboardStateDelegate.qml</file>
         <file>ui/mainviews/dashboard/DashboardSensorDelegate.qml</file>
+        <file>ui/devicepages/ThingStatusPage.qml</file>
+        <file>ui/customviews/MultiStateChart.qml</file>
     </qresource>
 </RCC>
