@@ -42,7 +42,7 @@ public:
     Q_INVOKABLE int addZoneThermostat(const QUuid &zoneId, const QUuid &thermostat);
     Q_INVOKABLE int removeZoneThermostat(const QUuid &zoneId, const QUuid &thermostat);
     Q_INVOKABLE int addZoneWindowSensor(const QUuid &zoneId, const QUuid &windowSensor);
-    Q_INVOKABLE int removeWindowSensor(const QUuid &zoneId, const QUuid &windowSensor);
+    Q_INVOKABLE int removeZoneWindowSensor(const QUuid &zoneId, const QUuid &windowSensor);
     Q_INVOKABLE int addZoneIndoorSensor(const QUuid &zoneId, const QUuid &indoorSensor);
     Q_INVOKABLE int removeZoneIndoorSensor(const QUuid &zoneId, const QUuid &indoorSensor);
     Q_INVOKABLE int addZoneOutdoorSensor(const QUuid &zoneId, const QUuid &outdoorSensor);
