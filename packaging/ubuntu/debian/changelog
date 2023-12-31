@@ -1,3 +1,10 @@
+nymea-app (1.8.35) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * New thing status view
+
+ -- jenkins <developer@nymea.io>  Sun, 31 Dec 2023 12:43:49 +0100
+
 nymea-app (1.8.33) bionic; urgency=medium
 
   [ Michael Zanetti ]
