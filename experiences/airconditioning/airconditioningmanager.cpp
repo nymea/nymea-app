@@ -194,7 +194,7 @@ int AirConditioningManager::addZoneWindowSensor(const QUuid &zoneId, const QUuid
     return setZoneThings(zoneId, zoneInfo->thermostats(), zoneInfo->windowSensors() << windowSensor, zoneInfo->indoorSensors(), zoneInfo->outdoorSensors(), zoneInfo->notifications());
 }
 
-int AirConditioningManager::removeWindowSensor(const QUuid &zoneId, const QUuid &windowSensor)
+int AirConditioningManager::removeZoneWindowSensor(const QUuid &zoneId, const QUuid &windowSensor)
 {
     ZoneInfo *zoneInfo = m_zoneInfos->getZoneInfo(zoneId);
     if (!zoneInfo) {
