@@ -159,6 +159,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             text: root.stateType.displayName
             visible: root.titleVisible
+            elide: Text.ElideMiddle
             //            MouseArea {
             //                anchors.fill: parent
             //                onClicked: {
