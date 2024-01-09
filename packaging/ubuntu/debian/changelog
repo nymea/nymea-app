@@ -1,3 +1,11 @@
+nymea-app (1.8.38) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add Timer::restart() to script code completion
+  * Some layout fixes in the Sensor page
+
+ -- jenkins <developer@nymea.io>  Tue, 09 Jan 2024 19:36:48 +0100
+
 nymea-app (1.8.37) bionic; urgency=medium
 
   [ Michael Zanetti ]
