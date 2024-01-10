@@ -111,7 +111,8 @@ Item {
                     height: swipeView.height
                     width: swipeView.width
                     clip: true
-                    visible: SwipeView.isCurrentItem || visibleHackTimer.running
+                    // Consolinno: disable this hack for now
+                    visible: SwipeView.isCurrentItem //|| visibleHackTimer.running
 
                     readonly property ConfiguredHost configuredHost: configuredHostsModel.get(index)
 
