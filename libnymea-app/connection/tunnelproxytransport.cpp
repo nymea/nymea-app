@@ -86,8 +86,7 @@ NymeaTransportInterface::ConnectionState TunnelProxyTransport::connectionState()
     case TunnelProxyRemoteConnection::StateInitializing:
     case TunnelProxyRemoteConnection::StateRegister:
         return NymeaTransportInterface::ConnectionStateConnecting;
-    case TunnelProxyRemoteConnection::StateDiconnecting:
-    case TunnelProxyRemoteConnection::StateDisconnected:
+    default:
         return NymeaTransportInterface::ConnectionStateDisconnected;
     }
 }
