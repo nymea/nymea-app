@@ -115,4 +115,24 @@ SettingsPageBase {
         }
         onLinkActivated: Qt.openUrlExternally(link)
     }
+
+    SettingsPageSectionHeader {
+        text: qsTr("Server logging")
+    }
+
+
+    NymeaSwipeDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Server logging categories")
+        progressive: true
+        onClicked: pageStack.push(Qt.resolvedUrl("ServerLoggingCategoriesPage.qml"))
+    }
+
+    // NymeaSwipeDelegate {
+    //     Layout.fillWidth: true
+    //     text: qsTr("Server live logs")
+    //     progressive: true
+    //     //onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})
+    // }
+
 }
