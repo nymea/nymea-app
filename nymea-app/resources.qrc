@@ -320,5 +320,6 @@
         <file>ui/customviews/MultiStateChart.qml</file>
         <file>ui/devicepages/DeviceDetailsPage.qml</file>
         <file>ui/system/WirelessNetworksFilterSettingsPage.qml</file>
+        <file>ui/system/ServerLoggingCategoriesPage.qml</file>
     </qresource>
 </RCC>
