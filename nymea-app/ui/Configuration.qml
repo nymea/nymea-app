@@ -39,16 +39,6 @@ ConfigurationBase {
             text: qsTr("Discord"),
             iconName: "../images/discord.svg",
             url: "https://discord.gg/tX9YCpD"
-        },
-        {
-            text: qsTr("Twitter"),
-            iconName: "../images/twitter.svg",
-            url: "https://twitter.com/nymea_io"
-        },
-        {
-            text: qsTr("Facebook"),
-            iconName: "../images/facebook.svg",
-            url: "https://m.facebook.com/groups/nymea"
         }
     ]
 }
