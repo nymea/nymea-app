@@ -28,56 +28,38 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef SERVERDEBUGMANAGER_H
-#define SERVERDEBUGMANAGER_H
+#ifndef SERVERLOGGINGCATEGORIES_H
+#define SERVERLOGGINGCATEGORIES_H
 
 #include <QObject>
+#include <QAbstractListModel>
 
 #include "serverloggingcategory.h"
 
-class Engine;
-class JsonRpcClient;
-class ServerLoggingCategories;
-
-class ServerDebugManager : public QObject
+class ServerLoggingCategories : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
-    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
-    Q_PROPERTY(ServerLoggingCategories *categories READ categories CONSTANT FINAL)
+    Q_PROPERTY(int count READ rowCount CONSTANT)
 
 public:
-    explicit ServerDebugManager(QObject *parent = nullptr);
-    ~ServerDebugManager();
+    enum Roles {
+        RoleName,
+        RoleLevel,
+        RoleType
+    };
+    Q_ENUM(Roles)
 
-    Engine *engine() const;
-    void setEngine(Engine *engine);
+    explicit ServerLoggingCategories(QObject *parent = nullptr);
 
-    ServerLoggingCategories *categories() const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
-    bool fetchingData() const;
-
-    Q_INVOKABLE void getLoggingCategories();
-    Q_INVOKABLE void setLoggingLevel(const QString &name, int level);
-
-signals:
-    void engineChanged();
-    void fetchingDataChanged();
-
-private slots:
-    void notificationReceived(const QVariantMap &notification);
+    void createFromVariantList(const QVariantList &loggingCategories);
 
 private:
-    Engine *m_engine = nullptr;
-    ServerLoggingCategories *m_categories = nullptr;
-
-    bool m_fetchingData = false;
-
-    void init();
-
-    Q_INVOKABLE void getLoggingCategoriesResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void setLoggingCategoryLevelResponse(int commandId, const QVariantMap &params);
+    QList<ServerLoggingCategory *> m_list;
 
 };
 
-#endif // SERVERDEBUGMANAGER_H
+#endif // SERVERLOGGINGCATEGORIES_H

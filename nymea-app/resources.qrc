@@ -318,5 +318,6 @@
         <file>ui/mainviews/dashboard/DashboardSensorDelegate.qml</file>
         <file>ui/devicepages/ThingStatusPage.qml</file>
         <file>ui/customviews/MultiStateChart.qml</file>
+        <file>ui/system/ServerLoggingCategoriesPage.qml</file>
     </qresource>
 </RCC>

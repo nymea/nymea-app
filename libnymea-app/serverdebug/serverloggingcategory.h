@@ -28,56 +28,58 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef SERVERDEBUGMANAGER_H
-#define SERVERDEBUGMANAGER_H
+#ifndef SERVERLOGGINGCATEGORY_H
+#define SERVERLOGGINGCATEGORY_H
 
 #include <QObject>
+#include <QVariantMap>
 
-#include "serverloggingcategory.h"
-
-class Engine;
-class JsonRpcClient;
-class ServerLoggingCategories;
-
-class ServerDebugManager : public QObject
+class ServerLoggingCategory : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
-    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
-    Q_PROPERTY(ServerLoggingCategories *categories READ categories CONSTANT FINAL)
+    Q_PROPERTY(QString name READ name CONSTANT FINAL)
+    Q_PROPERTY(ServerLoggingCategory::Type type READ type CONSTANT FINAL)
+    Q_PROPERTY(ServerLoggingCategory::Level level READ level NOTIFY levelChanged FINAL)
 
 public:
-    explicit ServerDebugManager(QObject *parent = nullptr);
-    ~ServerDebugManager();
+    enum Type {
+        TypeSystem,
+        TypePlugin,
+        TypeCustom
+    };
+    Q_ENUM(Type)
 
-    Engine *engine() const;
-    void setEngine(Engine *engine);
+    enum Level {
+        LevelCritical,
+        LevelWarning,
+        LevelInfo,
+        LevelDebug
+    };
+    Q_ENUM(Level)
 
-    ServerLoggingCategories *categories() const;
+    explicit ServerLoggingCategory(QObject *parent = nullptr);
+    explicit ServerLoggingCategory(const QVariantMap &loggingCategoryMap, QObject *parent = nullptr);
 
-    bool fetchingData() const;
+    QString name() const;
+    void setName(const QString &name);
 
-    Q_INVOKABLE void getLoggingCategories();
-    Q_INVOKABLE void setLoggingLevel(const QString &name, int level);
+    Type type() const;
+    void setType(Type type);
+
+    Level level() const;
+    void setLevel(Level level);
+
+    static Level convertStringToLevel(const QString &levelString);
+    static Type convertStringToType(const QString &typeString);
 
 signals:
-    void engineChanged();
-    void fetchingDataChanged();
-
-private slots:
-    void notificationReceived(const QVariantMap &notification);
+    void levelChanged(Level level);
 
 private:
-    Engine *m_engine = nullptr;
-    ServerLoggingCategories *m_categories = nullptr;
-
-    bool m_fetchingData = false;
-
-    void init();
-
-    Q_INVOKABLE void getLoggingCategoriesResponse(int commandId, const QVariantMap &params);
-    Q_INVOKABLE void setLoggingCategoryLevelResponse(int commandId, const QVariantMap &params);
+    QString m_name;
+    Type m_type;
+    Level m_level;
 
 };
 
-#endif // SERVERDEBUGMANAGER_H
+#endif // SERVERLOGGINGCATEGORY_H
