@@ -1,3 +1,10 @@
+nymea-app (1.8.40) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Remove deprecated documentations and links
+
+ -- jenkins <developer@nymea.io>  Tue, 04 Jun 2024 15:50:40 +0200
+
 nymea-app (1.8.38) bionic; urgency=medium
 
   [ Michael Zanetti ]
