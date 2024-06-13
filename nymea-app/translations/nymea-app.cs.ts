@@ -599,11 +599,11 @@
     </message>
     <message>
         <source>Twitter</source>
-        <translation>Twitter</translation>
+        <translation type="vanished">Twitter</translation>
     </message>
     <message>
         <source>Facebook</source>
-        <translation>Facebook</translation>
+        <translation type="vanished">Facebook</translation>
     </message>
 </context>
 <context>
@@ -2409,6 +2409,10 @@ Prosím zkuste to znovu.</translation>
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation type="unfinished">ID zkopírováno do schránky</translation>
     </message>
 </context>
 <context>
@@ -4605,6 +4609,29 @@ Použijte hodnotu časového limitu větší nebo rovnou 10 ms.</translation>
     <message>
         <source>Client info</source>
         <translation>Informace o klientovi</translation>
+    </message>
+</context>
+<context>
+    <name>MultiStateChart</name>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished">Hodiny</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished">Dny</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished">Týdny</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished">Měsíce</translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished">Žádná data</translation>
     </message>
 </context>
 <context>
@@ -6940,6 +6967,89 @@ Toto prosím používejte pouze v případě, že jste si jisti tím co děláte
     <message>
         <source>Update</source>
         <translation>Aktualizace</translation>
+    </message>
+</context>
+<context>
+    <name>ThingStatusPage</name>
+    <message>
+        <source>Status for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing is up to date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation type="unfinished">Aktualizace probíhá...</translation>
+    </message>
+    <message>
+        <source>Installed version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available version: %1</source>
+        <translation type="unfinished">Dostupná verze: %1</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">Aktualizace</translation>
+    </message>
+    <message>
+        <source>Do you want to start the update now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current version: %1</source>
+        <translation type="unfinished">Aktuální verze: %1</translation>
+    </message>
+    <message>
+        <source>Connection information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnected</source>
+        <translation type="unfinished">Odpojeno</translation>
+    </message>
+    <message>
+        <source>Signal strength: %1 %</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished">Kritické</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Battery level: %1 %</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -598,11 +598,11 @@
     </message>
     <message>
         <source>Twitter</source>
-        <translation>Twitter</translation>
+        <translation type="vanished">Twitter</translation>
     </message>
     <message>
         <source>Facebook</source>
-        <translation>Facebook</translation>
+        <translation type="vanished">Facebook</translation>
     </message>
 </context>
 <context>
@@ -2410,6 +2410,10 @@ Probeer het nog een keer.</translation>
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4591,6 +4595,29 @@ Gebruik een timeout waarde die groter of gelijk is dan 10 ms.</translation>
     <message>
         <source>Client info</source>
         <translation>Cliënt informatie</translation>
+    </message>
+</context>
+<context>
+    <name>MultiStateChart</name>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished">Uren</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished">Dagen</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished">Weken</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished">Maanden</translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished">Geen gegevens</translation>
     </message>
 </context>
 <context>
@@ -6926,6 +6953,89 @@ Als je fouten in de niet-officiële software vindt, geef deze dan door aan de on
     <message>
         <source>Update</source>
         <translation>Bijwerken</translation>
+    </message>
+</context>
+<context>
+    <name>ThingStatusPage</name>
+    <message>
+        <source>Status for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing is up to date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation type="unfinished">Aan het bijwerken...</translation>
+    </message>
+    <message>
+        <source>Installed version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available version: %1</source>
+        <translation type="unfinished">Beschikbare versie: %1</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">Bijwerken</translation>
+    </message>
+    <message>
+        <source>Do you want to start the update now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current version: %1</source>
+        <translation type="unfinished">Huidige versie: %1</translation>
+    </message>
+    <message>
+        <source>Connection information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation type="unfinished">Verbonden</translation>
+    </message>
+    <message>
+        <source>Disconnected</source>
+        <translation type="unfinished">Niet verbonden</translation>
+    </message>
+    <message>
+        <source>Signal strength: %1 %</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished">Kritiek</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Battery level: %1 %</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -169,7 +169,7 @@
     </message>
     <message>
         <source>Enable logging</source>
-        <translation>Protokollieren aktivieren?</translation>
+        <translation>Aktiviere Protokollierung</translation>
     </message>
     <message>
         <source>This action is not being logged.</source>
@@ -598,11 +598,11 @@
     </message>
     <message>
         <source>Twitter</source>
-        <translation>Twitter</translation>
+        <translation type="vanished">Twitter</translation>
     </message>
     <message>
         <source>Facebook</source>
-        <translation>Facebook</translation>
+        <translation type="vanished">Facebook</translation>
     </message>
 </context>
 <context>
@@ -712,7 +712,7 @@
     </message>
     <message>
         <source>It seems you&apos;re not connected to the network.</source>
-        <translation>Es scheint als sei keine Netzwerkverbindung verfügbar.</translation>
+        <translation>Es scheint, als sei keine Netzwerkverbindung verfügbar.</translation>
     </message>
     <message>
         <source>The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it&apos;s restarting?</source>
@@ -2119,11 +2119,11 @@
     </message>
     <message>
         <source>Logging not enabled</source>
-        <translation>Protokoll nicht aktiv</translation>
+        <translation>Protokollieren nicht aktiv</translation>
     </message>
     <message>
         <source>Enable logging</source>
-        <translation>Protokollieren aktivieren?</translation>
+        <translation>Aktiviere Protokollierung</translation>
     </message>
     <message>
         <source>This event is not being logged.</source>
@@ -2408,6 +2408,10 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation>ID in die Zwischenablage kopiert</translation>
     </message>
 </context>
 <context>
@@ -3793,7 +3797,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please create an account.</source>
-        <translation>Erstelle ein Benutzerkonto um dieses %1 System zu benutzen.</translation>
+        <translation>Erstelle ein Benutzerkonto, um dieses %1 System zu benutzen.</translation>
     </message>
     <message>
         <source>Username</source>
@@ -4587,6 +4591,29 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     <message>
         <source>Client info</source>
         <translation>Klient-Informationen</translation>
+    </message>
+</context>
+<context>
+    <name>MultiStateChart</name>
+    <message>
+        <source>Hours</source>
+        <translation>Stunden</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Tage</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation>Wochen</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Monate</translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation>Keine Daten</translation>
     </message>
 </context>
 <context>
@@ -6425,7 +6452,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.</source>
-        <translation>Dieses %1 System wurde noch nicht eingerichtet. Dieser Assistent wird Dich durch ein paar einfache Schritte leiten um es einzurichten.</translation>
+        <translation>Dieses %1 System wurde noch nicht eingerichtet. Dieser Assistent wird Dich durch ein paar einfache Schritte leiten, um es einzurichten.</translation>
     </message>
     <message>
         <source>Next</source>
@@ -6682,11 +6709,11 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message>
         <source>This state is not being logged.</source>
-        <translation>Dieser Zustand wird nicht protokolliert</translation>
+        <translation>Dieser Zustand wird nicht protokolliert.</translation>
     </message>
     <message>
         <source>Enable logging</source>
-        <translation>Protokoll aktivieren?</translation>
+        <translation>Aktiviere Protokollierung</translation>
     </message>
 </context>
 <context>
@@ -6920,6 +6947,89 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Update</source>
         <translation>Aktualisierung</translation>
+    </message>
+</context>
+<context>
+    <name>ThingStatusPage</name>
+    <message>
+        <source>Status for %1</source>
+        <translation>Status für %1</translation>
+    </message>
+    <message>
+        <source>Update information</source>
+        <translation>Update Informationen</translation>
+    </message>
+    <message>
+        <source>Thing is up to date</source>
+        <translation>Gerät ist auf dem neuesten Stand</translation>
+    </message>
+    <message>
+        <source>Update available</source>
+        <translation>Update verfügbar</translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Update wird durchgeführt...</translation>
+    </message>
+    <message>
+        <source>Installed version: %1</source>
+        <translation>Installierte Version: %1</translation>
+    </message>
+    <message>
+        <source>Available version: %1</source>
+        <translation>Verfügbare Version: %1</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Aktualisierung</translation>
+    </message>
+    <message>
+        <source>Do you want to start the update now?</source>
+        <translation>Möchtest du das Update jetzt durchführen?</translation>
+    </message>
+    <message>
+        <source>Current version: %1</source>
+        <translation>Aktuelle Version: %1</translation>
+    </message>
+    <message>
+        <source>Connection information</source>
+        <translation>Verbindungs Information</translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation>Verbunden</translation>
+    </message>
+    <message>
+        <source>Disconnected</source>
+        <translation>Getrennt</translation>
+    </message>
+    <message>
+        <source>Signal strength: %1 %</source>
+        <translation>Signalstärke: %1 %</translation>
+    </message>
+    <message>
+        <source>Battery information</source>
+        <translation>Batterie Informationen</translation>
+    </message>
+    <message>
+        <source>Battery level critical</source>
+        <translation>Batterie Ladung kritisch</translation>
+    </message>
+    <message>
+        <source>Battery level ok</source>
+        <translation>Batterie Ladung OK</translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation>Kritisch</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Battery level: %1 %</source>
+        <translation>Batterie Ladung: %1 %</translation>
     </message>
 </context>
 <context>
