@@ -1,3 +1,10 @@
+nymea-app (1.8.42) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update translations and fix german typos
+
+ -- jenkins <developer@nymea.io>  Thu, 13 Jun 2024 17:25:38 +0200
+
 nymea-app (1.8.40) bionic; urgency=medium
 
   [ Simon Stürz ]
