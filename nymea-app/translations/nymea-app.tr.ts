@@ -2525,10 +2525,6 @@ Please try again.</source>
         <translation>Qt&apos;nin web sitesini ziyaret edin</translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation>nymea, nymea GmbH&apos;nin tescilli ticari markasıdır.</translation>
-    </message>
-    <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
         <translation>GNU Genel Kamu Lisansı, sürüm 3 koşulları altında lisanslanmıştır. Kaynak kodu ve yapım talimatları için lütfen GitHub sayfasını ziyaret edin.</translation>
     </message>
@@ -2539,6 +2535,10 @@ Please try again.</source>
     <message>
         <source>Additional software licenses</source>
         <translation>Ek yazılım lisansları</translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of chargebyte GmbH.</source>
+        <translation>nymea, chargebyte GmbH.nin tescilli ticari markasıdır.</translation>
     </message>
 </context>
 <context>

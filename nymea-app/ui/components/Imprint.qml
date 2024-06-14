@@ -101,7 +101,7 @@ Item {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             font.bold: true
-            text: "Copyright (C) %1 nymea GmbH".arg(new Date().getFullYear())
+            text: "Copyright (C) %1 chargebyte GmbH".arg(new Date().getFullYear())
         }
 
         Label {
@@ -109,7 +109,7 @@ Item {
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
-            text: qsTr("nymea is a registered trademark of nymea GmbH.")
+            text: qsTr("nymea is a registered trademark of chargebyte GmbH.")
         }
 
         Label {

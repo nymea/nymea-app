@@ -2522,10 +2522,6 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
         <translation></translation>
     </message>
@@ -2536,6 +2532,10 @@ Please try again.</source>
     <message>
         <source>Additional software licenses</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of chargebyte GmbH.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

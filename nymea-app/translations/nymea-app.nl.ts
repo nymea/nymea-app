@@ -596,14 +596,6 @@
         <source>Discord</source>
         <translation>Discord</translation>
     </message>
-    <message>
-        <source>Twitter</source>
-        <translation type="vanished">Twitter</translation>
-    </message>
-    <message>
-        <source>Facebook</source>
-        <translation type="vanished">Facebook</translation>
-    </message>
 </context>
 <context>
     <name>ConfigureThingPage</name>
@@ -2547,10 +2539,6 @@ Probeer het nog een keer.</translation>
         <translation>Bezoek de Qt website</translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation>nymea is een geregistreerd handelsmerk van nymea GmbH.</translation>
-    </message>
-    <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
         <translation>Gelicentieerd onder de voorwaarden van de GNU General Public License, versie 3. Bezoek de GitHub pagina voor de broncode en de build instructies.</translation>
     </message>
@@ -2561,6 +2549,10 @@ Probeer het nog een keer.</translation>
     <message>
         <source>Additional software licenses</source>
         <translation>Aanvullende software licenties</translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of chargebyte GmbH.</source>
+        <translation>nymea is een geregistreerd handelsmerk van chargebyte GmbH.</translation>
     </message>
 </context>
 <context>

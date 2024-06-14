@@ -597,14 +597,6 @@
         <source>Discord</source>
         <translation>Discord</translation>
     </message>
-    <message>
-        <source>Twitter</source>
-        <translation type="vanished">Twitter</translation>
-    </message>
-    <message>
-        <source>Facebook</source>
-        <translation type="vanished">Facebook</translation>
-    </message>
 </context>
 <context>
     <name>ConfigureThingPage</name>
@@ -2553,10 +2545,6 @@ Prosím zkuste to znovu.</translation>
         <translation>Navštivte web Qt</translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation>nymea je registrovaná ochranná známka společnosti nymea GmbH.</translation>
-    </message>
-    <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
         <translation>Licencováno podle podmínek GNU General Public License, verze 3. Navštivte prosím stránku GitHub, kde najdete zdrojový kód a pokyny k sestavení.</translation>
     </message>
@@ -2567,6 +2555,10 @@ Prosím zkuste to znovu.</translation>
     <message>
         <source>Additional software licenses</source>
         <translation>Další softwarové licence</translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of chargebyte GmbH.</source>
+        <translation>nymea je registrovaná ochranná známka společnosti chargebyte GmbH.</translation>
     </message>
 </context>
 <context>

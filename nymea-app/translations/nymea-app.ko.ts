@@ -2526,10 +2526,6 @@ Please try again.</source>
         <translation>Qt 웹 사이트 방문</translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2540,6 +2536,10 @@ Please try again.</source>
     <message>
         <source>Additional software licenses</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of chargebyte GmbH.</source>
+        <translation>nymea는 chargebyte GmbH 및 그 자회사의 등록 상표입니다.</translation>
     </message>
 </context>
 <context>
