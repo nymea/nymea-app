@@ -1,3 +1,10 @@
+nymea-app (1.8.43) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update translations and company name
+
+ -- jenkins <developer@nymea.io>  Mon, 17 Jun 2024 12:36:06 +0200
+
 nymea-app (1.8.42) bionic; urgency=medium
 
   [ Simon Stürz ]
