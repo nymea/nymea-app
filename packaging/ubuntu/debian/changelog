@@ -1,3 +1,10 @@
+nymea-app (1.8.44) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Introduce font scaling mechanism
+
+ -- jenkins <developer@nymea.io>  Thu, 11 Jul 2024 09:11:33 +0200
+
 nymea-app (1.8.43) bionic; urgency=medium
 
   [ Simon Stürz ]
