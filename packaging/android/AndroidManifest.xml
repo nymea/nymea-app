@@ -39,8 +39,6 @@
             <meta-data android:value="@string/fatal_error_msg" android:name="android.app.fatal_error_msg"/>
             <!--  Messages maps -->
 
-            <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notificationicon"/>
-
             <!-- Splash screen -->
             <meta-data android:name="android.app.splash_screen_drawable" android:resource="@drawable/splash"/>
             <meta-data android:name="android.app.splash_screen_sticky" android:value="true"/>
@@ -132,6 +130,9 @@
             <meta-data android:name="android.app.background_running" android:value="true"/>
             <!-- Background running -->
         </service>
+
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notificationicon"/>
+        <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/notification_icon_color"/>
 
         <service android:name="com.google.firebase.messaging.MessageForwardingService" android:exported="false">
         </service>

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_MUTABLE_DATA_H_
-#define FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_MUTABLE_DATA_H_
+#ifndef FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_MUTABLE_DATA_H_
+#define FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_MUTABLE_DATA_H_
 
 #include "firebase/internal/common.h"
 #include "firebase/variant.h"
@@ -27,24 +27,13 @@ class MutableDataInternal;
 class Repo;
 }  // namespace internal
 
+#ifndef SWIG
 /// Instances of this class encapsulate the data and priority at a location. It
 /// is used in transactions, and it is intended to be inspected and then updated
 /// to the desired data at that location.
+#endif  // SWIG
 class MutableData {
  public:
-  /// @brief Copy constructor.
-  ///
-  /// This only makes a shallow copy and copies of MutableData will share the
-  /// same internal data. I.e. changes to one copy will appear in the other.
-  /// The main reason the copy constructor is provided is to allow the Child
-  /// method to return a MutableData by value.
-  MutableData(const MutableData& rhs);
-
-  /// @brief Copy assignment operator
-  ///
-  /// @deprecated MutableData is not supposed to be assigned.
-  FIREBASE_DEPRECATED MutableData& operator=(const MutableData& rhs);
-
 #if defined(FIREBASE_USE_MOVE_OPERATORS)
   /// Move constructor
   /// Move is more efficient than copy and delete.
@@ -124,7 +113,7 @@ class MutableData {
   ///
   /// @param[in] path Path relative to this data's location.
   /// @returns True if there is data at the specified location, false if not.
-  bool HasChild(const std::string& path);
+  bool HasChild(const std::string& path) const;
 
   /// @brief Sets the data at this location to the given value.
   ///
@@ -162,7 +151,10 @@ class MutableData {
   friend MutableData GetInvalidMutableData();
   /// @endcond
 
-  MutableData(internal::MutableDataInternal* internal);
+  explicit MutableData(internal::MutableDataInternal* internal);
+
+  MutableData(const MutableData& rhs) = delete;
+  MutableData& operator=(const MutableData& rhs) = delete;
 
   internal::MutableDataInternal* internal_;
 };
@@ -170,4 +162,4 @@ class MutableData {
 }  // namespace database
 }  // namespace firebase
 
-#endif  // FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_MUTABLE_DATA_H_
+#endif  // FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_MUTABLE_DATA_H_

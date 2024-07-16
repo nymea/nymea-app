@@ -42,8 +42,8 @@ dependencies {
     implementation 'androidx.core:core:1.3.2'
 
     if ("${useFirebase}" == "true") {
-        implementation 'com.google.android.gms:play-services-base:15.0.1'
-        implementation 'com.google.firebase:firebase-messaging:18.0.0'
+        implementation 'com.google.android.gms:play-services-base:18.1.0'
+        implementation 'com.google.firebase:firebase-messaging:22.0.0'
         implementation 'com.google.firebase.messaging.cpp:firebase_messaging_cpp@aar'
     }
 }

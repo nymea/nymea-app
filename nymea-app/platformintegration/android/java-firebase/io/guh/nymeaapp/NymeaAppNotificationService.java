@@ -3,6 +3,7 @@ package io.guh.nymeaapp;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import android.util.Log;
 import android.content.Intent;
@@ -25,6 +26,27 @@ import java.util.Random;
 public class NymeaAppNotificationService extends FirebaseMessagingService {
 
     private static final String TAG = "nymea-app: NymeaAppNotificationService";
+
+
+    private int hashId(String id) {
+        int hash = 7;
+        for (int i = 0; i < id.length(); i++) {
+            hash = hash * 31 + id.charAt(i);
+        }
+        return hash;
+    }
+
+    public static boolean checkPlayServices() {
+        Log.d(TAG, "Checking for Google Play services");
+        try {
+            Context context = NymeaAppActivity.getAppContext();
+            int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+            return resultCode == ConnectionResult.SUCCESS;
+        } catch (Exception e) {
+            Log.d(TAG, e.toString());
+        }
+        return true;
+    }
 
     @Override
     public void onNewToken(String token) {

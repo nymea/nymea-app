@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef FIREBASE_APP_CLIENT_CPP_SRC_INCLUDE_GOOGLE_PLAY_SERVICES_AVAILABILITY_H_
-#define FIREBASE_APP_CLIENT_CPP_SRC_INCLUDE_GOOGLE_PLAY_SERVICES_AVAILABILITY_H_
+#ifndef FIREBASE_APP_SRC_INCLUDE_GOOGLE_PLAY_SERVICES_AVAILABILITY_H_
+#define FIREBASE_APP_SRC_INCLUDE_GOOGLE_PLAY_SERVICES_AVAILABILITY_H_
 
 #if defined(__ANDROID__) || defined(DOXYGEN)
 
@@ -24,14 +24,13 @@
 #endif
 #include "firebase/future.h"
 
-
 /// @brief Google Play services APIs included with the Firebase C++ SDK.
 /// These APIs are Android-specific.
 namespace google_play_services {
 
 /// @brief Possible availability states for Google Play services.
 enum Availability {
-  /// Gooogle Play services are available.
+  /// Google Play services are available.
   kAvailabilityAvailable,
 
   /// Google Play services is disabled in Settings.
@@ -91,4 +90,4 @@ Availability CheckAvailability(JNIEnv* env, jobject activity);
 
 #endif  // defined(__ANDROID__) || defined(DOXYGEN)
 
-#endif  // FIREBASE_APP_CLIENT_CPP_SRC_INCLUDE_GOOGLE_PLAY_SERVICES_AVAILABILITY_H_
+#endif  // FIREBASE_APP_SRC_INCLUDE_GOOGLE_PLAY_SERVICES_AVAILABILITY_H_

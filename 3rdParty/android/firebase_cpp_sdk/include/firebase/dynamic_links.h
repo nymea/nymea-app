@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_DYNAMIC_LINKS_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DYNAMIC_LINKS_H_
-#define FIREBASE_DYNAMIC_LINKS_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DYNAMIC_LINKS_H_
+#ifndef FIREBASE_DYNAMIC_LINKS_SRC_INCLUDE_FIREBASE_DYNAMIC_LINKS_H_
+#define FIREBASE_DYNAMIC_LINKS_SRC_INCLUDE_FIREBASE_DYNAMIC_LINKS_H_
 
 #include <string>
 
 #include "firebase/app.h"
+#include "firebase/cpp_version_warning.h"
 #include "firebase/internal/common.h"
 
 #if !defined(DOXYGEN) && !defined(SWIG)
@@ -32,11 +33,13 @@ namespace firebase {
 /// receiving links, whether or not the app is already installed.
 namespace dynamic_links {
 
+#ifndef SWIG
 /// @brief Error code used by Futures returned by this API.
 enum ErrorCode {
   kErrorCodeSuccess = 0,
   kErrorCodeFailed,
 };
+#endif  // SWIG
 
 /// @brief Enum describing the strength of a dynamic links match.
 ///
@@ -84,7 +87,7 @@ class Listener {
 /// Listener provided at any time.
 ///
 /// @param[in] app The Firebase App object for this application.
-/// @param[in] listener A Listener object that recieves Dynamic Links.
+/// @param[in] listener A Listener object that receives Dynamic Links.
 ///
 /// @return kInitResultSuccess if initialization succeeded, or
 /// kInitResultFailedMissingDependency on Android if Google Play services is
@@ -112,4 +115,4 @@ void Fetch();
 }  // namespace dynamic_links
 }  // namespace firebase
 
-#endif  // FIREBASE_DYNAMIC_LINKS_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DYNAMIC_LINKS_H_
+#endif  // FIREBASE_DYNAMIC_LINKS_SRC_INCLUDE_FIREBASE_DYNAMIC_LINKS_H_

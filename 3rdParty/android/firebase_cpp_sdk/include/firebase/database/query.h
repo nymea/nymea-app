@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_QUERY_H_
-#define FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_QUERY_H_
+#ifndef FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_QUERY_H_
+#define FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_QUERY_H_
 
 #include <string>
+
+#include "firebase/database/listener.h"
 #include "firebase/future.h"
 #include "firebase/internal/common.h"
-#include "firebase/database/listener.h"
 
 namespace firebase {
 namespace database {
@@ -28,8 +29,10 @@ class QueryInternal;
 
 class DatabaseReference;
 
+#ifndef SWIG
 /// The Query class is used for reading data. Listeners can be attached, which
 /// will be triggered when the data changes.
+#endif  // SWIG
 class Query {
  public:
   /// Default constructor. This creates an invalid Query. Attempting to perform
@@ -263,6 +266,7 @@ class Query {
   /// @returns A Query in this same location, filtering out child nodes that
   /// have a different sort value than the sort value specified.
   Query EqualTo(Variant order_value);
+
   /// @brief Get a Query constrained to nodes with the exact given sort value,
   /// and the exact given key.
   ///
@@ -271,7 +275,7 @@ class Query {
   /// as default), and the given key. Note that there is at most one such child
   /// as child key names are unique.
   ///
-  /// <b>Known issue</b> This currently does not work properly on iOS and
+  /// <b>Known issue</b> This currently does not work properly on iOS, tvOS and
   /// desktop. Please use EqualTo(Variant order_value) instead.
   ///
   /// @param[in] order_value The exact sort value the Query should include.
@@ -351,4 +355,4 @@ bool operator==(const Query& lhs, const Query& rhs);
 }  // namespace database
 }  // namespace firebase
 
-#endif  // FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_QUERY_H_
+#endif  // FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_QUERY_H_

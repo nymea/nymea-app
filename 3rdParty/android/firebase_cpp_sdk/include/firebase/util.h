@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-#ifndef FIREBASE_APP_CLIENT_CPP_SRC_INCLUDE_FIREBASE_UTIL_H_
-#define FIREBASE_APP_CLIENT_CPP_SRC_INCLUDE_FIREBASE_UTIL_H_
+#ifndef FIREBASE_APP_SRC_INCLUDE_FIREBASE_UTIL_H_
+#define FIREBASE_APP_SRC_INCLUDE_FIREBASE_UTIL_H_
 
 #include "firebase/app.h"
 #include "firebase/future.h"
-
 
 namespace firebase {
 
@@ -87,8 +86,7 @@ class ModuleInitializer {
   /// function that should initialize a Firebase module and return the
   /// InitResult. @see Initialize(::firebase::App*, void*, const InitializerFn*)
   /// for more information.
-  Future<void> Initialize(App* app, void* context,
-                          InitializerFn init_fn);
+  Future<void> Initialize(App* app, void* context, InitializerFn init_fn);
 
   /// @brief Get the result of the most recent call to @see Initialize().
   Future<void> InitializeLastResult();
@@ -100,4 +98,4 @@ class ModuleInitializer {
 // NOLINTNEXTLINE - allow namespace overridden
 }  // namespace firebase
 
-#endif  // FIREBASE_APP_CLIENT_CPP_SRC_INCLUDE_FIREBASE_UTIL_H_
+#endif  // FIREBASE_APP_SRC_INCLUDE_FIREBASE_UTIL_H_
