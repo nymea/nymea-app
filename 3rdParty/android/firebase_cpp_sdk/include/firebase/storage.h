@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_STORAGE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_STORAGE_H_
-#define FIREBASE_STORAGE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_STORAGE_H_
+#ifndef FIREBASE_STORAGE_SRC_INCLUDE_FIREBASE_STORAGE_H_
+#define FIREBASE_STORAGE_SRC_INCLUDE_FIREBASE_STORAGE_H_
 
 #include <string>
 
 #include "firebase/app.h"
+#include "firebase/cpp_version_warning.h"
 #include "firebase/internal/common.h"
 #include "firebase/storage/common.h"
 #include "firebase/storage/controller.h"
@@ -26,7 +27,9 @@
 #include "firebase/storage/storage_reference.h"
 
 #if !defined(DOXYGEN)
+#ifndef SWIG
 FIREBASE_APP_REGISTER_CALLBACKS_REFERENCE(storage)
+#endif  // SWIG
 #endif  // !defined(DOXYGEN)
 
 namespace firebase {
@@ -41,12 +44,14 @@ class MetadataInternal;
 
 class StorageReference;
 
+#ifndef SWIG
 /// @brief Entry point for the Firebase C++ SDK for Cloud Storage.
 ///
 /// To use the SDK, call firebase::storage::Storage::GetInstance() to
 /// obtain an instance of Storage, then use GetReference() to obtain references
 /// to child blobs. From there you can upload data with
 /// StorageReference::PutStream(), get data via StorageReference::GetStream().
+#endif  // SWIG
 class Storage {
  public:
   /// @brief Destructor. You may delete an instance of Storage when
@@ -154,4 +159,4 @@ class Storage {
 }  // namespace storage
 }  // namespace firebase
 
-#endif  // FIREBASE_STORAGE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_STORAGE_H_
+#endif  // FIREBASE_STORAGE_SRC_INCLUDE_FIREBASE_STORAGE_H_

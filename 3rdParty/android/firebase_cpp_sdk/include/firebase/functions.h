@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_FUNCTIONS_CLIENT_CPP_SRC_INCLUDE_FIREBASE_FUNCTIONS_H_
-#define FIREBASE_FUNCTIONS_CLIENT_CPP_SRC_INCLUDE_FIREBASE_FUNCTIONS_H_
+#ifndef FIREBASE_FUNCTIONS_SRC_INCLUDE_FIREBASE_FUNCTIONS_H_
+#define FIREBASE_FUNCTIONS_SRC_INCLUDE_FIREBASE_FUNCTIONS_H_
 
 #include <string>
 
 #include "firebase/app.h"
+#include "firebase/cpp_version_warning.h"
 #include "firebase/functions/callable_reference.h"
 #include "firebase/functions/callable_result.h"
 #include "firebase/functions/common.h"
@@ -35,12 +36,14 @@ class FunctionsInternal;
 
 class FunctionsReference;
 
+#ifndef SWIG
 /// @brief Entry point for the Firebase C++ SDK for Cloud Functions.
 ///
 /// To use the SDK, call firebase::functions::Functions::GetInstance() to
 /// obtain an instance of Functions, then use GetHttpsCallable() to obtain
 /// references to callable functions. From there you can call them with
 /// CallableReference::Call().
+#endif  // SWIG
 class Functions {
  public:
   /// @brief Destructor. You may delete an instance of Functions when
@@ -88,6 +91,9 @@ class Functions {
   /// @brief Get a FunctionsReference for the specified path.
   HttpsCallableReference GetHttpsCallable(const char* name) const;
 
+  /// @brief Get a FunctionsReference for the specified URL.
+  HttpsCallableReference GetHttpsCallableFromURL(const char* url) const;
+
   /// @brief Sets an origin for a Cloud Functions emulator to use.
   void UseFunctionsEmulator(const char* origin);
 
@@ -107,4 +113,4 @@ class Functions {
 }  // namespace functions
 }  // namespace firebase
 
-#endif  // FIREBASE_FUNCTIONS_CLIENT_CPP_SRC_INCLUDE_FIREBASE_FUNCTIONS_H_
+#endif  // FIREBASE_FUNCTIONS_SRC_INCLUDE_FIREBASE_FUNCTIONS_H_

@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-#ifndef FIREBASE_AUTH_CLIENT_CPP_SRC_INCLUDE_FIREBASE_AUTH_USER_H_
-#define FIREBASE_AUTH_CLIENT_CPP_SRC_INCLUDE_FIREBASE_AUTH_USER_H_
+#ifndef FIREBASE_AUTH_SRC_INCLUDE_FIREBASE_AUTH_USER_H_
+#define FIREBASE_AUTH_SRC_INCLUDE_FIREBASE_AUTH_USER_H_
 
 #include <string>
 #include <vector>
 
+#include "firebase/auth/credential.h"
+#include "firebase/auth/types.h"
 #include "firebase/future.h"
 #include "firebase/internal/common.h"
 #include "firebase/variant.h"
-#include "firebase/auth/credential.h"
-#include "firebase/auth/types.h"
 
 namespace firebase {
 namespace auth {
@@ -32,6 +32,8 @@ namespace auth {
 // Predeclarations.
 class Auth;
 struct AuthData;
+
+class FederatedAuthProvider;
 
 /// @brief Interface implemented by each identity provider.
 class UserInfoInterface {
@@ -46,18 +48,60 @@ class UserInfoInterface {
   /// @if cpp_examples
   /// Use User::GetToken() instead.
   /// @endif
+  /// <SWIG>
+  /// @if swig_examples
+  /// Use User.Token instead.
+  /// @endif
+  /// @xmlonly
+  /// <csproperty name="UserId">
+  /// Gets the unique Firebase user ID for the user.
+  ///
+  /// @note The user's ID, unique to the Firebase project.
+  /// Do NOT use this value to authenticate with your backend server, if you
+  /// have one. Use User.Token instead.
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   virtual std::string uid() const = 0;
 
   /// Gets email associated with the user, if any.
+  /// <SWIG>
+  /// @xmlonly
+  /// <csproperty name="Email">
+  /// Gets email associated with the user, if any.
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   virtual std::string email() const = 0;
 
   /// Gets the display name associated with the user, if any.
+  /// <SWIG>
+  /// @xmlonly
+  /// <csproperty name="DisplayName">
+  /// Gets the display name associated with the user, if any.
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   virtual std::string display_name() const = 0;
 
   /// Gets the photo url associated with the user, if any.
+  /// <SWIG>
+  /// @xmlonly
+  /// <csproperty name="PhotoUrl">
+  /// Gets the photo url associated with the user, if any.
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   virtual std::string photo_url() const = 0;
 
   /// Gets the provider ID for the user (For example, "Facebook").
+  /// <SWIG>
+  /// @xmlonly
+  /// <csproperty name="ProviderId">
+  /// Gets the provider ID for the user (For example, \"Facebook\").
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   virtual std::string provider_id() const = 0;
 
   /// Gets the phone number for the user, in E.164 format.
@@ -76,6 +120,13 @@ struct AdditionalUserInfo {
   /// Most likely a hierarchical key-value mapping, like a parsed JSON file.
   /// Note we use map instead of unordered_map to support older compilers.
   std::map<Variant, Variant> profile;
+
+  /// On a nonce-based credential link failure where the user has already linked
+  /// to the provider, the Firebase auth service may provide an updated
+  /// Credential. If is_valid returns true on this credential, then it may be
+  /// passed to a new firebase::auth::Auth::SignInWithCredential request to sign
+  /// the user in with the provider.
+  Credential updated_credential;
 };
 
 /// @brief Metadata corresponding to a Firebase user.
@@ -99,7 +150,7 @@ struct SignInResult {
   User* user;
 
   /// Identity-provider specific information for the user, if the provider is
-  /// one of Facebook, Github, Google, or Twitter.
+  /// one of Facebook, GitHub, Google, or Twitter.
   AdditionalUserInfo info;
 
   /// Metadata associated with the Firebase user.
@@ -155,6 +206,14 @@ class User : public UserInfoInterface {
 
   /// Gets the third party profile data associated with this user returned by
   /// the authentication server, if any.
+  /// <SWIG>
+  /// @xmlonly
+  /// <csproperty name="ProviderData">
+  /// Gets the third party profile data associated with this user returned by
+  /// the authentication server, if any.
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   const std::vector<UserInfoInterface*>& provider_data() const;
 
   /// Sets the email address for the user.
@@ -177,6 +236,11 @@ class User : public UserInfoInterface {
   /// @if cpp_examples
   /// call @ref Reauthenticate.
   /// @endif
+  /// <SWIG>
+  /// @if swig_examples
+  /// call @ref ReauthenticateAsync.
+  /// @endif
+  /// </SWIG>
   Future<void> UpdatePassword(const char* password);
 
   /// Get results of the most recent call to @ref UpdatePassword.
@@ -198,20 +262,40 @@ class User : public UserInfoInterface {
   /// tokens, ensuring that the operation can proceed. Developers can call
   /// this method prior to calling @ref UpdatePassword() to ensure success.
   /// @endif
+  /// <SWIG>
+  /// @if swig_examples
+  /// Some APIs (for example, @ref UpdatePasswordAsync, @ref DeleteAsync)
+  /// require that the token used to invoke them be from a recent login attempt.
+  /// This API takes an existing credential for the user and retrieves fresh
+  /// tokens, ensuring that the operation can proceed. Developers can call
+  /// this method prior to calling @ref UpdatePasswordAsync() to ensure success.
+  /// @endif
+  /// </SWIG>
   ///
   /// Data from the Identity Provider used to sign-in is returned in the
   /// AdditionalUserInfo inside the returned SignInResult.
   ///
   /// Returns an error if the existing credential is not for this user
-  /// or if sign-in with that credential failed. The user should remain
-  /// signed in even if this method failed. If the developer had held
-  /// a reference to that user, the reference will continue to be valid
-  /// after this operation.
+  /// or if sign-in with that credential failed.
+  /// @note: The current user may be signed out if this operation fails on
+  /// Android and desktop platforms.
   Future<SignInResult> ReauthenticateAndRetrieveData(
       const Credential& credential);
 
   /// Get results of the most recent call to @ref ReauthenticateAndRetrieveData.
   Future<SignInResult> ReauthenticateAndRetrieveDataLastResult() const;
+
+  /// @brief Re-authenticates the user with a federated auth provider.
+  ///
+  /// @param[in] provider Contains information on the auth provider to
+  /// authenticate with.
+  /// @return A Future<SignInResult> with the result of the re-authentication
+  /// request.
+  /// @note: This operation is supported only on iOS, tvOS and Android
+  /// platforms. On other platforms this method will return a Future with a
+  /// preset error code: kAuthErrorUnimplemented.
+  Future<SignInResult> ReauthenticateWithProvider(
+      FederatedAuthProvider* provider) const;
 
   /// Initiates email verification for the user.
   Future<void> SendEmailVerification();
@@ -250,6 +334,18 @@ class User : public UserInfoInterface {
   /// @ref LinkAndRetrieveDataWithCredential.
   Future<SignInResult> LinkAndRetrieveDataWithCredentialLastResult() const;
 
+  /// Links this user with a federated auth provider.
+  ///
+  /// @param[in] provider Contains information on the auth provider to link
+  /// with.
+  /// @return A Future<SignInResult> with the user data result of the link
+  /// request.
+  ///
+  /// @note: This operation is supported only on iOS, tvOS and Android
+  /// platforms. On other platforms this method will return a Future with a
+  /// preset error code: kAuthErrorUnimplemented.
+  Future<SignInResult> LinkWithProvider(FederatedAuthProvider* provider) const;
+
   /// Unlinks the current user from the provider specified.
   /// Status will be an error if the user is not linked to the given provider.
   Future<User*> Unlink(const char* provider);
@@ -286,9 +382,23 @@ class User : public UserInfoInterface {
 
   /// Returns true if the email address associated with this user has been
   /// verified.
+  /// <SWIG>
+  /// @xmlonly
+  /// <csproperty name="IsEmailVerified">
+  /// True if the email address associated with this user has been verified.
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   bool is_email_verified() const;
 
   /// Returns true if user signed in anonymously.
+  /// <SWIG>
+  /// @xmlonly
+  /// <csproperty name="IsAnonymous">
+  /// True if user signed in anonymously.
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   bool is_anonymous() const;
 
   /// Gets the unique Firebase user ID for the user.
@@ -299,18 +409,60 @@ class User : public UserInfoInterface {
   /// @if cpp_examples
   /// Use User::GetToken() instead.
   /// @endif
+  /// <SWIG>
+  /// @if swig_examples
+  /// Use User.Token instead.
+  /// @endif
+  /// @xmlonly
+  /// <csproperty name="UserId">
+  /// Gets the unique Firebase user ID for the user.
+  ///
+  /// @note The user's ID, unique to the Firebase project.
+  /// Do NOT use this value to authenticate with your backend server, if you
+  /// have one. Use User.Token instead.
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   virtual std::string uid() const;
 
   /// Gets email associated with the user, if any.
+  /// <SWIG>
+  /// @xmlonly
+  /// <csproperty name="Email">
+  /// Gets email associated with the user, if any.
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   virtual std::string email() const;
 
   /// Gets the display name associated with the user, if any.
+  /// <SWIG>
+  /// @xmlonly
+  /// <csproperty name="DisplayName">
+  /// Gets the display name associated with the user, if any.
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   virtual std::string display_name() const;
 
   /// Gets the photo url associated with the user, if any.
+  /// <SWIG>
+  /// @xmlonly
+  /// <csproperty name="PhotoUrl">
+  /// Gets the photo url associated with the user, if any.
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   virtual std::string photo_url() const;
 
   /// Gets the provider ID for the user (For example, "Facebook").
+  /// <SWIG>
+  /// @xmlonly
+  /// <csproperty name="ProviderId">
+  /// Gets the provider ID for the user (For example, \"Facebook\").
+  /// </csproperty>
+  /// @endxmlonly
+  /// </SWIG>
   virtual std::string provider_id() const;
 
   /// Gets the phone number for the user, in E.164 format.
@@ -333,6 +485,7 @@ class User : public UserInfoInterface {
   /// @cond FIREBASE_APP_INTERNAL
   friend class IdTokenRefreshThread;
   friend class IdTokenRefreshListener;
+  friend class Auth;
   Future<std::string> GetTokenInternal(const bool force_refresh,
                                        const int future_identifier);
   /// @endcond
@@ -345,4 +498,4 @@ class User : public UserInfoInterface {
 }  // namespace auth
 }  // namespace firebase
 
-#endif  // FIREBASE_AUTH_CLIENT_CPP_SRC_INCLUDE_FIREBASE_AUTH_USER_H_
+#endif  // FIREBASE_AUTH_SRC_INCLUDE_FIREBASE_AUTH_USER_H_

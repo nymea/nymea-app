@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_H_
-#define FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_H_
+#ifndef FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_H_
+#define FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_H_
 
 #include "firebase/app.h"
-#include "firebase/internal/common.h"
+#include "firebase/cpp_version_warning.h"
 #include "firebase/database/common.h"
 #include "firebase/database/data_snapshot.h"
 #include "firebase/database/database_reference.h"
@@ -25,6 +25,8 @@
 #include "firebase/database/mutable_data.h"
 #include "firebase/database/query.h"
 #include "firebase/database/transaction.h"
+#include "firebase/internal/common.h"
+#include "firebase/log.h"
 
 namespace firebase {
 
@@ -37,6 +39,7 @@ class DatabaseInternal;
 
 class DatabaseReference;
 
+#ifndef SWIG
 /// @brief Entry point for the Firebase Realtime Database C++ SDK.
 ///
 /// To use the SDK, call firebase::database::Database::GetInstance() to obtain
@@ -44,6 +47,7 @@ class DatabaseReference;
 /// child paths within the database. From there you can set data via
 /// Query::SetValue(), get data via Query::GetValue(), attach listeners, and
 /// more.
+#endif  // SWIG
 class Database {
  public:
   /// @brief Get an instance of Database corresponding to the given App.
@@ -160,6 +164,23 @@ class Database {
   /// (disk) storage, or false to discard pending writes when the app exists.
   void set_persistence_enabled(bool enabled);
 
+  /// Set the log verbosity of this Database instance.
+  ///
+  /// The log filtering is cumulative with Firebase App. That is, this library's
+  /// log messages will only be displayed if they are not filtered out by this
+  /// library's log level setting and by Firebase App's log level setting.
+  ///
+  /// @note On Android this can only be set before any operations have been
+  /// performed with the object.
+  ///
+  /// @param[in] log_level Log level, by default this is set to kLogLevelInfo.
+  void set_log_level(LogLevel log_level);
+
+  /// Get the log verbosity of this Database instance.
+  ///
+  /// @return Get the currently configured logging verbosity.
+  LogLevel log_level() const;
+
  private:
   friend Database* GetDatabaseInstance(::firebase::App* app, const char* url,
                                        InitResult* init_result_out);
@@ -176,4 +197,4 @@ class Database {
 }  // namespace database
 }  // namespace firebase
 
-#endif  // FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_H_
+#endif  // FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_H_
