@@ -66,6 +66,8 @@ void PlatformHelper::notificationActionReceived(const QString &nymeaData)
         qCWarning(dcPlatformIntegration()) << "Received a notification action but cannot parse it:" << error.errorString() << nymeaData;
         return;
     }
+
+    qCDebug(dcPlatformIntegration()) << "Received notification action data" << nymeaData;
     QVariantMap map = jsonDoc.toVariant().toMap();
     QUuid id = QUuid::createUuid();
     map.insert("id", id);
