@@ -77,19 +77,24 @@ QUrl TunnelProxyTransport::url() const
 
 NymeaTransportInterface::ConnectionState TunnelProxyTransport::connectionState() const
 {
+    NymeaTransportInterface::ConnectionState state = NymeaTransportInterface::ConnectionStateDisconnected;
     switch (m_remoteConnection->state()) {
     case TunnelProxyRemoteConnection::StateRemoteConnected:
-        return NymeaTransportInterface::ConnectionStateConnected;
+        state = NymeaTransportInterface::ConnectionStateConnected;
+        break;
     case TunnelProxyRemoteConnection::StateConnecting:
     case TunnelProxyRemoteConnection::StateHostLookup:
     case TunnelProxyRemoteConnection::StateConnected:
     case TunnelProxyRemoteConnection::StateInitializing:
     case TunnelProxyRemoteConnection::StateRegister:
-        return NymeaTransportInterface::ConnectionStateConnecting;
+        state = NymeaTransportInterface::ConnectionStateConnecting;
+        break;
     case TunnelProxyRemoteConnection::StateDiconnecting:
     case TunnelProxyRemoteConnection::StateDisconnected:
-        return NymeaTransportInterface::ConnectionStateDisconnected;
+        state = NymeaTransportInterface::ConnectionStateDisconnected;
+        break;
     }
+    return state;
 }
 
 void TunnelProxyTransport::disconnect()

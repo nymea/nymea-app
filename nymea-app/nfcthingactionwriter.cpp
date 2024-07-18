@@ -137,10 +137,9 @@ void NfcThingActionWriter::updateContent()
 
     QNdefNfcUriRecord record;
     record.setUri(url);
-    QNdefMessage message;
-    message.append(record);
 
-    m_currentMessage = message;
+    m_currentMessage.clear();
+    m_currentMessage.append(record);
     emit messageSizeChanged();
 
 }

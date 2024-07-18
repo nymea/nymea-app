@@ -1,4 +1,6 @@
-CONFIG += c++11
+CONFIG *= c++14
+QMAKE_LFLAGS *= -std=c++14
+QMAKE_CXXFLAGS *= -std=c++14
 
 top_srcdir=$$PWD
 top_builddir=$$shadowed($$PWD)

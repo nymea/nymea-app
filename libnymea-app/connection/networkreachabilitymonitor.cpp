@@ -28,9 +28,8 @@ NetworkReachabilityMonitor::NetworkReachabilityMonitor(QObject *parent)
     });
 
     QGuiApplication *app = static_cast<QGuiApplication*>(QGuiApplication::instance());
-    QObject::connect(app, &QGuiApplication::applicationStateChanged, this, [app, this](Qt::ApplicationState state) {
+    QObject::connect(app, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
         qCDebug(dcNymeaConnection()) << "Application state changed to:" << state;
-
         updateActiveBearers();
     });
 
