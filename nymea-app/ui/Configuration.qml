@@ -5,6 +5,7 @@ ConfigurationBase {
     systemName: "nymea"
     appName: "nymea:app"
     appId: "io.guh.nymeaapp"
+    company: "chargebyte GmbH"
 
     connectionWizard: "/ui/connection/ConnectionWizard.qml"
 

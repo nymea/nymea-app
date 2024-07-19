@@ -5,6 +5,8 @@ Item {
     property string appName: ""
     property string appId: ""
 
+    property string company: ""
+
     property string connectionWizard: ""
 
     // Enable/disable certain features
