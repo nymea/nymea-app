@@ -158,7 +158,7 @@ void UpnpDiscovery::writeDiscoveryPacket()
 void UpnpDiscovery::error(QAbstractSocket::SocketError error)
 {
     QUdpSocket* socket = static_cast<QUdpSocket*>(sender());
-    qWarning() << "UPnP: Socket error:" << error << socket->errorString();
+    qCWarning(dcUPnP) << "UPnP: Socket error:" << error << socket->errorString();
 }
 
 void UpnpDiscovery::readData()
