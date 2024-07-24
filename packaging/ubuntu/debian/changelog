@@ -1,3 +1,10 @@
+nymea-app (1.9.1) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update gradl and android firbease SDK and GCM notification handling
+
+ -- jenkins <developer@nymea.io>  Wed, 24 Jul 2024 08:39:47 +0200
+
 nymea-app (1.8.44) bionic; urgency=medium
 
   [ Simon Stürz ]
