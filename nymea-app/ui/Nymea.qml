@@ -121,6 +121,7 @@ ApplicationWindow {
         onOpenMagicSettings: rootItem.openMagicSettings();
         onOpenAppSettings: rootItem.openAppSettings();
         onOpenSystemSettings: rootItem.openSystemSettings();
+        onOpenChargingSessionSettings: rootItem.openChargingSessionSettings();
         onOpenCustomPage: rootItem.openCustomPage(page);
         onConfigureMainView: rootItem.configureMainView();
         onStartManualConnection: rootItem.startManualConnection();

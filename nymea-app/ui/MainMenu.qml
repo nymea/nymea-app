@@ -18,6 +18,7 @@ Drawer {
     signal openAppSettings();
     signal openSystemSettings();
     signal openCustomPage(string page);
+    signal openChargingSessionSettings();
     signal configureMainView();
 
     signal startWirelessSetup();
@@ -345,6 +346,20 @@ Drawer {
                     Layout.bottomMargin: app.margins
                 }
 
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Charging session settings")
+                    iconName: "../images/send.svg"
+                    progressive: false
+                    visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected &&
+                             root.currentEngine.jsonRpcClient.experiences["ChargingSessions"] >= 0.1
+                    onClicked: {
+                        root.openChargingSessionSettings();
+                        root.close();
+                    }
+
+                    Layout.bottomMargin: app.margins
+                }
 
                 Repeater {
                     model: Configuration.mainMenuLinks

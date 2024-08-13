@@ -74,6 +74,9 @@ Item {
     function openCustomPage(page) {
         d.pushSettingsPage(page)
     }
+    function openChargingSessionSettings() {
+        d.pushSettingsPage("ChargingSessionSettings.qml")
+    }
 
     function configureMainView() {
         swipeView.currentItem.pageStack.pop(null)
