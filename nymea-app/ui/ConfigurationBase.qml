@@ -9,6 +9,9 @@ Item {
 
     property string connectionWizard: ""
 
+    property string tunnelProxyUrl: ""
+    property int tunnelProxyPort: 2213
+
     // Enable/disable certain features
     property bool magicEnabled: false
     property bool networkSettingsEnabled: false

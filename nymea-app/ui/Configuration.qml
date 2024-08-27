@@ -19,6 +19,7 @@ ConfigurationBase {
     modbusSettingsEnabled: true
     pluginSettingsEnabled: true
 
+    tunnelProxyUrl: "tunnelproxy.nymea.io"
 
     mainMenuLinks: [
         {

@@ -60,7 +60,7 @@ SettingsPageBase {
                     engine.nymeaConfiguration.deleteTunnelProxyServerConfiguration(config.id)
                 }
             } else {
-                var config = engine.nymeaConfiguration.createTunnelProxyServerConfiguration("tunnelproxy.nymea.io", 2213, true, true, false);
+                var config = engine.nymeaConfiguration.createTunnelProxyServerConfiguration(Configuration.tunnelProxyUrl, Configuration.tunnelProxyPort, true, true, false);
                 engine.nymeaConfiguration.setTunnelProxyServerConfiguration(config)
             }
         }

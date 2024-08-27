@@ -173,7 +173,7 @@ SettingsPageBase {
         text: qsTr("Add")
         visible: engine.jsonRpcClient.ensureServerVersion("6.0")
         onClicked: {
-            var config = engine.nymeaConfiguration.createTunnelProxyServerConfiguration("tunnelproxy.nymea.io", 2213, true, true, false);
+            var config = engine.nymeaConfiguration.createTunnelProxyServerConfiguration(Configuration.tunnelProxyUrl, Configuration.tunnelProxyPort, true, true, false);
             var component = Qt.createComponent(Qt.resolvedUrl("TunnelProxyServerConfigurationDialog.qml"));
             var popup = component.createObject(root, { serverConfiguration: config });
             popup.accepted.connect(function() {
