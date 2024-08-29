@@ -1,3 +1,10 @@
+nymea-app (1.9.2) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update tunnel proy configuration and german translation
+
+ -- jenkins <developer@nymea.io>  Thu, 29 Aug 2024 12:15:19 +0200
+
 nymea-app (1.9.1) bionic; urgency=medium
 
   [ Simon Stürz ]
