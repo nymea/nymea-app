@@ -3757,7 +3757,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
-        <translation>Entschuldingung, das war nicht richtig. Bitte erneut versuchen.</translation>
+        <translation>Entschuldingung, das war nicht richtig. Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>The email you&apos;ve entered isn&apos;t valid.</source>
@@ -3765,7 +3765,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please log in.</source>
-        <translation>Um Ihr %1 system zu nutzen, melden Sie sich bitte an.</translation>
+        <translation>Um Ihr %1 System zu nutzen, melden Sie sich bitte an.</translation>
     </message>
     <message>
         <source>OK</source>
