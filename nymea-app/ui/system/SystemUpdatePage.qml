@@ -219,7 +219,7 @@ Page {
         Page {
             id: repositoryListPage
             header: NymeaHeader {
-                text: qsTr("Configure update sources")
+                text: qsTr("Update sources")
                 onBackPressed: pageStack.pop()
             }
             ListView {

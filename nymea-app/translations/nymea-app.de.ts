@@ -6723,10 +6723,6 @@ A consumer, not consuming anything</extracomment>
         <translation>Alle aktualisieren</translation>
     </message>
     <message>
-        <source>Configure update sources</source>
-        <translation>Quellen für die Aktualisierung einrichten</translation>
-    </message>
-    <message>
         <source>Enable package source</source>
         <translation>Paket-Quelle aktivieren</translation>
     </message>
@@ -6774,6 +6770,10 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation>Das Aktivieren zusätzlicher Software-Quellen erlaubt das Installieren von %1 Vorschauversionen.
 Dies kann unter Umständen Deine Installation beschädigen und zu Problemen füren.
 Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du möchtest und hilf uns Fehler zu finden indem Du uns darüber informierst.</translation>
+    </message>
+    <message>
+        <source>Update sources</source>
+        <translation>Quellen für die Aktualisierung</translation>
     </message>
 </context>
 <context>

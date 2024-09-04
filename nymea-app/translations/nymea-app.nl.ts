@@ -6728,10 +6728,6 @@ A consumer, not consuming anything</extracomment>
         <translation>Alles bijwerken</translation>
     </message>
     <message>
-        <source>Configure update sources</source>
-        <translation>Stel de bronnen voor bijwerken in</translation>
-    </message>
-    <message>
         <source>Enable package source</source>
         <translation>Schakel de bron voor het pakket in</translation>
     </message>
@@ -6780,6 +6776,10 @@ Please only use this if you are sure you want this and consider reporting the is
 Dit kan ervoor zorgen dat je systeem niet meer goed functioneert.
 Gebruik deze optie alleen als je zeker weet dat je dit wilt.
 Als je fouten in de niet-officiële software vindt, geef deze dan door aan de ontwikkelaars.</translation>
+    </message>
+    <message>
+        <source>Update sources</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

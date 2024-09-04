@@ -6742,10 +6742,6 @@ A consumer, not consuming anything</extracomment>
         <translation>Aktualizovat vše</translation>
     </message>
     <message>
-        <source>Configure update sources</source>
-        <translation>Nastavte zdroje aktualizací</translation>
-    </message>
-    <message>
         <source>Enable package source</source>
         <translation>Povolit zdroj balíčku</translation>
     </message>
@@ -6794,6 +6790,10 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation>Povolení dalších zdrojů softwaru umožňuje instalovat nevydané balíčky %1.
 To může potenciálně narušit váš systém a vést k problémům.
 Toto prosím používejte pouze v případě, že jste si jisti tím co děláte, a zvažte nahlášení problémů, které se vyskytnou při testování nevydaných kanálů.</translation>
+    </message>
+    <message>
+        <source>Update sources</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

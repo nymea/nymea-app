@@ -6697,10 +6697,6 @@ A consumer, not consuming anything</extracomment>
         <translation>모두 업데이트</translation>
     </message>
     <message>
-        <source>Configure update sources</source>
-        <translation>업데이트 소스 구성</translation>
-    </message>
-    <message>
         <source>Enable package source</source>
         <translation>패키지 원본 사용</translation>
     </message>
@@ -6743,6 +6739,10 @@ Do you want to proceed?</source>
         <source>Enabling additional software sources allows to install unreleased %1 packages.
 This can potentially break your system and lead to problems.
 Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update sources</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

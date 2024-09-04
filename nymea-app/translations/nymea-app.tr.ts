@@ -6696,10 +6696,6 @@ A consumer, not consuming anything</extracomment>
         <translation>Tümünü güncelle</translation>
     </message>
     <message>
-        <source>Configure update sources</source>
-        <translation>Güncelleme kaynaklarını yapılandırın</translation>
-    </message>
-    <message>
         <source>Enable package source</source>
         <translation>Paket kaynağını etkinleştir</translation>
     </message>
@@ -6745,6 +6741,10 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation>Ek yazılım kaynaklarının etkinleştirilmesi, yayınlanmamış %1 paketlerinin yüklenmesine izin verir.
 Bu, potansiyel olarak sisteminizi bozabilir ve sorunlara yol açabilir.
 Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları test ederken bulduğunuz sorunları bildirin.</translation>
+    </message>
+    <message>
+        <source>Update sources</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
