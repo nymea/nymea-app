@@ -26,4 +26,5 @@ Item {
     property string defaultMainView: "things"
 
     property var mainMenuLinks: null
+    property bool closedSource: false
 }
