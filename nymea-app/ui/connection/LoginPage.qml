@@ -39,7 +39,7 @@ SettingsPageBase {
     signal backPressed();
 
     header: NymeaHeader {
-        text: qsTr("Welcome to %1!").arg(Configuration.systemName)
+        text: qsTr("Welcome!")
         backButtonVisible: true
         onBackPressed: root.backPressed()
     }
