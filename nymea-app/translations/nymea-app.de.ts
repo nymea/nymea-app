@@ -789,7 +789,7 @@
     </message>
     <message>
         <source>Enabling the remote connection will allow connecting to this %1 system from anywhere.</source>
-        <translation>Das Aktivieren der Fernverbindung erlaubt von überall aus auf dieses %1 system zuzugreifen.</translation>
+        <translation>Das Aktivieren der Fernverbindung erlaubt von überall aus auf dieses %1 System zuzugreifen.</translation>
     </message>
     <message>
         <source>Enabled</source>
@@ -3765,7 +3765,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please log in.</source>
-        <translation>Um Ihr %1 System zu nutzen, melden Sie sich bitte an.</translation>
+        <translation>Um Dein %1 System zu nutzen, melden Sie sich bitte an.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -4309,7 +4309,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Reconfigure Modbus RTU master</source>
-        <translation>Mobus RTU Master neu einrichten</translation>
+        <translation>Modbus RTU Master neu einrichten</translation>
     </message>
 </context>
 <context>
@@ -4768,7 +4768,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 system any more. Do not proceed unless you know what your are doing.</source>
-        <translation>Das Deaktivieren der Netzwerk-Funktionalität wird alle verbunden Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird über das Netzwerk mit diesem %1 System zu interagieren. Es wird nicht empfohlen fortzufahren insofern dies nicht ausdrücklich gewünscht ist.</translation>
+        <translation>Das Deaktivieren der Netzwerk-Funktionalität wird alle verbunden Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird, über das Netzwerk mit diesem %1 System zu interagieren. Es wird nicht empfohlen fortzufahren insofern dies nicht ausdrücklich gewünscht ist.</translation>
     </message>
     <message>
         <source>Do you want to proceed?</source>
@@ -4776,7 +4776,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.</source>
-        <translation>Das Deaktivieren der WLAN-Verbindung wird alle über WLAN verbundenen Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird mit diesem %1 System zu interagieren insofern kein Netzwerk-Kabel angeschlossen ist.</translation>
+        <translation>Das Deaktivieren der WLAN-Verbindung wird alle über WLAN verbundenen Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird, mit diesem %1 System zu interagieren insofern kein Netzwerk-Kabel angeschlossen ist.</translation>
     </message>
     <message>
         <source>General</source>
@@ -6337,7 +6337,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Configure who can log in</source>
-        <translation>Konfiguriere wer sich Verbinden darf</translation>
+        <translation>Konfiguriere, wer sich Verbinden darf</translation>
     </message>
     <message>
         <source>ZigBee</source>
@@ -6361,7 +6361,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Configure Modbus RTU master interfaces</source>
-        <translation>Modbug RTU Master Schnittstellen einrichten</translation>
+        <translation>Modbus RTU Master Schnittstellen einrichten</translation>
     </message>
     <message>
         <source>Connection settings</source>
@@ -6369,7 +6369,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Configure how applications can connect to this system</source>
-        <translation>Verwalte wie sich Anwendungen zu diesem System verbinden können</translation>
+        <translation>Verwalte, wie sich Anwendungen zu diesem System verbinden können</translation>
     </message>
     <message>
         <source>Z-Wave</source>
