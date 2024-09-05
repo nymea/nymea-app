@@ -15,7 +15,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.0'
+        classpath 'com.android.tools.build:gradle:8.2.2'
         classpath 'com.google.gms:google-services:4.3.8'
     }
 }
@@ -67,8 +67,16 @@ android {
      *******************************************************/
 
     compileSdkVersion androidCompileSdkVersion.toInteger()
-
     buildToolsVersion androidBuildToolsVersion
+
+    namespace 'io.guh.nymeaapp'
+    buildFeatures.aidl = true
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 
     sourceSets {
         main {
@@ -105,6 +113,6 @@ android {
     defaultConfig {
         resConfigs "en", "de", "ko", "it", "nl", "es"
         minSdkVersion = qtMinSdkVersion
-        targetSdkVersion = qtTargetSdkVersion
+        targetSdkVersion = 34
     }
 }
