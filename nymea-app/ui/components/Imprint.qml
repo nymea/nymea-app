@@ -118,7 +118,7 @@ Item {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             font.pixelSize: app.smallFont
-            text: qsTr("Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.")
+            text: Configuration.closedSource ? qsTr("Licensed under the terms of the nymea commercial license.") : qsTr("Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.")
         }
 
         ColumnLayout {
