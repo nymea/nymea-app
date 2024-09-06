@@ -402,27 +402,27 @@
     <name>BluetoothDevice</name>
     <message>
         <source>Connecting to %1...</source>
-        <translation type="vanished">Verbinde zu %1...</translation>
+        <translation>Verbinde zu %1...</translation>
     </message>
     <message>
         <source>Connected to %1</source>
-        <translation type="vanished">Verbunden mit %1</translation>
+        <translation>Verbunden mit %1</translation>
     </message>
     <message>
         <source>Disconnecting from %1...</source>
-        <translation type="vanished">Trenne von %1...</translation>
+        <translation>Trenne von %1...</translation>
     </message>
     <message>
         <source>Discovering services of %1...</source>
-        <translation type="vanished">Suche Dienste auf %1...</translation>
+        <translation>Suche Dienste auf %1...</translation>
     </message>
     <message>
         <source>%1 connected and discovered.</source>
-        <translation type="vanished">%1 verbunden und durchsucht.</translation>
+        <translation>%1 verbunden und durchsucht.</translation>
     </message>
     <message>
         <source>%1 disconnected.</source>
-        <translation type="vanished">%1 getrennt.</translation>
+        <translation>%1 getrennt.</translation>
     </message>
 </context>
 <context>
@@ -582,19 +582,19 @@
     <name>Configuration</name>
     <message>
         <source>Help</source>
-        <translation type="vanished">Hilfe</translation>
+        <translation>Hilfe</translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation type="vanished">Forum</translation>
+        <translation>Forum</translation>
     </message>
     <message>
         <source>Telegram</source>
-        <translation type="vanished">Telegram</translation>
+        <translation>Telegram</translation>
     </message>
     <message>
         <source>Discord</source>
-        <translation type="vanished">Discord</translation>
+        <translation>Discord</translation>
     </message>
 </context>
 <context>
@@ -2575,943 +2575,943 @@ Bitte versuche es erneut.</translation>
     <name>Interfaces</name>
     <message>
         <source>Battery powered devices</source>
-        <translation type="vanished">Batteriebetriebene Geräte</translation>
+        <translation>Batteriebetriebene Geräte</translation>
     </message>
     <message>
         <source>Battery level is critical</source>
-        <translation type="vanished">Batterieladung ist kritisch</translation>
+        <translation>Batterieladung ist kritisch</translation>
     </message>
     <message>
         <source>Battery level entered critical state</source>
-        <translation type="vanished">Batterieladung hat kritischen Bereich erreicht</translation>
+        <translation>Batterieladung hat kritischen Bereich erreicht</translation>
     </message>
     <message>
         <source>Notification services</source>
-        <translation type="vanished">Benachrichtigungsdienste</translation>
+        <translation>Benachrichtigungsdienste</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="vanished">Titel</translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <source>Message body</source>
-        <translation type="vanished">Nachrichtentext</translation>
+        <translation>Nachrichtentext</translation>
     </message>
     <message>
         <source>Send notification</source>
-        <translation type="vanished">Benachrichtigung senden</translation>
+        <translation>Benachrichtigung senden</translation>
     </message>
     <message>
         <source>Lights</source>
-        <translation type="vanished">Beleuchtung</translation>
+        <translation>Beleuchtung</translation>
     </message>
     <message>
         <source>Light is turned on</source>
-        <translation type="vanished">Licht ist an</translation>
+        <translation>Licht ist an</translation>
     </message>
     <message>
         <source>A light is turned on or off</source>
-        <translation type="vanished">Ein Licht wurde an oder aus geschaltet</translation>
+        <translation>Ein Licht wurde an oder aus geschaltet</translation>
     </message>
     <message>
         <source>Turn lights on or off</source>
-        <translation type="vanished">Schalte Licht an oder aus</translation>
+        <translation>Schalte Licht an oder aus</translation>
     </message>
     <message>
         <source>Temperature sensors</source>
-        <translation type="vanished">Temperatursensoren</translation>
+        <translation>Temperatursensoren</translation>
     </message>
     <message>
         <source>Temperature</source>
-        <translation type="vanished">Temperatur</translation>
+        <translation>Temperatur</translation>
     </message>
     <message>
         <source>Temperature has changed</source>
-        <translation type="vanished">Temperatur hat sich geändert</translation>
+        <translation>Temperatur hat sich geändert</translation>
     </message>
     <message>
         <source>Closable things</source>
-        <translation type="vanished">Schließbare &quot;Things&quot;</translation>
+        <translation>Schließbare &quot;Things&quot;</translation>
     </message>
     <message>
         <source>Powered things</source>
-        <translation type="vanished">Eingeschaltete &quot;Things&quot;</translation>
+        <translation>Eingeschaltete &quot;Things&quot;</translation>
     </message>
     <message>
         <source>Thing is turned on</source>
-        <translation type="vanished">&quot;Thing&quot; ist eingeschaltet</translation>
+        <translation>&quot;Thing&quot; ist eingeschaltet</translation>
     </message>
     <message>
         <source>A thing is turned on or off</source>
-        <translation type="vanished">Ein Gerät wurde ein oder ausgeschaltet</translation>
+        <translation>Ein Gerät wurde ein oder ausgeschaltet</translation>
     </message>
     <message>
         <source>Turn things on or off</source>
-        <translation type="vanished">Gerät ein- oder ausschalten</translation>
+        <translation>Gerät ein- oder ausschalten</translation>
     </message>
     <message>
         <source>Dimmable lights</source>
-        <translation type="vanished">Dimmbare Geräte</translation>
+        <translation>Dimmbare Geräte</translation>
     </message>
     <message>
         <source>Light&apos;s brightness is</source>
-        <translation type="vanished">Die Helligkeit des Lichts ist</translation>
+        <translation>Die Helligkeit des Lichts ist</translation>
     </message>
     <message>
         <source>A light&apos;s brightness has changed</source>
-        <translation type="vanished">Die Helligkeit eines Lichts wurde geändert</translation>
+        <translation>Die Helligkeit eines Lichts wurde geändert</translation>
     </message>
     <message>
         <source>Set lights brightness</source>
-        <translation type="vanished">Setze Helligkeit</translation>
+        <translation>Setze Helligkeit</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="vanished">Schließen</translation>
+        <translation>Schließen</translation>
     </message>
     <message>
         <source>Presence sensors</source>
-        <translation type="vanished">Anwesenheitssensoren</translation>
+        <translation>Anwesenheitssensoren</translation>
     </message>
     <message>
         <source>Is present</source>
-        <translation type="vanished">Ist anwesend</translation>
+        <translation>Ist anwesend</translation>
     </message>
     <message>
         <source>Presence changed</source>
-        <translation type="vanished">Anwesenheit geändert</translation>
+        <translation>Anwesenheit geändert</translation>
     </message>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">Sichtschutz</translation>
+        <translation>Sichtschutz</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="vanished">Geöffnet</translation>
+        <translation>Geöffnet</translation>
     </message>
     <message>
         <source>Awnings</source>
-        <translation type="vanished">Markisen</translation>
+        <translation>Markisen</translation>
     </message>
     <message>
         <source>Shutters</source>
-        <translation type="vanished">Rolläden</translation>
+        <translation>Rolläden</translation>
     </message>
     <message>
         <source>Humidity sensors</source>
-        <translation type="vanished">Feuchtigkeitsensoren</translation>
+        <translation>Feuchtigkeitsensoren</translation>
     </message>
     <message>
         <source>Humidity</source>
-        <translation type="vanished">Feuchtigkeit</translation>
+        <translation>Feuchtigkeit</translation>
     </message>
     <message>
         <source>Humidity changed</source>
-        <translation type="vanished">Feuchtigkeit geändert</translation>
+        <translation>Feuchtigkeit geändert</translation>
     </message>
     <message>
         <source>Daylight sensors</source>
-        <translation type="vanished">Tageslichtsensoren</translation>
+        <translation>Tageslichtsensoren</translation>
     </message>
     <message>
         <source>Daylight</source>
-        <translation type="vanished">Tageslicht</translation>
+        <translation>Tageslicht</translation>
     </message>
     <message>
         <source>Daylight changed</source>
-        <translation type="vanished">Tageslicht geändert</translation>
+        <translation>Tageslicht geändert</translation>
     </message>
     <message>
         <source>EV charger</source>
-        <translation type="vanished">EV Ladegerät</translation>
+        <translation>EV Ladegerät</translation>
     </message>
     <message>
         <source>Charging</source>
-        <translation type="vanished">Ladend</translation>
+        <translation>Ladend</translation>
     </message>
     <message>
         <source>Charging changed</source>
-        <translation type="vanished">Ladend geändert</translation>
+        <translation>Ladend geändert</translation>
     </message>
     <message>
         <source>Enable charging</source>
-        <translation type="vanished">Aktiviere Laden</translation>
+        <translation>Aktiviere Laden</translation>
     </message>
     <message>
         <source>Speakers</source>
-        <translation type="vanished">Lautsprecher</translation>
+        <translation>Lautsprecher</translation>
     </message>
     <message>
         <source>Increase volume</source>
-        <translation type="vanished">Lautstärke erhöhen</translation>
+        <translation>Lautstärke erhöhen</translation>
     </message>
     <message>
         <source>Decrease volume</source>
-        <translation type="vanished">Laustärke verringern</translation>
+        <translation>Laustärke verringern</translation>
     </message>
     <message>
         <source>Gateways</source>
-        <translation type="vanished">Gateways</translation>
+        <translation>Gateways</translation>
     </message>
     <message>
         <source>Connected</source>
-        <translation type="vanished">Verbunden</translation>
+        <translation>Verbunden</translation>
     </message>
     <message>
         <source>Connected changed</source>
-        <translation type="vanished">Verbunden geändert</translation>
+        <translation>Verbunden geändert</translation>
     </message>
     <message>
         <source>Heating enabled</source>
-        <translation type="vanished">Heizung an</translation>
+        <translation>Heizung an</translation>
     </message>
     <message>
         <source>Heating enabled changed</source>
-        <translation type="vanished">Heizung an geändert</translation>
+        <translation>Heizung an geändert</translation>
     </message>
     <message>
         <source>Enable heating</source>
-        <translation type="vanished">Heizung einschalten</translation>
+        <translation>Heizung einschalten</translation>
     </message>
     <message>
         <source>Media players</source>
-        <translation type="vanished">Medienabspielgeräte</translation>
+        <translation>Medienabspielgeräte</translation>
     </message>
     <message>
         <source>Playback status</source>
-        <translation type="vanished">Wiedergabestatus</translation>
+        <translation>Wiedergabestatus</translation>
     </message>
     <message>
         <source>Playback status changed</source>
-        <translation type="vanished">Wiedergabestatus geändert</translation>
+        <translation>Wiedergabestatus geändert</translation>
     </message>
     <message>
         <source>Set playback status</source>
-        <translation type="vanished">Setze Wiedergabestatus</translation>
+        <translation>Setze Wiedergabestatus</translation>
     </message>
     <message>
         <source>Light intensity</source>
-        <translation type="vanished">Lichtstärke</translation>
+        <translation>Lichtstärke</translation>
     </message>
     <message>
         <source>Light intensity changed</source>
-        <translation type="vanished">Lichtstärke geändert</translation>
+        <translation>Lichtstärke geändert</translation>
     </message>
     <message>
         <source>Media controllers</source>
-        <translation type="vanished">Mediensteuerungen</translation>
+        <translation>Mediensteuerungen</translation>
     </message>
     <message>
         <source>Start playback</source>
-        <translation type="vanished">Wiedergabe starten</translation>
+        <translation>Wiedergabe starten</translation>
     </message>
     <message>
         <source>Stop playback</source>
-        <translation type="vanished">Wiedergabe stoppen</translation>
+        <translation>Wiedergabe stoppen</translation>
     </message>
     <message>
         <source>Pause playback</source>
-        <translation type="vanished">Wiedergabe pausieren</translation>
+        <translation>Wiedergabe pausieren</translation>
     </message>
     <message>
         <source>Skip back</source>
-        <translation type="vanished">Zurück springen</translation>
+        <translation>Zurück springen</translation>
     </message>
     <message>
         <source>Skip next</source>
-        <translation type="vanished">Weiter springen</translation>
+        <translation>Weiter springen</translation>
     </message>
     <message>
         <source>Access control systems</source>
-        <translation type="vanished">Zutrittsysteme</translation>
+        <translation>Zutrittsysteme</translation>
     </message>
     <message>
         <source>Access granted</source>
-        <translation type="vanished">Zutritt erlaubt</translation>
+        <translation>Zutritt erlaubt</translation>
     </message>
     <message>
         <source>Access denied</source>
-        <translation type="vanished">Zutritt verweigert</translation>
+        <translation>Zutritt verweigert</translation>
     </message>
     <message>
         <source>Connectable things</source>
-        <translation type="vanished">Verbindbare &quot;Things&quot;</translation>
+        <translation>Verbindbare &quot;Things&quot;</translation>
     </message>
     <message>
         <source>Accounts</source>
-        <translation type="vanished">Konten</translation>
+        <translation>Konten</translation>
     </message>
     <message>
         <source>User is logged in</source>
-        <translation type="vanished">Benutzer ist eingeloggt</translation>
+        <translation>Benutzer ist eingeloggt</translation>
     </message>
     <message>
         <source>User login changed</source>
-        <translation type="vanished">Benutzer-Login geändert</translation>
+        <translation>Benutzer-Login geändert</translation>
     </message>
     <message>
         <source>Alert</source>
-        <translation type="vanished">Alarm</translation>
+        <translation>Alarm</translation>
     </message>
     <message>
         <source>Simple closables</source>
-        <translation type="vanished">Schließbare Geräte</translation>
+        <translation>Schließbare Geräte</translation>
     </message>
     <message>
         <source>Closables</source>
-        <translation type="vanished">Schließbare Geräte</translation>
+        <translation>Schließbare Geräte</translation>
     </message>
     <message>
         <source>Stop</source>
-        <translation type="vanished">Stop</translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <source>Barcode scanners</source>
-        <translation type="vanished">Barcode-Scanner</translation>
+        <translation>Barcode-Scanner</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation type="vanished">Inhalt</translation>
+        <translation>Inhalt</translation>
     </message>
     <message>
         <source>Code scanned</source>
-        <translation type="vanished">Inhalt gescannt</translation>
+        <translation>Inhalt gescannt</translation>
     </message>
     <message>
         <source>Battery level</source>
-        <translation type="vanished">Batteriezustand</translation>
+        <translation>Batteriezustand</translation>
     </message>
     <message>
         <source>Battery level changed</source>
-        <translation type="vanished">Batteriezustand geändert</translation>
+        <translation>Batteriezustand geändert</translation>
     </message>
     <message>
         <source>Switches</source>
-        <translation type="vanished">Schalter</translation>
+        <translation>Schalter</translation>
     </message>
     <message>
         <source>Button pressed</source>
-        <translation type="vanished">Schalter gedrückt</translation>
+        <translation>Schalter gedrückt</translation>
     </message>
     <message>
         <source>Closable sensors</source>
-        <translation type="vanished">Schließ-Sensoren</translation>
+        <translation>Schließ-Sensoren</translation>
     </message>
     <message>
         <source>Closed</source>
-        <translation type="vanished">Geschlossen</translation>
+        <translation>Geschlossen</translation>
     </message>
     <message>
         <source>Opened or closed</source>
-        <translation type="vanished">Geöffnet oder geschlossen</translation>
+        <translation>Geöffnet oder geschlossen</translation>
     </message>
     <message>
         <source>CO2 sensor</source>
-        <translation type="vanished">CO2 Sensor</translation>
+        <translation>CO2 Sensor</translation>
     </message>
     <message>
         <source>CO2 level</source>
-        <translation type="vanished">CO2-Pegel</translation>
+        <translation>CO2-Pegel</translation>
     </message>
     <message>
         <source>CO2 level changed</source>
-        <translation type="vanished">CO2 Pegel geändert</translation>
+        <translation>CO2 Pegel geändert</translation>
     </message>
     <message>
         <source>Color temperature light</source>
-        <translation type="vanished">Leuchtmittel mit Lichttemperatur</translation>
+        <translation>Leuchtmittel mit Lichttemperatur</translation>
     </message>
     <message>
         <source>Lights color temperature is</source>
-        <translation type="vanished">Lichttemperatur ist</translation>
+        <translation>Lichttemperatur ist</translation>
     </message>
     <message>
         <source>A lights color temperature has changed</source>
-        <translation type="vanished">Die Lichttemperatur einer Lampe wurde geändert</translation>
+        <translation>Die Lichttemperatur einer Lampe wurde geändert</translation>
     </message>
     <message>
         <source>Set lights color temperature</source>
-        <translation type="vanished">Setze Lichttemperatur</translation>
+        <translation>Setze Lichttemperatur</translation>
     </message>
     <message>
         <source>Color lights</source>
-        <translation type="vanished">Farblampen</translation>
+        <translation>Farblampen</translation>
     </message>
     <message>
         <source>Light&apos;s color is</source>
-        <translation type="vanished">Die Farbe der Lampe ist</translation>
+        <translation>Die Farbe der Lampe ist</translation>
     </message>
     <message>
         <source>A light&apos;s color has changed</source>
-        <translation type="vanished">Die Farbe einer Lampe wurde geändert</translation>
+        <translation>Die Farbe einer Lampe wurde geändert</translation>
     </message>
     <message>
         <source>Set lights color</source>
-        <translation type="vanished">Setze Lichtfarbe</translation>
+        <translation>Setze Lichtfarbe</translation>
     </message>
     <message>
         <source>Conductivity sensors</source>
-        <translation type="vanished">Leitwertsensoren</translation>
+        <translation>Leitwertsensoren</translation>
     </message>
     <message>
         <source>Conductivity</source>
-        <translation type="vanished">Leitwert</translation>
+        <translation>Leitwert</translation>
     </message>
     <message>
         <source>Conductivity changed</source>
-        <translation type="vanished">Leitwert geändert</translation>
+        <translation>Leitwert geändert</translation>
     </message>
     <message>
         <source>Doorbells</source>
-        <translation type="vanished">Türklingeln</translation>
+        <translation>Türklingeln</translation>
     </message>
     <message>
         <source>Doorbell pressed</source>
-        <translation type="vanished">Türklingel gedrückt</translation>
+        <translation>Türklingel gedrückt</translation>
     </message>
     <message>
         <source>Moving</source>
-        <translation type="vanished">Bewegung</translation>
+        <translation>Bewegung</translation>
     </message>
     <message>
         <source>Moving changed</source>
-        <translation type="vanished">Bewegung geändert</translation>
+        <translation>Bewegung geändert</translation>
     </message>
     <message>
         <source>Maximum charging current</source>
-        <translation type="vanished">Maximaler Ladestrom</translation>
+        <translation>Maximaler Ladestrom</translation>
     </message>
     <message>
         <source>Maximum charging current changed</source>
-        <translation type="vanished">Maximaler Ladestrom geändert</translation>
+        <translation>Maximaler Ladestrom geändert</translation>
     </message>
     <message>
         <source>Set maximum charging current</source>
-        <translation type="vanished">Setze maximalen Ladestrom</translation>
+        <translation>Setze maximalen Ladestrom</translation>
     </message>
     <message>
         <source>Percentage</source>
-        <translation type="vanished">Prozent</translation>
+        <translation>Prozent</translation>
     </message>
     <message>
         <source>Percentage changed</source>
-        <translation type="vanished">Prozent geändert</translation>
+        <translation>Prozent geändert</translation>
     </message>
     <message>
         <source>Set percentage</source>
-        <translation type="vanished">Setze Prozent</translation>
+        <translation>Setze Prozent</translation>
     </message>
     <message>
         <source>Media</source>
-        <translation type="vanished">Medien</translation>
+        <translation>Medien</translation>
     </message>
     <message>
         <source>Fast forward</source>
-        <translation type="vanished">Vorlauf</translation>
+        <translation>Vorlauf</translation>
     </message>
     <message>
         <source>Fast rewind</source>
-        <translation type="vanished">Zurückspulen</translation>
+        <translation>Zurückspulen</translation>
     </message>
     <message>
         <source>Navigation pad</source>
-        <translation type="vanished">Navigationsfläche</translation>
+        <translation>Navigationsfläche</translation>
     </message>
     <message>
         <source>To</source>
-        <translation type="vanished">Bis</translation>
+        <translation>Bis</translation>
     </message>
     <message>
         <source>Navigate</source>
-        <translation type="vanished">Navigieren</translation>
+        <translation>Navigieren</translation>
     </message>
     <message>
         <source>Smart meter</source>
-        <translation type="vanished">Intelligenter Stromzähler</translation>
+        <translation>Intelligenter Stromzähler</translation>
     </message>
     <message>
         <source>Smart meters</source>
-        <translation type="vanished">Intelligente Stromzähler</translation>
+        <translation>Intelligente Stromzähler</translation>
     </message>
     <message>
         <source>Total energy consumed</source>
-        <translation type="vanished">Energieverbrauch</translation>
+        <translation>Energieverbrauch</translation>
     </message>
     <message>
         <source>Current power</source>
-        <translation type="vanished">Aktueller Energiefluss</translation>
+        <translation>Aktueller Energiefluss</translation>
     </message>
     <message>
         <source>Current power changed</source>
-        <translation type="vanished">Aktueller Energiefluss geändert</translation>
+        <translation>Aktueller Energiefluss geändert</translation>
     </message>
     <message>
         <source>Mute</source>
-        <translation type="vanished">Stummschalten</translation>
+        <translation>Stummschalten</translation>
     </message>
     <message>
         <source>Muted</source>
-        <translation type="vanished">Stummgeschaltet</translation>
+        <translation>Stummgeschaltet</translation>
     </message>
     <message>
         <source>Volume</source>
-        <translation type="vanished">Laustärke</translation>
+        <translation>Laustärke</translation>
     </message>
     <message>
         <source>Volume changed</source>
-        <translation type="vanished">Lautstärke geändert</translation>
+        <translation>Lautstärke geändert</translation>
     </message>
     <message>
         <source>Set volume</source>
-        <translation type="vanished">Setze Lautstärke</translation>
+        <translation>Setze Lautstärke</translation>
     </message>
     <message>
         <source>User access control systems</source>
-        <translation type="vanished">Zugriffskontrollsysteme</translation>
+        <translation>Zugriffskontrollsysteme</translation>
     </message>
     <message>
         <source>Users</source>
-        <translation type="vanished">Benutzer</translation>
+        <translation>Benutzer</translation>
     </message>
     <message>
         <source>Users changed</source>
-        <translation type="vanished">Benutzer geändert</translation>
+        <translation>Benutzer geändert</translation>
     </message>
     <message>
         <source>User</source>
-        <translation type="vanished">Benutzer</translation>
+        <translation>Benutzer</translation>
     </message>
     <message>
         <source>Add user</source>
-        <translation type="vanished">Benutzer hinzufügen</translation>
+        <translation>Benutzer hinzufügen</translation>
     </message>
     <message>
         <source>Remove user</source>
-        <translation type="vanished">Benutzer entfernen</translation>
+        <translation>Benutzer entfernen</translation>
     </message>
     <message>
         <source>Fingerprint readers</source>
-        <translation type="vanished">Fingerabdrucklesegeräte</translation>
+        <translation>Fingerabdrucklesegeräte</translation>
     </message>
     <message>
         <source>Finger</source>
-        <translation type="vanished">Finger</translation>
+        <translation>Finger</translation>
     </message>
     <message>
         <source>Garage doors</source>
-        <translation type="vanished">Garagentore</translation>
+        <translation>Garagentore</translation>
     </message>
     <message>
         <source>State</source>
-        <translation type="vanished">Zustand</translation>
+        <translation>Zustand</translation>
     </message>
     <message>
         <source>State changed</source>
-        <translation type="vanished">Zustand geändert</translation>
+        <translation>Zustand geändert</translation>
     </message>
     <message>
         <source>Intermediate position</source>
-        <translation type="vanished">Mittelposition</translation>
+        <translation>Mittelposition</translation>
     </message>
     <message>
         <source>Intermediate position changed</source>
-        <translation type="vanished">Mittelposition geändert</translation>
+        <translation>Mittelposition geändert</translation>
     </message>
     <message>
         <source>Incoming events</source>
-        <translation type="vanished">Einkommende Ereignisse</translation>
+        <translation>Einkommende Ereignisse</translation>
     </message>
     <message>
         <source>Triggered</source>
-        <translation type="vanished">Ausgelöst</translation>
+        <translation>Ausgelöst</translation>
     </message>
     <message>
         <source>Light sensors</source>
-        <translation type="vanished">Lichtsensoren</translation>
+        <translation>Lichtsensoren</translation>
     </message>
     <message>
         <source>Buttons</source>
-        <translation type="vanished">Tasten</translation>
+        <translation>Tasten</translation>
     </message>
     <message>
         <source>Long pressed</source>
-        <translation type="vanished">Lange gedrückt</translation>
+        <translation>Lange gedrückt</translation>
     </message>
     <message>
         <source>Media sources</source>
-        <translation type="vanished">Medienquellen</translation>
+        <translation>Medienquellen</translation>
     </message>
     <message>
         <source>Title changed</source>
-        <translation type="vanished">Titel geändert</translation>
+        <translation>Titel geändert</translation>
     </message>
     <message>
         <source>Artist</source>
-        <translation type="vanished">Künstler</translation>
+        <translation>Künstler</translation>
     </message>
     <message>
         <source>Artist changed</source>
-        <translation type="vanished">Künstler geändert</translation>
+        <translation>Künstler geändert</translation>
     </message>
     <message>
         <source>Collection</source>
-        <translation type="vanished">Sammlung</translation>
+        <translation>Sammlung</translation>
     </message>
     <message>
         <source>Collection changed</source>
-        <translation type="vanished">Sammlung geändert</translation>
+        <translation>Sammlung geändert</translation>
     </message>
     <message>
         <source>Artwork</source>
-        <translation type="vanished">Medienbild</translation>
+        <translation>Medienbild</translation>
     </message>
     <message>
         <source>Artwork changed</source>
-        <translation type="vanished">Medienbild geändert</translation>
+        <translation>Medienbild geändert</translation>
     </message>
     <message>
         <source>Moisture sensors</source>
-        <translation type="vanished">Feuchtigkeitssensoren</translation>
+        <translation>Feuchtigkeitssensoren</translation>
     </message>
     <message>
         <source>Moisture</source>
-        <translation type="vanished">Feuchtigkeit</translation>
+        <translation>Feuchtigkeit</translation>
     </message>
     <message>
         <source>Moisture changed</source>
-        <translation type="vanished">Feuchtigkeit geändert</translation>
+        <translation>Feuchtigkeit geändert</translation>
     </message>
     <message>
         <source>Button name</source>
-        <translation type="vanished">Tastenname</translation>
+        <translation>Tastenname</translation>
     </message>
     <message>
         <source>Pressed</source>
-        <translation type="vanished">Gedrückt</translation>
+        <translation>Gedrückt</translation>
     </message>
     <message>
         <source>Noise sensors</source>
-        <translation type="vanished">Geräuschsensoren</translation>
+        <translation>Geräuschsensoren</translation>
     </message>
     <message>
         <source>Noise level</source>
-        <translation type="vanished">Geräuschpegel</translation>
+        <translation>Geräuschpegel</translation>
     </message>
     <message>
         <source>Noise level changed</source>
-        <translation type="vanished">Geräuschpegel geändert</translation>
+        <translation>Geräuschpegel geändert</translation>
     </message>
     <message>
         <source>Outgoing events</source>
-        <translation type="vanished">Ausgehende ereignisse</translation>
+        <translation>Ausgehende ereignisse</translation>
     </message>
     <message>
         <source>Trigger</source>
-        <translation type="vanished">Auslösen</translation>
+        <translation>Auslösen</translation>
     </message>
     <message>
         <source>Power sockets</source>
-        <translation type="vanished">Steckdosen</translation>
+        <translation>Steckdosen</translation>
     </message>
     <message>
         <source>Powered</source>
-        <translation type="vanished">Eingeschaltet</translation>
+        <translation>Eingeschaltet</translation>
     </message>
     <message>
         <source>Turned on/off</source>
-        <translation type="vanished">Ein- oder ausgeschaltet</translation>
+        <translation>Ein- oder ausgeschaltet</translation>
     </message>
     <message>
         <source>Turn on/off</source>
-        <translation type="vanished">Ein- oder ausschalten</translation>
+        <translation>Ein- oder ausschalten</translation>
     </message>
     <message>
         <source>Power switches</source>
-        <translation type="vanished">Schalter</translation>
+        <translation>Schalter</translation>
     </message>
     <message>
         <source>Pressure sensors</source>
-        <translation type="vanished">Drucksensoren</translation>
+        <translation>Drucksensoren</translation>
     </message>
     <message>
         <source>Pressure</source>
-        <translation type="vanished">Druck</translation>
+        <translation>Druck</translation>
     </message>
     <message>
         <source>Pressure changed</source>
-        <translation type="vanished">Druck geändert</translation>
+        <translation>Druck geändert</translation>
     </message>
     <message>
         <source>Shuffle</source>
-        <translation type="vanished">Zufallswiedergabe</translation>
+        <translation>Zufallswiedergabe</translation>
     </message>
     <message>
         <source>Shuffle changed</source>
-        <translation type="vanished">Zufallswiedergabe geändert</translation>
+        <translation>Zufallswiedergabe geändert</translation>
     </message>
     <message>
         <source>Set shuffle</source>
-        <translation type="vanished">Setze Zufallswiedergabe</translation>
+        <translation>Setze Zufallswiedergabe</translation>
     </message>
     <message>
         <source>Repeat</source>
-        <translation type="vanished">Wiederholen</translation>
+        <translation>Wiederholen</translation>
     </message>
     <message>
         <source>Repeat changed</source>
-        <translation type="vanished">Wiederholen geändert</translation>
+        <translation>Wiederholen geändert</translation>
     </message>
     <message>
         <source>Set repeat</source>
-        <translation type="vanished">Setze wiederholen</translation>
+        <translation>Setze wiederholen</translation>
     </message>
     <message>
         <source>Smart locks</source>
-        <translation type="vanished">Smarte Türschlösser</translation>
+        <translation>Smarte Türschlösser</translation>
     </message>
     <message>
         <source>Unlatch</source>
-        <translation type="vanished">Entriegeln</translation>
+        <translation>Entriegeln</translation>
     </message>
     <message>
         <source>Thermostats</source>
-        <translation type="vanished">Thermostate</translation>
+        <translation>Thermostate</translation>
     </message>
     <message>
         <source>Target temperature</source>
-        <translation type="vanished">Wunschtemperatur</translation>
+        <translation>Wunschtemperatur</translation>
     </message>
     <message>
         <source>Target temperature changed</source>
-        <translation type="vanished">Wunschtemperatur geändert</translation>
+        <translation>Wunschtemperatur geändert</translation>
     </message>
     <message>
         <source>Set target temperature</source>
-        <translation type="vanished">Setze Wunschtemperatur</translation>
+        <translation>Setze Wunschtemperatur</translation>
     </message>
     <message>
         <source>Weather</source>
-        <translation type="vanished">Wetter</translation>
+        <translation>Wetter</translation>
     </message>
     <message>
         <source>Weather description</source>
-        <translation type="vanished">Wetterbeschreibung</translation>
+        <translation>Wetterbeschreibung</translation>
     </message>
     <message>
         <source>Weather description changed</source>
-        <translation type="vanished">Wetterbeschreibung geändert</translation>
+        <translation>Wetterbeschreibung geändert</translation>
     </message>
     <message>
         <source>Weather condition</source>
-        <translation type="vanished">Wetter</translation>
+        <translation>Wetter</translation>
     </message>
     <message>
         <source>Weather condition changed</source>
-        <translation type="vanished">Wetter geändert</translation>
+        <translation>Wetter geändert</translation>
     </message>
     <message>
         <source>Temperature changed</source>
-        <translation type="vanished">Temperatur geändert</translation>
+        <translation>Temperatur geändert</translation>
     </message>
     <message>
         <source>Wind speed changed</source>
-        <translation type="vanished">Windgeschwindigkeit geändert</translation>
+        <translation>Windgeschwindigkeit geändert</translation>
     </message>
     <message>
         <source>Wind direction</source>
-        <translation type="vanished">Windrichtung</translation>
+        <translation>Windrichtung</translation>
     </message>
     <message>
         <source>Wind direction changed</source>
-        <translation type="vanished">Windrichtung geändert</translation>
+        <translation>Windrichtung geändert</translation>
     </message>
     <message>
         <source>Wind speed sensors</source>
-        <translation type="vanished">Windsensoren</translation>
+        <translation>Windsensoren</translation>
     </message>
     <message>
         <source>Wind speed</source>
-        <translation type="vanished">Windgeschwindigkeit</translation>
+        <translation>Windgeschwindigkeit</translation>
     </message>
     <message>
         <source>Wireless devices</source>
-        <translation type="vanished">Kabellose Geräte</translation>
+        <translation>Kabellose Geräte</translation>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation type="vanished">Signalstärke</translation>
+        <translation>Signalstärke</translation>
     </message>
     <message>
         <source>Signal strength changed</source>
-        <translation type="vanished">Signalstärke geändert</translation>
+        <translation>Signalstärke geändert</translation>
     </message>
     <message>
         <source>Sensors</source>
-        <translation type="vanished">Sensoren</translation>
+        <translation>Sensoren</translation>
     </message>
     <message>
         <source>Heating</source>
-        <translation type="vanished">Heizung</translation>
+        <translation>Heizung</translation>
     </message>
     <message>
         <source>Irrigation</source>
-        <translation type="vanished">Bewässerung</translation>
+        <translation>Bewässerung</translation>
     </message>
     <message>
         <source>Ventilation</source>
-        <translation type="vanished">Belüftung</translation>
+        <translation>Belüftung</translation>
     </message>
     <message>
         <source>Navigation pad with menu</source>
-        <translation type="vanished">Navigationsfläche mit Menü</translation>
+        <translation>Navigationsfläche mit Menü</translation>
     </message>
     <message>
         <source>Operate</source>
-        <translation type="vanished">Bewegen</translation>
+        <translation>Bewegen</translation>
     </message>
     <message>
         <source>Water sensors</source>
-        <translation type="vanished">Wassersensoren</translation>
+        <translation>Wassersensoren</translation>
     </message>
     <message>
         <source>Water detected</source>
-        <translation type="vanished">Wasser erkannt</translation>
+        <translation>Wasser erkannt</translation>
     </message>
     <message>
         <source>Water detected changed</source>
-        <translation type="vanished">Wasser erkannt geändert</translation>
+        <translation>Wasser erkannt geändert</translation>
     </message>
     <message>
         <source>Charging started or stopped</source>
-        <translation type="vanished">Laden wurde gestartet oder gestoppt</translation>
+        <translation>Laden wurde gestartet oder gestoppt</translation>
     </message>
     <message>
         <source>Discharging</source>
-        <translation type="vanished">Entladen</translation>
+        <translation>Entladen</translation>
     </message>
     <message>
         <source>Discharging started or stopped</source>
-        <translation type="vanished">Entladen wurde gestartet oder gestoppt</translation>
+        <translation>Entladen wurde gestartet oder gestoppt</translation>
     </message>
     <message>
         <source>Plugged in</source>
-        <translation type="vanished">Eingesteckt</translation>
+        <translation>Eingesteckt</translation>
     </message>
     <message>
         <source>Plugged in or out</source>
-        <translation type="vanished">Ein- oder ausgesteckt</translation>
+        <translation>Ein- oder ausgesteckt</translation>
     </message>
     <message>
         <source>Cleaning robots</source>
-        <translation type="vanished">Putzroboter</translation>
+        <translation>Putzroboter</translation>
     </message>
     <message>
         <source>Robot state</source>
-        <translation type="vanished">Roboterzustand</translation>
+        <translation>Roboterzustand</translation>
     </message>
     <message>
         <source>Robot state changed</source>
-        <translation type="vanished">Roboterzustand geändert</translation>
+        <translation>Roboterzustand geändert</translation>
     </message>
     <message>
         <source>Start cleaning</source>
-        <translation type="vanished">Putzvorgang starten</translation>
+        <translation>Putzvorgang starten</translation>
     </message>
     <message>
         <source>Stop cleaning</source>
-        <translation type="vanished">Putzvorgang stoppen</translation>
+        <translation>Putzvorgang stoppen</translation>
     </message>
     <message>
         <source>Pause cleaning</source>
-        <translation type="vanished">Putzvorgang pausieren</translation>
+        <translation>Putzvorgang pausieren</translation>
     </message>
     <message>
         <source>Return to base</source>
-        <translation type="vanished">Zurück zur Basisstation</translation>
+        <translation>Zurück zur Basisstation</translation>
     </message>
     <message>
         <source>CO sensor</source>
-        <translation type="vanished">CO Sensor</translation>
+        <translation>CO Sensor</translation>
     </message>
     <message>
         <source>CO level</source>
-        <translation type="vanished">CO Wert</translation>
+        <translation>CO Wert</translation>
     </message>
     <message>
         <source>CO level changed</source>
-        <translation type="vanished">CO Wert geändert</translation>
+        <translation>CO Wert geändert</translation>
     </message>
     <message>
         <source>Flammable gas sensor</source>
-        <translation type="vanished">Sensor für entflammbare Gase</translation>
+        <translation>Sensor für entflammbare Gase</translation>
     </message>
     <message>
         <source>Flammable gas level</source>
-        <translation type="vanished">Wert für entflammbare Gase</translation>
+        <translation>Wert für entflammbare Gase</translation>
     </message>
     <message>
         <source>Flammable gas level changed</source>
-        <translation type="vanished">Wert für Entflammbare Gase geändert</translation>
+        <translation>Wert für Entflammbare Gase geändert</translation>
     </message>
     <message>
         <source>Total consumed energy changed</source>
-        <translation type="vanished">Gesamtenergieverbrauch geändert</translation>
+        <translation>Gesamtenergieverbrauch geändert</translation>
     </message>
     <message>
         <source>Total energy produced</source>
-        <translation type="vanished">Gesamte erzeugte Energie</translation>
+        <translation>Gesamte erzeugte Energie</translation>
     </message>
     <message>
         <source>Total produced energy changed</source>
-        <translation type="vanished">Gesamte erzeugte Energie geändert</translation>
+        <translation>Gesamte erzeugte Energie geändert</translation>
     </message>
     <message>
         <source>Cooling</source>
-        <translation type="vanished">Kühlung</translation>
+        <translation>Kühlung</translation>
     </message>
     <message>
         <source>Cooling enabled</source>
-        <translation type="vanished">Kühlung aktiviert</translation>
+        <translation>Kühlung aktiviert</translation>
     </message>
     <message>
         <source>Cooling enabled changed</source>
-        <translation type="vanished">Kühlung aktiviert oder deaktiviert</translation>
+        <translation>Kühlung aktiviert oder deaktiviert</translation>
     </message>
     <message>
         <source>Enable cooling</source>
-        <translation type="vanished">Kühlung aktivieren</translation>
+        <translation>Kühlung aktivieren</translation>
     </message>
     <message>
         <source>Air flow rate</source>
-        <translation type="vanished">Luftflußrate</translation>
+        <translation>Luftflußrate</translation>
     </message>
     <message>
         <source>Air flow rate changed</source>
-        <translation type="vanished">Luftflußrate geändert</translation>
+        <translation>Luftflußrate geändert</translation>
     </message>
     <message>
         <source>Set air flow rate</source>
-        <translation type="vanished">Setze Luftflußrate</translation>
+        <translation>Setze Luftflußrate</translation>
     </message>
     <message>
         <source>Fire sensors</source>
-        <translation type="vanished">Feuer Sensoren</translation>
+        <translation>Feuer Sensoren</translation>
     </message>
     <message>
         <source>Fire detected</source>
-        <translation type="vanished">Feuer erkannt</translation>
+        <translation>Feuer erkannt</translation>
     </message>
     <message>
         <source>Fire detected changed</source>
-        <translation type="vanished">Feuer erkannt geändert</translation>
+        <translation>Feuer erkannt geändert</translation>
     </message>
     <message>
         <source>Vibration sensors</source>
-        <translation type="vanished">Vibrationssensoren</translation>
+        <translation>Vibrationssensoren</translation>
     </message>
     <message>
         <source>Vibration detected</source>
-        <translation type="vanished">Vibration erkannt</translation>
+        <translation>Vibration erkannt</translation>
     </message>
 </context>
 <context>
@@ -3755,10 +3755,6 @@ Bitte versuche es erneut.</translation>
 </context>
 <context>
     <name>LoginPage</name>
-    <message>
-        <source>Welcome to %1!</source>
-        <translation type="vanished">Willkommen zu %1!</translation>
-    </message>
     <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
         <translation>Entschuldingung, das war nicht richtig. Bitte versuche es erneut.</translation>

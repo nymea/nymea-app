@@ -2554,6 +2554,10 @@ Probeer het nog een keer.</translation>
         <source>nymea is a registered trademark of chargebyte GmbH.</source>
         <translation>nymea is een geregistreerd handelsmerk van chargebyte GmbH.</translation>
     </message>
+    <message>
+        <source>Licensed under the terms of the nymea commercial license.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>InterfaceTile</name>
@@ -3756,10 +3760,6 @@ Probeer het nog een keer.</translation>
 <context>
     <name>LoginPage</name>
     <message>
-        <source>Welcome to %1!</source>
-        <translation>Welkom bij %1!</translation>
-    </message>
-    <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
         <translation>Sorry, dat was niet goed. Probeer het nog eens.</translation>
     </message>
@@ -3822,6 +3822,10 @@ Probeer het nog een keer.</translation>
     <message>
         <source>Email</source>
         <translation>E-mail</translation>
+    </message>
+    <message>
+        <source>Welcome!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

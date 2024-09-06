@@ -2541,6 +2541,10 @@ Please try again.</source>
         <source>nymea is a registered trademark of chargebyte GmbH.</source>
         <translation>nymea는 chargebyte GmbH 및 그 자회사의 등록 상표입니다.</translation>
     </message>
+    <message>
+        <source>Licensed under the terms of the nymea commercial license.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>InterfaceTile</name>
@@ -3731,10 +3735,6 @@ Please try again.</source>
 <context>
     <name>LoginPage</name>
     <message>
-        <source>Welcome to %1!</source>
-        <translation>%1에 오신 것을 환영합니다!</translation>
-    </message>
-    <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
         <translation>미안하지만, 그건 맞지 않아요. 다시 시도하십시오.</translation>
     </message>
@@ -3796,6 +3796,10 @@ Please try again.</source>
     </message>
     <message>
         <source>Email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
