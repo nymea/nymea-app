@@ -1,3 +1,10 @@
+nymea-app (1.9.7) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Android: Update to firebase SDK 12.2.0
+
+ -- jenkins <developer@nymea.io>  Mon, 09 Sep 2024 17:07:24 +0200
+
 nymea-app (1.9.6) bionic; urgency=medium
 
   [ martinlukas84 ]
