@@ -1,4 +1,4 @@
-// Copyright 2023 Google Inc. All Rights Reserved.
+// Copyright 2024 Google Inc. All Rights Reserved.
 
 #ifndef FIREBASE_ANALYTICS_CLIENT_CPP_INCLUDE_FIREBASE_ANALYTICS_PARAMETER_NAMES_H_
 #define FIREBASE_ANALYTICS_CLIENT_CPP_INCLUDE_FIREBASE_ANALYTICS_PARAMETER_NAMES_H_
@@ -21,8 +21,9 @@ namespace analytics {
 /// Custom events. Param names can be up to 40 characters long, may only
 /// contain alphanumeric characters and underscores ("_"), and must start
 /// with an alphabetic character. Param values can be up to 100 characters
-/// long. The "firebase_", "google_", and "ga_" prefixes are reserved and
-/// should not be used.
+/// long for standard Google Analytics properties and up to 500 characters
+/// long for Google Analytics 360 properties. The "firebase_", "google_",
+/// and "ga_" prefixes are reserved and should not be used.
 /// @{
 
 

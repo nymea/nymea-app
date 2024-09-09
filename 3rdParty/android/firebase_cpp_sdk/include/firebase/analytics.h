@@ -21,9 +21,9 @@
 #include <cstdint>
 #include <map>
 #include <string>
+#include <vector>
 
 #include "firebase/app.h"
-#include "firebase/cpp_version_warning.h"
 #include "firebase/future.h"
 #include "firebase/internal/common.h"
 #include "firebase/variant.h"
@@ -274,9 +274,14 @@ void SetAnalyticsCollectionEnabled(bool enabled);
 
 /// @brief The type of consent to set.
 ///
-/// Supported consent types are kConsentTypeAdStorage and
-/// kConsentTypeAnalyticsStorage. Omitting a type retains its previous status.
-enum ConsentType { kConsentTypeAdStorage = 0, kConsentTypeAnalyticsStorage };
+/// Supported consent types are mapped to corresponding constants in the Android
+/// and iOS SDKs. Omitting a type retains its previous status.
+enum ConsentType {
+  kConsentTypeAdStorage = 0,
+  kConsentTypeAnalyticsStorage,
+  kConsentTypeAdUserData,
+  kConsentTypeAdPersonalization
+};
 
 /// @brief The status value of the consent type.
 ///
@@ -487,6 +492,36 @@ void LogEvent(const char* name, const Parameter* parameters,
 /// email addresses (e.g. gmail.com or hotmail.co.jp).
 void InitiateOnDeviceConversionMeasurementWithEmailAddress(
     const char* email_address);
+
+/// Initiates on-device conversion measurement given a phone number in E.164
+/// format on iOS (no-op on Android). On iOS, requires dependency
+/// GoogleAppMeasurementOnDeviceConversion to be linked in, otherwise it is a
+/// no-op.
+/// @param phone_number User phone number. Must be in E.164 format, which means
+/// it must be
+///   limited to a maximum of 15 digits and must include a plus sign (+) prefix
+///   and country code with no dashes, parentheses, or spaces.
+void InitiateOnDeviceConversionMeasurementWithPhoneNumber(
+    const char* phone_number);
+
+/// Initiates on-device conversion measurement given a SHA256-hashed user email
+/// address. Requires dependency GoogleAppMeasurementOnDeviceConversion to be
+/// linked in, otherwise it is a no-op.
+/// @param hashed_email_address User email address as a UTF8-encoded string
+/// normalized and hashed according to the instructions at
+/// https://firebase.google.com/docs/tutorials/ads-ios-on-device-measurement/step-3.
+void InitiateOnDeviceConversionMeasurementWithHashedEmailAddress(
+    std::vector<unsigned char> hashed_email_address);
+
+/// Initiates on-device conversion measurement given a SHA256-hashed phone
+/// number in E.164 format. Requires dependency
+/// GoogleAppMeasurementOnDeviceConversion to be linked in, otherwise it is a
+/// no-op.
+/// @param hashed_phone_number UTF8-encoded user phone number in E.164 format
+/// and then hashed according to the instructions at
+/// https://firebase.google.com/docs/tutorials/ads-ios-on-device-measurement/step-3.
+void InitiateOnDeviceConversionMeasurementWithHashedPhoneNumber(
+    std::vector<unsigned char> hashed_phone_number);
 
 /// @brief Set a user property to the given value.
 ///

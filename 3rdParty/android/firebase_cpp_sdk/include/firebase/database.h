@@ -16,7 +16,6 @@
 #define FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_H_
 
 #include "firebase/app.h"
-#include "firebase/cpp_version_warning.h"
 #include "firebase/database/common.h"
 #include "firebase/database/data_snapshot.h"
 #include "firebase/database/database_reference.h"
@@ -182,8 +181,10 @@ class Database {
   LogLevel log_level() const;
 
  private:
+#ifndef SWIG
   friend Database* GetDatabaseInstance(::firebase::App* app, const char* url,
                                        InitResult* init_result_out);
+#endif  // not SWIG
   Database(::firebase::App* app, internal::DatabaseInternal* internal);
   Database(const Database& src);
   Database& operator=(const Database& src);

@@ -17,7 +17,6 @@
 #ifndef FIREBASE_APP_SRC_INCLUDE_FIREBASE_APP_H_
 #define FIREBASE_APP_SRC_INCLUDE_FIREBASE_APP_H_
 
-#include "cpp_version_warning.h"
 #include "firebase/internal/platform.h"
 
 #if FIREBASE_PLATFORM_ANDROID
@@ -27,6 +26,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <vector>
 
 #if FIREBASE_PLATFORM_IOS || FIREBASE_PLATFORM_TVOS
 #ifdef __OBJC__
@@ -570,6 +570,9 @@ class App {
 
   /// Get the App with the given name, or nullptr if none have been created.
   static App* GetInstance(const char* name);
+
+  /// Get all the apps, including the default one.
+  static std::vector<App*> GetApps();
 
 #ifndef SWIG
 // <SWIG>

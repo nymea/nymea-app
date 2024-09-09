@@ -3,14 +3,14 @@
 The Firebase C++ SDK provides C++ interfaces for the following Firebase services
 on *iOS* and *Android*:
 
-*   AdMob (deprecated - use Google Mobile Ads instead)
 *   Firebase Analytics
+*   Firebase App Check
 *   Firebase Authentication
 *   Firebase Cloud Messaging
-*   Firebase Dynamic Links
+*   Firebase Dynamic Links (deprecated SDK)
 *   Cloud Firestore
 *   Firebase Functions
-*   Google Mobile Ads
+*   Google Mobile Ads (with User Messaging Platform)
 *   Firebase Installations
 *   Firebase Instance ID (deprecated SDK)
 *   Firebase Realtime Database
@@ -23,6 +23,7 @@ The Firebase C++ SDK includes desktop workflow support for the following subset
 of Firebase features, enabling their use on Windows, OS X, and Linux:
 
 *   Firebase Authentication
+*   Firebase App Check
 *   Cloud Firestore
 *   Firebase Functions
 *   Firebase Remote Config
@@ -70,11 +71,9 @@ libs/windows              | Windows static libraries (desktop or stub
 
 ## C++ Language Standards
 
-The Firebase C++ SDK supports the C++11 language standard.
-
-Note: The next major release of the Firebase C++ SDK will set the new minimum
-C++ version to C++14. For more information please see our
-[C++ Language Standard Support Criteria](https://opensource.google/documentation/policies/cplusplus-support#c_language_standard).
+The Firebase C++ SDK supports the C++14 language standard. For more information,
+please see our [C++ Language Standard Support
+Criteria](https://opensource.google/documentation/policies/cplusplus-support#c_language_standard).
 
 ## Library / XCFramework Dependencies
 
@@ -87,17 +86,19 @@ distributed as part of the core Firebase
 
 Feature                    | Required Libraries and Gradle Packages
 -------------------------- | --------------------------------------
-All Firebase SDKs          | platform(com.google.firebase:firebase-bom:31.3.0)
+All Firebase SDKs          | platform(com.google.firebase:firebase-bom:33.1.2)
 |                          | (Android Bill of Materials)
-Firebase AdMob             | libfirebase_admob.a
-| (deprecated)             | libfirebase_app.a
-|                          | com.google.firebase:firebase-analytics
-|                          | (Maven package)
-|                          | com.google.firebase:firebase-ads:19.8.0
-|                          | (Maven package)
 Firebase Analytics         | libfirebase_analytics.a
 |                          | libfirebase_app.a
 |                          | com.google.firebase:firebase-analytics
+|                          | (Maven package)
+Firebase App Check         | libfirebase_app_check.a
+|                          | libfirebase_app.a
+|                          | com.google.firebase:firebase-appcheck
+|                          | (Maven package)
+|                          | com.google.firebase:firebase-appcheck-debug
+|                          | (Maven package)
+|                          | com.google.firebase:firebase-appcheck-playintegrity
 |                          | (Maven package)
 Firebase Authentication    | libfirebase_auth.a
 |                          | libfirebase_app.a
@@ -133,7 +134,9 @@ Google Mobile Ads          | libfirebase_gma.a
 |                          | libfirebase_app.a
 |                          | com.google.firebase:firebase-analytics
 |                          | (Maven package)
-|                          | com.google.android.gms:play-services-ads:21.5.0
+|                          | com.google.android.gms:play-services-ads:23.0.0
+|                          | (Maven package)
+|                          | com.google.android.ump:user-messaging-platform:2.2.0
 |                          | (Maven package)
 Firebase Installations     | libfirebase_installations.a
 |                          | libfirebase_app.a
@@ -146,7 +149,7 @@ Firebase Messaging         | libfirebase_messaging.a
 |                          | com.google.firebase:firebase-messaging
 |                          | (Maven package)
 |                          | libmessaging_java.jar (Android service)
-|                          | androidx.core:core:1.9.0  (Maven package)
+|                          | androidx.core:core:1.13.1  (Maven package)
 Firebase Realtime Database | libfirebase_database.a
 |                          | libfirebase_auth.a
 |                          | libfirebase_app.a
@@ -171,18 +174,13 @@ Firebase Storage           | libfirebase_storage.a
 |                          | (Maven package)
 |                          | com.google.firebase:firebase-auth
 |                          | (Maven package)
-Google Play services module| com.google.android.gms:play-services-base:18.2.0
+Google Play services module| com.google.android.gms:play-services-base:18.5.0
 |                          | (Maven package)
 
 The Firebase C++ SDK uses an Android BoM (Bill of Materials) to specify a single
 Firebase Android SDK version number to use, rather than individual versions for
 each library. For more information, please see the [Firebase Android SDK
 documentation](https://firebase.google.com/docs/android/learn-more#bom).
-
-Note: AdMob C++ (deprecated) is not currently compatible with the latest
-Firebase AdMob Android SDK (20.x.x). Please ensure that you use
-firebase-ads version 19.8.0 in conjunction with the latest
-firebase-analytics version to maintain compatibility.
 
 #### Gradle dependency file
 
@@ -196,8 +194,8 @@ using):
 apply from: "$gradle.firebase_cpp_sdk_dir/Android/firebase_dependencies.gradle"
 firebaseCpp.dependencies {
   app  // Recommended for all apps using Firebase.
-  admob
   analytics
+  appCheck
   auth
   database
   dynamicLinks
@@ -230,61 +228,56 @@ preferred build environment.
 
 Feature                    | Required Frameworks and Cocoapods
 -------------------------- | ---------------------------------------
-Firebase AdMob             | firebase_admob.xcframework
-| (deprecated)             | firebase.xcframework
-|                          | Firebase/Analytics Cocoapod (10.7.0)
-|                          | Google-Mobile-Ads-SDK Cocoapod (7.69.0-cppsdk3)
 Firebase Analytics         | firebase_analytics.xcframework
 |                          | firebase.xcframework
-|                          | Firebase/Analytics Cocoapod (10.7.0)
+|                          | Firebase/Analytics Cocoapod (11.0.0)
+Firebase App Check         | firebase_app_check.xcframework
+|                          | firebase.xcframework
+|                          | Firebase/AppCheck Cocoapod (11.0.0)
 Firebase Authentication    | firebase_auth.xcframework
 |                          | firebase.xcframework
-|                          | Firebase/Auth Cocoapod (10.7.0)
+|                          | Firebase/Auth Cocoapod (11.0.0)
 Firebase Dynamic Links     | firebase_dynamic_links.xcframework
 |                          | firebase.xcframework
-|                          | Firebase/DynamicLinks Cocoapod (10.7.0)
+|                          | Firebase/DynamicLinks Cocoapod (11.0.0)
 Cloud Firestore            | firebase_firestore.xcframework
 |                          | firebase_auth.xcframework
 |                          | firebase.xcframework
-|                          | Firebase/Firestore Cocoapod (10.7.0)
-|                          | Firebase/Auth Cocoapod (10.7.0)
+|                          | Firebase/Firestore Cocoapod (11.0.0)
+|                          | Firebase/Auth Cocoapod (11.0.0)
 Firebase Functions         | firebase_functions.xcframework
 |                          | firebase_auth.xcframework (optional)
 |                          | firebase.xcframework
-|                          | Firebase/Functions Cocoapod (10.7.0)
-|                          | Firebase/Auth Cocoapod (10.7.0)
+|                          | Firebase/Functions Cocoapod (11.0.0)
+|                          | Firebase/Auth Cocoapod (11.0.0)
 Google Mobile Ads          | firebase_gma.xcframework
 |                          | firebase.xcframework
-|                          | Firebase/Analytics Cocoapod (10.7.0)
-|                          | Google-Mobile-Ads-SDK Cocoapod (10.3.0)
+|                          | Firebase/CoreOnly Cocoapod (11.0.0)
+|                          | Google-Mobile-Ads-SDK Cocoapod (11.2.0)
+|                          | GoogleUserMessagingPlatform Cocoapod (2.3.0)
 Firebase Installations     | firebase_installations.xcframework
 |                          | firebase.xcframework
-|                          | FirebaseInstallations Cocoapod (10.7.0)
+|                          | FirebaseInstallations Cocoapod (11.0.0)
 Firebase Cloud Messaging   | firebase_messaging.xcframework
 |                          | firebase.xcframework
-|                          | Firebase/Messaging Cocoapod (10.7.0)
+|                          | Firebase/Messaging Cocoapod (11.0.0)
 Firebase Realtime Database | firebase_database.xcframework
 |                          | firebase_auth.xcframework
 |                          | firebase.xcframework
-|                          | Firebase/Database Cocoapod (10.7.0)
-|                          | Firebase/Auth Cocoapod (10.7.0)
+|                          | Firebase/Database Cocoapod (11.0.0)
+|                          | Firebase/Auth Cocoapod (11.0.0)
 Firebase Remote Config     | firebase_remote_config.xcframework
 |                          | firebase.xcframework
-|                          | Firebase/RemoteConfig Cocoapod (10.7.0)
+|                          | Firebase/RemoteConfig Cocoapod (11.0.0)
 Firebase Storage           | firebase_storage.xcframework
 |                          | firebase_auth.xcframework
 |                          | firebase.xcframework
-|                          | Firebase/Storage Cocoapod (10.7.0)
-|                          | Firebase/Auth Cocoapod (10.7.0)
+|                          | Firebase/Storage Cocoapod (11.0.0)
+|                          | Firebase/Auth Cocoapod (11.0.0)
 
 Important: Each version of the Firebase C++ SDK supports a specific version of
 the Firebase iOS SDK. Please ensure that you reference the Cocoapod versions
 listed above.
-
-Note: AdMob C++ (deprecated) is not currently compatible with the latest
-Firebase AdMob iOS CocoaPod (9.x). Please ensure that you use the special
-version of Google-Mobile-Ads-SDK Cocoapod listed above (7.69.0-cppsdk2)
-to maintain compatibility with Firebase 9.x.
 
 Note: Parts of the Firebase iOS SDK are written in Swift. If your application
 does not use any Swift code, you may need to add an empty .swift file to your
@@ -298,61 +291,56 @@ required for each SDK feature.
 
 Feature                    | Required Libraries and Cocoapods
 -------------------------- | -----------------------------------------
-Firebase AdMob             | libfirebase_admob.a
-| (deprecated)             | libfirebase_app.a
-|                          | Firebase/Analytics Cocoapod (10.7.0)
-|                          | Google-Mobile-Ads-SDK Cocoapod (7.69.0-cppsdk3)
 Firebase Analytics         | libfirebase_analytics.a
 |                          | libfirebase_app.a
-|                          | Firebase/Analytics Cocoapod (10.7.0)
+|                          | Firebase/Analytics Cocoapod (11.0.0)
+Firebase App Check         | firebase_app_check.xcframework
+|                          | firebase.xcframework
+|                          | Firebase/AppCheck Cocoapod (11.0.0)
 Firebase Authentication    | libfirebase_auth.a
 |                          | libfirebase_app.a
-|                          | Firebase/Auth Cocoapod (10.7.0)
+|                          | Firebase/Auth Cocoapod (11.0.0)
 Firebase Dynamic Links     | libfirebase_dynamic_links.a
 |                          | libfirebase_app.a
-|                          | Firebase/DynamicLinks Cocoapod (10.7.0)
+|                          | Firebase/DynamicLinks Cocoapod (11.0.0)
 Cloud Firestore            | libfirebase_firestore.a
 |                          | libfirebase_app.a
 |                          | libfirebase_auth.a
-|                          | Firebase/Firestore Cocoapod (10.7.0)
-|                          | Firebase/Auth Cocoapod (10.7.0)
+|                          | Firebase/Firestore Cocoapod (11.0.0)
+|                          | Firebase/Auth Cocoapod (11.0.0)
 Firebase Functions         | libfirebase_functions.a
 |                          | libfirebase_app.a
 |                          | libfirebase_auth.a (optional)
-|                          | Firebase/Functions Cocoapod (10.7.0)
-|                          | Firebase/Auth Cocoapod (10.7.0)
+|                          | Firebase/Functions Cocoapod (11.0.0)
+|                          | Firebase/Auth Cocoapod (11.0.0)
 Google Mobile Ads          | libfirebase_gma.a
 |                          | libfirebase_app.a
-|                          | Firebase/Analytics Cocoapod (10.7.0)
-|                          | Google-Mobile-Ads-SDK Cocoapod (10.3.0)
+|                          | Firebase/CoreOnly Cocoapod (11.0.0)
+|                          | Google-Mobile-Ads-SDK Cocoapod (11.2.0)
+|                          | GoogleUserMessagingPlatform Cocoapod (2.3.0)
 Firebase Installations     | libfirebase_installations.a
 |                          | libfirebase_app.a
-|                          | FirebaseInstallations Cocoapod (10.7.0)
+|                          | FirebaseInstallations Cocoapod (11.0.0)
 Firebase Cloud Messaging   | libfirebase_messaging.a
 |                          | libfirebase_app.a
-|                          | Firebase/CloudMessaging Cocoapod (10.7.0)
+|                          | Firebase/CloudMessaging Cocoapod (11.0.0)
 Firebase Realtime Database | libfirebase_database.a
 |                          | libfirebase_app.a
 |                          | libfirebase_auth.a
-|                          | Firebase/Database Cocoapod (10.7.0)
-|                          | Firebase/Auth Cocoapod (10.7.0)
+|                          | Firebase/Database Cocoapod (11.0.0)
+|                          | Firebase/Auth Cocoapod (11.0.0)
 Firebase Remote Config     | libfirebase_remote_config.a
 |                          | libfirebase_app.a
-|                          | Firebase/RemoteConfig Cocoapod (10.7.0)
+|                          | Firebase/RemoteConfig Cocoapod (11.0.0)
 Firebase Storage           | libfirebase_storage.a
 |                          | libfirebase_app.a
 |                          | libfirebase_auth.a
-|                          | Firebase/Storage Cocoapod (10.7.0)
-|                          | Firebase/Auth Cocoapod (10.7.0)
+|                          | Firebase/Storage Cocoapod (11.0.0)
+|                          | Firebase/Auth Cocoapod (11.0.0)
 
 Important: Each version of the Firebase C++ SDK supports a specific version of
 the Firebase iOS SDK. Please ensure that you reference the Cocoapod versions
 listed above.
-
-Note: AdMob C++ (deprecated) is not currently compatible with the latest
-Firebase AdMob iOS CocoaPod (9.x). Please ensure that you use the special
-version of Google-Mobile-Ads-SDK Cocoapod listed above (7.69.0-cppsdk2)
-to maintain compatibility with Firebase 9.x.
 
 Note: Parts of the Firebase iOS SDK are written in Swift. If your application
 does not use any Swift code, you may need to add an empty .swift file to your
@@ -373,6 +361,8 @@ Feature                         | Required Libraries
 ------------------------------- | -----------------------------
 Firebase Authentication         | libfirebase_auth.a
 |                               | libfirebase_app.a
+Firebase App Check              | libfirebase_app_check.a
+|                               | libfirebase_app.a
 Cloud Firestore                 | libfirebase_firestore.a
 |                               | libfirebase_auth.a
 |                               | libfirebase_app.a
@@ -386,8 +376,6 @@ Firebase Remote Config          | libfirebase_remote_config.a
 |                               | libfirebase_app.a
 Firebase Storage                | libfirebase_storage.a
 |                               | libfirebase_auth.a
-|                               | libfirebase_app.a
-Firebase AdMob (stub)           | libfirebase_admob.a
 |                               | libfirebase_app.a
 Firebase Analytics (stub)       | libfirebase_analytics.a
 |                               | libfirebase_app.a
@@ -416,6 +404,8 @@ Feature                         | Required Frameworks
 ------------------------------- | ----------------------------------
 Firebase Authentication         | firebase_auth.framework
 |                               | firebase.framework
+Firebase App Check              | libfirebase_app_check.framework
+|                               | libfirebase_app.framework
 Cloud Firestore                 | firebase_firestore.framework
 |                               | firebase_auth.framework
 |                               | firebase.framework
@@ -430,8 +420,6 @@ Firebase Remote Config          | firebase_remote_config.framework
 Firebase Storage                | firebase_storage.framework
 |                               | firebase_auth.framework
 |                               | firebase.framework
-Firebase AdMob (stub)           | firebase_admob.framework
-|                               | firebase.framework
 Firebase Analytics (stub)       | firebase_analytics.framework
 |                               | firebase.framework
 Firebase Dynamic Links (stub)   | firebase_dynamic_links.framework
@@ -443,7 +431,7 @@ Firebase Installations (stub)   | firebase_installations.framework
 Firebase Cloud Messaging (stub) | firebase_messaging.framework
 |                               | firebase.framework
 
-The provided libraries have been tested using Xcode 13.3.1. When building C++
+The provided libraries have been tested using Xcode 14.1. When building C++
 desktop apps on OS X, you will need to link the `gssapi_krb5` and `pthread`
 system libraries, as well as the `CoreFoundation`, `Foundation`, `GSS`, and
 `Security` OS X system frameworks (consult your compiler documentation for more
@@ -460,6 +448,8 @@ Feature                         | Required Libraries and Gradle Packages
 ------------------------------- | --------------------------------------
 Firebase Authentication         | firebase_auth.lib
 |                               | firebase_app.lib
+Firebase App Check              | libfirebase_app_check.lib
+|                               | libfirebase_app.lib
 Cloud Firestore                 | firebase_firestore.lib
 |                               | firebase_auth.lib
 |                               | firebase_app.lib
@@ -473,8 +463,6 @@ Firebase Remote Config          | firebase_remote_config.lib
 |                               | firebase_app.lib
 Firebase Storage                | firebase_storage.lib
 |                               | firebase_auth.lib
-|                               | firebase_app.lib
-Firebase AdMob (stub)           | firebase_admob.lib
 |                               | firebase_app.lib
 Firebase Analytics (stub)       | firebase_analytics.lib
 |                               | firebase_app.lib
@@ -495,10 +483,11 @@ information):
 Firebase C++ Library | Windows SDK library dependencies
 -------------------- | -----------------------------------------------------
 Authentication       | `advapi32, ws2_32, crypt32`
+App Check            | `advapi32, ws2_32, crypt32`
 Firestore            | `advapi32, ws2_32, crypt32, rpcrt4, ole32, shell32, dbghelp, bcrypt`
 Functions            | `advapi32, ws2_32, crypt32, rpcrt4, ole32`
 Realtime Database    | `advapi32, ws2_32, crypt32, iphlpapi, psapi, userenv, shell32`
-Remote Config        | `advapi32, ws2_32, crypt32, rpcrt4, ole32`
+Remote Config        | `advapi32, ws2_32, crypt32, rpcrt4, ole32, icu`
 Storage              | `advapi32, ws2_32, crypt32`
 
 ## Getting Started
@@ -591,7 +580,7 @@ library.
 Firebase C++ Library | Google Play services required?
 -------------------- | ---------------------------------
 Analytics            | Not required
-AdMob (deprecated)   | Not required (usually; see below)
+App Check            | Not required
 Cloud Messaging      | Required
 Auth                 | Required
 Dynamic Links        | Required
@@ -604,7 +593,7 @@ Realtime Database    | Required
 Remote Config        | Required
 Storage              | Required
 
-#### A note on AdMob, Google Mobile Ads and Google Play services
+#### A note on Google Mobile Ads and Google Play services
 
 Most versions of the Google Mobile Ads SDK for Android can work properly without
 Google Play services. However, if you are using the
@@ -612,9 +601,9 @@ Google Play services. However, if you are using the
 standard `com.google.firebase:firebase-ads` dependency, Google Play services
 WILL be required in your specific case.
 
-AdMob (deprecated) and GMA initialization will only return
-`kInitResultFailedMissingDependency` when Google Play services is unavailable
-AND you are using `com.google.android.gms:play-services-ads-lite`.
+GMA initialization will only return `kInitResultFailedMissingDependency` when
+Google Play services is unavailable AND you are using
+`com.google.android.gms:play-services-ads-lite`.
 
 ### Desktop project setup
 
@@ -642,6 +631,200 @@ workflow use only during the development of your app, not for publicly shipping
 code.
 
 ## Release Notes
+### 12.2.0
+-   Changes
+    - General (iOS): Update to Firebase Cocoapods version 11.0.0.
+
+### 12.1.0
+-   Changes
+    - General (Android): Update to Firebase Android BoM version 33.1.1.
+    - General (iOS): Update to Firebase Cocoapods version 10.28.1.
+    - Analytics (iOS): Add support for
+      `InitiateOnDeviceConversionMeasurementWithHashedEmailAddress` and
+      `InitiateOnDeviceConversionMeasurementWithHashedPhoneNumber`.
+    - GMA: The GMA C++ SDK is now deprecated. For more information, see the
+      [SDK documentation](https://developers.google.com/admob/cpp/sdk).
+    - Messaging (Android): Fixed a potential race condition on receiving
+      messages after cleanup.
+    - Messaging (iOS): Fixed an issue with notifications being lost if they
+      were received before Firebase Messaging was initialized.
+
+### 12.0.0
+-   Changes
+    - General (Android): Update to Firebase Android BoM version 33.0.0.
+    - General (Android): Updated minSdkVersion to 23, and targetSdkVersion
+      and compileSdkVersion to 34.
+    - General (iOS): Update to Firebase Cocoapods version 10.25.0.
+    - General (iOS): Minimum iOS deployment target is now 13.0.
+    - Auth: Removed methods that were deprecated in v11.0.0.
+    - Storage (iOS): Fix invalid pointer in `StorageReference::GetFile()` when
+      running in a secondary thread
+      ([#1570](https://github.com/firebase/firebase-cpp-sdk/issues/1570)).
+
+### 11.10.0
+-   Changes
+    - General (Android): Update to Firebase Android BoM version 32.8.1.
+    - General (iOS): Update to Firebase Cocoapods version 10.24.0.
+    - General (iOS, tvOS, Desktop): iOS, tvOS, and macOS SDKs are now built
+      using Xcode 15.1.
+    - GMA (iOS): Updated dependency to Google-Mobile-Ads-SDK version 11.2.0 and
+      GoogleUserMessagingPlatform version 2.3.0.
+    - GMA (Android): Updated dependency to play-services-ads version 23.0.0 and
+      user-messaging-platform version 2.2.0.
+    - Storage (Desktop): Removed 5-minute timeout for uploads and downloads.
+
+### 11.9.0
+-   Changes
+    - General (Android): Update to Firebase Android BoM version 32.7.4.
+    - General (iOS): Update to Firebase Cocoapods version 10.22.0.
+    - Auth: Add User::SendEmailVerificationBeforeUpdatingEmail, a new method to
+      verify and change the User's email.
+    - Auth: Deprecate the older method of updating emails, User::UpdateEmail.
+
+### 11.8.0
+-   Changes
+    - General (Android): Update to Firebase Android BoM version 32.7.1.
+    - General (iOS): Update to Firebase Cocoapods version 10.20.0.
+    - Dynamic Links: The Dynamic Links SDK is now deprecated. See the [support
+      documentation](https://firebase.google.com/support/dynamic-links-faq)
+      for more information.
+    - Messaging (Android): Fixed minSdkVersion in the firebase_messaging.aar
+      manifest file.
+
+### 11.7.0
+-   Changes
+    - General (Android): Firebase C++ on Android is now built using Android API
+      level 33 and Gradle 6.7.1.
+    - General (Android): Update to Firebase Android BoM version 32.7.0.
+    - General (iOS): Update to Firebase Cocoapods version 10.19.0.
+    - Analytics: Updated the consent management API to include new consent signals.
+    - Auth: Fix a bug where an anonymous account can't be linked with
+      email password credential. For background, see [Email Enumeration
+      Protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection)
+    - GMA (Android): Updated dependency to play-services-ads version 22.6.0.
+    - GMA (iOS): Updated dependency to Google-Mobile-Ads-SDK version 10.14.0.
+
+### 11.6.0
+-   Changes
+    - General (iOS): Update to Firebase Cocoapods version 10.15.0.
+    - Firestore: Add support for disjunctions in queries (OR queries)
+      ([#1453](https://github.com/firebase/firebase-cpp-sdk/pull/1453)).
+    - GMA: Added the User Messaging Platform (UMP) SDK, required for obtaining
+      consent from users before showing ads. See the [Get Started
+      Guide](https://firebase.google.com/docs/admob/cpp/privacy/) for more
+      information.
+    - GMA (iOS): Added a new Cocoapod dependency for the UMP SDK:
+      GoogleUserMessagingPlatform version 2.1.0.
+    - GMA (Android): Added a new Maven package dependency for the UMP SDK:
+      com.google.android.ump:user-messaging-platform version 2.1.0. This
+      dependency will automatically be included if you include "gma" in the
+      firebaseCpp.dependencies list in your build.gradle file.
+
+### 11.5.0
+-   Changes
+    - General (iOS): Update to Firebase Cocoapods version 10.15.0.
+    - General (Android): Update to Firebase Android BoM version 32.3.1.
+    - General (Android): Made dynamic code files read only to comply with new
+      Android 14 security requirements. This fixes a crash at API level 34+.
+    - Analytics (iOS): Added InitiateOnDeviceConversionMeasurementWithPhoneNumber
+      function to facilitate the [on-device conversion
+      measurement](https://support.google.com/google-ads/answer/12119136) API.
+    - Auth: Add Firebase Auth Emulator support. Set the environment variable
+      USE_AUTH_EMULATOR=yes (and optionally AUTH_EMULATOR_PORT, default 9099) 
+      to connect to the local Firebase Auth Emulator.
+    - GMA (iOS): Updated dependency to Google-Mobile-Ads-SDK version 10.10.0.
+    - GMA (Android): Updated dependency to play-services-ads version 22.3.0.
+
+### 11.4.0
+-   Changes
+    - General (Android): Update to Firebase Android BoM version 32.2.2.
+    - General (iOS): Update to Firebase Cocoapods version 10.13.0.
+    - General (iOS): 32-bit iOS builds (i386 and armv7) are no longer supported.
+    - General: Add FirebaseApp.GetApps(), to return the list of `firebase::App` instances.
+    - GMA (Android): Fixed a crash when initializing GMA without a Firebase App.
+
+### 11.3.0
+-   Changes
+    - General (Android): Update to Firebase Android BoM version 32.2.0.
+    - General (iOS): Update to Firebase Cocoapods version 10.12.0.
+    - General (Desktop): Fixed an error loading google-services.json and
+      google-services-desktop.json from paths with international characters on
+      Windows.
+    - Auth (Android): Fixed an issue where VerifyPhoneNumber's internal
+      builder failed to create PhoneAuthOptions with certain compiler settings.
+    - Auth (iOS): Fixed an issue where functions that return AuthResult
+      were not including updated credentials when encountering errors.
+    - GMA (iOS): Updated dependency to Google-Mobile-Ads-SDK version 10.8.0.
+    - GMA (Android): Updated dependency to play-services-ads version 22.2.0.
+    - Remote Config (Desktop): Additional fix for handling of non-English time
+      zone names on Windows.
+    - Firestore (Android): Fix the intermittent global references exhaustion
+      crash when working with documents with a large number of keys and/or large
+      map and/or array fields.
+      ([#1364](https://github.com/firebase/firebase-cpp-sdk/pull/1364)).
+
+### 11.2.0
+-   Changes
+    - General (Android): Update to Firebase Android BoM version 32.1.1.
+    - General (iOS): Update to Firebase Cocoapods version 10.11.0.
+    - GMA (iOS): Updated dependency to Google-Mobile-Ads-SDK version 10.6.0.
+    - App Check (Desktop): Fixed expired tokens being cached on 32-bit systems.
+    - Remote Config (Android): Fixed the ConfigUpdate classes being missing
+      from the proguard files.
+    - Remote Config (Desktop): Fixed handling of time zones on Windows when the
+      time zone name in the current system language contains an accented
+      character or apostrophe. This adds a requirement for applications using
+      Remote Config on Windows desktop to link the "icu.dll" system library.
+
+### 11.1.0
+-   Changes
+    - General (Android): Update to Firebase Android BoM version 32.1.0.
+    - General (iOS): Update to Firebase Cocoapods version 10.10.0.
+    - General (Android): Fix for deadlock within JniResultCallback, commonly
+      seen within Messaging, but affecting other products as well.
+    - Database/Firestore (Desktop): Fixed a crash on Windows when the user's
+      home directory contains non-ANSI characters (Unicode above U+00FF).
+    - GMA (Android): Updated dependency to play-services-ads version 22.1.0.
+    - GMA (iOS): Updated dependency to Google-Mobile-Ads-SDK version 10.5.0.
+    - Storage (Desktop): Fixed a crash on Windows when uploading files from a
+      path containing non-ANSI characters (Unicode above U+00FF).
+    - Firestore: Added MultiDb support. ([#1321](https://github.com/firebase/firebase-cpp-sdk/pull/1321)).
+
+### 11.0.1
+-   Changes
+    - Auth (iOS): Fixed a crash in `Credential::is_valid()` when an `AuthResult`
+      contains an invalid credential, such as when signing in anonymously.
+
+### 11.0.0
+-   Changes
+    - General: Update minimum supported C++ standard to C++14.
+    - General (Android): Update to Firebase Android BoM version 32.0.0.
+    - General (iOS): Update to Firebase Cocoapods version 10.9.0.
+    - General (iOS, tvOS, Desktop): iOS, tvOS, and macOS SDKs are now built
+      using Xcode 14.1.
+    - AdMob: Removed deprecated AdMob SDK. Please use the included Google
+      Mobile Ads SDK ("GMA") instead.
+    - App Check: Adds support for Firebase App Check on Android, iOS, tvOS,
+      and desktop platforms.
+    - GMA (Android): Updated dependency to play-services-ads version 22.0.0.
+    - GMA (iOS): Updated dependency to Google-Mobile-Ads-SDK version 10.4.0.
+    - Auth: Deprecated a number of methods, appending `_DEPRECATED` to some of
+      their names. This is a breaking change; you must either modify your code
+      to refer to the `_DEPRECATED` methods, or switch to the new methods, which
+      have new return types `AuthResult` and `User` (rather than `SignInResult`
+      and `User *`). The deprecated methods will be removed in the *next* major
+      release of the Firebase C++ SDK. *(Note: do not mix and match using the old
+      and new methods or undefined behavior may result.)*
+    - Firestore: Added `Query::Count()`, which fetches the number of documents
+      in the result set without actually downloading the documents
+      ([#1207](https://github.com/firebase/firebase-cpp-sdk/pull/1207)).
+    - Remote Config (Android/iOS): Added support for real-time config updates.
+      Use the new `AddOnConfigUpdateListener` API to get real-time updates.
+      Existing [`Fetch`](https://firebase.google.com/docs/reference/cpp/class/firebase/remote-config/remote-config#fetch)
+      and [`Activate`](https://firebase.google.com/docs/reference/cpp/class/firebase/remote-config/remote-config#activate)
+      APIs aren't affected by this change. To learn more, see
+      [Get started with Firebase Remote Config](https://firebase.google.com/docs/remote-config/get-started?platform=cpp#add-real-time-listener).
+
 ### 10.7.0
 -   Changes
     - General (Android): Update to Firebase Android BoM version 31.3.0.

@@ -17,11 +17,11 @@
 #ifndef FIREBASE_AUTH_SRC_INCLUDE_FIREBASE_AUTH_H_
 #define FIREBASE_AUTH_SRC_INCLUDE_FIREBASE_AUTH_H_
 
+#include <string>
 #include <vector>
 
 #include "firebase/app.h"
 #include "firebase/auth/user.h"
-#include "firebase/cpp_version_warning.h"
 #include "firebase/future.h"
 #include "firebase/internal/common.h"
 
@@ -45,22 +45,22 @@ struct AuthData;
 class AuthStateListener;
 class IdTokenListener;
 class PhoneAuthProvider;
-struct AuthCompletionHandle;
+class AuthRequest;
+struct AuthResultCompletionHandle;
 class FederatedAuthProvider;
 class FederatedOAuthProvider;
-struct SignInResult;
 
 /// @brief Firebase authentication object.
 ///
 /// <SWIG>
 /// @if swig_examples
 /// Firebase.Auth.FirebaseAuth is the gateway to the Firebase authentication
-/// API. With it, you can reference @ref Firebase.Auth.FirebaseAuth objects to
+/// API. With it, you can reference Firebase.Auth.FirebaseAuth objects to
 /// manage user accounts and credentials.
 ///
-/// Each @ref Firebase.FirebaseApp has up to one Firebase.Auth.FirebaseAuth
+/// Each Firebase.FirebaseApp has up to one Firebase.Auth.FirebaseAuth
 /// class. You acquire the Firebase.Auth.FirebaseAuth class through the static
-/// function @ref Firebase.Auth.FirebaseAuth.GetAuth.
+/// function Firebase.Auth.FirebaseAuth.GetAuth.
 ///
 /// For example:
 /// @code{.cs}
@@ -88,12 +88,12 @@ struct SignInResult;
 /// @if cpp_examples
 ///
 /// firebase::auth::Auth is the gateway to the Firebase authentication API.
-/// With it, you can reference @ref firebase::auth::User objects to manage user
+/// With it, you can reference firebase::auth::User objects to manage user
 /// accounts and credentials.
 ///
-/// Each @ref firebase::App has up to one firebase::auth::Auth class. You
+/// Each firebase::App has up to one firebase::auth::Auth class. You
 /// acquire the firebase::auth::Auth class through the static function
-/// @ref firebase::auth::Auth::GetAuth.
+/// firebase::auth::Auth::GetAuth.
 ///
 /// For example:
 /// @code{.cpp}
@@ -102,7 +102,7 @@ struct SignInResult;
 /// firebase::auth::Auth* auth = firebase::auth::Auth::GetAuth(app);
 ///
 /// // Request anonymous sign-in and wait until asynchronous call completes.
-/// firebase::Future<firebase::auth::User*> sign_in_future =
+/// firebase::Future<firebase::auth::AuthResult> sign_in_future =
 ///     auth->SignInAnonymously();
 /// while(sign_in_future.status() == firebase::kFutureStatusPending) {
 ///     // when polling, like this, make sure you service your platform's
@@ -118,17 +118,17 @@ struct SignInResult;
 ///     std::cout << "Sign in failed with error '"
 ///         << sign_in_future.error_message() << "'\n";
 /// } else {
-///     firebase::auth::User* user = *sign_in_future.result();
+///     firebase::auth::User user = sign_in_future.result()->user;
 ///     // is_anonymous from Anonymous
 ///     std::cout << "Signed in as "
-///         << (user->is_anonymous() ? "an anonymous" : "a non-anonymous")
+///         << (user.is_anonymous() ? "an anonymous" : "a non-anonymous")
 ///         << " user\n";
 /// }
 /// @endcode
 /// @endif
 class Auth {
  public:
-  /// @brief Results of calls @ref FetchProvidersForEmail.
+  /// @brief Results of calls FetchProvidersForEmail.
   ///
   /// <SWIG>
   /// @if swig_examples
@@ -147,21 +147,13 @@ class Auth {
 
   ~Auth();
 
-  /// Synchronously gets the cached current user, or nullptr if there is none.
+  /// Synchronously gets the cached current user, or returns an object where
+  /// is_valid() == false if there is none.
+  ///
   /// @note This function may block and wait until the Auth instance finishes
   /// loading the saved user's state. This should only happen for a short
-  /// period of time after the Auth instance is created.
-  /// <SWIG>
-  /// @xmlonly
-  /// <csproperty name="CurrentUser">
-  /// Synchronously gets the cached current user, or null if there is none.
-  /// @note This function may block and wait until the Auth instance finishes
-  /// loading the saved user's state. This should only happen for a short
-  /// period of time after the Auth instance is created.
-  /// </csproperty>
-  /// @endxmlonly
-  /// </SWIG>
-  User* current_user();
+  /// time after the Auth instance is created.
+  User current_user();
 
   /// The current user language code. This can be set to the app’s current
   /// language by calling set_language_code. The string must be a language code
@@ -236,25 +228,21 @@ class Auth {
   /// @endif
   Future<FetchProvidersResult> FetchProvidersForEmail(const char* email);
 
-  /// Get results of the most recent call to @ref FetchProvidersForEmail.
+  /// Get results of the most recent call to FetchProvidersForEmail.
   Future<FetchProvidersResult> FetchProvidersForEmailLastResult() const;
 
-  // ----- Sign In ---------------------------------------------------------
   /// Asynchronously logs into Firebase with the given Auth token.
   ///
-  /// An error is returned, if the token is invalid, expired or otherwise
-  /// not accepted by the server.
-  Future<User*> SignInWithCustomToken(const char* token);
+  /// An error is returned if the token is invalid, expired or otherwise not
+  /// accepted by the server.
+  Future<AuthResult> SignInWithCustomToken(const char* custom_token);
 
-  /// Get results of the most recent call to @ref SignInWithCustomToken.
-  Future<User*> SignInWithCustomTokenLastResult() const;
+  /// Get results of the most recent call to SignInWithCustomToken.
+  Future<AuthResult> SignInWithCustomTokenLastResult() const;
 
-  /// Convenience method for @ref SignInAndRetrieveDataWithCredential that
+  /// Convenience method for SignInAndRetrieveDataWithCredential that
   /// doesn't return additional identity provider data.
-  Future<User*> SignInWithCredential(const Credential& credential);
-
-  /// Get results of the most recent call to @ref SignInWithCredential.
-  Future<User*> SignInWithCredentialLastResult() const;
+  Future<User> SignInWithCredential(const Credential& credential);
 
   /// Sign-in a user authenticated via a federated auth provider.
   ///
@@ -266,25 +254,25 @@ class Auth {
   /// @note: This operation is supported only on iOS, tvOS and Android
   /// platforms. On other platforms this method will return a Future with a
   /// preset error code: kAuthErrorUnimplemented.
-  Future<SignInResult> SignInWithProvider(FederatedAuthProvider* provider);
+  Future<AuthResult> SignInWithProvider(FederatedAuthProvider* provider);
 
   /// Asynchronously logs into Firebase with the given credentials.
   ///
   /// For example, the credential could wrap a Facebook login access token or
   /// a Twitter token/token-secret pair.
   ///
-  /// The SignInResult contains both a reference to the User (which can be null
-  /// if the sign in failed), and AdditionalUserInfo, which holds details
-  /// specific to the Identity Provider used to sign in.
+  /// The AuthResult contains both a reference to the User (which is_valid()
+  /// will return false if the sign in failed), and AdditionalUserInfo, which
+  /// holds details specific to the Identity Provider used to sign in.
   ///
   /// An error is returned if the token is invalid, expired, or otherwise not
   /// accepted by the server.
-  Future<SignInResult> SignInAndRetrieveDataWithCredential(
+  Future<AuthResult> SignInAndRetrieveDataWithCredential(
       const Credential& credential);
 
   /// Get results of the most recent call to
-  /// @ref SignInAndRetrieveDataWithCredential.
-  Future<SignInResult> SignInAndRetrieveDataWithCredentialLastResult() const;
+  /// SignInAndRetrieveDataWithCredential.
+  Future<AuthResult> SignInAndRetrieveDataWithCredentialLastResult() const;
 
   /// Asynchronously creates and becomes an anonymous user.
   /// If there is already an anonymous user signed in, that user will be
@@ -323,7 +311,7 @@ class Auth {
   ///  // This function is called every frame.
   ///  bool SignIn(firebase::auth::Auth& auth) {
   ///    // Grab the result of the latest sign-in attempt.
-  ///    firebase::Future<firebase::auth::User*> future =
+  ///    firebase::Future<firebase::auth::AuthResult> future =
   ///        auth.SignInAnonymouslyLastResult();
   ///
   ///    // If we're in a state where we can try to sign in, do so.
@@ -339,31 +327,32 @@ class Auth {
   ///  }
   /// @endcode
   /// @endif
-  Future<User*> SignInAnonymously();
+  Future<AuthResult> SignInAnonymously();
 
-  /// Get results of the most recent call to @ref SignInAnonymously.
-  Future<User*> SignInAnonymouslyLastResult() const;
+  /// Get results of the most recent call to SignInAnonymously.
+  Future<AuthResult> SignInAnonymouslyLastResult() const;
 
   /// Signs in using provided email address and password.
   /// An error is returned if the password is wrong or otherwise not accepted
   /// by the server.
-  Future<User*> SignInWithEmailAndPassword(const char* email,
-                                           const char* password);
+  Future<AuthResult> SignInWithEmailAndPassword(const char* email,
+                                                const char* password);
 
-  /// Get results of the most recent call to @ref SignInWithEmailAndPassword.
-  Future<User*> SignInWithEmailAndPasswordLastResult() const;
+  /// Get results of the most recent call to
+  /// SignInWithEmailAndPassword.
+  Future<AuthResult> SignInWithEmailAndPasswordLastResult() const;
 
   /// Creates, and on success, logs in a user with the given email address
   /// and password.
   ///
   /// An error is returned when account creation is unsuccessful
   /// (due to another existing account, invalid password, etc.).
-  Future<User*> CreateUserWithEmailAndPassword(const char* email,
-                                               const char* password);
+  Future<AuthResult> CreateUserWithEmailAndPassword(const char* email,
+                                                    const char* password);
 
   /// Get results of the most recent call to
-  /// @ref CreateUserWithEmailAndPassword.
-  Future<User*> CreateUserWithEmailAndPasswordLastResult() const;
+  /// CreateUserWithEmailAndPassword.
+  Future<AuthResult> CreateUserWithEmailAndPasswordLastResult() const;
 
   /// Removes any existing authentication credentials from this client.
   /// This function always succeeds.
@@ -436,7 +425,7 @@ class Auth {
   /// @endif
   Future<void> SendPasswordResetEmail(const char* email);
 
-  /// Get results of the most recent call to @ref SendPasswordResetEmail.
+  /// Get results of the most recent call to SendPasswordResetEmail.
   Future<void> SendPasswordResetEmailLastResult() const;
 
 #ifndef SWIG
@@ -458,7 +447,7 @@ class Auth {
   /// Use RemoveAuthStateListener to unregister a listener.
   ///
   /// @note The caller owns `listener` and is responsible for destroying it.
-  /// When `listener` is destroyed, or when @ref Auth is destroyed,
+  /// When `listener` is destroyed, or when Auth is destroyed,
   /// RemoveAuthStateListener is called automatically.
   void AddAuthStateListener(AuthStateListener* listener);
 
@@ -487,7 +476,7 @@ class Auth {
   /// Use RemoveIdTokenListener to unregister a listener.
   ///
   /// @note The caller owns `listener` and is responsible for destroying it.
-  /// When `listener` is destroyed, or when @ref Auth is destroyed,
+  /// When `listener` is destroyed, or when Auth is destroyed,
   /// RemoveIdTokenListener is called automatically.
   void AddIdTokenListener(IdTokenListener* listener);
 
@@ -501,6 +490,14 @@ class Auth {
   /// to be called explicitly.
   void RemoveIdTokenListener(IdTokenListener* listener);
 #endif  // not SWIG
+
+#if !defined(DOXYGEN) && !defined(SWIG)
+  ///
+  /// Modify this Auth instance to communicate with the Firebase Authentication
+  /// emulator.
+  ///
+  void UseEmulator(std::string host, uint32_t port);
+#endif  //! defined(DOXYGEN), to hide the api from public documentation.
 
   /// Gets the App this auth object is connected to.
   App& app();
@@ -524,16 +521,19 @@ class Auth {
   /// @cond FIREBASE_APP_INTERNAL
   friend class ::firebase::App;
   friend class ::firebase::auth::PhoneAuthProvider;
+  friend class ::firebase::auth::AuthRequest;
   friend class IdTokenRefreshListener;
   friend class IdTokenRefreshThread;
   friend class UserDataPersist;
   friend class UserDesktopTest;
   friend class AuthDesktopTest;
 
+#ifndef SWIG
   friend void EnableTokenAutoRefresh(AuthData* authData);
   friend void DisableTokenAutoRefresh(AuthData* authData);
   friend void ResetTokenRefreshCounter(AuthData* authData);
   friend void LogHeartbeat(Auth* auth);
+#endif  // not SWIG
   /// @endcond
 
   // Find Auth instance using App.  Return null if the instance does not exist.
@@ -552,9 +552,9 @@ class Auth {
                                            void* out_future);
 
   // Provides access to the current user's uid, equivalent to calling
-  // this->current_user()->uid(). Returns the current user's uid or an empty
-  // string, if there isn't one. The out pointer is expected to point to an
-  // instance of std::string.
+  // this->current_user().uid(). Returns the current user's uid or
+  // an empty string, if there isn't one. The out pointer is expected to point
+  // to an instance of std::string.
   static bool GetCurrentUserUidForRegistry(App* app, void* /*unused*/,
                                            void* out);
 
@@ -616,7 +616,7 @@ class AuthStateListener {
   ///   - When the current user is signed out
   ///   - When the current user changes
   ///
-  /// @param[in] auth Disambiguates which @ref Auth instance the event
+  /// @param[in] auth Disambiguates which Auth instance the event
   /// corresponds to, in the case where you are using more than one at the same
   /// time.
   virtual void OnAuthStateChanged(Auth* auth) = 0;
@@ -650,7 +650,7 @@ class IdTokenListener {
   ///   - When the current user changes
   ///   - When there is a change in the current user's token
   ///
-  /// @param[in] auth Disambiguates which @ref Auth instance the event
+  /// @param[in] auth Disambiguates which Auth instance the event
   /// corresponds to, in the case where you are using more than one at the same
   /// time.
   virtual void OnIdTokenChanged(Auth* auth) = 0;
@@ -721,6 +721,8 @@ class FederatedAuthProvider {
 
     /// @brief Application sign-in handler.
     ///
+    /// Invoked in SignIn flows that use Auth::SignInWithProvider.
+    ///
     /// The application must implement this method to handle federated auth user
     /// sign-in requests on non-mobile systems.
     ///
@@ -733,12 +735,13 @@ class FederatedAuthProvider {
     /// @see Auth#SignInWithProvider
     /// @see SignInComplete
     virtual void OnSignIn(const T& provider_data,
-                          AuthCompletionHandle* completion_handle) = 0;
+                          AuthResultCompletionHandle* completion_handle) {}
 
-    /// Completion for OnSignIn events.
+    /// Completion for OnSignIn events started by a call to
+    /// Auth::SignInWithProvider.
     ///
     /// Invoke this method once the corresponding OnSignIn has been fulfilled.
-    /// This method will trigger the associated Future<SignInResult> previously
+    /// This method will trigger the associated Future<AuthResult> previously
     /// returned from the Auth::SignInWithProvider method.
     ///
     /// @param[in] completion_handle The handle provided to the application's
@@ -752,11 +755,13 @@ class FederatedAuthProvider {
     ///
     /// @see OnSignIn
     /// @see Auth::SignInWithProvider
-    void SignInComplete(AuthCompletionHandle* completion_handle,
+    void SignInComplete(AuthResultCompletionHandle* completion_handle,
                         const AuthenticatedUserData& user_data,
                         AuthError auth_error, const char* error_message);
 
     /// @brief Application user account link handler.
+    ///
+    /// Invoked in Link flows that use User::LinkWithProvider.
     ///
     /// The application must implement this method to handle federated auth user
     /// link requests on non-mobile systems.
@@ -769,12 +774,12 @@ class FederatedAuthProvider {
     ///
     /// @see User#LinkWithProvider
     virtual void OnLink(const T& provider_data,
-                        AuthCompletionHandle* completion_handle) = 0;
+                        AuthResultCompletionHandle* completion_handle) {}
 
     /// Completion for non-mobile user authorization handlers.
     ///
-    /// Invoke this method once the OnLine process has been fulfilled. This
-    /// method will trigger the associated Future<SignInResult> previously
+    /// Invoke this method once the OnLink process has been fulfilled. This
+    /// method will trigger the associated Future<AuthResult> previously
     /// returned from an invocation of User::LinkWithProvider.
     ///
     /// @param[in] completion_handle The handle provided to the
@@ -788,7 +793,7 @@ class FederatedAuthProvider {
     ///
     /// @see OnLink
     /// @see User#LinkWithProvider
-    void LinkComplete(AuthCompletionHandle* completion_handle,
+    void LinkComplete(AuthResultCompletionHandle* completion_handle,
                       const AuthenticatedUserData& user_data,
                       AuthError auth_error, const char* error_message);
 
@@ -804,13 +809,14 @@ class FederatedAuthProvider {
     /// completed the reauthentication operation.
     ///
     /// @see User#ReauthenticateWithProviderComplete
-    virtual void OnReauthenticate(const T& provider_data,
-                                  AuthCompletionHandle* completion_handle) = 0;
+    virtual void OnReauthenticate(
+        const T& provider_data, AuthResultCompletionHandle* completion_handle) {
+    }
 
     /// Completion for non-mobile user authorization handlers.
     ///
     /// Invoke this method once the OnReauthenticate process has been
-    /// fulfilled. This method will trigger the associated Future<SignInResult>
+    /// fulfilled. This method will trigger the associated Future<AuthResult>
     /// previously returned from an invocation of
     /// User::ReauthenticateWithProvider.
     ///
@@ -825,7 +831,7 @@ class FederatedAuthProvider {
     ///
     /// @see OnReauthenticate
     /// @see User#ReuthenticateWithProvider
-    void ReauthenticateComplete(AuthCompletionHandle* completion_handle,
+    void ReauthenticateComplete(AuthResultCompletionHandle* completion_handle,
                                 const AuthenticatedUserData& user_data,
                                 AuthError auth_error,
                                 const char* error_message);
@@ -836,12 +842,17 @@ class FederatedAuthProvider {
   FederatedAuthProvider() {}
   virtual ~FederatedAuthProvider() {}
 
+#if !defined(DOXYGEN)
+  virtual Future<AuthResult> SignIn(AuthData* auth_data) = 0;
+
+  virtual Future<AuthResult> Link(AuthData* auth_data) = 0;
+
+  virtual Future<AuthResult> Reauthenticate(AuthData* auth_data) = 0;
+#endif  // !defined(DOXYGEN)
+
  private:
   friend class ::firebase::auth::Auth;
   friend class ::firebase::auth::User;
-  virtual Future<SignInResult> SignIn(AuthData* auth_data) = 0;
-  virtual Future<SignInResult> Link(AuthData* auth_data) = 0;
-  virtual Future<SignInResult> Reauthenticate(AuthData* auth_data) = 0;
 };
 
 /// @brief Authenticates with Federated OAuth Providers via the
@@ -924,9 +935,13 @@ class FederatedOAuthProvider : public FederatedAuthProvider {
  private:
   friend class ::firebase::auth::Auth;
 
-  Future<SignInResult> SignIn(AuthData* auth_data) override;
-  Future<SignInResult> Link(AuthData* auth_data) override;
-  Future<SignInResult> Reauthenticate(AuthData* auth_data) override;
+#if !defined(DOXYGEN)
+  Future<AuthResult> SignIn(AuthData* auth_data) override;
+
+  Future<AuthResult> Link(AuthData* auth_data) override;
+
+  Future<AuthResult> Reauthenticate(AuthData* auth_data) override;
+#endif  // !defined(DOXYGEN)
 
   FederatedOAuthProviderData provider_data_;
 #ifdef INTERNAL_EXPERIMENTAL
