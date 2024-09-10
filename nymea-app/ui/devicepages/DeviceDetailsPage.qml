@@ -6,8 +6,17 @@ import Nymea 1.0
 import "../components"
 import "../delegates"
 
-ThingPageBase {
+Page {
     id: root
+
+    property Thing thing: null
+
+    header: NymeaHeader {
+        text: thing ? thing.name : ""
+        backButtonVisible: true
+        onBackPressed: pageStack.pop()
+    }
+
 
     ListView {
         id: flickable
@@ -30,6 +39,7 @@ ThingPageBase {
 
         model: ThingModel {
             thing: root.thing
+            showActions: false
         }
         delegate: SwipeDelegate {
             id: delegate

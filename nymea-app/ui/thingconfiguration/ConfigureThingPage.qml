@@ -94,7 +94,7 @@ SettingsPageBase {
         }
 
         function thingDetails() {
-            var detailsPage = pageStack.push(Qt.resolvedUrl("qrc:/ui/devicepages/DeviceDetailsPage.qml"), {thing: root.thing})
+            pageStack.push(Qt.resolvedUrl("qrc:/ui/devicepages/DeviceDetailsPage.qml"), {thing: root.thing})
         }
 
         Component {

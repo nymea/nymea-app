@@ -13,7 +13,7 @@ InfoPaneBase {
     readonly property bool setupFailure: root.thing.setupStatus == Thing.ThingSetupStatusFailed
     readonly property State batteryState: root.thing.stateByName("batteryLevel")
     readonly property State batteryCriticalState: root.thing.stateByName("batteryCritical")
-    readonly property bool connectedState: root.thing.thingClass.interfaces.indexOf("connectable") >= 0 && root.thing.stateByName("connected")
+    readonly property State connectedState: root.thing.thingClass.interfaces.indexOf("connectable") >= 0 ? root.thing.stateByName("connected") : null
     readonly property State signalStrengthState: root.thing.stateByName("signalStrength")
     readonly property State updateStatusState: root.thing.stateByName("updateStatus")
     readonly property State childLockState: root.thing.stateByName("childLock")
