@@ -1,3 +1,10 @@
+nymea-app (1.9.8) bionic; urgency=medium
+
+  [ martinlukas84 ]
+  * Introduce overview for states and events of things
+
+ -- jenkins <developer@nymea.io>  Tue, 10 Sep 2024 16:20:28 +0200
+
 nymea-app (1.9.7) bionic; urgency=medium
 
   [ Simon Stürz ]
