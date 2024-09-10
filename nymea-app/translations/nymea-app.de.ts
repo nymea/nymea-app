@@ -691,6 +691,10 @@
         <source>Are you sure you want to remove %1 and all associated settings?</source>
         <translation>Bist Du sicher, dass %1 und alle zugehörigen Einstellungen entfernt werden sollen?</translation>
     </message>
+    <message>
+        <source>Details</source>
+        <translation>Details</translation>
+    </message>
 </context>
 <context>
     <name>ConnectingPage</name>
@@ -1423,6 +1427,17 @@
     <message>
         <source>Error: %1</source>
         <translation>Fehler: %1</translation>
+    </message>
+</context>
+<context>
+    <name>DeviceDetailsPage</name>
+    <message>
+        <source>States</source>
+        <translation>Zustände</translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation>Ereignisse</translation>
     </message>
 </context>
 <context>

@@ -177,7 +177,7 @@
     </message>
     <message>
         <source>No data</source>
-        <translation type="unfinished">Geen gegevens</translation>
+        <translation>Geen gegevens</translation>
     </message>
     <message>
         <source>This action has not been executed yet.</source>
@@ -690,6 +690,10 @@
     <message>
         <source>Are you sure you want to remove %1 and all associated settings?</source>
         <translation>Weet je zeker dat je %1 wilt verwijderen, samen met de bijbehorende instellingen?</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Details</translation>
     </message>
 </context>
 <context>
@@ -1232,7 +1236,7 @@
     </message>
     <message>
         <source>State</source>
-        <translation type="unfinished">Status</translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Select depiction</source>
@@ -1423,6 +1427,17 @@
     <message>
         <source>Error: %1</source>
         <translation>Fout: %1</translation>
+    </message>
+</context>
+<context>
+    <name>DeviceDetailsPage</name>
+    <message>
+        <source>States</source>
+        <translation>Statussen</translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation>Gebeurtenissen</translation>
     </message>
 </context>
 <context>
@@ -2125,7 +2140,7 @@
     </message>
     <message>
         <source>No data</source>
-        <translation type="unfinished">Geen gegevens</translation>
+        <translation>Geen gegevens</translation>
     </message>
     <message>
         <source>This event has not been triggered yet.</source>
@@ -4597,23 +4612,23 @@ Gebruik een timeout waarde die groter of gelijk is dan 10 ms.</translation>
     <name>MultiStateChart</name>
     <message>
         <source>Hours</source>
-        <translation type="unfinished">Uren</translation>
+        <translation>Uren</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="unfinished">Dagen</translation>
+        <translation>Dagen</translation>
     </message>
     <message>
         <source>Weeks</source>
-        <translation type="unfinished">Weken</translation>
+        <translation>Weken</translation>
     </message>
     <message>
         <source>Months</source>
-        <translation type="unfinished">Maanden</translation>
+        <translation>Maanden</translation>
     </message>
     <message>
         <source>No data</source>
-        <translation type="unfinished">Geen gegevens</translation>
+        <translation>Geen gegevens</translation>
     </message>
 </context>
 <context>
@@ -6971,7 +6986,7 @@ Als je fouten in de niet-officiële software vindt, geef deze dan door aan de on
     </message>
     <message>
         <source>Updating...</source>
-        <translation type="unfinished">Aan het bijwerken...</translation>
+        <translation>Aan het bijwerken...</translation>
     </message>
     <message>
         <source>Installed version: %1</source>
@@ -6979,11 +6994,11 @@ Als je fouten in de niet-officiële software vindt, geef deze dan door aan de on
     </message>
     <message>
         <source>Available version: %1</source>
-        <translation type="unfinished">Beschikbare versie: %1</translation>
+        <translation>Beschikbare versie: %1</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">Bijwerken</translation>
+        <translation>Bijwerken</translation>
     </message>
     <message>
         <source>Do you want to start the update now?</source>
@@ -6991,7 +7006,7 @@ Als je fouten in de niet-officiële software vindt, geef deze dan door aan de on
     </message>
     <message>
         <source>Current version: %1</source>
-        <translation type="unfinished">Huidige versie: %1</translation>
+        <translation>Huidige versie: %1</translation>
     </message>
     <message>
         <source>Connection information</source>
@@ -6999,11 +7014,11 @@ Als je fouten in de niet-officiële software vindt, geef deze dan door aan de on
     </message>
     <message>
         <source>Connected</source>
-        <translation type="unfinished">Verbonden</translation>
+        <translation>Verbonden</translation>
     </message>
     <message>
         <source>Disconnected</source>
-        <translation type="unfinished">Niet verbonden</translation>
+        <translation>Niet verbonden</translation>
     </message>
     <message>
         <source>Signal strength: %1 %</source>
@@ -7023,11 +7038,11 @@ Als je fouten in de niet-officiële software vindt, geef deze dan door aan de on
     </message>
     <message>
         <source>Critical</source>
-        <translation type="unfinished">Kritiek</translation>
+        <translation>Kritiek</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Battery level: %1 %</source>

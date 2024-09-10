@@ -691,6 +691,10 @@
         <source>Are you sure you want to remove %1 and all associated settings?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectingPage</name>
@@ -1422,6 +1426,17 @@
     </message>
     <message>
         <source>Error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DeviceDetailsPage</name>
+    <message>
+        <source>States</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Events</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7876,14 +7891,14 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message numerus="yes">
         <source>%n device(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n device</numerusform>
             <numerusform>%n devices</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n device(s) (%1 disconnected)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n device (%1 disconnected)</numerusform>
             <numerusform>%n devices (%1 disconnected)</numerusform>
         </translation>
