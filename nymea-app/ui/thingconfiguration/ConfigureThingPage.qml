@@ -73,6 +73,8 @@ SettingsPageBase {
             if (!root.thing.isChild || root.thingClass.createMethods.indexOf("CreateMethodAuto") < 0) {
                 deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Reconfigure"), iconSource: "../images/configure.svg", functionName: "reconfigureThing"}))
             }
+
+            deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Details"), iconSource: "../images/info.svg", functionName: "thingDetails"}))
         }
 
         function renameThing() {
@@ -89,6 +91,10 @@ SettingsPageBase {
             var configPage = pageStack.push(Qt.resolvedUrl("SetupWizard.qml"), {thing: root.thing})
             configPage.done.connect(function() {pageStack.pop(root)})
             configPage.aborted.connect(function() {pageStack.pop(root)})
+        }
+
+        function thingDetails() {
+            var detailsPage = pageStack.push(Qt.resolvedUrl("qrc:/ui/devicepages/DeviceDetailsPage.qml"), {thing: root.thing})
         }
 
         Component {
