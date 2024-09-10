@@ -177,7 +177,7 @@
     </message>
     <message>
         <source>No data</source>
-        <translation type="unfinished">Žádná data</translation>
+        <translation>Žádná data</translation>
     </message>
     <message>
         <source>This action has not been executed yet.</source>
@@ -691,6 +691,10 @@
     <message>
         <source>Are you sure you want to remove %1 and all associated settings?</source>
         <translation>Opravdu chcete odstranit %1 a všechna související nastavení?</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Detaily</translation>
     </message>
 </context>
 <context>
@@ -1233,7 +1237,7 @@
     </message>
     <message>
         <source>State</source>
-        <translation type="unfinished">Stav</translation>
+        <translation>Stav</translation>
     </message>
     <message>
         <source>Select depiction</source>
@@ -1424,6 +1428,17 @@
     <message>
         <source>Error: %1</source>
         <translation>Chyba: %1</translation>
+    </message>
+</context>
+<context>
+    <name>DeviceDetailsPage</name>
+    <message>
+        <source>States</source>
+        <translation>Podmínky</translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation>Události</translation>
     </message>
 </context>
 <context>
@@ -2124,7 +2139,7 @@
     </message>
     <message>
         <source>No data</source>
-        <translation type="unfinished">Žádná data</translation>
+        <translation>Žádná data</translation>
     </message>
     <message>
         <source>This event has not been triggered yet.</source>
@@ -2404,7 +2419,7 @@ Prosím zkuste to znovu.</translation>
     </message>
     <message>
         <source>ID copied to clipboard</source>
-        <translation type="unfinished">ID zkopírováno do schránky</translation>
+        <translation>ID zkopírováno do schránky</translation>
     </message>
 </context>
 <context>
@@ -4611,23 +4626,23 @@ Použijte hodnotu časového limitu větší nebo rovnou 10 ms.</translation>
     <name>MultiStateChart</name>
     <message>
         <source>Hours</source>
-        <translation type="unfinished">Hodiny</translation>
+        <translation>Hodiny</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="unfinished">Dny</translation>
+        <translation>Dny</translation>
     </message>
     <message>
         <source>Weeks</source>
-        <translation type="unfinished">Týdny</translation>
+        <translation>Týdny</translation>
     </message>
     <message>
         <source>Months</source>
-        <translation type="unfinished">Měsíce</translation>
+        <translation>Měsíce</translation>
     </message>
     <message>
         <source>No data</source>
-        <translation type="unfinished">Žádná data</translation>
+        <translation>Žádná data</translation>
     </message>
 </context>
 <context>
@@ -6985,7 +7000,7 @@ Toto prosím používejte pouze v případě, že jste si jisti tím co děláte
     </message>
     <message>
         <source>Updating...</source>
-        <translation type="unfinished">Aktualizace probíhá...</translation>
+        <translation>Aktualizace probíhá...</translation>
     </message>
     <message>
         <source>Installed version: %1</source>
@@ -6993,11 +7008,11 @@ Toto prosím používejte pouze v případě, že jste si jisti tím co děláte
     </message>
     <message>
         <source>Available version: %1</source>
-        <translation type="unfinished">Dostupná verze: %1</translation>
+        <translation>Dostupná verze: %1</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">Aktualizace</translation>
+        <translation>Aktualizace</translation>
     </message>
     <message>
         <source>Do you want to start the update now?</source>
@@ -7005,7 +7020,7 @@ Toto prosím používejte pouze v případě, že jste si jisti tím co děláte
     </message>
     <message>
         <source>Current version: %1</source>
-        <translation type="unfinished">Aktuální verze: %1</translation>
+        <translation>Aktuální verze: %1</translation>
     </message>
     <message>
         <source>Connection information</source>
@@ -7017,7 +7032,7 @@ Toto prosím používejte pouze v případě, že jste si jisti tím co děláte
     </message>
     <message>
         <source>Disconnected</source>
-        <translation type="unfinished">Odpojeno</translation>
+        <translation>Odpojeno</translation>
     </message>
     <message>
         <source>Signal strength: %1 %</source>
@@ -7037,11 +7052,11 @@ Toto prosím používejte pouze v případě, že jste si jisti tím co děláte
     </message>
     <message>
         <source>Critical</source>
-        <translation type="unfinished">Kritické</translation>
+        <translation>Kritické</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Battery level: %1 %</source>

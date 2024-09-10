@@ -690,6 +690,10 @@
         <source>Are you sure you want to remove %1 and all associated settings?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectingPage</name>
@@ -1422,6 +1426,17 @@
     <message>
         <source>Error: %1</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>DeviceDetailsPage</name>
+    <message>
+        <source>States</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

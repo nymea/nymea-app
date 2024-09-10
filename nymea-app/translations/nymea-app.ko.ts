@@ -71,7 +71,7 @@
     </message>
     <message>
         <source>Qt version:</source>
-        <translation type="unfinished">Qt 버전:</translation>
+        <translation>Qt 버전:</translation>
     </message>
     <message>
         <source>Built with %1</source>
@@ -79,7 +79,7 @@
     </message>
     <message>
         <source>About %1</source>
-        <translation type="unfinished">%1에 대하여</translation>
+        <translation>%1에 대하여</translation>
     </message>
     <message>
         <source>Device serial number</source>
@@ -188,19 +188,19 @@
     <name>AdvancedConnectionInterfacesPage</name>
     <message>
         <source>Connection interfaces</source>
-        <translation type="unfinished">연결 인터페이스</translation>
+        <translation>연결 인터페이스</translation>
     </message>
     <message>
         <source>TCP server interfaces</source>
-        <translation type="unfinished">TCP 서버 인터페이스</translation>
+        <translation>TCP 서버 인터페이스</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">추가</translation>
+        <translation>추가</translation>
     </message>
     <message>
         <source>WebSocket server interfaces</source>
-        <translation type="unfinished">WebSocket 서버 인터페이스</translation>
+        <translation>WebSocket 서버 인터페이스</translation>
     </message>
     <message>
         <source>Remote connection server interfaces</source>
@@ -332,14 +332,14 @@
     </message>
     <message>
         <source>Access tools for debugging and error reporting</source>
-        <translation type="unfinished">디버깅 및 오류 보고를 위한 액세스 도구</translation>
+        <translation>디버깅 및 오류 보고를 위한 액세스 도구</translation>
     </message>
 </context>
 <context>
     <name>AwningThingsListPage</name>
     <message>
         <source>Awnings</source>
-        <translation type="unfinished">차양막</translation>
+        <translation>차양막</translation>
     </message>
 </context>
 <context>
@@ -443,11 +443,11 @@
     </message>
     <message>
         <source>All off</source>
-        <translation type="unfinished">전부 끄기</translation>
+        <translation>전부 끄기</translation>
     </message>
     <message>
         <source>%1 on</source>
-        <translation type="unfinished">%1 켜짐</translation>
+        <translation>%1 켜짐</translation>
     </message>
     <message>
         <source>Off</source>
@@ -581,7 +581,7 @@
     <name>Configuration</name>
     <message>
         <source>Help</source>
-        <translation type="unfinished">도움</translation>
+        <translation>도움</translation>
     </message>
     <message>
         <source>Forum</source>
@@ -624,7 +624,7 @@
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">설정</translation>
+        <translation>설정</translation>
     </message>
     <message>
         <source>ID copied to clipboard</source>
@@ -644,7 +644,7 @@
     </message>
     <message>
         <source>Not connected</source>
-        <translation type="unfinished">연결되지 않았습니다</translation>
+        <translation>연결되지 않았습니다</translation>
     </message>
     <message>
         <source>Connect Inputs/Outputs</source>
@@ -660,7 +660,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">취소</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Disconnect</source>
@@ -668,15 +668,15 @@
     </message>
     <message>
         <source>Connect</source>
-        <translation type="unfinished">접속하기</translation>
+        <translation>접속하기</translation>
     </message>
     <message>
         <source>Vendor</source>
-        <translation type="unfinished">공급 업체</translation>
+        <translation>공급 업체</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">유형</translation>
+        <translation>유형</translation>
     </message>
     <message>
         <source>ID</source>
@@ -688,6 +688,10 @@
     </message>
     <message>
         <source>Are you sure you want to remove %1 and all associated settings?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -738,7 +742,7 @@
     <name>ConnectionInfoDialog</name>
     <message>
         <source>Available connections</source>
-        <translation type="unfinished">사용 가능한 연결</translation>
+        <translation>사용 가능한 연결</translation>
     </message>
     <message>
         <source>System information</source>
@@ -746,11 +750,11 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">추가</translation>
+        <translation>추가</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">닫기</translation>
+        <translation>닫기</translation>
     </message>
 </context>
 <context>
@@ -815,7 +819,7 @@
     </message>
     <message>
         <source>Demo mode</source>
-        <translation type="unfinished">시범 구성(데모 모드)</translation>
+        <translation>시범 구성(데모 모드)</translation>
     </message>
     <message>
         <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
@@ -839,7 +843,7 @@
     </message>
     <message>
         <source>Wired network</source>
-        <translation type="unfinished">유선 네트워크</translation>
+        <translation>유선 네트워크</translation>
     </message>
     <message>
         <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
@@ -847,7 +851,7 @@
     </message>
     <message>
         <source>Wireless network</source>
-        <translation type="unfinished">무선 네트워크</translation>
+        <translation>무선 네트워크</translation>
     </message>
     <message>
         <source>Connect nymea to your WiFi network.</source>
@@ -867,7 +871,7 @@
     </message>
     <message>
         <source>Manual connection</source>
-        <translation type="unfinished">수동 연결</translation>
+        <translation>수동 연결</translation>
     </message>
     <message>
         <source>Please wait while your nymea system is being discovered.</source>
@@ -899,7 +903,7 @@
     </message>
     <message>
         <source>Wireless setup</source>
-        <translation type="unfinished">무선 설정</translation>
+        <translation>무선 설정</translation>
     </message>
     <message>
         <source>Searching for the nymea system...</source>
@@ -939,7 +943,7 @@
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">암호</translation>
+        <translation>암호</translation>
     </message>
     <message>
         <source>Enter the password for the WiFi network.</source>
@@ -1016,7 +1020,7 @@
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">알 수 없는</translation>
+        <translation>알 수 없는</translation>
     </message>
     <message>
         <source>Total</source>
@@ -1058,7 +1062,7 @@
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">알 수 없는</translation>
+        <translation>알 수 없는</translation>
     </message>
     <message>
         <source>Total</source>
@@ -1152,7 +1156,7 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">제거</translation>
+        <translation>제거</translation>
     </message>
 </context>
 <context>
@@ -1183,7 +1187,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">이름</translation>
+        <translation>이름</translation>
     </message>
     <message>
         <source>Location</source>
@@ -1215,7 +1219,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">취소</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Back</source>
@@ -1223,7 +1227,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Sensor</source>
@@ -1242,7 +1246,7 @@
     <name>DashboardFolderDelegate</name>
     <message>
         <source>Name</source>
-        <translation type="unfinished">이름</translation>
+        <translation>이름</translation>
     </message>
 </context>
 <context>
@@ -1300,7 +1304,7 @@
     </message>
     <message>
         <source>May</source>
-        <translation type="unfinished">5월</translation>
+        <translation>5월</translation>
     </message>
     <message>
         <source>June</source>
@@ -1332,31 +1336,31 @@
     </message>
     <message>
         <source>Mon</source>
-        <translation type="unfinished">월요일</translation>
+        <translation>월요일</translation>
     </message>
     <message>
         <source>Tue</source>
-        <translation type="unfinished">화요일</translation>
+        <translation>화요일</translation>
     </message>
     <message>
         <source>Wed</source>
-        <translation type="unfinished">수요일</translation>
+        <translation>수요일</translation>
     </message>
     <message>
         <source>Thu</source>
-        <translation type="unfinished">목요일</translation>
+        <translation>목요일</translation>
     </message>
     <message>
         <source>Fri</source>
-        <translation type="unfinished">금요일</translation>
+        <translation>금요일</translation>
     </message>
     <message>
         <source>Sat</source>
-        <translation type="unfinished">토요일</translation>
+        <translation>토요일</translation>
     </message>
     <message>
         <source>Sun</source>
-        <translation type="unfinished">일요일</translation>
+        <translation>일요일</translation>
     </message>
 </context>
 <context>
@@ -1422,6 +1426,17 @@
     <message>
         <source>Error: %1</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>DeviceDetailsPage</name>
+    <message>
+        <source>States</source>
+        <translation>상태</translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation>이벤트</translation>
     </message>
 </context>
 <context>
@@ -1858,7 +1873,7 @@
     <name>EditZonePage</name>
     <message>
         <source>Edit %1</source>
-        <translation type="unfinished">%1 편집</translation>
+        <translation>%1 편집</translation>
     </message>
     <message>
         <source>Zone information</source>
@@ -1866,11 +1881,11 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">이름</translation>
+        <translation>이름</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Assigned things</source>
@@ -1973,7 +1988,7 @@
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished">알림</translation>
+        <translation>알림</translation>
     </message>
     <message>
         <source>Add notification target</source>
@@ -1997,7 +2012,7 @@
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished">사물(장치) 추가</translation>
+        <translation>사물(장치) 추가</translation>
     </message>
 </context>
 <context>
@@ -2008,7 +2023,7 @@
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">일반적인</translation>
+        <translation>일반적인</translation>
     </message>
     <message>
         <source>Multiple energy meters are installed in the system. Please select the one you&apos;d like to use as the root meter. That is, the one measuring the entire household.</source>
@@ -2035,7 +2050,7 @@
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished">사물(장치) 추가</translation>
+        <translation>사물(장치) 추가</translation>
     </message>
     <message>
         <source>Install energy plugin</source>
@@ -2095,7 +2110,7 @@
     <name>EventLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished">%1에 대한 기록</translation>
+        <translation>%1에 대한 기록</translation>
     </message>
     <message>
         <source>Remove logs?</source>
@@ -2130,19 +2145,19 @@
     <name>FavoritesView</name>
     <message>
         <source>There are no favorite things yet.</source>
-        <translation type="unfinished">아직 즐겨찾기가 없습니다.</translation>
+        <translation>아직 즐겨찾기가 없습니다.</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
-        <translation type="unfinished">아직 설정된 것이 없는 것 같습니다. 즐겨찾기를 사용하려면 먼저 몇 가지를 추가해야 합니다.</translation>
+        <translation>아직 설정된 것이 없는 것 같습니다. 즐겨찾기를 사용하려면 먼저 몇 가지를 추가해야 합니다.</translation>
     </message>
     <message>
         <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
-        <translation type="unfinished">즐겨찾기는 당신이 많은 것을 가질 때 가장 중요한 것들을 추적할 수 있게 해줍니다. 사물(장치)과 상호작용할 때 별을 주의하여 즐겨찾기로 표시하십시오.</translation>
+        <translation>즐겨찾기는 당신이 많은 것을 가질 때 가장 중요한 것들을 추적할 수 있게 해줍니다. 사물(장치)과 상호작용할 때 별을 주의하여 즐겨찾기로 표시하십시오.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished">사물(장치) 추가</translation>
+        <translation>사물(장치) 추가</translation>
     </message>
 </context>
 <context>
@@ -2282,15 +2297,15 @@ Please try again.</source>
     <name>GarageThingsListPage</name>
     <message>
         <source>My %1</source>
-        <translation type="unfinished">소켓 %1</translation>
+        <translation>소켓 %1</translation>
     </message>
     <message>
         <source>My things</source>
-        <translation type="unfinished">사물(장치)들</translation>
+        <translation>사물(장치)들</translation>
     </message>
     <message>
         <source>All my things</source>
-        <translation type="unfinished">모든 사물(장치)</translation>
+        <translation>모든 사물(장치)</translation>
     </message>
 </context>
 <context>
@@ -2305,7 +2320,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished">사물(장치) 추가</translation>
+        <translation>사물(장치) 추가</translation>
     </message>
 </context>
 <context>
@@ -2332,15 +2347,15 @@ Please try again.</source>
     </message>
     <message>
         <source>Date</source>
-        <translation type="unfinished">날짜</translation>
+        <translation>날짜</translation>
     </message>
     <message>
         <source>Time</source>
-        <translation type="unfinished">시간</translation>
+        <translation>시간</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">일반적인</translation>
+        <translation>일반적인</translation>
     </message>
     <message>
         <source>Date and time</source>
@@ -2379,23 +2394,23 @@ Please try again.</source>
     <name>GenericThingPage</name>
     <message>
         <source>States</source>
-        <translation type="unfinished">상태</translation>
+        <translation>상태</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation type="unfinished">작동(조치)</translation>
+        <translation>작동(조치)</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation type="unfinished">이벤트</translation>
+        <translation>이벤트</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">취소</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>ID copied to clipboard</source>
@@ -2406,15 +2421,15 @@ Please try again.</source>
     <name>GenericThingsListPage</name>
     <message>
         <source>My %1</source>
-        <translation type="unfinished">소켓 %1</translation>
+        <translation>소켓 %1</translation>
     </message>
     <message>
         <source>My things</source>
-        <translation type="unfinished">사물(장치)들</translation>
+        <translation>사물(장치)들</translation>
     </message>
     <message>
         <source>All my things</source>
-        <translation type="unfinished">모든 사물(장치)</translation>
+        <translation>모든 사물(장치)</translation>
     </message>
 </context>
 <context>
@@ -2470,7 +2485,7 @@ Please try again.</source>
     <name>GenericTypeLogView</name>
     <message>
         <source>Magic</source>
-        <translation type="unfinished">마술</translation>
+        <translation>마술</translation>
     </message>
 </context>
 <context>
@@ -2819,7 +2834,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Access denied</source>
-        <translation type="unfinished">액세스 거부</translation>
+        <translation>액세스 거부</translation>
     </message>
     <message>
         <source>Connectable things</source>
@@ -2875,7 +2890,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Switches</source>
-        <translation type="unfinished">스위치</translation>
+        <translation>스위치</translation>
     </message>
     <message>
         <source>Button pressed</source>
@@ -2899,7 +2914,7 @@ Please try again.</source>
     </message>
     <message>
         <source>CO2 level</source>
-        <translation type="unfinished">CO2 측정</translation>
+        <translation>CO2 측정</translation>
     </message>
     <message>
         <source>CO2 level changed</source>
@@ -2951,7 +2966,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Doorbells</source>
-        <translation type="unfinished">초인종</translation>
+        <translation>초인종</translation>
     </message>
     <message>
         <source>Doorbell pressed</source>
@@ -2991,7 +3006,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished">미디어</translation>
+        <translation>미디어</translation>
     </message>
     <message>
         <source>Fast forward</source>
@@ -3007,7 +3022,7 @@ Please try again.</source>
     </message>
     <message>
         <source>To</source>
-        <translation type="unfinished">까지</translation>
+        <translation>까지</translation>
     </message>
     <message>
         <source>Navigate</source>
@@ -3067,11 +3082,11 @@ Please try again.</source>
     </message>
     <message>
         <source>User</source>
-        <translation type="unfinished">사용자</translation>
+        <translation>사용자</translation>
     </message>
     <message>
         <source>Add user</source>
-        <translation type="unfinished">사용자 추가</translation>
+        <translation>사용자 추가</translation>
     </message>
     <message>
         <source>Remove user</source>
@@ -3083,7 +3098,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Finger</source>
-        <translation type="unfinished">손가락</translation>
+        <translation>손가락</translation>
     </message>
     <message>
         <source>Garage doors</source>
@@ -3183,7 +3198,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Noise level</source>
-        <translation type="unfinished">소음 측정</translation>
+        <translation>소음 측정</translation>
     </message>
     <message>
         <source>Noise level changed</source>
@@ -3199,7 +3214,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Power sockets</source>
-        <translation type="unfinished">전원 소켓</translation>
+        <translation>전원 소켓</translation>
     </message>
     <message>
         <source>Powered</source>
@@ -3223,7 +3238,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Pressure</source>
-        <translation type="unfinished">압력</translation>
+        <translation>압력</translation>
     </message>
     <message>
         <source>Pressure changed</source>
@@ -3243,7 +3258,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Repeat</source>
-        <translation type="unfinished">반복</translation>
+        <translation>반복</translation>
     </message>
     <message>
         <source>Repeat changed</source>
@@ -3279,7 +3294,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Weather</source>
-        <translation type="unfinished">날씨</translation>
+        <translation>날씨</translation>
     </message>
     <message>
         <source>Weather description</source>
@@ -3327,7 +3342,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation type="unfinished">신호 강도</translation>
+        <translation>신호 강도</translation>
     </message>
     <message>
         <source>Signal strength changed</source>
@@ -3335,7 +3350,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Sensors</source>
-        <translation type="unfinished">센서</translation>
+        <translation>센서</translation>
     </message>
     <message>
         <source>Heating</source>
@@ -3383,7 +3398,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Plugged in</source>
-        <translation type="unfinished">연결됨</translation>
+        <translation>연결됨</translation>
     </message>
     <message>
         <source>Plugged in or out</source>
@@ -3621,7 +3636,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Temperature</source>
-        <translation type="unfinished">온도</translation>
+        <translation>온도</translation>
     </message>
     <message>
         <source>Brightness</source>
@@ -3636,7 +3651,7 @@ Please try again.</source>
     <name>LightThingsListPage</name>
     <message>
         <source>Lights</source>
-        <translation type="unfinished">전등</translation>
+        <translation>전등</translation>
     </message>
 </context>
 <context>
@@ -3678,35 +3693,35 @@ Please try again.</source>
     </message>
     <message>
         <source>%1 Server</source>
-        <translation type="unfinished">%1 서버</translation>
+        <translation>%1 서버</translation>
     </message>
     <message>
         <source>System started</source>
-        <translation type="unfinished">시스템 시작</translation>
+        <translation>시스템 시작</translation>
     </message>
     <message>
         <source>Rule triggered</source>
-        <translation type="unfinished">규칙 작동됨</translation>
+        <translation>규칙 작동됨</translation>
     </message>
     <message>
         <source>Actions executed</source>
-        <translation type="unfinished">실행된 동작</translation>
+        <translation>실행된 동작</translation>
     </message>
     <message>
         <source>Rule active</source>
-        <translation type="unfinished">규칙 활성</translation>
+        <translation>규칙 활성</translation>
     </message>
     <message>
         <source>Rule inactive</source>
-        <translation type="unfinished">규칙 사용 안 함</translation>
+        <translation>규칙 사용 안 함</translation>
     </message>
     <message>
         <source>Exit actions executed</source>
-        <translation type="unfinished">실행된 작업 종료</translation>
+        <translation>실행된 작업 종료</translation>
     </message>
     <message>
         <source>Enabled changed</source>
-        <translation type="unfinished">사용 가능 변경됨</translation>
+        <translation>사용 가능 변경됨</translation>
     </message>
 </context>
 <context>
@@ -3772,7 +3787,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished">사용자명</translation>
+        <translation>사용자명</translation>
     </message>
     <message>
         <source>Your e-mail address</source>
@@ -3784,7 +3799,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">암호</translation>
+        <translation>암호</translation>
     </message>
     <message>
         <source>Your name</source>
@@ -3792,7 +3807,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Optional</source>
-        <translation type="unfinished">선택가능</translation>
+        <translation>선택가능</translation>
     </message>
     <message>
         <source>Email</source>
@@ -3948,11 +3963,11 @@ Please try again.</source>
     <name>MainMenu</name>
     <message>
         <source>Configure things</source>
-        <translation type="unfinished">사물(장치) 구성</translation>
+        <translation>사물(장치) 구성</translation>
     </message>
     <message>
         <source>Magic</source>
-        <translation type="unfinished">마술</translation>
+        <translation>마술</translation>
     </message>
     <message>
         <source>Configure main view</source>
@@ -3960,15 +3975,15 @@ Please try again.</source>
     </message>
     <message>
         <source>App settings</source>
-        <translation type="unfinished">앱 설정</translation>
+        <translation>앱 설정</translation>
     </message>
     <message>
         <source>System settings</source>
-        <translation type="unfinished">시스템 설정</translation>
+        <translation>시스템 설정</translation>
     </message>
     <message>
         <source>New connection</source>
-        <translation type="unfinished">새 연결</translation>
+        <translation>새 연결</translation>
     </message>
     <message>
         <source>Set up another...</source>
@@ -4027,7 +4042,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Media</source>
-        <translation type="unfinished">미디어</translation>
+        <translation>미디어</translation>
     </message>
     <message>
         <source>Done</source>
@@ -4050,7 +4065,7 @@ Please try again.</source>
     <name>ManualConnectionEntry</name>
     <message>
         <source>Protocol</source>
-        <translation type="unfinished">프로토콜(통신규약)</translation>
+        <translation>프로토콜(통신규약)</translation>
     </message>
     <message>
         <source>TCP</source>
@@ -4058,7 +4073,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Websocket</source>
-        <translation type="unfinished">웹소켓</translation>
+        <translation>웹소켓</translation>
     </message>
     <message>
         <source>Remote proxy</source>
@@ -4066,7 +4081,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished">주소:</translation>
+        <translation>주소:</translation>
     </message>
     <message>
         <source>Proxy address:</source>
@@ -4078,7 +4093,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">포트:</translation>
+        <translation>포트:</translation>
     </message>
     <message>
         <source>SSL:</source>
@@ -4107,7 +4122,7 @@ Please try again.</source>
     <name>MediaPlayer</name>
     <message>
         <source>No playback</source>
-        <translation type="unfinished">재생 안 함</translation>
+        <translation>재생 안 함</translation>
     </message>
     <message>
         <source>Select input</source>
@@ -4130,7 +4145,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished">사물(장치) 추가</translation>
+        <translation>사물(장치) 추가</translation>
     </message>
 </context>
 <context>
@@ -4153,7 +4168,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">제조자</translation>
+        <translation>제조자</translation>
     </message>
     <message>
         <source>Serialnumber</source>
@@ -4181,7 +4196,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">추가</translation>
+        <translation>추가</translation>
     </message>
     <message>
         <source>Select a serial port.</source>
@@ -4232,11 +4247,11 @@ Please try again.</source>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">알 수 없는</translation>
+        <translation>알 수 없는</translation>
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">제조자</translation>
+        <translation>제조자</translation>
     </message>
     <message>
         <source>Serialnumber</source>
@@ -4264,7 +4279,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Apply</source>
-        <translation type="unfinished">적용</translation>
+        <translation>적용</translation>
     </message>
     <message>
         <source>Select a serial port.</source>
@@ -4391,7 +4406,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Disconnected</source>
-        <translation type="unfinished">연결 끊김</translation>
+        <translation>연결 끊김</translation>
     </message>
     <message>
         <source>Modbus RTU master</source>
@@ -4759,7 +4774,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">일반적인</translation>
+        <translation>일반적인</translation>
     </message>
     <message>
         <source>No wired network interfaces available</source>
@@ -4827,7 +4842,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Connected to</source>
-        <translation type="unfinished">연결됨</translation>
+        <translation>연결됨</translation>
     </message>
     <message>
         <source>IPv4 Address</source>
@@ -4859,7 +4874,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Manual</source>
-        <translation type="unfinished">수동</translation>
+        <translation>수동</translation>
     </message>
     <message>
         <source>Shared (DHCP server)</source>
@@ -4958,11 +4973,11 @@ Use a timeout value greater or equal to 10 ms.</source>
     <name>NotificationsThingPage</name>
     <message>
         <source>Title</source>
-        <translation type="unfinished">제목</translation>
+        <translation>제목</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished">내용</translation>
+        <translation>내용</translation>
     </message>
     <message>
         <source>No messages sent yet.</source>
@@ -4974,11 +4989,11 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Notification details</source>
-        <translation type="unfinished">알림 내역</translation>
+        <translation>알림 내역</translation>
     </message>
     <message>
         <source>Date sent</source>
-        <translation type="unfinished">보낸 날짜</translation>
+        <translation>보낸 날짜</translation>
     </message>
     <message>
         <source>Sending failed</source>
@@ -4990,7 +5005,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">닫기</translation>
+        <translation>닫기</translation>
     </message>
 </context>
 <context>
@@ -5281,7 +5296,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Configure things</source>
-        <translation type="unfinished">사물(장치) 구성</translation>
+        <translation>사물(장치) 구성</translation>
     </message>
     <message>
         <source>Execute magic</source>
@@ -5296,27 +5311,27 @@ Use a timeout value greater or equal to 10 ms.</source>
     <name>PackageDetailsPage</name>
     <message>
         <source>Package information</source>
-        <translation type="unfinished">패키지 정보</translation>
+        <translation>패키지 정보</translation>
     </message>
     <message>
         <source>Installed version:</source>
-        <translation type="unfinished">설치된 버전:</translation>
+        <translation>설치된 버전:</translation>
     </message>
     <message>
         <source>Not installed</source>
-        <translation type="unfinished">설치되지 않음</translation>
+        <translation>설치되지 않음</translation>
     </message>
     <message>
         <source>Candidate version:</source>
-        <translation type="unfinished">후보 버전:</translation>
+        <translation>후보 버전:</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">업데이트</translation>
+        <translation>업데이트</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation type="unfinished">설치</translation>
+        <translation>설치</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
@@ -5325,16 +5340,16 @@ Use a timeout value greater or equal to 10 ms.</source>
     <message>
         <source>
 Do you want to proceed?</source>
-        <translation type="unfinished">
+        <translation>
 진행 하시겠습니까?</translation>
     </message>
     <message>
         <source>Start update</source>
-        <translation type="unfinished">업데이트 시작</translation>
+        <translation>업데이트 시작</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">제거</translation>
+        <translation>제거</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
@@ -5343,14 +5358,14 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Remove package</source>
-        <translation type="unfinished">패키지 제거</translation>
+        <translation>패키지 제거</translation>
     </message>
 </context>
 <context>
     <name>PackageListPage</name>
     <message>
         <source>All packages</source>
-        <translation type="unfinished">모든 패키지</translation>
+        <translation>모든 패키지</translation>
     </message>
     <message>
         <source>No package found</source>
@@ -5424,18 +5439,18 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Confirm password</source>
-        <translation type="unfinished">비밀번호 확인</translation>
+        <translation>비밀번호 확인</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">암호</translation>
+        <translation>암호</translation>
     </message>
 </context>
 <context>
     <name>PluginParamsPage</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">설정</translation>
+        <translation>설정</translation>
     </message>
 </context>
 <context>
@@ -5749,19 +5764,19 @@ Do you want to proceed?</source>
     <name>RemoveThingMethodDialog</name>
     <message>
         <source>This thing is currently used in one or more rules:</source>
-        <translation type="unfinished">이것은 현재 하나 이상의 규칙에서 사용되고 있습니다:</translation>
+        <translation>이것은 현재 하나 이상의 규칙에서 사용되고 있습니다:</translation>
     </message>
     <message>
         <source>Remove all those rules</source>
-        <translation type="unfinished">모든 규칙 제거</translation>
+        <translation>모든 규칙 제거</translation>
     </message>
     <message>
         <source>Update rules, removing this thing</source>
-        <translation type="unfinished">이 사물(장치)를 제거하고 규칙 업데이트</translation>
+        <translation>이 사물(장치)를 제거하고 규칙 업데이트</translation>
     </message>
     <message>
         <source>Don&apos;t remove this thing</source>
-        <translation type="unfinished">이 사물(장치)을 제거하지 마십시오</translation>
+        <translation>이 사물(장치)을 제거하지 마십시오</translation>
     </message>
 </context>
 <context>
@@ -5834,15 +5849,15 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
-        <translation type="unfinished">아직 설정된 것이 없는 것 같습니다. 시나리오를 사용하려면 먼저 몇 가지를 추가해야 합니다.</translation>
+        <translation>아직 설정된 것이 없는 것 같습니다. 시나리오를 사용하려면 먼저 몇 가지를 추가해야 합니다.</translation>
     </message>
     <message>
         <source>Scenes provide a useful way to control your things with just one click.</source>
-        <translation type="unfinished">시나리오는 단 한 번의 클릭으로 여러분의 사물(장치)들을 조절할 수 있는 유용한 방법을 제공합니다.</translation>
+        <translation>시나리오는 단 한 번의 클릭으로 여러분의 사물(장치)들을 조절할 수 있는 유용한 방법을 제공합니다.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished">사물(장치) 추가</translation>
+        <translation>사물(장치) 추가</translation>
     </message>
     <message>
         <source>Add scenes</source>
@@ -5873,7 +5888,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">도움</translation>
+        <translation>도움</translation>
     </message>
     <message>
         <source>Deploy script</source>
@@ -6018,7 +6033,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>is</source>
-        <translation type="unfinished">이다</translation>
+        <translation>이다</translation>
     </message>
     <message>
         <source>a static value:</source>
@@ -6030,11 +6045,11 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Insert value here</source>
-        <translation type="unfinished">여기에 값 삽입</translation>
+        <translation>여기에 값 삽입</translation>
     </message>
     <message>
         <source>Select a state</source>
-        <translation type="unfinished">상태 선택</translation>
+        <translation>상태 선택</translation>
     </message>
     <message>
         <source>is less than</source>
@@ -6080,7 +6095,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
+        <translation>확인</translation>
     </message>
 </context>
 <context>
@@ -6103,7 +6118,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished">열기</translation>
+        <translation>열기</translation>
     </message>
     <message>
         <source>Wet</source>
@@ -6134,7 +6149,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished">열기</translation>
+        <translation>열기</translation>
     </message>
     <message>
         <source>Presence</source>
@@ -6462,11 +6477,11 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Login required</source>
-        <translation type="unfinished">로그인 필요</translation>
+        <translation>로그인 필요</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished">사용자명</translation>
+        <translation>사용자명</translation>
     </message>
 </context>
 <context>
@@ -6495,7 +6510,7 @@ Do you want to proceed?</source>
     <name>SmartMeterChart</name>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">알 수 없는</translation>
+        <translation>알 수 없는</translation>
     </message>
 </context>
 <context>
@@ -6550,7 +6565,7 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message>
         <source>Charging</source>
-        <translation type="unfinished">충전중</translation>
+        <translation>충전중</translation>
     </message>
     <message>
         <source>Discharging</source>
@@ -6754,18 +6769,18 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>TemperatureScheduleEditor</name>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">제거</translation>
+        <translation>제거</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
+        <translation>확인</translation>
     </message>
 </context>
 <context>
     <name>ThingClassDetailsPage</name>
     <message>
         <source>Type</source>
-        <translation type="unfinished">유형</translation>
+        <translation>유형</translation>
     </message>
     <message>
         <source>Parameters</source>
@@ -6777,19 +6792,19 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">설정</translation>
+        <translation>설정</translation>
     </message>
     <message>
         <source>Events</source>
-        <translation type="unfinished">이벤트</translation>
+        <translation>이벤트</translation>
     </message>
     <message>
         <source>States</source>
-        <translation type="unfinished">상태</translation>
+        <translation>상태</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation type="unfinished">작동(조치)</translation>
+        <translation>작동(조치)</translation>
     </message>
     <message>
         <source>Interfaces</source>
@@ -6800,7 +6815,7 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>ThingContextMenu</name>
     <message>
         <source>Magic</source>
-        <translation type="unfinished">마술</translation>
+        <translation>마술</translation>
     </message>
     <message>
         <source>Details</source>
@@ -6808,11 +6823,11 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Mark as favorite</source>
-        <translation type="unfinished">즐겨찾기로 표시</translation>
+        <translation>즐겨찾기로 표시</translation>
     </message>
     <message>
         <source>Remove from favorites</source>
-        <translation type="unfinished">즐겨찾기에서 제거</translation>
+        <translation>즐겨찾기에서 제거</translation>
     </message>
     <message>
         <source>Grouping</source>
@@ -6832,7 +6847,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
+        <translation>확인</translation>
     </message>
 </context>
 <context>
@@ -6847,7 +6862,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Thing is not connected!</source>
-        <translation type="unfinished">연결되지 않았어요!</translation>
+        <translation>연결되지 않았어요!</translation>
     </message>
     <message>
         <source>Update available!</source>
@@ -6859,18 +6874,18 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Thing runs out of battery!</source>
-        <translation type="unfinished">배터리가 다 됐네요!</translation>
+        <translation>배터리가 다 됐네요!</translation>
     </message>
 </context>
 <context>
     <name>ThingLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished">%1에 대한 기록</translation>
+        <translation>%1에 대한 기록</translation>
     </message>
     <message>
         <source>Filter by</source>
-        <translation type="unfinished">필터 기준</translation>
+        <translation>필터 기준</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -6885,15 +6900,15 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>ThingRulesPage</name>
     <message>
         <source>Magic involving %1</source>
-        <translation type="unfinished">%1 관련 마법</translation>
+        <translation>%1 관련 마법</translation>
     </message>
     <message>
         <source>There&apos;s no magic involving %1.</source>
-        <translation type="unfinished">%1과 관련된 마법은 없습니다.</translation>
+        <translation>%1과 관련된 마법은 없습니다.</translation>
     </message>
     <message>
         <source>Add some using the wizard stick!</source>
-        <translation type="unfinished">마법사 스틱을 사용하여 추가!</translation>
+        <translation>마법사 스틱을 사용하여 추가!</translation>
     </message>
 </context>
 <context>
@@ -6912,7 +6927,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">업데이트</translation>
+        <translation>업데이트</translation>
     </message>
 </context>
 <context>
@@ -6947,7 +6962,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">업데이트</translation>
+        <translation>업데이트</translation>
     </message>
     <message>
         <source>Do you want to start the update now?</source>
@@ -6967,7 +6982,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Disconnected</source>
-        <translation type="unfinished">연결 끊김</translation>
+        <translation>연결 끊김</translation>
     </message>
     <message>
         <source>Signal strength: %1 %</source>
@@ -6991,7 +7006,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Battery level: %1 %</source>
@@ -7006,15 +7021,15 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>There are no things set up yet.</source>
-        <translation type="unfinished">아직 설정된 것이 없습니다.</translation>
+        <translation>아직 설정된 것이 없습니다.</translation>
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation type="unfinished">%1 시스템이 유용하려면 먼저 몇 가지를 추가하십시오.</translation>
+        <translation>%1 시스템이 유용하려면 먼저 몇 가지를 추가하십시오.</translation>
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished">사물(장치) 추가</translation>
+        <translation>사물(장치) 추가</translation>
     </message>
 </context>
 <context>
@@ -7108,7 +7123,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Time</source>
-        <translation type="unfinished">시간</translation>
+        <translation>시간</translation>
     </message>
     <message>
         <source>For a specified amount of time.</source>
@@ -7116,11 +7131,11 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">제거</translation>
+        <translation>제거</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
+        <translation>확인</translation>
     </message>
 </context>
 <context>
@@ -7166,7 +7181,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">포트:</translation>
+        <translation>포트:</translation>
     </message>
     <message>
         <source>Require login</source>
@@ -7178,7 +7193,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation type="unfinished">SSL 가능</translation>
+        <translation>SSL 가능</translation>
     </message>
     <message>
         <source>Ignore SSL errors</source>
@@ -7236,7 +7251,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Edit user information</source>
@@ -7252,7 +7267,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Manage users</source>
-        <translation type="unfinished">사용자 관리</translation>
+        <translation>사용자 관리</translation>
     </message>
     <message>
         <source>Your name</source>
@@ -7304,7 +7319,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">이름</translation>
+        <translation>이름</translation>
     </message>
     <message>
         <source>Save</source>
@@ -7316,7 +7331,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">제거</translation>
+        <translation>제거</translation>
     </message>
     <message>
         <source>Remove this user</source>
@@ -7328,11 +7343,11 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Username:</source>
-        <translation type="unfinished">사용자명:</translation>
+        <translation>사용자명:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished">비밀번호:</translation>
+        <translation>비밀번호:</translation>
     </message>
     <message>
         <source>Full name:</source>
@@ -7467,7 +7482,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">다음</translation>
+        <translation>다음</translation>
     </message>
 </context>
 <context>
@@ -7532,11 +7547,11 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">도움</translation>
+        <translation>도움</translation>
     </message>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished">네트워크 설정</translation>
+        <translation>네트워크 설정</translation>
     </message>
     <message>
         <source>Un unexpected error happened in the Z-Wave backend.</source>
@@ -7672,11 +7687,11 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">제거</translation>
+        <translation>제거</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Remove Z-Wave node</source>
@@ -7937,7 +7952,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Auto</source>
-        <translation type="unfinished">자동</translation>
+        <translation>자동</translation>
     </message>
     <message>
         <source>Auto light link</source>
@@ -7945,7 +7960,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>ZigBee network settings</source>
@@ -7960,7 +7975,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished">네트워크 설정</translation>
+        <translation>네트워크 설정</translation>
     </message>
     <message>
         <source>The selected adapter is not available or the selected serial port configration is incorrect.</source>
@@ -8004,7 +8019,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">제거</translation>
+        <translation>제거</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this node from the network?</source>
@@ -8036,11 +8051,11 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">도움</translation>
+        <translation>도움</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">확인</translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
@@ -8072,7 +8087,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">알 수 없는</translation>
+        <translation>알 수 없는</translation>
     </message>
     <message>
         <source>Associated things</source>
@@ -8092,7 +8107,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">닫기</translation>
+        <translation>닫기</translation>
     </message>
     <message numerus="yes">
         <source>%n device(s)</source>
@@ -8210,7 +8225,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">도움</translation>
+        <translation>도움</translation>
     </message>
     <message>
         <source>Device</source>
@@ -8226,7 +8241,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished">주소:</translation>
+        <translation>주소:</translation>
     </message>
     <message>
         <source>Model:</source>
@@ -8238,7 +8253,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Last seen:</source>
-        <translation type="unfinished">마지막으로 본:</translation>
+        <translation>마지막으로 본:</translation>
     </message>
     <message>
         <source>Neighbor</source>
@@ -8246,7 +8261,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>To</source>
-        <translation type="unfinished">까지</translation>
+        <translation>까지</translation>
     </message>
     <message>
         <source>Via</source>
@@ -8337,7 +8352,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">제조자</translation>
+        <translation>제조자</translation>
     </message>
     <message>
         <source>IEEE address</source>
@@ -8349,11 +8364,11 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Signal strength</source>
-        <translation type="unfinished">신호 강도</translation>
+        <translation>신호 강도</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">알 수 없는</translation>
+        <translation>알 수 없는</translation>
     </message>
     <message>
         <source>Version</source>
@@ -8539,7 +8554,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished">사물(장치) 추가</translation>
+        <translation>사물(장치) 추가</translation>
     </message>
 </context>
 <context>
