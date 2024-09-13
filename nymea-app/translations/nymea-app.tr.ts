@@ -7476,6 +7476,21 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
 </context>
 <context>
+    <name>WirelessNetworksFilterSettingsPage</name>
+    <message>
+        <source>WiFi list options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show all networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple networks with the same name get filterd out</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>

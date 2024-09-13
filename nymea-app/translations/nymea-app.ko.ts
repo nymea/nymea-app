@@ -7475,6 +7475,21 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
 </context>
 <context>
+    <name>WirelessNetworksFilterSettingsPage</name>
+    <message>
+        <source>WiFi list options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show all networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple networks with the same name get filterd out</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>

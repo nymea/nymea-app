@@ -1,6 +1,8 @@
 import QtQuick 2.3
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.2
+import Qt.labs.settings 1.1
+
 import "../components"
 import Nymea 1.0
 
@@ -503,6 +505,29 @@ WizardPageBase {
             showNextButton: false
             onBack: pageStack.pop()
 
+            headerButtons: [
+                {
+                    iconSource: "/ui/images/filters.svg",
+                    color: Style.iconColor,
+                    trigger: function() {
+                        pageStack.push(Qt.createComponent("/ui/system/WirelessNetworksFilterSettingsPage.qml"),
+                                       { wirelessAccessPointsProxy: wirelessAccessPointsModel });
+                    },
+                    visible: true
+                }
+            ]
+
+            Settings {
+                id: settings
+                property bool wirelessShowDuplicates: false
+            }
+
+            WirelessAccessPointsProxy {
+                id: wirelessAccessPointsModel
+                showDuplicates: settings.wirelessShowDuplicates
+                accessPoints: wifiSetup.accessPoints
+            }
+
             property var wifiSetup: null
 
             Component.onCompleted: {
@@ -519,15 +544,14 @@ WizardPageBase {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    model: wifiSetup.accessPoints
+                    model: wirelessAccessPointsModel
                     clip: true
 
                     delegate: NymeaItemDelegate {
                         width: parent.width
-
                         text: model.ssid !== "" ? model.ssid : qsTr("Hidden Network")
-                        subText: model.hostAddress
-
+                        subText: model.macAddress + (model.hostAddress === "" ? "" : (" (" + model.hostAddress + ")"))
+                        prominentSubText: false
                         iconColor: model.selectedNetwork ? Style.accentColor : "#808080"
                         iconName:  {
                             if (model.protected) {
@@ -577,7 +601,6 @@ WizardPageBase {
                     visible: wifiSetup.wirelessServiceVersion >= 2
                     onClicked: {
                         pageStack.push(hiddenWifiComponent, {wifiSetup: wifiSetup})
-
                     }
                 }
             }

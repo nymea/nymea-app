@@ -4499,7 +4499,7 @@ Bitte versuche es erneut.</translation>
 Maybe the hardware is already in use.</source>
         <translation>Verbindung zum Modbus RTU Master kann nicht hergestellt werden.
 
-Wird das Gerät bereits benutzt?</translation>
+Eventuell wird das Gerät bereits benutzt.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this Modbus RTU master?</source>
@@ -7502,6 +7502,21 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Add</source>
         <translation>Hinzufügen</translation>
+    </message>
+</context>
+<context>
+    <name>WirelessNetworksFilterSettingsPage</name>
+    <message>
+        <source>WiFi list options</source>
+        <translation>WiFi Listen Optionen</translation>
+    </message>
+    <message>
+        <source>Show all networks</source>
+        <translation>Zeige alle Netzwerke</translation>
+    </message>
+    <message>
+        <source>Multiple networks with the same name get filterd out</source>
+        <translation>Mehrere Netzwerke mit gleichem Namen werden gefiltert</translation>
     </message>
 </context>
 <context>

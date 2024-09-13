@@ -32,8 +32,10 @@ import QtQuick 2.9
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.1
+import Qt.labs.settings 1.1
+
 import Nymea 1.0
-import "../components"
+import "qrc:/ui/components"
 
 SettingsPageBase {
     id: root
@@ -398,11 +400,6 @@ SettingsPageBase {
 
             property WirelessNetworkDevice wirelessNetworkDevice: null
 
-            WirelessAccessPointsProxy {
-                id: apProxy
-                accessPoints: wirelessAccessPointsPage.wirelessNetworkDevice.accessPoints
-            }
-
             SettingsPageSectionHeader {
                 text: qsTr("Access Point")
             }
@@ -442,8 +439,31 @@ SettingsPageBase {
                 }
             }
 
-            SettingsPageSectionHeader {
-                text: qsTr("Connect to wireless network")
+            Settings {
+                id: settings
+                property bool wirelessShowDuplicates: false
+            }
+
+            WirelessAccessPointsProxy {
+                id: apProxy
+                accessPoints: wirelessAccessPointsPage.wirelessNetworkDevice ? wirelessAccessPointsPage.wirelessNetworkDevice.accessPoints : null
+                showDuplicates: settings.wirelessShowDuplicates
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                SettingsPageSectionHeader {
+                    Layout.fillWidth: true
+                    text: qsTr("Connect to wireless network")
+                }
+
+                HeaderButton {
+                    id: filterButton
+                    imageSource: "/ui/images/filters.svg"
+                    color: Style.iconColor
+                    onClicked: pageStack.push(Qt.createComponent("/ui/system/WirelessNetworksFilterSettingsPage.qml"),
+                                                                      { wirelessAccessPointsProxy: apProxy });
+                }
             }
 
             Repeater {
@@ -544,7 +564,7 @@ SettingsPageBase {
                         horizontalAlignment: Text.AlignRight
                         validator: RegExpValidator {
                             regExp:  /^((?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){0,3}(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/
-                       }
+                        }
                     }
 
                     Label {
@@ -571,7 +591,7 @@ SettingsPageBase {
                     Layout.fillWidth: true
                     validator: RegExpValidator {
                         regExp:  /^((?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){0,3}(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/
-                   }
+                    }
                 }
 
                 Label {
@@ -584,7 +604,7 @@ SettingsPageBase {
                     Layout.fillWidth: true
                     validator: RegExpValidator {
                         regExp:  /^((?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){0,3}(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/
-                   }
+                    }
                 }
             }
 

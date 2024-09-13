@@ -49,13 +49,57 @@ void WirelessAccessPointsProxy::setAccessPoints(WirelessAccessPoints *accessPoin
 {
     m_accessPoints = accessPoints;
     emit accessPointsChanged();
+
     setSourceModel(m_accessPoints);
-    connect(accessPoints, &WirelessAccessPoints::countChanged, this, &WirelessAccessPointsProxy::countChanged);
+    connect(accessPoints, &WirelessAccessPoints::countChanged, this, [this](){
+        sort(0, Qt::DescendingOrder);
+        invalidateFilter();
+        emit countChanged();
+    });
+
     setSortRole(WirelessAccessPoints::WirelessAccesspointRoleSignalStrength);
     sort(0, Qt::DescendingOrder);
+
+    invalidateFilter();
+
+    emit countChanged();
 }
 
 WirelessAccessPoint *WirelessAccessPointsProxy::get(int index) const
 {
     return m_accessPoints->get(mapToSource(this->index(index, 0)).row());
+}
+
+bool WirelessAccessPointsProxy::showDuplicates() const
+{
+    return m_showDuplicates;
+}
+
+void WirelessAccessPointsProxy::setShowDuplicates(bool showDuplicates)
+{
+    m_showDuplicates = showDuplicates;
+    emit showDuplicatesChanged();
+
+    sort(0, Qt::DescendingOrder);
+    invalidateFilter();
+
+    emit countChanged();
+}
+
+bool WirelessAccessPointsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+{
+    Q_UNUSED(source_parent)
+
+    if (m_showDuplicates)
+        return true;
+
+    WirelessAccessPoint *accessPoint = m_accessPoints->get(source_row);
+    // Check if this is the best signal strenght, otherwise filter out...
+    foreach (WirelessAccessPoint *ap, m_accessPoints->wirelessAccessPoints()) {
+        if (ap->ssid() == accessPoint->ssid() && ap->signalStrength() > accessPoint->signalStrength()) {
+            return false;
+        }
+    }
+
+    return true;
 }

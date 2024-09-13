@@ -7511,6 +7511,21 @@ Als je fouten in de niet-officiële software vindt, geef deze dan door aan de on
     </message>
 </context>
 <context>
+    <name>WirelessNetworksFilterSettingsPage</name>
+    <message>
+        <source>WiFi list options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show all networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple networks with the same name get filterd out</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>
