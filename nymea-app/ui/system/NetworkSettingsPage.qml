@@ -58,6 +58,7 @@ SettingsPageBase {
             if (id === d.pendingCallId) {
                 d.pendingCallId = -1
             }
+
             var errorMessage;
             switch (status) {
             case "NetworkManagerErrorNoError":
@@ -86,10 +87,15 @@ SettingsPageBase {
             case "NetworkManagerErrorNetworkManagerNotAvailable":
                 errorMessage = qsTr("The network manager is not available.")
                 break;
+            case "NetworkManagerErrorInvalidConfiguration":
+                errorMessage = qsTr("The network configuration is not valid.")
+                break;
+            case "NetworkManagerErrorUnsupportedFeature":
+                errorMessage = qsTr("This feature is not supported on this platform.")
+                break;
             case "NetworkManagerErrorUnknownError":
                 errorMessage = qsTr("An unexpected error happened.")
                 break;
-
             }
             print("network config reply:", status, errorMessage)
 
@@ -400,8 +406,13 @@ SettingsPageBase {
 
             property WirelessNetworkDevice wirelessNetworkDevice: null
 
+            property bool apFeatureAvailable: wirelessNetworkDevice &&
+                                              wirelessNetworkDevice.wirelessCapabilities !== WirelessNetworkDevice.WirelessCapabilityNone &&
+                                              wirelessNetworkDevice.wirelessCapabilities | WirelessNetworkDevice.WirelessCapabilityAP
+
             SettingsPageSectionHeader {
                 text: qsTr("Access Point")
+                visible: apFeatureAvailable
             }
 
             TextField {
@@ -411,6 +422,7 @@ SettingsPageBase {
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
                 placeholderText: qsTr("SSID")
+                visible: apFeatureAvailable
             }
 
             PasswordTextField {
@@ -424,6 +436,7 @@ SettingsPageBase {
                 requireNumber: false
                 requireSpecialChar: false
                 signup: false
+                visible: apFeatureAvailable
             }
 
             Button {
@@ -433,6 +446,7 @@ SettingsPageBase {
                 Layout.rightMargin: app.margins
                 text: qsTr("Create Access Point")
                 enabled: ssidTextField.displayText.length > 0 && passwordTextField.isValidPassword
+                visible: apFeatureAvailable
                 onClicked: {
                     d.pendingCallId = networkManager.startAccessPoint(wirelessAccessPointsPage.wirelessNetworkDevice.interface, ssidTextField.text, passwordTextField.password)
                     pageStack.pop(root);

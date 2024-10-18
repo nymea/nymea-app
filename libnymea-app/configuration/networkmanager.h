@@ -51,8 +51,8 @@ class NetworkManager : public QObject
     Q_PROPERTY(bool networkingEnabled READ networkingEnabled NOTIFY networkingEnabledChanged)
     Q_PROPERTY(bool wirelessNetworkingEnabled READ wirelessNetworkingEnabled NOTIFY wirelessNetworkingEnabledChanged)
 
-    Q_PROPERTY(WiredNetworkDevices* wiredNetworkDevices READ wiredNetworkDevices CONSTANT)
-    Q_PROPERTY(WirelessNetworkDevices* wirelessNetworkDevices READ wirelessNetworkDevices CONSTANT)
+    Q_PROPERTY(WiredNetworkDevices *wiredNetworkDevices READ wiredNetworkDevices CONSTANT)
+    Q_PROPERTY(WirelessNetworkDevices *wirelessNetworkDevices READ wirelessNetworkDevices CONSTANT)
 
 public:
     enum NetworkManagerState {
@@ -80,8 +80,8 @@ public:
     bool networkingEnabled() const;
     bool wirelessNetworkingEnabled() const;
 
-    WiredNetworkDevices* wiredNetworkDevices() const;
-    WirelessNetworkDevices* wirelessNetworkDevices() const;
+    WiredNetworkDevices *wiredNetworkDevices() const;
+    WirelessNetworkDevices *wirelessNetworkDevices() const;
 
     Q_INVOKABLE int enableNetworking(bool enable);
     Q_INVOKABLE int enableWirelessNetworking(bool enable);
@@ -137,8 +137,8 @@ private:
     bool m_networkingEnabled = false;
     bool m_wirelessNetworkingEnabled = false;
 
-    WiredNetworkDevices* m_wiredNetworkDevices = nullptr;
-    WirelessNetworkDevices* m_wirelessNetworkDevices = nullptr;
+    WiredNetworkDevices *m_wiredNetworkDevices = nullptr;
+    WirelessNetworkDevices *m_wirelessNetworkDevices = nullptr;
 
     QHash<int, QString> m_apRequests; // requestId, interface
 };

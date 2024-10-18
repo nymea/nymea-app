@@ -275,6 +275,18 @@ void NetworkManager::getDevicesResponse(int /*commandId*/, const QVariantMap &pa
         QMetaEnum modeEnum = QMetaEnum::fromType<WirelessNetworkDevice::WirelessMode>();
         device->setWirelessMode(static_cast<WirelessNetworkDevice::WirelessMode>(modeEnum.keyToValue(deviceMap.value("mode").toString().toUtf8())));
 
+        // Note: capabilities have been aaded in API 8.2
+        if (m_engine->jsonRpcClient()->jsonRpcVersion() >= "8.2") {
+            QMetaEnum capabilityEnum = QMetaEnum::fromType<WirelessNetworkDevice::WirelessCapability>();
+            WirelessNetworkDevice::WirelessCapabilities wirelessCapabilities;
+            foreach (const QVariant &capabilityVariant, deviceMap.value("capabilities").toList()) {
+                QString capabilityString = capabilityVariant.toString();
+                wirelessCapabilities.setFlag(static_cast<WirelessNetworkDevice::WirelessCapability>(capabilityEnum.keyToValue(capabilityString.toUtf8())));
+            }
+            device->setWirelessCapabilities(wirelessCapabilities);
+        }
+
+
         QVariantMap currentApMap = deviceMap.value("currentAccessPoint").toMap();
         device->currentAccessPoint()->setSsid(currentApMap.value("ssid").toString());
         device->currentAccessPoint()->setMacAddress(currentApMap.value("macAddress").toString());
