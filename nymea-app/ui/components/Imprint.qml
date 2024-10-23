@@ -152,11 +152,11 @@ Item {
                 Layout.fillWidth: true
                 text: qsTr("View privacy policy")
                 iconName: "../images/stock_website.svg"
-                subText: app.privacyPolicyUrl
+                subText: Configuration.privacyPolicyUrl
                 prominentSubText: false
                 wrapTexts: false
                 onClicked:
-                    Qt.openUrlExternally(app.privacyPolicyUrl)
+                    Qt.openUrlExternally(Configuration.privacyPolicyUrl)
             }
 
             NymeaSwipeDelegate {
