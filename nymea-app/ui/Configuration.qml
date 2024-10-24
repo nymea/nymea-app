@@ -20,6 +20,7 @@ ConfigurationBase {
     pluginSettingsEnabled: true
 
     tunnelProxyUrl: "tunnelproxy.nymea.io"
+    privacyPolicyUrl: "https://nymea.io/privacy-statement/en/nymea_privacy.html"
 
     mainMenuLinks: [
         {
