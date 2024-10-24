@@ -77,8 +77,8 @@ public:
     NymeaConnection::BearerTypes availableBearerTypes() const;
     NymeaConnection::ConnectionStatus connectionStatus() const;
     bool connected() const;
-    NymeaHost* currentHost() const;
-    Connection* currentConnection() const;
+    NymeaHost *currentHost() const;
+    Connection *currentConnection() const;
     QVariantMap certificateIssuerInfo() const;
     bool initialSetupRequired() const;
     bool authenticationRequired() const;
@@ -147,8 +147,8 @@ private slots:
 private:
     int m_id;
     // < namespace, method> >
-    QHash<QObject*, QString> m_notificationHandlerMethods;
-    QMultiHash<QString, QObject*> m_notificationHandlers;
+    QHash<QObject *, QString> m_notificationHandlerMethods;
+    QMultiHash<QString, QObject *> m_notificationHandlers;
     QHash<int, JsonRpcReply *> m_replies;
     NymeaConnection *m_connection = nullptr;
 

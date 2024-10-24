@@ -49,8 +49,8 @@ class NymeaConnection : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
-    Q_PROPERTY(NymeaHost* currentHost READ currentHost WRITE setCurrentHost NOTIFY currentHostChanged)
-    Q_PROPERTY(Connection* currentConnection  READ currentConnection NOTIFY currentConnectionChanged)
+    Q_PROPERTY(NymeaHost *currentHost READ currentHost WRITE setCurrentHost NOTIFY currentHostChanged)
+    Q_PROPERTY(Connection *currentConnection  READ currentConnection NOTIFY currentConnectionChanged)
     Q_PROPERTY(NymeaConnection::BearerTypes availableBearerTypes READ availableBearerTypes NOTIFY availableBearerTypesChanged)
     Q_PROPERTY(ConnectionStatus connectionStatus READ connectionStatus NOTIFY connectionStatusChanged)
 
@@ -98,11 +98,10 @@ public:
     bool connected();
     ConnectionStatus connectionStatus() const;
 
-    NymeaHost* currentHost() const;
+    NymeaHost *currentHost() const;
     void setCurrentHost(NymeaHost *host);
 
-    Connection* currentConnection() const;
-
+    Connection *currentConnection() const;
 
     void sendData(const QByteArray &data);
 
@@ -134,8 +133,8 @@ private:
     ConnectionStatus m_connectionStatus = ConnectionStatusUnconnected;
     NetworkReachabilityMonitor *m_networkReachabilityMonitor = nullptr;
 
-    QHash<QString, NymeaTransportInterfaceFactory*> m_transportFactories;
-    QHash<NymeaTransportInterface*, Connection*> m_transportCandidates;
+    QHash<QString, NymeaTransportInterfaceFactory *> m_transportFactories;
+    QHash<NymeaTransportInterface *, Connection *> m_transportCandidates;
     NymeaTransportInterface *m_currentTransport = nullptr;
     NymeaHost *m_currentHost = nullptr;
     Connection *m_preferredConnection = nullptr;

@@ -79,7 +79,7 @@ protected:
     QHash<int, QByteArray> roleNames() const;
 
 private:
-    QList<NymeaHost*> m_hosts;
+    QList<NymeaHost *> m_hosts;
 };
 
 class NymeaHostsFilterModel: public QSortFilterProxyModel
@@ -94,10 +94,10 @@ class NymeaHostsFilterModel: public QSortFilterProxyModel
 public:
     NymeaHostsFilterModel(QObject *parent = nullptr);
 
-    NymeaDiscovery* discovery() const;
+    NymeaDiscovery *discovery() const;
     void setDiscovery(NymeaDiscovery *discovery);
 
-    JsonRpcClient* jsonRpcClient() const;
+    JsonRpcClient *jsonRpcClient() const;
     void setJsonRpcClient(JsonRpcClient* jsonRpcClient);
 
     bool showUnreachableBearers() const;
