@@ -1,3 +1,12 @@
+nymea-app (1.9.11) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Clean up host information propertly once removed from settings
+  * Add wireless capabilities and disable wireless AP setting if not
+    capable
+
+ -- jenkins <developer@nymea.io>  Thu, 24 Oct 2024 16:36:07 +0200
+
 nymea-app (1.9.10) bionic; urgency=medium
 
   [ Simon Stürz ]
