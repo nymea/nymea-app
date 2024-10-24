@@ -129,6 +129,11 @@ WirelessNetworkDevice::WirelessNetworkDevice(const QString &macAddress, const QS
     m_currentAccessPoint = new WirelessAccessPoint(this);
 }
 
+WirelessNetworkDevice::WirelessCapabilities WirelessNetworkDevice::wirelessCapabilities() const
+{
+    return m_wirelessCapabilities;
+}
+
 WirelessNetworkDevice::WirelessMode WirelessNetworkDevice::wirelessMode() const
 {
     return m_wirelessMode;
@@ -142,6 +147,14 @@ WirelessAccessPoints *WirelessNetworkDevice::accessPoints() const
 WirelessAccessPoint *WirelessNetworkDevice::currentAccessPoint() const
 {
     return m_currentAccessPoint;
+}
+
+void WirelessNetworkDevice::setWirelessCapabilities(WirelessCapabilities wirelessCapabilities)
+{
+    if (m_wirelessCapabilities != wirelessCapabilities) {
+        m_wirelessCapabilities = wirelessCapabilities;
+        emit wirelessCapabilitiesChanged();
+    }
 }
 
 void WirelessNetworkDevice::setWirelessMode(WirelessNetworkDevice::WirelessMode wirelessMode)

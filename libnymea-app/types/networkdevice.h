@@ -116,6 +116,7 @@ private:
 class WirelessNetworkDevice: public NetworkDevice
 {
     Q_OBJECT
+    Q_PROPERTY(WirelessCapabilities wirelessCapabilities READ wirelessCapabilities NOTIFY wirelessCapabilitiesChanged)
     Q_PROPERTY(WirelessMode wirelessMode READ wirelessMode NOTIFY wirelessModeChanged)
     Q_PROPERTY(WirelessAccessPoints* accessPoints READ accessPoints CONSTANT)
     Q_PROPERTY(WirelessAccessPoint* currentAccessPoint READ currentAccessPoint CONSTANT)
@@ -128,20 +129,44 @@ public:
         WirelessModeAccessPoint      = 3
     };
     Q_ENUM(WirelessMode)
+
+    enum WirelessCapability {
+        WirelessCapabilityNone = 0x0000,
+        WirelessCapabilityCipherWEP40 = 0x0001,
+        WirelessCapabilityCipherWEP104 = 0x0002,
+        WirelessCapabilityCipherTKIP = 0x0004,
+        WirelessCapabilityCipherCCMP = 0x0008,
+        WirelessCapabilityWPA = 0x0010,
+        WirelessCapabilityRSN = 0x0020,
+        WirelessCapabilityAP = 0x0040,
+        WirelessCapabilityAdHoc = 0x0080,
+        WirelessCapabilityFreqValid = 0x0100,
+        WirelessCapability2Ghz = 0x0200,
+        WirelessCapability5Ghz = 0x0400,
+    };
+    Q_ENUM(WirelessCapability)
+    Q_DECLARE_FLAGS(WirelessCapabilities, WirelessCapability)
+    Q_FLAG(WirelessCapabilities)
+
     explicit WirelessNetworkDevice(const QString &macAddress, const QString &interface, QObject *parent = nullptr);
 
+    WirelessCapabilities wirelessCapabilities() const;
     WirelessMode wirelessMode() const;
     WirelessAccessPoints* accessPoints() const;
     WirelessAccessPoint* currentAccessPoint() const;
 
+    void setWirelessCapabilities(WirelessCapabilities wirelessCapabilities);
     void setWirelessMode(WirelessMode wirelessMode);
 
 signals:
+    void wirelessCapabilitiesChanged();
     void wirelessModeChanged();
 
 private:
+    WirelessCapabilities m_wirelessCapabilities = WirelessCapabilityNone;
     WirelessMode m_wirelessMode = WirelessModeUnknown;
     WirelessAccessPoints *m_accessPoints = nullptr;
     WirelessAccessPoint *m_currentAccessPoint = nullptr;
+
 };
 #endif // NETWORKDEVICE_H
