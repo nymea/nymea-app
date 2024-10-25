@@ -12,6 +12,8 @@ Item {
     property string tunnelProxyUrl: ""
     property int tunnelProxyPort: 2213
 
+    property string privacyPolicyUrl: ""
+
     // Enable/disable certain features
     property bool magicEnabled: false
     property bool networkSettingsEnabled: false
