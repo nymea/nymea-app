@@ -1,3 +1,10 @@
+nymea-app (1.9.14) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Fix multisection tabs font
+
+ -- jenkins <developer@nymea.io>  Tue, 26 Nov 2024 16:36:23 +0100
+
 nymea-app (1.9.13) bionic; urgency=medium
 
   [ Simon Stürz ]
