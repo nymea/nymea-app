@@ -43,7 +43,7 @@ Rectangle {
                     id: label
                     anchors.centerIn: parent
                     text: modelData
-                    font: Style.spacedFont
+                    font: Style.font
                 }
             }
         }
