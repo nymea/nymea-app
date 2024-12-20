@@ -1,3 +1,10 @@
+nymea-app (1.9.15) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add server debug JSON RPC functionality
+
+ -- jenkins <developer@nymea.io>  Fri, 20 Dec 2024 15:30:33 +0100
+
 nymea-app (1.9.14) bionic; urgency=medium
 
   [ Simon Stürz ]
