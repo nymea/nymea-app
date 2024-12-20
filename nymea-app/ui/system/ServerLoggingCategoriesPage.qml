@@ -34,7 +34,8 @@ import QtQuick.Layouts 1.3
 import Nymea 1.0
 import "../components"
 
-SettingsPageBase {
+Page {
+    id: root
     header: NymeaHeader {
         text: qsTr("Server logging categories")
         backButtonVisible: true
@@ -57,6 +58,34 @@ SettingsPageBase {
             running: visible
         }
     }
+
+    // ColumnLayout {
+    //     anchors.fill: parent
+
+    //     ListFilterInput {
+    //         id: filterInput
+    //         Layout.fillWidth: true
+    //     }
+
+
+    //     ListView {
+    //         ScrollBar.vertical: ScrollBar {}
+
+    //         clip: true
+    //         section.property: "baseInterface"
+    //         section.criteria: ViewSection.FullString
+    //         section.delegate: ListSectionHeader {
+    //             text: app.interfaceToString(section)
+    //         }
+
+    //         SwipeDelegateGroup {}
+    //     }
+
+    // }
+
+
+
+
 
     RowLayout {
         Layout.margins: Style.margins
@@ -96,7 +125,11 @@ SettingsPageBase {
     ThinDivider {}
 
     Repeater {
-        model: serverDebugManager.categories
+        model: ServerLoggingCategoriesProxy {
+            loggingCategories: serverDebugManager.categories
+            typeFilter: ServerLoggingCategoriesProxy.TypeFilterSystem
+        }
+
         delegate: ItemDelegate {
             Layout.fillWidth: true
             Layout.preferredHeight: Style.smallDelegateHeight
@@ -134,4 +167,6 @@ SettingsPageBase {
             }
         }
     }
+
+
 }

@@ -34,6 +34,7 @@ SOURCES += \
     $$PWD/pluginconfigmanager.cpp \
     $$PWD/serverdebug/serverdebugmanager.cpp \
     $$PWD/serverdebug/serverloggingcategories.cpp \
+    $$PWD/serverdebug/serverloggingcategoriesproxy.cpp \
     $$PWD/serverdebug/serverloggingcategory.cpp \
     $$PWD/tagwatcher.cpp \
     $$PWD/zigbee/zigbeenode.cpp \
@@ -203,6 +204,7 @@ HEADERS += \
     $$PWD/pluginconfigmanager.h \
     $$PWD/serverdebug/serverdebugmanager.h \
     $$PWD/serverdebug/serverloggingcategories.h \
+    $$PWD/serverdebug/serverloggingcategoriesproxy.h \
     $$PWD/serverdebug/serverloggingcategory.h \
     $$PWD/tagwatcher.h \
     $$PWD/zigbee/zigbeenode.h \
