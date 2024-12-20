@@ -32,6 +32,10 @@ SOURCES += \
     $$PWD/models/newlogsmodel.cpp \
     $$PWD/models/scriptsproxymodel.cpp \
     $$PWD/pluginconfigmanager.cpp \
+    $$PWD/serverdebug/serverdebugmanager.cpp \
+    $$PWD/serverdebug/serverloggingcategories.cpp \
+    $$PWD/serverdebug/serverloggingcategoriesproxy.cpp \
+    $$PWD/serverdebug/serverloggingcategory.cpp \
     $$PWD/tagwatcher.cpp \
     $$PWD/zigbee/zigbeenode.cpp \
     $$PWD/zigbee/zigbeenodes.cpp \
@@ -198,6 +202,10 @@ HEADERS += \
     $$PWD/models/newlogsmodel.h \
     $$PWD/models/scriptsproxymodel.h \
     $$PWD/pluginconfigmanager.h \
+    $$PWD/serverdebug/serverdebugmanager.h \
+    $$PWD/serverdebug/serverloggingcategories.h \
+    $$PWD/serverdebug/serverloggingcategoriesproxy.h \
+    $$PWD/serverdebug/serverloggingcategory.h \
     $$PWD/tagwatcher.h \
     $$PWD/zigbee/zigbeenode.h \
     $$PWD/zigbee/zigbeenodes.h \

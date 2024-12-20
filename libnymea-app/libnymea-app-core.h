@@ -146,6 +146,10 @@
 #include "zwave/zwavemanager.h"
 #include "zwave/zwavenetwork.h"
 #include "zwave/zwavenode.h"
+#include "serverdebug/serverdebugmanager.h"
+#include "serverdebug/serverloggingcategory.h"
+#include "serverdebug/serverloggingcategories.h"
+#include "serverdebug/serverloggingcategoriesproxy.h"
 
 #include <QtQml/qqml.h>
 
@@ -359,6 +363,11 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<NetworkDevice>(uri, 1, 0, "NetworkDevice", "Get it from NetworkDevices");
     qmlRegisterUncreatableType<WiredNetworkDevice>(uri, 1, 0, "WiredNetworkDevice", "Get it from NetworkDevices");
     qmlRegisterUncreatableType<WirelessNetworkDevice>(uri, 1, 0, "WirelessNetworkDevice", "Get it from NetworkDevices");
+
+    qmlRegisterType<ServerDebugManager>(uri, 1, 0, "ServerDebugManager");
+    qmlRegisterUncreatableType<ServerLoggingCategory>(uri, 1, 0, "ServerLoggingCategory", "Get it from ServerDebugManager");
+    qmlRegisterUncreatableType<ServerLoggingCategories>(uri, 1, 0, "ServerLoggingCategories", "Get it from ServerDebugManager");
+    qmlRegisterType<ServerLoggingCategoriesProxy>(uri, 1, 0, "ServerLoggingCategoriesProxy");
 
     qmlRegisterUncreatableType<ScriptManager>(uri, 1, 0, "ScriptManager", "Get it from Engine");
     qmlRegisterUncreatableType<Scripts>(uri, 1, 0, "Scripts", "Getit from ScriptManager");

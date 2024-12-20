@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2024, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -28,45 +28,40 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef WIRELESSACCESSPOINTSPROXY_H
-#define WIRELESSACCESSPOINTSPROXY_H
+#ifndef SERVERLOGGINGCATEGORIES_H
+#define SERVERLOGGINGCATEGORIES_H
 
 #include <QObject>
-#include <QSortFilterProxyModel>
+#include <QAbstractListModel>
 
-class WirelessAccessPoint;
-class WirelessAccessPoints;
+#include "serverloggingcategory.h"
 
-class WirelessAccessPointsProxy : public QSortFilterProxyModel
+class ServerLoggingCategories : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(WirelessAccessPoints *accessPoints READ accessPoints WRITE setAccessPoints)
-    Q_PROPERTY(bool showDuplicates READ showDuplicates WRITE setShowDuplicates NOTIFY showDuplicatesChanged FINAL)
+    Q_PROPERTY(int count READ rowCount CONSTANT)
 
 public:
-    explicit WirelessAccessPointsProxy(QObject *parent = nullptr);
+    enum Roles {
+        RoleName,
+        RoleLevel,
+        RoleType
+    };
+    Q_ENUM(Roles)
 
-    WirelessAccessPoints *accessPoints() const;
-    void setAccessPoints(WirelessAccessPoints *accessPoints);
+    explicit ServerLoggingCategories(QObject *parent = nullptr);
 
-    Q_INVOKABLE WirelessAccessPoint *get(int index) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
-    bool showDuplicates() const;
-    void setShowDuplicates(bool showDuplicates);
+    void createFromVariantList(const QVariantList &loggingCategories);
 
-signals:
-    void countChanged();
-    void accessPointsChanged();
-    void showDuplicatesChanged();
-
-protected:
-    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
+    ServerLoggingCategory *get(int index) const;
 
 private:
-    WirelessAccessPoints *m_accessPoints = nullptr;
-    bool m_showDuplicates = false;
+    QList<ServerLoggingCategory *> m_list;
 
 };
 
-#endif // WIRELESSACCESSPOINTSPROXY_H
+#endif // SERVERLOGGINGCATEGORIES_H

@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2024, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -28,45 +28,58 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef WIRELESSACCESSPOINTSPROXY_H
-#define WIRELESSACCESSPOINTSPROXY_H
+#ifndef SERVERLOGGINGCATEGORY_H
+#define SERVERLOGGINGCATEGORY_H
 
 #include <QObject>
-#include <QSortFilterProxyModel>
+#include <QVariantMap>
 
-class WirelessAccessPoint;
-class WirelessAccessPoints;
-
-class WirelessAccessPointsProxy : public QSortFilterProxyModel
+class ServerLoggingCategory : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(WirelessAccessPoints *accessPoints READ accessPoints WRITE setAccessPoints)
-    Q_PROPERTY(bool showDuplicates READ showDuplicates WRITE setShowDuplicates NOTIFY showDuplicatesChanged FINAL)
+    Q_PROPERTY(QString name READ name CONSTANT FINAL)
+    Q_PROPERTY(ServerLoggingCategory::Type type READ type CONSTANT FINAL)
+    Q_PROPERTY(ServerLoggingCategory::Level level READ level NOTIFY levelChanged FINAL)
 
 public:
-    explicit WirelessAccessPointsProxy(QObject *parent = nullptr);
+    enum Type {
+        TypeSystem,
+        TypePlugin,
+        TypeCustom
+    };
+    Q_ENUM(Type)
 
-    WirelessAccessPoints *accessPoints() const;
-    void setAccessPoints(WirelessAccessPoints *accessPoints);
+    enum Level {
+        LevelCritical,
+        LevelWarning,
+        LevelInfo,
+        LevelDebug
+    };
+    Q_ENUM(Level)
 
-    Q_INVOKABLE WirelessAccessPoint *get(int index) const;
+    explicit ServerLoggingCategory(QObject *parent = nullptr);
+    explicit ServerLoggingCategory(const QVariantMap &loggingCategoryMap, QObject *parent = nullptr);
 
-    bool showDuplicates() const;
-    void setShowDuplicates(bool showDuplicates);
+    QString name() const;
+    void setName(const QString &name);
+
+    Type type() const;
+    void setType(Type type);
+
+    Level level() const;
+    void setLevel(Level level);
+
+    static Level convertStringToLevel(const QString &levelString);
+    static Type convertStringToType(const QString &typeString);
 
 signals:
-    void countChanged();
-    void accessPointsChanged();
-    void showDuplicatesChanged();
-
-protected:
-    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
+    void levelChanged(Level level);
 
 private:
-    WirelessAccessPoints *m_accessPoints = nullptr;
-    bool m_showDuplicates = false;
+    QString m_name;
+    Type m_type;
+    Level m_level;
 
 };
 
-#endif // WIRELESSACCESSPOINTSPROXY_H
+#endif // SERVERLOGGINGCATEGORY_H

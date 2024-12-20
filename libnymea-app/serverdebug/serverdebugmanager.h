@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2024, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -28,45 +28,56 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef WIRELESSACCESSPOINTSPROXY_H
-#define WIRELESSACCESSPOINTSPROXY_H
+#ifndef SERVERDEBUGMANAGER_H
+#define SERVERDEBUGMANAGER_H
 
 #include <QObject>
-#include <QSortFilterProxyModel>
 
-class WirelessAccessPoint;
-class WirelessAccessPoints;
+#include "serverloggingcategory.h"
 
-class WirelessAccessPointsProxy : public QSortFilterProxyModel
+class Engine;
+class JsonRpcClient;
+class ServerLoggingCategories;
+
+class ServerDebugManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(WirelessAccessPoints *accessPoints READ accessPoints WRITE setAccessPoints)
-    Q_PROPERTY(bool showDuplicates READ showDuplicates WRITE setShowDuplicates NOTIFY showDuplicatesChanged FINAL)
+    Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
+    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
+    Q_PROPERTY(ServerLoggingCategories *categories READ categories CONSTANT FINAL)
 
 public:
-    explicit WirelessAccessPointsProxy(QObject *parent = nullptr);
+    explicit ServerDebugManager(QObject *parent = nullptr);
+    ~ServerDebugManager();
 
-    WirelessAccessPoints *accessPoints() const;
-    void setAccessPoints(WirelessAccessPoints *accessPoints);
+    Engine *engine() const;
+    void setEngine(Engine *engine);
 
-    Q_INVOKABLE WirelessAccessPoint *get(int index) const;
+    ServerLoggingCategories *categories() const;
 
-    bool showDuplicates() const;
-    void setShowDuplicates(bool showDuplicates);
+    bool fetchingData() const;
+
+    Q_INVOKABLE void getLoggingCategories();
+    Q_INVOKABLE void setLoggingLevel(const QString &name, int level);
 
 signals:
-    void countChanged();
-    void accessPointsChanged();
-    void showDuplicatesChanged();
+    void engineChanged();
+    void fetchingDataChanged();
 
-protected:
-    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
+private slots:
+    void notificationReceived(const QVariantMap &notification);
 
 private:
-    WirelessAccessPoints *m_accessPoints = nullptr;
-    bool m_showDuplicates = false;
+    Engine *m_engine = nullptr;
+    ServerLoggingCategories *m_categories = nullptr;
+
+    bool m_fetchingData = false;
+
+    void init();
+
+    Q_INVOKABLE void getLoggingCategoriesResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setLoggingCategoryLevelResponse(int commandId, const QVariantMap &params);
 
 };
 
-#endif // WIRELESSACCESSPOINTSPROXY_H
+#endif // SERVERDEBUGMANAGER_H
