@@ -52,7 +52,7 @@ public:
     QUuid thingId() const;
     QString name() const;
     QString description() const;
-    Params* params() const;
+    Params *params() const;
 
 private:
     QUuid m_id;

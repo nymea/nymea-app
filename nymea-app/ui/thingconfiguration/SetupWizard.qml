@@ -126,7 +126,7 @@ Page {
                 print("New thing setup")
                 internalPageStack.push(paramsPage)
 
-            // Reconfigure
+                // Reconfigure
             } else if (root.thing) {
                 print("Existing thing")
                 // There are params. Open params page in any case
@@ -134,7 +134,7 @@ Page {
                     print("Params:", root.thingClass.paramTypes.count)
                     internalPageStack.push(paramsPage)
 
-                // No params... go straight to reconfigure/repair
+                    // No params... go straight to reconfigure/repair
                 } else {
                     print("no params")
                     switch (root.thingClass.setupMethod) {
@@ -185,6 +185,7 @@ Page {
                 break;
             default:
                 print("Setup method reply not handled:", setupMethod);
+                break;
             }
         }
         onConfirmPairingReply: {
@@ -293,6 +294,7 @@ Page {
                     showNew: root.thing === null
                     filterThingId: root.thing ? root.thing.id : ""
                 }
+
                 delegate: NymeaItemDelegate {
                     Layout.fillWidth: true
                     text: model.name
@@ -301,7 +303,23 @@ Page {
                     onClicked: {
                         d.thingDescriptor = discoveryProxy.get(index);
                         d.thingName = model.name;
-                        internalPageStack.push(paramsPage)
+
+                        var showIpWarning = false;
+                        if (thingClass.interfaces.indexOf("networkdevice") >= 0) {
+                            // Check if the IP param is set, if so, we need to show the warning
+                            var ipAddressParamTypeId = thingClass.paramTypes.findByName("address").id
+                            var ipAddressParam = discoveryProxy.get(index).params.getParam(ipAddressParamTypeId)
+
+                            if (ipAddressParam && ipAddressParam.value.toString() !== "") {
+                                showIpWarning = true
+                            }
+                        }
+
+                        if (!showIpWarning) {
+                            internalPageStack.push(paramsPage)
+                        } else {
+                            internalPageStack.push(networkDeviceWarningPage)
+                        }
                     }
                 }
             }
@@ -313,6 +331,7 @@ Page {
                 visible: !discovery.busy && discoveryProxy.count === 0
                 spacing: app.margins
                 Layout.preferredHeight: discoveryView.height - discoveryView.header.height - retryButton.height - app.margins * 3
+
                 Label {
                     text: qsTr("Too bad...")
                     font.pixelSize: app.largeFont
@@ -320,6 +339,7 @@ Page {
                     Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     horizontalAlignment: Text.AlignHCenter
                 }
+
                 Label {
                     text: qsTr("No things of this kind could be found...")
                     Layout.fillWidth: true
@@ -337,8 +357,8 @@ Page {
                             : discovery.displayMessage
                     wrapMode: Text.WordWrap
                 }
-
             }
+
             Button {
                 id: retryButton
                 Layout.fillWidth: true
@@ -346,6 +366,42 @@ Page {
                 text: qsTr("Search again")
                 onClicked: discovery.discoverThings(root.thingClass.id, d.discoveryParams)
                 visible: !discovery.busy
+            }
+        }
+    }
+
+    Component {
+        id: networkDeviceWarningPage
+
+        SettingsPageBase {
+            id: networkDeviceWarningView
+
+            Label {
+                text: qsTr("Warning")
+                font.pixelSize: app.largeFont
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            Label {
+                text: qsTr("This network device can not be discovered automatically within the network.\n\nPlease make sure this device will always get the same IP address from your router, otherwise the connection will be lost on an IP change.")
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                text: "OK"
+                onClicked: {
+                    internalPageStack.push(paramsPage)
+                }
             }
         }
     }
@@ -389,7 +445,6 @@ Page {
                 id: paramRepeater
                 model: engine.jsonRpcClient.ensureServerVersion("1.12") || d.thingDescriptor == null ?  root.thingClass.paramTypes : null
                 delegate: ParamDelegate {
-//                            Layout.preferredHeight: 60
                     Layout.fillWidth: true
                     enabled: !model.readOnly
                     paramType: root.thingClass.paramTypes.get(index)
@@ -481,7 +536,6 @@ Page {
                 visible: pairingPage.setupMethod === "SetupMethodDisplayPin" || pairingPage.setupMethod === "SetupMethodEnterPin" || pairingPage.setupMethod === "SetupMethodUserAndPassword"
                 signup: false
             }
-
 
             Button {
                 Layout.fillWidth: true
