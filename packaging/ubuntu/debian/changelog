@@ -1,3 +1,10 @@
+nymea-app (1.9.16) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Bump version to 1.9.16
+
+ -- jenkins <developer@nymea.io>  Tue, 14 Jan 2025 09:48:22 +0100
+
 nymea-app (1.9.15) bionic; urgency=medium
 
   [ Simon Stürz ]
