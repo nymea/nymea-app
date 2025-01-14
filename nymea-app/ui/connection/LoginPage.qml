@@ -142,11 +142,6 @@ SettingsPageBase {
             PasswordTextField {
                 id: passwordTextField
                 Layout.fillWidth: true
-                minPasswordLength: 8
-                requireLowerCaseLetter: true
-                requireUpperCaseLetter: true
-                requireNumber: true
-                requireSpecialChar: false
                 signup: engine.jsonRpcClient.initialSetupRequired
                 showErrors: loginForm.showErrors
                 onAccepted: {

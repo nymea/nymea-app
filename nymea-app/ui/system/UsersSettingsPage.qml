@@ -190,11 +190,6 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
-                minPasswordLength: 8
-                requireLowerCaseLetter: true
-                requireUpperCaseLetter: true
-                requireNumber: true
-                requireSpecialChar: false
                 signup: true
             }
 
@@ -460,6 +455,7 @@ SettingsPageBase {
                     id: displayNameTextField
                     Layout.fillWidth: true
                 }
+
                 Label {
                     text: qsTr("e-mail:")
                 }
