@@ -1418,6 +1418,14 @@
         <source>Debug interface active at %1.</source>
         <translation>Rozhraní pro vývojáře je aktivní v %1.</translation>
     </message>
+    <message>
+        <source>Server logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
@@ -4947,6 +4955,14 @@ Použijte hodnotu časového limitu větší nebo rovnou 10 ms.</translation>
         <source>An unexpected error happened.</source>
         <translation>Došlo k neočekávané chybě.</translation>
     </message>
+    <message>
+        <source>The network configuration is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This feature is not supported on this platform.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -6297,6 +6313,29 @@ Chcete pokračovat?</translation>
     <message>
         <source>Login required</source>
         <translation>Je vyžadováno přihlášení</translation>
+    </message>
+</context>
+<context>
+    <name>ServerLoggingCategoriesPage</name>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished">Kritické</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished">Varování</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation type="unfinished">ladění</translation>
     </message>
 </context>
 <context>

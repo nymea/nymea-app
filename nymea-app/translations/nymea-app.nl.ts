@@ -1417,6 +1417,14 @@
         <source>Debug interface active at %1.</source>
         <translation>Debug interface actief op %1.</translation>
     </message>
+    <message>
+        <source>Server logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
@@ -4933,6 +4941,14 @@ Gebruik een timeout waarde die groter of gelijk is dan 10 ms.</translation>
         <source>An unexpected error happened.</source>
         <translation>Er ging onverwacht iets fout.</translation>
     </message>
+    <message>
+        <source>The network configuration is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This feature is not supported on this platform.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -6282,6 +6298,29 @@ Wil je doorgaan?</translation>
     <message>
         <source>Login required</source>
         <translation>Inloggen verplicht</translation>
+    </message>
+</context>
+<context>
+    <name>ServerLoggingCategoriesPage</name>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished">Kritiek</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished">Waarschuwing</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished">Informatie</translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation type="unfinished">Debug</translation>
     </message>
 </context>
 <context>

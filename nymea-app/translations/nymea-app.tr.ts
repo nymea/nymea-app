@@ -1416,6 +1416,14 @@
         <source>Debug interface active at %1.</source>
         <translation>%1 konumunda hata ayıklama arayüzü etkin.</translation>
     </message>
+    <message>
+        <source>Server logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
@@ -4903,6 +4911,14 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>An unexpected error happened.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The network configuration is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This feature is not supported on this platform.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -6251,6 +6267,29 @@ Do you want to proceed?</source>
     <message>
         <source>Login required</source>
         <translation>Oturum açmak gereklidir</translation>
+    </message>
+</context>
+<context>
+    <name>ServerLoggingCategoriesPage</name>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished">kritik</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished">Uyarı</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished">Bilgi</translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation type="unfinished">hata ayıklama</translation>
     </message>
 </context>
 <context>

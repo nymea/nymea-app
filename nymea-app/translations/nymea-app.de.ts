@@ -1417,6 +1417,14 @@
         <source>Debug interface active at %1.</source>
         <translation>Entwicklerschnittstelle aktiv unter %1.</translation>
     </message>
+    <message>
+        <source>Server logging</source>
+        <translation>Server Logs</translation>
+    </message>
+    <message>
+        <source>Server logging categories</source>
+        <translation>Server Log-Kategorien</translation>
+    </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
@@ -4929,6 +4937,14 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <source>An unexpected error happened.</source>
         <translation>Ein unerwarteter Fehler ist aufgetreten.</translation>
     </message>
+    <message>
+        <source>The network configuration is not valid.</source>
+        <translation>Die Netzwerkkonfiguration ist nicht gültig.</translation>
+    </message>
+    <message>
+        <source>This feature is not supported on this platform.</source>
+        <translation>Diese Funktion wird auf diese Plattform nicht unterstützt.</translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -6278,6 +6294,29 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>Login required</source>
         <translation>Login benötigt</translation>
+    </message>
+</context>
+<context>
+    <name>ServerLoggingCategoriesPage</name>
+    <message>
+        <source>Server logging categories</source>
+        <translation>Server Log-Kategorien</translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation>Kritisch</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Warnung</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation>Fehlersuche</translation>
     </message>
 </context>
 <context>
