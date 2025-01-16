@@ -3,7 +3,7 @@ nymea-app (1.9.18) bionic; urgency=medium
   [ Simon Stürz ]
   * Add additional imprint links
 
- -- jenkins <developer@nymea.io>  Thu, 16 Jan 2025 13:35:38 +0100
+ -- jenkins <developer@nymea.io>  Thu, 16 Jan 2025 14:09:09 +0100
 
 nymea-app (1.9.17) bionic; urgency=medium
 
