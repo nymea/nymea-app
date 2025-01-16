@@ -37,7 +37,6 @@ SettingsPageBase {
                 popup.open()
             }
         }
-
     }
 
     RowLayout {
@@ -361,8 +360,10 @@ SettingsPageBase {
                     Layout.fillWidth: true
                     text: model.text
                     checked: (userDetailsPage.userInfo.scopes & model.scope) === model.scope
-                    enabled: model.scope === UserInfo.PermissionScopeAdmin ||
-                             ((userDetailsPage.userInfo.scopes & UserInfo.PermissionScopeAdmin) !== UserInfo.PermissionScopeAdmin)
+
+                    enabled: model.scope === UserInfo.PermissionScopeAdmin && userDetailsPage.userInfo.username == userManager.userInfo.username ?
+                                 false : model.scope === UserInfo.PermissionScopeAdmin ||
+                                 ((userDetailsPage.userInfo.scopes & UserInfo.PermissionScopeAdmin) !== UserInfo.PermissionScopeAdmin)
                     onClicked: {
                         print("scopes:", userDetailsPage.userInfo.scopes)
                         var scopes = userDetailsPage.userInfo.scopes
@@ -465,11 +466,9 @@ SettingsPageBase {
                 }
             }
 
-
             SettingsPageSectionHeader {
                 text: qsTr("Permissions")
             }
-
 
             Repeater {
                 id: scopesRepeater
