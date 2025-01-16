@@ -29,4 +29,7 @@ Item {
 
     property var mainMenuLinks: null
     property bool closedSource: false
+
+    property var additionalImrintLinks: null
+    property var additionalLicenses: null
 }

@@ -124,6 +124,22 @@ Item {
         ColumnLayout {
             Layout.fillWidth: true
 
+            Repeater {
+                visible: Configuration.additionalImrintLinks !== null && Configuration.additionalImrintLinks.count > 0
+                model: Configuration.additionalImrintLinks
+                delegate:NymeaSwipeDelegate {
+                    Layout.fillWidth: true
+                    iconName: "../images/stock_website.svg"
+                    text: model.text
+                    subText: model.subText
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: {
+                        Qt.openUrlExternally(model.url)
+                    }
+                }
+            }
+
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 iconName: "../images/stock_website.svg"
