@@ -1,3 +1,10 @@
+nymea-app (1.9.20) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Prevent unlocking yourself as admin user
+
+ -- jenkins <developer@nymea.io>  Thu, 30 Jan 2025 10:46:59 +0100
+
 nymea-app (1.9.18) bionic; urgency=medium
 
   [ Simon Stürz ]
