@@ -29,11 +29,6 @@ ConfigurationBase {
             url: "https://nymea.io/documentation/users/usage/first-steps"
         },
         {
-            text: qsTr("Forum"),
-            iconName: "../images/discourse.svg",
-            url: "https://forum.nymea.io"
-        },
-        {
             text: qsTr("Telegram"),
             iconName: "../images/telegram.svg",
             url: "https://t.me/nymeacommunity"
