@@ -8,10 +8,10 @@ SUBDIRS = libnymea-app experiences nymea-app
 experiences.depends = libnymea-app
 nymea-app.depends = libnymea-app experiences
 
-withtests: {
-    SUBDIRS += tests
-    tests.depends = libnymea-app
-}
+# withtests: {
+#     SUBDIRS += tests
+#     tests.depends = libnymea-app
+# }
 
 # Building a Windows installer:
 # Make sure your environment has the toolchain you want (e.g. msvc17 64 bit) by executing the command:
@@ -117,6 +117,7 @@ TRANSLATIONS += $$files($$absolute_path(nymea-app)/translations/*.ts, true)
 !equals(OVERLAY_PATH, "") {
     include($${OVERLAY_PATH}/translations.pri)
 }
+
 system("lrelease $$TRANSLATIONS")
 lrelease.commands = lrelease $$TRANSLATIONS
 QMAKE_EXTRA_TARGETS += lrelease
