@@ -27,6 +27,8 @@ Item {
 
     property string defaultMainView: "things"
 
+    property string alternativeMainPage: ""
+
     property var mainMenuLinks: null
     property bool closedSource: false
 

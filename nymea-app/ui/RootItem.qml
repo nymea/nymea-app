@@ -212,7 +212,12 @@ Item {
 
                         if (engine.jsonRpcClient.connected) {
                             print("Connected to", engine.jsonRpcClient.currentHost.uuid, engine.jsonRpcClient.currentHost.name)
-                            pageStack.push(Qt.resolvedUrl("MainPage.qml"))
+                            if (Configuration.alternativeMainPage !== "") {
+                                print("Loading alternative main page:", Configuration.alternativeMainPage)
+                                pageStack.push(Qt.resolvedUrl(Configuration.alternativeMainPage))
+                            } else {
+                                pageStack.push(Qt.resolvedUrl("MainPage.qml"))
+                            }
                             return;
                         }
 
