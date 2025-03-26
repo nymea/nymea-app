@@ -70,7 +70,7 @@ MainViewBase {
         width: parent.width - app.margins * 2
         title: qsTr("There are no garage doors set up yet.")
         text: qsTr("Connect your garage doors in order to control them from here.")
-        imageSource: "qrc:/ui/images/garage/garage-100.svg"
+        imageSource: "qrc:qrc:/icons/garage/garage-100.svg"
         buttonText: qsTr("Add things")
         visible: garagesFilterModel.count === 0 && !engine.thingManager.fetchingData
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))

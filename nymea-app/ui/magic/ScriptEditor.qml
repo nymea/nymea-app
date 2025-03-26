@@ -54,7 +54,7 @@ Page {
             var infoPopup = component.createObject(root,
                                                {
                                                    title: qsTr("Did you know..."),
-                                                   headerIcon: "../images/info.svg",
+                                                   headerIcon: "qrc:/icons/info.svg",
                                                    text: qsTr("nymea:app is available for all kinds of devices. In order to edit scripts we recommend to use nymea:app on your personal computer or connect a keyboard to your tablet.")
                                                })
             infoPopup.open();
@@ -95,7 +95,7 @@ Page {
         }
 
         HeaderButton {
-            imageSource: "../images/question.svg"
+            imageSource: "qrc:/icons/question.svg"
             text: qsTr("Help")
             onClicked: {
                 Qt.openUrlExternally("https://nymea.io/documentation/users/usage/scripting")
@@ -103,7 +103,7 @@ Page {
         }
 
         HeaderButton {
-            imageSource: "../images/save.svg"
+            imageSource: "qrc:/icons/save.svg"
             enabled: d.script && d.script.name !== nameTextField.text || d.oldContent !== scriptEdit.text
             color: enabled ? Style.accentColor : Style.iconColor
             hoverEnabled: true
