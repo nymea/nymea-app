@@ -67,7 +67,7 @@ Item {
 
         ColorIcon {
             anchors.fill: parent
-            name: "../images/" + root.type + "/" + root.type + "-000.svg"
+            name: "qrc:/icons/" + root.type + "/" + root.type + "-000.svg"
         }
 
 
@@ -79,7 +79,7 @@ Item {
             ColorIcon {
                 width: parent.width
                 height: parent.height
-                name: "../images/" + root.type + "/" + root.type + "-inlay.svg"
+                name: "qrc:/icons/" + root.type + "/" + root.type + "-inlay.svg"
                 property int movingHeight: content.maxY - content.minY
                 y: -height + (height - movingHeight) + (root.percentage / 100 * movingHeight)
             }
@@ -94,7 +94,7 @@ Item {
                 id: movableContent
                 width: parent.width
                 height: parent.height
-                name: "../images/" + root.type + "/" + root.type + "-inlay.svg"
+                name: "qrc:/icons/" + root.type + "/" + root.type + "-inlay.svg"
                 color: Style.foregroundColor
             }
         }

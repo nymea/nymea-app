@@ -95,7 +95,7 @@ SettingsPageBase {
             ColorIcon {
                 Layout.preferredHeight: Style.iconSize * 2
                 Layout.preferredWidth: Style.iconSize * 2
-                name: "../images/lock-closed.svg"
+                name: "qrc:/icons/lock-closed.svg"
                 color: Style.accentColor
             }
 

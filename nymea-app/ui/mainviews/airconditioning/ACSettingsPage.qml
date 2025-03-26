@@ -53,7 +53,7 @@ SettingsPageBase {
             width: parent.width - app.margins * 2
             title: qsTr("No zones configured.")
             text: qsTr("Start with configuring your zones.")
-            imageSource: "/ui/images/sensors.svg"
+            imageSource: "qrc:/icons/sensors.svg"
             buttonText: qsTr("Add zone")
             onButtonClicked: createZone()
         }

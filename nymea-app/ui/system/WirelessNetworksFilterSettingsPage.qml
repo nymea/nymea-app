@@ -24,7 +24,7 @@ Page {
             HeaderButton {
                 id: backButton
                 objectName: "backButton"
-                imageSource: "../images/back.svg"
+                imageSource: "qrc:/icons/back.svg"
                 onClicked: pageStack.pop();
             }
 

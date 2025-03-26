@@ -50,7 +50,7 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/filters.svg"
+            imageSource: "qrc:/icons/filters.svg"
             color: logsModelNg.filterEnabled ? Style.accentColor : Style.iconColor
             onClicked: logsModelNg.filterEnabled = !logsModelNg.filterEnabled
             visible: root.filterTypeIds.length === 0
@@ -190,15 +190,15 @@ Page {
                     name: {
                         switch (model.source) {
                         case LogEntry.LoggingSourceStates:
-                            return "../images/state.svg"
+                            return "qrc:/icons/state.svg"
                         case LogEntry.LoggingSourceSystem:
-                            return "../images/system-shutdown.svg"
+                            return "qrc:/icons/system-shutdown.svg"
                         case LogEntry.LoggingSourceActions:
-                            return "../images/action.svg"
+                            return "qrc:/icons/action.svg"
                         case LogEntry.LoggingSourceEvents:
-                            return "../images/event.svg"
+                            return "qrc:/icons/event.svg"
                         case LogEntry.LoggingSourceRules:
-                            return "../images/magic.svg"
+                            return "qrc:/icons/magic.svg"
                         }
                     }
                 }

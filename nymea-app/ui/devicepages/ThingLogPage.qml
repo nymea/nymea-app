@@ -46,7 +46,7 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/filters.svg"
+            imageSource: "qrc:/icons/filters.svg"
             color: logsModel.filterEnabled ? Style.accentColor : Style.iconColor
             onClicked: logsModel.filterEnabled = !logsModel.filterEnabled
             visible: root.filterTypeIds.length === 0
@@ -215,13 +215,13 @@ Page {
                     color: Style.accentColor
                     name: {
                         if (entryDelegate.stateType) {
-                            return "../images/state.svg"
+                            return "qrc:/icons/state.svg"
                         }
                         if (entryDelegate.eventType) {
-                            return "../images/event.svg"
+                            return "qrc:/icons/event.svg"
                         }
                         if (entryDelegate.actionType) {
-                            return "../images/action.svg"
+                            return "qrc:/icons/action.svg"
                         }
                     }
                 }

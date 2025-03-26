@@ -167,11 +167,11 @@ Rectangle {
                             case "thing":
                                 return app.interfacesToIcon(model.decorationProperty.split(","))
                             case "eventType":
-                                return Qt.resolvedUrl("../../images/event.svg")
+                                return Qt.resolvedUrl("../qrc:/icons/event.svg")
                             case "stateType":
-                                return Qt.resolvedUrl("../../images/state.svg")
+                                return Qt.resolvedUrl("../qrc:/icons/state.svg")
                             case "actionType":
-                                return Qt.resolvedUrl("../../images/action.svg")
+                                return Qt.resolvedUrl("../qrc:/icons/action.svg")
                             case "interface":
                                 return app.interfaceToIcon(model.decorationProperty)
                             }

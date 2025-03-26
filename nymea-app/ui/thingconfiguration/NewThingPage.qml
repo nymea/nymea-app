@@ -130,7 +130,7 @@ Page {
 
                 ColorIcon {
                     size: Style.iconSize
-                    name: "../images/find.svg"
+                    name: "qrc:/icons/find.svg"
                 }
             }
 
@@ -184,7 +184,7 @@ Page {
                 visible: opacity > 0
                 title: qsTr("Looking for something else?")
                 text: qsTr("Try to install more plugins.")
-                imageSource: "/ui/images/save.svg"
+                imageSource: "qrc:/icons/save.svg"
                 buttonText: qsTr("Install plugins")
                 onButtonClicked: {
                     pageStack.push(Qt.resolvedUrl("/ui/system/PackageListPage.qml"), {filter: "nymea-plugin-"})

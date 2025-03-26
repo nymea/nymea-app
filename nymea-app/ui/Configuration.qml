@@ -25,17 +25,17 @@ ConfigurationBase {
     mainMenuLinks: [
         {
             text: qsTr("Help"),
-            iconName: "../images/help.svg",
+            iconName: "qrc:/icons/help.svg",
             url: "https://nymea.io/documentation/users/usage/first-steps"
         },
         {
             text: qsTr("Telegram"),
-            iconName: "../images/telegram.svg",
+            iconName: "qrc:/icons/telegram.svg",
             url: "https://t.me/nymeacommunity"
         },
         {
             text: qsTr("Discord"),
-            iconName: "../images/discord.svg",
+            iconName: "qrc:/icons/discord.svg",
             url: "https://discord.gg/tX9YCpD"
         }
     ]

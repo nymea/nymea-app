@@ -39,7 +39,7 @@ RowLayout {
 
                     var dialog = dialogComponent.createObject(app,
                                                               {
-                                                                  headerIcon: "../images/system-update.svg",
+                                                                  headerIcon: "qrc:/icons/system-update.svg",
                                                                   title: qsTr("Update"),
                                                                   text: text,
                                                                   standardButtons: Dialog.Ok | Dialog.Cancel

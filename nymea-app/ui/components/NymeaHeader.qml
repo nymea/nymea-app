@@ -66,7 +66,7 @@ Item {
         HeaderButton {
             id: menuButton
             objectName: "headerMenuButton"
-            imageSource: "../images/navigation-menu.svg"
+            imageSource: "qrc:/icons/navigation-menu.svg"
             visible: false
             onClicked: root.menuPressed();
         }
@@ -74,7 +74,7 @@ Item {
         HeaderButton {
             id: backButton
             objectName: "backButton"
-            imageSource: "../images/back.svg"
+            imageSource: "qrc:/icons/back.svg"
             onClicked: root.backPressed();
         }
         Label {
@@ -128,7 +128,7 @@ Item {
                     width: height
                     visible: true
                     color: "white"
-                    name: "../images/dialog-warning-symbolic.svg"
+                    name: "qrc:/icons/dialog-warning-symbolic.svg"
                 }
             }
         }

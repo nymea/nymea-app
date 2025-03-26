@@ -57,7 +57,7 @@ Item {
             }
 
             HeaderButton {
-                imageSource: "../images/erase.svg"
+                imageSource: "qrc:/icons/erase.svg"
                 onClicked: searchTextField.text = ""
                 enabled: searchTextField.displayText.length > 0
                 color: enabled ? Style.accentColor : Style.iconColor

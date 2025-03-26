@@ -274,7 +274,7 @@ ApplicationWindow {
                 return icon;
             }
         }
-        return Qt.resolvedUrl("images/select-none.svg")
+        return Qt.resolvedUrl("qrc:/icons/select-none.svg")
     }
 
     function interfaceToIcon(name) {
@@ -284,157 +284,157 @@ ApplicationWindow {
         case "colorlight":
         case "dimmablelight":
         case "colortemperaturelight":
-            return Qt.resolvedUrl("images/light-on.svg")
+            return Qt.resolvedUrl("qrc:/icons/light-on.svg")
         case "sensor":
-            return Qt.resolvedUrl("images/sensors.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors.svg")
         case "temperaturesensor":
-            return Qt.resolvedUrl("images/sensors/temperature.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/temperature.svg")
         case "humiditysensor":
-            return Qt.resolvedUrl("images/sensors/humidity.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/humidity.svg")
         case "moisturesensor":
-            return Qt.resolvedUrl("images/sensors/moisture.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/moisture.svg")
         case "lightsensor":
-            return Qt.resolvedUrl("images/sensors/light.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/light.svg")
         case "conductivitysensor":
-            return Qt.resolvedUrl("images/sensors/conductivity.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/conductivity.svg")
         case "pressuresensor":
-            return Qt.resolvedUrl("images/sensors/pressure.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/pressure.svg")
         case "noisesensor":
-            return Qt.resolvedUrl("images/sensors/noise.svg");
+            return Qt.resolvedUrl("qrc:/icons/sensors/noise.svg");
         case "cosensor":
-            return Qt.resolvedUrl("images/sensors/co.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/co.svg")
         case "co2sensor":
-            return Qt.resolvedUrl("images/sensors/co2.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/co2.svg")
         case "no2sensor":
-            return Qt.resolvedUrl("images/sensors/no2.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/no2.svg")
         case "o3sensor":
-            return Qt.resolvedUrl("images/sensors/o3.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/o3.svg")
         case "vocsensor":
-            return Qt.resolvedUrl("images/sensors/voc.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/voc.svg")
         case "pm10sensor":
-            return Qt.resolvedUrl("images/sensors/pm10.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/pm10.svg")
         case "pm25sensor":
-            return Qt.resolvedUrl("images/sensors/pm25.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/pm25.svg")
         case "gassensor":
-            return Qt.resolvedUrl("images/sensors/gas.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/gas.svg")
         case "daylightsensor":
-            return Qt.resolvedUrl("images/sensors/light.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/light.svg")
         case "presencesensor":
-            return Qt.resolvedUrl("images/sensors/presence.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/presence.svg")
         case "closablesensor":
-            return Qt.resolvedUrl("images/sensors/window-closed.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/window-closed.svg")
         case "windspeedsensor":
-            return Qt.resolvedUrl("images/sensors/windspeed.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/windspeed.svg")
         case "watersensor":
-            return Qt.resolvedUrl("images/sensors/water.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/water.svg")
         case "vibrationsensor":
-            return Qt.resolvedUrl("images/sensors/vibration.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/vibration.svg")
         case "waterlevelsensor":
-            return Qt.resolvedUrl("images/sensors/water.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/water.svg")
         case "firesensor":
-            return Qt.resolvedUrl("images/sensors/fire.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/fire.svg")
         case "o2sensor":
-            return Qt.resolvedUrl("images/sensors/o2.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/o2.svg")
         case "phsensor":
-            return Qt.resolvedUrl("images/sensors/ph.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/ph.svg")
         case "orpsensor":
-            return Qt.resolvedUrl("images/sensors/orp.svg")
+            return Qt.resolvedUrl("qrc:/icons/sensors/orp.svg")
         case "media":
         case "mediacontroller":
         case "mediaplayer":
-            return Qt.resolvedUrl("images/media.svg")
+            return Qt.resolvedUrl("qrc:/icons/media.svg")
         case "powersocket":
-            return Qt.resolvedUrl("images/powersocket.svg")
+            return Qt.resolvedUrl("qrc:/icons/powersocket.svg")
         case "button":
         case "longpressbutton":
         case "simplemultibutton":
         case "longpressmultibutton":
         case "powerswitch":
-            return Qt.resolvedUrl("images/system-shutdown.svg")
+            return Qt.resolvedUrl("qrc:/icons/system-shutdown.svg")
         case "weather":
-            return Qt.resolvedUrl("images/weather-app-symbolic.svg")
+            return Qt.resolvedUrl("qrc:/icons/weather-app-symbolic.svg")
         case "gateway":
-            return Qt.resolvedUrl("images/connections/network-wired.svg")
+            return Qt.resolvedUrl("qrc:/icons/connections/network-wired.svg")
         case "notifications":
-            return Qt.resolvedUrl("images/messaging-app-symbolic.svg")
+            return Qt.resolvedUrl("qrc:/icons/messaging-app-symbolic.svg")
         case "inputtrigger":
-            return Qt.resolvedUrl("images/attention.svg")
+            return Qt.resolvedUrl("qrc:/icons/attention.svg")
         case "outputtrigger":
-            return Qt.resolvedUrl("images/send.svg")
+            return Qt.resolvedUrl("qrc:/icons/send.svg")
         case "shutter":
         case "extendedshutter":
-            return Qt.resolvedUrl("images/shutter/shutter-040.svg")
+            return Qt.resolvedUrl("qrc:/icons/shutter/shutter-040.svg")
         case "blind":
         case "extendedblind":
-            return Qt.resolvedUrl("images/shutter/shutter-060.svg")
+            return Qt.resolvedUrl("qrc:/icons/shutter/shutter-060.svg")
         case "garagedoor":
         case "impulsegaragedoor":
         case "statefulgaragedoor":
         case "extendedstatefulgaragedoor":
         case "garagegate":
-            return Qt.resolvedUrl("images/garage/garage-100.svg")
+            return Qt.resolvedUrl("qrc:/icons/garage/garage-100.svg")
         case "awning":
         case "extendedawning":
-            return Qt.resolvedUrl("images/awning/awning-100.svg")
+            return Qt.resolvedUrl("qrc:/icons/awning/awning-100.svg")
         case "battery":
-            return Qt.resolvedUrl("images/battery/battery-050.svg")
+            return Qt.resolvedUrl("qrc:/icons/battery/battery-050.svg")
         case "uncategorized":
-            return Qt.resolvedUrl("images/select-none.svg")
+            return Qt.resolvedUrl("qrc:/icons/select-none.svg")
         case "simpleclosable":
-            return Qt.resolvedUrl("images/closable-move.svg")
+            return Qt.resolvedUrl("qrc:/icons/closable-move.svg")
         case "fingerprintreader":
-            return Qt.resolvedUrl("images/fingerprint.svg")
+            return Qt.resolvedUrl("qrc:/icons/fingerprint.svg")
         case "accesscontrol":
-            return Qt.resolvedUrl("images/lock-closed.svg");
+            return Qt.resolvedUrl("qrc:/icons/lock-closed.svg");
         case "solarinverter":
-            return Qt.resolvedUrl("images/weathericons/weather-clear-day.svg")
+            return Qt.resolvedUrl("qrc:/icons/weathericons/weather-clear-day.svg")
         case "smartmeter":
         case "smartmeterconsumer":
         case "smartmeterproducer":
         case "energymeter":
-            return Qt.resolvedUrl("images/smartmeter.svg")
-//            return Qt.resolvedUrl("images/energy.svg")
+            return Qt.resolvedUrl("qrc:/icons/smartmeter.svg")
+//            return Qt.resolvedUrl("qrc:/icons/energy.svg")
         case "heating":
-            return Qt.resolvedUrl("images/thermostat/heating.svg")
+            return Qt.resolvedUrl("qrc:/icons/thermostat/heating.svg")
         case "cooling":
-            return Qt.resolvedUrl("images/thermostat/cooling.svg")
+            return Qt.resolvedUrl("qrc:/icons/thermostat/cooling.svg")
         case "thermostat":
-            return Qt.resolvedUrl("images/dial.svg")
+            return Qt.resolvedUrl("qrc:/icons/dial.svg")
         case "evcharger":
-            return Qt.resolvedUrl("images/ev-charger.svg")
+            return Qt.resolvedUrl("qrc:/icons/ev-charger.svg")
         case "doorbell":
-            return Qt.resolvedUrl("images/notification.svg")
+            return Qt.resolvedUrl("qrc:/icons/notification.svg")
         case "irrigation":
-            return Qt.resolvedUrl("images/irrigation.svg")
+            return Qt.resolvedUrl("qrc:/icons/irrigation.svg")
         case "ventilation":
-            return Qt.resolvedUrl("images/ventilation.svg")
+            return Qt.resolvedUrl("qrc:/icons/ventilation.svg")
         case "power":
-            return Qt.resolvedUrl("images/system-shutdown.svg")
+            return Qt.resolvedUrl("qrc:/icons/system-shutdown.svg")
         case "smartlock":
-            return Qt.resolvedUrl("images/smartlock.svg")
+            return Qt.resolvedUrl("qrc:/icons/smartlock.svg")
         case "navigationpad":
         case "extendednavigationpad":
-            return Qt.resolvedUrl("images/navigationpad.svg")
+            return Qt.resolvedUrl("qrc:/icons/navigationpad.svg")
         case "volumecontroller":
-            return Qt.resolvedUrl("images/audio-speakers-symbolic.svg")
+            return Qt.resolvedUrl("qrc:/icons/audio-speakers-symbolic.svg")
         case "shufflerepeat":
-            return Qt.resolvedUrl("images/media-playlist-shuffle.svg")
+            return Qt.resolvedUrl("qrc:/icons/media-playlist-shuffle.svg")
         case "alert":
-            return Qt.resolvedUrl("images/notification.svg")
+            return Qt.resolvedUrl("qrc:/icons/notification.svg")
         case "barcodescanner":
-            return Qt.resolvedUrl("images/qrcode.svg")
+            return Qt.resolvedUrl("qrc:/icons/qrcode.svg")
         case "cleaningrobot":
-            return Qt.resolvedUrl("images/cleaning-robot.svg")
+            return Qt.resolvedUrl("qrc:/icons/cleaning-robot.svg")
         case "account":
-            return Qt.resolvedUrl("images/account.svg")
+            return Qt.resolvedUrl("qrc:/icons/account.svg")
         case "wirelessconnectable":
-            return Qt.resolvedUrl("images/connections/network-wifi.svg")
+            return Qt.resolvedUrl("qrc:/icons/connections/network-wifi.svg")
         case "connectable":
-            return Qt.resolvedUrl("images/stock_link.svg")
+            return Qt.resolvedUrl("qrc:/icons/stock_link.svg")
         case "electricvehicle":
-            return Qt.resolvedUrl("images/car.svg")
+            return Qt.resolvedUrl("qrc:/icons/car.svg")
         case "update":
-            return Qt.resolvedUrl("images/system-update.svg")
+            return Qt.resolvedUrl("qrc:/icons/system-update.svg")
         default:
             console.warn("InterfaceToIcon: Unhandled interface", name)
         }
@@ -469,7 +469,7 @@ ApplicationWindow {
         if (!iconMap[stateName]) {
             console.warn("stateIcon(): Icon not set for state", stateName)
         }
-        return Qt.resolvedUrl("images/" + iconMap[stateName]);
+        return Qt.resolvedUrl("qrc:/icons/" + iconMap[stateName]);
     }
 
     function interfaceToColor(name) {

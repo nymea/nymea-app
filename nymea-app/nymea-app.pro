@@ -77,6 +77,15 @@ linux:!android:!ubports: {
     RESOURCES += styles.qrc
 }
 
+# Load icon set depending on the configuration
+material-icons {
+    message(Using material icon set)
+    RESOURCES += ui/icons/material/icons.qrc
+} else {
+    message(Using suru icon set)
+    RESOURCES += ui/icons/suru/icons.qrc
+}
+
 android {
     include(../3rdParty/android/android_openssl/openssl.pri)
 

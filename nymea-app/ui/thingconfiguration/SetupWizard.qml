@@ -271,7 +271,7 @@ Page {
                 onBackPressed: pageStack.pop()
 
                 HeaderButton {
-                    imageSource: "../images/configure.svg"
+                    imageSource: "qrc:/icons/configure.svg"
                     visible: root.thingClass.createMethods.indexOf("CreateMethodUser") >= 0
                     text: qsTr("Add thing manually")
                     onClicked: internalPageStack.push(paramsPage)

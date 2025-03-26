@@ -43,7 +43,7 @@ SettingsPageBase {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "/ui/images/add.svg"
+            imageSource: "qrc:/icons/add.svg"
             text: qsTr("Add ZigBee network")
             onClicked: {
                 addNetwork()
@@ -83,7 +83,7 @@ SettingsPageBase {
             anchors.centerIn: parent
             title: qsTr("ZigBee")
             text: qsTr("There are no ZigBee networks set up yet. In order to use ZigBee, create a ZigBee network.")
-            imageSource: "/ui/images/zigbee.svg"
+            imageSource: "qrc:/icons/zigbee.svg"
             buttonText: qsTr("Add network")
             onButtonClicked: {
                 addNetwork()
@@ -112,7 +112,7 @@ SettingsPageBase {
 
                 header: RowLayout {
                     ColorIcon {
-                        name: "/ui/images/zigbee/" + model.backend + ".svg"
+                        name: "qrc:/icons/zigbee/" + model.backend + ".svg"
                         Layout.preferredWidth: Style.iconSize
                         Layout.preferredHeight: Style.iconSize
                     }
