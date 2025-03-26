@@ -195,7 +195,7 @@ Item {
         ColorIcon {
             height: Style.smallIconSize
             width: height
-            name: "../images/system-update.svg"
+            name: "qrc:/icons/system-update.svg"
             color: Style.accentColor
             visible: root.updateStatus
         }
@@ -203,21 +203,21 @@ Item {
         ColorIcon {
             height: Style.smallIconSize
             width: height
-            name: root.isWireless ? "../images/connections/nm-signal-00.svg" : "../images/connections/network-wired-offline.svg"
+            name: root.isWireless ? "qrc:/icons/connections/nm-signal-00.svg" : "qrc:/icons/connections/network-wired-offline.svg"
             color: root.disconnected ? Style.red : Style.orange
             visible: root.setupStatus == Thing.ThingSetupStatusComplete && (root.disconnected || (root.isWireless && root.signalStrength < 20 && root.signalStrength >= 0))
         }
         ColorIcon {
             height: Style.smallIconSize
             width: height
-            name: root.setupStatus === Thing.ThingSetupStatusFailed ? "../images/dialog-warning-symbolic.svg" : "../images/settings.svg"
+            name: root.setupStatus === Thing.ThingSetupStatusFailed ? "qrc:/icons/dialog-warning-symbolic.svg" : "qrc:/icons/settings.svg"
             color: root.setupStatus === Thing.ThingSetupStatusFailed ? Style.red : Style.tileForegroundColor
             visible: root.setupStatus === Thing.ThingSetupStatusFailed || root.setupStatus === Thing.ThingSetupStatusInProgress
         }
         ColorIcon {
             height: Style.smallIconSize
             width: height
-            name: "../images/battery/battery-010.svg"
+            name: "qrc:/icons/battery/battery-010.svg"
             visible: root.setupStatus == Thing.ThingSetupStatusComplete && root.batteryCritical
             color: Style.tileForegroundColor
         }

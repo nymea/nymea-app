@@ -147,7 +147,7 @@ ThingPageBase {
                 text: qsTr("Press a button on the switch to see logs appearing here.")
                 visible: !logsModel.busy && logsModel.count === 0
                 buttonVisible: false
-                imageSource: "../images/system-shutdown.svg"
+                imageSource: "qrc:/icons/system-shutdown.svg"
             }
         }
     }
@@ -201,7 +201,7 @@ ThingPageBase {
                 text: qsTr("Press a button on the switch to see logs appearing here.")
                 visible: !logsModel.busy && logsModel.count === 0 && !root.isVirtual
                 buttonVisible: false
-                imageSource: "../images/system-shutdown.svg"
+                imageSource: "qrc:/icons/system-shutdown.svg"
             }
         }
     }

@@ -107,7 +107,7 @@ Item {
                 }
 
                 delegate: BrowserItemDelegate {
-                    iconName: "../images/browser/" + (model.mediaIcon && model.mediaIcon !== "MediaBrowserIconNone" ? model.mediaIcon : model.icon) + ".svg"
+                    iconName: "qrc:/icons/browser/" + (model.mediaIcon && model.mediaIcon !== "MediaBrowserIconNone" ? model.mediaIcon : model.icon) + ".svg"
                     busy: d.pendingItemId === model.id
                     device: root.thing
 

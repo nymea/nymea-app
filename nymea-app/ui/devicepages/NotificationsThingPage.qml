@@ -109,7 +109,7 @@ ThingPageBase {
                     anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom; margins: app.margins }
                     height: Style.iconSize
                     width: Style.iconSize
-                    name: "../images/send.svg"
+                    name: "qrc:/icons/send.svg"
                     color: titleTextField.displayText.length > 0 ? Style.accentColor : Style.iconColor
                     visible: d.pendingAction == -1
                 }
@@ -213,7 +213,7 @@ ThingPageBase {
                                 ColorIcon {
                                     Layout.preferredWidth: Style.smallIconSize
                                     Layout.preferredHeight: Style.smallIconSize
-                                    name: "../images/dialog-warning-symbolic.svg"
+                                    name: "qrc:/icons/dialog-warning-symbolic.svg"
                                     color: "red"
                                     visible: model.errorCode !== ""
                                 }
@@ -239,7 +239,7 @@ ThingPageBase {
                 width: parent.width - app.margins * 2
                 title: qsTr("No messages sent yet.")
                 text: qsTr("Sent messages will appear here.")
-                imageSource: "../images/messaging-app-symbolic.svg"
+                imageSource: "qrc:/icons/messaging-app-symbolic.svg"
                 buttonVisible: false
                 visible: logsModel.count == 0 && !logsModel.busy
             }
@@ -308,7 +308,7 @@ ThingPageBase {
                                 ColorIcon {
                                     Layout.preferredWidth: Style.smallIconSize
                                     Layout.preferredHeight: Style.smallIconSize
-                                    name: "../images/dialog-warning-symbolic.svg"
+                                    name: "qrc:/icons/dialog-warning-symbolic.svg"
                                     color: "red"
                                     visible: model.values.status !== "ThingErrorNoError"
                                 }
@@ -334,7 +334,7 @@ ThingPageBase {
                 width: parent.width - app.margins * 2
                 title: qsTr("No messages sent yet.")
                 text: qsTr("Sent messages will appear here.")
-                imageSource: "../images/messaging-app-symbolic.svg"
+                imageSource: "qrc:/icons/messaging-app-symbolic.svg"
                 buttonVisible: false
                 visible: logsModel.count == 0 && !logsModel.busy
             }
@@ -352,7 +352,7 @@ ThingPageBase {
             property string notificationBody
             property string errorCode
             title: qsTr("Notification details")
-            headerIcon: "../images/messaging-app-symbolic.svg"
+            headerIcon: "qrc:/icons/messaging-app-symbolic.svg"
             RowLayout {
                 ColumnLayout {
 
@@ -369,7 +369,7 @@ ThingPageBase {
                 ColorIcon {
                     Layout.preferredWidth: Style.largeIconSize
                     Layout.preferredHeight: Style.largeIconSize
-                    name: "../images/dialog-warning-symbolic.svg"
+                    name: "qrc:/icons/dialog-warning-symbolic.svg"
                     color: "red"
                     visible: detailsDialog.errorCode !== ""
                 }

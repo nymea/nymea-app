@@ -61,7 +61,7 @@ InfoPaneBase {
 
         ColorIcon {
             id: childLockIcon
-            name: root.childLockEnabled ? "/ui/images/lock-closed.svg" : "/ui/images/lock-open.svg"
+            name: root.childLockEnabled ? "qrc:/icons/lock-closed.svg" : "qrc:/icons/lock-open.svg"
             color: pendingAction == -1 ? Style.iconColor : Style.tileBackgroundColor
             size: Style.smallIconSize
             visible: root.childLockState != null

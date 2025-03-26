@@ -103,7 +103,7 @@ Item {
             }
 
             ColorIcon {
-                name: "../images/edit-clear.svg"
+                name: "qrc:/icons/edit-clear.svg"
                 enabled: contentContainer.data[panelTabs.currentIndex].clearEnabled
                 color: enabled ? Style.accentColor : Style.iconColor
                 Layout.preferredHeight: Style.iconSize  / 2
@@ -116,7 +116,7 @@ Item {
             }
 
             ColorIcon {
-                name: pane.shown ? "../images/down.svg" : "../images/up.svg"
+                name: pane.shown ? "qrc:/icons/down.svg" : "qrc:/icons/up.svg"
                 Layout.preferredHeight: Style.iconSize  / 2
                 Layout.preferredWidth: height
                 color: Style.accentColor

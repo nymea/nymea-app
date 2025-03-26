@@ -56,7 +56,7 @@ Dialog {
             ColorIcon {
                 Layout.preferredHeight: Style.iconSize * 2
                 Layout.preferredWidth: height
-                name: "../images/lock-closed.svg"
+                name: "qrc:/icons/lock-closed.svg"
                 color: Style.accentColor
             }
 
