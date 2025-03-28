@@ -70,9 +70,7 @@ linux:!android:!ubports: {
     SOURCES += platformintegration/generic/platformhelpergeneric.cpp
 }
 
-
 !equals(OVERLAY_PATH, "") {
-    message("Overlay enabled. Will be using overlay from $${OVERLAY_PATH}")
     include($${OVERLAY_PATH}/overlay.pri)
     DEFINES += OVERLAY_PATH=\\\"$${OVERLAY_PATH}\\\"
 } else {

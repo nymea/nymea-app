@@ -294,7 +294,6 @@
         <file>ui/mainviews/airconditioning/TimeSchedulePage.qml</file>
         <file>ui/mainviews/airconditioning/TemperatureScheduleEditor.qml</file>
         <file>ui/customviews/SensorView.qml</file>
-        <file>ui/components/MultiSelectionTabs.qml</file>
         <file>ui/mainviews/airconditioning/ZonePage.qml</file>
         <file>ui/mainviews/airconditioning/ZonesView.qml</file>
         <file>ui/mainviews/airconditioning/ACSettingsPage.qml</file>
