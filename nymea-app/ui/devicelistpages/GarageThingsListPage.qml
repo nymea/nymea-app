@@ -110,7 +110,7 @@ ThingsListPageBase {
                         }
                         ProgressButton {
                             visible: itemDelegate.thing.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0
-                            imageSource: "../images/closable-move.svg"
+                            imageSource: "qrc:/icons/closable-move.svg"
                             onClicked: {
                                 var actionTypeId = itemDelegate.thing.thingClass.actionTypes.findByName("triggerImpulse").id
                                 engine.thingManager.executeAction(itemDelegate.thing.id, actionTypeId)

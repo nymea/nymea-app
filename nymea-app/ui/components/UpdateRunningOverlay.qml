@@ -52,7 +52,7 @@ Rectangle {
             height: Style.iconSize * 3
             width: height
             Layout.alignment: Qt.AlignHCenter
-            name: Qt.resolvedUrl("../images/system-update.svg")
+            name: Qt.resolvedUrl("qrc:/icons/system-update.svg")
             color: Style.accentColor
             PropertyAnimation on rotation {
                 from: 0; to: 360;

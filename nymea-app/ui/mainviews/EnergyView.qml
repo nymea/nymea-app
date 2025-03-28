@@ -46,7 +46,7 @@ MainViewBase {
 
     headerButtons: [
         {
-            iconSource: "/ui/images/configure.svg",
+            iconSource: "qrc:/icons/configure.svg",
             color: Style.iconColor,
             trigger: function() {
                 pageStack.push("energy/EnergySettingsPage.qml", {energyManager: energyManager});
@@ -171,7 +171,7 @@ MainViewBase {
         visible: !engine.thingManager.fetchingData && (!engine.jsonRpcClient.experiences.hasOwnProperty("Energy") || engine.jsonRpcClient.experiences["Energy"] <= "0.1")
         title: qsTr("Energy plugin not installed.")
         text: qsTr("To get an overview of your current energy usage, install the energy plugin.")
-        imageSource: "../images/smartmeter.svg"
+        imageSource: "qrc:/icons/smartmeter.svg"
         buttonText: qsTr("Install energy plugin")
         buttonVisible: packagesFilterModel.count > 0
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../system/PackageListPage.qml"), {filter: "nymea-experience-plugin-energy"})
@@ -187,7 +187,7 @@ MainViewBase {
         visible: engine.jsonRpcClient.experiences["Energy"] >= "0.2" && !engine.thingManager.fetchingData && energyMeters.count == 0 && consumers.count == 0 && producers.count == 0
         title: qsTr("There are no energy meters installed.")
         text: qsTr("To get an overview of your current energy usage, set up an energy meter.")
-        imageSource: "../images/smartmeter.svg"
+        imageSource: "qrc:/icons/smartmeter.svg"
         buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
     }

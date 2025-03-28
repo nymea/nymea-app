@@ -42,14 +42,14 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/find.svg"
+            imageSource: "qrc:/icons/find.svg"
             color: filterInput.shown ? Style.accentColor : Style.iconColor
             onClicked: filterInput.shown = !filterInput.shown
 
         }
 
         HeaderButton {
-            imageSource: "../images/add.svg"
+            imageSource: "qrc:/icons/add.svg"
             onClicked: pageStack.push(Qt.resolvedUrl("NewThingPage.qml"))
         }
     }

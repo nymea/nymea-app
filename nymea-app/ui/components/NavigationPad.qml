@@ -67,7 +67,7 @@ Item {
                 anchors { left: parent.left; top: parent.top; margins: parent.width * .1 }
                 height: Style.iconSize
                 width: Style.iconSize
-                imageSource: "../images/back.svg"
+                imageSource: "qrc:/icons/back.svg"
                 Item { id: backButtonArea; anchors.centerIn: parent; width: pane.width / 4; height: width; rotation: 45; }
             }
             KeypadButton {
@@ -76,7 +76,7 @@ Item {
                 height: Style.iconSize
                 width: Style.iconSize
                 visible: root.thing.thingClass.interfaces.indexOf("extendednavigationpad") >= 0
-                imageSource: "../images/navigation-menu.svg"
+                imageSource: "qrc:/icons/navigation-menu.svg"
                 Item { id: menuButtonArea; anchors.centerIn: parent; width: pane.width / 4; height: width; rotation: 45 }
             }
             KeypadButton {
@@ -84,7 +84,7 @@ Item {
                 anchors { left: parent.left; bottom: parent.bottom; margins: parent.width * .1 }
                 height: Style.iconSize
                 width: Style.iconSize
-                imageSource: "../images/home.svg"
+                imageSource: "qrc:/icons/home.svg"
                 visible: root.thing.thingClass.interfaces.indexOf("extendednavigationpad") >= 0
                 Item { id: homeButtonArea; anchors.centerIn: parent; width: pane.width / 4; height: width; rotation: 45 }
             }
@@ -93,7 +93,7 @@ Item {
                 anchors { right: parent.right; bottom: parent.bottom; margins: parent.width * .1 }
                 height: Style.iconSize
                 width: Style.iconSize
-                imageSource: "../images/info.svg"
+                imageSource: "qrc:/icons/info.svg"
                 visible: root.thing.thingClass.interfaces.indexOf("extendednavigationpad") >= 0
                 Item { id: infoButtonArea; anchors.centerIn: parent; width: pane.width / 4; height: width; rotation: 45 }
             }
@@ -163,7 +163,7 @@ Item {
                         KeypadButton {
                             height: Style.iconSize
                             width: height
-                            imageSource: "../images/up.svg"
+                            imageSource: "qrc:/icons/up.svg"
                         }
                     }
                 }

@@ -40,7 +40,7 @@ Page {
         backButtonVisible: true
         onBackPressed: pageStack.pop()
         HeaderButton {
-            imageSource: "../images/state-out.svg"
+            imageSource: "qrc:/icons/state-out.svg"
             onClicked: {
                 var exportedFile = AppLogController.exportLogs()
                 PlatformHelper.shareFile(exportedFile)

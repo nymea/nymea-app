@@ -49,8 +49,8 @@ DashboardDelegateBase {
     contentItem: MainPageTile {
         width: root.width
         height: root.height
-        iconName: iconTag ? "/ui/images/" + iconTag.value + ".svg" : "/ui/images/slideshow.svg";
-        fallbackIconName: "/ui/images/slideshow.svg"
+        iconName: iconTag ? "qrc:/icons/" + iconTag.value + ".svg" : "qrc:/icons/slideshow.svg";
+        fallbackIconName: "qrc:/icons/slideshow.svg"
         iconColor: colorTag && colorTag.value.length > 0 ? colorTag.value : Style.accentColor;
         lowerText: root.rule ? root.rule.name : ""
 

@@ -41,7 +41,7 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: Qt.resolvedUrl("images/script.svg")
+            imageSource: Qt.resolvedUrl("qrc:/icons/script.svg")
             visible: engine.jsonRpcClient.ensureServerVersion("4.1")
             onClicked: {
                 pageStack.push("magic/ScriptsPage.qml")
@@ -49,7 +49,7 @@ Page {
         }
 
         HeaderButton {
-            imageSource: Qt.resolvedUrl("images/add.svg")
+            imageSource: Qt.resolvedUrl("qrc:/icons/add.svg")
             onClicked: {
                 addRule()
             }
@@ -143,7 +143,7 @@ Page {
         delegate: NymeaSwipeDelegate {
             id: ruleDelegate
             width: parent.width
-            iconName: "../images/" + (model.executable ? (iconTag && iconTag.value.length > 0 ? iconTag.value : "slideshow") : "magic") + ".svg"
+            iconName: "qrc:/icons/" + (model.executable ? (iconTag && iconTag.value.length > 0 ? iconTag.value : "slideshow") : "magic") + ".svg"
             iconColor: model.executable ? (colorTag && colorTag.value.length > 0 ? colorTag.value : Style.accentColor) : !model.enabled ? "red" : (model.active ? Style.accentColor : "grey")
             text: model.name
             canDelete: true
@@ -183,7 +183,7 @@ Page {
         visible: engine.ruleManager.rules.count === 0
         title: qsTr("There is no magic set up yet.")
         text: qsTr("Use magic to make your things smart! In a few easy steps you'll have your things wired up and work for you.")
-        imageSource: "images/magic.svg"
+        imageSource: "qrc:/icons/magic.svg"
         buttonText: qsTr("Add some magic")
         onImageClicked: addRule()
         onButtonClicked: addRule()

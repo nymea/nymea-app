@@ -83,7 +83,7 @@ ThingPageBase {
                 delegate: ProgressButton {
                     Layout.preferredHeight: Style.hugeIconSize
                     Layout.preferredWidth: Style.hugeIconSize
-                    imageSource: "../images/lighting/" + model.name + ".svg"
+                    imageSource: "qrc:/icons/lighting/" + model.name + ".svg"
                     longpressEnabled: false
 //                    mode: "normal"
 //                    backgroundColor: model.color
@@ -283,7 +283,7 @@ ThingPageBase {
 
             ProgressButton {
                 id: powerButton
-                imageSource: root.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
+                imageSource: root.powerState.value === true ? "qrc:/icons/light-on.svg" : "qrc:/icons/light-off.svg"
                 mode: "normal"
                 size: Style.bigIconSize
                 longpressEnabled: false

@@ -59,7 +59,7 @@ Item {
             anchors.centerIn: parent
             width: Math.min(parent.height, parent.width) - app.margins * 2
             height: Math.min(parent.height, parent.width) - app.margins * 2
-            name: root.playerTypeState.value === "video" ? "../images/stock_video.svg" : "../images/stock_music.svg"
+            name: root.playerTypeState.value === "video" ? "qrc:/icons/stock_video.svg" : "qrc:/icons/stock_music.svg"
             color: "white"
         }
     }

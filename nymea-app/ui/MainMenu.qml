@@ -63,7 +63,7 @@ Drawer {
                         source: "qrc:/styles/%1/logo-wide.svg".arg(styleController.currentStyle)
                     }
                     ProgressButton {
-                        imageSource: "/ui/images/configure.svg"
+                        imageSource: "qrc:/icons/configure.svg"
                         longpressEnabled: false
                         Layout.alignment: Qt.AlignBottom
                         color: topSectionLayout.configureConnections ? Style.accentColor : Style.iconColor
@@ -109,7 +109,7 @@ Drawer {
 
                             ProgressButton {
                                 id: closeButton
-                                imageSource: "/ui/images/close.svg"
+                                imageSource: "qrc:/icons/close.svg"
                                 visible: topSectionLayout.configureConnections && (autoConnectHost.length === 0 || index > 0)
                                 longpressEnabled: false
                             }
@@ -286,7 +286,7 @@ Drawer {
                 NymeaItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("Configure things")
-                    iconName: "../images/things.svg"
+                    iconName: "qrc:/icons/things.svg"
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
                              && NymeaUtils.hasPermissionScope(root.currentEngine.jsonRpcClient.permissions, UserInfo.PermissionScopeConfigureThings)
                              && root.currentEngine.jsonRpcClient.connected
@@ -299,7 +299,7 @@ Drawer {
                 NymeaItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("Magic")
-                    iconName: "../images/magic.svg"
+                    iconName: "qrc:/icons/magic.svg"
                     progressive: false
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
                              && NymeaUtils.hasPermissionScope(root.currentEngine.jsonRpcClient.permissions, UserInfo.PermissionScopeConfigureRules)
@@ -312,7 +312,7 @@ Drawer {
                 NymeaItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("Configure main view")
-                    iconName: "../images/configure.svg"
+                    iconName: "qrc:/icons/configure.svg"
                     progressive: false
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected &&
                              !Configuration.hasOwnProperty("mainViewsFilter")
@@ -324,7 +324,7 @@ Drawer {
                 NymeaItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("App settings")
-                    iconName: "../images/stock_application.svg"
+                    iconName: "qrc:/icons/stock_application.svg"
                     progressive: false
                     onClicked: {
                         root.openAppSettings();
@@ -334,7 +334,7 @@ Drawer {
                 NymeaItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("System settings")
-                    iconName: "../images/settings.svg"
+                    iconName: "qrc:/icons/settings.svg"
                     progressive: false
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected
                     onClicked: {

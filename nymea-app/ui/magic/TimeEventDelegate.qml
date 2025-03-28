@@ -58,7 +58,7 @@ NymeaSwipeDelegate{
         })
     }
 
-    iconName: "../images/alarm-clock.svg"
+    iconName: "qrc:/icons/alarm-clock.svg"
     text: qsTr("At %1").arg(root.isDateBased ? Qt.formatDateTime(root.timeEventItem.dateTime) : Qt.formatTime(root.timeEventItem.time))
     subText: qsTr("repeated %1").arg(repeatingString)
 

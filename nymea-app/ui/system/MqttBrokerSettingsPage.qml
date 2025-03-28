@@ -93,7 +93,7 @@ SettingsPageBase {
         model: engine.nymeaConfiguration.mqttPolicies
         delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
-            iconName: "../images/account.svg"
+            iconName: "qrc:/icons/account.svg"
             text: qsTr("Client ID: %1").arg(model.clientId)
             subText: qsTr("Username: %1").arg(model.username)
             progressive: false
