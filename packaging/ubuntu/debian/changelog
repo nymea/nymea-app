@@ -3,7 +3,7 @@ nymea-app (1.9.22) bionic; urgency=medium
   [ Simon Stürz ]
   * Add device code oauth handling
 
- -- jenkins <developer@nymea.io>  Fri, 28 Mar 2025 09:35:48 +0100
+ -- jenkins <developer@nymea.io>  Sat, 29 Mar 2025 23:11:19 +0100
 
 nymea-app (1.9.21) bionic; urgency=medium
 
