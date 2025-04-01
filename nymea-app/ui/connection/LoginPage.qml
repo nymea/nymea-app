@@ -204,6 +204,7 @@ SettingsPageBase {
 
         ColumnLayout{
             Layout.fillWidth: true
+            visible: engine.jsonRpcClient.ensureServerVersion("6.0") && !engine.jsonRpcClient.initialSetupRequired
             spacing: 5
             Label{
                 text: qsTr("If you are the owner and do not have your own account, have your installer create an account for you.")

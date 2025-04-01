@@ -93,6 +93,14 @@
         <source>Serial copied to clipboard</source>
         <translation>Seriennummer in die Zwischenablage kopiert</translation>
     </message>
+    <message>
+        <source>Consolinno HEMS version</source>
+        <translation>Consolinno HEMS Version</translation>
+    </message>
+    <message>
+        <source>HEMS version copied to clipboard</source>
+        <translation>HEMS Version in die Zwischenablage kopiert</translation>
+    </message>
 </context>
 <context>
     <name>AboutPage</name>
@@ -169,11 +177,19 @@
     </message>
     <message>
         <source>Enable logging</source>
-        <translation>Protokollieren aktivieren?</translation>
+        <translation>Protokollieren aktivieren</translation>
     </message>
     <message>
         <source>This action is not being logged.</source>
         <translation>Diese Aktion wird nicht protokolliert.</translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation>Keine Daten</translation>
+    </message>
+    <message>
+        <source>This action has not been executed yet.</source>
+        <translation>Diese Aktion wurd noch nicht ausgeführt.</translation>
     </message>
 </context>
 <context>
@@ -556,6 +572,251 @@
     </message>
 </context>
 <context>
+    <name>CloudLoginPage</name>
+    <message>
+        <source>%1 cloud login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, an error happened removing the account. Please try again later.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logged in as %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected %1 systems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no %1 systems connected to your cloud yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>There are %n %1 systems connected to your cloud.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Log %1 in to %2:cloud in order to connect to %2:core systems from anywhere and receive push notifications from %2:core systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation type="unfinished">Passwort</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Failed to log in. Please try again. Do you perhaps have &lt;a href=&quot;#&quot;&gt;forgotten your password?&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to connect to the login server. Please mase sure your network connection is working.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>An unexpected error happened. Please report this isse. Error code: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Don&apos;t have a user yet?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sign Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sign up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The given username or password are not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh, something went wrong. Please try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome to %1:cloud.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please enter your email address and pick a password in order to create a new account.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>See our &lt;a href=&quot;%1&quot;&gt;privacy policy&lt;/a&gt; to find out what information is processed. By signing up to %2:cloud you accept those terms and conditions.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thanks for signing up. We will send you an email with a confirmation code. Please enter that code in the field below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The given user already exists. Did you forget the password?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>That wasn&apos;t the right code. Please try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, this wasn&apos;t right. Did you misspell the email address?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, there were too many attempts. Please try again after some time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password forgotten?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No problem. Enter your email address here and we&apos;ll send you a confirmation code to change your password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, couldn&apos;t reset your password. Did you enter the wrong confirmation code?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yay!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your password has been reset.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check your email!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the confirmation code you&apos;ve received and a new password for your user %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirmation code:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pick a new password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Goodbye</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry to see you go. If you log out you won&apos;t be able to connect to %1 systems remotely any more. However, you can come back any time, we&apos;ll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete my account</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CloudSettingsPage</name>
+    <message>
+        <source>%1 cloud settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect %1 to %1:cloud in order to access it from anywhere.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud connection enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This box is not connected to %1:cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Registering box in %1:cloud...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This box is not configured to connect to %1:cloud.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connecting the box to %1:cloud...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The box is connected to %1:cloud.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This box is not configured to access the %1:cloud. In order for a box to connect to %1:cloud it needs to be registered first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Register box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Log in to cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remote connection</source>
+        <translation type="unfinished">Fernverbindung</translation>
+    </message>
+    <message>
+        <source>In order to remotely connect to this %1 system, %2 needs to be logged into %1:cloud as well.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Go to app settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set up cloud connection for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ComposeEventDescriptorPage</name>
     <message>
         <source>Select event</source>
@@ -690,6 +951,80 @@
     <message>
         <source>Are you sure you want to remove %1 and all associated settings?</source>
         <translation>Bist Du sicher, dass %1 und alle zugehörigen Einstellungen entfernt werden sollen?</translation>
+    </message>
+</context>
+<context>
+    <name>ConnectPage</name>
+    <message>
+        <source>Connect %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oh, look!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Just a moment...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uh oh</source>
+        <translation type="unfinished">Oh oh</translation>
+    </message>
+    <message numerus="yes">
+        <source>There are %n %1 systems in your network! Which one would you like to use?</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>We haven&apos;t found a %1 system in your network yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There doesn&apos;t seem to be a %1 system installed in your network. Please make sure your %1 system is correctly set up and connected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished">Information</translation>
+    </message>
+    <message>
+        <source>Searching for %1 systems...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you have a %1 system but it&apos;s not connected to your network yet? Use the wireless setup to connect it!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start wireless setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cloud login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Demo mode (online)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not the ones you&apos;re looking for? We&apos;re looking for more!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Box information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available connections</source>
+        <translation type="unfinished">Verfügbare Verbindungen</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1075,6 +1410,25 @@
     <message>
         <source>Consumers balance</source>
         <translation>Verbraucherbilanz</translation>
+    </message>
+</context>
+<context>
+    <name>CreateZoneWizard</name>
+    <message>
+        <source>New zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zone name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the thermostats that should be part of this zone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the sensors that should be part of this zone.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2103,11 +2457,19 @@
     </message>
     <message>
         <source>Enable logging</source>
-        <translation>Protokollieren aktivieren?</translation>
+        <translation>Protokollieren aktivieren</translation>
     </message>
     <message>
         <source>This event is not being logged.</source>
         <translation>Dieses Ereignis wird nicht protokolliert.</translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation>Keine Daten</translation>
+    </message>
+    <message>
+        <source>This event has not been triggered yet.</source>
+        <translation>Diese Event wurde noch nicht ausgelöst.</translation>
     </message>
 </context>
 <context>
@@ -3795,6 +4157,14 @@ Bitte versuche es erneut.</translation>
         <source>Email</source>
         <translation>E-Mail</translation>
     </message>
+    <message>
+        <source>If you are the owner and do not have your own account, have your installer create an account for you.</source>
+        <translation>Wenn Sie Anlagenbesitzer sind und keinen Account besitzen, lassen Sie sich von Ihrem Installateur einen Account anlegen.</translation>
+    </message>
+    <message>
+        <source>If you are an installer and do not have your own account, you can authenticate yourself using the test button on the leaflet (see quick start guide or user manual).</source>
+        <translation>Sind Sie Installateur und besitzen keinen Account, können Sie sich über den Test-Taster authentifizieren (siehe Kurzanleitung und Gebrauchsanleitung).</translation>
+    </message>
 </context>
 <context>
     <name>LookAndFeelSettingsPage</name>
@@ -4029,6 +4399,41 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>AC</source>
         <translation>AC</translation>
+    </message>
+</context>
+<context>
+    <name>ManualConnectPage</name>
+    <message>
+        <source>Manual connection</source>
+        <translation>Manuelle Verbindung</translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation>Protokoll</translation>
+    </message>
+    <message>
+        <source>TCP</source>
+        <translation>TCP</translation>
+    </message>
+    <message>
+        <source>Websocket</source>
+        <translation>Websocket</translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation>Adresse:</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>Port:</translation>
+    </message>
+    <message>
+        <source>Encrypted connection:</source>
+        <translation>SSL:</translation>
+    </message>
+    <message>
+        <source>Connect</source>
+        <translation>Verbinden</translation>
     </message>
 </context>
 <context>
@@ -5704,12 +6109,16 @@ Möchtest Du fortfahren?</translation>
         <translation>Entschuldigung, bei der Einrichtung ist etwas schief gelaufen. Bitte versuchen Sie es erneut.</translation>
     </message>
     <message>
-        <source>Authentication required</source>
-        <translation>Authentifizierung erforderlich</translation>
+        <source>Finish authentication</source>
+        <translation>Authentifizierung abschließen</translation>
     </message>
     <message>
-        <source>Please press the button on your %1 gateway to authenticate this device.</source>
-        <translation>Bitte drücke den Knopf auf deinem %1 Gateway um die Authentifizierung abzuschließen.</translation>
+        <source>To complete authentication, press the test button again for 5 sec. until the status LED lights up green.</source>
+        <translation>Um die Authentifizierung abzuschließen, drücken Sie erneut 5 Sekunden lang die Testtaste, bis die Status-LED grün aufleuchtet.</translation>
+    </message>
+    <message>
+        <source>If the status LED is not green, you have to repeat authentication.(Go back to connection page, press reset button shortly and select leaflet again).</source>
+        <translation>Wenn die Status-LED nicht grün ist, müssen Sie die Authentifizierung wiederholen. (Gehen Sie zurück zur Verbindungseite, drücken Sie kurz die Reset-Taste und wählen Sie erneut das Leaflet aus).</translation>
     </message>
 </context>
 <context>
@@ -6018,6 +6427,13 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>is not </source>
         <translation>ist nicht</translation>
+    </message>
+</context>
+<context>
+    <name>SelectStateEventDescriptorParamPage</name>
+    <message>
+        <source>Only consider state change if</source>
+        <translation type="unfinished">Zustandsänderung nur berücksichtigen wenn</translation>
     </message>
 </context>
 <context>
@@ -6563,6 +6979,10 @@ A consumer, not consuming anything</extracomment>
         <source>Total return: %1 kWh</source>
         <translation>Gesamte Netzeinspeisung: %1 kWh</translation>
     </message>
+    <message>
+        <source>The battery is empty</source>
+        <translation>Die Batterie ist leer</translation>
+    </message>
 </context>
 <context>
     <name>StateChart</name>
@@ -6646,7 +7066,7 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message>
         <source>Enable logging</source>
-        <translation>Protokoll aktivieren?</translation>
+        <translation>Protokoll aktivieren</translation>
     </message>
 </context>
 <context>
@@ -6772,10 +7192,6 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Details</source>
         <translation>Details</translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation>Protokoll</translation>
     </message>
     <message>
         <source>Mark as favorite</source>
@@ -7245,6 +7661,14 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>User information</source>
         <translation>Benutzerinformationen</translation>
+    </message>
+    <message>
+        <source>User login via authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authenticated user</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8591,6 +9015,17 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Set temperature while I&apos;m home</source>
         <translation>Temperatur einstellen während ich zuhause bin</translation>
+    </message>
+</context>
+<context>
+    <name>mainWindow</name>
+    <message>
+        <source> Enable Publish </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Disable Publish </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -66,10 +66,10 @@ Item {
         d.pushSettingsPage("MagicPage.qml")
     }
     function openAppSettings() {
-        d.pushSettingsPage("appsettings/AppSettingsPage.qml")
+        d.pushSettingsPage("appsettings/ConsolinnoAppSettingsPage.qml")
     }
     function openSystemSettings() {
-        d.pushSettingsPage("SettingsPage.qml")
+        d.pushSettingsPage("ConsolinnoSettingsPage.qml")
     }
     function openCustomPage(page) {
         d.pushSettingsPage(page)
@@ -147,11 +147,17 @@ Item {
                     Component.onCompleted: {
                         if (configuredHost.uuid.toString() !== "{00000000-0000-0000-0000-000000000000}") {
                             print("Configured host id is", configuredHost.uuid)
-                            var cachedHost = nymeaDiscovery.nymeaHosts.find(configuredHost.uuid);
-                            if (cachedHost) {
+                            var cachedHost;
+
+                            if(HostAddress !== ""){
+                                cachedHost = nymeaDiscovery.nymeaHosts.createWanHost('Remote Connection', 'nymeas://'+ HostAddress + ":" + Port)
+                                engine.jsonRpcClient.addToken(Uuid, Token);
                                 engine.jsonRpcClient.connectToHost(cachedHost)
                                 return;
+                            }else{
+                                cachedHost = nymeaDiscovery.nymeaHosts.find(configuredHost.uuid);
                             }
+                            
                             console.warn("There is a last connected host but UUID is unknown to discovery...")
                         } else if (autoConnectHost.length > 0 && index === 0) {
                             var host = nymeaDiscovery.nymeaHosts.createLanHost(Configuration.systemName, autoConnectHost);

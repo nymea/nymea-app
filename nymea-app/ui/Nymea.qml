@@ -280,6 +280,18 @@ ApplicationWindow {
     function interfaceToIcon(name) {
 //        print("finding icon for interface:", name)
         switch (name) {
+        case "energystorage":
+            return Qt.resolvedUrl("images/battery/battery-060.svg")
+        case "smartheatingrod":
+            return Qt.resolvedUrl("/ui/images/heating_rod.svg")
+        case "pvsurplusheatpump":
+            return Qt.resolvedUrl("/ui/images/heatpump.svg")
+        case "heatpump":
+            return Qt.resolvedUrl("/ui/images/heatpump.svg")
+        case "smartgridheatpump":
+            return Qt.resolvedUrl("/ui/images/heatpump.svg")
+        case "gridsupport":
+            return Qt.resolvedUrl("images/select-none.svg")
         case "light":
         case "colorlight":
         case "dimmablelight":

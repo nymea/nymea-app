@@ -162,7 +162,7 @@ Page {
 
         delegate: ItemDelegate {
             id: entryDelegate
-            width: parent.width
+            width: root.width
 
             property StateType stateType: model.source === LogEntry.LoggingSourceStates ? root.thing.thingClass.stateTypes.getStateType(model.typeId) : null
             property EventType eventType: model.source === LogEntry.LoggingSourceEvents ? root.thing.thingClass.eventTypes.getEventType(model.typeId) : null

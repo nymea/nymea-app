@@ -93,6 +93,37 @@ int main(int argc, char *argv[])
     parser.addOption(splashOption);
     parser.process(application);
 
+
+    QString scheme = "";
+    QString hostAddress = "";
+    QString port = "";
+    QString uuid = "";
+    QString token = "";
+
+    if (argc > 1) {
+        QString url = argv[1];
+        qDebug() << "Received URL:" << url;
+
+        // URL parsen
+        QUrl qurl(url);
+        QUrlQuery qurlQ(url);
+        if (qurl.scheme() == "consolinno-energy") {
+            scheme = qurl.scheme();
+
+            hostAddress = qurlQ.queryItemValue("hostAddress");
+            port = qurlQ.queryItemValue("port");
+            uuid = qurlQ.queryItemValue("uuid");
+            token = qurlQ.queryItemValue("token");
+
+            
+            qDebug() << "Scheme:" << scheme;
+            qDebug() << "HostAddress:" << hostAddress;
+            qDebug() << "Port:" << port;
+            qDebug() << "Token:" << token;
+            qDebug() << "Uuid:" << uuid;
+        }
+    }
+
     // Initialize app log controller as early as possible, but after setting app name and printing initial startup info
     AppLogController::instance();
 
@@ -208,6 +239,13 @@ int main(int argc, char *argv[])
     engine->rootContext()->setContextProperty("systemProductType", QSysInfo::productType());
 
     engine->rootContext()->setContextProperty("useVirtualKeyboard", qgetenv("QT_IM_MODULE") == "qtvirtualkeyboard");
+
+    engine->rootContext()->setContextProperty("Action", scheme);
+    engine->rootContext()->setContextProperty("Uuid", uuid);
+    engine->rootContext()->setContextProperty("Token", token);
+    engine->rootContext()->setContextProperty("HostAddress", hostAddress);
+    engine->rootContext()->setContextProperty("Port", port);
+
 
     application.setWindowIcon(QIcon(QString(":/styles/%1/logo.svg").arg(styleController.currentStyle())));
 

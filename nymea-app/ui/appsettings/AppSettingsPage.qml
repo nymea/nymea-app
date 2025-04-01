@@ -60,7 +60,7 @@ Page {
                 text: qsTr("Look & feel")
                 subText: qsTr("Customize the app's look and behavior")
                 iconSource: "../images/preferences-look-and-feel.svg"
-                onClicked: pageStack.push(Qt.resolvedUrl("LookAndFeelSettingsPage.qml"))
+                onClicked: pageStack.push(Qt.resolvedUrl("ConsolinnoLookAndFeelSettingsPage.qml"))
             }
 
             SettingsTile {

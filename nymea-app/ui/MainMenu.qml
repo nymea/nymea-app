@@ -70,11 +70,17 @@ Drawer {
 
                 ListView {
                     id: hostsListView
+                    flickableDirection: Flickable.VerticalFlick
+                    boundsBehavior: Flickable.StopAtBounds
+                    ScrollBar.vertical: ScrollBar {
+                        active: true
+                    }
                     Layout.fillWidth: true
                     Layout.preferredHeight: count * Style.smallDelegateHeight
+                    Layout.maximumHeight: 5 * Style.smallDelegateHeight 
                     model: root.configuredHosts
                     clip: true
-                    interactive: false
+                    interactive: contentHeight > height
                     moveDisplaced: Transition {
                         NumberAnimation { property: "y"; duration: Style.animationDuration; easing.type: Easing.InOutQuad }
                     }
@@ -181,6 +187,7 @@ Drawer {
 
                     MouseArea {
                         id: dndArea
+                        enabled: false
                         anchors.fill: parent
                         propagateComposedEvents: true
                         preventStealing: dragging
