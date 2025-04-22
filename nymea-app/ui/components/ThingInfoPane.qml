@@ -9,6 +9,7 @@ InfoPaneBase {
 
     property Thing thing: null
 
+    property bool hideLabel: false
     readonly property bool setupInProgress: root.thing.setupStatus == Thing.ThingSetupStatusInProgress
     readonly property bool setupFailure: root.thing.setupStatus == Thing.ThingSetupStatusFailed
     readonly property State batteryState: root.thing.stateByName("batteryLevel")
@@ -43,6 +44,7 @@ InfoPaneBase {
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignRight
             wrapMode: Text.WordWrap
+            visible: !hideLabel
             text: root.setupInProgress ?
                       qsTr("Thing is being set up...")
                     : root.setupFailure ?
