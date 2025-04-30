@@ -155,7 +155,7 @@ BigThingTile {
                     name: {
                         switch (model.interfaceName) {
                         case "closablesensor":
-                            return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? Qt.resolvedUrl("qrc:qrc:/icons/sensors/window-closed.svg") : Qt.resolvedUrl("qrc:qrc:/icons/sensors/window-open.svg");
+                            return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? Qt.resolvedUrl("qrc:/icons/sensors/window-closed.svg") : Qt.resolvedUrl("qrc:/icons/sensors/window-open.svg");
                         default:
                             return app.interfacesToIcon([model.interfaceName, "sensor"])
                         }
