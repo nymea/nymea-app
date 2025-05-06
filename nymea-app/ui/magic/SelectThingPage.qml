@@ -62,7 +62,7 @@ Page {
         onBackPressed: root.backPressed()
 
         HeaderButton {
-            imageSource: "../images/find.svg"
+            imageSource: "qrc:/icons/find.svg"
             color: filterInput.shown ? Style.accentColor : Style.iconColor
             onClicked: filterInput.shown = !filterInput.shown
         }

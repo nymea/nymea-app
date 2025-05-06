@@ -37,7 +37,7 @@ Item {
         readonly property var startTime: {
             var date = new Date(fixTime(now));
             date.setTime(date.getTime() - range * 60000 + 2000);
-            print("startTIme:", date)
+            print("startTime:", date)
             return date;
         }
 

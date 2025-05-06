@@ -42,10 +42,10 @@ NymeaSwipeDelegate {
     progressive: model.browsable
     subText: model.description
     prominentSubText: false
-    iconName: "../images/browser/" + (model.mediaIcon && model.mediaIcon !== "MediaBrowserIconNone" ? model.mediaIcon : model.icon) + ".svg"
+    iconName: "qrc:/icons/browser/" + (model.mediaIcon && model.mediaIcon !== "MediaBrowserIconNone" ? model.mediaIcon : model.icon) + ".svg"
     thumbnail: model.thumbnail
     enabled: !model.disabled
-    secondaryIconName: model.actionTypeIds.length > 0 ? "../images/navigation-menu.svg" : ""
+    secondaryIconName: model.actionTypeIds.length > 0 ? "qrc:/icons/navigation-menu.svg" : ""
     secondaryIconClickable: true
 
     property Thing thing: null

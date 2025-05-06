@@ -80,7 +80,7 @@ ThingPageBase {
                 ColorIcon {
                     id: robot
                     size: Style.largeIconSize
-                    name: "../images/cleaning-robot.svg"
+                    name: "qrc:/icons/cleaning-robot.svg"
                     x: robotArea.robotX - (width / 2)
                     y: robotArea.robotY - (height / 2)
                     color: root.robotState.value == "cleaning"
@@ -258,7 +258,7 @@ ThingPageBase {
                     longpressEnabled: false
                     mode: root.robotState.value === "cleaning" ? "normal" : "highlight"
                     size: Style.bigIconSize
-                    imageSource: root.robotState.value === "cleaning" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
+                    imageSource: root.robotState.value === "cleaning" ? "qrc:/icons/media-playback-pause.svg" : "qrc:/icons/media-playback-start.svg"
                     onClicked: {
                         if (root.robotState.value === "cleaning" || root.robotState.value === "paused") {
                             engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("pauseCleaning").id)
@@ -273,7 +273,7 @@ ThingPageBase {
 
                 ProgressButton {
                     longpressEnabled: false
-                    imageSource: "../images/media-playback-stop.svg"
+                    imageSource: "qrc:/icons/media-playback-stop.svg"
                     size: Style.bigIconSize
                     mode: "destructive"
                     onClicked: {
@@ -285,7 +285,7 @@ ThingPageBase {
                 }
                 ProgressButton {
                     longpressEnabled: false
-                    imageSource: "../images/groups.svg"
+                    imageSource: "qrc:/icons/groups.svg"
                     mode: "normal"
                     size: Style.bigIconSize
                     visible: root.thing.thingClass.browsable
@@ -427,7 +427,7 @@ ThingPageBase {
                                     model: mapView.boundaries
                                     delegate: ProgressButton {
                                         mode: "highlight"
-                                        imageSource: "../images/media-playback-start.svg"
+                                        imageSource: "qrc:/icons/media-playback-start.svg"
                                         size: Style.smallIconSize
                                         property BrowserItem boundary: mapView.boundaries.get(index)
                                         property var center: {

@@ -75,7 +75,7 @@ ItemDelegate {
         id: d
         property var deleteContextOption: [{
             text: qsTr("Delete"),
-            icon: "../images/delete.svg",
+            icon: "qrc:/icons/delete.svg",
             backgroundColor: "red",
             foregroundColor: "white",
             visible: canDelete,
@@ -182,7 +182,7 @@ ItemDelegate {
             id: progressionIcon
             Layout.preferredHeight: Style.smallIconSize
             Layout.preferredWidth: height
-            name: "../images/next.svg"
+            name: "qrc:/icons/next.svg"
             visible: root.progressive
         }
 

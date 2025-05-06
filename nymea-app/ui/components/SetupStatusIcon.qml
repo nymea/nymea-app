@@ -10,8 +10,8 @@ ColorIcon {
     readonly property bool setupInProgress: setupStatus == Thing.ThingSetupStatusInProgress
     readonly property bool setupFailed: setupStatus == Thing.ThingSetupStatusFailed
 
-    name: setupFailed ? "../images/dialog-warning-symbolic.svg"
-                      : setupInProgress ?  "../images/settings.svg" : "../images/tick.svg"
+    name: setupFailed ? "qrc:/icons/dialog-warning-symbolic.svg"
+                      : setupInProgress ?  "qrc:/icons/settings.svg" : "qrc:/icons/tick.svg"
     color: setupFailed ? "red" : Style.iconColor
 
     RotationAnimation on rotation {

@@ -203,7 +203,7 @@ MainViewBase {
                                 }
                             }
                             ColorIcon {
-                                name: "/ui/images/delete.svg"
+                                name: "qrc:/icons/delete.svg"
                                 size: Style.iconSize
                                 anchors.centerIn: parent
                                 color: Style.white
@@ -243,7 +243,7 @@ MainViewBase {
 
                             }
                             ColorIcon {
-                                name: "/ui/images/configure.svg"
+                                name: "qrc:/icons/configure.svg"
                                 size: Style.iconSize
                                 anchors.centerIn: parent
 //                                color: Style.white
@@ -285,7 +285,7 @@ MainViewBase {
                     radius: Style.cornerRadius
 
                     ColorIcon {
-                        name: "/ui/images/add.svg"
+                        name: "qrc:/icons/add.svg"
                         size: Style.bigIconSize
                         anchors.centerIn: parent
                         color: Style.tileOverlayColor
@@ -440,7 +440,7 @@ MainViewBase {
         title: qsTr("Dashboard is empty")
         text: qsTr("Start with adding a new item to this dashboard.")
         buttonText: qsTr("Add item")
-        imageSource: "/ui/images/dashboard.svg"
+        imageSource: "qrc:/icons/dashboard.svg"
         onButtonClicked: {
             root.addItem()
         }

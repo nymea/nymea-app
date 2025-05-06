@@ -43,14 +43,14 @@ Page {
 
     ProgressButton {
         anchors { top: parent.top; left: parent.left; margins: Style.margins }
-        imageSource: "/ui/images/navigation-menu.svg"
+        imageSource: "qrc:/icons/navigation-menu.svg"
         longpressEnabled: false
         onClicked: mainMenu.open()
     }
 
     ProgressButton {
         anchors { top: parent.top; right: parent.right; margins: Style.margins }
-        imageSource: "/ui/images/logs.svg"
+        imageSource: "qrc:/icons/logs.svg"
         visible: settings.showHiddenOptions && AppLogController.enabled
         onClicked: pageStack.push(Qt.resolvedUrl("../appsettings/AppLogPage.qml"))
     }
