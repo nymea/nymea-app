@@ -1,3 +1,10 @@
+nymea-app (1.10.1) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Rework overlay
+
+ -- jenkins <developer@nymea.io>  Tue, 06 May 2025 15:46:15 +0200
+
 nymea-app (1.9.22) bionic; urgency=medium
 
   [ Simon Stürz ]
