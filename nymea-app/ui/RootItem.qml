@@ -147,15 +147,12 @@ Item {
                     Component.onCompleted: {
                         if (configuredHost.uuid.toString() !== "{00000000-0000-0000-0000-000000000000}") {
                             print("Configured host id is", configuredHost.uuid)
-                            var cachedHost;
 
-                            if(HostAddress !== ""){
-                                cachedHost = nymeaDiscovery.nymeaHosts.createWanHost('Remote Connection', 'nymeas://'+ HostAddress + ":" + Port)
-                                engine.jsonRpcClient.addToken(Uuid, Token);
+                            var cachedHost = nymeaDiscovery.nymeaHosts.find(configuredHost.uuid);
+                            
+                            if (cachedHost) {
                                 engine.jsonRpcClient.connectToHost(cachedHost)
                                 return;
-                            }else{
-                                cachedHost = nymeaDiscovery.nymeaHosts.find(configuredHost.uuid);
                             }
                             
                             console.warn("There is a last connected host but UUID is unknown to discovery...")
