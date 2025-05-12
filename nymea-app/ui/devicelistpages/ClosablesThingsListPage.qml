@@ -49,7 +49,7 @@ ThingsListPageBase {
         text: root.title
 
         HeaderButton {
-            imageSource: root.invertControls ? "../images/down.svg" : "../images/up.svg"
+            imageSource: root.invertControls ? "qrc:/icons/down.svg" : "qrc:/icons/up.svg"
             onClicked: {
                 for (var i = 0; i < thingProxy.count; i++) {
                     var thing = thingsProxy.get(i);
@@ -59,7 +59,7 @@ ThingsListPageBase {
             }
         }
         HeaderButton {
-            imageSource: "../images/media-playback-stop.svg"
+            imageSource: "qrc:/icons/media-playback-stop.svg"
             onClicked: {
                 for (var i = 0; i < thingsProxy.count; i++) {
                     var thing = thingsProxy.get(i);
@@ -69,7 +69,7 @@ ThingsListPageBase {
             }
         }
         HeaderButton {
-            imageSource: root.invertControls ? "../images/up.svg" : "../images/down.svg"
+            imageSource: root.invertControls ? "qrc:/icons/up.svg" : "qrc:/icons/down.svg"
             onClicked: {
                 for (var i = 0; i < thingsProxy.count; i++) {
                     var thing = thingsProxy.get(i);

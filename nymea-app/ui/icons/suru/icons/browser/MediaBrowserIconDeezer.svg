@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="90"
+   height="90"
+   viewBox="0 0 23.812499 23.812501"
+   version="1.1"
+   id="svg2587"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="MediaBrowserIconDeezer.svg">
+  <defs
+     id="defs2581" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.9195959"
+     inkscape:cx="26.948469"
+     inkscape:cy="46.475465"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     units="px"
+     inkscape:window-width="2792"
+     inkscape:window-height="1698"
+     inkscape:window-x="88"
+     inkscape:window-y="44"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3148" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata2584">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-273.18748)">
+    <path
+       style="fill:#808080;stroke-width:1;fill-opacity:1"
+       d="m 1.3229129,290.76468 v -1.34392 h 2.3098547 2.3098549 v 1.34392 1.34391 H 3.6327676 1.3229129 Z m 5.5436527,0 v -1.34392 h 2.3098554 2.309855 v 1.34392 1.34391 H 9.176421 6.8665656 Z m 5.5436524,-0.002 v -1.34527 l 2.288857,0.0224 2.288857,0.0223 0.02312,1.32292 0.02313,1.32292 h -2.31199 -2.311988 v -1.34526 z m 5.478524,0.0223 0.02312,-1.32291 2.288857,-0.0223 2.288857,-0.0224 v 1.34527 1.34526 H 20.177594 17.865605 Z M 6.8665656,287.02826 V 285.641 h 2.3119357 2.3119357 l -0.02307,1.36492 -0.02307,1.36491 -2.2888574,0.0224 -2.2888566,0.0224 z m 5.5436524,-0.002 v -1.38862 l 2.288857,0.0224 2.288857,0.0224 v 1.34391 1.34391 l -2.288857,0.0224 -2.288857,0.0224 v -1.38861 z m 5.499743,1.28092 c -0.02125,-0.0578 -0.02952,-0.67196 -0.01837,-1.36492 l 0.02027,-1.25993 2.288856,-0.0223 2.288858,-0.0224 v 1.38726 1.38728 H 20.21908 c -1.739791,0 -2.279525,-0.0245 -2.309132,-0.105 z M 6.8665656,283.24715 v -1.38861 l 2.2888566,0.0224 2.2888568,0.0224 v 1.34391 1.34391 l -2.2888568,0.0224 -2.2888566,0.0223 z m 11.0403264,1.27722 c -0.02294,-0.0597 -0.0312,-0.67398 -0.01837,-1.36491 l 0.02335,-1.25622 2.288855,-0.0224 2.288857,-0.0224 v 1.38726 1.38727 h -2.270497 c -1.780025,0 -2.279503,-0.0235 -2.3122,-0.1087 z m 0,-3.77976 c -0.02294,-0.0597 -0.0312,-0.67398 -0.01837,-1.36491 l 0.02335,-1.25622 2.288855,-0.0224 2.288857,-0.0223 v 1.38725 1.38727 h -2.270497 c -1.780025,0 -2.279503,-0.0235 -2.3122,-0.10869 z"
+       id="path3146"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccsccccccccccccccccccscccccccccscc" />
+  </g>
+</svg>
