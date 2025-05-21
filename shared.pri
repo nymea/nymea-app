@@ -33,6 +33,7 @@ linux:!android {
 
 android: {
     QMAKE_CXXFLAGS += -Wno-deprecated-declarations
+    QMAKE_LFLAGS *= "-Wl,-z,max-page-size=16384"
 
     ANDROID_PACKAGE_SOURCE_DIR = $${PACKAGE_BASE_DIR}/android
     message("Android package directory: $${ANDROID_PACKAGE_SOURCE_DIR}")

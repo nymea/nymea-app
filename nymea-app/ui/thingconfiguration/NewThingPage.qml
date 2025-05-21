@@ -58,6 +58,8 @@ Page {
         })
     }
 
+    BackgroundFocusHandler { anchors.fill: parent }
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -160,10 +162,10 @@ Page {
 
             delegate: NymeaItemDelegate {
                 id: tingClassDelegate
-                width: parent.width
+                width: listView.width
                 text: model.displayName
                 subText: engine.thingManager.vendors.getVendor(model.vendorId).displayName
-                iconName: app.interfacesToIcon(thingClass.interfaces)
+                iconName: thingClass.interfaces ? app.interfacesToIcon(thingClass.interfaces) : ""
                 prominentSubText: false
                 wrapTexts: false
 
@@ -197,5 +199,4 @@ Page {
             }
         }
     }
-
 }

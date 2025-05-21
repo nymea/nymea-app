@@ -46,6 +46,8 @@ dependencies {
         implementation 'com.google.firebase:firebase-messaging:22.0.0'
         implementation 'com.google.firebase.messaging.cpp:firebase_messaging_cpp@aar'
     }
+
+    constraints.implementation 'androidx.fragment:fragment:1.8.6'
 }
 
 if ("${useFirebase}" == "true") {

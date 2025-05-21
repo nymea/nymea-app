@@ -320,5 +320,6 @@
         <file>ui/devicepages/DeviceDetailsPage.qml</file>
         <file>ui/system/WirelessNetworksFilterSettingsPage.qml</file>
         <file>ui/system/ServerLoggingCategoriesPage.qml</file>
+        <file>ui/components/BackgroundFocusHandler.qml</file>
     </qresource>
 </RCC>
