@@ -32,6 +32,6 @@ import QtQuick 2.9
 
 ClosablesThingsListPage {
     title: qsTr("Awnings")
-    iconBasename: "../images/awning/awning"
+    iconBasename: "qrc:/icons/awning/awning"
     invertControls: true
 }

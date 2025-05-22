@@ -44,7 +44,7 @@ SettingsPageBase {
             pageStack.pop();
         }
         HeaderButton {
-            imageSource: "../images/tick.svg"
+            imageSource: "qrc:/icons/tick.svg"
             enabled: clientIdTextField.isValid
             onClicked: {
                 root.accepted();
@@ -130,7 +130,7 @@ SettingsPageBase {
             ColorIcon {
                 Layout.preferredHeight: Style.iconSize
                 Layout.preferredWidth: height
-                name: "../images/eye.svg"
+                name: "qrc:/icons/eye.svg"
                 color: passwordTextField.hiddenPassword ? Style.iconColor : Style.accentColor
                 MouseArea {
                     anchors.fill: parent

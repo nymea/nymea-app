@@ -62,7 +62,7 @@ SwipeDelegate {
             ColorIcon {
                 Layout.preferredHeight: childEvaluatorsRepeater.count > 0 ? Style.iconSize * .6 : Style.iconSize
                 Layout.preferredWidth: height
-                name: root.stateEvaluator && root.stateEvaluator.stateDescriptor.interfaceName.length === 0 ? "../images/state.svg" : "../images/state-interface.svg"
+                name: root.stateEvaluator && root.stateEvaluator.stateDescriptor.interfaceName.length === 0 ? "qrc:/icons/state.svg" : "qrc:/icons/state-interface.svg"
                 color: Style.accentColor
             }
 
@@ -140,7 +140,7 @@ SwipeDelegate {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize * .6
                     Layout.preferredWidth: height
-                    name: childEvaluatorDelegate.stateDescriptor.interfaceName.length === 0 ? "../images/state.svg" : "../images/state-interface.svg"
+                    name: childEvaluatorDelegate.stateDescriptor.interfaceName.length === 0 ? "qrc:/icons/state.svg" : "qrc:/icons/state-interface.svg"
                     color: Style.accentColor
                 }
                 Label {
@@ -185,7 +185,7 @@ SwipeDelegate {
         ColorIcon {
             anchors.fill: parent
             anchors.margins: app.margins
-            name: "../images/delete.svg"
+            name: "qrc:/icons/delete.svg"
             color: "white"
         }
         onClicked: {

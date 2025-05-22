@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="256"
+   height="256"
+   viewBox="0 0 256 256"
+   id="svg2"
+   version="1.1"
+   inkscape:version="1.0.1 (1.0.1+r74)"
+   sodipodi:docname="activate.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.1753186"
+     inkscape:cx="123.21035"
+     inkscape:cy="147.11516"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     units="px"
+     inkscape:window-width="1380"
+     inkscape:window-height="873"
+     inkscape:window-x="60"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:document-rotation="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4136" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-796.36216)">
+    <path
+       id="path4140"
+       style="opacity:1;fill:#808080;fill-opacity:1;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 127.86133 36 A 92.000023 92.000023 0 0 0 36 128 A 92.000023 92.000023 0 0 0 128 220 A 92.000023 92.000023 0 0 0 220 128 A 92.000023 92.000023 0 0 0 128 36 A 92.000023 92.000023 0 0 0 127.86133 36 z M 199.95898 88.650391 C 206.36028 100.33144 210 113.74028 210 128 C 210 173.28736 173.28736 210 128 210 C 88.819508 210 56.056981 182.52033 47.933594 145.7832 C 54.999891 140.99933 130.28516 95.857422 130.28516 95.857422 L 130.14258 136 C 130.14258 136 195.00011 91.000721 199.95898 88.650391 z "
+       transform="translate(0,796.36216)" />
+  </g>
+</svg>

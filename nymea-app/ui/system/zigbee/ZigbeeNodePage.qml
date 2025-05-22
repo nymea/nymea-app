@@ -50,7 +50,7 @@ SettingsPageBase {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "/ui/images/delete.svg"
+            imageSource: "qrc:/icons/delete.svg"
             text: qsTr("Remove node")
             onClicked: {
                 var popup = removeZigbeeNodeDialogComponent.createObject(app, {zigbeeNode: root.node})
@@ -271,7 +271,7 @@ SettingsPageBase {
                           ? "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
                           : destinationThing
                             ? app.interfacesToIcon(destinationThing.thingClass.interfaces)
-                            : "/ui/images/zigbee.svg"
+                            : "qrc:/icons/zigbee.svg"
                 canDelete: true
                 progressive: false
                 text: {
@@ -339,7 +339,7 @@ SettingsPageBase {
 
             property ZigbeeNode zigbeeNode
 
-            headerIcon: "/ui/images/zigbee.svg"
+            headerIcon: "qrc:/icons/zigbee.svg"
             title: qsTr("Remove ZigBee node") + " " + (zigbeeNode ? zigbeeNode.model : "")
             text: qsTr("Are you sure you want to remove this node from the network?")
             standardButtons: Dialog.Ok | Dialog.Cancel
@@ -367,7 +367,7 @@ SettingsPageBase {
                 onBackPressed: pageStack.pop()
 
                 HeaderButton {
-                    imageSource: "/ui/images/edit-copy.svg"
+                    imageSource: "qrc:/icons/edit-copy.svg"
                     text: qsTr("Copy")
                     onClicked: {
                         PlatformHelper.toClipBoard(descriptorText.text)
@@ -493,7 +493,7 @@ SettingsPageBase {
                               ? "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
                               : destinationNodeComboBox.currentNodeThing
                                 ? app.interfacesToIcon(destinationNodeComboBox.currentNodeThing.thingClass.interfaces)
-                                : "/ui/images/zigbee.svg"
+                                : "qrc:/icons/zigbee.svg"
                         color: Style.accentColor
                     }
 
@@ -525,7 +525,7 @@ SettingsPageBase {
                     property Thing nodeThing: destinationNodeThings.count > 0 ? destinationNodeThings.get(0) : null
                     iconName: node == coordinatorNode
                               ? "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
-                              : nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "/ui/images/zigbee.svg"
+                              : nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "qrc:/icons/zigbee.svg"
                     width: parent.width
                     text: node == root.coordinatorNode
                           ? Configuration.systemName

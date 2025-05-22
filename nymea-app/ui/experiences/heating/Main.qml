@@ -39,7 +39,7 @@ import QtGraphicalEffects 1.0
 Item {
     id: root
     readonly property string title: qsTr("Celsi°s")
-    readonly property string icon: Qt.resolvedUrl("qrc:/ui/images/radiator.svg")
+    readonly property string icon: Qt.resolvedUrl("qrc:/icons/radiator.svg")
 
     readonly property Thing duwWpDevice: duwWpFilterModel.count > 0 ? duwWpFilterModel.get(0) : null
     readonly property Thing duwLuDevice: duwLuFilterModel.count > 0 ? duwLuFilterModel.get(0) : null
@@ -152,7 +152,7 @@ Item {
         anchors.centerIn: parent
         width: parent.width - app.margins * 2
         text: qsTr("There is no drexel und weiss heating system set up yet.")
-        imageSource: "qrc:/ui/images/radiator.svg"
+        imageSource: "qrc:/icons/radiator.svg"
         buttonVisible: false
         buttonText: qsTr("Set up now")
         visible: duwWpFilterModel.count === 0 && !engine.thingManager.fetchingData
@@ -180,7 +180,7 @@ Item {
                     ColorIcon {
                         Layout.preferredHeight: Style.iconSize
                         Layout.preferredWidth: Style.iconSize
-                        name: "qrc:/ui/images/weathericons/wind.svg"
+                        name: "qrc:/icons/weathericons/wind.svg"
                         color: Style.accentColor
                     }
                     Led {
@@ -208,7 +208,7 @@ Item {
                     ColorIcon {
                         Layout.preferredHeight: Style.iconSize
                         Layout.preferredWidth: Style.iconSize
-                        name: "qrc:/ui/images/sensors/temperature.svg"
+                        name: "qrc:/icons/sensors/temperature.svg"
                         color: Style.accentColor
                     }
                     Label {
@@ -241,7 +241,7 @@ Item {
                     Layout.preferredWidth: height
                     Layout.alignment: Qt.AlignHCenter
                     color: Style.accentColor
-                    name: "qrc:/ui/images/magic.svg"
+                    name: "qrc:/icons/magic.svg"
                     MouseArea {
                         anchors.fill: parent
                         onClicked: pageStack.push("qrc:/ui/magic/ThingRulesPage.qml", {thing: root.duwWpDevice})
@@ -264,7 +264,7 @@ Item {
                         Layout.preferredHeight: Style.iconSize
                         Layout.preferredWidth: Style.iconSize
                         color: Style.accentColor
-                        name: "qrc:/ui/images/ventilation.svg"
+                        name: "qrc:/icons/ventilation.svg"
                         PropertyAnimation on rotation {
                             running: root.ventilationLevelState !== null
                             duration: root.ventilationLevelState !== null && root.ventilationLevelState.value > 0
@@ -333,7 +333,7 @@ Item {
 
 
 //            ProgressButton {
-//                imageSource: "qrc:/ui/images/system-shutdown.svg"
+//                imageSource: "qrc:/icons/system-shutdown.svg"
 //                Layout.preferredHeight: Style.iconSize * 1.5
 //                Layout.preferredWidth: height
 //                Layout.alignment: Qt.AlignHCenter

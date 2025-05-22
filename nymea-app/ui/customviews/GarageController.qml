@@ -112,7 +112,7 @@ Item {
                 visible: root.isImpulseBased
                 longpressEnabled: false
                 size: Style.bigIconSize
-                imageSource: "../images/closable-move.svg"
+                imageSource: "qrc:/icons/closable-move.svg"
                 busy: busyTimer.running
                 onClicked: {
                     var actionTypeId = root.thing.thingClass.actionTypes.findByName("triggerImpulse").id

@@ -155,13 +155,13 @@ ItemDelegate {
                 Repeater {
                     model: ListModel {
                         ListElement {
-                            iconName: "../images/state.svg"
+                            iconName: "qrc:/icons/state.svg"
                             text: qsTr("When one of my things is in a certain state")
                             method: "editStateDescriptor"
 
                         }
                         ListElement {
-                            iconName: "../images/state-interface.svg"
+                            iconName: "qrc:/icons/state-interface.svg"
                             text: qsTr("When a thing of a given type enters a state")
                             method: "editInterfaceStateDescriptor"
                         }
