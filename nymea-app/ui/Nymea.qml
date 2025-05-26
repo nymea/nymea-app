@@ -115,7 +115,6 @@ ApplicationWindow {
         id: m
         height: app.height
         width: Math.min(300, app.width)
-//        z: 1000
         configuredHosts: configuredHostsModel
         onOpenThingSettings: rootItem.openThingSettings();
         onOpenMagicSettings: rootItem.openMagicSettings();
