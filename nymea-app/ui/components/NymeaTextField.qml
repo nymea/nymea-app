@@ -9,7 +9,6 @@ TextField {
     property bool error: false
 
     onEditingFinished: {
-        activeFocus = false
         parent.forceActiveFocus()
     }
 
