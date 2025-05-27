@@ -48,7 +48,7 @@ MainViewBase {
 
     headerButtons: [
         {
-            iconSource: "/ui/images/configure.svg",
+            iconSource: "qrc:/icons/configure.svg",
             color: Style.iconColor,
             visible: acManager.zoneInfos.count > 0 && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin),
             trigger: function() {
@@ -91,7 +91,7 @@ MainViewBase {
         visible: !engine.thingManager.fetchingData && (!engine.jsonRpcClient.experiences.hasOwnProperty("AirConditioning") || engine.jsonRpcClient.experiences["AirConditioning"] < "0.1")
         title: qsTr("Air conditioning plugin not installed.")
         text: qsTr("To set up air conditioning, install the air conditioning plugin.")
-        imageSource: "../images/sensors.svg"
+        imageSource: "qrc:/icons/sensors.svg"
         buttonText: qsTr("Install A/C plugin")
         buttonVisible: packagesFilterModel.count > 0
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../system/PackageListPage.qml"), {filter: "nymea-experience-plugin-airconditioning"})
@@ -108,7 +108,7 @@ MainViewBase {
         visible: engine.jsonRpcClient.experiences["AirConditioning"] >= "0.1" && acManager.zoneInfos.count == 0
         title: qsTr("No zones configured.")
         text: qsTr("Start with configuring your zones.")
-        imageSource: "../images/sensors.svg"
+        imageSource: "qrc:/icons/sensors.svg"
         buttonText: qsTr("Add zone")
         onButtonClicked: {
             pendingAddCall = acManager.addZone(qsTr("Zone %1").arg(acManager.zoneInfos.count + 1), [], [], [], [])

@@ -58,6 +58,8 @@ Page {
         })
     }
 
+    BackgroundFocusHandler { anchors.fill: parent }
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -130,7 +132,7 @@ Page {
 
                 ColorIcon {
                     size: Style.iconSize
-                    name: "../images/find.svg"
+                    name: "qrc:/icons/find.svg"
                 }
             }
 
@@ -160,10 +162,10 @@ Page {
 
             delegate: NymeaItemDelegate {
                 id: tingClassDelegate
-                width: parent.width
+                width: listView.width
                 text: model.displayName
                 subText: engine.thingManager.vendors.getVendor(model.vendorId).displayName
-                iconName: app.interfacesToIcon(thingClass.interfaces)
+                iconName: thingClass.interfaces ? app.interfacesToIcon(thingClass.interfaces) : ""
                 prominentSubText: false
                 wrapTexts: false
 
@@ -184,7 +186,7 @@ Page {
                 visible: opacity > 0
                 title: qsTr("Looking for something else?")
                 text: qsTr("Try to install more plugins.")
-                imageSource: "/ui/images/save.svg"
+                imageSource: "qrc:/icons/save.svg"
                 buttonText: qsTr("Install plugins")
                 onButtonClicked: {
                     pageStack.push(Qt.resolvedUrl("/ui/system/PackageListPage.qml"), {filter: "nymea-plugin-"})
@@ -197,5 +199,4 @@ Page {
             }
         }
     }
-
 }

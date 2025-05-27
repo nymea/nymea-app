@@ -50,7 +50,7 @@ ThingPageBase {
     CircleBackground {
         anchors.fill: parent
         anchors.margins: Style.hugeMargins
-        iconSource: "../images/powersocket.svg"
+        iconSource: "qrc:/icons/powersocket.svg"
         onColor: app.interfaceToColor("powersocket")
         on: (actionQueue.pendingValue || powerState.value) === true
         onClicked: {

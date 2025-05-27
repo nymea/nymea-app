@@ -222,7 +222,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     size: Style.bigIconSize
         //            color: Style.red
-                    name: "/ui/images/power-grid.svg"
+                    name: "qrc:/icons/power-grid.svg"
                 }
                 Label {
                     Layout.fillWidth: true
@@ -292,7 +292,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     size: Style.bigIconSize
                     //            color: Style.yellow
-                    name: "/ui/images/weathericons/weather-clear-day.svg"
+                    name: "qrc:/icons/weathericons/weather-clear-day.svg"
                 }
                 Label {
                     Layout.fillWidth: true
@@ -366,7 +366,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     size: Style.bigIconSize
                     //            color: Style.blue
-                    name: "/ui/images/powersocket.svg"
+                    name: "qrc:/icons/powersocket.svg"
                 }
                 Label {
                     Layout.fillWidth: true
@@ -435,7 +435,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     size: Style.bigIconSize
                     //            color: Style.purple
-                    name: "/ui/images/battery/battery-" + NymeaUtils.pad(Math.round(batteryChart.averageLevel / 10) * 10, 3) + ".svg"
+                    name: "qrc:/icons/battery/battery-" + NymeaUtils.pad(Math.round(batteryChart.averageLevel / 10) * 10, 3) + ".svg"
                 }
                 Label {
                     Layout.fillWidth: true

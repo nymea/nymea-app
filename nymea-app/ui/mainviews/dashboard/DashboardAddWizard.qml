@@ -138,7 +138,7 @@ NymeaDialog {
                     Layout.leftMargin: Style.margins
                     Layout.rightMargin: Style.margins
                     ColorIcon {
-                        name: "/ui/images/find.svg"
+                        name: "qrc:/icons/find.svg"
                     }
                     TextField {
                         id: filterTextField
@@ -182,7 +182,7 @@ NymeaDialog {
                     Layout.leftMargin: Style.margins
                     Layout.rightMargin: Style.margins
                     ColorIcon {
-                        name: "/ui/images/find.svg"
+                        name: "qrc:/icons/find.svg"
                     }
                     TextField {
                         id: filterTextField
@@ -395,7 +395,7 @@ NymeaDialog {
                     Layout.leftMargin: Style.margins
                     Layout.rightMargin: Style.margins
                     ColorIcon {
-                        name: "/ui/images/find.svg"
+                        name: "qrc:/icons/find.svg"
                     }
                     TextField {
                         id: filterTextField
@@ -434,7 +434,7 @@ NymeaDialog {
                     Layout.leftMargin: Style.margins
                     Layout.rightMargin: Style.margins
                     ColorIcon {
-                        name: "/ui/images/find.svg"
+                        name: "qrc:/icons/find.svg"
                     }
                     TextField {
                         id: filterTextField

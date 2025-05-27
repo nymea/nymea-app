@@ -46,7 +46,7 @@ SettingsPageBase {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/tick.svg"
+            imageSource: "qrc:/icons/tick.svg"
             onClicked: {
                 pluginConfigManager.savePluginConfig()
             }

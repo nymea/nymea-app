@@ -56,7 +56,7 @@ ThingPageBase {
                 anchors.centerIn: parent
                 height: Math.min(parent.width, parent.height)
                 width: height
-                name: "../images/notification.svg"
+                name: "qrc:/icons/notification.svg"
 
                 SequentialAnimation {
                     id: ringAnimation
@@ -103,7 +103,7 @@ ThingPageBase {
                     ColorIcon {
                         Layout.preferredHeight: Style.iconSize
                         Layout.preferredWidth: Style.iconSize
-                        name: "../images/alarm-clock.svg"
+                        name: "qrc:/icons/alarm-clock.svg"
                         color: Style.accentColor
                     }
 

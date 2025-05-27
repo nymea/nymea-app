@@ -40,7 +40,7 @@ Page {
 
         HeaderButton {
             text: qsTr("Add new script")
-            imageSource: "../images/add.svg"
+            imageSource: "qrc:/icons/add.svg"
             onClicked: {
                 pageStack.push("ScriptEditor.qml");
             }
@@ -67,7 +67,7 @@ Page {
         delegate: NymeaSwipeDelegate {
             width: parent.width
             text: model.name
-            iconName: "../images/script.svg"
+            iconName: "qrc:/icons/script.svg"
             canDelete: true
             onClicked: {
                 pageStack.push("ScriptEditor.qml", {scriptId: model.id});
@@ -84,7 +84,7 @@ Page {
             width: parent.width - app.margins * 2
             title: qsTr("No scripts are installed yet.")
             text: qsTr("Press \"Add script\" to get started.")
-            imageSource: "../images/script.svg"
+            imageSource: "qrc:/icons/script.svg"
             buttonText: qsTr("Add script")
             visible: engine.scriptManager.scripts.count === 0
             onButtonClicked: {

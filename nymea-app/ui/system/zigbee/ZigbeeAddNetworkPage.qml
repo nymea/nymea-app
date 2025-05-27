@@ -56,7 +56,7 @@ SettingsPageBase {
         ColorIcon {
             Layout.preferredHeight: Style.iconSize
             Layout.preferredWidth: Style.iconSize
-            name: "/ui/images/connections/network-wifi-offline.svg"
+            name: "qrc:/icons/connections/network-wifi-offline.svg"
         }
         Label {
             Layout.fillWidth: true
@@ -91,7 +91,7 @@ SettingsPageBase {
 
         delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
-            iconName: "/ui/images/zigbee.svg"
+            iconName: "qrc:/icons/zigbee.svg"
             text: model.backend + " - " + model.description + " - " + model.serialPort
             onClicked: {
                 pageStack.push(addSettingsPageComponent, {serialPort: model.serialPort, baudRate: model.baudRate, backend: model.backend, allowSerialPortSettings: false})
@@ -124,7 +124,7 @@ SettingsPageBase {
         delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
             property ZigbeeAdapter adapter: root.zigbeeManager.adapters.get(index)
-            iconName: "/ui/images/stock_usb.svg"
+            iconName: "qrc:/icons/stock_usb.svg"
             text: model.description + " - " + model.serialPort
             onClicked: {
                 pageStack.push(addSettingsPageComponent, {serialPort: model.serialPort, baudRate: model.baudRate, backend: model.backend, allowSerialPortSettings: true})

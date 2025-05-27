@@ -167,7 +167,7 @@ Item {
             }
             ProgressButton {
                 longpressEnabled: false
-                imageSource: "../images/like.svg"
+                imageSource: "qrc:/icons/like.svg"
                 visible: root.likeState !== null
                 color: root.likeState && root.likeState.value === true ? Style.accentColor : Style.iconColor
                 onClicked: {
@@ -227,7 +227,7 @@ Item {
             ProgressButton {
                 longpressEnabled: false
                 visible: root.thing.thingClass.browsable
-                imageSource: "../images/folder.svg"
+                imageSource: "qrc:/icons/folder.svg"
                 onClicked: {
                     if (!d.browser) {
                         d.browser = browserPage.createObject(root, {x: 0, y: root.height})
@@ -238,7 +238,7 @@ Item {
             ProgressButton {
                 longpressEnabled: false
                 visible: root.hasNavigationPatd
-                imageSource: "../images/navigationpad.svg"
+                imageSource: "qrc:/icons/navigationpad.svg"
                 onClicked: pageStack.push(navigationPadPage)
             }
             RowLayout {
@@ -247,7 +247,7 @@ Item {
                     id: inputSourceButton
                     longpressEnabled: false
                     visible: root.inputSourceState !== null
-                    imageSource: "../images/state-in.svg"
+                    imageSource: "qrc:/icons/state-in.svg"
                     onClicked: {
                         var popup = inputSourceSelectDialogComponent.createObject(root)
                         popup.open()
@@ -265,7 +265,7 @@ Item {
             ColorIcon {
                 visible: root.ambeoModeState !== null
                 Layout.preferredWidth: Style.iconSize * 3
-                name: "../images/media/ambeo.svg"
+                name: "qrc:/icons/media/ambeo.svg"
                 color: root.ambeoModeState && root.ambeoModeState.value !== "Off" ? Style.accentColor : Style.iconColor
                 MouseArea {
                     anchors.fill: parent
@@ -278,14 +278,14 @@ Item {
             ProgressButton {
                 longpressEnabled: false
                 visible: root.nightModeState !== null
-                imageSource: "../images/weathericons/weather-clear-night.svg"
+                imageSource: "qrc:/icons/weathericons/weather-clear-night.svg"
                 color: root.nightModeState && root.nightModeState.value === true ? Style.accentColor : Style.iconColor
                 onClicked: d.pendingCallId = engine.thingManager.executeAction(root.thing.id, root.nightModeState.stateTypeId, [{paramTypeId: root.nightModeState.stateTypeId, value: !root.nightModeState.value}])
             }
             ProgressButton {
                 longpressEnabled: false
                 visible: root.equalizerPresetState !== null
-                imageSource: "../images/media/equalizer.svg"
+                imageSource: "qrc:/icons/media/equalizer.svg"
                 onClicked: {
                     var dialog = equalizerComponent.createObject(root)
                     dialog.open()
@@ -296,8 +296,8 @@ Item {
                 visible: root.hasVolumeControl
                 longpressEnabled: false
                 imageSource: root.muteState && root.muteState.value === true ?
-                                 "../images/audio-speakers-muted-symbolic.svg"
-                               : "../images/audio-speakers-symbolic.svg"
+                                 "qrc:/icons/audio-speakers-muted-symbolic.svg"
+                               : "qrc:/icons/audio-speakers-symbolic.svg"
                 onClicked: {
                     print(volumeButton.x, volumeButton.y)
                     print(Qt.point(volumeButton.x, volumeButton.y))
@@ -337,14 +337,14 @@ Item {
                     visible: root.volumeState === null
                     Layout.alignment: Qt.AlignHCenter
                     longpressEnabled: false
-                    imageSource: "../images/up.svg"
+                    imageSource: "qrc:/icons/up.svg"
                     onClicked: engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("increaseVolume").id);
                 }
                 ProgressButton {
                     visible: root.volumeState === null
                     Layout.alignment: Qt.AlignHCenter
                     longpressEnabled: false
-                    imageSource: "../images/down.svg"
+                    imageSource: "qrc:/icons/down.svg"
                     onClicked: engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("decreaseVolume").id);
                 }
 
@@ -361,7 +361,7 @@ Item {
                 ProgressButton {
                     visible: root.muteState !== null
                     Layout.alignment: Qt.AlignHCenter
-                    imageSource: "../images/audio-speakers-muted-symbolic.svg"
+                    imageSource: "qrc:/icons/audio-speakers-muted-symbolic.svg"
                     color: root.muteState.value === true ? Style.accentColor : Style.iconColor
                     onClicked: engine.thingManager.executeAction(root.thing.id, root.muteState.stateTypeId, [{paramTypeId: root.muteState.stateTypeId, value: !root.muteState.value}]);
                 }
@@ -403,7 +403,7 @@ Item {
                 RowLayout {
                     anchors.fill: parent
                     HeaderButton {
-                        imageSource: "../images/down.svg"
+                        imageSource: "qrc:/icons/down.svg"
                         onClicked: d.browser.hide()
                     }
 
@@ -479,7 +479,7 @@ Item {
         id: inputSourceSelectDialogComponent
         NymeaDialog {
             id: inputSourceSelectDialog
-            headerIcon: "../images/state-in.svg"
+            headerIcon: "qrc:/icons/state-in.svg"
             title: qsTr("Select input")
             standardButtons: Dialog.NoButton
 
@@ -507,7 +507,7 @@ Item {
         id: equalizerComponent
         NymeaDialog {
             id: equalizer
-            headerIcon: "../images/media/equalizer.svg"
+            headerIcon: "qrc:/icons/media/equalizer.svg"
             title: qsTr("Equalizer preset")
             standardButtons: Dialog.NoButton
             ListView {
@@ -538,7 +538,7 @@ Item {
                 Layout.preferredHeight: Style.hugeIconSize
                 Layout.preferredWidth: Style.hugeIconSize * 3
                 Layout.alignment: Qt.AlignHCenter
-                name: "../images/media/ambeo.svg"
+                name: "qrc:/icons/media/ambeo.svg"
                 color: Style.accentColor
             }
 
