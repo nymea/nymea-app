@@ -584,10 +584,6 @@
         <translation>도움</translation>
     </message>
     <message>
-        <source>Forum</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Telegram</source>
         <translation type="unfinished"></translation>
     </message>
