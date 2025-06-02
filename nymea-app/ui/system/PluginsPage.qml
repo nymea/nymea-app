@@ -43,6 +43,7 @@ SettingsPageBase {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
+            visible: false
             imageSource: "../images/configure.svg"
             color: pluginsProxy.showOnlyConfigurable ? Style.accentColor : Style.iconColor
             onClicked: {
