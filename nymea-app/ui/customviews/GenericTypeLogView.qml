@@ -59,7 +59,7 @@ Item {
             implicitHeight: app.delegateHeight
             property Thing thing: engine.thingManager.things.getThing(model.thingId)
             property ThingClass thingClass: engine.thingManager.thingClasses.getThingClass(thing.thingClassId)
-            iconName: "../images/event.svg"
+            iconName: "qrc:/icons/event.svg"
             text: Qt.formatDateTime(model.timestamp,"dd.MM.yy - hh:mm:ss")
             subText: thingClass.eventTypes.getEventType(model.typeId).displayName + (model.value.length > 0 ? (": " + model.value.trim()) : "")
             prominentSubText: true
@@ -67,7 +67,7 @@ Item {
             contextOptions: [
                 {
                     text: qsTr("Magic"),
-                    icon: "../images/magic.svg",
+                    icon: "qrc:/icons/magic.svg",
                     callback: function() { root.addRuleClicked(index) }
                 }
             ]

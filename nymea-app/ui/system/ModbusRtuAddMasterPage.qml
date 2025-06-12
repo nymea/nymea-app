@@ -66,7 +66,7 @@ SettingsPageBase {
         model: modbusRtuManager.serialPorts
         delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
-            iconName: "../images/stock_usb.svg"
+            iconName: "qrc:/icons/stock_usb.svg"
             text:  model.description + (model.manufacturer === "" ? "" : " - " + model.manufacturer)
             subText: model.systemLocation + (model.serialNumber === "" ? "" : " - " + model.serialNumber)
             onClicked: pageStack.push(configureNewModbusRtuMasterPage, { modbusRtuManager: modbusRtuManager, serialPort: modbusRtuManager.serialPorts.get(index) })

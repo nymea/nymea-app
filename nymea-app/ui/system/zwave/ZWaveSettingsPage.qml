@@ -43,7 +43,7 @@ SettingsPageBase {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/add.svg"
+            imageSource: "qrc:/icons/add.svg"
             text: qsTr("Add Z-Wave network")
             onClicked: {
                 addNetwork()
@@ -81,7 +81,7 @@ SettingsPageBase {
             text: zwaveManager.zwaveAvailable
                   ? qsTr("There are no Z-Wave networks set up yet. In order to use Z-Wave, create a Z-Wave network.")
                   : qsTr("Z-Wave is not available on this system as no Z-Wave backend is installed.")
-            imageSource: "/ui/images/z-wave.svg"
+            imageSource: "qrc:/icons/z-wave.svg"
             buttonVisible: zwaveManager.zwaveAvailable
             buttonText: qsTr("Add network")
             onButtonClicked: {
@@ -106,7 +106,7 @@ SettingsPageBase {
 
                 header: RowLayout {
                     Image {
-                        source: "/ui/images/zwave/z-wave" + (network.isZWavePlus ? "-plus" : "") + "-wide.svg"
+                        source: "qrc:/icons/zwave/z-wave" + (network.isZWavePlus ? "-plus" : "") + "-wide.svg"
                         Layout.preferredHeight: Style.iconSize
                         // ssw : w = ssh : h
                         Layout.preferredWidth: sourceSize.width * height / sourceSize.height

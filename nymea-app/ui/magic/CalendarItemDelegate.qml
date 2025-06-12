@@ -59,7 +59,7 @@ NymeaSwipeDelegate {
     }
 
 
-    iconName: "../images/clock-app-symbolic.svg"
+    iconName: "qrc:/icons/clock-app-symbolic.svg"
 
     text: qsTr("From %1 to %2")
     .arg(root.isDateBased ? Qt.formatDateTime(root.calendarItem.dateTime) : Qt.formatTime(root.calendarItem.startTime))

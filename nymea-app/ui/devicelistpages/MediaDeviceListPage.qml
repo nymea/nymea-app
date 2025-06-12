@@ -140,7 +140,7 @@ ThingsListPageBase {
                                     width: Math.min(parent.width, parent.height) - app.margins * 2
                                     height: width
                                     anchors.centerIn: parent
-                                    name: itemDelegate.playerTypeState && itemDelegate.playerTypeState.value === "video" ? "../images/stock_video.svg" : "../images/stock_music.svg"
+                                    name: itemDelegate.playerTypeState && itemDelegate.playerTypeState.value === "video" ? "qrc:/icons/stock_video.svg" : "qrc:/icons/stock_music.svg"
                                     visible: artworkImage.status !== Image.Ready || artworkImage.source === ""
                                     color: "white"
                                 }

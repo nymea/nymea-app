@@ -53,7 +53,7 @@ RowLayout {
 
         HeaderButton {
             anchors.centerIn: parent
-            imageSource: root.repeatState.value === "One" ? "../images/media-playlist-repeat-one.svg" : "../images/media-playlist-repeat.svg"
+            imageSource: root.repeatState.value === "One" ? "qrc:/icons/media-playlist-repeat-one.svg" : "qrc:/icons/media-playlist-repeat.svg"
             color: root.repeatState.value === "None" ? Style.iconColor : Style.accentColor
             property var allowedValues: ["None", "All", "One"]
             onClicked: {
@@ -74,7 +74,7 @@ RowLayout {
 
         HeaderButton {
             anchors.centerIn: parent
-            imageSource: "../images/media-playlist-shuffle.svg"
+            imageSource: "qrc:/icons/media-playlist-shuffle.svg"
             color: root.shuffleState.value === true ? Style.accentColor: Style.iconColor
             onClicked: {
                 var params = []
@@ -94,8 +94,8 @@ RowLayout {
             id: volumeButton
             anchors.centerIn: parent
             imageSource: root.muteState && root.muteState.value === true ?
-                             "../images/audio-speakers-muted-symbolic.svg"
-                           : "../images/audio-speakers-symbolic.svg"
+                             "qrc:/icons/audio-speakers-muted-symbolic.svg"
+                           : "qrc:/icons/audio-speakers-symbolic.svg"
             onClicked: {
                 print(volumeButton.x, volumeButton.y)
                 print(Qt.point(volumeButton.x, volumeButton.y))
@@ -129,12 +129,12 @@ RowLayout {
             contentItem: ColumnLayout {
                 HeaderButton {
                     visible: root.volumeState === null
-                    imageSource: "../images/up.svg"
+                    imageSource: "qrc:/icons/up.svg"
                     onClicked: engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("increaseVolume").id);
                 }
                 HeaderButton {
                     visible: root.volumeState === null
-                    imageSource: "../images/down.svg"
+                    imageSource: "qrc:/icons/down.svg"
                     onClicked: engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("decreaseVolume").id);
                 }
 
@@ -150,7 +150,7 @@ RowLayout {
 
                 HeaderButton {
                     visible: root.muteState !== null
-                    imageSource: "../images/audio-speakers-muted-symbolic.svg"
+                    imageSource: "qrc:/icons/audio-speakers-muted-symbolic.svg"
                     color: root.muteState.value === true ? Style.accentColor : Style.iconColor
                     onClicked: engine.thingManager.executeAction(root.thing.id, root.muteState.stateTypeId, [{paramTypeId: root.muteState.stateTypeId, value: !root.muteState.value}]);
                 }
