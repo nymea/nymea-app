@@ -116,7 +116,7 @@ Item {
                     innerRadius = canvas.width * 0.38
                     ctx.lineWidth = 4;
                 } else {
-                    ctx.strokeStyle = Style.tileOverlayColor;
+                    ctx.strokeStyle = Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.25);
                     ctx.lineWidth = 1;
                 }
 

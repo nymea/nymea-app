@@ -72,6 +72,7 @@ Item {
     // Color definitions
     property color white: "white"
     property color gray: "gray"
+    property color mediumGray: "#767676"
     property color darkGray: "darkgray"
     property color lightGray: "lightGray"
 
