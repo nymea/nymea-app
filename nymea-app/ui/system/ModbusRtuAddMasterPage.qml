@@ -253,7 +253,7 @@ SettingsPageBase {
                 TextField {
                     id: timeoutText
                     inputMethodHints: Qt.ImhDigitsOnly
-                    text: "100"
+                    text: "500"
                     validator: IntValidator { bottom: 10; top: 100000 }
                 }
             }

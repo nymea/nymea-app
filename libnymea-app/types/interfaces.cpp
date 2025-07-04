@@ -151,7 +151,6 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addStateType("cooling", "power", QVariant::Bool, true, tr("Cooling enabled"), tr("Cooling enabled changed"), tr("Enable cooling"));
     addStateType("cooling", "percentage", QVariant::Int, true, tr("Percentage"), tr("Percentage changed"), tr("Set percentage"), 0, 100);
 
-
     addInterface("media", tr("Media"));
 
     addInterface("mediacontroller", tr("Media controllers"), {"media"});
