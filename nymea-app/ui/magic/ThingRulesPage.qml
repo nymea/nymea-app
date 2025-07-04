@@ -44,7 +44,7 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/add.svg"
+            imageSource: "qrc:/icons/add.svg"
             visible: rulesListView.count > 0
             onClicked: addRule()
         }
@@ -139,7 +139,7 @@ Page {
 
         delegate: NymeaSwipeDelegate {
             width: parent.width
-            iconName: "../images/magic.svg"
+            iconName: "qrc:/icons/magic.svg"
             iconColor: !model.enabled ? "red" : (model.active ? Style.accentColor : "grey")
             text: model.name
             canDelete: true
@@ -195,7 +195,7 @@ Page {
 
             ColorIcon {
                 anchors.fill: parent
-                name: "../images/magic.svg"
+                name: "qrc:/icons/magic.svg"
             }
 
             onClicked: addRule()

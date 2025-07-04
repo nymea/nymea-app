@@ -54,7 +54,7 @@ NymeaSwipeDelegate {
 
     onDeleteClicked: root.removeEventDescriptor()
 
-    iconName: root.thing ? "../images/event.svg" : "../images/event-interface.svg"
+    iconName: root.thing ? "qrc:/icons/event.svg" : "qrc:/icons/event-interface.svg"
     text: "%1 - %2".arg(root.thing ? root.thing.name : root.iface.displayName).arg(root.actualEventType.displayName)
     subText: {
         var ret = qsTr("anytime");

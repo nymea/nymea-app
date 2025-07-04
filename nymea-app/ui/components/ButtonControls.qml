@@ -113,7 +113,7 @@ RowLayout {
                         || thing.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
                         || thing.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
                         || thing.thingClass.interfaces.indexOf("garagegate") >= 0) {
-                    return "../images/up.svg"
+                    return "qrc:/icons/up.svg"
                 }
                 return ""
             case "blind":
@@ -122,11 +122,11 @@ RowLayout {
             case "extendedawning":
             case "shutter":
             case "extendedshutter":
-                return "../images/up.svg"
+                return "qrc:/icons/up.svg"
             case "cleaningrobot":
                 var thing = root.thing ? root.thing : thingsProxy.get(0)
                 var robotState = thing.stateByName("robotState")
-                return robotState.value == "cleaning" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
+                return robotState.value == "cleaning" ? "qrc:/icons/media-playback-pause.svg" : "qrc:/icons/media-playback-start.svg"
             default:
                 console.warn("ButtonControls", "button 1 image: Unhandled interface", iface)
             }
@@ -216,7 +216,7 @@ RowLayout {
                         || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
                         || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
                         || dev.thingClass.interfaces.indexOf("garagegate") >= 0) {
-                    return "../images/media-playback-stop.svg"
+                    return "qrc:/icons/media-playback-stop.svg"
                 }
                 return ""
             case "blind":
@@ -226,7 +226,7 @@ RowLayout {
             case "extendedawning":
             case "extendedshutter":
             case "cleaningrobot":
-                return "../images/media-playback-stop.svg"
+                return "qrc:/icons/media-playback-stop.svg"
             default:
                 console.warn("InterfaceTile, inlineButtonControl 2 image: Unhandled interface", iface)
             }
@@ -303,25 +303,25 @@ RowLayout {
                 var thing = root.thing ? root.thing : thingsProxy.get(0)
                 var stateType = thing.thingClass.stateTypes.findByName("playbackStatus");
                 var state = device.states.getState(stateType.id)
-                return state.value === "Playing" ? "../images/media-playback-pause.svg" :
-                                                   state.value === "Paused" ? "../images/media-playback-start.svg" :
+                return state.value === "Playing" ? "qrc:/icons/media-playback-pause.svg" :
+                                                   state.value === "Paused" ? "qrc:/icons/media-playback-start.svg" :
                                                                               ""
             case "light":
             case "powersocket":
             case "irrigation":
             case "ventilation":
             case "evcharger":
-                return "../images/system-shutdown.svg"
+                return "qrc:/icons/system-shutdown.svg"
             case "garagedoor":
                 var dev = root.thing ? root.thing : thingsProxy.get(0)
                 if (dev.thingClass.interfaces.indexOf("simplegaragedoor") >= 0
                         || dev.thingClass.interfaces.indexOf("statefulgaragedoor") >= 0
                         || dev.thingClass.interfaces.indexOf("extendedstatefulgaragedoor") >= 0
                         || dev.thingClass.interfaces.indexOf("garagegate") >= 0) {
-                    return "../images/down.svg"
+                    return "qrc:/icons/down.svg"
                 }
                 if (dev.thingClass.interfaces.indexOf("impulsegaragedoor") >= 0) {
-                    return "../images/closable-move.svg"
+                    return "qrc:/icons/closable-move.svg"
                 }
                 return ""
             case "blind":
@@ -330,7 +330,7 @@ RowLayout {
             case "extendedawning":
             case "shutter":
             case "extendedshutter":
-                return "../images/down.svg"
+                return "qrc:/icons/down.svg"
             default:
                 console.warn("InterfaceTile, inlineButtonControl 3 image: Unhandled interface", iface)
             }

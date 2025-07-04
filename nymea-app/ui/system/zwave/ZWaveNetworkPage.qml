@@ -47,7 +47,7 @@ SettingsPageBase {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "/ui/images/help.svg"
+            imageSource: "qrc:/icons/help.svg"
             text: qsTr("Help")
             onClicked: {
                 var popup = zigbeeHelpDialog.createObject(app)
@@ -56,7 +56,7 @@ SettingsPageBase {
         }
 
         HeaderButton {
-            imageSource: "/ui/images/configure.svg"
+            imageSource: "qrc:/icons/configure.svg"
             text: qsTr("Network settings")
             onClicked: {
                 var page = pageStack.push(Qt.resolvedUrl("ZWaveNetworkSettingsPage.qml"), { zwaveManager: zwaveManager, network: network })
@@ -273,7 +273,7 @@ SettingsPageBase {
                                                  nodeThings.count > 1 ? qsTr("%1 things").arg(nodeThings.count)
                                                                       : node.nodeType == ZWaveNode.ZWaveNodeTypeStaticController || node.nodeType == ZWaveNode.ZWaveNodeTypeController
                                                                         ? qsTr("Network controller") : qsTr("Unrecognized device")
-            iconName: nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "/ui/images/z-wave.svg"
+            iconName: nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "qrc:/icons/z-wave.svg"
             iconColor: busy
                        ? Style.tileOverlayColor
                        : node.nodeType == ZWaveNode.ZWaveNodeTypeController || node.nodeType == ZWaveNode.ZWaveNodeTypeStaticController
@@ -294,7 +294,7 @@ SettingsPageBase {
                 dialog.open()
             }
 
-            secondaryIconName: node && node.sleeping ? "/ui/images/system-suspend.svg" : ""
+            secondaryIconName: node && node.sleeping ? "qrc:/icons/system-suspend.svg" : ""
 
             tertiaryIconName: {
                 var signalStrength = "00";
@@ -310,7 +310,7 @@ SettingsPageBase {
                 } else {
                     signalStrength = "100"
                 }
-                return "/ui/images/connections/nm-signal-" + signalStrength + (node.isSecure ? "-secure" : "") +".svg"
+                return "qrc:/icons/connections/nm-signal-" + signalStrength + (node.isSecure ? "-secure" : "") +".svg"
             }
 
             tertiaryIconColor: node.reachable ? Style.iconColor : Style.red
@@ -327,11 +327,11 @@ SettingsPageBase {
                     switch (node.nodeType) {
                     case ZWaveNode.ZWaveNodeTypeController:
                     case ZWaveNode.ZWaveNodeTypeStaticController:
-                        return "/ui/images/z-wave.svg"
+                        return "qrc:/icons/z-wave.svg"
                     case ZWaveNode.ZWaveNodeTypeRoutingSlave:
-                        return "/ui/images/zigbee/zigbee-router.svg"
+                        return "qrc:/icons/zigbee/zigbee-router.svg"
                     case ZWaveNode.ZWaveNodeTypeSlave:
-                        return "/ui/images/zigbee/zigbee-enddevice.svg"
+                        return "qrc:/icons/zigbee/zigbee-enddevice.svg"
                     }
                 }
                 color: communicationIndicatorLedTimer.running ? Style.accentColor : Style.iconColor
@@ -362,7 +362,7 @@ SettingsPageBase {
                         Layout.preferredHeight: Style.bigIconSize
                         Layout.preferredWidth: Style.bigIconSize * 1.5
                         color: Style.accentColor
-                        name: nodeInfoDialog.node.isZWavePlus ? "/ui/images/zwave/z-wave-plus-wide.svg" : "/ui/images/zwave/z-wave-wide.svg"
+                        name: nodeInfoDialog.node.isZWavePlus ? "qrc:/icons/zwave/z-wave-plus-wide.svg" : "qrc:/icons/zwave/z-wave-wide.svg"
                     }
                     ColumnLayout {
                         Layout.margins: Style.margins
@@ -546,7 +546,7 @@ SettingsPageBase {
 
             property ZWaveNode zwaveNode
 
-            headerIcon: "/ui/images/zigbee.svg"
+            headerIcon: "qrc:/icons/zigbee.svg"
             title: qsTr("Remove Z-Wave node") + " " + (zwaveNode ? zwaveNode.name != "" ? zwaveNode.name : zwaveNode.productName : "")
             text: qsTr("Are you sure you want to remove this node from the network?")
             standardButtons: Dialog.Ok | Dialog.Cancel
@@ -576,7 +576,7 @@ SettingsPageBase {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
                     Layout.preferredWidth: Style.iconSize
-                    name: "/ui/images/zigbee/zigbee-router.svg"
+                    name: "qrc:/icons/zigbee/zigbee-router.svg"
                 }
 
                 Label {
@@ -589,7 +589,7 @@ SettingsPageBase {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
                     Layout.preferredWidth: Style.iconSize
-                    name: "/ui/images/zigbee-enddevice.svg"
+                    name: "qrc:/icons/zigbee-enddevice.svg"
                 }
 
                 Label {
@@ -602,7 +602,7 @@ SettingsPageBase {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
                     Layout.preferredWidth: Style.iconSize
-                    name: "/ui/images/system-suspend.svg"
+                    name: "qrc:/icons/system-suspend.svg"
                 }
 
                 Label {

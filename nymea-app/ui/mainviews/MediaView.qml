@@ -77,7 +77,7 @@ MainViewBase {
         visible: !engine.thingManager.fetchingData && mediaDevices.count == 0
         title: qsTr("There are no media players set up.")
         text: qsTr("Connect your media players in order to control them from here.")
-        imageSource: "../images/media.svg"
+        imageSource: "qrc:/icons/media.svg"
         buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))
     }

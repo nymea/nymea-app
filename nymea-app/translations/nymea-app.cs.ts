@@ -586,10 +586,6 @@
         <translation>Nápověda</translation>
     </message>
     <message>
-        <source>Forum</source>
-        <translation>Fórum</translation>
-    </message>
-    <message>
         <source>Telegram</source>
         <translation>Telegram</translation>
     </message>
