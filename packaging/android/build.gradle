@@ -115,6 +115,6 @@ android {
     defaultConfig {
         resConfigs "en", "de", "ko", "it", "nl", "es"
         minSdkVersion = 23
-        targetSdkVersion = 34
+        targetSdkVersion = 35
     }
 }
