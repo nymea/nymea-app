@@ -143,6 +143,18 @@ Item {
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 iconName: "qrc:/icons/stock_website.svg"
+                text: qsTr("Chargebyte")
+                subText: "https://chargebyte.com"
+                prominentSubText: false
+                wrapTexts: false
+                onClicked: {
+                    Qt.openUrlExternally("https://chargebyte.com")
+                }
+            }
+
+            NymeaSwipeDelegate {
+                Layout.fillWidth: true
+                iconName: "qrc:/icons/stock_website.svg"
                 text: qsTr("Visit the nymea website")
                 subText: "https://nymea.io"
                 prominentSubText: false
