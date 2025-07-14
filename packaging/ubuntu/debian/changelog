@@ -1,3 +1,10 @@
+nymea-app (1.10.8) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add material icons and make icon set exchangable
+
+ -- jenkins <developer@nymea.io>  Mon, 14 Jul 2025 14:24:57 +0200
+
 nymea-app (1.10.2) bionic; urgency=medium
 
   [ Simon Stürz ]
