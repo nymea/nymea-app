@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2025, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -58,6 +58,10 @@ class PlatformHelper : public QObject
     Q_PROPERTY(bool darkModeEnabled READ darkModeEnabled NOTIFY darkModeEnabledChanged)
     Q_PROPERTY(QVariantList pendingNotificationActions READ pendingNotificationActions NOTIFY pendingNotificationActionsChanged)
     Q_PROPERTY(bool locationServicesEnabled READ locationServicesEnabled NOTIFY locationServicesEnabledChanged)
+    Q_PROPERTY(int topPadding READ topPadding CONSTANT)
+    Q_PROPERTY(int bottomPadding READ bottomPadding CONSTANT)
+    Q_PROPERTY(int leftPadding READ leftPadding CONSTANT)
+    Q_PROPERTY(int rightPadding READ rightPadding CONSTANT)
 
 public:
     enum HapticsFeedback {
@@ -87,6 +91,11 @@ public:
     virtual void setTopPanelColor(const QColor &color);
     virtual QColor bottomPanelColor() const;
     virtual void setBottomPanelColor(const QColor &color);
+
+    virtual int topPadding() const;
+    virtual int bottomPadding() const;
+    virtual int leftPadding() const;
+    virtual int rightPadding() const;
 
     virtual bool darkModeEnabled() const;
 

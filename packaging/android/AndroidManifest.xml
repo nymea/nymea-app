@@ -8,7 +8,14 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="nymea:app" android:icon="@mipmap/icon" android:roundIcon="@mipmap/round_icon" android:extractNativeLibs="true">
-        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="io.guh.nymeaapp.NymeaAppActivity" android:label="nymea:app" android:screenOrientation="unspecified" android:launchMode="singleTop" android:theme="@style/SplashScreenTheme" android:exported="true">
+        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" 
+                  android:name="io.guh.nymeaapp.NymeaAppActivity"
+                  android:label="nymea:app"
+                  android:screenOrientation="unspecified"
+                  android:windowSoftInputMode="adjustResize"
+                  android:launchMode="singleTop"
+                  android:theme="@style/SplashScreenTheme"
+                  android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

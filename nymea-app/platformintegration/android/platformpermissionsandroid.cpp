@@ -1,12 +1,11 @@
 #include "platformpermissionsandroid.h"
 
-#include <QApplication>
 #include <QDebug>
+#include <QApplication>
 #include <QAndroidIntent>
 #include <QOperatingSystemVersion>
 
 #include "logging.h"
-
 NYMEA_LOGGING_CATEGORY(dcPlatformPermissions, "PlatformPermissions")
 
 PlatformPermissionsAndroid * PlatformPermissionsAndroid::s_instance = nullptr;

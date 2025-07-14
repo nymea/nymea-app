@@ -27,7 +27,6 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
 
     private static final String TAG = "nymea-app: NymeaAppNotificationService";
 
-
     private int hashId(String id) {
         int hash = 7;
         for (int i = 0; i < id.length(); i++) {

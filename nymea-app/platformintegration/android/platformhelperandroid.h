@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2025, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -59,6 +59,9 @@ public:
     void setTopPanelTheme(Theme theme);
     void setBottomPanelColor(const QColor &color) override;
     void setBottomPanelTheme(Theme theme);
+
+    int topPadding() const override;
+    int bottomPadding() const override;
 
     bool darkModeEnabled() const override;
 

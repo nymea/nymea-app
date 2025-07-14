@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2025, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -190,6 +190,26 @@ void PlatformHelper::setBottomPanelColor(const QColor &color)
         m_bottomPanelColor = color;
         emit bottomPanelColorChanged();
     }
+}
+
+int PlatformHelper::topPadding() const
+{
+    return 0;
+}
+
+int PlatformHelper::bottomPadding() const
+{
+    return 0;
+}
+
+int PlatformHelper::leftPadding() const
+{
+    return 0;
+}
+
+int PlatformHelper::rightPadding() const
+{
+    return 0;
 }
 
 bool PlatformHelper::darkModeEnabled() const

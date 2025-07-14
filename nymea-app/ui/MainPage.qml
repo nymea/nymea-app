@@ -78,7 +78,6 @@ Page {
     header: Item {
         id: mainHeader
         height: 0
-
         HeaderButton {
             id: menuButton
             imageSource: "qrc:/icons/navigation-menu.svg"

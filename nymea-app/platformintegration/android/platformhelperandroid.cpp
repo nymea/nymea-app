@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2025, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -30,12 +30,12 @@
 
 #include "platformhelperandroid.h"
 
-#include <QAndroidJniObject>
-#include <QtAndroid>
 #include <QDebug>
+#include <QScreen>
+#include <QtAndroid>
 #include <QAndroidIntent>
 #include <QApplication>
-
+#include <QAndroidJniObject>
 
 // WindowManager.LayoutParams
 #define FLAG_TRANSLUCENT_STATUS 0x04000000
@@ -51,7 +51,7 @@ static JNINativeMethod methods[] = {
     { "darkModeEnabledChangedJNI", "()V", (void *)PlatformHelperAndroid::darkModeEnabledChangedJNI },
     { "notificationActionReceivedJNI", "(Ljava/lang/String;)V", (void *)PlatformHelperAndroid::notificationActionReceivedJNI },
     { "locationServicesEnabledChangedJNI", "()V", (void *)PlatformHelperAndroid::locationServicesEnabledChangedJNI },
-};
+    };
 
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
 {
@@ -86,7 +86,7 @@ PlatformHelperAndroid::PlatformHelperAndroid(QObject *parent) : PlatformHelper(p
     }
 
     connect(qApp, &QApplication::applicationStateChanged, this, [this](Qt::ApplicationState state){
-        qCritical() << "******* app state change";
+        qCritical() << "----> Application state changed" << state;
         if (state == Qt::ApplicationActive) {
             emit locationServicesEnabledChanged();
         }
@@ -180,7 +180,7 @@ void PlatformHelperAndroid::setTopPanelColor(const QColor &color)
     PlatformHelper::setTopPanelColor(color);
 
     if (QtAndroid::androidSdkVersion() < 21)
-            return;
+        return;
 
     QtAndroid::runOnAndroidThread([=]() {
         QAndroidJniObject window = getAndroidWindow();
@@ -248,7 +248,26 @@ void PlatformHelperAndroid::setBottomPanelTheme(Theme theme)
             visibility &= ~SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
         view.callMethod<void>("setSystemUiVisibility", "(I)V", visibility);
     });
+}
 
+int PlatformHelperAndroid::topPadding() const
+{
+    // Edge to edge has been forced since android SDK 35
+    // We don't want to handle it in earlied versions.
+    if (QtAndroid::androidSdkVersion() < 35)
+        return 0;
+
+    return QtAndroid::androidActivity().callMethod<jint>("topPadding") / QApplication::primaryScreen()->devicePixelRatio();
+}
+
+int PlatformHelperAndroid::bottomPadding() const
+{
+    // Edge to edge has been forced since android SDK 35
+    // We don't want to handle it in earlied versions.
+    if (QtAndroid::androidSdkVersion() < 35)
+        return 0;
+
+    return QtAndroid::androidActivity().callMethod<jint>("bottomPadding") / QApplication::primaryScreen()->devicePixelRatio();
 }
 
 bool PlatformHelperAndroid::darkModeEnabled() const

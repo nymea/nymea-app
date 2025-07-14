@@ -17,6 +17,9 @@ import android.content.IntentFilter;
 import android.content.BroadcastReceiver;
 import android.location.LocationManager;
 import androidx.core.content.FileProvider;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import android.view.WindowInsets;
 
 public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActivity
 {
@@ -40,6 +43,8 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Move th app to the background (Edge to edge is forced since SDK 35)
+        //WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         this.context = getApplicationContext();
     }
 
@@ -57,7 +62,7 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
         super.onResume();
 
         IntentFilter filter = new IntentFilter(LocationManager.MODE_CHANGED_ACTION);
-//        filter.addAction(Intent.ACTION_PROVIDER_CHANGED);
+        // filter.addAction(Intent.ACTION_PROVIDER_CHANGED);
         registerReceiver(m_gpsSwitchStateReceiver, filter);
     }
 
@@ -135,4 +140,15 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
         int mode = Settings.Secure.getInt(getApplicationContext().getContentResolver(), Settings.Secure.LOCATION_MODE, Settings.Secure.LOCATION_MODE_OFF);
         return (mode != Settings.Secure.LOCATION_MODE_OFF);
     }
+
+    public int topPadding() {
+        WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
+        return windowInsets.getInsets(WindowInsets.Type.statusBars() | WindowInsets.Type.displayCutout()).top;
+    }
+
+    public int bottomPadding() {
+        WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
+        return windowInsets.getInsets(WindowInsets.Type.navigationBars() | WindowInsets.Type.displayCutout()).bottom;
+    }
+
 }
