@@ -14,6 +14,10 @@ Item {
     property bool animationsEnabled: false
     property EnergyManager energyManager: null
 
+    property string gridIcon
+    property string pvIcon
+    property string homeIcon
+
     readonly property double fromGrid: Math.max(0, energyManager.currentPowerAcquisition)
     readonly property double fromStorage: -Math.min(0, energyManager.currentPowerStorage)
     readonly property double toStorage: -Math.min(0, -energyManager.currentPowerStorage)
@@ -222,7 +226,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     size: Style.bigIconSize
         //            color: Style.red
-                    name: "qrc:/icons/power-grid.svg"
+                    name: root.gridIcon === "" ? "qrc:/icons/power-grid.svg" : root.gridIcon
                 }
                 Label {
                     Layout.fillWidth: true
@@ -292,7 +296,8 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     size: Style.bigIconSize
                     //            color: Style.yellow
-                    name: "qrc:/icons/weathericons/weather-clear-day.svg"
+                    name: root.pvIcon === "" ? "qrc:/icons/weathericons/weather-clear-day.svg" : root.pvIcon
+
                 }
                 Label {
                     Layout.fillWidth: true
@@ -366,7 +371,8 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     size: Style.bigIconSize
                     //            color: Style.blue
-                    name: "qrc:/icons/powersocket.svg"
+                    name: root.homeIcon === "" ? "qrc:/icons/powersocket.svg": root.homeIcon
+
                 }
                 Label {
                     Layout.fillWidth: true
