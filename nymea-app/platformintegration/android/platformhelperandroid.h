@@ -60,6 +60,9 @@ public:
     void setBottomPanelColor(const QColor &color) override;
     void setBottomPanelTheme(Theme theme);
 
+    int topPadding() const override;
+    int bottomPadding() const override;
+
     bool darkModeEnabled() const override;
 
     bool locationServicesEnabled() const override;

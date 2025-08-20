@@ -132,6 +132,11 @@ int main(int argc, char *argv[])
     qCInfo(dcApplication()) << "System:" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion() << PlatformHelper::instance()->deviceManufacturer() << PlatformHelper::instance()->deviceModel();
     qCInfo(dcApplication()) << "Locale:" << QLocale() << QLocale().name() << QLocale().language();
 
+    QScreen *screen = application.primaryScreen();
+    qCInfo(dcApplication()).noquote() << QString("Screen name: %1").arg(screen->name());
+    qCInfo(dcApplication()).noquote() << QString("Device Pixel Ratio: %1").arg(screen->devicePixelRatio());
+    qCInfo(dcApplication()).noquote() << QString("Screen Resolution: %1 x %2").arg(screen->geometry().width()).arg(screen->geometry().height());
+
     foreach (const QString &argument, application.arguments()) {
         if (argument.startsWith("nymea://notification")) {
             PlatformHelper::instance()->notificationActionReceived(QUrlQuery(QUrl(argument).query()).queryItemValue("nymeaData"));

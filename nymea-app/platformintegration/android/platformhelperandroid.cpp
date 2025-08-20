@@ -30,11 +30,12 @@
 
 #include "platformhelperandroid.h"
 
-#include <QAndroidJniObject>
-#include <QtAndroid>
 #include <QDebug>
+#include <QScreen>
+#include <QtAndroid>
 #include <QAndroidIntent>
 #include <QApplication>
+#include <QAndroidJniObject>
 
 
 // WindowManager.LayoutParams
@@ -86,7 +87,7 @@ PlatformHelperAndroid::PlatformHelperAndroid(QObject *parent) : PlatformHelper(p
     }
 
     connect(qApp, &QApplication::applicationStateChanged, this, [this](Qt::ApplicationState state){
-        qCritical() << "******* app state change";
+        qCritical() << "----> Application state changed" << state;
         if (state == Qt::ApplicationActive) {
             emit locationServicesEnabledChanged();
         }
@@ -248,8 +249,28 @@ void PlatformHelperAndroid::setBottomPanelTheme(Theme theme)
             visibility &= ~SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
         view.callMethod<void>("setSystemUiVisibility", "(I)V", visibility);
     });
-
 }
+
+int PlatformHelperAndroid::topPadding() const
+{
+    // Edge to edge has been forced since android SDK 35
+    // We don't want to handle it in earlied versions.
+    if (QtAndroid::androidSdkVersion() < 35)
+        return 0;
+
+    return QtAndroid::androidActivity().callMethod<jint>("topPadding") / QApplication::primaryScreen()->devicePixelRatio();
+}
+
+int PlatformHelperAndroid::bottomPadding() const
+{
+    // Edge to edge has been forced since android SDK 35
+    // We don't want to handle it in earlied versions.
+    if (QtAndroid::androidSdkVersion() < 35)
+        return 0;
+
+    return QtAndroid::androidActivity().callMethod<jint>("bottomPadding") / QApplication::primaryScreen()->devicePixelRatio();
+}
+
 
 bool PlatformHelperAndroid::darkModeEnabled() const
 {

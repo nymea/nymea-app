@@ -1,7 +1,7 @@
 #include "platformpermissionsandroid.h"
 
-#include <QApplication>
 #include <QDebug>
+#include <QApplication>
 #include <QAndroidIntent>
 #include <QOperatingSystemVersion>
 

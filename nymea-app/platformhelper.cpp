@@ -190,6 +190,26 @@ void PlatformHelper::setBottomPanelColor(const QColor &color)
     }
 }
 
+int PlatformHelper::topPadding() const
+{
+    return 0;
+}
+
+int PlatformHelper::bottomPadding() const
+{
+    return 0;
+}
+
+int PlatformHelper::leftPadding() const
+{
+    return 0;
+}
+
+int PlatformHelper::rightPadding() const
+{
+    return 0;
+}
+
 bool PlatformHelper::darkModeEnabled() const
 {
     return false;

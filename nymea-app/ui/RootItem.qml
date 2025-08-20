@@ -33,6 +33,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
+import QtQuick.Window 2.15
 import Nymea 1.0
 import NymeaApp.Utils 1.0
 import "components"
@@ -82,6 +83,12 @@ Item {
 
     ColumnLayout {
         anchors.fill: parent
+
+        anchors.topMargin: PlatformHelper.topPadding
+        anchors.bottomMargin: PlatformHelper.bottomPadding
+        anchors.leftMargin: PlatformHelper.leftPadding
+        anchors.rightMargin: PlatformHelper.rightPadding
+
         spacing: 0
 
         SwipeView {
