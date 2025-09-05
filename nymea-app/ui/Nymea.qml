@@ -43,6 +43,7 @@ ApplicationWindow {
     visible: true
     width: 360
     height: 580
+    maximumWidth: 768
     minimumWidth: 350
     minimumHeight: 480
     visibility: kioskMode ? ApplicationWindow.FullScreen : settings.viewMode
@@ -111,27 +112,39 @@ ApplicationWindow {
     }
 
     property alias mainMenu: m
-    MainMenu {
-        id: m
+    
+
+    Rectangle {
+        id: container
+        anchors.centerIn: parent
+        width: Math.min(app.width, 768)
         height: app.height
-        width: Math.min(300, app.width)
-//        z: 1000
-        configuredHosts: configuredHostsModel
-        onOpenThingSettings: rootItem.openThingSettings();
-        onOpenMagicSettings: rootItem.openMagicSettings();
-        onOpenAppSettings: rootItem.openAppSettings();
-        onOpenSystemSettings: rootItem.openSystemSettings();
-        onOpenCustomPage: rootItem.openCustomPage(page);
-        onConfigureMainView: rootItem.configureMainView();
-        onStartManualConnection: rootItem.startManualConnection();
-        onStartWirelessSetup: rootItem.startWirelessSetup();
+        color: "transparent"
+        clip: true
+
+        MainMenu {
+            id: m
+            height: container.height
+            anchors.centerIn: container
+            width: Math.min(300, container.width)
+            configuredHosts: configuredHostsModel
+            onOpenThingSettings: rootItem.openThingSettings();
+            onOpenMagicSettings: rootItem.openMagicSettings();
+            onOpenAppSettings: rootItem.openAppSettings();
+            onOpenSystemSettings: rootItem.openSystemSettings();
+            onOpenCustomPage: rootItem.openCustomPage(page);
+            onConfigureMainView: rootItem.configureMainView();
+            onStartManualConnection: rootItem.startManualConnection();
+            onStartWirelessSetup: rootItem.startWirelessSetup();
+        }
+
+        RootItem {
+            id: rootItem
+            anchors.fill: parent
+            anchors.bottomMargin: keyboardRect.height
+        }
     }
 
-    RootItem {
-        id: rootItem
-        anchors.fill: parent
-        anchors.bottomMargin: keyboardRect.height
-    }
 
     property NymeaDiscovery nymeaDiscovery: NymeaDiscovery {
         objectName: "discovery"
