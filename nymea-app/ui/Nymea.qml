@@ -44,8 +44,8 @@ ApplicationWindow {
     width: 360
     height: 580
     maximumWidth: 768
-    minimumWidth: 350
-    minimumHeight: 480
+    minimumWidth: 360
+    minimumHeight: 580
     visibility: kioskMode ? ApplicationWindow.FullScreen : settings.viewMode
     color: Material.background
     title: Configuration.appName
@@ -125,8 +125,7 @@ ApplicationWindow {
         MainMenu {
             id: m
             height: container.height
-            anchors.centerIn: container
-            width: Math.min(300, container.width)
+            width: Math.max(300,(app.width - 768) / 2) //Math.min(300, )
             configuredHosts: configuredHostsModel
             onOpenThingSettings: rootItem.openThingSettings();
             onOpenMagicSettings: rootItem.openMagicSettings();
