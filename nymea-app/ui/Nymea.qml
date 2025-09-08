@@ -123,9 +123,11 @@ ApplicationWindow {
         clip: true
 
         MainMenu {
+            property bool isMobile: app.width < 768
             id: m
             height: container.height
-            width: Math.max(300,(app.width - 768) / 2) //Math.min(300, )
+            leftPadding: isMobile ? 0 : (app.width - 768) / 2
+            width: isMobile ? Math.min(300, app.width) : ((app.width - 768) / 2) + 300
             configuredHosts: configuredHostsModel
             onOpenThingSettings: rootItem.openThingSettings();
             onOpenMagicSettings: rootItem.openMagicSettings();
