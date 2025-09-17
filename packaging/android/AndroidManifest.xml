@@ -12,7 +12,6 @@
                   android:name="io.guh.nymeaapp.NymeaAppActivity"
                   android:label="nymea:app"
                   android:screenOrientation="unspecified"
-                  android:windowSoftInputMode="adjustResize"
                   android:launchMode="singleTop"
                   android:theme="@style/SplashScreenTheme"
                   android:exported="true">

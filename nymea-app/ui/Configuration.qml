@@ -32,11 +32,6 @@ ConfigurationBase {
             text: qsTr("Telegram"),
             iconName: "qrc:/icons/telegram.svg",
             url: "https://t.me/nymeacommunity"
-        },
-        {
-            text: qsTr("Discord"),
-            iconName: "qrc:/icons/discord.svg",
-            url: "https://discord.gg/tX9YCpD"
         }
     ]
 }
