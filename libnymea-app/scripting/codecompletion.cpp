@@ -237,16 +237,16 @@ void CodeCompletion::update()
         qDebug() << "stateName block info" << info.name << info.properties;
         QString thingId;
         Interfaces ifaces;
-        StateTypes *stateTypes = nullptr;
+        //StateTypes *stateTypes = nullptr;
         if (info.properties.contains("thingId")) {
             thingId = info.properties.value("thingId");
 
             qDebug() << "selected thingId" << thingId;
-            Thing *thing = m_engine->thingManager()->things()->getThing(thingId);
+            Thing *thing = m_engine->thingManager()->things()->getThing(QUuid(thingId));
             if (!thing) {
                 return;
             }
-            stateTypes = thing->thingClass()->stateTypes();
+            //stateTypes = thing->thingClass()->stateTypes();
 
         } else if (info.properties.contains("interfaceName")) {
             QString interfaceName = info.properties.value("interfaceName");
@@ -254,7 +254,7 @@ void CodeCompletion::update()
             if (!iface) {
                 return;
             }
-            stateTypes = iface->stateTypes();
+            //stateTypes = iface->stateTypes();
         } else {
             return;
         }

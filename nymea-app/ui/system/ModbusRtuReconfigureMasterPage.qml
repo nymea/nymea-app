@@ -22,12 +22,13 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import Nymea
+
 import "../components"
-import Nymea 1.0
 
 SettingsPageBase {
     id: root
@@ -175,7 +176,7 @@ SettingsPageBase {
                     enabled: !root.busy
                     textRole: "value"
                     model: serialPortBaudrateModel
-                    onActivated: console.log("Selected baudrate", currentText, model.get(currentIndex).value)
+                    onActivated: (index) => console.log("Selected baudrate", currentText, model.get(index).value)
                     Component.onCompleted: {
                         for (var i = 0; i < serialPortBaudrateModel.count; i++) {
                             if (serialPortBaudrateModel.get(i).value === modbusRtuMaster.baudrate) {
@@ -199,7 +200,7 @@ SettingsPageBase {
                     textRole: "text"
                     enabled: !root.busy
                     Layout.minimumWidth: 250
-                    onActivated: console.log("Selected parity", currentText, model.get(currentIndex).value)
+                    onActivated: (index) => console.log("Selected parity", currentText, model.get(index).value)
                     model: serialPortParityModel
                     Component.onCompleted: {
                         for (var i = 0; i < serialPortParityModel.count; i++) {
@@ -224,7 +225,7 @@ SettingsPageBase {
                     textRole: "text"
                     enabled: !root.busy
                     Layout.minimumWidth: 250
-                    onActivated: console.log("Selected data bits", currentText, model.get(currentIndex).value)
+                    onActivated: (index) => console.log("Selected data bits", currentText, model.get(index).value)
                     model: serialPortDataBitsModel
                     Component.onCompleted: {
                         for (var i = 0; i < serialPortDataBitsModel.count; i++) {
@@ -249,7 +250,7 @@ SettingsPageBase {
                     textRole: "text"
                     enabled: !root.busy
                     Layout.minimumWidth: 250
-                    onActivated: console.log("Selected stop bits", currentText, model.get(currentIndex).value)
+                    onActivated: (index) => console.log("Selected stop bits", currentText, model.get(index).value)
                     model: serialPortStopBitsModel
                     Component.onCompleted: {
                         for (var i = 0; i < serialPortStopBitsModel.count; i++) {

@@ -22,8 +22,8 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.0
-import QtWebView 1.1
+import QtQuick
+import QtWebView
 
 // This is needed because we can only load this on-demand but
 // *deployqt will not include the module if there isn't a actual qml file importing it

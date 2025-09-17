@@ -22,11 +22,11 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.12
-import QtQuick.Layouts 1.15
-import QtQuick.Controls 2.12
-import QtGraphicalEffects 1.0
-import Nymea 1.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
+import Nymea
 
 Rectangle {
     id: root

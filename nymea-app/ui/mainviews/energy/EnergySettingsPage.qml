@@ -22,10 +22,11 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.3
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.2
-import Nymea 1.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Nymea
+
 import "qrc:/ui/components"
 
 SettingsPageBase {
@@ -74,7 +75,7 @@ SettingsPageBase {
 
             textRole: "name"
             currentIndex: rootMeterProxy.indexOf(rootMeterProxy.getThing(energyManager.rootMeterId))
-            onActivated: {
+            onActivated: (index) => {
                 energyManager.setRootMeterId(rootMeterProxy.get(index).id)
             }
         }

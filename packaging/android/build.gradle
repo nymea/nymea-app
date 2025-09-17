@@ -12,6 +12,7 @@ buildscript {
     repositories {
         jcenter()
         google()
+        mavenCentral()
     }
 
     dependencies {
@@ -33,10 +34,10 @@ allprojects {
     }
 }
 
-apply plugin: 'com.android.application'
+apply plugin: qtGradlePluginType
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     implementation 'org.reactivestreams:reactive-streams:1.0.3'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
     implementation 'androidx.core:core:1.16.0'
@@ -61,48 +62,56 @@ android {
      * The following variables:
      * - androidBuildToolsVersion,
      * - androidCompileSdkVersion
-     * - qt5AndroidDir - holds the path to qt android files
+     * - qtAndroidDir - holds the path to qt android files
      *                   needed to build any Qt application
      *                   on Android.
+     * - qtGradlePluginType - whether to build an app or a library
      *
      * are defined in gradle.properties file. This file is
      * updated by QtCreator and androiddeployqt tools.
      * Changing them manually might break the compilation!
      *******************************************************/
 
-    compileSdkVersion androidCompileSdkVersion.toInteger()
-    buildToolsVersion androidBuildToolsVersion
-
     namespace 'io.guh.nymeaapp'
-    buildFeatures.aidl = true
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+    ndkVersion androidNdkVersion
 
-    packagingOptions {
-        jniLibs {
-            useLegacyPackaging = true
-        }
-    }
+    // Extract native libraries from the APK
+    packagingOptions.jniLibs.useLegacyPackaging true
 
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = [
-                qt5AndroidDir + '/src',
-                nymeaAppRoot + '/androidservice/java',
-                nymeaAppRoot + '/nymea-app/platformintegration/android/java',
-                nymeaAppRoot + '/QtZeroConf/android',
-                'src',
-                'java']
-            if ("${useFirebase}" == "true") {
-                java.srcDirs += [nymeaAppRoot + '/nymea-app/platformintegration/android/java-firebase']
-            }
-
-            aidl.srcDirs = [qt5AndroidDir + '/src', 'src', 'aidl']
-            res.srcDirs = [qt5AndroidDir + '/res', 'res']
+            java.srcDirs = [qtAndroidDir + '/src', 'src', 'java']
+            aidl.srcDirs = [qtAndroidDir + '/src', 'src', 'aidl']
+            res.srcDirs = [qtAndroidDir + '/res', 'res']
             resources.srcDirs = ['src']
             renderscript.srcDirs = ['src']
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs']
+
+            java.srcDirs = [
+                qt5AndroidDir + '/src',
+                nymeaAppRoot + '/nymea-app/platformintegration/android/java',
+                nymeaAppRoot + '/QtZeroConf/android',
+                'src',
+                'java']
+
+            if ("${useFirebase}" == "true") {
+                java.srcDirs += [nymeaAppRoot + '/nymea-app/platformintegration/android/java-firebase']
+            }
+
        }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.incremental = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     lintOptions {

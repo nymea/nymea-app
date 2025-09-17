@@ -46,12 +46,12 @@ void BoolSeriesAdapter::setLogsModel(LogsModel *logsModel)
 
 }
 
-QtCharts::QXYSeries *BoolSeriesAdapter::xySeries() const
+QXYSeries *BoolSeriesAdapter::xySeries() const
 {
     return m_series;
 }
 
-void BoolSeriesAdapter::setXySeries(QtCharts::QXYSeries *series)
+void BoolSeriesAdapter::setXySeries(QXYSeries *series)
 {
     if (m_series != series) {
         m_series = series;

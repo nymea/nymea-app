@@ -24,9 +24,6 @@
 
 #include "bluetoothservicediscovery.h"
 
-#include "../nymeahosts.h"
-#include "../nymeahost.h"
-
 #include <QTimer>
 
 #include "logging.h"
@@ -127,17 +124,6 @@ void BluetoothServiceDiscovery::onServiceDiscovered(const QBluetoothServiceInfo 
 
     if (serviceInfo.serviceClassUuids().first() == QBluetoothUuid(QUuid("997936b5-d2cd-4c57-b41b-c6048320cd2b"))) {
         qCDebug(dcBluetoothDiscovery()) << "BluetoothServiceDiscovery: Found nymea rfcom service!";
-
-//        NymeaHost* host = m_nymeaHosts->find(serviceInfo.device().address());
-//        if (!host) {
-//            host = new DiscoveryDevice(DiscoveryDevice::DeviceTypeBluetooth, this);
-//            qDebug() << "BluetoothServiceDiscovery: Adding new bluetooth host to model";
-//            host->setName(QString("%1 (%2)").arg(serviceInfo.serviceName()).arg(serviceInfo.device().name()));
-////            device->setBluetoothAddress(serviceInfo.device().address());
-//            PortConfig pc;
-
-//            m_nymeaHosts->addHost(device);
-//        }
     }
 }
 
@@ -157,7 +143,6 @@ void BluetoothServiceDiscovery::onServiceDiscoveryFinished()
             return;
         }
 
-//        qDebug() << "BluetoothServiceDiscovery: Restart service discovery";
         discover();
     }
 }

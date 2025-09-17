@@ -22,11 +22,12 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.4
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Nymea
+
 import "qrc:/ui/components"
-import Nymea 1.0
 
 Page {
     id: root

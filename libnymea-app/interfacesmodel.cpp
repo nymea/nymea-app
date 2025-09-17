@@ -154,10 +154,10 @@ void InterfacesModel::syncInterfaces()
         }
     }
 
-    qWarning() << "syncing for interfaces:" << m_shownInterfaces;
+    // qWarning() << "syncing for interfaces:" << m_shownInterfaces;
     QStringList interfacesInSource;
     foreach (ThingClass *dc, thingClasses) {
-//        qWarning() << "thing" <<dc->name() << "has interfaces" << dc->interfaces();
+        // qWarning() << "thing" <<dc->name() << "has interfaces" << dc->interfaces();
 
         bool isInShownIfaces = false;
         foreach (const QString &interface, dc->interfaces()) {
@@ -168,7 +168,7 @@ void InterfacesModel::syncInterfaces()
             if (!interfacesInSource.contains(interface)) {
                 interfacesInSource.append(interface);
             }
-//            qWarning() << "yes" << interface;
+            // qWarning() << "yes" << interface;
             isInShownIfaces = true;
         }
         if (m_showUncategorized && !isInShownIfaces && !interfacesInSource.contains("uncategorized")) {

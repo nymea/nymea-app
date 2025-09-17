@@ -11,9 +11,9 @@ layout(std140, binding = 0) uniform buf {
     vec4 inColor;
     vec4 outColor;
     float threshold;
-} ubuf;
+};
 
 void main() {
-    lowp vec4 sourceColor = texture(source, qt_TexCoord0);
-    fragColor = mix(vec4(ubuf.outColor.rgb, 1.0) * sourceColor.a, sourceColor, step(ubuf.threshold, distance(sourceColor.rgb / sourceColor.a, ubuf.inColor.rgb))) * ubuf.qt_Opacity;
+    vec4 sourceColor = texture(source, qt_TexCoord0);
+    fragColor = mix(vec4(outColor.rgb, 1.0) * sourceColor.a, sourceColor, step(threshold, distance(sourceColor.rgb / sourceColor.a, inColor.rgb))) * qt_Opacity;
 }

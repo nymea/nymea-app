@@ -22,15 +22,16 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
-import QtQuick.Layouts 1.1
-import Nymea 1.0
-import NymeaApp.Utils 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import QtCharts
+import Nymea
+import NymeaApp.Utils
+
 import "../components"
 import "../customviews"
-import QtCharts 2.2
 
 Item {
     id: root
@@ -248,7 +249,7 @@ Item {
                     }
                 }
 
-                onEntriesAddedIdx: {
+                onEntriesAddedIdx: (index, count) => {
                     print("**** entries added", index, count, "entries in series:", series.count, "in model", logsModel.count)
                     for (var i = 0; i < count; i++) {
                         var entry = logsModel.get(i)
@@ -301,7 +302,7 @@ Item {
                     print("added entries. now in series:", series.count)
 
                 }
-                onEntriesRemoved: {
+                onEntriesRemoved: (index, count) => {
                     print("removing:", index, count, series.count)
                     if (stateType.type.toLowerCase() == "bool") {
                         series.removePoints(index * 2, count * 2)

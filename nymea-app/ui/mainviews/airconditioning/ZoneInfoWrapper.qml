@@ -22,14 +22,15 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.2
-import QtGraphicalEffects 1.0
-import QtCharts 2.2
-import Nymea 1.0
-import Nymea.AirConditioning 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
+import QtCharts
+import Nymea
+import Nymea.AirConditioning
+
 import "qrc:/ui/components"
 import "qrc:/ui/delegates"
 

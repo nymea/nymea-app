@@ -1,11 +1,13 @@
 [submodule "QtZeroConf"]
 	path = QtZeroConf
-	url = https://github.com/mzanetti/QtZeroConf.git
+	url = https://github.com/nymea/QtZeroConf.git
+	branch = main
 [submodule "nymea-remoteproxy"]
 	path = nymea-remoteproxy
-	url = https://github.com/guh/nymea-remoteproxy.git
+	url = https://github.com/nymea/nymea-remoteproxy.git
+	branch = qt6-cmake
 [submodule "android_openssl"]
 	path = 3rdParty/android/android_openssl
 	url = https://github.com/KDAB/android_openssl.git
-	branch = 1.0.x
+	branch = master
 	shallow = true

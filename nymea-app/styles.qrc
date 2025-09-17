@@ -45,5 +45,6 @@
         <file>styles/lime/Background.qml</file>
         <file>styles/mellow/Background.qml</file>
         <file>styles/noir/Background.qml</file>
+        <file>styles/dark/ItemDelegate.qml</file>
     </qresource>
 </RCC>

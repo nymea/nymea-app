@@ -24,9 +24,7 @@
 
 #include "serverdebugmanager.h"
 
-#include "engine.h"
 #include "logging.h"
-#include "serverloggingcategories.h"
 
 NYMEA_LOGGING_CATEGORY(dcServerDebug, "ServerDebug")
 

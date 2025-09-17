@@ -32,7 +32,6 @@
 #include <QJsonDocument>
 
 #if defined Q_OS_ANDROID
-#include <QtAndroidExtras/QtAndroid>
 #include "platformintegration/android/platformhelperandroid.h"
 #elif defined Q_OS_IOS
 #include "platformintegration/ios/platformhelperios.h"
@@ -70,7 +69,7 @@ void PlatformHelper::notificationActionReceived(const QString &nymeaData)
     QUrlQuery query(map.value("data").toString());
     QVariantMap dataMap;
     for (int i = 0; i < query.queryItems().count(); i++) {
-        const QPair<QString, QString> &item = query.queryItems().at(i);
+        QPair<QString, QString> item = query.queryItems().at(i);
         dataMap.insert(item.first, item.second);
     }
     map.insert("dataMap", dataMap);

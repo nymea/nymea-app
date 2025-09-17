@@ -26,8 +26,7 @@
 #define PLATFORMPERMISSIONSANDROID_H
 
 #include "../platformpermissions.h"
-
-#include <QtAndroidExtras/QtAndroid>
+#include <QtCore/private/qandroidextras_p.h>
 
 class PlatformPermissionsAndroid : public PlatformPermissions
 {
@@ -35,20 +34,14 @@ class PlatformPermissionsAndroid : public PlatformPermissions
 public:
     explicit PlatformPermissionsAndroid(QObject *parent = nullptr);
 
-    PermissionStatus checkPermission(Permission permission) const override;
-
-    void requestPermission(Permission permission) override;
-    void openPermissionSettings() override;
-
-signals:
+    PermissionStatus checkPermission(Permission platformPermission) const override;
+    void requestPermission(Permission platformPermission) override;
 
 private:
-    QHash<PlatformPermissions::Permission, QStringList> permissionMap() const;
-
-    QStringList m_requestedButDeniedPermissions;
-
     static PlatformPermissionsAndroid *s_instance;
-    static void permissionResultCallback(const QtAndroid::PermissionResultMap &results);
+
+    QList<PlatformPermissions::Permission> m_requestedButDeniedPermissions;
+    QList<PlatformPermissions::Permission> m_grantedPermission;
 
 };
 

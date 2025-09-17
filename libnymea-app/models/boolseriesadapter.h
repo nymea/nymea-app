@@ -34,7 +34,7 @@ class BoolSeriesAdapter : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(LogsModel* logsModel READ logsModel WRITE setLogsModel NOTIFY logsModelChanged)
-    Q_PROPERTY(QtCharts::QXYSeries* xySeries READ xySeries WRITE setXySeries NOTIFY xySeriesChanged)
+    Q_PROPERTY(QXYSeries* xySeries READ xySeries WRITE setXySeries NOTIFY xySeriesChanged)
 
     Q_PROPERTY(bool inverted READ inverted WRITE setInverted NOTIFY invertedChanged)
 
@@ -44,8 +44,8 @@ public:
     LogsModel* logsModel() const;
     void setLogsModel(LogsModel *logsModel);
 
-    QtCharts::QXYSeries* xySeries() const;
-    void setXySeries(QtCharts::QXYSeries *series);
+    QXYSeries* xySeries() const;
+    void setXySeries(QXYSeries *series);
 
     bool inverted() const;
     void setInverted(bool inverted);
@@ -65,7 +65,7 @@ private:
 
 private:
     LogsModel* m_model = nullptr;
-    QtCharts::QXYSeries* m_series = nullptr;
+    QXYSeries* m_series = nullptr;
     bool m_inverted = false;
 
 };

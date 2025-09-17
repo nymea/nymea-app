@@ -22,8 +22,8 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.4
-import Nymea 1.0
+import QtQuick
+import Nymea
 
 Item {
     id: icon

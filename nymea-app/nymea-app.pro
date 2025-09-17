@@ -15,8 +15,7 @@ qtHaveModule(webview) {
 INCLUDEPATH += $$top_srcdir/libnymea-app \
                $$top_srcdir/experiences/airconditioning
 
-LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app \
-        -L$$top_builddir/experiences/airconditioning -lnymea-app-airconditioning
+linux:!android: LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app -L$$top_builddir/experiences/airconditioning -lnymea-app-airconditioning
 
 win32:Debug:LIBS += -L$$top_builddir/libnymea-app/debug \
                     -L$$top_builddir/experiences/airconditioning/debug
@@ -92,19 +91,17 @@ android {
     ANDROID_MIN_SDK_VERSION = 21
     ANDROID_TARGET_SDK_VERSION = 35
 
-    QT += androidextras
     HEADERS += platformintegration/android/platformhelperandroid.h \
                platformintegration/android/platformpermissionsandroid.h \
 
     SOURCES += platformintegration/android/platformhelperandroid.cpp \
                platformintegration/android/platformpermissionsandroid.cpp \
 
-    # https://bugreports.qt.io/browse/QTBUG-83165
     CORE_LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
     AIRCONDITIONING_LIBS += -L$${top_builddir}/experiences/airconditioning/$${ANDROID_TARGET_ARCH}
 
-    LIBS += $${CORE_LIBS} $${AIRCONDITIONING_LIBS}
-    message("CORE_LIBS: $${CORE_LIBS}")
+    LIBS += $${CORE_LIBS} -lnymea-app_$${ANDROID_TARGET_ARCH} \
+            $${AIRCONDITIONING_LIBS} -lnymea-app-airconditioning_$${ANDROID_TARGET_ARCH}
 
     versioninfo.files = ../version.txt
     versioninfo.path = /
@@ -113,9 +110,9 @@ android {
     DISTFILES += \
         $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
         $$ANDROID_PACKAGE_SOURCE_DIR/google-services.json \
-        $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.jar \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew \
         $$ANDROID_PACKAGE_SOURCE_DIR/res/values/libs.xml \
+        $$ANDROID_PACKAGE_SOURCE_DIR/res/values/styles.xml \
         $$ANDROID_PACKAGE_SOURCE_DIR/build.gradle \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.properties \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew.bat \

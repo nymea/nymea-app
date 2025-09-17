@@ -52,15 +52,17 @@ public:
     void addPolicy(MqttPolicy *policy);
     void removePolicy(MqttPolicy *policy);
 
-    Q_INVOKABLE MqttPolicy* getPolicy(const QString &clientId) const;
-    Q_INVOKABLE MqttPolicy* get(int index) const;
+    Q_INVOKABLE MqttPolicy *getPolicy(const QString &clientId) const;
+    Q_INVOKABLE MqttPolicy *get(int index) const;
 
     void clear();
+
 signals:
     void countChanged();
 
 private:
-    QList<MqttPolicy*> m_list;
+    QList<MqttPolicy *> m_list;
+
 };
 
 #endif // MQTTPOLICIES_H

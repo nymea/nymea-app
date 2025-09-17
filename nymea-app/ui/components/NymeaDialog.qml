@@ -22,10 +22,10 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.2
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Nymea
 
 Dialog {
     id: root
@@ -46,15 +46,15 @@ Dialog {
     //     onDestroye: root.destroy()
     // }
 
-    MouseArea {
-        parent: app.overlay
-        anchors.fill: parent
-        z: -1
-        onPressed: {
-            print("Dialog: eating mouse press", root.title)
-            mouse.accepted = true
-        }
-    }
+    // MouseArea {
+    //     // parent: app.overlay
+    //     anchors.fill: parent
+    //     z: -1
+    //     onPressed: {
+    //         print("Dialog: eating mouse press", root.title)
+    //         mouse.accepted = true
+    //     }
+    // }
 
     header: Item {
         implicitHeight: headerRow.height + app.margins

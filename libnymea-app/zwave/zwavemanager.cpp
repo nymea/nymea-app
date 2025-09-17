@@ -27,12 +27,9 @@
 #include <QJsonDocument>
 #include <QMetaEnum>
 
-#include "types/serialports.h"
 #include "types/serialport.h"
-#include "zwavenetwork.h"
-#include "zwavenode.h"
 
-#include "engine.h"
+
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcZWave, "ZWave")
 

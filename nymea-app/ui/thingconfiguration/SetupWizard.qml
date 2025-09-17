@@ -22,11 +22,11 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import Nymea 1.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import Nymea
 
 import "../components"
 import "../delegates"
@@ -532,10 +532,10 @@ Page {
 
                 property string webViewString:
                     '
-                    import QtQuick 2.8;
-                    import QtWebView 1.1;
-                    import QtQuick.Controls 2.2
-                    import Nymea 1.0;
+                    import QtQuick;
+                    import QtWebView;
+                    import QtQuick.Controls
+                    import Nymea;
 
                     Rectangle {
                         anchors.fill: parent

@@ -28,22 +28,21 @@
 #include <QObject>
 #include <QHash>
 
-class Engine;
+#include "engine.h"
+#include "zwavenetwork.h"
+#include "types/serialports.h"
+
 class JsonRpcClient;
-class SerialPorts;
-class ZWaveNetwork;
-class ZWaveNetworks;
-class ZWaveNode;
 
 class ZWaveManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
-    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
-    Q_PROPERTY(bool zwaveAvailable READ zwaveAvailable NOTIFY zwaveAvailableChanged)
+    Q_PROPERTY(Engine *engine READ engine WRITE setEngine NOTIFY engineChanged FINAL)
+    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged FINAL)
+    Q_PROPERTY(bool zwaveAvailable READ zwaveAvailable NOTIFY zwaveAvailableChanged FINAL)
 
-    Q_PROPERTY(SerialPorts *serialPorts READ serialPorts CONSTANT)
-    Q_PROPERTY(ZWaveNetworks *networks READ networks CONSTANT)
+    Q_PROPERTY(SerialPorts *serialPorts READ serialPorts CONSTANT FINAL)
+    Q_PROPERTY(ZWaveNetworks *networks READ networks CONSTANT FINAL)
 
 public:
     enum ZWaveError {
@@ -111,7 +110,7 @@ private:
     Q_INVOKABLE void notificationReceived(const QVariantMap &data);
 
 private:
-    Engine* m_engine = nullptr;
+    Engine *m_engine = nullptr;
     bool m_fetchingData = false;
     bool m_zwaveAvailable = false;
     SerialPorts *m_serialPorts = nullptr;

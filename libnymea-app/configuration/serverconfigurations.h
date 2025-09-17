@@ -57,8 +57,8 @@ public:
 
     void clear();
 
-    Q_INVOKABLE ServerConfiguration* get(int index) const;
-    Q_INVOKABLE ServerConfiguration* getConfiguration(const QString &id) const;
+    Q_INVOKABLE ServerConfiguration *get(int index) const;
+    Q_INVOKABLE ServerConfiguration *getConfiguration(const QString &id) const;
 
 signals:
     void countChanged();

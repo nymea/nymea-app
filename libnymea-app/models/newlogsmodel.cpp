@@ -460,7 +460,7 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
     } else {
         if (!entries.isEmpty()) {
             beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + entries.count() - 1);
-            qSort(entries.begin(), entries.end(), [](NewLogEntry *left, NewLogEntry *right){
+            std::sort(entries.begin(), entries.end(), [](NewLogEntry *left, NewLogEntry *right){
                 return left->timestamp() > right->timestamp();
             });
             m_list.append(entries);

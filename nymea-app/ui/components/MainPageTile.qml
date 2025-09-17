@@ -22,12 +22,12 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
-import QtQuick.Layouts 1.3
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
+import Nymea
 
 Item {
     id: root
@@ -36,6 +36,7 @@ Item {
     property alias fallbackIconName: fallbackIcon.name
     property alias iconColor: colorIcon.color
     property alias backgroundImage: backgroundImg.source
+
     property string text
     property bool disconnected: false
     property bool isWireless: false
@@ -99,7 +100,6 @@ Item {
         anchors.margins: app.margins / 2
         source: backgroundImg
         maskSource: backgroundImgClipper
-//        visible: root.backgroundImage.length > 0
     }
 
     ItemDelegate {
@@ -141,7 +141,7 @@ Item {
                 Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    visible: backgroundImg.status !== Image.Ready && label.text != ""
+                    visible: backgroundImg.status !== Image.Ready && label.text !== ""
 
                     Label {
                         id: label

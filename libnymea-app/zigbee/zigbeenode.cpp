@@ -25,6 +25,7 @@
 #include "zigbeenode.h"
 
 #include <QMetaEnum>
+#include <QRegularExpression>
 
 ZigbeeNode::ZigbeeNode(const QUuid &networkUuid, const QString &ieeeAddress, QObject *parent) :
     QObject(parent),
@@ -666,7 +667,7 @@ QString ZigbeeCluster::clusterName() const
     QMetaEnum clusterEnum = QMetaEnum::fromType<ZigbeeClusterId>();
     QString name = clusterEnum.valueToKey(m_clusterId);
     name.remove("ZigbeeClusterId");
-    QRegExp re1 = QRegExp("([A-Z])([a-z]*)");
+    QRegularExpression re1 = QRegularExpression("([A-Z])([a-z]*)");
     name.replace(re1, ";\\1\\2");
     QStringList parts = name.split(";");
     QString clusterName = parts.join(" ").trimmed();

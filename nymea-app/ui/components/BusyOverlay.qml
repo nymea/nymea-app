@@ -22,8 +22,8 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.1
+import QtQuick
+import QtQuick.Controls
 
 Rectangle {
     anchors.fill: parent

@@ -22,11 +22,12 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.0
-import QtCharts 2.2
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.2
-import Nymea 1.0
+import QtQuick
+import QtCharts
+import QtQuick.Layouts
+import QtQuick.Controls
+import Nymea
+
 import "qrc:/ui/components"
 
 Item {

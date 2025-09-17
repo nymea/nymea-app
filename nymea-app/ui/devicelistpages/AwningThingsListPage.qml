@@ -22,7 +22,7 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
+import QtQuick
 
 ClosablesThingsListPage {
     title: qsTr("Awnings")

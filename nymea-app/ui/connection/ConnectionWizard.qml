@@ -22,13 +22,13 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.3
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.2
-import Qt.labs.settings 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtCore
+import Nymea
 
 import "../components"
-import Nymea 1.0
 
 WizardPageBase {
     id: root
@@ -67,7 +67,7 @@ WizardPageBase {
                 ColorIcon {
                     anchors.centerIn: parent
                     size: Math.min(parent.width, parent.height, Style.hugeIconSize * 2)
-                    name: "nymea-logo"
+                    name: "qrc:/ui/images/nymea-logo.svg"
                 }
             }
 
@@ -98,7 +98,7 @@ WizardPageBase {
                 font: Style.smallFont
                 text: qsTr("Please follow the installation instructions on %1 to install a nymea system.").arg('<a href="https://nymea.io/documentation/users/installation/core">nymea.io</a>')
                 horizontalAlignment: Text.AlignHCenter
-                onLinkActivated: Qt.openUrlExternally(link)
+                onLinkActivated: (link) => Qt.openUrlExternally(link)
             }
         }
         Item { Layout.fillHeight: true }
@@ -353,7 +353,7 @@ WizardPageBase {
                 Layout.margins: Style.margins
                 fillMode: Image.PreserveAspectFit
                 sourceSize.width: width
-                source: "qrc:/icons/setupwizard/wired-connection.svg"
+                source: "qrc:/ui/images/setupwizard/wired-connection.svg"
             }
         }
     }
@@ -374,7 +374,7 @@ WizardPageBase {
                 Layout.margins: Style.margins
                 fillMode: Image.PreserveAspectFit
                 sourceSize.width: width
-                source: "qrc:/icons/setupwizard/wireless-connection.svg"
+                source: "qrc:/ui/images/setupwizard/wireless-connection.svg"
             }
         }
     }
@@ -661,7 +661,6 @@ WizardPageBase {
                 NymeaTextField {
                     id: ssidTextField
                     Layout.fillWidth: true
-
                 }
 
                 Label {

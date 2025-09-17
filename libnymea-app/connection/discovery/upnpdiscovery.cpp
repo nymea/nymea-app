@@ -116,8 +116,13 @@ void UpnpDiscovery::updateInterfaces()
             }
             qCInfo(dcUPnP()) << "Discovering on" << netAddressEntry.ip() << port;
             m_sockets.insert(netAddressEntry.ip(), socket);
-            connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
+
             connect(socket, &QUdpSocket::readyRead, this, &UpnpDiscovery::readData);
+#if QT_VERSION >= QT_VERSION_CHECK(5 , 15, 0)
+            connect(socket, &QUdpSocket::errorOccurred, this, &UpnpDiscovery::error);
+#else
+            connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
+#endif
         }
     }
 

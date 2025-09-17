@@ -22,15 +22,16 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.2
-import QtQuick.Window 2.3
-import Qt.labs.settings 1.0
-import Qt.labs.folderlistmodel 2.2
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import QtQuick.Window
+import QtCore
+import Qt.labs.folderlistmodel
 import Qt5Compat.GraphicalEffects
-import Nymea 1.0
+import Nymea
+
 import "components"
 import "delegates"
 import "mainviews"
@@ -124,7 +125,7 @@ Page {
 
     Connections {
         target: engine.ruleManager
-        onAddRuleReply: {
+        onAddRuleReply: (commandId, ruleError, ruleId) => {
             d.editRulePage.busy = false
             if (d.editRulePage) {
                 pageStack.pop();

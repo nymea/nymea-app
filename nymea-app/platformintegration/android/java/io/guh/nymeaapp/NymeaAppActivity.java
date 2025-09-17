@@ -20,8 +20,15 @@ import androidx.core.content.FileProvider;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import android.view.WindowInsets;
+import android.graphics.Insets;
 
-public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActivity
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
+
+import org.qtproject.qt.android.bindings.QtActivity;
+
+public class NymeaAppActivity extends QtActivity
 {
     private static final String TAG = "nymea-app: NymeaAppActivity";
     private static Context context = null;
@@ -42,6 +49,7 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.w(TAG, "Create activity");
         super.onCreate(savedInstanceState);
         // Move th app to the background (Edge to edge is forced since SDK 35)
         //WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
@@ -143,12 +151,62 @@ public class NymeaAppActivity extends org.qtproject.qt5.android.bindings.QtActiv
 
     public int topPadding() {
         WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
-        return windowInsets.getInsets(WindowInsets.Type.statusBars() | WindowInsets.Type.displayCutout()).top;
+
+        if (windowInsets == null) {
+            return 0;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Insets insets = windowInsets.getInsets(WindowInsets.Type.statusBars() | WindowInsets.Type.displayCutout());
+            return insets != null ? insets.top : 0;
+        }
+
+        return windowInsets.getStableInsetTop();
     }
 
     public int bottomPadding() {
         WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
-        return windowInsets.getInsets(WindowInsets.Type.navigationBars() | WindowInsets.Type.displayCutout()).bottom;
+        if (windowInsets == null) {
+            return 0;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Insets insets = windowInsets.getInsets(WindowInsets.Type.navigationBars() | WindowInsets.Type.displayCutout());
+            return insets != null ? insets.bottom : 0;
+        }
+
+        return windowInsets.getStableInsetBottom();
     }
 
+    private void logStaticInitClassesMetadata() {
+        try {
+            ApplicationInfo appInfo = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            if (appInfo.metaData == null || !appInfo.metaData.containsKey("android.app.static_init_classes")) {
+                 Log.w(TAG, "No android.app.static_init_classes meta-data present in the manifest");
+                 return;
+            }
+
+            Object value = appInfo.metaData.get("android.app.static_init_classes");
+            if (!(value instanceof Integer)) {
+            Log.w(TAG, "android.app.static_init_classes meta-data is not a resource reference: " + value);
+            return;
+            }
+
+            int resId = (Integer) value;
+            if (resId == 0) {
+            Log.e(TAG, "android.app.static_init_classes meta-data resolves to resource id 0");
+            return;
+            }
+
+            try {
+             String resName = getResources().getResourceName(resId);
+             String resValue = getResources().getString(resId);
+             Log.i(TAG, "android.app.static_init_classes -> " + resName + " = " + resValue);
+            } catch (Resources.NotFoundException notFoundException) {
+             Log.e(TAG, "android.app.static_init_classes references missing resource 0x" + Integer.toHexString(resId), notFoundException);
+            }
+        } catch (PackageManager.NameNotFoundException exception) {
+            Log.e(TAG, "Failed to inspect android.app.static_init_classes meta-data", exception);
+        }
+    }
 }
