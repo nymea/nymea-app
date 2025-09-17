@@ -1,6 +1,20 @@
-CONFIG *= c++14
-QMAKE_LFLAGS *= -std=c++14
-QMAKE_CXXFLAGS *= -std=c++14
+greaterThan(QT_MAJOR_VERSION, 5) {
+    message("Building using Qt6 support")
+    CONFIG *= c++17
+    QMAKE_LFLAGS *= -std=c++17
+    QMAKE_CXXFLAGS *= -std=c++17
+    # Python init is crashing in Qt6,
+    # disable by default until fixed
+    CONFIG += withoutpython
+} else {
+    message("Building using Qt5 support")
+    CONFIG *= c++14
+    QMAKE_LFLAGS *= -std=c++14
+    QMAKE_CXXFLAGS *= -std=c++14
+    DEFINES += QT_DISABLE_DEPRECATED_UP_TO=0x050F00
+}
+
+#QMAKE_CXXFLAGS *= -Werror -g -Wno-deprecated-declarations
 
 top_srcdir=$$PWD
 top_builddir=$$shadowed($$PWD)
