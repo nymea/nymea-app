@@ -1,3 +1,10 @@
+nymea-app (1.10.13) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Android: fix keyboard margins
+
+ -- jenkins <developer@nymea.io>  Tue, 23 Sep 2025 15:15:25 +0200
+
 nymea-app (1.10.12) bionic; urgency=medium
 
   [ Simon Stürz ]
