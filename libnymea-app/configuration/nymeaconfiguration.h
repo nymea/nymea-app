@@ -139,7 +139,7 @@ signals:
     void serverNameChanged();
 
 private:
-    JsonRpcClient* m_client = nullptr;
+    JsonRpcClient *m_client = nullptr;
 
     bool m_fetchingData = false;
     bool m_debugServerEnabled = false;

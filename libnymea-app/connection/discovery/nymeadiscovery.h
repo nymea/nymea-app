@@ -42,7 +42,6 @@ class UpnpDiscovery;
 class ZeroconfDiscovery;
 class BluetoothServiceDiscovery;
 
-
 class NymeaDiscovery : public QObject
 {
     Q_OBJECT

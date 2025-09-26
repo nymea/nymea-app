@@ -35,8 +35,11 @@
 #include <QList>
 #include <QBluetoothAddress>
 #include <QSortFilterProxyModel>
+
 #include "nymeahost.h"
+
 class JsonRpcClient;
+class NymeaDiscovery;
 
 class NymeaHosts : public QAbstractListModel
 {
@@ -104,7 +107,7 @@ public:
     bool showUnreachableHosts() const;
     void setShowUnreachableHosts(bool showUnreachableHosts);
 
-    Q_INVOKABLE NymeaHost* get(int index) const;
+    Q_INVOKABLE NymeaHost *get(int index) const;
 
 signals:
     void countChanged();

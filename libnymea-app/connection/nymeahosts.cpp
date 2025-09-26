@@ -29,9 +29,8 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "nymeahosts.h"
-#include "connection/discovery/nymeadiscovery.h"
 #include "nymeahost.h"
-#include "jsonrpc/jsonrpcclient.h"
+
 #include <QUuid>
 
 NymeaHosts::NymeaHosts(QObject *parent) :
