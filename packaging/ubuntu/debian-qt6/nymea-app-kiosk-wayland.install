@@ -1,0 +1,2 @@
+packaging/linux-common/nymea-app-kiosk.service /lib/systemd/system/
+packaging/linux-common/udev/90-pi-backlight.rules /lib/udev/rules.d/
