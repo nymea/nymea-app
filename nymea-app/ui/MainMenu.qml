@@ -1,10 +1,11 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.1
-import Qt.labs.settings 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Qt.labs.settings
+import Nymea
+import NymeaApp.Utils
+
 import "components"
-import Nymea 1.0
-import NymeaApp.Utils 1.0
 
 Drawer {
     id: root

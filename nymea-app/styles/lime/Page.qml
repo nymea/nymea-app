@@ -28,9 +28,9 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.0
+import QtQuick
 import QtQuick.Templates 2.2
-import QtQuick.Controls.Material 2.2
+import QtQuick.Controls.Material
 
 Page {
     background: Background {}

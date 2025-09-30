@@ -28,12 +28,13 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import Nymea 1.0
-import QtQuick.Layouts 1.2
-import QtQuick.Controls.Material 2.1
-import Qt.labs.settings 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
+import Qt.labs.settings
+import Nymea
+
 import "../components"
 import "scripting"
 
@@ -46,7 +47,7 @@ Page {
         if (scriptId !== undefined) {;
             d.callId = engine.scriptManager.fetchScript(scriptId);
         } else {
-            scriptEdit.text = "import QtQuick 2.0\nimport nymea 1.0\n\nItem {\n    \n}\n"
+            scriptEdit.text = "import QtQuick\nimport nymea 1.0\n\nItem {\n    \n}\n"
         }
 
         if ((Qt.platform.os == "android" || Qt.platform.os == "ios") && !editorSettings.popupWasShown) {

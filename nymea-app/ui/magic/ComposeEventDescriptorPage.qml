@@ -28,11 +28,12 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.6
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.1
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Nymea
+
 import "../components"
-import Nymea 1.0
 
 Page {
     id: root

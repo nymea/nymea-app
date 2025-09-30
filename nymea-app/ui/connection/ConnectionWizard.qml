@@ -1,10 +1,10 @@
-import QtQuick 2.3
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.2
-import Qt.labs.settings 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Qt.labs.settings
+import Nymea
 
 import "../components"
-import Nymea 1.0
 
 WizardPageBase {
     id: root

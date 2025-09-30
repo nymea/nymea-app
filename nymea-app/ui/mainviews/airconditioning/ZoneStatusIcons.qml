@@ -1,8 +1,9 @@
-import QtQuick 2.3
-import QtQuick.Layouts 1.2
+import QtQuick
+import QtQuick.Layouts
+import Nymea
+import Nymea.AirConditioning
+
 import "qrc:/ui/components"
-import Nymea 1.0
-import Nymea.AirConditioning 1.0
 
 RowLayout {
     id: root

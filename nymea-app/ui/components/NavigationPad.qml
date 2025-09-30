@@ -28,11 +28,11 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.5
-import Nymea 1.0
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
-import QtQuick.Layouts 1.3
+import QtQuick
+import Nymea
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
 
 Item {
     id: root

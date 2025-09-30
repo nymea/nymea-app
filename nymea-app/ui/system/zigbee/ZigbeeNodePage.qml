@@ -28,13 +28,14 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import Nymea
+import NymeaApp.Utils
+
 import "qrc:/ui/components"
-import Nymea 1.0
-import NymeaApp.Utils 1.0
 
 SettingsPageBase {
     id: root

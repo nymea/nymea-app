@@ -28,13 +28,13 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.1
-import Qt.labs.settings 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import Qt.labs.settings
 
-import Nymea 1.0
+import Nymea
 import "qrc:/ui/components"
 
 SettingsPageBase {

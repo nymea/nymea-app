@@ -28,11 +28,11 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.2
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
+import Nymea
 
 // There's a bug in QtQuick.Controls' SwipeDelegate in that it appears with wrong
 // background when used in Popups/Dialogs So we need a non-swipable one for those cases

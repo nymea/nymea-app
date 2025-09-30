@@ -28,16 +28,17 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.2
-import QtCharts 2.2
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import QtCharts
+import Qt5Compat.GraphicalEffects
+import Nymea
+
 import "../../components"
 import "../../delegates"
-//import QtWebView 1.1
-import QtGraphicalEffects 1.1
+//import QtWebView
 
 DashboardDelegateBase {
     id: root
@@ -76,9 +77,9 @@ DashboardDelegateBase {
 
         property string webViewString:
             '
-            import QtQuick 2.8;
-            import QtWebView 1.1;
-            import Nymea 1.0;
+            import QtQuick;
+            import QtWebView;
+            import Nymea;
 
             WebView {
                 id: webView

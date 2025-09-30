@@ -1,10 +1,11 @@
-import QtQuick 2.3
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 2.3
-import Nymea 1.0
-import NymeaApp.Utils 1.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
+import Nymea
+import NymeaApp.Utils
+
 import "qrc:/ui/components"
-import QtGraphicalEffects 1.0
 
 Item {
     id: root

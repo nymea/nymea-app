@@ -1,6 +1,6 @@
-import QtQuick 2.3
+import QtQuick
 import Qt5Compat.GraphicalEffects
-import Nymea 1.0
+import Nymea
 
 Item {
     id: root

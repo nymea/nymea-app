@@ -1,10 +1,11 @@
-import QtQuick 2.3
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.3
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Nymea
+import NymeaApp.Utils
+import Nymea.AirConditioning
+
 import "qrc:/ui/components"
-import Nymea 1.0
-import NymeaApp.Utils 1.0
-import Nymea.AirConditioning 1.0
 
 Item {
     id: root

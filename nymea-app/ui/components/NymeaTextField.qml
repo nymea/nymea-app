@@ -1,7 +1,7 @@
-import QtQuick 2.0
-import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import Nymea
 
 TextField {
     id: control

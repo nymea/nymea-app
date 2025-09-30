@@ -28,10 +28,11 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.5
-import QtQuick.Controls 2.1
-import QtGraphicalEffects 1.0
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
+import Nymea
+
 import "../utils"
 
 Item {

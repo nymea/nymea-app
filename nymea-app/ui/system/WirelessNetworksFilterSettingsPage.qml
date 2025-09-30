@@ -1,10 +1,10 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.9
-import QtQuick.Layouts 1.2
-import Qt.labs.settings 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Qt.labs.settings
+import Nymea
 
 import "qrc:/ui/components"
-import Nymea 1.0
 
 Page {
     id: root

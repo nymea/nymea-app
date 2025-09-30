@@ -76,7 +76,7 @@ void PlatformHelper::notificationActionReceived(const QString &nymeaData)
     QUrlQuery query(map.value("data").toString());
     QVariantMap dataMap;
     for (int i = 0; i < query.queryItems().count(); i++) {
-        const QPair<QString, QString> &item = query.queryItems().at(i);
+        QPair<QString, QString> item = query.queryItems().at(i);
         dataMap.insert(item.first, item.second);
     }
     map.insert("dataMap", dataMap);

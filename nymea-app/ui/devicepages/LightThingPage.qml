@@ -28,12 +28,13 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.1
-import Nymea 1.0
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
+import Qt5Compat.GraphicalEffects
+import Nymea
+
 import "../components"
 import "../utils"
 

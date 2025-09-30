@@ -1,12 +1,13 @@
-import QtQuick 2.3
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Nymea
+import NymeaApp.Utils
+import Nymea.AirConditioning
+
 import "qrc:/ui/components"
 import "qrc:/ui/customviews"
 import "qrc:/ui/delegates"
-import Nymea 1.0
-import NymeaApp.Utils 1.0
-import Nymea.AirConditioning 1.0
 
 NymeaDialog {
     id: root

@@ -1,8 +1,9 @@
-import QtQuick 2.3
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.2
-import Nymea 1.0
-import Nymea.AirConditioning 1.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Nymea
+import Nymea.AirConditioning
+
 import "qrc:/ui/components"
 import "qrc:/ui/delegates"
 

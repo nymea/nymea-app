@@ -1,9 +1,10 @@
-import QtQuick 2.0
-import QtCharts 2.3
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.2
-import Nymea 1.0
-import NymeaApp.Utils 1.0
+import QtQuick
+import QtCharts
+import QtQuick.Layouts
+import QtQuick.Controls
+import Nymea
+import NymeaApp.Utils
+
 import "qrc:/ui/components"
 
 Item {

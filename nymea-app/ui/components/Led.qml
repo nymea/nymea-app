@@ -28,8 +28,8 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import Nymea 1.0
+import QtQuick
+import Nymea
 
 Item {
     id: root
