@@ -57,8 +57,9 @@
 #include "dashboard/dashboarditem.h"
 #include "mouseobserver.h"
 #include "configuredhostsmodel.h"
-#include "../config.h"
+#include "utils/qhashqml.h"
 #include "utils/privacypolicyhelper.h"
+#include "../config.h"
 
 #include "logging.h"
 
@@ -117,8 +118,11 @@ int main(int argc, char *argv[])
         }
     }
 
-    QTranslator qtTranslator;    
-    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    QTranslator qtTranslator;
+    if (!qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
+        qCWarning(dcApplication()) << "Unable to load translations from" << QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    }
+
     application.installTranslator(&qtTranslator);
 
     QStringList loadedTranslations;

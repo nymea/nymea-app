@@ -313,7 +313,7 @@ QString JsonRpcClient::jsonRpcVersion() const
 
 QUuid JsonRpcClient::serverUuid() const
 {
-    return m_connection && m_connection->currentHost() ? m_connection->currentHost()->uuid().toString() : "";
+    return m_connection && m_connection->currentHost() ? m_connection->currentHost()->uuid() : QUuid();
 }
 
 QString JsonRpcClient::serverName() const

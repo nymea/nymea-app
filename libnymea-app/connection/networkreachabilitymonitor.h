@@ -2,13 +2,18 @@
 #define NETWORKREACHABILITYMONITOR_H
 
 #include <QObject>
-#include <QNetworkConfigurationManager>
 
-#include "nymeaconnection.h"
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <QNetworkConfigurationManager>
+#else
+#include <QNetworkInformation>
+#endif
 
 #ifdef Q_OS_IOS
 #import <SystemConfiguration/SystemConfiguration.h>
 #endif
+
+#include "nymeaconnection.h"
 
 class NetworkReachabilityMonitor : public QObject
 {
@@ -28,10 +33,16 @@ private slots:
     void updateActiveBearers();
 
 private:
-    QNetworkConfigurationManager *m_networkConfigManager = nullptr;
     NymeaConnection::BearerTypes m_availableBearerTypes = NymeaConnection::BearerTypeNone;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+    QNetworkInformation *m_networkInformation = nullptr;
+    static NymeaConnection::BearerType qBearerTypeToNymeaBearerType(QNetworkInformation::TransportMedium type);
+#else
+    QNetworkConfigurationManager *m_networkConfigManager = nullptr;
     static NymeaConnection::BearerType qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type);
+#endif
+
 
 #ifdef Q_OS_IOS
     void setupIOS();

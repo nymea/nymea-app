@@ -4,8 +4,7 @@
 #include <QObject>
 
 #include "zoneinfo.h"
-
-class Engine;
+#include "engine.h"
 
 class AirConditioningManager : public QObject
 {

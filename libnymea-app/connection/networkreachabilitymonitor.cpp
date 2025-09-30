@@ -14,6 +14,9 @@ NetworkReachabilityMonitor::NetworkReachabilityMonitor(QObject *parent)
     setupIOS();
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+    qCWarning(dcNymeaConnection()) << "Available network information backends" << QNetworkInformation::availableBackends();
+#else
     m_networkConfigManager = new QNetworkConfigurationManager(this);
 
     QObject::connect(m_networkConfigManager, &QNetworkConfigurationManager::configurationAdded, this, [this](const QNetworkConfiguration &config){
@@ -34,7 +37,7 @@ NetworkReachabilityMonitor::NetworkReachabilityMonitor(QObject *parent)
     });
 
     updateActiveBearers();
-
+#endif
 }
 
 NetworkReachabilityMonitor::~NetworkReachabilityMonitor()
@@ -56,6 +59,12 @@ void NetworkReachabilityMonitor::updateActiveBearers()
 #endif
 
     NymeaConnection::BearerTypes availableBearerTypes;
+
+// Note: some features are availabe since Qt 6.3.0, but the minimal Qt6 version is 6.6.0,
+//       so we don't want so have an unhanlded gap and let the compiler warn about incompatibility
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+
+#else
     QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations(QNetworkConfiguration::Active);
     qCDebug(dcNymeaConnection()) << "Network configuations:" << configs.count();
     foreach (const QNetworkConfiguration &config, configs) {
@@ -73,6 +82,7 @@ void NetworkReachabilityMonitor::updateActiveBearers()
         qCDebug(dcNymeaConnection()) << "Updating network manager";
         m_networkConfigManager->updateConfigurations();
     }
+#endif
 
     if (m_availableBearerTypes != availableBearerTypes) {
         qCInfo(dcNymeaConnection()) << "Available Bearer Types changed to:" << availableBearerTypes;
@@ -85,6 +95,27 @@ void NetworkReachabilityMonitor::updateActiveBearers()
     emit availableBearerTypesUpdated();
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+NymeaConnection::BearerType NetworkReachabilityMonitor::qBearerTypeToNymeaBearerType(QNetworkInformation::TransportMedium type)
+{
+    switch (type) {
+    case QNetworkInformation::TransportMedium::Unknown:
+        // Unable to determine the connection type. Assume it's something we can establish any connection type on
+        return NymeaConnection::BearerTypeAll;
+    case QNetworkInformation::TransportMedium::Ethernet:
+        return NymeaConnection::BearerTypeEthernet;
+    case QNetworkInformation::TransportMedium::Cellular:
+        return NymeaConnection::BearerTypeMobileData;
+    case QNetworkInformation::TransportMedium::WiFi:
+        return NymeaConnection::BearerTypeWiFi;
+    case QNetworkInformation::TransportMedium::Bluetooth:
+        // Note: Do not confuse this with the Bluetooth transport... For Qt, this means IP over BT, not RFCOMM as we do it.
+        return NymeaConnection::BearerTypeBluetooth;
+    }
+
+    return NymeaConnection::BearerTypeAll;
+}
+#else
 NymeaConnection::BearerType NetworkReachabilityMonitor::qBearerTypeToNymeaBearerType(QNetworkConfiguration::BearerType type)
 {
     switch (type) {
@@ -106,9 +137,11 @@ NymeaConnection::BearerType NetworkReachabilityMonitor::qBearerTypeToNymeaBearer
     case QNetworkConfiguration::Bearer4G:
         return NymeaConnection::BearerTypeMobileData;
     case QNetworkConfiguration::BearerBluetooth:
-    // Note: Do not confuse this with the Bluetooth transport... For Qt, this means IP over BT, not RFCOMM as we do it.
+        // Note: Do not confuse this with the Bluetooth transport... For Qt, this means IP over BT, not RFCOMM as we do it.
         return NymeaConnection::BearerTypeNone;
     }
-    return NymeaConnection::BearerTypeAll;
 
+    return NymeaConnection::BearerTypeAll;
 }
+
+#endif

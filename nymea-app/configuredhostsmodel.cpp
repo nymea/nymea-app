@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QRegularExpression>
 
 #include <QLoggingCategory>
 Q_DECLARE_LOGGING_CATEGORY(dcApplication)
@@ -130,8 +131,8 @@ void ConfiguredHostsModel::removeHost(int index)
     settings.remove("");
     settings.endGroup();
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
-    QFile certFile(dir.absoluteFilePath(hostUuidString.remove(QRegExp("[{}]")) + ".pem"));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/sslcerts/");
+    QFile certFile(dir.absoluteFilePath(hostUuidString.remove(QRegularExpression("[{}]")) + ".pem"));
     if (certFile.exists()) {
         if (!certFile.remove()) {
             qCWarning(dcApplication()) << "Failed to remove certificate file" << certFile.fileName() << certFile.errorString();

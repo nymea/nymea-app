@@ -1,11 +1,12 @@
 #ifndef NEWLOGSMODEL_H
 #define NEWLOGSMODEL_H
 
-#include <QAbstractListModel>
+#include <QObject>
 #include <QQmlParserStatus>
-#include "newlogentry.h"
+#include <QAbstractListModel>
 
-class Engine;
+#include "engine.h"
+#include "newlogentry.h"
 
 class NewLogsModel : public QAbstractListModel, public QQmlParserStatus
 {

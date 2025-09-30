@@ -1,5 +1,6 @@
 #include "zwavenode.h"
 #include <QMetaEnum>
+#include <QRegularExpression>
 
 ZWaveNode::ZWaveNode(const QUuid &networkUuid, quint8 id, QObject *parent):
     QObject{parent},
@@ -35,7 +36,7 @@ void ZWaveNode::setNodeType(ZWaveNodeType nodeType)
 QString ZWaveNode::nodeTypeString() const
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<ZWaveNode::ZWaveNodeType>();
-    return QString(metaEnum.valueToKey(m_nodeType)).remove(QRegExp("^ZWaveNodeType"));
+    return QString(metaEnum.valueToKey(m_nodeType)).remove(QRegularExpression("^ZWaveNodeType"));
 }
 
 ZWaveNode::ZWaveNodeRole ZWaveNode::role() const
@@ -54,7 +55,7 @@ void ZWaveNode::setRole(ZWaveNodeRole role)
 QString ZWaveNode::roleString() const
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<ZWaveNode::ZWaveNodeRole>();
-    return QString(metaEnum.valueToKey(m_role)).remove(QRegExp("^ZWaveNodeRole"));
+    return QString(metaEnum.valueToKey(m_role)).remove(QRegularExpression("^ZWaveNodeRole"));
 }
 
 ZWaveNode::ZWaveDeviceType ZWaveNode::deviceType() const
@@ -70,7 +71,7 @@ void ZWaveNode::setDeviceType(ZWaveDeviceType deviceType)
 QString ZWaveNode::deviceTypeString() const
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<ZWaveNode::ZWaveDeviceType>();
-    return QString(metaEnum.valueToKey(m_deviceType)).remove(QRegExp("^ZWaveDeviceType"));
+    return QString(metaEnum.valueToKey(m_deviceType)).remove(QRegularExpression("^ZWaveDeviceType"));
 }
 
 quint16 ZWaveNode::manufacturerId() const

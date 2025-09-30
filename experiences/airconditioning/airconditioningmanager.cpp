@@ -1,8 +1,6 @@
 #include "airconditioningmanager.h"
 #include "zoneinfo.h"
 
-#include "engine.h"
-
 #include <QJsonDocument>
 #include <QMetaEnum>
 

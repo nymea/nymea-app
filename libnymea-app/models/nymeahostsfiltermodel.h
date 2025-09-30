@@ -3,8 +3,8 @@
 
 #include <QSortFilterProxyModel>
 
-#include "connection/discovery/nymeadiscovery.h"
 #include "jsonrpc/jsonrpcclient.h"
+#include "connection/discovery/nymeadiscovery.h"
 
 class NymeaHostsFilterModel: public QSortFilterProxyModel
 {
