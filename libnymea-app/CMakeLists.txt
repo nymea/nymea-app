@@ -32,7 +32,19 @@ target_include_directories(nymea-app-core
         ${CMAKE_BINARY_DIR}
 )
 if(EXISTS ${REMOTE_PROXY_DIR})
-    target_include_directories(nymea-app-core PUBLIC ${REMOTE_PROXY_DIR})
+    set(REMOTE_PROXY_INCLUDE_DIRS ${REMOTE_PROXY_DIR})
+    file(GLOB_RECURSE REMOTE_PROXY_ALL_PATHS LIST_DIRECTORIES true
+        ${REMOTE_PROXY_DIR}/*
+    )
+    foreach(_remote_proxy_path IN LISTS REMOTE_PROXY_ALL_PATHS)
+        if(IS_DIRECTORY "${_remote_proxy_path}")
+            list(APPEND REMOTE_PROXY_INCLUDE_DIRS "${_remote_proxy_path}")
+        endif()
+    endforeach()
+    if(REMOTE_PROXY_INCLUDE_DIRS)
+        list(REMOVE_DUPLICATES REMOTE_PROXY_INCLUDE_DIRS)
+        target_include_directories(nymea-app-core PUBLIC ${REMOTE_PROXY_INCLUDE_DIRS})
+    endif()
 endif()
 
 if(EXISTS ${CMAKE_SOURCE_DIR}/QtZeroConf)
