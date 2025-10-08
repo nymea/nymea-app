@@ -45,7 +45,6 @@ set(NYMEA_APP_RESOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/resources.qrc
     ${CMAKE_CURRENT_SOURCE_DIR}/ruletemplates.qrc
     ${CMAKE_CURRENT_SOURCE_DIR}/images.qrc
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations.qrc
 )
 
 if(NYMEA_OVERLAY_PATH)
@@ -131,12 +130,14 @@ if(NOT QT_LRELEASE_EXECUTABLE)
     message(FATAL_ERROR "Could not determine the Qt lrelease executable")
 endif()
 
+set(QM_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/translations")
 set(QM_FILES)
 foreach(TS_FILE ${TS_FILES})
     get_filename_component(TRANSLATION_FILENAME ${TS_FILE} NAME_WE)
-    set(QM_FILE "${CMAKE_CURRENT_SOURCE_DIR}/translations/${TRANSLATION_FILENAME}.qm")
+    set(QM_FILE "${QM_OUTPUT_DIR}/${TRANSLATION_FILENAME}.qm")
     add_custom_command(
         OUTPUT ${QM_FILE}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${QM_OUTPUT_DIR}
         COMMAND ${QT_LRELEASE_EXECUTABLE} ${TS_FILE} -qm ${QM_FILE}
         DEPENDS ${TS_FILE}
         COMMENT "Generating ${TRANSLATION_FILENAME}.qm"
@@ -145,8 +146,24 @@ foreach(TS_FILE ${TS_FILES})
     list(APPEND QM_FILES ${QM_FILE})
 endforeach()
 
+set_source_files_properties(${QM_FILES} PROPERTIES GENERATED TRUE)
+
 add_custom_target(nymea_app_translations ALL DEPENDS ${QM_FILES})
 add_dependencies(nymea-app nymea_app_translations)
+
+set(_nymea_translations_qrc_content "<RCC>\n    <qresource prefix=\"/\">\n")
+foreach(QM_FILE ${QM_FILES})
+    get_filename_component(QM_BASENAME ${QM_FILE} NAME)
+    string(APPEND _nymea_translations_qrc_content "        <file alias=\"translations/${QM_BASENAME}\">${QM_FILE}</file>\n")
+endforeach()
+string(APPEND _nymea_translations_qrc_content "    </qresource>\n</RCC>\n")
+
+set(NYMEA_TRANSLATIONS_QRC "${CMAKE_CURRENT_BINARY_DIR}/translations_autogen.qrc")
+file(GENERATE OUTPUT ${NYMEA_TRANSLATIONS_QRC} CONTENT "${_nymea_translations_qrc_content}")
+set_source_files_properties(${NYMEA_TRANSLATIONS_QRC} PROPERTIES GENERATED TRUE)
+set_property(SOURCE ${NYMEA_TRANSLATIONS_QRC} APPEND PROPERTY OBJECT_DEPENDS "${QM_FILES}")
+
+target_sources(nymea-app PRIVATE ${NYMEA_TRANSLATIONS_QRC})
 
 if(WIN32)
     target_compile_definitions(nymea-app PRIVATE NOMINMAX)
