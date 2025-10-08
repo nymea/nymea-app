@@ -21,15 +21,11 @@ target_include_directories(nymea-app-airconditioning
 target_link_libraries(nymea-app-airconditioning
     PUBLIC
         nymea-app-core
-        Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::Network
-        Qt${QT_VERSION_MAJOR}::WebSockets
-        Qt${QT_VERSION_MAJOR}::Bluetooth
-        Qt${QT_VERSION_MAJOR}::Charts
-        Qt${QT_VERSION_MAJOR}::Quick
-        Qt${QT_VERSION_MAJOR}::Qml
+        Qt6::Core
+        Qt6::Network
+        Qt6::WebSockets
+        Qt6::Bluetooth
+        Qt6::Charts
+        Qt6::Quick
+        Qt6::Qml
 )
-
-if(QT_VERSION_MAJOR EQUAL 5)
-    target_compile_definitions(nymea-app-airconditioning PUBLIC QT_DISABLE_DEPRECATED_UP_TO=0x050F00)
-endif()

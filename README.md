@@ -5,7 +5,7 @@ QtQuick nymea client application
 # building
 
 Required packages:
-It is recommended to install a complete Qt installation. Minimum required Qt Version *5.7.0*.
+It is recommended to install a complete Qt installation. Minimum required Qt version is Qt 6.
 
 No extra modules are required for a basic desktop build.
 

@@ -41,28 +41,22 @@ endif()
 
 target_link_libraries(nymea-app-core
     PUBLIC
-        Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::Network
-        Qt${QT_VERSION_MAJOR}::WebSockets
-        Qt${QT_VERSION_MAJOR}::Bluetooth
-        Qt${QT_VERSION_MAJOR}::Charts
-        Qt${QT_VERSION_MAJOR}::Quick
-        Qt${QT_VERSION_MAJOR}::Qml
+        Qt6::Core
+        Qt6::Network
+        Qt6::WebSockets
+        Qt6::Bluetooth
+        Qt6::Charts
+        Qt6::Quick
+        Qt6::Qml
         OpenSSL::SSL
         OpenSSL::Crypto
 )
-
-if(QT_VERSION_MAJOR EQUAL 5)
-    target_compile_definitions(nymea-app-core PUBLIC QT_DISABLE_DEPRECATED_UP_TO=0x050F00)
-endif()
 
 if(NYMEA_ENABLE_ZEROCONF)
     target_compile_definitions(nymea-app-core PUBLIC WITH_ZEROCONF QZEROCONF_STATIC)
     find_library(QTZEROCONF_LIBRARY NAMES QtZeroConf HINTS ${CMAKE_SOURCE_DIR}/QtZeroConf)
     if(NOT QTZEROCONF_LIBRARY AND TARGET Qt6::QtZeroConf)
         target_link_libraries(nymea-app-core PUBLIC Qt6::QtZeroConf)
-    elseif(NOT QTZEROCONF_LIBRARY AND TARGET Qt5::QtZeroConf)
-        target_link_libraries(nymea-app-core PUBLIC Qt5::QtZeroConf)
     elseif(QTZEROCONF_LIBRARY)
         target_link_libraries(nymea-app-core PUBLIC ${QTZEROCONF_LIBRARY})
     else()

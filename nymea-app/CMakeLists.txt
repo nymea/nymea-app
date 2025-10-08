@@ -78,35 +78,25 @@ target_link_libraries(nymea-app
     PRIVATE
         nymea-app-core
         nymea-app-airconditioning
-        Qt${QT_VERSION_MAJOR}::Gui
-        Qt${QT_VERSION_MAJOR}::Network
-        Qt${QT_VERSION_MAJOR}::Qml
-        Qt${QT_VERSION_MAJOR}::Quick
-        Qt${QT_VERSION_MAJOR}::QuickControls2
-        Qt${QT_VERSION_MAJOR}::Svg
-        Qt${QT_VERSION_MAJOR}::WebSockets
-        Qt${QT_VERSION_MAJOR}::Bluetooth
-        Qt${QT_VERSION_MAJOR}::Charts
-        Qt${QT_VERSION_MAJOR}::Nfc
+        Qt6::Gui
+        Qt6::Network
+        Qt6::Qml
+        Qt6::Quick
+        Qt6::QuickControls2
+        Qt6::Svg
+        Qt6::WebSockets
+        Qt6::Bluetooth
+        Qt6::Charts
+        Qt6::Nfc
 )
 
-if(TARGET Qt${QT_VERSION_MAJOR}::WebView)
-    target_link_libraries(nymea-app PRIVATE Qt${QT_VERSION_MAJOR}::WebView)
+if(TARGET Qt6::WebView)
+    target_link_libraries(nymea-app PRIVATE Qt6::WebView)
     target_compile_definitions(nymea-app PRIVATE HAVE_WEBVIEW)
 endif()
 
-if(QT_VERSION_MAJOR EQUAL 6)
-    find_package(Qt6 COMPONENTS GuiPrivate REQUIRED)
-    target_link_libraries(nymea-app PRIVATE Qt6::GuiPrivate)
-else()
-    if(DEFINED Qt5Gui_PRIVATE_INCLUDE_DIRS)
-        target_include_directories(nymea-app PRIVATE ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
-    endif()
-    if(DEFINED Qt5Gui_PRIVATE_DEFINITIONS)
-        target_compile_definitions(nymea-app PRIVATE ${Qt5Gui_PRIVATE_DEFINITIONS})
-    endif()
-    target_compile_definitions(nymea-app PRIVATE QT_DISABLE_DEPRECATED_UP_TO=0x050F00)
-endif()
+find_package(Qt6 COMPONENTS GuiPrivate REQUIRED)
+target_link_libraries(nymea-app PRIVATE Qt6::GuiPrivate)
 
 if(UNIX AND NOT APPLE AND NYMEA_ENABLE_ZEROCONF)
     find_package(PkgConfig REQUIRED)
@@ -126,14 +116,11 @@ set(TS_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/translations/nymea-app.vi.ts
 )
 
-if(QT_VERSION_MAJOR EQUAL 6)
-    find_package(Qt6 COMPONENTS LinguistTools REQUIRED)
-    if(TARGET Qt6::lrelease)
-        get_target_property(QT_LRELEASE_EXECUTABLE Qt6::lrelease IMPORTED_LOCATION)
-    endif()
-else()
-    find_package(Qt5 COMPONENTS LinguistTools REQUIRED)
-    set(QT_LRELEASE_EXECUTABLE ${Qt5_LRELEASE_EXECUTABLE})
+find_package(Qt6 COMPONENTS LinguistTools REQUIRED)
+if(TARGET Qt6::lrelease)
+    get_target_property(QT_LRELEASE_EXECUTABLE Qt6::lrelease IMPORTED_LOCATION)
+elseif(DEFINED Qt6_LRELEASE_EXECUTABLE)
+    set(QT_LRELEASE_EXECUTABLE ${Qt6_LRELEASE_EXECUTABLE})
 endif()
 
 if(NOT QT_LRELEASE_EXECUTABLE)
