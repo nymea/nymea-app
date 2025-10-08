@@ -33,7 +33,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Window
-import Qt.labs.settings
+import QtCore
 import Qt.labs.folderlistmodel
 import Qt5Compat.GraphicalEffects
 import Nymea
@@ -131,7 +131,7 @@ Page {
 
     Connections {
         target: engine.ruleManager
-        onAddRuleReply: {
+        onAddRuleReply: (commandId, ruleError, ruleId) => {
             d.editRulePage.busy = false
             if (d.editRulePage) {
                 pageStack.pop();

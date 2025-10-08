@@ -42,6 +42,7 @@ Item {
     property alias fallbackIconName: fallbackIcon.name
     property alias iconColor: colorIcon.color
     property alias backgroundImage: backgroundImg.source
+
     property string text
     property bool disconnected: false
     property bool isWireless: false
@@ -105,7 +106,6 @@ Item {
         anchors.margins: app.margins / 2
         source: backgroundImg
         maskSource: backgroundImgClipper
-//        visible: root.backgroundImage.length > 0
     }
 
     ItemDelegate {
@@ -147,7 +147,7 @@ Item {
                 Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    visible: backgroundImg.status !== Image.Ready && label.text != ""
+                    visible: backgroundImg.status !== Image.Ready && label.text !== ""
 
                     Label {
                         id: label

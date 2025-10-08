@@ -322,5 +322,7 @@
         <file>ui/system/ServerLoggingCategoriesPage.qml</file>
         <file>ui/components/BackgroundFocusHandler.qml</file>
         <file>ui/shaders/coloricon.frag.qsb</file>
+        <file>ui/shaders/brightnesscircle.frag.qsb</file>
+        <file>ui/shaders/colorizedimage.frag.qsb</file>
     </qresource>
 </RCC>

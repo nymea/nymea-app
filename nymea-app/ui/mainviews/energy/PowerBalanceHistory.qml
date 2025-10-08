@@ -81,7 +81,7 @@ Item {
     Connections {
         target: powerBalanceLogs
 
-        onEntriesAddedIdx: {
+        onEntriesAddedIdx: (index, count) => {
 //            print("entries added", index, count)
             selfProductionConsumptionSeries.upperSeries = null
             selfProductionConsumptionSeries.lowerSeries = null

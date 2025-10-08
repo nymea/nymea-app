@@ -167,7 +167,7 @@ SettingsPageBase {
                     Layout.minimumWidth: 250
                     textRole: "value"
                     enabled: !root.busy
-                    onActivated: console.log("Selected baud rate", currentText, model.get(currentIndex).value)
+                    onActivated: (index) => console.log("Selected baud rate", currentText, model.get(index).value)
                     model: serialPortBaudrateModel
                 }
             }
@@ -185,7 +185,7 @@ SettingsPageBase {
                     textRole: "text"
                     enabled: !root.busy
                     Layout.minimumWidth: 250
-                    onActivated: console.log("Selected parity", currentText,  model.get(currentIndex).value)
+                    onActivated: (index) => console.log("Selected parity", currentText,  model.get(index).value)
                     model: serialPortParityModel
                 }
             }
@@ -203,7 +203,7 @@ SettingsPageBase {
                     textRole: "text"
                     enabled: !root.busy
                     Layout.minimumWidth: 250
-                    onActivated: console.log("Selected data bits", currentText,  model.get(currentIndex).value)
+                    onActivated: (index) => console.log("Selected data bits", currentText,  model.get(index).value)
                     model: serialPortDataBitsModel
                     Component.onCompleted: {
                         currentIndex = 3
@@ -224,7 +224,7 @@ SettingsPageBase {
                     textRole: "text"
                     enabled: !root.busy
                     Layout.minimumWidth: 250
-                    onActivated: console.log("Selected stop bits", currentText,  model.get(currentIndex).value)
+                    onActivated: (index) => console.log("Selected stop bits", currentText,  model.get(index).value)
                     model: serialPortStopBitsModel
                 }
             }

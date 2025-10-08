@@ -28,11 +28,11 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick
-import QtQuick.Controls
 import QtQuick.Controls.Material
+import QtQuick.Controls
+import QtQuick
 import QtQuick.Layouts
-import Qt.labs.settings
+import QtCore
 import Qt.labs.folderlistmodel
 import QtQuick.Window
 import Nymea
@@ -573,7 +573,7 @@ ApplicationWindow {
     // by checking if the app becomes inactive right after the event. If not, it's probably a back
     // button press and we close ourselves.
     onClosing: {
-        if (Qt.platform.os == "android") {
+        if (Qt.platform.os === "android") {
             var handled = rootItem.handleAndroidBackButton();
             if (!handled) {
                 closeTimer.start()
@@ -597,20 +597,20 @@ ApplicationWindow {
         showFiles: false
     }
 
-    // NOTE: If using a Dialog, make sure closePolicy does not contain Dialog.CloseOnPressOutside
-    // or the virtual keyboard will close when pressing it...
+    // // NOTE: If using a Dialog, make sure closePolicy does not contain Dialog.CloseOnPressOutside
+    // // or the virtual keyboard will close when pressing it...
 
-    // https://bugreports.qt.io/browse/QTBUG-56918
+    // // https://bugreports.qt.io/browse/QTBUG-56918
     KeyboardLoader {
         id: keyboardRect
-        parent: app.overlay
+        // parent: app.overlay
         z: 1
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
     }
 
     Image {
         id: splashScreen
-        parent: overlay
+        // parent: overlay
         source: "/ui/images/nymea-splash.svg"
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop

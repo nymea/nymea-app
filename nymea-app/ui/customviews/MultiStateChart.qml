@@ -225,7 +225,7 @@ Item {
                     }
                 }
 
-                onEntriesAddedIdx: {
+                onEntriesAddedIdx: (index, count) => {
                     print("**** entries added", index, count, "entries in series:", series.count, "in model", logsModel.count)
                     for (var i = 0; i < count; i++) {
                         var entry = logsModel.get(i)
@@ -278,7 +278,7 @@ Item {
                     print("added entries. now in series:", series.count)
 
                 }
-                onEntriesRemoved: {
+                onEntriesRemoved: (index, count) => {
                     print("removing:", index, count, series.count)
                     if (stateType.type.toLowerCase() == "bool") {
                         series.removePoints(index * 2, count * 2)

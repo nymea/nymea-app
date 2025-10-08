@@ -34,7 +34,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtCharts
 import Nymea
-import Qt.labs.settings
+import QtCore
 import "../components"
 import "dashboard"
 

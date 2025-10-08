@@ -59,6 +59,6 @@ Item {
     MouseArea {
         anchors.fill: parent
         preventStealing: true
-        onWheel: wheel.accepted = true
+        onWheel: (wheel) => wheel.accepted = true
     }
 }

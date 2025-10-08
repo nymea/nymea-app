@@ -46,17 +46,15 @@ Dialog {
 
     ColumnLayout {
         anchors { left: parent.left; top: parent.top; right: parent.right }
-        RowLayout {
-            Label {
-                text: qsTr("Proxy server address:")
-                Layout.fillWidth: true
-            }
-            TextField {
-                id: addressTextField
-                Layout.fillWidth: true
-                text: root.serverConfiguration ? root.serverConfiguration.address : ""
-                onEditingFinished: root.serverConfiguration.address = text
-            }
+        Label {
+            text: qsTr("Proxy server address:")
+            Layout.fillWidth: true
+        }
+        TextField {
+            id: addressTextField
+            Layout.fillWidth: true
+            text: root.serverConfiguration ? root.serverConfiguration.address : ""
+            onEditingFinished: root.serverConfiguration.address = text
         }
 
         RowLayout {

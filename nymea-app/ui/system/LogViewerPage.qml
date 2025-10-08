@@ -95,8 +95,9 @@ Page {
         delegate: NymeaItemDelegate {
             id: delegate
             width: listView.width
-            leftPadding: 0
-            rightPadding: 0
+
+            leftPadding: app.margins
+            rightPadding: app.margins
             topPadding: 0
             bottomPadding: 0
             property NewLogEntry entry: newLogsModel.get(index)

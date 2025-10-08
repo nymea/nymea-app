@@ -44,7 +44,6 @@
 #include <QNetworkInformation>
 #endif
 
-
 #include "nymeahost.h"
 
 class NymeaTransportInterface;

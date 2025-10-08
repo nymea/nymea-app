@@ -209,7 +209,7 @@ SettingsPageBase {
             Layout.minimumWidth: 200
             model: engine.systemController.timeZones
             currentIndex: model.indexOf(engine.systemController.serverTimeZone)
-            onActivated: {
+            onActivated: (index) => {
                 engine.systemController.serverTimeZone = currentText;
             }
         }

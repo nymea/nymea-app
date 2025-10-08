@@ -58,7 +58,7 @@ ComboBox {
     model: ListModel {
         id: listModel
     }
-    onActivated: changed(model.get(index).value)
+    onActivated: (index) => changed(model.get(index).value)
     textRole: "label"
     Component.onCompleted: {
         print("completed. values", possibleValues, "value", root.value)

@@ -52,15 +52,15 @@ Dialog {
     //     onDestroye: root.destroy()
     // }
 
-    MouseArea {
-        parent: app.overlay
-        anchors.fill: parent
-        z: -1
-        onPressed: {
-            print("Dialog: eating mouse press", root.title)
-            mouse.accepted = true
-        }
-    }
+    // MouseArea {
+    //     // parent: app.overlay
+    //     anchors.fill: parent
+    //     z: -1
+    //     onPressed: {
+    //         print("Dialog: eating mouse press", root.title)
+    //         mouse.accepted = true
+    //     }
+    // }
 
     header: Item {
         implicitHeight: headerRow.height + app.margins

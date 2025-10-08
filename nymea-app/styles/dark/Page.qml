@@ -29,7 +29,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import QtQuick
-import QtQuick.Templates 2.2
+import QtQuick.Templates
 import QtQuick.Controls.Material
 
 Page {

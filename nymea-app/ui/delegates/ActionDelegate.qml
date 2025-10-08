@@ -287,7 +287,7 @@ ItemDelegate {
             currentIndex: paramType.allowedValues.indexOf(value)
             property var paramType: null
             property var value: null
-            onActivated: {
+            onActivated: (index) => {
                 value = paramType.allowedValues[index]
                 var params = [];
                 var param1 = new Object();

@@ -147,43 +147,35 @@ ThingsListPageBase {
                                 }
                             }
 
-                            Rectangle {
-                                id: maskRect
-                                anchors.centerIn: parent
-                                height: parent.width
-                                width: parent.height
-                                radius: Style.cornerRadius
-                                gradient: Gradient {
-                                    GradientStop { position: 0; color: "#00FF0000" }
-                                    GradientStop { position: 0.2; color: "#15FF0000" }
-                                    GradientStop { position: 1; color: "#FFFF0000" }
-                                }
-                            }
+                            // Rectangle {
+                            //     id: maskRect
+                            //     anchors.centerIn: parent
+                            //     height: parent.width
+                            //     width: parent.height
+                            //     radius: Style.cornerRadius
+                            //     gradient: Gradient {
+                            //         orientation: Gradient.Horizontal
+                            //         GradientStop { position: 0; color: "#00FF0000" }
+                            //         GradientStop { position: 0.2; color: "#15FF0000" }
+                            //         GradientStop { position: 1; color: "#FFFF0000" }
+                            //     }
+                            // }
 
-                            ShaderEffect {
-                                anchors.fill: parent
-                                property variant source: ShaderEffectSource {
-                                    sourceItem: artworkContainer
-                                    hideSource: true
-                                }
-                                property variant mask: ShaderEffectSource {
-                                    sourceItem: maskRect
-                                    hideSource: true
-                                }
+                            // ShaderEffect {
+                            //     anchors.fill: parent
+                            //     property variant source: ShaderEffectSource {
+                            //         format: ShaderEffectSource.RGBA8
+                            //         sourceItem: artworkContainer
+                            //         hideSource: true
+                            //     }
+                            //     property variant mask: ShaderEffectSource {
+                            //         format: ShaderEffectSource.RGBA8
+                            //         sourceItem: maskRect
+                            //         hideSource: true
+                            //     }
 
-                                fragmentShader: "
-                                                                    varying highp vec2 qt_TexCoord0;
-                                                                    uniform sampler2D source;
-                                                                    uniform sampler2D mask;
-                                                                    void main(void)
-                                                                    {
-                                                                        highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
-                                                                        highp float alpha = texture2D(mask, vec2(qt_TexCoord0.y, qt_TexCoord0.x)).a;
-                                                                        sourceColor *= alpha;
-                                                                        gl_FragColor = sourceColor;
-                                                                    }
-                                                                    "
-                            }
+                            //     fragmentShader: "/ui/shaders/colorizedimage.frag.qsb"
+                            // }
                         }
                     }
                 }

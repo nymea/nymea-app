@@ -32,7 +32,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import Qt.labs.settings
+import QtCore
 import QtQuick.Window
 import Nymea
 import NymeaApp.Utils

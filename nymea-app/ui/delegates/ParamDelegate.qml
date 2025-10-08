@@ -289,7 +289,7 @@ ItemDelegate {
                 text: Types.toUiValue(modelData, root.paramType.unit) + ( root.paramType.unit != Types.UnitNone ? " " + Types.toUiUnit(root.paramType.unit) : "")
                 highlighted: control.highlightedIndex === index
             }
-            onActivated: {
+            onActivated: (index) => {
                 root.param.value = root.paramType.allowedValues[index]
             }
             Component.onCompleted: {

@@ -224,7 +224,7 @@ Page {
                             }
                             return ret;
                         }
-                        onActivated: {
+                        onActivated: (index) => {
                             var date = root.calendarItem.dateTime
                             date.setDate(index)
                             root.calendarItem.dateTime = date;

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import Qt.labs.settings
+import QtCore
 import Nymea
 import "qrc:/ui/devicepages/"
 
@@ -48,7 +48,7 @@ ApplicationWindow {
 
     property Thing controlledThing: engine.thingManager.fetchingData ? null : engine.thingManager.things.getThing(controlledThingId)
 
-    onControlledThingChanged: {
+    onControlledThingChanged: (controlledThing) => {
         loader.setSource("qrc:/ui/devicepages/" + NymeaUtils.interfaceListToDevicePage(controlledThing.thingClass.interfaces), {thing: controlledThing, header: null})
         PlatformHelper.hideSplashScreen();
     }

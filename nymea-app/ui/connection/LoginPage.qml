@@ -132,8 +132,8 @@ SettingsPageBase {
                                   ? Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
                                   : Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
                 error: loginForm.showErrors && !acceptableInput
-                validator: RegExpValidator {
-                    regExp: /[a-zA-Z0-9_\\.+-@]{3,}/
+                validator: RegularExpressionValidator {
+                    regularExpression: /[a-zA-Z0-9_\\.+-@]{3,}/
                 }
             }
             Label {

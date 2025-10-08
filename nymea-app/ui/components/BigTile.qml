@@ -2,10 +2,12 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
+
 import Nymea
 
 Item {
     id: root
+
     implicitHeight: layout.implicitHeight + app.margins
 
     property alias header: headerContainer.children
@@ -61,6 +63,7 @@ Item {
         anchors.fill: parent
         anchors.margins: app.margins / 2
         radius: Style.cornerRadius
+        clip: true
 
         gradient: Gradient {
             GradientStop {
@@ -76,6 +79,7 @@ Item {
         }
     }
 
+
     ColumnLayout {
         id: layout
         spacing: 0
@@ -88,6 +92,7 @@ Item {
             visible: children.length > 0
             height: childrenRect.height
         }
+
 
         ItemDelegate {
             id: content

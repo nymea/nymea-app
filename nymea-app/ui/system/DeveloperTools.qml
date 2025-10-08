@@ -114,7 +114,7 @@ SettingsPageBase {
             var path = engine.jsonRpcClient.currentConnection.hostAddress + ":" + root.usedConfig.port + "/debug"
             return qsTr("Debug interface active at %1.").arg('<a href="' + proto + path + '">' + proto + path + '</a>')
         }
-        onLinkActivated: Qt.openUrlExternally(link)
+        onLinkActivated: (link) => Qt.openUrlExternally(link)
     }
 
     SettingsPageSectionHeader {

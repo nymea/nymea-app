@@ -83,7 +83,7 @@ Item {
         property double minValue
         property double maxValue
 
-        onEntriesAddedIdx: {
+        onEntriesAddedIdx: (index, count) => {
 //            print("**** entries added", index, count, "entries in series:", valueSeries.count, "in model", logsModel.count)
             for (var i = 0; i < count; i++) {
                 var entry = logsModel.get(i)
@@ -134,7 +134,7 @@ Item {
 
             print("added entries. now in series:", valueSeries.count)
         }
-        onEntriesRemoved: {
+        onEntriesRemoved: (index, count) => {
             print("removing:", index, count, valueSeries.count)
             if (root.stateType.type.toLowerCase() == "bool") {
                 valueSeries.removePoints(index * 2, count * 2)

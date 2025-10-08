@@ -112,8 +112,8 @@ ItemDelegate {
             model: [qsTr("and all of those"), qsTr("or any of those")]
             currentIndex: root.stateEvaluator && root.stateEvaluator.stateOperator === StateEvaluator.StateOperatorAnd ? 0 : 1
             visible: root.stateEvaluator && root.stateEvaluator.childEvaluators.count > 0
-            onActivated: {
-                root.stateEvaluator.stateOperator = index == 0 ? StateEvaluator.StateOperatorAnd : StateEvaluator.StateOperatorOr
+            onActivated: (index) => {
+                root.stateEvaluator.stateOperator = index === 0 ? StateEvaluator.StateOperatorAnd : StateEvaluator.StateOperatorOr
             }
         }
 

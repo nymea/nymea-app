@@ -2,8 +2,10 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+
 import Nymea
 import NymeaApp.Utils
+
 import "../components"
 
 SettingsPageBase {
@@ -14,7 +16,7 @@ SettingsPageBase {
         id: userManager
         engine: _engine
 
-        onChangePasswordReply: {
+        onChangePasswordReply: (id, error) => {
             if (error !== UserManager.UserErrorNoError) {
                 var component = Qt.createComponent("../components/ErrorDialog.qml")
                 var text;
@@ -149,9 +151,9 @@ SettingsPageBase {
             }
             Connections {
                 target: userManager
-                onSetUserInfoReply: {
+                onSetUserInfoReply: (id, error) => {
                     editUserInfoPage.busy = false
-                    if (error != UserManager.UserErrorNoError) {
+                    if (error !== UserManager.UserErrorNoError) {
                         var component = Qt.createComponent("../components/ErrorDialog.qml")
                         var text = qsTr("Un unexpected error happened when creating the user. We're sorry for this. (Error code: %1)").arg(error);
                         var popup = component.createObject(app, {text: text});
@@ -397,7 +399,7 @@ SettingsPageBase {
 
             Connections {
                 target: userManager
-                onRemoveUserReply: {
+                onRemoveUserReply: (id, error) => {
                     userDetailsPage.busy = false
                     if (error !== UserManager.UserErrorNoError) {
                         var component = Qt.createComponent("../components/ErrorDialog.qml")
@@ -504,7 +506,7 @@ SettingsPageBase {
             }
             Connections {
                 target: userManager
-                onCreateUserReply: {
+                onCreateUserReply: (id, error) => {
                     createUserPage.busy = false
                     if (error !== UserManager.UserErrorNoError) {
                         var component = Qt.createComponent("../components/ErrorDialog.qml")

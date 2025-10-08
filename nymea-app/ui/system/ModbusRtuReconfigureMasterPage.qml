@@ -182,7 +182,7 @@ SettingsPageBase {
                     enabled: !root.busy
                     textRole: "value"
                     model: serialPortBaudrateModel
-                    onActivated: console.log("Selected baudrate", currentText, model.get(currentIndex).value)
+                    onActivated: (index) => console.log("Selected baudrate", currentText, model.get(index).value)
                     Component.onCompleted: {
                         for (var i = 0; i < serialPortBaudrateModel.count; i++) {
                             if (serialPortBaudrateModel.get(i).value === modbusRtuMaster.baudrate) {
@@ -206,7 +206,7 @@ SettingsPageBase {
                     textRole: "text"
                     enabled: !root.busy
                     Layout.minimumWidth: 250
-                    onActivated: console.log("Selected parity", currentText, model.get(currentIndex).value)
+                    onActivated: (index) => console.log("Selected parity", currentText, model.get(index).value)
                     model: serialPortParityModel
                     Component.onCompleted: {
                         for (var i = 0; i < serialPortParityModel.count; i++) {
@@ -231,7 +231,7 @@ SettingsPageBase {
                     textRole: "text"
                     enabled: !root.busy
                     Layout.minimumWidth: 250
-                    onActivated: console.log("Selected data bits", currentText, model.get(currentIndex).value)
+                    onActivated: (index) => console.log("Selected data bits", currentText, model.get(index).value)
                     model: serialPortDataBitsModel
                     Component.onCompleted: {
                         for (var i = 0; i < serialPortDataBitsModel.count; i++) {
@@ -256,7 +256,7 @@ SettingsPageBase {
                     textRole: "text"
                     enabled: !root.busy
                     Layout.minimumWidth: 250
-                    onActivated: console.log("Selected stop bits", currentText, model.get(currentIndex).value)
+                    onActivated: (index) => console.log("Selected stop bits", currentText, model.get(index).value)
                     model: serialPortStopBitsModel
                     Component.onCompleted: {
                         for (var i = 0; i < serialPortStopBitsModel.count; i++) {

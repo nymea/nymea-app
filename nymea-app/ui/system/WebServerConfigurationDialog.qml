@@ -60,7 +60,7 @@ Dialog {
                                 ? 0
                                 : root.serverConfiguration.address === "127.0.0.1"
                                   ? 1 : 2
-                onActivated: {
+                onActivated: (index) => {
                     switch (index) {
                     case 0:
                         root.serverConfiguration.address = "0.0.0.0";
