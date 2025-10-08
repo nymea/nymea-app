@@ -120,31 +120,31 @@ set(TS_FILES
 )
 
 find_package(Qt6 COMPONENTS LinguistTools REQUIRED)
-if(TARGET Qt6::lrelease)
-    get_target_property(QT_LRELEASE_EXECUTABLE Qt6::lrelease IMPORTED_LOCATION)
-elseif(DEFINED Qt6_LRELEASE_EXECUTABLE)
-    set(QT_LRELEASE_EXECUTABLE ${Qt6_LRELEASE_EXECUTABLE})
-endif()
 
-if(NOT QT_LRELEASE_EXECUTABLE)
-    message(FATAL_ERROR "Could not determine the Qt lrelease executable")
-endif()
+qt_add_translation(QM_FILES ${TS_FILES})
 
+# Keep the compiled translations next to the application target in the build tree.
 set(QM_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/translations")
-set(QM_FILES)
-foreach(TS_FILE ${TS_FILES})
-    get_filename_component(TRANSLATION_FILENAME ${TS_FILE} NAME_WE)
-    set(QM_FILE "${QM_OUTPUT_DIR}/${TRANSLATION_FILENAME}.qm")
-    add_custom_command(
-        OUTPUT ${QM_FILE}
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${QM_OUTPUT_DIR}
-        COMMAND ${QT_LRELEASE_EXECUTABLE} ${TS_FILE} -qm ${QM_FILE}
-        DEPENDS ${TS_FILE}
-        COMMENT "Generating ${TRANSLATION_FILENAME}.qm"
-        VERBATIM
-    )
-    list(APPEND QM_FILES ${QM_FILE})
+set(QM_FILES_IN_DESTINATION)
+foreach(QM_FILE ${QM_FILES})
+    get_filename_component(QM_NAME ${QM_FILE} NAME)
+    set(QM_DESTINATION "${QM_OUTPUT_DIR}/${QM_NAME}")
+    if(NOT QM_FILE STREQUAL QM_DESTINATION)
+        add_custom_command(
+            OUTPUT ${QM_DESTINATION}
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${QM_OUTPUT_DIR}
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QM_FILE}" "${QM_DESTINATION}"
+            DEPENDS ${QM_FILE}
+            COMMENT "Staging ${QM_NAME}"
+            VERBATIM
+        )
+        list(APPEND QM_FILES_IN_DESTINATION ${QM_DESTINATION})
+    else()
+        list(APPEND QM_FILES_IN_DESTINATION ${QM_FILE})
+    endif()
 endforeach()
+
+set(QM_FILES ${QM_FILES_IN_DESTINATION})
 
 set_source_files_properties(${QM_FILES} PROPERTIES GENERATED TRUE)
 
@@ -161,7 +161,7 @@ string(APPEND _nymea_translations_qrc_content "    </qresource>\n</RCC>\n")
 set(NYMEA_TRANSLATIONS_QRC "${CMAKE_CURRENT_BINARY_DIR}/translations_autogen.qrc")
 file(GENERATE OUTPUT ${NYMEA_TRANSLATIONS_QRC} CONTENT "${_nymea_translations_qrc_content}")
 set_source_files_properties(${NYMEA_TRANSLATIONS_QRC} PROPERTIES GENERATED TRUE)
-set_property(SOURCE ${NYMEA_TRANSLATIONS_QRC} APPEND PROPERTY OBJECT_DEPENDS "${QM_FILES}")
+set_property(SOURCE ${NYMEA_TRANSLATIONS_QRC} APPEND PROPERTY OBJECT_DEPENDS ${QM_FILES})
 
 target_sources(nymea-app PRIVATE ${NYMEA_TRANSLATIONS_QRC})
 
