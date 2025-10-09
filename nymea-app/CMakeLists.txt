@@ -121,7 +121,14 @@ set(TS_FILES
 
 find_package(Qt6 COMPONENTS LinguistTools REQUIRED)
 
-set(NYMEA_TRANSLATIONS_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/translations")
+if(CMAKE_CONFIGURATION_TYPES)
+    set(NYMEA_TRANSLATIONS_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/translations")
+    set(NYMEA_TRANSLATIONS_QRC "${CMAKE_CURRENT_BINARY_DIR}/translations_autogen_$<CONFIG>.qrc")
+else()
+    set(NYMEA_TRANSLATIONS_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/translations")
+    set(NYMEA_TRANSLATIONS_QRC "${CMAKE_CURRENT_BINARY_DIR}/translations_autogen.qrc")
+endif()
+
 set(NYMEA_TRANSLATION_QM_FILES)
 
 foreach(TS_FILE ${TS_FILES})
@@ -153,7 +160,6 @@ foreach(QM_FILE ${NYMEA_TRANSLATION_QM_FILES})
 endforeach()
 string(APPEND _nymea_translations_qrc_content "    </qresource>\n</RCC>\n")
 
-set(NYMEA_TRANSLATIONS_QRC "${CMAKE_CURRENT_BINARY_DIR}/translations_autogen.qrc")
 file(GENERATE OUTPUT ${NYMEA_TRANSLATIONS_QRC} CONTENT "${_nymea_translations_qrc_content}")
 set_source_files_properties(${NYMEA_TRANSLATIONS_QRC} PROPERTIES GENERATED TRUE)
 set_property(SOURCE ${NYMEA_TRANSLATIONS_QRC} APPEND PROPERTY OBJECT_DEPENDS ${NYMEA_TRANSLATION_QM_FILES})
