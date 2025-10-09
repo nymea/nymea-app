@@ -63,7 +63,7 @@
 #include "configuredhostsmodel.h"
 #include "utils/qhashqml.h"
 #include "utils/privacypolicyhelper.h"
-#include "../config.h"
+#include "config.h"
 
 #include "logging.h"
 
