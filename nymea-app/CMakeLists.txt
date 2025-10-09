@@ -121,12 +121,33 @@ set(TS_FILES
 
 find_package(Qt6 COMPONENTS LinguistTools REQUIRED)
 
-qt_add_translation(QM_FILES ${TS_FILES})
+set(NYMEA_TRANSLATIONS_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/translations")
+set(NYMEA_TRANSLATION_QM_FILES)
 
-set_source_files_properties(${QM_FILES} PROPERTIES GENERATED TRUE)
+foreach(TS_FILE ${TS_FILES})
+    get_filename_component(_ts_basename "${TS_FILE}" NAME_WE)
+    set(_qm_file "${NYMEA_TRANSLATIONS_OUTPUT_DIR}/${_ts_basename}.qm")
+
+    add_custom_command(
+        OUTPUT "${_qm_file}"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${NYMEA_TRANSLATIONS_OUTPUT_DIR}"
+        COMMAND Qt6::lrelease "${TS_FILE}" -qm "${_qm_file}"
+        DEPENDS "${TS_FILE}"
+        COMMENT "Generating ${_ts_basename}.qm"
+        VERBATIM
+    )
+
+    list(APPEND NYMEA_TRANSLATION_QM_FILES "${_qm_file}")
+endforeach()
+
+add_custom_target(nymea-app-translations ALL
+    DEPENDS ${NYMEA_TRANSLATION_QM_FILES}
+)
+
+set_source_files_properties(${NYMEA_TRANSLATION_QM_FILES} PROPERTIES GENERATED TRUE)
 
 set(_nymea_translations_qrc_content "<RCC>\n    <qresource prefix=\"/\">\n")
-foreach(QM_FILE ${QM_FILES})
+foreach(QM_FILE ${NYMEA_TRANSLATION_QM_FILES})
     get_filename_component(QM_BASENAME ${QM_FILE} NAME)
     string(APPEND _nymea_translations_qrc_content "        <file alias=\"translations/${QM_BASENAME}\">${QM_FILE}</file>\n")
 endforeach()
@@ -135,9 +156,11 @@ string(APPEND _nymea_translations_qrc_content "    </qresource>\n</RCC>\n")
 set(NYMEA_TRANSLATIONS_QRC "${CMAKE_CURRENT_BINARY_DIR}/translations_autogen.qrc")
 file(GENERATE OUTPUT ${NYMEA_TRANSLATIONS_QRC} CONTENT "${_nymea_translations_qrc_content}")
 set_source_files_properties(${NYMEA_TRANSLATIONS_QRC} PROPERTIES GENERATED TRUE)
-set_property(SOURCE ${NYMEA_TRANSLATIONS_QRC} APPEND PROPERTY OBJECT_DEPENDS ${QM_FILES})
+set_property(SOURCE ${NYMEA_TRANSLATIONS_QRC} APPEND PROPERTY OBJECT_DEPENDS ${NYMEA_TRANSLATION_QM_FILES})
 
 target_sources(nymea-app PRIVATE ${NYMEA_TRANSLATIONS_QRC})
+
+add_dependencies(nymea-app nymea-app-translations)
 
 if(WIN32)
     target_compile_definitions(nymea-app PRIVATE NOMINMAX)
