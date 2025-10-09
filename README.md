@@ -5,7 +5,7 @@ QtQuick nymea client application
 # building
 
 Required packages:
-It is recommended to install a complete Qt installation. Minimum required Qt Version *5.7.0*.
+It is recommended to install a complete Qt installation. Minimum required Qt version is Qt 6.
 
 No extra modules are required for a basic desktop build.
 
@@ -14,14 +14,19 @@ After cloning the repository, run
     $ git submodule init
     $ git submodule update
 
-To build a binary run
+To build a binary with CMake run
 
-    $ mkdir builddir
-    $ cd builddir
-    $ qmake path/to/source/dir
-    $ make
+    $ cmake -S . -B build
+    $ cmake --build build
 
-Or open `nymea-app.pro` in QtCreator and click the **"Play"** button.
+The build can be customised with the following cache variables:
+
+- `-DNYMEA_ENABLE_ZEROCONF=ON` enables ZeroConf support when the QtZeroConf and
+  Avahi dependencies are available.
+- `-DNYMEA_USE_MATERIAL_ICONS=ON` switches the icon theme to the Material icon set.
+
+Legacy qmake builds are still available by opening `nymea-app.pro` in QtCreator
+and building the project there.
 
 Optional configuration flags to be passed to qmake:
 
