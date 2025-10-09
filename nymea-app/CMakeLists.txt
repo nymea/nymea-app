@@ -122,30 +122,50 @@ set(TS_FILES
 find_package(Qt6 COMPONENTS LinguistTools REQUIRED)
 
 if(CMAKE_CONFIGURATION_TYPES)
-    set(NYMEA_TRANSLATIONS_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/translations")
     set(NYMEA_TRANSLATIONS_QRC "${CMAKE_CURRENT_BINARY_DIR}/translations_autogen_$<CONFIG>.qrc")
 else()
-    set(NYMEA_TRANSLATIONS_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/translations")
     set(NYMEA_TRANSLATIONS_QRC "${CMAKE_CURRENT_BINARY_DIR}/translations_autogen.qrc")
 endif()
 
 set(NYMEA_TRANSLATION_QM_FILES)
 
-foreach(TS_FILE ${TS_FILES})
-    get_filename_component(_ts_basename "${TS_FILE}" NAME_WE)
-    set(_qm_file "${NYMEA_TRANSLATIONS_OUTPUT_DIR}/${_ts_basename}.qm")
+if(CMAKE_CONFIGURATION_TYPES)
+    foreach(CONFIG ${CMAKE_CONFIGURATION_TYPES})
+        set(_config_output_dir "${CMAKE_CURRENT_BINARY_DIR}/${CONFIG}/translations")
+        foreach(TS_FILE ${TS_FILES})
+            get_filename_component(_ts_basename "${TS_FILE}" NAME_WE)
+            set(_qm_file "${_config_output_dir}/${_ts_basename}.qm")
 
-    add_custom_command(
-        OUTPUT "${_qm_file}"
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${NYMEA_TRANSLATIONS_OUTPUT_DIR}"
-        COMMAND Qt6::lrelease "${TS_FILE}" -qm "${_qm_file}"
-        DEPENDS "${TS_FILE}"
-        COMMENT "Generating ${_ts_basename}.qm"
-        VERBATIM
-    )
+            add_custom_command(
+                OUTPUT "${_qm_file}"
+                COMMAND ${CMAKE_COMMAND} -E make_directory "${_config_output_dir}"
+                COMMAND Qt6::lrelease "${TS_FILE}" -qm "${_qm_file}"
+                DEPENDS "${TS_FILE}"
+                COMMENT "Generating ${_ts_basename}.qm (${CONFIG})"
+                VERBATIM
+            )
 
-    list(APPEND NYMEA_TRANSLATION_QM_FILES "${_qm_file}")
-endforeach()
+            list(APPEND NYMEA_TRANSLATION_QM_FILES "${_qm_file}")
+        endforeach()
+    endforeach()
+else()
+    set(_config_output_dir "${CMAKE_CURRENT_BINARY_DIR}/translations")
+    foreach(TS_FILE ${TS_FILES})
+        get_filename_component(_ts_basename "${TS_FILE}" NAME_WE)
+        set(_qm_file "${_config_output_dir}/${_ts_basename}.qm")
+
+        add_custom_command(
+            OUTPUT "${_qm_file}"
+            COMMAND ${CMAKE_COMMAND} -E make_directory "${_config_output_dir}"
+            COMMAND Qt6::lrelease "${TS_FILE}" -qm "${_qm_file}"
+            DEPENDS "${TS_FILE}"
+            COMMENT "Generating ${_ts_basename}.qm"
+            VERBATIM
+        )
+
+        list(APPEND NYMEA_TRANSLATION_QM_FILES "${_qm_file}")
+    endforeach()
+endif()
 
 add_custom_target(nymea-app-translations ALL
     DEPENDS ${NYMEA_TRANSLATION_QM_FILES}
@@ -154,9 +174,14 @@ add_custom_target(nymea-app-translations ALL
 set_source_files_properties(${NYMEA_TRANSLATION_QM_FILES} PROPERTIES GENERATED TRUE)
 
 set(_nymea_translations_qrc_content "<RCC>\n    <qresource prefix=\"/\">\n")
-foreach(QM_FILE ${NYMEA_TRANSLATION_QM_FILES})
-    get_filename_component(QM_BASENAME ${QM_FILE} NAME)
-    string(APPEND _nymea_translations_qrc_content "        <file alias=\"translations/${QM_BASENAME}\">${QM_FILE}</file>\n")
+foreach(TS_FILE ${TS_FILES})
+    get_filename_component(_ts_basename "${TS_FILE}" NAME_WE)
+    if(CMAKE_CONFIGURATION_TYPES)
+        set(_qm_rcc_path "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/translations/${_ts_basename}.qm")
+    else()
+        set(_qm_rcc_path "${CMAKE_CURRENT_BINARY_DIR}/translations/${_ts_basename}.qm")
+    endif()
+    string(APPEND _nymea_translations_qrc_content "        <file alias=\"translations/${_ts_basename}.qm\">${_qm_rcc_path}</file>\n")
 endforeach()
 string(APPEND _nymea_translations_qrc_content "    </qresource>\n</RCC>\n")
 
