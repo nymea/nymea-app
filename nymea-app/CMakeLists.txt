@@ -123,25 +123,32 @@ find_package(Qt6 COMPONENTS LinguistTools REQUIRED)
 
 set(NYMEA_TRANSLATIONS_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/translations")
 set(NYMEA_TRANSLATION_QM_FILES)
+set(_nymea_translations_stamp "${NYMEA_TRANSLATIONS_OUTPUT_DIR}/nymea-app-translations.stamp")
+set(_nymea_translation_commands)
 
 foreach(TS_FILE ${TS_FILES})
     get_filename_component(_ts_basename "${TS_FILE}" NAME_WE)
     set(_qm_file "${NYMEA_TRANSLATIONS_OUTPUT_DIR}/${_ts_basename}.qm")
 
-    add_custom_command(
-        OUTPUT "${_qm_file}"
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${NYMEA_TRANSLATIONS_OUTPUT_DIR}"
-        COMMAND Qt6::lrelease "${TS_FILE}" -qm "${_qm_file}"
-        DEPENDS "${TS_FILE}"
-        COMMENT "Generating ${_ts_basename}.qm"
-        VERBATIM
-    )
-
     list(APPEND NYMEA_TRANSLATION_QM_FILES "${_qm_file}")
+    list(APPEND _nymea_translation_commands
+        COMMAND Qt6::lrelease "${TS_FILE}" -qm "${_qm_file}"
+    )
 endforeach()
 
+add_custom_command(
+    OUTPUT "${_nymea_translations_stamp}"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${NYMEA_TRANSLATIONS_OUTPUT_DIR}"
+    ${_nymea_translation_commands}
+    COMMAND ${CMAKE_COMMAND} -E touch "${_nymea_translations_stamp}"
+    DEPENDS ${TS_FILES}
+    BYPRODUCTS ${NYMEA_TRANSLATION_QM_FILES}
+    COMMENT "Generating nymea-app translation catalogs"
+    VERBATIM
+)
+
 add_custom_target(nymea-app-translations ALL
-    DEPENDS ${NYMEA_TRANSLATION_QM_FILES}
+    DEPENDS "${_nymea_translations_stamp}"
 )
 
 set_source_files_properties(${NYMEA_TRANSLATION_QM_FILES} PROPERTIES GENERATED TRUE)
