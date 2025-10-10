@@ -35,13 +35,13 @@ Optional configuration flags to be passed to qmake:
 > Enables building the testrunner target
 
 ## Android
-When targeting Android, make sure a cross-compiled build of OpenSSL is
-available to CMake (for example by setting `OPENSSL_ROOT_DIR` when
-configuring). The CMake build will automatically package the resolved
-`libssl` and `libcrypto` shared libraries inside the Android bundle, following
-the Qt for Android OpenSSL deployment guidelines. Other platforms will build
-without explicitly linking to OpenSSL if the development package is not
-installed.
+When targeting Android, the build will download the KDAB
+[`android_openssl`](https://github.com/KDAB/android_openssl) package at
+configure time and automatically bundle the provided `libssl` and `libcrypto`
+shared libraries inside the APK. An active internet connection is therefore
+required the first time you configure an Android build directory. Other
+platforms will build without explicitly linking to OpenSSL if the development
+package is not installed.
 
 ## Windows
 
