@@ -17,6 +17,14 @@ set(REMOTE_PROXYCLIENT_INCLUDE_DIRS)
 if(EXISTS ${NYMEA_REMOTEPROXYCLIENT_MODULE})
     include(${NYMEA_REMOTEPROXYCLIENT_MODULE})
 
+    if(COMMAND nymea_remoteproxyclient_sources)
+        nymea_remoteproxyclient_sources(
+            REMOTE_PROXYCLIENT_SOURCES
+            REMOTE_PROXYCLIENT_HEADERS
+            REMOTE_PROXYCLIENT_INCLUDE_DIRS
+        )
+    endif()
+
     if(DEFINED NYMEA_REMOTEPROXYCLIENT_SOURCES)
         list(APPEND REMOTE_PROXYCLIENT_SOURCES ${NYMEA_REMOTEPROXYCLIENT_SOURCES})
     endif()
@@ -36,6 +44,23 @@ if(EXISTS ${NYMEA_REMOTEPROXYCLIENT_MODULE})
 else()
     message(FATAL_ERROR
         "nymea-remoteproxyclient CMake module not found. Did you initialize the nymea-remoteproxy submodule?"
+    )
+endif()
+
+if(NOT REMOTE_PROXYCLIENT_INCLUDE_DIRS)
+    set(_nymea_remoteproxyclient_root
+        ${CMAKE_SOURCE_DIR}/nymea-remoteproxy/libnymea-remoteproxyclient
+    )
+    if(EXISTS ${_nymea_remoteproxyclient_root})
+        list(APPEND REMOTE_PROXYCLIENT_INCLUDE_DIRS ${_nymea_remoteproxyclient_root})
+    endif()
+    unset(_nymea_remoteproxyclient_root)
+endif()
+
+if(NOT REMOTE_PROXYCLIENT_INCLUDE_DIRS)
+    message(FATAL_ERROR
+        "nymea-remoteproxyclient include directories were not provided by the module. "
+        "Please ensure the nymea-remoteproxy submodule is checked out at the required revision."
     )
 endif()
 
