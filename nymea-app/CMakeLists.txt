@@ -111,15 +111,3 @@ if(WIN32)
     target_compile_definitions(nymea-app PRIVATE NOMINMAX)
 endif()
 
-if(ANDROID)
-    if(TARGET OpenSSL::SSL AND TARGET OpenSSL::Crypto)
-        # Ship the OpenSSL shared libraries inside the Android package as
-        # described in the Qt documentation so SSL works out of the box.
-        set_property(TARGET nymea-app APPEND PROPERTY QT_ANDROID_EXTRA_LIBS
-            $<TARGET_FILE:OpenSSL::SSL>
-            $<TARGET_FILE:OpenSSL::Crypto>
-        )
-    else()
-        message(WARNING "OpenSSL libraries not available; the Android package will miss SSL support.")
-    endif()
-endif()

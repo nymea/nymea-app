@@ -99,8 +99,6 @@ target_link_libraries(nymea-app-core
 
 if(TARGET OpenSSL::SSL AND TARGET OpenSSL::Crypto)
     target_link_libraries(nymea-app-core PUBLIC OpenSSL::SSL OpenSSL::Crypto)
-elseif(ANDROID)
-    message(FATAL_ERROR "OpenSSL libraries are required for Android builds but were not found.")
 else()
     message(WARNING "OpenSSL development libraries not found; continuing without explicit OpenSSL linkage.")
 endif()
