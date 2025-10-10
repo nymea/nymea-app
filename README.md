@@ -35,8 +35,11 @@ Optional configuration flags to be passed to qmake:
 > Enables building the testrunner target
 
 ## Android
-As Qt can't bundle a build of openssl for android, you need to place a copy to
-`/opt/android-ssl/`
+Make sure a cross-compiled build of OpenSSL is available to CMake (for example
+by setting `OPENSSL_ROOT_DIR` when configuring). The CMake build will
+automatically package the resolved `libssl` and `libcrypto` shared libraries
+inside the Android bundle, following the Qt for Android OpenSSL deployment
+guidelines.
 
 ## Windows
 
