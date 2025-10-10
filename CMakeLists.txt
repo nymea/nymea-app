@@ -43,7 +43,11 @@ find_package(Qt6 REQUIRED COMPONENTS
     Nfc
 )
 
-find_package(OpenSSL REQUIRED)
+if(ANDROID)
+    find_package(OpenSSL REQUIRED)
+else()
+    find_package(OpenSSL QUIET)
+endif()
 
 # Make config.h available to all targets
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_BINARY_DIR}/config.h @ONLY)
