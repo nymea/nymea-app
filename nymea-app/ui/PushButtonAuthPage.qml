@@ -84,7 +84,7 @@ Page {
         Label {
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("If the status LED is not green, you have to repeat authentication.(Go back to connection page, press reset button shortly and select leaflet again).")
+            text: qsTr("If the status LED flashes red briefly or this screen remains displayed, the authentication has failed. Please go back and restart the process.")
             wrapMode: Text.WordWrap
         }
 

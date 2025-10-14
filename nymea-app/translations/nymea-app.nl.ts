@@ -93,6 +93,14 @@
         <source>Serial copied to clipboard</source>
         <translation>Serienummer gekopieerd naar klembord</translation>
     </message>
+    <message>
+        <source>Consolinno HEMS version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HEMS version copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AboutPage</name>
@@ -174,6 +182,14 @@
     <message>
         <source>This action is not being logged.</source>
         <translation>Van deze actie wordt geen log bijgehouden.</translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished">Geen gegevens</translation>
+    </message>
+    <message>
+        <source>This action has not been executed yet.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2111,6 +2127,14 @@
         <source>This event is not being logged.</source>
         <translation>Van deze gebeurtenis wordt geen log bijgehouden.</translation>
     </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished">Geen gegevens</translation>
+    </message>
+    <message>
+        <source>This event has not been triggered yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FavoritesView</name>
@@ -3798,6 +3822,14 @@ Probeer het nog een keer.</translation>
     <message>
         <source>Email</source>
         <translation>E-mail</translation>
+    </message>
+    <message>
+        <source>If you are the owner and do not have your own account, have your installer create an account for you.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you are an installer and do not have your own account, you can authenticate yourself using the test button on the leaflet (see quick start guide or user manual).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5708,12 +5740,16 @@ Wil je doorgaan?</translation>
         <translation>Sorry, er ging iets fout bij het instellen. Probeer het opnieuw.</translation>
     </message>
     <message>
-        <source>Authentication required</source>
-        <translation>Toegangsbevestiging vereist</translation>
+        <source>Finish authentication</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please press the button on your %1 gateway to authenticate this device.</source>
-        <translation>Druk de knop op je %1 gateway in om dit apparaat te bevestigen.</translation>
+        <source>To complete authentication, press the test button again for 5 sec. until the status LED lights up green.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If the status LED flashes red briefly or this screen remains displayed, the authentication has failed. Please go back and restart the process.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6568,6 +6604,10 @@ A consumer, not consuming anything</extracomment>
         <source>Total return: %1 kWh</source>
         <translation>Totaal teruggegeven aan het net: %1 kWh</translation>
     </message>
+    <message>
+        <source>The battery is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StateChart</name>
@@ -6778,10 +6818,6 @@ Als je fouten in de niet-officiële software vindt, geef deze dan door aan de on
     <message>
         <source>Details</source>
         <translation>Details</translation>
-    </message>
-    <message>
-        <source>Logs</source>
-        <translation>Logs</translation>
     </message>
     <message>
         <source>Mark as favorite</source>
@@ -7251,6 +7287,14 @@ Als je fouten in de niet-officiële software vindt, geef deze dan door aan de on
     <message>
         <source>User information</source>
         <translation>Gebruikersinformatie</translation>
+    </message>
+    <message>
+        <source>User login via authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authenticated user</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

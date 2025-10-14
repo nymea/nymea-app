@@ -93,6 +93,14 @@
         <source>Serial copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Consolinno HEMS version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HEMS version copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AboutPage</name>
@@ -173,6 +181,14 @@
     </message>
     <message>
         <source>This action is not being logged.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This action has not been executed yet.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2102,6 +2118,14 @@
         <source>This event is not being logged.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This event has not been triggered yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FavoritesView</name>
@@ -3768,6 +3792,14 @@ Please try again.</source>
     </message>
     <message>
         <source>Email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you are the owner and do not have your own account, have your installer create an account for you.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you are an installer and do not have your own account, you can authenticate yourself using the test button on the leaflet (see quick start guide or user manual).</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5673,11 +5705,15 @@ Do you want to proceed?</source>
         <translation></translation>
     </message>
     <message>
-        <source>Authentication required</source>
-        <translation></translation>
+        <source>Finish authentication</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please press the button on your %1 gateway to authenticate this device.</source>
+        <source>To complete authentication, press the test button again for 5 sec. until the status LED lights up green.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If the status LED flashes red briefly or this screen remains displayed, the authentication has failed. Please go back and restart the process.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6532,6 +6568,10 @@ A consumer, not consuming anything</extracomment>
         <source>Total return: %1 kWh</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The battery is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>StateChart</name>
@@ -6736,10 +6776,6 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7209,6 +7245,14 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>User information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User login via authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authenticated user</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
