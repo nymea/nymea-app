@@ -35,6 +35,10 @@
 
 #include <QObject>
 
+#if defined(Q_OS_ANDROID)
+#include <jni.h>
+#endif
+
 class PlatformHelperAndroid : public PlatformHelper
 {
     Q_OBJECT
@@ -68,7 +72,9 @@ public:
     void shareFile(const QString &fileName) override;
 
     static void darkModeEnabledChangedJNI();
+#if defined(Q_OS_ANDROID)
     static void notificationActionReceivedJNI(JNIEnv *env, jobject /*thiz*/, jstring data);
+#endif
     static void locationServicesEnabledChangedJNI();
 
 private:

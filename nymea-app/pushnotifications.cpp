@@ -36,7 +36,7 @@
 #if defined Q_OS_ANDROID
 #include <QJniEnvironment>
 #include <QJniObject>
-#include <QNativeInterface>
+#include <QtCore/qnativeinterface.h>
 static PushNotifications *m_client_pointer;
 #endif
 

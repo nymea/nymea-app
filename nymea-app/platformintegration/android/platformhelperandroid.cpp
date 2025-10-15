@@ -33,8 +33,12 @@
 #include <QApplication>
 #include <QDebug>
 #include <QJniObject>
-#include <QNativeInterface>
+#include <QtCore/qnativeinterface.h>
 #include <QScreen>
+
+#if defined(Q_OS_ANDROID)
+#include <jni.h>
+#endif
 
 // WindowManager.LayoutParams
 #define FLAG_TRANSLUCENT_STATUS 0x04000000
@@ -46,11 +50,12 @@
 
 static PlatformHelperAndroid *m_instance = nullptr;
 
+#if defined(Q_OS_ANDROID)
 static JNINativeMethod methods[] = {
     { "darkModeEnabledChangedJNI", "()V", (void *)PlatformHelperAndroid::darkModeEnabledChangedJNI },
     { "notificationActionReceivedJNI", "(Ljava/lang/String;)V", (void *)PlatformHelperAndroid::notificationActionReceivedJNI },
     { "locationServicesEnabledChangedJNI", "()V", (void *)PlatformHelperAndroid::locationServicesEnabledChangedJNI },
-    };
+};
 
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
 {
@@ -68,6 +73,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
     }
     return JNI_VERSION_1_6;
 }
+#endif
 
 namespace {
 
@@ -302,15 +308,18 @@ void PlatformHelperAndroid::darkModeEnabledChangedJNI()
     }
 }
 
+#if defined(Q_OS_ANDROID)
 void PlatformHelperAndroid::notificationActionReceivedJNI(JNIEnv *env, jobject, jstring data)
 {
+    Q_UNUSED(env);
     // Only call the platformhelper if it exists yet. We may get this callback before the Qt part is created
     // and we don't want to create the PlatformHelper on the android thread.
     PlatformHelper* platformHelper = PlatformHelperAndroid::instance(false);
     if (platformHelper) {
-        platformHelper->notificationActionReceived(env->GetStringUTFChars(data, nullptr));
+        platformHelper->notificationActionReceived(QJniObject(data).toString());
     }
 }
+#endif
 
 void PlatformHelperAndroid::locationServicesEnabledChangedJNI()
 {

@@ -14,7 +14,7 @@
 #include <QtDebug>
 #include <QtQml>
 #include <QJniObject>
-#include <QNativeInterface>
+#include <QtCore/qnativeinterface.h>
 #include <QNdefNfcUriRecord>
 
 QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)

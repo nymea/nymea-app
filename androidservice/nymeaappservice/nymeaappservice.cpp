@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QJniObject>
 #include <QJsonDocument>
-#include <QNativeInterface>
+#include <QtCore/qnativeinterface.h>
 #include <QSettings>
 #include <QVariantMap>
 

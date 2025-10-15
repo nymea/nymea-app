@@ -3,7 +3,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QJniObject>
-#include <QNativeInterface>
+#include <QtCore/qnativeinterface.h>
 #include <QOperatingSystemVersion>
 
 #include "logging.h"
