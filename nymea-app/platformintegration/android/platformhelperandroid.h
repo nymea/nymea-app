@@ -34,8 +34,9 @@
 #include "platformhelper.h"
 
 #include <QObject>
-#include <QtAndroid>
-#include <QAndroidServiceConnection>
+#include <QJniObject>
+#include <QJniEnvironment>
+#include <QtCore/private/qandroidextras_p.h>
 
 class PlatformHelperAndroid : public PlatformHelper
 {
@@ -73,8 +74,6 @@ public:
     static void notificationActionReceivedJNI(JNIEnv *env, jobject /*thiz*/, jstring data);
     static void locationServicesEnabledChangedJNI();
 
-private:
-    static void permissionRequestFinished(const QtAndroid::PermissionResultMap &);
 };
 
 #endif // PLATFORMHELPERANDROID_H

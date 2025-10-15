@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = service
 CONFIG += dll
-QT += core androidextras
+QT += core core-private
 QT += network qml quick quickcontrols2 svg websockets bluetooth charts nfc
 
 include(../shared.pri)

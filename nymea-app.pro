@@ -81,8 +81,8 @@ linux:!android: {
 
 android: {
     message("Android package source dir $${ANDROID_PACKAGE_SOURCE_DIR}")
-    SUBDIRS += androidservice
-    androidservice.depends = libnymea-app
+    # SUBDIRS += androidservice
+    # androidservice.depends = libnymea-app
 
     NYMEA_APP_ROOT_PROPERTY="nymeaAppRoot=$${top_srcdir}"
     no-firebase: FIREBASE_PROPERTY="useFirebase=false"

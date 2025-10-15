@@ -1,9 +1,9 @@
 #ifndef NYMEAAPPSERVICE_H
 #define NYMEAAPPSERVICE_H
 
-#include <QAndroidService>
 #include <QNearFieldManager>
 #include <QNdefMessage>
+#include <QtCore/private/qandroidextras_p.h>
 
 #include "engine.h"
 

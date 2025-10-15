@@ -10,8 +10,8 @@ include(../../shared.pri)
 LIBS += -L$${top_builddir}/libnymea-app/ -lnymea-app
 
 android: {
-LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
-PRE_TARGETDEPS += $$top_builddir/libnymea-app/$${ANDROID_TARGET_ARCH}/libnymea-app.a
+        LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
+        PRE_TARGETDEPS += $$top_builddir/libnymea-app/$${ANDROID_TARGET_ARCH}/libnymea-app.a
 }
 
 INCLUDEPATH += $${top_srcdir}/libnymea-app/

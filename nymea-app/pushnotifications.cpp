@@ -36,7 +36,7 @@
 #if defined Q_OS_ANDROID
 #include <QtAndroid>
 #include <QtAndroidExtras>
-#include <QAndroidJniObject>
+#include <QJniObject>
 static PushNotifications *m_client_pointer;
 #endif
 
@@ -88,7 +88,7 @@ void PushNotifications::registerForPush()
 {
 #if defined Q_OS_ANDROID && defined WITH_FIREBASE
     qDebug() << "Checking for play services";
-    jboolean playServicesAvailable = QAndroidJniObject::callStaticMethod<jboolean>("io.guh.nymeaapp.NymeaAppNotificationService", "checkPlayServices", "()Z");
+    jboolean playServicesAvailable = QJniObject::callStaticMethod<jboolean>("io.guh.nymeaapp.NymeaAppNotificationService", "checkPlayServices", "()Z");
     if (playServicesAvailable) {
         qDebug() << "Setting up firebase";
         m_client_pointer = this;

@@ -14,7 +14,7 @@
 #include <QtDebug>
 #include <QtQml>
 #include <QtAndroid>
-#include <QAndroidJniObject>
+#include <QJniObject>
 #include <QAndroidIntent>
 #include <QNdefNfcUriRecord>
 

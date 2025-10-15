@@ -78,6 +78,6 @@ void NymeaAppService::sendNotification(const QString &notification, const QVaria
     QString payload = QJsonDocument::fromVariant(data).toJson();
     QtAndroid::androidService().callMethod<void>("sendBroadcast",
                                                  "(Ljava/lang/String;)V",
-                                                 QAndroidJniObject::fromString(payload).object<jstring>());
+                                                 QJniObject::fromString(payload).object<jstring>());
 
 }

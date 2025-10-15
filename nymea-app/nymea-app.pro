@@ -92,7 +92,6 @@ android {
     ANDROID_MIN_SDK_VERSION = 21
     ANDROID_TARGET_SDK_VERSION = 35
 
-    QT += androidextras
     HEADERS += platformintegration/android/platformhelperandroid.h \
                platformintegration/android/platformpermissionsandroid.h \
 
