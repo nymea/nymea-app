@@ -87,7 +87,6 @@ android {
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = [
                 qt5AndroidDir + '/src',
-                nymeaAppRoot + '/androidservice/java',
                 nymeaAppRoot + '/nymea-app/platformintegration/android/java',
                 nymeaAppRoot + '/QtZeroConf/android',
                 'src',
