@@ -3,7 +3,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QJniObject>
-#include <QtCore/qnativeinterface.h>
+#include "androidnativecompat.h"
 #include <QOperatingSystemVersion>
 
 #include "logging.h"
@@ -32,10 +32,11 @@ void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permissi
     if (permissionMap().contains(permission)) {
         const QStringList androidPermissions = permissionMap().value(permission);
         qCDebug(dcPlatformPermissions()) << "Requesting permissions:" << androidPermissions;
-        QNativeInterface::QAndroidApplication::requestPermissions(androidPermissions, [this](const QHash<QString, QNativeInterface::QAndroidApplication::PermissionResult> &results) {
+        auto loggingCategory = &dcPlatformPermissions;
+        NymeaAndroidCompat::requestPermissions(androidPermissions, [this, loggingCategory](const NymeaAndroidCompat::PermissionsMap &results) {
             for (auto it = results.constBegin(); it != results.constEnd(); ++it) {
-                qCDebug(dcPlatformPermissions()) << "Permission result callback:" << it.key() << (it.value() == QNativeInterface::QAndroidApplication::PermissionResult::Granted ? "Granted" : "Denied");
-                if (it.value() == QNativeInterface::QAndroidApplication::PermissionResult::Denied) {
+                qCDebug(loggingCategory) << "Permission result callback:" << it.key() << (it.value() == NymeaAndroidCompat::PermissionResult::Granted ? "Granted" : "Denied");
+                if (it.value() == NymeaAndroidCompat::PermissionResult::Denied) {
                     m_requestedButDeniedPermissions.append(it.key());
                 }
             }
@@ -50,13 +51,13 @@ void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permissi
 void PlatformPermissionsAndroid::openPermissionSettings()
 {
     qCDebug(dcPlatformPermissions()) << "Opening permission dialog.";
-    QJniObject packageName = QNativeInterface::QAndroidApplication::context().callObjectMethod("getPackageName", "()Ljava/lang/String;");
+    QJniObject packageName = NymeaAndroidCompat::context().callObjectMethod("getPackageName", "()Ljava/lang/String;");
     QString packageUri = "package:" + packageName.toString();
     QJniObject uri = QJniObject::callStaticObjectMethod("android/net/Uri", "parse", "(Ljava/lang/String;)Landroid/net/Uri;", QJniObject::fromString(packageUri).object());
     QJniObject intent("android/content/Intent", "(Ljava/lang/String;)V", QJniObject::fromString("android.settings.APPLICATION_DETAILS_SETTINGS").object<jstring>());
     intent.callObjectMethod("setData", "(Landroid/net/Uri;)Landroid/content/Intent;", uri.object());
     intent.callObjectMethod("addFlags", "(I)Landroid/content/Intent;", FLAG_ACTIVITY_NEW_TASK);
-    QNativeInterface::QAndroidApplication::context().callMethod<void>("startActivity", "(Landroid/content/Intent;)V", intent.object());
+    NymeaAndroidCompat::context().callMethod<void>("startActivity", "(Landroid/content/Intent;)V", intent.object());
 }
 
 QHash<PlatformPermissions::Permission, QStringList> PlatformPermissionsAndroid::permissionMap() const
@@ -99,11 +100,11 @@ PlatformPermissions::PermissionStatus PlatformPermissionsAndroid::checkPermissio
     QStringList androidPermissions = permissionMap().value(permission);
     qCDebug(dcPlatformPermissions()) << "Checking permission" << permission << "(" << androidPermissions << ")";
     foreach (const QString androidPermission, androidPermissions) {
-        if (QNativeInterface::QAndroidApplication::shouldShowRequestPermissionRationale(androidPermission) || m_requestedButDeniedPermissions.contains(androidPermission)) {
+        if (NymeaAndroidCompat::shouldShowRequestPermissionRationale(androidPermission) || m_requestedButDeniedPermissions.contains(androidPermission)) {
             qCDebug(dcPlatformPermissions()) << "Permission:" << androidPermission << "denied";
             status = PermissionStatusDenied;
         }
-        if (QNativeInterface::QAndroidApplication::checkPermission(androidPermission) == QNativeInterface::QAndroidApplication::PermissionResult::Denied) {
+        if (NymeaAndroidCompat::checkPermission(androidPermission) == NymeaAndroidCompat::PermissionResult::Denied) {
             qDebug(dcPlatformPermissions()) << "Permission:" << androidPermission << "not determined";
             if (status != PermissionStatusDenied) {
                 status = PermissionStatusNotDetermined;

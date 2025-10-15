@@ -36,7 +36,7 @@
 #if defined Q_OS_ANDROID
 #include <QJniEnvironment>
 #include <QJniObject>
-#include <QtCore/qnativeinterface.h>
+#include "platformintegration/android/androidnativecompat.h"
 static PushNotifications *m_client_pointer;
 #endif
 
@@ -92,7 +92,7 @@ void PushNotifications::registerForPush()
     if (playServicesAvailable) {
         qDebug() << "Setting up firebase";
         m_client_pointer = this;
-        auto activity = QNativeInterface::QAndroidApplication::activity();
+        auto activity = NymeaAndroidCompat::activity();
         m_firebaseApp = ::firebase::App::Create(::firebase::AppOptions(), QJniEnvironment(), activity.object());
         m_firebase_initializer.Initialize(m_firebaseApp, nullptr, [](::firebase::App * fapp, void *) {
             return ::firebase::messaging::Initialize( *fapp, (::firebase::messaging::Listener *)m_client_pointer);

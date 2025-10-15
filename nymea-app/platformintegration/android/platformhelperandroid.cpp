@@ -33,7 +33,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QJniObject>
-#include <QtCore/qnativeinterface.h>
+#include "androidnativecompat.h"
 #include <QScreen>
 
 #if defined(Q_OS_ANDROID)
@@ -79,7 +79,7 @@ namespace {
 
 QJniObject androidActivity()
 {
-    return QNativeInterface::QAndroidApplication::activity();
+    return NymeaAndroidCompat::activity();
 }
 
 QJniObject getAndroidWindow()
@@ -111,7 +111,7 @@ void PlatformHelperAndroid::hideSplashScreen()
     // Android's splash will flicker when fading out twice
     static bool alreadyHiding = false;
     if (!alreadyHiding) {
-        QNativeInterface::QAndroidApplication::hideSplashScreen(250);
+        NymeaAndroidCompat::hideSplashScreen(250);
         alreadyHiding = true;
     }
 }
@@ -192,10 +192,10 @@ void PlatformHelperAndroid::setTopPanelColor(const QColor &color)
 {
     PlatformHelper::setTopPanelColor(color);
 
-    if (QNativeInterface::QAndroidApplication::sdkVersion() < 21)
+    if (NymeaAndroidCompat::sdkVersion() < 21)
         return;
 
-    QNativeInterface::QAndroidApplication::runOnAndroidThread([=]() {
+    NymeaAndroidCompat::runOnAndroidThread([=]() {
         QJniObject window = getAndroidWindow();
         window.callMethod<void>("addFlags", "(I)V", FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_STATUS);
@@ -213,10 +213,10 @@ void PlatformHelperAndroid::setBottomPanelColor(const QColor &color)
 {
     PlatformHelper::setBottomPanelColor(color);
 
-    if (QNativeInterface::QAndroidApplication::sdkVersion() < 21)
+    if (NymeaAndroidCompat::sdkVersion() < 21)
         return;
 
-    QNativeInterface::QAndroidApplication::runOnAndroidThread([=]() {
+    NymeaAndroidCompat::runOnAndroidThread([=]() {
         QJniObject window = getAndroidWindow();
         window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_NAVIGATION);
         window.callMethod<void>("setNavigationBarColor", "(I)V", color.rgba());
@@ -231,10 +231,10 @@ void PlatformHelperAndroid::setBottomPanelColor(const QColor &color)
 
 void PlatformHelperAndroid::setTopPanelTheme(PlatformHelperAndroid::Theme theme)
 {
-    if (QNativeInterface::QAndroidApplication::sdkVersion() < 23)
+    if (NymeaAndroidCompat::sdkVersion() < 23)
         return;
 
-    QNativeInterface::QAndroidApplication::runOnAndroidThread([=]() {
+    NymeaAndroidCompat::runOnAndroidThread([=]() {
         QJniObject window = getAndroidWindow();
         QJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
         int visibility = view.callMethod<int>("getSystemUiVisibility", "()I");
@@ -248,10 +248,10 @@ void PlatformHelperAndroid::setTopPanelTheme(PlatformHelperAndroid::Theme theme)
 
 void PlatformHelperAndroid::setBottomPanelTheme(Theme theme)
 {
-    if (QNativeInterface::QAndroidApplication::sdkVersion() < 23)
+    if (NymeaAndroidCompat::sdkVersion() < 23)
         return;
 
-    QNativeInterface::QAndroidApplication::runOnAndroidThread([=]() {
+    NymeaAndroidCompat::runOnAndroidThread([=]() {
         QJniObject window = getAndroidWindow();
         QJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
         int visibility = view.callMethod<int>("getSystemUiVisibility", "()I");
@@ -267,7 +267,7 @@ int PlatformHelperAndroid::topPadding() const
 {
     // Edge to edge has been forced since android SDK 35
     // We don't want to handle it in earlied versions.
-    if (QNativeInterface::QAndroidApplication::sdkVersion() < 35)
+    if (NymeaAndroidCompat::sdkVersion() < 35)
         return 0;
 
     return androidActivity().callMethod<jint>("topPadding") / QApplication::primaryScreen()->devicePixelRatio();
@@ -277,7 +277,7 @@ int PlatformHelperAndroid::bottomPadding() const
 {
     // Edge to edge has been forced since android SDK 35
     // We don't want to handle it in earlied versions.
-    if (QNativeInterface::QAndroidApplication::sdkVersion() < 35)
+    if (NymeaAndroidCompat::sdkVersion() < 35)
         return 0;
 
     return androidActivity().callMethod<jint>("bottomPadding") / QApplication::primaryScreen()->devicePixelRatio();
