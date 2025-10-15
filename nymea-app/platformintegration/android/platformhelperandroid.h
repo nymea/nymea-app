@@ -34,8 +34,6 @@
 #include "platformhelper.h"
 
 #include <QObject>
-#include <QtAndroid>
-#include <QAndroidServiceConnection>
 
 class PlatformHelperAndroid : public PlatformHelper
 {
@@ -74,7 +72,6 @@ public:
     static void locationServicesEnabledChangedJNI();
 
 private:
-    static void permissionRequestFinished(const QtAndroid::PermissionResultMap &);
 };
 
 #endif // PLATFORMHELPERANDROID_H

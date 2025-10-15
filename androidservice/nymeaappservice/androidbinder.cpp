@@ -2,11 +2,10 @@
 #include "engine.h"
 #include "types/thing.h"
 
-#include <QDebug>
 #include <QAndroidParcel>
-#include <QAndroidJniObject>
+#include <QDebug>
+#include <QJniObject>
 #include <QJsonDocument>
-#include <QtAndroid>
 
 AndroidBinder::AndroidBinder(NymeaAppService *service):
     m_service(service)
@@ -111,5 +110,5 @@ bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndr
 void AndroidBinder::sendReply(const QAndroidParcel &reply, const QVariantMap &params)
 {
     QString payload = QJsonDocument::fromVariant(params).toJson();
-    reply.handle().callMethod<void>("writeString", "(Ljava/lang/String;)V", QAndroidJniObject::fromString(payload).object<jstring>());
+    reply.handle().callMethod<void>("writeString", "(Ljava/lang/String;)V", QJniObject::fromString(payload).object<jstring>());
 }

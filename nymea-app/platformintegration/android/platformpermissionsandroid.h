@@ -3,8 +3,6 @@
 
 #include "../platformpermissions.h"
 
-#include <QtAndroidExtras/QtAndroid>
-
 class PlatformPermissionsAndroid : public PlatformPermissions
 {
     Q_OBJECT
@@ -22,10 +20,6 @@ private:
     QHash<PlatformPermissions::Permission, QStringList> permissionMap() const;
 
     QStringList m_requestedButDeniedPermissions;
-
-    static PlatformPermissionsAndroid *s_instance;
-    static void permissionResultCallback(const QtAndroid::PermissionResultMap &results);
-
 };
 
 #endif // PLATFORMPERMISSIONSANDROID_H

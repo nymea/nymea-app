@@ -30,12 +30,11 @@
 
 #include "platformhelperandroid.h"
 
-#include <QDebug>
-#include <QScreen>
-#include <QtAndroid>
-#include <QAndroidIntent>
 #include <QApplication>
-#include <QAndroidJniObject>
+#include <QDebug>
+#include <QJniObject>
+#include <QNativeInterface>
+#include <QScreen>
 
 // WindowManager.LayoutParams
 #define FLAG_TRANSLUCENT_STATUS 0x04000000
@@ -70,17 +69,25 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
     return JNI_VERSION_1_6;
 }
 
-static QAndroidJniObject getAndroidWindow()
+namespace {
+
+QJniObject androidActivity()
 {
-    QAndroidJniObject window = QtAndroid::androidActivity().callObjectMethod("getWindow", "()Landroid/view/Window;");
-    return window;
+    return QNativeInterface::QAndroidApplication::activity();
 }
+
+QJniObject getAndroidWindow()
+{
+    return androidActivity().callObjectMethod("getWindow", "()Landroid/view/Window;");
+}
+
+} // namespace
 
 PlatformHelperAndroid::PlatformHelperAndroid(QObject *parent) : PlatformHelper(parent)
 {
     m_instance = this;
 
-    QString notificationData = QtAndroid::androidActivity().callObjectMethod("notificationData", "()Ljava/lang/String;").toString();
+    QString notificationData = androidActivity().callObjectMethod("notificationData", "()Ljava/lang/String;").toString();
     if (!notificationData.isNull()) {
         notificationActionReceived(notificationData);
     }
@@ -98,7 +105,7 @@ void PlatformHelperAndroid::hideSplashScreen()
     // Android's splash will flicker when fading out twice
     static bool alreadyHiding = false;
     if (!alreadyHiding) {
-        QtAndroid::hideSplashScreen(250);
+        QNativeInterface::QAndroidApplication::hideSplashScreen(250);
         alreadyHiding = true;
     }
 }
@@ -111,23 +118,23 @@ QString PlatformHelperAndroid::machineHostname() const
 
 QString PlatformHelperAndroid::deviceSerial() const
 {
-    QAndroidJniObject activity = QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");
+    QJniObject activity = QJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");
     return activity.callObjectMethod<jstring>("deviceSerial").toString();
 }
 
 QString PlatformHelperAndroid::device() const
 {
-    return QAndroidJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","device").toString();
+    return QJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","device").toString();
 }
 
 QString PlatformHelperAndroid::deviceModel() const
 {
-    return QAndroidJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","deviceModel").toString();
+    return QJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","deviceModel").toString();
 }
 
 QString PlatformHelperAndroid::deviceManufacturer() const
 {
-    return QAndroidJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","deviceManufacturer").toString();
+    return QJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","deviceManufacturer").toString();
 }
 
 void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType)
@@ -145,7 +152,7 @@ void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType
         break;
     }
 
-    QtAndroid::androidActivity().callMethod<void>("vibrate","(I)V", duration);
+    androidActivity().callMethod<void>("vibrate","(I)V", duration);
 }
 
 //void PlatformHelperAndroid::syncThings()
@@ -179,11 +186,11 @@ void PlatformHelperAndroid::setTopPanelColor(const QColor &color)
 {
     PlatformHelper::setTopPanelColor(color);
 
-    if (QtAndroid::androidSdkVersion() < 21)
+    if (QNativeInterface::QAndroidApplication::sdkVersion() < 21)
         return;
 
-    QtAndroid::runOnAndroidThread([=]() {
-        QAndroidJniObject window = getAndroidWindow();
+    QNativeInterface::QAndroidApplication::runOnAndroidThread([=]() {
+        QJniObject window = getAndroidWindow();
         window.callMethod<void>("addFlags", "(I)V", FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_STATUS);
         window.callMethod<void>("setStatusBarColor", "(I)V", color.rgba());
@@ -200,11 +207,11 @@ void PlatformHelperAndroid::setBottomPanelColor(const QColor &color)
 {
     PlatformHelper::setBottomPanelColor(color);
 
-    if (QtAndroid::androidSdkVersion() < 21)
+    if (QNativeInterface::QAndroidApplication::sdkVersion() < 21)
         return;
 
-    QtAndroid::runOnAndroidThread([=]() {
-        QAndroidJniObject window = getAndroidWindow();
+    QNativeInterface::QAndroidApplication::runOnAndroidThread([=]() {
+        QJniObject window = getAndroidWindow();
         window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_NAVIGATION);
         window.callMethod<void>("setNavigationBarColor", "(I)V", color.rgba());
 
@@ -218,12 +225,12 @@ void PlatformHelperAndroid::setBottomPanelColor(const QColor &color)
 
 void PlatformHelperAndroid::setTopPanelTheme(PlatformHelperAndroid::Theme theme)
 {
-    if (QtAndroid::androidSdkVersion() < 23)
+    if (QNativeInterface::QAndroidApplication::sdkVersion() < 23)
         return;
 
-    QtAndroid::runOnAndroidThread([=]() {
-        QAndroidJniObject window = getAndroidWindow();
-        QAndroidJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
+    QNativeInterface::QAndroidApplication::runOnAndroidThread([=]() {
+        QJniObject window = getAndroidWindow();
+        QJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
         int visibility = view.callMethod<int>("getSystemUiVisibility", "()I");
         if (theme == Theme::Light)
             visibility |= SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
@@ -235,12 +242,12 @@ void PlatformHelperAndroid::setTopPanelTheme(PlatformHelperAndroid::Theme theme)
 
 void PlatformHelperAndroid::setBottomPanelTheme(Theme theme)
 {
-    if (QtAndroid::androidSdkVersion() < 23)
+    if (QNativeInterface::QAndroidApplication::sdkVersion() < 23)
         return;
 
-    QtAndroid::runOnAndroidThread([=]() {
-        QAndroidJniObject window = getAndroidWindow();
-        QAndroidJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
+    QNativeInterface::QAndroidApplication::runOnAndroidThread([=]() {
+        QJniObject window = getAndroidWindow();
+        QJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
         int visibility = view.callMethod<int>("getSystemUiVisibility", "()I");
         if (theme == Theme::Light)
             visibility |= SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
@@ -254,37 +261,37 @@ int PlatformHelperAndroid::topPadding() const
 {
     // Edge to edge has been forced since android SDK 35
     // We don't want to handle it in earlied versions.
-    if (QtAndroid::androidSdkVersion() < 35)
+    if (QNativeInterface::QAndroidApplication::sdkVersion() < 35)
         return 0;
 
-    return QtAndroid::androidActivity().callMethod<jint>("topPadding") / QApplication::primaryScreen()->devicePixelRatio();
+    return androidActivity().callMethod<jint>("topPadding") / QApplication::primaryScreen()->devicePixelRatio();
 }
 
 int PlatformHelperAndroid::bottomPadding() const
 {
     // Edge to edge has been forced since android SDK 35
     // We don't want to handle it in earlied versions.
-    if (QtAndroid::androidSdkVersion() < 35)
+    if (QNativeInterface::QAndroidApplication::sdkVersion() < 35)
         return 0;
 
-    return QtAndroid::androidActivity().callMethod<jint>("bottomPadding") / QApplication::primaryScreen()->devicePixelRatio();
+    return androidActivity().callMethod<jint>("bottomPadding") / QApplication::primaryScreen()->devicePixelRatio();
 }
 
 bool PlatformHelperAndroid::darkModeEnabled() const
 {
-    return QtAndroid::androidActivity().callMethod<jboolean>("darkModeEnabled");
+    return androidActivity().callMethod<jboolean>("darkModeEnabled");
 }
 
 bool PlatformHelperAndroid::locationServicesEnabled() const
 {
-    jboolean enabled = QtAndroid::androidActivity().callMethod<jboolean>("locationServicesEnabled", "()Z");
+    jboolean enabled = androidActivity().callMethod<jboolean>("locationServicesEnabled", "()Z");
     return enabled;
 }
 
 void PlatformHelperAndroid::shareFile(const QString &fileName)
 {
-    QtAndroid::androidActivity().callMethod<void>("shareFile", "(Ljava/lang/String;)V",
-                                                  QAndroidJniObject::fromString(fileName).object<jstring>()
+    androidActivity().callMethod<void>("shareFile", "(Ljava/lang/String;)V",
+                                                  QJniObject::fromString(fileName).object<jstring>()
                                                   );
 }
 

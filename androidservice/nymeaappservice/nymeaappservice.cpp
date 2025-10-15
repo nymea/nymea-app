@@ -1,8 +1,9 @@
 #include "nymeaappservice.h"
 #include "androidbinder.h"
 
-#include <QtAndroid>
 #include <QDebug>
+#include <QJniObject>
+#include <QNativeInterface>
 #include <QSettings>
 #include <QJsonDocument>
 
@@ -76,8 +77,8 @@ void NymeaAppService::sendNotification(const QString &notification, const QVaria
     data.insert("notification", notification);
     data.insert("params", params);
     QString payload = QJsonDocument::fromVariant(data).toJson();
-    QtAndroid::androidService().callMethod<void>("sendBroadcast",
-                                                 "(Ljava/lang/String;)V",
-                                                 QAndroidJniObject::fromString(payload).object<jstring>());
+    QNativeInterface::QAndroidApplication::service().callMethod<void>("sendBroadcast",
+                                                                     "(Ljava/lang/String;)V",
+                                                                     QJniObject::fromString(payload).object<jstring>());
 
 }

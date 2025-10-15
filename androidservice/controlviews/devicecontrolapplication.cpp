@@ -13,9 +13,8 @@
 #include <QQmlApplicationEngine>
 #include <QtDebug>
 #include <QtQml>
-#include <QtAndroid>
-#include <QAndroidJniObject>
-#include <QAndroidIntent>
+#include <QJniObject>
+#include <QNativeInterface>
 #include <QNdefNfcUriRecord>
 
 QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -67,7 +66,8 @@ DeviceControlApplication::DeviceControlApplication(int argc, char *argv[]) : QAp
 
     m_qmlEngine->load(QUrl(QLatin1String("qrc:/Main.qml")));
 
-    jboolean startedByNfc = QtAndroid::androidActivity().callMethod<jboolean>("startedByNfc", "()Z");
+    QJniObject activity = QNativeInterface::QAndroidApplication::activity();
+    jboolean startedByNfc = activity.callMethod<jboolean>("startedByNfc", "()Z");
     if (startedByNfc) {
         qDebug() << "**** Started by NFC";
         qDebug() << "Registering NFC handler and waiting for message.";
@@ -78,8 +78,8 @@ DeviceControlApplication::DeviceControlApplication(int argc, char *argv[]) : QAp
     } else {
         qDebug() << "*** Started by other intent";
         qDebug() << "Expecing nymeaId and thingId in intent extras.";
-        QString nymeaId = QtAndroid::androidActivity().callObjectMethod<jstring>("nymeaId").toString();
-        QString thingId = QtAndroid::androidActivity().callObjectMethod<jstring>("thingId").toString();
+        QString nymeaId = activity.callObjectMethod<jstring>("nymeaId").toString();
+        QString thingId = activity.callObjectMethod<jstring>("thingId").toString();
 
         connectToNymea(nymeaId);
         m_qmlEngine->rootContext()->setContextProperty("controlledThingId", thingId);
