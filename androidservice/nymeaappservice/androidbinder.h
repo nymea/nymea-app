@@ -1,20 +1,20 @@
 #ifndef ANDROIDBINDER_H
 #define ANDROIDBINDER_H
 
-#include <QAndroidBinder>
+#include <QString>
+#include <QVariantMap>
 
-#include "nymeaappservice.h"
-#include "engine.h"
+class NymeaAppService;
 
-class AndroidBinder : public QAndroidBinder
+class AndroidBinder
 {
 public:
     explicit AndroidBinder(NymeaAppService *service);
 
-    bool onTransact(int code, const QAndroidParcel &data, const QAndroidParcel &reply, QAndroidBinder::CallType flags) override;
+    QString handleTransact(const QString &payload, bool *handled);
 
 private:
-    void sendReply(const QAndroidParcel &reply, const QVariantMap &params);
+    QString buildReply(const QVariantMap &params) const;
 
 private:
     NymeaAppService *m_service = nullptr;

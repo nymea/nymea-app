@@ -38,7 +38,6 @@
 #include <QJsonDocument>
 
 #if defined Q_OS_ANDROID
-#include <QtAndroidExtras/QtAndroid>
 #include "platformintegration/android/platformhelperandroid.h"
 #elif defined Q_OS_IOS
 #include "platformintegration/ios/platformhelperios.h"

@@ -1,10 +1,13 @@
 package io.guh.nymeaapp;
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
 import android.util.Log;
 
-import org.qtproject.qt5.android.bindings.QtService;
+import org.qtproject.qt.android.bindings.QtService;
 
 // Background service establishing a connection to nymea and providing data on android specific interfaces
 // such as IBinder and BroadcastListener
@@ -16,6 +19,24 @@ public class NymeaAppService extends QtService
     public static final String NYMEA_APP_BROADCAST = "io.guh.nymeaapp.NymeaAppService.broadcast";
 
     private static final String TAG = "nymea-app: NymeaAppService";
+
+    private static native String handleBinderRequest(String payload);
+
+    static {
+        System.loadLibrary("service");
+    }
+
+    private final IBinder mBinder = new Binder() {
+        @Override
+        protected boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
+            String request = data.readString();
+            String response = NymeaAppService.handleBinderRequest(request);
+            if (response != null && !response.isEmpty()) {
+                reply.writeString(response);
+            }
+            return true;
+        }
+    };
 
     @Override
     public void onCreate() {
@@ -38,6 +59,11 @@ public class NymeaAppService extends QtService
         Log.d(TAG, "*************** Service started");
 
         return ret;
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mBinder;
     }
 
     public void sendBroadcast(String payload) {

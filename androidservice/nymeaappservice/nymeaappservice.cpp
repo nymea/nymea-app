@@ -3,18 +3,21 @@
 
 #include <QDebug>
 #include <QJniObject>
+#include <QJsonDocument>
 #include <QNativeInterface>
 #include <QSettings>
-#include <QJsonDocument>
+#include <QVariantMap>
+
+#include <jni.h>
 
 #include "connection/discovery/nymeadiscovery.h"
 #include "connection/nymeahosts.h"
 
 NymeaAppService::NymeaAppService(int argc, char **argv):
-    QAndroidService(argc, argv, [=](const QAndroidIntent &) {
-        return new AndroidBinder{this};
-    })
+    QCoreApplication(argc, argv),
+    m_binder(this)
 {
+    s_instance = this;
     setApplicationName("nymea-app");
     setOrganizationName("nymea");
 
@@ -66,9 +69,34 @@ NymeaAppService::NymeaAppService(int argc, char **argv):
 
 }
 
+NymeaAppService::~NymeaAppService()
+{
+    if (s_instance == this) {
+        s_instance = nullptr;
+    }
+}
+
+NymeaAppService *NymeaAppService::s_instance = nullptr;
+
 QHash<QUuid, Engine *> NymeaAppService::engines() const
 {
     return m_engines;
+}
+
+QString NymeaAppService::handleBinderRequest(const QString &payload)
+{
+    bool handled = false;
+    QString reply = m_binder.handleTransact(payload, &handled);
+    if (!handled) {
+        qWarning() << "Unhandled binder payload" << payload;
+        return {};
+    }
+    return reply;
+}
+
+NymeaAppService *NymeaAppService::instance()
+{
+    return s_instance;
 }
 
 void NymeaAppService::sendNotification(const QString &notification, const QVariantMap &params)
@@ -81,4 +109,19 @@ void NymeaAppService::sendNotification(const QString &notification, const QVaria
                                                                      "(Ljava/lang/String;)V",
                                                                      QJniObject::fromString(payload).object<jstring>());
 
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_io_guh_nymeaapp_NymeaAppService_handleBinderRequest(JNIEnv *env, jclass /*clazz*/, jstring request)
+{
+    Q_UNUSED(env);
+    QString payload = QJniObject(request).toString();
+    QString reply;
+    if (NymeaAppService::instance()) {
+        reply = NymeaAppService::instance()->handleBinderRequest(payload);
+    } else {
+        qWarning() << "NymeaAppService native instance not available for binder request";
+    }
+
+    return QJniObject::fromString(reply).object<jstring>();
 }

@@ -1,30 +1,30 @@
 #include "androidbinder.h"
+#include "nymeaappservice.h"
 #include "engine.h"
 #include "types/thing.h"
 
-#include <QAndroidParcel>
 #include <QDebug>
-#include <QJniObject>
 #include <QJsonDocument>
+#include <QVariantList>
+#include <QVariantMap>
 
 AndroidBinder::AndroidBinder(NymeaAppService *service):
     m_service(service)
 {
 }
 
-bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndroidParcel &reply, QAndroidBinder::CallType flags)
+QString AndroidBinder::handleTransact(const QString &payload, bool *handled)
 {
-    qDebug() << "onTransact: code " << code << ", flags " << int(flags);
-
-//    QString payload = data.readData();
-    QString payload = data.handle().callObjectMethod<jstring>("readString").toString();
+    if (handled) {
+        *handled = false;
+    }
 
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(payload.toUtf8(), &error);
     if (error.error != QJsonParseError::NoError) {
         qWarning() << "Error parsing JSON from parcel:" << error.errorString();
         qWarning() << payload;
-        return false;
+        return {};
     }
     QVariantMap request = jsonDoc.toVariant().toMap();
 
@@ -40,8 +40,10 @@ bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndr
             instances.append(instance);
         }
         params.insert("instances", instances);
-        sendReply(reply, params);
-        return true;
+        if (handled) {
+            *handled = true;
+        }
+        return buildReply(params);
     }
 
     if (request.value("method").toString() == "GetThings") {
@@ -49,7 +51,7 @@ bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndr
         Engine *engine = m_service->engines().value(nymeaId);
         if (!engine) {
             qWarning() << "Android client requested things for an invalid nymea instance:" << nymeaId;
-            return false;
+            return {};
         }
         QVariantList thingsList;
         for (int i = 0; i < engine->thingManager()->things()->rowCount(); i++) {
@@ -84,8 +86,10 @@ bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndr
         }
         QVariantMap params;
         params.insert("things", thingsList);
-        sendReply(reply, params);
-        return true;
+        if (handled) {
+            *handled = true;
+        }
+        return buildReply(params);
     }
 
     if (request.value("method").toString() == "ExecuteAction") {
@@ -94,7 +98,10 @@ bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndr
         Engine *engine = m_service->engines().value(nymeaId);
         if (!engine) {
             qWarning() << "Android client requested executeAction for an invalid nymea instance:" << nymeaId;
-            return false;
+            if (handled) {
+                *handled = true;
+            }
+            return {};
         }
         QUuid thingId = request.value("params").toMap().value("thingId").toUuid();
         QUuid actionTypeId = request.value("params").toMap().value("actionTypeId").toUuid();
@@ -102,13 +109,15 @@ bool AndroidBinder::onTransact(int code, const QAndroidParcel &data, const QAndr
 
         qDebug() << "**** executeAction:" << thingId << actionTypeId << params;
         engine->thingManager()->executeAction(thingId, actionTypeId, params);
+        if (handled) {
+            *handled = true;
+        }
     }
 
-    return false;
+    return {};
 }
 
-void AndroidBinder::sendReply(const QAndroidParcel &reply, const QVariantMap &params)
+QString AndroidBinder::buildReply(const QVariantMap &params) const
 {
-    QString payload = QJsonDocument::fromVariant(params).toJson();
-    reply.handle().callMethod<void>("writeString", "(Ljava/lang/String;)V", QJniObject::fromString(payload).object<jstring>());
+    return QString::fromUtf8(QJsonDocument::fromVariant(params).toJson());
 }

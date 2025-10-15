@@ -118,7 +118,7 @@ QString PlatformHelperAndroid::machineHostname() const
 
 QString PlatformHelperAndroid::deviceSerial() const
 {
-    QJniObject activity = QJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");
+    QJniObject activity = QJniObject::callStaticObjectMethod("org/qtproject/qt/android/QtNative", "activity", "()Landroid/app/Activity;");
     return activity.callObjectMethod<jstring>("deviceSerial").toString();
 }
 

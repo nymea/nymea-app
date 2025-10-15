@@ -14,7 +14,7 @@ import android.os.Parcelable;
 
 // An activity spawned by android device controls on demand.
 
-public class NymeaAppControlsActivity extends org.qtproject.qt5.android.bindings.QtActivity
+public class NymeaAppControlsActivity extends org.qtproject.qt.android.bindings.QtActivity
 {
     private static final String TAG = "nymea-app: NymeaAppControlActivity";
 
