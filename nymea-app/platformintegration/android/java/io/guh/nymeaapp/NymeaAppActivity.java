@@ -21,6 +21,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import android.view.WindowInsets;
 
+import org.qtproject.qt.android.bindings.QtActivity;
+
 public class NymeaAppActivity extends QtActivity
 {
     private static final String TAG = "nymea-app: NymeaAppActivity";

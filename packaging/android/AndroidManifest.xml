@@ -1,7 +1,19 @@
 <?xml version="1.0"?>
-<manifest package="io.guh.nymeaapp" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0" android:versionCode="1" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="io.guh.nymeaapp"
+    android:versionCode="1"
+    android:versionName="1.0"
+    android:installLocation="auto">
 
- <!-- Declare Bluetooth feature (LE optional: set required="true" if you *require* BLE) -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"  />
+    <uses-permission android:name="android.permission.INTERNET"  />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"  />
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Declare Bluetooth feature (LE optional: set required="true" if you *require* BLE) -->
     <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
 
@@ -16,53 +28,60 @@
     <!-- Location is needed for BLE scanning prior to Android 12 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30" />
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.NFC" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" />
 
-    <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="nymea:app" android:icon="@mipmap/icon" android:roundIcon="@mipmap/round_icon" android:extractNativeLibs="true">
-        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" 
-                  android:name="io.guh.nymeaapp.NymeaAppActivity"
-                  android:label="nymea:app"
-                  android:screenOrientation="unspecified"
-                  android:launchMode="singleTop"
-                  android:theme="@style/SplashScreenTheme"
-                  android:exported="true">
+    <application
+        android:name="org.qtproject.qt.android.bindings.QtApplication"
+        android:hardwareAccelerated="true"
+        android:label="nymea:app"
+        android:icon="@mipmap/icon"
+        android:roundIcon="@mipmap/round_icon"
+        android:requestLegacyExternalStorage="true"
+        android:allowBackup="true"
+        android:fullBackupOnly="false">
+
+        <activity
+            android:name="io.guh.nymeaapp.NymeaAppActivity"
+            android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density"
+            android:launchMode="singleTop"
+            android:label="nymea:app"
+            android:screenOrientation="unspecified"
+            android:theme="@style/SplashScreenTheme"
+            android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
-            <!-- Application arguments -->
-            <!-- meta-data android:name="android.app.arguments" android:value="arg1 arg2 arg3"/ -->
-            <!-- Application arguments -->
 
             <!-- Splash screen -->
             <meta-data android:name="android.app.splash_screen_drawable" android:resource="@drawable/splash"/>
             <meta-data android:name="android.app.splash_screen_sticky" android:value="true"/>
             <!-- Splash screen -->
 
-            <!-- Background running -->
-            <!-- Warning: changing this value to true may cause unexpected crashes if the
-                          application still try to draw after
-                          "applicationStateChanged(Qt::ApplicationSuspended)"
-                          signal is sent! -->
-            <meta-data android:name="android.app.background_running" android:value="true"/>
-            <!-- Background running -->
+            <meta-data
+                  android:name="android.app.lib_name"
+                  android:value="nymea-app" />
 
-            <!-- auto screen scale factor -->
-            <meta-data android:name="android.app.auto_screen_scale_factor" android:value="false"/>
-            <!-- auto screen scale factor -->
-
-            <!-- extract android style -->
-            <!-- available android:values :
-                * full - useful QWidget & Quick Controls 1 apps
-                * minimal - useful for Quick Controls 2 apps, it is much faster than "full"
-                * none - useful for apps that don't use any of the above Qt modules
-                -->
-            <meta-data android:name="android.app.extract_android_style" android:value="minimal"/>
-            <!-- extract android style -->
+            <meta-data
+                  android:name="android.app.arguments"
+                  android:value="" />
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.qtprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/qtprovider_paths"/>
+        </provider>
+
 
         <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
 
@@ -95,14 +114,4 @@
         </provider>
 
     </application>
-
-    <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" android:smallScreens="true"/>
-
-    <!-- The following comment will be replaced upon deployment with default permissions based on the dependencies of the application.
-         Remove the comment if you do not require these default permissions. -->
-    <!-- %%INSERT_PERMISSIONS -->
-
-    <!-- The following comment will be replaced upon deployment with default features based on the dependencies of the application.
-         Remove the comment if you do not require these default features. -->
-    <!-- %%INSERT_FEATURES -->
 </manifest>
