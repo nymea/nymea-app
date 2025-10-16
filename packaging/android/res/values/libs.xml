@@ -1,9 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <array name="qt_sources">
-        <item>https://download.qt.io/ministro/android/qt6/qt-6.8</item>
-    </array>
-
     <!-- The following is handled automatically by the deployment tool. It should
          not be edited manually. -->
 
@@ -25,7 +21,5 @@
     <array name="load_local_libs">
         <!-- %%INSERT_LOCAL_LIBS%% -->
     </array>
-
-    <string name="qt_static_init_classes"></string>
 
 </resources>

@@ -63,9 +63,11 @@
             <meta-data android:name="android.app.splash_screen_sticky" android:value="true"/>
             <!-- Splash screen -->
 
+            <meta-data android:name="android.app.load_local_libs_resource_id" android:resource="@array/load_local_libs"/>
+
             <meta-data
-                  android:name="android.app.lib_name"
-                  android:value="nymea-app" />
+                android:name="android.app.lib_name"
+                android:value="-- %%INSERT_APP_LIB_NAME%% --"/>
 
             <meta-data
                   android:name="android.app.arguments"
@@ -83,8 +85,6 @@
         </provider>
 
 
-        <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
-
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notificationicon"/>
         <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/notification_icon_color"/>
 
@@ -97,12 +97,7 @@
             </intent-filter>
         </service>
 
-        <service android:name="io.guh.nymeaapp.NymeaAppControlService" android:permission="android.permission.BIND_CONTROLS" android:exported="true">
-            <intent-filter>
-                <action android:name="android.service.controls.ControlsProviderService"/>
-            </intent-filter>
-        </service>
-
+<!--
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="io.guh.nymeaapp.fileprovider"
@@ -111,7 +106,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider>
+        </provider>-->
 
     </application>
 </manifest>

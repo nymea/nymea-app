@@ -10,7 +10,6 @@ println "Package source root ${nymeaAppRoot}"
 
 buildscript {
     repositories {
-        jcenter()
         google()
         mavenCentral()
     }
@@ -24,7 +23,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         maven {
             url "https://maven.google.com"
         }

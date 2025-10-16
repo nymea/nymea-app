@@ -237,3 +237,4 @@ INSTALLS += target
 
 DISTFILES +=
 
+android: include(/usr/local/android/android_openssl/openssl.pri)
