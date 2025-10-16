@@ -1,31 +1,24 @@
-// #ifndef PLATFORMPERMISSIONSANDROID_H
-// #define PLATFORMPERMISSIONSANDROID_H
+#ifndef PLATFORMPERMISSIONSANDROID_H
+#define PLATFORMPERMISSIONSANDROID_H
 
-// #include "../platformpermissions.h"
-// #include <QtCore/private/qandroidextras_p.h>
-// //#include <QtAndroidExtras/QtAndroid>
+#include "../platformpermissions.h"
+#include <QtCore/private/qandroidextras_p.h>
 
-// class PlatformPermissionsAndroid : public PlatformPermissions
-// {
-//     Q_OBJECT
-// public:
-//     explicit PlatformPermissionsAndroid(QObject *parent = nullptr);
+class PlatformPermissionsAndroid : public PlatformPermissions
+{
+    Q_OBJECT
+public:
+    explicit PlatformPermissionsAndroid(QObject *parent = nullptr);
 
-//     PermissionStatus checkPermission(Permission permission) const override;
+    PermissionStatus checkPermission(Permission platformPermission) const override;
+    void requestPermission(Permission platformPermission) override;
 
-//     void requestPermission(Permission permission) override;
-//     void openPermissionSettings() override;
+private:
+    static PlatformPermissionsAndroid *s_instance;
 
-// signals:
+    QList<PlatformPermissions::Permission> m_requestedButDeniedPermissions;
+    QList<PlatformPermissions::Permission> m_grantedPermission;
 
-// private:
-//     QHash<PlatformPermissions::Permission, QStringList> permissionMap() const;
+};
 
-//     QStringList m_requestedButDeniedPermissions;
-
-//     static PlatformPermissionsAndroid *s_instance;
-//     // static void permissionResultCallback(const QtAndroid::PermissionResultMap &results);
-
-// };
-
-// #endif // PLATFORMPERMISSIONSANDROID_H
+#endif // PLATFORMPERMISSIONSANDROID_H

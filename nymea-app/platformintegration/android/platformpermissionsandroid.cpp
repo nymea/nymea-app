@@ -1,40 +1,156 @@
-// #include "platformpermissionsandroid.h"
+#include "platformpermissionsandroid.h"
 
-// #include <QDebug>
-// #include <QApplication>
-// #include <QOperatingSystemVersion>
+#include <QDebug>
+#include <QApplication>
+#include <QPermission>
+#include <QOperatingSystemVersion>
 
-// #include "logging.h"
-// NYMEA_LOGGING_CATEGORY(dcPlatformPermissions, "PlatformPermissions")
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcPlatformPermissions, "PlatformPermissions")
 
-// PlatformPermissionsAndroid * PlatformPermissionsAndroid::s_instance = nullptr;
+PlatformPermissionsAndroid * PlatformPermissionsAndroid::s_instance = nullptr;
 
-// #define FLAG_ACTIVITY_NEW_TASK 0x10000000
+#define FLAG_ACTIVITY_NEW_TASK 0x10000000
 
-// PlatformPermissionsAndroid::PlatformPermissionsAndroid(QObject *parent)
-//     : PlatformPermissions{parent}
-// {
-//     s_instance = this;
-//     // If the user switches to the settings app and changes permission settings there, we won't get notified
-//     // in any way, so let's just refresh when we become active
-//     connect(qApp, &QApplication::applicationStateChanged, this, [this](Qt::ApplicationState state){
-//         if (state == Qt::ApplicationActive) {
-//             emit bluetoothPermissionChanged();
-//             emit locationPermissionChanged();
-//             emit backgroundLocationPermissionChanged();
-//             emit notificationsPermissionChanged();
-//         }
-//     });
+PlatformPermissionsAndroid::PlatformPermissionsAndroid(QObject *parent)
+    : PlatformPermissions{parent}
+{
+    s_instance = this;
+    // If the user switches to the settings app and changes permission settings there, we won't get notified
+    // in any way, so let's just refresh when we become active
+    connect(qApp, &QApplication::applicationStateChanged, this, [this](Qt::ApplicationState state){
+        if (state == Qt::ApplicationActive) {
+            emit bluetoothPermissionChanged();
+            emit locationPermissionChanged();
+            emit backgroundLocationPermissionChanged();
+            emit notificationsPermissionChanged();
+        }
+    });
 
-// }
+}
 
-// void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permission permission)
-// {
-//     if (permissionMap().contains(permission)) {
-//         qCDebug(dcPlatformPermissions()) << "Requesting permissions:" << permissionMap().value(permission);
-//         QtAndroid::requestPermissions({permissionMap().value(permission)}, &permissionResultCallback);
-//     }
-// }
+PlatformPermissions::PermissionStatus PlatformPermissionsAndroid::checkPermission(Permission platformPermission) const
+{
+    PermissionStatus status = PermissionStatusGranted;
+    qCDebug(dcPlatformPermissions()) << "Checking permission" << platformPermission;
+
+    switch (platformPermission) {
+    case PlatformPermissions::PermissionBluetooth: {
+        QBluetoothPermission permission;
+
+        // Status prüfen
+        auto status = qApp->checkPermission(permission);
+
+        switch (status) {
+        case Qt::PermissionStatus::Granted:
+            qCDebug(dcPlatformPermissions()) << "Bluetooth permission already granted.";
+            break;
+        case Qt::PermissionStatus::Denied:
+            qCDebug(dcPlatformPermissions()) << "Bluetooth permission denied.";
+            break;
+        case Qt::PermissionStatus::Undetermined:
+            qCDebug(dcPlatformPermissions()) << "Bluetooth permission not yet requested. Requesting...";
+            qApp->requestPermission(permission, [](const QPermission &perm){
+                if (perm.status() == Qt::PermissionStatus::Granted)
+                    qCDebug(dcPlatformPermissions()) << "Bluetooth permission granted after request.";
+                else
+                    qCDebug(dcPlatformPermissions()) << "Bluetooth permission denied after request.";
+            });
+            break;
+        }
+        break;
+    }
+    case PlatformPermissions::PermissionLocalNetwork: {
+        QLocationPermission permission;
+        permission.setAccuracy(QLocationPermission::Precise);
+
+        // Status prüfen
+        auto status = qApp->checkPermission(permission);
+
+        switch (status) {
+        case Qt::PermissionStatus::Granted:
+            qCDebug(dcPlatformPermissions()) << "Location permission already granted.";
+            break;
+        case Qt::PermissionStatus::Denied:
+            qCDebug(dcPlatformPermissions()) << "Location permission denied.";
+            break;
+        case Qt::PermissionStatus::Undetermined:
+            qCDebug(dcPlatformPermissions()) << "Location permission not yet requested. Requesting...";
+            qApp->requestPermission(permission, [](const QPermission &perm){
+                if (perm.status() == Qt::PermissionStatus::Granted)
+                    qCDebug(dcPlatformPermissions()) << "Location permission granted after request.";
+                else
+                    qCDebug(dcPlatformPermissions()) << "Location permission denied after request.";
+            });
+            break;
+        }
+    }
+    default:
+        qCWarning(dcPlatformPermissions()) << "Requested status of platform permission" << platformPermission << "but is not implemented yet.";
+        break;
+    }
+    return status;
+}
+
+void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permission platformPermission)
+{
+    switch (platformPermission) {
+    case PlatformPermissions::PermissionBluetooth:
+        qCDebug(dcPlatformPermissions()) << "Requesting bluetooth permission";
+        qApp->requestPermission(QLocationPermission{}, [platformPermission](const QPermission &permission) {
+            if (permission.status() == Qt::PermissionStatus::Denied) {
+                qCWarning(dcPlatformPermissions()) << "Bluetooth permission denied.";
+                s_instance->m_requestedButDeniedPermissions.append(platformPermission);
+            }
+
+            if (permission.status() == Qt::PermissionStatus::Granted)
+                qCDebug(dcPlatformPermissions()) << "Bluetooth permission granted.";
+
+            emit s_instance->bluetoothPermissionChanged();
+        });
+        break;
+    case PlatformPermissions::PermissionLocation: {
+        QLocationPermission locationPermission;
+        locationPermission.setAccuracy(QLocationPermission::Precise);
+        qApp->requestPermission(locationPermission, [platformPermission](const QPermission &permission) {
+            if (permission.status() == Qt::PermissionStatus::Denied) {
+                qCWarning(dcPlatformPermissions()) << "Location permission denied.";
+                s_instance->m_requestedButDeniedPermissions.append(platformPermission);
+            }
+
+            if (permission.status() == Qt::PermissionStatus::Granted)
+                qCDebug(dcPlatformPermissions()) << "Location permission granted.";
+
+            emit s_instance->locationPermissionChanged();
+        });
+        break;
+    }
+    default:
+        qCWarning(dcPlatformPermissions()) << "Requested platform permission" << platformPermission << "but is not implemented yet.";
+        break;
+    }
+
+
+
+    emit s_instance->locationPermissionChanged();
+    emit s_instance->backgroundLocationPermissionChanged();
+    emit s_instance->notificationsPermissionChanged();
+
+    // if (permissionMap().contains(permission)) {
+    //     qCDebug(dcPlatformPermissions()) << "Requesting permissions:" << permissionMap().value(permission);
+
+
+
+    //     qApp->requestPermission(QCameraPermission{}, [](const QPermission &permission) {
+
+
+    //         if (permission.status() == Qt::PermissionStatus::Granted)
+    //             takePhoto();
+    //     });
+
+    //     // QtAndroid::requestPermissions({permissionMap().value(permission)}, &permissionResultCallback);
+    // }
+}
 
 // void PlatformPermissionsAndroid::openPermissionSettings()
 // {
