@@ -12,7 +12,6 @@ qtHaveModule(webview) {
     DEFINES += HAVE_WEBVIEW
 }
 
-
 INCLUDEPATH += $$top_srcdir/libnymea-app \
                $$top_srcdir/experiences/airconditioning
 
@@ -114,6 +113,7 @@ android {
         $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.jar \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew \
         $$ANDROID_PACKAGE_SOURCE_DIR/res/values/libs.xml \
+        $$ANDROID_PACKAGE_SOURCE_DIR/res/values/styles.xml \
         $$ANDROID_PACKAGE_SOURCE_DIR/build.gradle \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.properties \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew.bat \

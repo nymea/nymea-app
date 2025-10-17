@@ -49,7 +49,7 @@ public class NymeaAppActivity extends QtActivity
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        logStaticInitClassesMetadata();
+        Log.w(TAG, "Create activity");
         super.onCreate(savedInstanceState);
         // Move th app to the background (Edge to edge is forced since SDK 35)
         //WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
