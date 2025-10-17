@@ -70,7 +70,8 @@ else()
     list(APPEND NYMEA_APP_RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/ui/icons/suru/icons.qrc)
 endif()
 
-add_executable(nymea-app
+qt_add_executable(nymea-app
+    MANUAL_FINALIZATION
     ${NYMEA_APP_SOURCES}
     ${NYMEA_APP_HEADERS}
     ${NYMEA_APP_RESOURCES}
@@ -147,4 +148,6 @@ if(ANDROID)
         message(STATUS "Firebase support disabled via NYMEA_ENABLE_FIREBASE option.")
     endif()
 endif()
+
+qt_finalize_executable(nymea-app)
 
