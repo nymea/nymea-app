@@ -245,7 +245,7 @@ int main(int argc, char *argv[])
 
     application.setWindowIcon(QIcon(QString(":/styles/%1/logo.svg").arg(styleController.currentStyle())));
 
-    engine->load(QUrl(QLatin1String("qrc:/ui/utils/TestMain.qml")));
+    engine->load(QUrl(QLatin1String("qrc:/ui/Nymea.qml")));
 
     return application.exec();
 }
