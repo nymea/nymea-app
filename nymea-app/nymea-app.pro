@@ -110,7 +110,6 @@ android {
     DISTFILES += \
         $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
         $$ANDROID_PACKAGE_SOURCE_DIR/google-services.json \
-        $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.jar \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew \
         $$ANDROID_PACKAGE_SOURCE_DIR/res/values/libs.xml \
         $$ANDROID_PACKAGE_SOURCE_DIR/res/values/styles.xml \

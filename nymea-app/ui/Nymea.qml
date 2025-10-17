@@ -35,6 +35,7 @@ import QtQuick.Layouts
 import QtCore
 import Qt.labs.folderlistmodel
 import QtQuick.Window
+
 import Nymea
 import NymeaApp.Utils
 

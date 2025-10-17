@@ -324,5 +324,6 @@
         <file>ui/shaders/coloricon.frag.qsb</file>
         <file>ui/shaders/brightnesscircle.frag.qsb</file>
         <file>ui/shaders/colorizedimage.frag.qsb</file>
+        <file>ui/utils/TestMain.qml</file>
     </qresource>
 </RCC>
