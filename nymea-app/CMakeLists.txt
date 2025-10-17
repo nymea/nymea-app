@@ -41,6 +41,17 @@ if(UNIX AND NOT APPLE AND NOT ANDROID)
     )
 endif()
 
+if(ANDROID)
+    list(APPEND NYMEA_APP_SOURCES
+        platformintegration/android/platformhelperandroid.cpp
+        platformintegration/android/platformpermissionsandroid.cpp
+    )
+    list(APPEND NYMEA_APP_HEADERS
+        platformintegration/android/platformhelperandroid.h
+        platformintegration/android/platformpermissionsandroid.h
+    )
+endif()
+
 set(NYMEA_APP_RESOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/resources.qrc
     ${CMAKE_CURRENT_SOURCE_DIR}/ruletemplates.qrc
@@ -109,5 +120,31 @@ endif()
 
 if(WIN32)
     target_compile_definitions(nymea-app PRIVATE NOMINMAX)
+endif()
+
+if(ANDROID)
+    if(DEFINED NYMEA_ANDROID_PACKAGE_SOURCE_DIR)
+        set_property(TARGET nymea-app PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR "${NYMEA_ANDROID_PACKAGE_SOURCE_DIR}")
+    endif()
+
+    set_property(TARGET nymea-app PROPERTY QT_ANDROID_MIN_SDK_VERSION 23)
+    set_property(TARGET nymea-app PROPERTY QT_ANDROID_TARGET_SDK_VERSION 35)
+
+    if(NYMEA_ENABLE_FIREBASE)
+        target_compile_definitions(nymea-app PRIVATE WITH_FIREBASE)
+        target_include_directories(nymea-app PRIVATE ${CMAKE_SOURCE_DIR}/3rdParty/android/firebase_cpp_sdk/include)
+
+        if(CMAKE_ANDROID_ARCH_ABI)
+            set(_firebase_lib_dir "${CMAKE_SOURCE_DIR}/3rdParty/android/firebase_cpp_sdk/libs/android/${CMAKE_ANDROID_ARCH_ABI}/c++")
+            target_link_libraries(nymea-app PRIVATE
+                "${_firebase_lib_dir}/libfirebase_messaging.a"
+                "${_firebase_lib_dir}/libfirebase_app.a"
+            )
+        else()
+            message(WARNING "CMAKE_ANDROID_ARCH_ABI is not defined; Firebase static libraries could not be linked.")
+        endif()
+    else()
+        message(STATUS "Firebase support disabled via NYMEA_ENABLE_FIREBASE option.")
+    endif()
 endif()
 

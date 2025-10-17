@@ -27,6 +27,7 @@ set(ORGANISATION_NAME "nymea" CACHE STRING "Organisation name")
 
 option(NYMEA_ENABLE_ZEROCONF "Enable ZeroConf support" OFF)
 option(NYMEA_USE_MATERIAL_ICONS "Use the Material icon set instead of Suru" OFF)
+option(NYMEA_ENABLE_FIREBASE "Enable Firebase Cloud Messaging integration" ON)
 set(NYMEA_OVERLAY_PATH "" CACHE PATH "Optional overlay directory for branding")
 
 find_package(Qt6 REQUIRED COMPONENTS
@@ -54,6 +55,24 @@ if(ANDROID)
     )
     FetchContent_MakeAvailable(android_openssl)
     include(${android_openssl_SOURCE_DIR}/android_openssl.cmake)
+
+    set(NYMEA_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/packaging/android" CACHE PATH "Android packaging directory")
+
+    set(_nymea_app_root_property "nymeaAppRoot=${CMAKE_SOURCE_DIR}")
+    if(NYMEA_ENABLE_FIREBASE)
+        set(_nymea_firebase_property "useFirebase=true")
+    else()
+        set(_nymea_firebase_property "useFirebase=false")
+    endif()
+
+    file(WRITE "${NYMEA_ANDROID_PACKAGE_SOURCE_DIR}/nymeaapp.properties" "${_nymea_app_root_property}\n${_nymea_firebase_property}\n")
+    configure_file(
+        "${CMAKE_SOURCE_DIR}/version.txt"
+        "${NYMEA_ANDROID_PACKAGE_SOURCE_DIR}/version.txt"
+        COPYONLY
+    )
+
+    add_link_options("-Wl,-z,max-page-size=16384")
 endif()
 
 # Make config.h available to all targets
