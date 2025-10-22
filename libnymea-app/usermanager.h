@@ -53,7 +53,8 @@ public:
         UserErrorDuplicateUserId,
         UserErrorBadPassword,
         UserErrorTokenNotFound,
-        UserErrorPermissionDenied
+        UserErrorPermissionDenied,
+        UserErrorInconsistantScopes
     };
     Q_ENUM(UserError)
 
