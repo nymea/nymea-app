@@ -223,7 +223,8 @@ Page {
                             text: Qt.formatDateTime(model.timestamp,"dd.MM.yy hh:mm:ss")
                             elide: Text.ElideRight
                             font.pixelSize: app.smallFont
-                            enabled: false
+                            color: Style.mediumGray
+                            enabled: true
                         }
                     }
 

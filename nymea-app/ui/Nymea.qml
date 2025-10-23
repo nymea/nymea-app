@@ -43,8 +43,9 @@ ApplicationWindow {
     visible: true
     width: 360
     height: 580
-    minimumWidth: 350
-    minimumHeight: 480
+    maximumWidth: 768
+    minimumWidth: 360
+    minimumHeight: 580
     visibility: kioskMode ? ApplicationWindow.FullScreen : settings.viewMode
     color: Material.background
     title: Configuration.appName
@@ -111,27 +112,40 @@ ApplicationWindow {
     }
 
     property alias mainMenu: m
-    MainMenu {
-        id: m
+    
+
+    Rectangle {
+        id: container
+        anchors.centerIn: parent
+        width: Math.min(app.width, 768)
         height: app.height
-        width: Math.min(300, app.width)
-//        z: 1000
-        configuredHosts: configuredHostsModel
-        onOpenThingSettings: rootItem.openThingSettings();
-        onOpenMagicSettings: rootItem.openMagicSettings();
-        onOpenAppSettings: rootItem.openAppSettings();
-        onOpenSystemSettings: rootItem.openSystemSettings();
-        onOpenCustomPage: rootItem.openCustomPage(page);
-        onConfigureMainView: rootItem.configureMainView();
-        onStartManualConnection: rootItem.startManualConnection();
-        onStartWirelessSetup: rootItem.startWirelessSetup();
+        color: "transparent"
+        clip: true
+
+        MainMenu {
+            property bool isMobile: app.width < 768
+            id: m
+            height: container.height
+            leftPadding: isMobile ? 0 : (app.width - 768) / 2
+            width: isMobile ? Math.min(300, app.width) : ((app.width - 768) / 2) + 300
+            configuredHosts: configuredHostsModel
+            onOpenThingSettings: rootItem.openThingSettings();
+            onOpenMagicSettings: rootItem.openMagicSettings();
+            onOpenAppSettings: rootItem.openAppSettings();
+            onOpenSystemSettings: rootItem.openSystemSettings();
+            onOpenCustomPage: rootItem.openCustomPage(page);
+            onConfigureMainView: rootItem.configureMainView();
+            onStartManualConnection: rootItem.startManualConnection();
+            onStartWirelessSetup: rootItem.startWirelessSetup();
+        }
+
+        RootItem {
+            id: rootItem
+            anchors.fill: parent
+            anchors.bottomMargin: keyboardRect.height
+        }
     }
 
-    RootItem {
-        id: rootItem
-        anchors.fill: parent
-        anchors.bottomMargin: keyboardRect.height
-    }
 
     property NymeaDiscovery nymeaDiscovery: NymeaDiscovery {
         objectName: "discovery"

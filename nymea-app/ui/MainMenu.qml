@@ -23,8 +23,25 @@ Drawer {
     signal startWirelessSetup();
     signal startManualConnection();
 
-    background: Rectangle {
-        color: Style.backgroundColor
+    background: Item {
+        Rectangle {
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            width: root.leftPadding
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: Qt.tint(Style.backgroundColor, Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.05)) }
+                GradientStop { position: 0.3; color: Qt.tint(Style.backgroundColor, Qt.rgba(Style.foregroundColor.r, Style.foregroundColor.g, Style.foregroundColor.b, 0.03)) }
+            }
+        }
+        Rectangle {
+            anchors.left: parent.left
+            anchors.leftMargin: root.leftPadding
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            color: Style.backgroundColor
+        }
     }
 
     onClosed: topSectionLayout.configureConnections = false;
