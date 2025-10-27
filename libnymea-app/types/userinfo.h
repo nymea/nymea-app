@@ -25,6 +25,7 @@
 #ifndef USERINFO_H
 #define USERINFO_H
 
+#include <QUuid>
 #include <QObject>
 
 class UserInfo : public QObject
@@ -34,6 +35,8 @@ class UserInfo : public QObject
     Q_PROPERTY(QString email READ email NOTIFY emailChanged)
     Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
     Q_PROPERTY(PermissionScopes scopes READ scopes NOTIFY scopesChanged)
+    Q_PROPERTY(QList<QUuid> allowedThingIds READ allowedThingIds NOTIFY allowedThingIdsChanged)
+
 public:
     enum PermissionScope {
         PermissionScopeNone             = 0x0000,
@@ -62,6 +65,12 @@ public:
     PermissionScopes scopes() const;
     void setScopes(PermissionScopes scopes);
 
+    QList<QUuid> allowedThingIds() const;
+    void setAllowedThingIds(const QList<QUuid> &allowedThingIds);
+
+    Q_INVOKABLE bool thingAllowed(const QUuid &thingId) const;
+    Q_INVOKABLE void allowThingId(const QUuid &thingId, bool allowed);
+
     static QStringList scopesToList(PermissionScopes scopes);
     static PermissionScopes listToScopes(const QStringList &scopeList);
 
@@ -70,12 +79,14 @@ signals:
     void emailChanged();
     void displayNameChanged();
     void scopesChanged();
+    void allowedThingIdsChanged();
 
 private:
     QString m_username;
     QString m_email;
     QString m_displayName;
     PermissionScopes m_scopes = PermissionScopeNone;
+    QList<QUuid> m_allowedThingIds;
 
 };
 

@@ -67,6 +67,7 @@ void UserManager::setEngine(Engine *engine)
 
             m_loading = true;
             emit loadingChanged();
+
             m_engine->jsonRpcClient()->sendCommand("Users.GetUsers", QVariantMap(), this, "getUsersResponse");
             m_engine->jsonRpcClient()->sendCommand("Users.GetUserInfo", QVariantMap(), this, "getUserInfoResponse");
             m_engine->jsonRpcClient()->sendCommand("Users.GetTokens", QVariantMap(), this, "getTokensResponse");
@@ -94,8 +95,7 @@ Users *UserManager::users() const
     return m_users;
 }
 
-
-int UserManager::createUser(const QString &username, const QString &password, const QString &displayName, const QString &email, int permissionScopes)
+int UserManager::createUser(const QString &username, const QString &password, const QString &displayName, const QString &email, int permissionScopes, const QList<QUuid> &allowedThingIds)
 {
     QVariantMap params;
     params.insert("username", username);
@@ -105,7 +105,15 @@ int UserManager::createUser(const QString &username, const QString &password, co
         params.insert("email", email);
         params.insert("scopes", UserInfo::scopesToList((UserInfo::PermissionScopes)permissionScopes));
     }
-    qCDebug(dcUserManager()) << "Creating user" << username << permissionScopes;
+
+    if (m_engine->jsonRpcClient()->ensureServerVersion("8.4") && !allowedThingIds.isEmpty()) {
+        QVariantList thingIds;
+        foreach (const QUuid &thingId, allowedThingIds)
+            thingIds.append(thingId.toString());
+
+        params.insert("allowedThingIds", thingIds);
+    }
+    qCDebug(dcUserManager()) << "Creating user" << username << permissionScopes << allowedThingIds;
     return m_engine->jsonRpcClient()->sendCommand("Users.CreateUser", params, this, "createUserResponse");
 }
 
@@ -133,12 +141,19 @@ int UserManager::removeUser(const QString &username)
     return m_engine->jsonRpcClient()->sendCommand("Users.RemoveUser", params, this, "removeUserResponse");
 }
 
-int UserManager::setUserScopes(const QString &username, int scopes)
+int UserManager::setUserScopes(const QString &username, int scopes, const QList<QUuid> &allowedThingIds)
 {
     QVariantMap params;
     params.insert("username", username);
     params.insert("scopes", UserInfo::scopesToList((UserInfo::PermissionScopes)scopes));
-    qCDebug(dcUserManager()) << "Setting new permission scopes for user" << username << scopes << (int)scopes;
+    if (m_engine->jsonRpcClient()->ensureServerVersion("8.4") && !allowedThingIds.isEmpty()) {
+        QVariantList thingIds;
+        foreach (const QUuid &thingId, allowedThingIds)
+            thingIds.append(thingId);
+
+        params.insert("allowedThingIds", thingIds);
+    }
+    qCDebug(dcUserManager()) << "Setting new permission scopes for user" << username << scopes << (int)scopes << allowedThingIds;
     return m_engine->jsonRpcClient()->sendCommand("Users.SetUserScopes", params, this, "setUserScopesResponse");
 }
 
@@ -162,6 +177,11 @@ void UserManager::notificationReceived(const QVariantMap &data)
         info->setDisplayName(userMap.value("displayName").toString());
         info->setEmail(userMap.value("email").toString());
         info->setScopes(UserInfo::listToScopes(userMap.value("scopes").toStringList()));
+        QList<QUuid> allowedThingIds;
+        foreach (const QString &thingIdString, userMap.value("allowedThingIds").toStringList())
+            allowedThingIds.append(QUuid(thingIdString));
+
+        info->setAllowedThingIds(allowedThingIds);
         m_users->insertUser(info);
     } else if (notification == "Users.UserRemoved") {
         m_users->removeUser(data.value("params").toMap().value("username").toString());
@@ -171,11 +191,19 @@ void UserManager::notificationReceived(const QVariantMap &data)
         QString displayName = userMap.value("displayName").toString();
         QString email = userMap.value("email").toString();
         UserInfo::PermissionScopes scopes = UserInfo::listToScopes(userMap.value("scopes").toStringList());
+
+        QList<QUuid> allowedThingIds;
+        foreach (const QString &thingIdString, userMap.value("allowedThingIds").toStringList())
+            allowedThingIds.append(QUuid(thingIdString));
+
+
         // Update current user info
         if (m_userInfo && m_userInfo->username() == username) {
             m_userInfo->setDisplayName(displayName);
             m_userInfo->setEmail(email);
             m_userInfo->setScopes(scopes);
+            m_userInfo->setAllowedThingIds(allowedThingIds);
+
         }
         // Update user info in the list of all users.
         UserInfo *info = m_users->getUserInfo(username);
@@ -186,6 +214,7 @@ void UserManager::notificationReceived(const QVariantMap &data)
         info->setDisplayName(displayName);
         info->setEmail(email);
         info->setScopes(scopes);
+        info->setAllowedThingIds(allowedThingIds);
     }
 }
 
@@ -195,10 +224,16 @@ void UserManager::getUsersResponse(int commandId, const QVariantMap &data)
 
     foreach (const QVariant &userVariant, data.value("users").toList()) {
         QVariantMap userMap = userVariant.toMap();
+
+        QList<QUuid> allowedThingIds;
+        foreach (const QString &thingIdString, userMap.value("allowedThingIds").toStringList())
+            allowedThingIds.append(QUuid(thingIdString));
+
         UserInfo *userInfo = new UserInfo(userMap.value("username").toString());
         userInfo->setDisplayName(userMap.value("displayName").toString());
         userInfo->setEmail(userMap.value("email").toString());
         userInfo->setScopes(UserInfo::listToScopes(userMap.value("scopes").toStringList()));
+        userInfo->setAllowedThingIds(allowedThingIds);
         m_users->insertUser(userInfo);
     }
 }
@@ -207,15 +242,20 @@ void UserManager::getUserInfoResponse(int commandId, const QVariantMap &data)
 {
     qCDebug(dcUserManager()) << "User info reply" << commandId << data;
     QVariantMap userMap = data.value("userInfo").toMap();
+    QList<QUuid> allowedThingIds;
+    foreach (const QString &thingIdString, userMap.value("allowedThingIds").toStringList())
+        allowedThingIds.append(QUuid(thingIdString));
+
     m_userInfo->setUsername(userMap.value("username").toString());
     m_userInfo->setEmail(userMap.value("email").toString());
     m_userInfo->setDisplayName(userMap.value("displayName").toString());
     m_userInfo->setScopes(UserInfo::listToScopes(userMap.value("scopes").toStringList()));
+    m_userInfo->setAllowedThingIds(allowedThingIds);
 }
 
-void UserManager::getTokensResponse(int /*commandId*/, const QVariantMap &data)
+void UserManager::getTokensResponse(int commandId, const QVariantMap &data)
 {
-
+    Q_UNUSED(commandId)
     foreach (const QVariant &tokenVariant, data.value("tokenInfoList").toList()) {
         //        qDebug() << "Token received" << tokenVariant.toMap();
         QVariantMap token = tokenVariant.toMap();
@@ -226,7 +266,6 @@ void UserManager::getTokensResponse(int /*commandId*/, const QVariantMap &data)
         TokenInfo *tokenInfo = new TokenInfo(id, username, deviceName, creationTime);
         m_tokenInfos->addToken(tokenInfo);
     }
-
 }
 
 void UserManager::removeTokenResponse(int commandId, const QVariantMap &params)
@@ -309,6 +348,13 @@ QVariant Users::data(const QModelIndex &index, int role) const
         return m_users.at(index.row())->email();
     case RoleScopes:
         return static_cast<int>(m_users.at(index.row())->scopes());
+    case RoleAllowedThingIds: {
+        QVariantList thingIds;
+        foreach (const QUuid &thingId, m_users.at(index.row())->allowedThingIds())
+            thingIds.append(thingId);
+
+        return thingIds;
+    }
     }
     return QVariant();
 }
@@ -320,6 +366,7 @@ QHash<int, QByteArray> Users::roleNames() const
     roles.insert(RoleDisplayName, "displayName");
     roles.insert(RoleEmail, "email");
     roles.insert(RoleScopes, "scopes");
+    roles.insert(RoleAllowedThingIds, "allowedThingIds");
     return roles;
 }
 
@@ -342,6 +389,12 @@ void Users::insertUser(UserInfo *userInfo)
         int idx = static_cast<int>(m_users.indexOf(userInfo));
         if (idx >= 0) {
             emit dataChanged(index(idx), index(idx), {RoleScopes});
+        }
+    });
+    connect(userInfo, &UserInfo::allowedThingIdsChanged, this, [=](){
+        int idx = m_users.indexOf(userInfo);
+        if (idx >= 0) {
+            emit dataChanged(index(idx), index(idx), {RoleAllowedThingIds});
         }
     });
 
