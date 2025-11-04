@@ -31,18 +31,18 @@
 class UserInfo : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString username READ username NOTIFY usernameChanged)
-    Q_PROPERTY(QString email READ email NOTIFY emailChanged)
-    Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
-    Q_PROPERTY(PermissionScopes scopes READ scopes NOTIFY scopesChanged)
-    Q_PROPERTY(QList<QUuid> allowedThingIds READ allowedThingIds NOTIFY allowedThingIdsChanged)
+    Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
+    Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
+    Q_PROPERTY(QString displayName READ displayName WRITE setDisplayName NOTIFY displayNameChanged)
+    Q_PROPERTY(PermissionScopes scopes READ scopes WRITE setScopes NOTIFY scopesChanged)
+    Q_PROPERTY(QList<QUuid> allowedThingIds READ allowedThingIds WRITE setAllowedThingIds NOTIFY allowedThingIdsChanged)
 
 public:
     enum PermissionScope {
         PermissionScopeNone             = 0x0000,
         PermissionScopeControlThings    = 0x0001,
         PermissionScopeConfigureThings  = 0x0003,
-        PermissionScopeAccessAllThings  = 0x0004,
+        PermissionScopeAccessAllThings  = 0x0004, // Since 8.4
         PermissionScopeExecuteRules     = 0x0010,
         PermissionScopeConfigureRules   = 0x0030,
         PermissionScopeAdmin            = 0xFFFF,

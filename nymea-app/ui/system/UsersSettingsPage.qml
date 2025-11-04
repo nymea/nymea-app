@@ -98,7 +98,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         text: qsTr("Change password")
         iconName: "qrc:/icons/key.svg"
-        visible: !engine.jsonRpcClient.pushButtonAuthAvailable
+        visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && !engine.jsonRpcClient.pushButtonAuthAvailable
         onClicked: {
             var page = pageStack.push(changePasswordComponent)
             page.confirmed.connect(function(newPassword) {
@@ -112,16 +112,15 @@ SettingsPageBase {
         text: qsTr("Edit user information")
         iconName: "qrc:/icons/edit.svg"
         onClicked: pageStack.push(editUserInfoComponent)
-        visible: !engine.jsonRpcClient.pushButtonAuthAvailable
+        visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && !engine.jsonRpcClient.pushButtonAuthAvailable
     }
 
     NymeaItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Manage authorized devices")
         iconName: "qrc:/icons/smartphone.svg"
-        onClicked: {
-            pageStack.push(manageTokensComponent)
-        }
+        visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
+        onClicked: pageStack.push(manageTokensComponent)
     }
 
     SettingsPageSectionHeader {
@@ -134,11 +133,8 @@ SettingsPageBase {
         text: qsTr("Manage users")
         visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && !engine.jsonRpcClient.pushButtonAuthAvailable
         iconName: "qrc:/icons/contact-group.svg"
-        onClicked: {
-            pageStack.push(manageUsersComponent)
-        }
+        onClicked: pageStack.push(manageUsersComponent)
     }
-
 
     Component {
         id: editUserInfoComponent
@@ -199,14 +195,16 @@ SettingsPageBase {
             id: configureAllowedThingsPage
 
             property UserInfo userInfo: null
+            property bool existingUser: true
+
+            title: qsTr("Accessable things for") + " \"" + userInfo.username + "\""
 
             header: NymeaHeader {
-                text: root.title
+                text: configureAllowedThingsPage.title
                 backButtonVisible: true
                 onBackPressed: pageStack.pop()
             }
 
-            title: qsTr("Allowed things for") + " \"" + userInfo.username + "\""
             ColumnLayout {
                 anchors.fill: parent
 
@@ -236,7 +234,10 @@ SettingsPageBase {
                             checked: configureAllowedThingsPage.userInfo.thingAllowed(thingDelegate.thing.id)
                             onCheckedChanged: {
                                 configureAllowedThingsPage.userInfo.allowThingId(thingDelegate.thing.id, checked)
-                                userManager.setUserScopes(configureAllowedThingsPage.userInfo.username, configureAllowedThingsPage.userInfo.scopes, configureAllowedThingsPage.userInfo.allowedThingIds)
+                                if (configureAllowedThingsPage.existingUser) {
+                                    // Only update if this user already exists
+                                    userManager.setUserScopes(configureAllowedThingsPage.userInfo.username, configureAllowedThingsPage.userInfo.scopes, configureAllowedThingsPage.userInfo.allowedThingIds)
+                                }
                             }
                         }
                     }
@@ -438,7 +439,7 @@ SettingsPageBase {
             Repeater {
                 id: permissionRepeater
 
-                model: NymeaUtils.scopesModel
+                model: engine.jsonRpcClient.ensureServerVersion("8.4") ? NymeaUtils.scopesModel : NymeaUtils.scopesModelPre8dot4
                 delegate: NymeaSwipeDelegate {
 
                     Layout.fillWidth: true
@@ -478,24 +479,22 @@ SettingsPageBase {
                 }
             }
 
-
             SettingsPageSectionHeader {
                 text: qsTr("Acessable things")
-                visible: (userDetailsPage.userInfo.scopes & UserInfo.PermissionScopeAccessAllThings) !== UserInfo.PermissionScopeAccessAllThings
+                visible: engine.jsonRpcClient.ensureServerVersion("8.4") &&
+                         (userDetailsPage.userInfo.scopes & UserInfo.PermissionScopeAccessAllThings) !== UserInfo.PermissionScopeAccessAllThings
                 Layout.fillWidth: true
             }
-
 
             NymeaSwipeDelegate {
                 id: allowedThingsEntry
                 Layout.fillWidth: true
                 text: qsTr("Allowed things for this user")
                 subText: userDetailsPage.userInfo.allowedThingIds.length + " " + qsTr("things accessable")
-                visible: (userDetailsPage.userInfo.scopes & UserInfo.PermissionScopeAccessAllThings) !== UserInfo.PermissionScopeAccessAllThings
+                visible: engine.jsonRpcClient.ensureServerVersion("8.4") &&
+                         (userDetailsPage.userInfo.scopes & UserInfo.PermissionScopeAccessAllThings) !== UserInfo.PermissionScopeAccessAllThings
                 progressive: true
-                onClicked: {
-                    pageStack.push(configureAllowedThingsComponent, {userInfo: userDetailsPage.userInfo})
-                }
+                onClicked: pageStack.push(configureAllowedThingsComponent, {userInfo: userDetailsPage.userInfo})
             }
 
             SettingsPageSectionHeader {
@@ -537,7 +536,13 @@ SettingsPageBase {
             id: createUserPage
             title: qsTr("Add a user")
 
-            property var permissionScopes: UserInfo.PermissionScopeNone
+            UserInfo {
+                id: newUserInfo
+                username: usernameTextField.text
+                email: emailTextField.text
+                displayName: displayNameTextField.text
+
+            }
 
             SettingsPageSectionHeader {
                 text: qsTr("User information")
@@ -588,28 +593,57 @@ SettingsPageBase {
                 text: qsTr("Permissions")
             }
 
-
             Repeater {
                 id: scopesRepeater
-                model: NymeaUtils.scopesModel
 
-                delegate: CheckDelegate {
+                model: engine.jsonRpcClient.ensureServerVersion("8.4") ? NymeaUtils.scopesModel : NymeaUtils.scopesModelPre8dot4
+
+                delegate: NymeaSwipeDelegate {
+
                     Layout.fillWidth: true
-                    text: model.text
-                    checked: (createUserPage.permissionScopes & model.scope) === model.scope
-                    onClicked: {
-                        var scopes = createUserPage.permissionScopes
-                        if (checked) {
-                            scopes |= model.scope
-                        } else {
-                            scopes &= ~model.scope
-                        }
 
-                        // make sure the new permissions are consistant before sending them to the core
-                        scopes = NymeaUtils.getPermissionScopeAdjustments(model.scope, checked, scopes)
-                        createUserPage.permissionScopes = scopes
+                    text: model.text
+                    subText: model.description
+                    progressive: false
+
+                    CheckBox {
+                        anchors.right: parent.right
+                        anchors.rightMargin: app.margins
+                        anchors.verticalCenter: parent.verticalCenter
+                        enabled: model.scope === UserInfo.PermissionScopeAdmin || ((newUserInfo.scopes & UserInfo.PermissionScopeAdmin) !== UserInfo.PermissionScopeAdmin)
+                        checked: (newUserInfo.scopes & model.scope) === model.scope
+                        onClicked: {
+                            var scopes = newUserInfo.scopes
+                            if (checked) {
+                                scopes |= model.scope
+                            } else {
+                                scopes &= ~model.scope
+                            }
+
+                            // make sure the new permissions are consistant before sending them to the core
+                            scopes = NymeaUtils.getPermissionScopeAdjustments(model.scope, checked, scopes)
+                            newUserInfo.scopes = scopes
+                        }
                     }
                 }
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Acessable things")
+                visible: engine.jsonRpcClient.ensureServerVersion("8.4") &&
+                         (newUserInfo.scopes & UserInfo.PermissionScopeAccessAllThings) !== UserInfo.PermissionScopeAccessAllThings
+                Layout.fillWidth: true
+            }
+
+            NymeaSwipeDelegate {
+                id: allowedThingsEntry
+                Layout.fillWidth: true
+                text: qsTr("Allowed things for this user")
+                subText: newUserInfo.allowedThingIds.length + " " + qsTr("things accessable")
+                visible: engine.jsonRpcClient.ensureServerVersion("8.4") &&
+                         (newUserInfo.scopes & UserInfo.PermissionScopeAccessAllThings) !== UserInfo.PermissionScopeAccessAllThings
+                progressive: true
+                onClicked: pageStack.push(configureAllowedThingsComponent, {userInfo: newUserInfo, existingUser: false})
             }
 
             Button {
@@ -620,7 +654,7 @@ SettingsPageBase {
                 enabled: usernameTextField.displayText.length >= 3 && passwordTextField.isValid
                 onClicked: {
                     createUserPage.busy = true
-                    userManager.createUser(usernameTextField.displayText, passwordTextField.password, displayNameTextField.text, emailTextField.text, createUserPage.permissionScopes)
+                    userManager.createUser(usernameTextField.displayText, passwordTextField.password, displayNameTextField.text, emailTextField.text, newUserInfo.scopes, newUserInfo.allowedThingIds)
                 }
             }
             Connections {

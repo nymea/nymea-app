@@ -103,7 +103,14 @@ int UserManager::createUser(const QString &username, const QString &password, co
     if (m_engine->jsonRpcClient()->ensureServerVersion("6.0")) {
         params.insert("displayName", displayName);
         params.insert("email", email);
-        params.insert("scopes", UserInfo::scopesToList((UserInfo::PermissionScopes)permissionScopes));
+
+        // Backports compatibility for pre 8.4
+        UserInfo::PermissionScopes scopes = static_cast<UserInfo::PermissionScopes>(permissionScopes);
+        if (!m_engine->jsonRpcClient()->ensureServerVersion("8.4"))
+            scopes.setFlag(UserInfo::PermissionScopeAccessAllThings, false);
+
+
+        params.insert("scopes", UserInfo::scopesToList(scopes));
     }
 
     if (m_engine->jsonRpcClient()->ensureServerVersion("8.4") && !allowedThingIds.isEmpty()) {
@@ -145,7 +152,14 @@ int UserManager::setUserScopes(const QString &username, int scopes, const QList<
 {
     QVariantMap params;
     params.insert("username", username);
-    params.insert("scopes", UserInfo::scopesToList((UserInfo::PermissionScopes)scopes));
+
+    // Backports compatibility for pre 8.4
+    UserInfo::PermissionScopes finalScopes = static_cast<UserInfo::PermissionScopes>(scopes);
+    if (!m_engine->jsonRpcClient()->ensureServerVersion("8.4"))
+        finalScopes.setFlag(UserInfo::PermissionScopeAccessAllThings, false);
+
+    params.insert("scopes", UserInfo::scopesToList(finalScopes));
+
     if (m_engine->jsonRpcClient()->ensureServerVersion("8.4") && !allowedThingIds.isEmpty()) {
         QVariantList thingIds;
         foreach (const QUuid &thingId, allowedThingIds)

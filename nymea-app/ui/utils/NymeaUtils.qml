@@ -166,6 +166,35 @@ Item {
         return namedIcons[name]
     }
 
+    property ListModel scopesModelPre8dot4: ListModel {
+        ListElement {
+            text: qsTr("Admin")
+            description: qsTr("Full access to the system.")
+            scope: UserInfo.PermissionScopeAdmin
+        }
+        ListElement {
+            text: qsTr("Control things")
+            description: qsTr("Execute actions and use things and services.")
+            scope: UserInfo.PermissionScopeControlThings
+        }
+        ListElement {
+            text: qsTr("Configure things")
+            description: qsTr("Add new things and change settings.")
+            scope: UserInfo.PermissionScopeConfigureThings
+        }
+        ListElement {
+            text: qsTr("Execute magic")
+            description: qsTr("Execute rules, scenes and scripts.")
+            scope: UserInfo.PermissionScopeExecuteRules
+        }
+        ListElement {
+            text: qsTr("Configure magic")
+            description: qsTr("Create new rules and scripts in the system.")
+            scope: UserInfo.PermissionScopeConfigureRules
+        }
+    }
+
+
     property ListModel scopesModel: ListModel {
         ListElement {
             text: qsTr("Admin")
