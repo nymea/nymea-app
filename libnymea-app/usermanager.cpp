@@ -160,7 +160,7 @@ int UserManager::setUserScopes(const QString &username, int scopes, const QList<
 
     params.insert("scopes", UserInfo::scopesToList(finalScopes));
 
-    if (m_engine->jsonRpcClient()->ensureServerVersion("8.4") && !allowedThingIds.isEmpty()) {
+    if (m_engine->jsonRpcClient()->ensureServerVersion("8.4")) {
         QVariantList thingIds;
         foreach (const QUuid &thingId, allowedThingIds)
             thingIds.append(thingId);
