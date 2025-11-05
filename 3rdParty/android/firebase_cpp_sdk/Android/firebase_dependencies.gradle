@@ -12,21 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import org.gradle.util.ConfigureUtil;
+
 // A map of library to the dependencies that need to be added for it.
 def firebaseDependenciesMap = [
-  'app' : ['com.google.firebase:firebase-analytics:16.5.0'],
-  'admob' : ['com.google.firebase:firebase-ads:17.2.1',
-             'com.google.android.gms:play-services-measurement-sdk-api:16.5.0'],
-  'analytics' : ['com.google.firebase:firebase-analytics:16.5.0'],
-  'auth' : ['com.google.firebase:firebase-auth:17.0.0'],
-  'database' : ['com.google.firebase:firebase-database:17.0.0'],
-  'dynamic_links' : ['com.google.firebase:firebase-invites:17.0.0'],
-  'functions' : ['com.google.firebase:firebase-functions:17.0.0'],
-  'instance_id' : ['com.google.firebase:firebase-iid:18.0.0'],
-  'messaging' : ['com.google.firebase.messaging.cpp:firebase_messaging_cpp@aar',
-                 'com.google.firebase:firebase-messaging:18.0.0'],
-  'remote_config' : ['com.google.firebase:firebase-config:17.0.0'],
-  'storage' : ['com.google.firebase:firebase-storage:17.0.0']
+  'app' : ['com.google.firebase:firebase-analytics'],
+  'app_check' : ['com.google.firebase:firebase-appcheck',
+                 'com.google.firebase:firebase-appcheck-debug',
+                 'com.google.firebase:firebase-appcheck-playintegrity'],
+  'play_services' : ['com.google.android.gms:play-services-base:18.5.0'],
+  'analytics' : ['com.google.firebase:firebase-analytics'],
+  'auth' : ['com.google.firebase:firebase-auth'],
+  'database' : ['com.google.firebase:firebase-database'],
+  'dynamic_links' : ['com.google.firebase:firebase-dynamic-links'],
+  'firestore' : ['com.google.firebase:firebase-firestore'],
+  'functions' : ['com.google.firebase:firebase-functions'],
+  'gma' : ['com.google.android.gms:play-services-ads:23.0.0',
+           'com.google.android.ump:user-messaging-platform:2.2.0'],
+  'installations' : ['com.google.firebase:firebase-installations'],
+  'invites' : ['com.google.firebase:firebase-invites'],
+  // Messaging has an additional local dependency to include.
+  'messaging' : ['com.google.firebase:firebase-messaging',
+                 'com.google.firebase.messaging.cpp:firebase_messaging_cpp@aar',
+                 'androidx.core:core:1.6.0-alpha03',
+                 'com.google.flatbuffers:flatbuffers-java:1.12.0'],
+  'performance' : ['com.google.firebase:firebase-perf'],
+  'remote_config' : ['com.google.firebase:firebase-config'],
+  'storage' : ['com.google.firebase:firebase-storage'],
+  'testlab' : []
 ]
 
 // Handles adding the Firebase C++ dependencies as properties.
@@ -35,12 +48,16 @@ class Dependencies {
 
   def getApp() {
     libSet.add('app')
+    libSet.add('play_services')
   }
-  def getAdmob() {
-    libSet.add('admob')
+  def getAppWithoutPlayServices() {
+    libSet.add('app')
   }
   def getAnalytics() {
     libSet.add('analytics')
+  }
+  def getAppCheck() {
+    libSet.add('app_check')
   }
   def getAuth() {
     libSet.add('auth')
@@ -51,11 +68,17 @@ class Dependencies {
   def getDynamicLinks() {
     libSet.add('dynamic_links')
   }
+  def getFirestore() {
+    libSet.add('firestore')
+  }
   def getFunctions() {
     libSet.add('functions')
   }
-  def getInstanceId() {
-    libSet.add('instance_id')
+  def getGma() {
+    libSet.add('gma')
+  }
+  def getInstallations() {
+    libSet.add('installations')
   }
   def getInvites() {
     libSet.add('invites')
@@ -72,11 +95,14 @@ class Dependencies {
   def getStorage() {
     libSet.add('storage')
   }
+  def getTestlab() {
+    libSet.add('testlab')
+  }
 }
 
 // Extension to handle which Firebase C++ dependencies are being added to the
 // gradle project.
-// They are added via: firebaseCpp.dependencies "admob", "analytics", ...
+// They are added via: firebaseCpp.dependencies "auth", "analytics", ...
 class FirebaseCppExtension {
   Dependencies dependencies = new Dependencies()
 
@@ -101,8 +127,13 @@ project.afterEvaluate {
     // App is required, so add it if it wasn't included.
     if (!firebaseCpp.dependencies.libSet.contains('app')) {
       firebaseCpp.dependencies.libSet.add('app')
+      firebaseCpp.dependencies.libSet.add('play_services')
     }
 
+      // Add the bill-of-materials
+    project.dependencies {
+      implementation platform('com.google.firebase:firebase-bom:33.1.2')
+    }
     for (String lib : firebaseCpp.dependencies.libSet) {
       // Messaging includes an aar, which to be depended on properly requires
       // the folder containing it to be added this way.

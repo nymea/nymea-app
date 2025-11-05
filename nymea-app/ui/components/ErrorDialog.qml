@@ -36,7 +36,7 @@ NymeaDialog {
     id: root
 
     title: qsTr("Oh snap!")
-    headerIcon: "../images/dialog-error-symbolic.svg"
+    headerIcon: "qrc:/icons/dialog-error-symbolic.svg"
 
     property int error: 0
 

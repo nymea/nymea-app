@@ -8,6 +8,10 @@ TextField {
 
     property bool error: false
 
+    onEditingFinished: {
+        parent.forceActiveFocus()
+    }
+
     background: Rectangle {
         y: control.height - height - control.bottomPadding + 8
         implicitWidth: 120

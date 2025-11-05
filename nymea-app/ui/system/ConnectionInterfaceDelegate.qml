@@ -37,10 +37,10 @@ import "../components"
 NymeaSwipeDelegate {
     text: qsTr("Interface: %1").arg(model.address === "0.0.0.0" ? qsTr("Any") : model.address === "127.0.0.1" ? qsTr("localhost") : model.address)
     subText: qsTr("Port: %1").arg(model.port)
-    iconName: "../images/connections/network-vpn.svg"
+    iconName: "qrc:/icons/connections/network-vpn.svg"
     progressive: false
-    secondaryIconName: "../images/account.svg"
+    secondaryIconName: "qrc:/icons/account.svg"
     secondaryIconColor: model.authenticationEnabled ? Style.accentColor : Style.iconColor
-    tertiaryIconName: "../images/connections/network-secure.svg"
+    tertiaryIconName: "qrc:/icons/connections/network-secure.svg"
     tertiaryIconColor: model.sslEnabled ? Style.accentColor : Style.iconColor
 }

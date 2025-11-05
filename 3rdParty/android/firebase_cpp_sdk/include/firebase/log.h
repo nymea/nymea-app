@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-#ifndef FIREBASE_APP_CLIENT_CPP_SRC_INCLUDE_FIREBASE_LOG_H_
-#define FIREBASE_APP_CLIENT_CPP_SRC_INCLUDE_FIREBASE_LOG_H_
-
+#ifndef FIREBASE_APP_SRC_INCLUDE_FIREBASE_LOG_H_
+#define FIREBASE_APP_SRC_INCLUDE_FIREBASE_LOG_H_
 
 /// @brief Namespace that encompasses all Firebase APIs.
 namespace firebase {
-
-/// @cond FIREBASE_APP_INTERNAL
 
 /// @brief Levels used when logging messages.
 enum LogLevel {
@@ -39,9 +36,19 @@ enum LogLevel {
   kLogLevelAssert,
 };
 
-/// @endcond
+/// @brief Sets the logging verbosity.
+/// All log messages at or above the specific log level.
+///
+/// @param[in] level Log level to display, by default this is set to
+/// kLogLevelInfo.
+void SetLogLevel(LogLevel level);
+
+/// @brief Gets the logging verbosity.
+///
+/// @return Get the currently configured logging verbosity.
+LogLevel GetLogLevel();
 
 // NOLINTNEXTLINE - allow namespace overridden
 }  // namespace firebase
 
-#endif  // FIREBASE_APP_CLIENT_CPP_SRC_INCLUDE_FIREBASE_LOG_H_
+#endif  // FIREBASE_APP_SRC_INCLUDE_FIREBASE_LOG_H_

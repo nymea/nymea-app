@@ -70,7 +70,7 @@ Item {
                             var text = settings.showHiddenOptions
                                     ? qsTr("Developer options are now enabled. If you have found this by accident, it is most likely not of any use for you. It will just enable some nerdy developer gibberish in the app. Tap the icon another 10 times to disable it again.")
                                     : qsTr("Developer options are now disabled.")
-                            var popup = dialog.createObject(app, {headerIcon: "../images/dialog-warning-symbolic.svg", title: qsTr("Howdy cowboy!"), text: text})
+                            var popup = dialog.createObject(app, {headerIcon: "qrc:/icons/dialog-warning-symbolic.svg", title: qsTr("Howdy cowboy!"), text: text})
                             popup.open();
                             clickCounter = 0;
                         }
@@ -101,7 +101,7 @@ Item {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             font.bold: true
-            text: "Copyright (C) %1 nymea GmbH".arg(new Date().getFullYear())
+            text: "Copyright (C) %1 chargebyte GmbH".arg(new Date().getFullYear())
         }
 
         Label {
@@ -109,7 +109,7 @@ Item {
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
-            text: qsTr("nymea is a registered trademark of nymea GmbH.")
+            text: qsTr("nymea is a registered trademark of chargebyte GmbH.")
         }
 
         Label {
@@ -118,15 +118,43 @@ Item {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             font.pixelSize: app.smallFont
-            text: qsTr("Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.")
+            text: Configuration.closedSource ? qsTr("Licensed under the terms of the nymea commercial license.") : qsTr("Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.")
         }
 
         ColumnLayout {
             Layout.fillWidth: true
 
+            Repeater {
+                visible: Configuration.additionalImrintLinks !== null && Configuration.additionalImrintLinks.count > 0
+                model: Configuration.additionalImrintLinks
+                delegate:NymeaSwipeDelegate {
+                    Layout.fillWidth: true
+                    iconName: "qrc:/icons/stock_website.svg"
+                    text: model.text
+                    subText: model.subText
+                    prominentSubText: false
+                    wrapTexts: false
+                    onClicked: {
+                        Qt.openUrlExternally(model.url)
+                    }
+                }
+            }
+
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
-                iconName: "../images/stock_website.svg"
+                iconName: "qrc:/icons/stock_website.svg"
+                text: qsTr("Chargebyte")
+                subText: "https://chargebyte.com"
+                prominentSubText: false
+                wrapTexts: false
+                onClicked: {
+                    Qt.openUrlExternally("https://chargebyte.com")
+                }
+            }
+
+            NymeaSwipeDelegate {
+                Layout.fillWidth: true
+                iconName: "qrc:/icons/stock_website.svg"
                 text: qsTr("Visit the nymea website")
                 subText: "https://nymea.io"
                 prominentSubText: false
@@ -138,7 +166,7 @@ Item {
 
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
-                iconName: "../images/stock_website.svg"
+                iconName: "qrc:/icons/stock_website.svg"
                 text: qsTr("Visit GitHub page")
                 subText: root.githubLink
                 prominentSubText: false
@@ -151,18 +179,18 @@ Item {
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("View privacy policy")
-                iconName: "../images/stock_website.svg"
-                subText: app.privacyPolicyUrl
+                iconName: "qrc:/icons/stock_website.svg"
+                subText: Configuration.privacyPolicyUrl
                 prominentSubText: false
                 wrapTexts: false
                 onClicked:
-                    Qt.openUrlExternally(app.privacyPolicyUrl)
+                    Qt.openUrlExternally(Configuration.privacyPolicyUrl)
             }
 
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Software license")
-                iconName: "../images/stock_website.svg"
+                iconName: "qrc:/icons/stock_website.svg"
                 subText: "The nymea sofware license"
                 prominentSubText: false
                 wrapTexts: false
@@ -174,7 +202,7 @@ Item {
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Additional software licenses")
-                iconName: "../images/logs.svg"
+                iconName: "qrc:/icons/logs.svg"
                 subText: "Additional used software licenses"
                 prominentSubText: false
                 wrapTexts: false
@@ -209,7 +237,7 @@ Item {
         }
         NymeaSwipeDelegate {
             Layout.fillWidth: true
-            iconName: "../images/stock_website.svg"
+            iconName: "qrc:/icons/stock_website.svg"
             text: qsTr("Visit the Qt website")
             subText: "https://www.qt.io"
             prominentSubText: false

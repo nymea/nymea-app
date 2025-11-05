@@ -81,7 +81,7 @@ ThingPageBase {
     }
 
     Flickable {
-        id: listView
+        id: flickable
         anchors { fill: parent }
         topMargin: app.margins / 2
         interactive: contentHeight > height
@@ -97,15 +97,12 @@ ThingPageBase {
                 Layout.fillWidth: true
                 Layout.leftMargin: sensorsModel.count == 1 ? Style.hugeMargins : Style.bigMargins
                 Layout.rightMargin: sensorsModel.count == 1 ? Style.hugeMargins : Style.bigMargins
-                Layout.preferredHeight: cellWidth * Math.min(400, Math.ceil(flowRepeater.count / columns))
+                Layout.preferredHeight: flow.cellWidth * flow.totalRows
 
-                property int columns: Math.min(flowRepeater.count, Math.floor(listView.width / 150))
-                property int cellWidth: width / columns
-                property int totalRows: flowRepeater.count / columns
-
-//                columns: 2// Math.ceil(width / 600)
-//                columnSpacing: Style.margins
-//                rowSpacing: Style.margins
+                property int columns: Math.min(flowRepeater.count, Math.floor(flickable.width / 150))
+                property int cellWidth: Math.min(400, width / columns)
+                property int filledRows: flowRepeater.count / columns
+                property int totalRows: Math.ceil(flowRepeater.count / columns)
 
                 Repeater {
                     id: flowRepeater
@@ -113,9 +110,9 @@ ThingPageBase {
 
                     delegate: SensorView {
                         width: Math.floor(flow.width / itemsInRow)
-                        height: Math.min(400, flow.cellWidth)
+                        height: flow.cellWidth
                         property int row: Math.floor(index / flow.columns)
-                        property int itemsInRow: row < flow.totalRows ? flow.columns : (flowRepeater.count % flow.columns)
+                        property int itemsInRow: row < flow.filledRows ? flow.columns : (flowRepeater.count % flow.columns)
 
                         thing: root.thing
                         interfaceName: modelData
@@ -123,7 +120,6 @@ ThingPageBase {
 
                 }
             }
-
 
             GridLayout {
                 columns: Math.ceil(width / 600)
@@ -152,10 +148,30 @@ ThingPageBase {
         Component {
             id: stateChartComponent
             StateChart {
+                id: stateChart
                 thing: root.thing
                 stateType: parent.stateType
                 color: app.interfaceToColor(interfaceName)
                 iconSource: app.interfaceToIcon(interfaceName)
+                Binding {
+                    target: stateChart
+                    property: "title"
+                    when: ["presencesensor", "daylightsensor", "closablesensor", "watersensor", "firesensor"].indexOf(interfaceName) >= 0
+                    value: {
+                        switch (interfaceName) {
+                        case "presencesensor":
+                            return stateChart.valueState.value === true ? qsTr("Presence") : qsTr("Vacant")
+                        case "daylightsensor":
+                            return stateChart.valueState.value === true ? qsTr("Daytime") : qsTr("Nighttime")
+                        case "closablesensor":
+                            return stateChart.valueState.value === true ? qsTr("Closed") : qsTr("Open")
+                        case "watersensor":
+                            return stateChart.valueState.value === true ? qsTr("Wet") : qsTr("Dry")
+                        case "firesensor":
+                            return stateChart.valueState.value === true ? qsTr("Fire") : qsTr("No fire")
+                        }
+                    }
+                }
 
             }
         }

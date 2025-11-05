@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_FUNCTIONS_CLIENT_CPP_SRC_INCLUDE_FIREBASE_FUNCTIONS_COMMON_H_
-#define FIREBASE_FUNCTIONS_CLIENT_CPP_SRC_INCLUDE_FIREBASE_FUNCTIONS_COMMON_H_
+#ifndef FIREBASE_FUNCTIONS_SRC_INCLUDE_FIREBASE_FUNCTIONS_COMMON_H_
+#define FIREBASE_FUNCTIONS_SRC_INCLUDE_FIREBASE_FUNCTIONS_COMMON_H_
 
 #include "firebase/variant.h"
 
@@ -24,6 +24,9 @@ namespace functions {
 /// Standard gRPC error codes, as defined in:
 /// https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto
 enum Error {
+#ifdef INTERNAL_EXPERIMENTAL
+// LINT.IfChange
+#endif  // INTERNAL_EXPERIMENTAL
 
   // Not an error; returned on success
   //
@@ -180,8 +183,20 @@ enum Error {
 
 };
 
+#ifdef INTERNAL_EXPERIMENTAL
+/// @cond FIREBASE_APP_INTERNAL
+namespace internal {
+
+// Get the human-readable error message corresponding to an error code.
+//
+// Returns a statically-allocated string describing the error code you pass in.
+const char* GetErrorMessage(Error error);
+
+}  // namespace internal
+/// @endcond
+#endif  // INTERNAL_EXPERIMENTAL
 
 }  // namespace functions
 }  // namespace firebase
 
-#endif  // FIREBASE_FUNCTIONS_CLIENT_CPP_SRC_INCLUDE_FIREBASE_FUNCTIONS_COMMON_H_
+#endif  // FIREBASE_FUNCTIONS_SRC_INCLUDE_FIREBASE_FUNCTIONS_COMMON_H_

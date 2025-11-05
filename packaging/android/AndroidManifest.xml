@@ -8,7 +8,13 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="nymea:app" android:icon="@mipmap/icon" android:roundIcon="@mipmap/round_icon" android:extractNativeLibs="true">
-        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="io.guh.nymeaapp.NymeaAppActivity" android:label="nymea:app" android:screenOrientation="unspecified" android:launchMode="singleTop" android:theme="@style/SplashScreenTheme" android:exported="true">
+        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" 
+                  android:name="io.guh.nymeaapp.NymeaAppActivity"
+                  android:label="nymea:app"
+                  android:screenOrientation="unspecified"
+                  android:launchMode="singleTop"
+                  android:theme="@style/SplashScreenTheme"
+                  android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -38,8 +44,6 @@
             <meta-data android:value="@string/ministro_needed_msg" android:name="android.app.ministro_needed_msg"/>
             <meta-data android:value="@string/fatal_error_msg" android:name="android.app.fatal_error_msg"/>
             <!--  Messages maps -->
-
-            <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notificationicon"/>
 
             <!-- Splash screen -->
             <meta-data android:name="android.app.splash_screen_drawable" android:resource="@drawable/splash"/>
@@ -132,6 +136,9 @@
             <meta-data android:name="android.app.background_running" android:value="true"/>
             <!-- Background running -->
         </service>
+
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notificationicon"/>
+        <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/notification_icon_color"/>
 
         <service android:name="com.google.firebase.messaging.MessageForwardingService" android:exported="false">
         </service>

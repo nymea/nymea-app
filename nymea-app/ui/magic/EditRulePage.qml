@@ -283,7 +283,7 @@ Page {
             }
             print("Rule has changed. Asking for cancellation dialog")
             var component = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
-            var popup = component.createObject(root, {headerIcon: "../images/question.svg",
+            var popup = component.createObject(root, {headerIcon: "qrc:/icons/question.svg",
                                                    title: qsTr("Cancel?"),
                                                    text: qsTr("Any changes to the rule will be lost."),
                                                    standardButtons: Dialog.Yes | Dialog.No
@@ -295,7 +295,7 @@ Page {
         }
 
         HeaderButton {
-            imageSource: "../images/tick.svg"
+            imageSource: "qrc:/icons/tick.svg"
             enabled: actionsRepeater.count > 0 && root.rule.name.length > 0
             opacity: enabled ? 1 : .3
             onClicked: root.accept()
@@ -335,7 +335,7 @@ Page {
                     }
 
                     ColorIcon {
-                        name: "../images/settings.svg"
+                        name: "qrc:/icons/settings.svg"
                         Layout.preferredHeight: Style.iconSize
                         Layout.preferredWidth: Style.iconSize
                         MouseArea {
@@ -418,7 +418,7 @@ Page {
                                 height: Style.iconSize
                                 width: Style.iconSize
                                 color: modelData
-                                name: "../images/" + (root.ruleIcon ? root.ruleIcon : "slideshow") + ".svg"
+                                name: "qrc:/icons/" + (root.ruleIcon ? root.ruleIcon : "slideshow") + ".svg"
                                 anchors.centerIn: parent
                             }
                         }
@@ -448,7 +448,7 @@ Page {
                                 height: Style.iconSize
                                 width: Style.iconSize
                                 color: root.ruleColor
-                                name: "../images/" + modelData + ".svg"
+                                name: "qrc:/icons/" + modelData + ".svg"
                                 anchors.centerIn: parent
                             }
                         }
@@ -702,6 +702,15 @@ Page {
                     implicitWidth: parent.width
                     ruleAction: root.rule.exitActions.get(index)
                     onRemoveRuleAction: root.rule.exitActions.removeRuleAction(index)
+                    onClicked: {
+                        var ruleActionPage = pageStack.push(Qt.resolvedUrl("SelectRuleActionPage.qml"), {text: "Select action", ruleAction: ruleAction, rule: root.rule });
+                        ruleActionPage.onBackPressed.connect(function() {
+                            pageStack.pop();
+                        })
+                        ruleActionPage.onDone.connect(function() {
+                            pageStack.pop(root);
+                        })
+                    }
                 }
             }
 
@@ -743,19 +752,19 @@ Page {
                 Repeater {
                     model: ListModel {
                         ListElement {
-                            iconName: "../images/event.svg"
+                            iconName: "qrc:/icons/event.svg"
                             text: qsTr("When one of my things triggers an event")
                             method: "addEventDescriptor"
                             minimumJsonRpcVersion: "1.0"
                         }
                         ListElement {
-                            iconName: "../images/event-interface.svg"
+                            iconName: "qrc:/icons/event-interface.svg"
                             text: qsTr("When a thing of a given type triggers an event")
                             method: "addInterfaceEventDescriptor"
                             minimumJsonRpcVersion: "1.5"
                         }
                         ListElement {
-                            iconName: "../images/alarm-clock.svg"
+                            iconName: "qrc:/icons/alarm-clock.svg"
                             text: qsTr("At a particular time or date")
                             method: "addTimeEventItem"
                             minimumJsonRpcVersion: "1.0"
@@ -794,19 +803,19 @@ Page {
                 Repeater {
                     model: ListModel {
                         ListElement {
-                            iconName: "../images/state.svg"
+                            iconName: "qrc:/icons/state.svg"
                             text: qsTr("When one of my things is in a certain state")
                             method: "createStateEvaluator"
                             minimumJsonRpcVersion: "1.0"
                         }
                         ListElement {
-                            iconName: "../images/state-interface.svg"
+                            iconName: "qrc:/icons/state-interface.svg"
                             text: qsTr("When a thing of a given type enters a state")
                             method: "createInterfaceStateEvaluator"
                             minimumJsonRpcVersion: "1.5"
                         }
                         ListElement {
-                            iconName: "../images/clock-app-symbolic.svg"
+                            iconName: "qrc:/icons/clock-app-symbolic.svg"
                             text: qsTr("During a given time")
                             method: "addCalendarItem"
                             minimumJsonRpcVersion: "1.0"
@@ -848,28 +857,28 @@ Page {
                 Repeater {
                     model: ListModel {
                         ListElement {
-                            iconName: "../images/action.svg"
+                            iconName: "qrc:/icons/action.svg"
                             text: qsTr("Execute an action on one of my things")
                             method: "addRuleAction"
                             isExitAction: false
                             minimumJsonRpcVersion: "1.0"
                         }
                         ListElement {
-                            iconName: "../images/action-interface.svg"
+                            iconName: "qrc:/icons/action-interface.svg"
                             text: qsTr("Execute an action on an entire kind of things")
                             method: "addInterfaceRuleAction"
                             isExitAction: false
                             minimumJsonRpcVersion: "1.5"
                         }
                         ListElement {
-                            iconName: "../images/action.svg"
+                            iconName: "qrc:/icons/action.svg"
                             text: qsTr("Execute an action on one of my things")
                             method: "addRuleExitAction"
                             isExitAction: true
                             minimumJsonRpcVersion: "1.0"
                         }
                         ListElement {
-                            iconName: "../images/action-interface.svg"
+                            iconName: "qrc:/icons/action-interface.svg"
                             text: qsTr("Execute an action on an entire kind of things")
                             method: "addInterfaceRuleExitAction"
                             isExitAction: true

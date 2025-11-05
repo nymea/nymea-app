@@ -59,7 +59,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/configure.svg"
+                iconSource: "qrc:/icons/configure.svg"
                 text: qsTr("General")
                 subText: qsTr("Change system name and time zone")
                 visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
@@ -68,7 +68,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/account.svg"
+                iconSource: "qrc:/icons/account.svg"
                 text: qsTr("User settings")
                 subText: qsTr("Configure who can log in")
                 visible: engine.jsonRpcClient.ensureServerVersion("4.2")
@@ -79,7 +79,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/connections/network-wifi.svg"
+                iconSource: "qrc:/icons/connections/network-wifi.svg"
                 text: qsTr("Networking")
                 subText: qsTr("Configure the system's network connection")
                 visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.networkSettingsEnabled
@@ -88,7 +88,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/connections/network-vpn.svg"
+                iconSource: "qrc:/icons/connections/network-vpn.svg"
                 text: qsTr("Connection settings")
                 subText: qsTr("Configure how applications can connect to this system")
                 visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.apiSettingsEnabled
@@ -97,7 +97,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/mqtt.svg"
+                iconSource: "qrc:/icons/mqtt.svg"
                 text: qsTr("MQTT broker")
                 subText: qsTr("Configure the MQTT broker")
                 visible: engine.jsonRpcClient.ensureServerVersion("1.11") && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.mqttSettingsEnabled
@@ -106,7 +106,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/stock_website.svg"
+                iconSource: "qrc:/icons/stock_website.svg"
                 text: qsTr("Web server")
                 subText: qsTr("Configure the web server")
                 visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
@@ -116,7 +116,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/zigbee.svg"
+                iconSource: "qrc:/icons/zigbee.svg"
                 text: qsTr("ZigBee")
                 subText: qsTr("Configure ZigBee networks")
                 visible: engine.jsonRpcClient.ensureServerVersion("5.3") && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.zigbeeSettingsEnabled
@@ -125,7 +125,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/z-wave.svg"
+                iconSource: "qrc:/icons/z-wave.svg"
                 text: qsTr("Z-Wave")
                 subText: qsTr("Configure Z-Wave networks")
                 visible: engine.jsonRpcClient.ensureServerVersion("6.1") && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.zwaveSettingsEnabled
@@ -134,7 +134,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/modbus.svg"
+                iconSource: "qrc:/icons/modbus.svg"
                 text: qsTr("Modbus RTU")
                 subText: qsTr("Configure Modbus RTU master interfaces")
                 visible: engine.jsonRpcClient.ensureServerVersion("5.6") && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.modbusSettingsEnabled
@@ -143,7 +143,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/plugin.svg"
+                iconSource: "qrc:/icons/plugin.svg"
                 text: qsTr("Plugins")
                 subText: qsTr("List and cofigure installed plugins")
                 visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.pluginSettingsEnabled
@@ -152,7 +152,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/sdk.svg"
+                iconSource: "qrc:/icons/sdk.svg"
                 text: qsTr("Developer tools")
                 subText: qsTr("Access tools for debugging and error reporting")
                 visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
@@ -161,7 +161,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/system-update.svg"
+                iconSource: "qrc:/icons/system-update.svg"
                 text: qsTr("System update")
                 subText: qsTr("Update your %1 system").arg(Configuration.systemName)
                 visible: engine.systemController.updateManagementAvailable &&
@@ -171,7 +171,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/logs.svg"
+                iconSource: "qrc:/icons/logs.svg"
                 text: qsTr("Log viewer")
                 subText: qsTr("View system log")
                 visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
@@ -186,7 +186,7 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
-                iconSource: "../images/info.svg"
+                iconSource: "qrc:/icons/info.svg"
                 text: qsTr("About %1").arg(Configuration.systemName)
                 subText: qsTr("Find server UUID and versions")
                 onClicked: pageStack.push(Qt.resolvedUrl("system/AboutNymeaPage.qml"))

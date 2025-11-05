@@ -1,6 +1,6 @@
 {
     "name": "io.guh.nymeaapp",
-    "description": "Client app for for nymea",
+    "description": "Client app for nymea",
     "title": "nymea:app",
     "architecture": "@CLICK_ARCH@",
     "hooks": {
@@ -14,7 +14,7 @@
             "push-helper": "push.json"
         }
     },
-    "version": "1.0.100",
+    "version": "1.8.14",
     "maintainer": "nymea GmbH <developer@nymea.io>",
-    "framework" : "ubuntu-sdk-16.04.6"
+    "framework" : "ubuntu-sdk-20.04"
 }

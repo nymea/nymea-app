@@ -78,10 +78,9 @@ Page {
     header: Item {
         id: mainHeader
         height: 0
-
         HeaderButton {
             id: menuButton
-            imageSource: "../images/navigation-menu.svg"
+            imageSource: "qrc:/icons/navigation-menu.svg"
             anchors { left: parent.left; top: parent.top }
             onClicked: {
                 if (d.configOverlay != null) {
@@ -99,7 +98,7 @@ Page {
 
             HeaderButton {
                 id: button
-                imageSource: "../images/system-update.svg"
+                imageSource: "qrc:/icons/system-update.svg"
                 color: Style.accentColor
                 visible: updatesModel.count > 0 || engine.systemController.updateRunning
                 onClicked: pageStack.push(Qt.resolvedUrl("system/SystemUpdatePage.qml"))
@@ -425,7 +424,7 @@ Page {
                     checked: index === swipeView.currentIndex
 //                    anchors.verticalCenter: parent.verticalCenter
                     text: model.displayName
-                    iconSource: "../images/" + model.icon + ".svg"
+                    iconSource: "qrc:/icons/" + model.icon + ".svg"
 
                     onClicked: swipeView.currentIndex = index
                     onPressAndHold: {
@@ -440,7 +439,7 @@ Page {
             anchors.fill: parent
             alignment: app.landscape ? Qt.Horizontal : Qt.Vertical
             text: d.configOverlay ? qsTr("Done") : qsTr("Configure")
-            iconSource: "../images/configure.svg"
+            iconSource: "qrc:/icons/configure.svg"
 
             opacity: d.configOverlay ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
@@ -482,7 +481,7 @@ Page {
                     id: viewConfigDelegate
                     width: parent.width
                     text: model.displayName
-                    iconName: Qt.resolvedUrl("images/" + model.icon + ".svg")
+                    iconName: Qt.resolvedUrl("qrc:/icons/" + model.icon + ".svg")
                     progressive: false
                     checked: mainViewSettings.filterList.indexOf(model.name) >= 0
                     visible: index !== configListView.draggingIndex
@@ -759,7 +758,7 @@ Page {
 //                            anchors.centerIn: parent
 //                            width: Math.min(parent.width, parent.height) * .6
 //                            height: width
-//                            name: Qt.resolvedUrl("images/" + model.icon + ".svg")
+//                            name: Qt.resolvedUrl("qrc:/icons/" + model.icon + ".svg")
 //                            color: configDelegate.isEnabled ? Style.accentColor : Style.iconColor
 //                        }
 //                    }
@@ -813,7 +812,7 @@ Page {
 //                                anchors.centerIn: parent
 //                                width: Math.min(parent.width, parent.height) * .6
 //                                height: width
-//                                name: Qt.resolvedUrl("images/" + dndItem.icon + ".svg")
+//                                name: Qt.resolvedUrl("qrc:/icons/" + dndItem.icon + ".svg")
 //                                color: dndItem.isEnabled ? Style.accentColor : Style.iconColor
 //                            }
 //                        }
@@ -834,15 +833,15 @@ Page {
                 case Connection.BearerTypeLan:
                 case Connection.BearerTypeWan:
                     if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                        return "../images/connections/network-wired.svg"
+                        return "qrc:/icons/connections/network-wired.svg"
                     }
-                    return "../images/connections/network-wifi.svg";
+                    return "qrc:/icons/connections/network-wifi.svg";
                 case Connection.BearerTypeBluetooth:
-                    return "../images/connections/bluetooth.svg";
+                    return "qrc:/icons/connections/bluetooth.svg";
                 case Connection.BearerTypeCloud:
-                    return "../images/connections/cloud.svg"
+                    return "qrc:/icons/connections/cloud.svg"
                 case Connection.BearerTypeLoopback:
-                    return "../images/connections/network-wired.svg"
+                    return "qrc:/icons/connections/network-wired.svg"
                 }
                 return ""
             }
@@ -890,7 +889,7 @@ Page {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
                     Layout.preferredWidth: Style.iconSize
-                    name: engine.jsonRpcClient.currentConnection.secure ? "../images/lock-closed.svg" : "../images/lock-open.svg"
+                    name: engine.jsonRpcClient.currentConnection.secure ? "qrc:/icons/lock-closed.svg" : "qrc:/icons/lock-open.svg"
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {

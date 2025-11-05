@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="24px"
+   viewBox="0 -960 960 960"
+   width="24px"
+   fill="#808080"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="battery-090.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="40.193049"
+     inkscape:cx="13.547119"
+     inkscape:cy="12.750961"
+     inkscape:window-width="1728"
+     inkscape:window-height="1006"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <path
+     d="m 333.91,-100 c -10.34667,0 -18.97,-3.46667 -25.87,-10.4 -6.9,-6.92667 -10.35,-15.51333 -10.35,-25.76 v -618.07 c 0,-10.24667 3.46667,-18.83333 10.4,-25.76 6.92667,-6.92667 15.51333,-10.39 25.76,-10.39 h 72.3 V -860 h 147.7 v 69.62 h 72.38 c 10.25333,0 18.83,3.46333 25.73,10.39 6.9,6.92667 10.35,15.51333 10.35,25.76 v 618.07 c 0,10.24667 -3.46667,18.83333 -10.4,25.76 -6.92667,6.93333 -15.51333,10.4 -25.76,10.4 z m 23.78,-579.84 h 244.62 v -50.93 H 357.69 Z"
+     id="path2"
+     sodipodi:nodetypes="scsscsccccsssscssccccc" />
+</svg>

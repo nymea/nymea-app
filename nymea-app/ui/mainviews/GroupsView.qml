@@ -63,7 +63,7 @@ MainViewBase {
         delegate: MainPageTile {
             width: groupsGridView.cellWidth
             height: groupsGridView.cellHeight
-            iconName: "../images/groups.svg"
+            iconName: "qrc:/icons/groups.svg"
             iconColor: Style.accentColor
             lowerText: model.tagId.substring(6)
             onClicked: {
@@ -78,7 +78,7 @@ MainViewBase {
         visible: groupsGridView.count == 0 && !engine.thingManager.fetchingData && !engine.tagsManager.busy
         title: qsTr("There are no groups set up yet.")
         text: qsTr("Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.")
-        imageSource: "../images/groups.svg"
+        imageSource: "qrc:/icons/groups.svg"
         buttonVisible: false
     }
 }

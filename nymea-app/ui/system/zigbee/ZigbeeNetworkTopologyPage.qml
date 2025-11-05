@@ -12,7 +12,7 @@ Page {
         backButtonVisible: true
         onBackPressed: pageStack.pop()
         HeaderButton {
-            imageSource: "/ui/images/help.svg"
+            imageSource: "qrc:/icons/help.svg"
             text: qsTr("Help")
             onClicked: {
                 var popup = zigbeeHelpDialog.createObject(app)
@@ -212,7 +212,7 @@ Page {
             return d.nodeItems[node.networkAddress]
         }
 
-        var icon = "/ui/images/zigbee.svg"
+        var icon = "qrc:/icons/zigbee.svg"
         var thing = null
         if (node.networkAddress === 0) {
             icon = "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
@@ -532,15 +532,15 @@ Page {
 
                     var signalStrength = 100.0 * d.selectedNode.lqi / 255
                     if (!d.selectedNode.reachable)
-                        return "/ui/images/connections/nm-signal-00.svg"
+                        return "qrc:/icons/connections/nm-signal-00.svg"
                     if (signalStrength <= 25)
-                        return "/ui/images/connections/nm-signal-25.svg"
+                        return "qrc:/icons/connections/nm-signal-25.svg"
                     if (signalStrength <= 50)
-                        return "/ui/images/connections/nm-signal-50.svg"
+                        return "qrc:/icons/connections/nm-signal-50.svg"
                     if (signalStrength <= 75)
-                        return "/ui/images/connections/nm-signal-75.svg"
+                        return "qrc:/icons/connections/nm-signal-75.svg"
                     if (signalStrength <= 100)
-                        return "/ui/images/connections/nm-signal-100.svg"
+                        return "qrc:/icons/connections/nm-signal-100.svg"
                 }
             }
         }
@@ -933,7 +933,7 @@ Page {
                         ColorIcon {
                             Layout.preferredHeight: Style.iconSize
                             Layout.preferredWidth: Style.iconSize
-                            name: "/ui/images/arrow-down.svg"
+                            name: "qrc:/icons/arrow-down.svg"
                         }
 
                         Label {

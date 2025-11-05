@@ -53,7 +53,7 @@ NymeaSwipeDelegate {
 
     onDeleteClicked: root.removeRuleAction()
 
-    iconName: root.thing ? (root.browserItemId ? "../images/browser/BrowserIconFolder.svg" : "../images/action.svg") : "../images/action-interface.svg"
+    iconName: root.thing ? (root.browserItemId ? "qrc:/icons/browser/BrowserIconFolder.svg" : "qrc:/icons/action.svg") : "qrc:/icons/action-interface.svg"
     text: qsTr("%1 - %2")
         .arg(root.thing ? root.thing.name : root.iface.displayName)
         .arg(root.actionType ? root.actionType.displayName : (root.browserItem.displayName.length > 0 ? root.browserItem.displayName : qsTr("Unknown item")))

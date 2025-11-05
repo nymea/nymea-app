@@ -70,20 +70,27 @@ linux:!android:!ubports: {
     SOURCES += platformintegration/generic/platformhelpergeneric.cpp
 }
 
-
 !equals(OVERLAY_PATH, "") {
-    message("Overlay enabled. Will be using overlay from $${OVERLAY_PATH}")
     include($${OVERLAY_PATH}/overlay.pri)
     DEFINES += OVERLAY_PATH=\\\"$${OVERLAY_PATH}\\\"
 } else {
     RESOURCES += styles.qrc
 }
 
+# Load icon set depending on the configuration
+material-icons {
+    message(Using material icon set)
+    RESOURCES += ui/icons/material/icons.qrc
+} else {
+    message(Using suru icon set)
+    RESOURCES += ui/icons/suru/icons.qrc
+}
+
 android {
     include(../3rdParty/android/android_openssl/openssl.pri)
 
     ANDROID_MIN_SDK_VERSION = 21
-    ANDROID_TARGET_SDK_VERSION = 33
+    ANDROID_TARGET_SDK_VERSION = 35
 
     QT += androidextras
     HEADERS += platformintegration/android/platformhelperandroid.h \
@@ -112,6 +119,7 @@ android {
         $$ANDROID_PACKAGE_SOURCE_DIR/build.gradle \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.properties \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew.bat \
+        $$ANDROID_PACKAGE_SOURCE_DIR/gradle.properties \
         $$ANDROID_PACKAGE_SOURCE_DIR/LICENSE \
         platformintegration/android/java/io/guh/nymeaapp/NymeaAppActivity.java \
         platformintegration/android/java-firebase/io/guh/nymeaapp/NymeaAppNotificationService.java \
@@ -206,7 +214,7 @@ ubports: {
     DEFINES += UBPORTS
 
     CONFIG += link_pkgconfig
-    PKGCONFIG += connectivity-qt1 dbus-1 libnih-dbus libnih
+    PKGCONFIG += lomiri-connectivity-qt1
 
     HEADERS += platformintegration/ubports/pushclient.h \
                platformintegration/ubports/platformhelperubports.h \

@@ -334,11 +334,9 @@ void BtWiFiSetup::streamData(QLowEnergyService *service, const QUuid &characteri
     QLowEnergyCharacteristic characteristic = service->characteristic(characteristicUuid);
     QByteArray data = QJsonDocument::fromVariant(request).toJson(QJsonDocument::Compact) + '\n';
 
-    int sentDataLength = 0;
     QByteArray remainingData = data;
     while (!remainingData.isEmpty()) {
         QByteArray package = remainingData.left(20);
-        sentDataLength += package.count();
         m_wifiService->writeCharacteristic(characteristic, package);
         remainingData = remainingData.remove(0, package.count());
     }

@@ -53,7 +53,7 @@ Page {
 
         delegate: NymeaSwipeDelegate {
             width: parent.width
-            iconName: "../images/state.svg"
+            iconName: "qrc:/icons/state.svg"
             text: model.displayName
             subText: root.thing.states.getState(model.id).value
             prominentSubText: false

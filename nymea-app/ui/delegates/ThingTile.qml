@@ -134,7 +134,7 @@ MainPageTile {
 
                 contentItem: ColorIcon {
                     name: thing.thingClass.interfaces.indexOf("light") >= 0
-                          ? (powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg")
+                          ? (powerState.value === true ? "qrc:/icons/light-on.svg" : "qrc:/icons/light-off.svg")
                           : app.interfacesToIcon(thing.thingClass.interfaces)
                     color: powerState.value === true ? Style.accentColor : Style.iconColor
                 }
@@ -215,7 +215,7 @@ MainPageTile {
                 padding: 0; topPadding: 0; bottomPadding: 0
 
                 contentItem: ColorIcon {
-                    name: "../images/ventilation.svg"
+                    name: "qrc:/icons/ventilation.svg"
                     color: powerState.value === true ? Style.accentColor : Style.iconColor
                 }
                 onClicked: {
@@ -333,7 +333,7 @@ MainPageTile {
             ProgressButton {
                 visible: sensorsRoot.shownInterfaces.length > 1
                 longpressEnabled: false
-                imageSource: "../images/back.svg"
+                imageSource: "qrc:/icons/back.svg"
                 onClicked: {
                     var newIndex = sensorsRoot.currentStateIndex - 1;
                     if (newIndex < 0) newIndex = sensorsRoot.shownInterfaces.length - 1
@@ -380,7 +380,7 @@ MainPageTile {
             ProgressButton {
                 visible: sensorsRoot.shownInterfaces.length > 1
                 longpressEnabled: false
-                imageSource: "../images/next.svg"
+                imageSource: "qrc:/icons/next.svg"
                 onClicked: {
                     var newIndex = sensorsRoot.currentStateIndex + 1;
                     if (newIndex >= sensorsRoot.shownInterfaces.length) newIndex = 0;

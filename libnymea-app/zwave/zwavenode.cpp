@@ -296,6 +296,8 @@ int ZWaveNodes::rowCount(const QModelIndex &parent) const
 
 QVariant ZWaveNodes::data(const QModelIndex &index, int role) const
 {
+    Q_UNUSED(index)
+    Q_UNUSED(role)
     return QVariant();
 }
 

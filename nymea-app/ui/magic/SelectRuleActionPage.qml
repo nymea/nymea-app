@@ -59,7 +59,7 @@ Page {
         onInterfacesModeChanged: root.buildInterface()
 
         HeaderButton {
-            imageSource: header.interfacesMode ? "../images/view-expand.svg" : "../images/view-collapse.svg"
+            imageSource: header.interfacesMode ? "qrc:/icons/view-expand.svg" : "qrc:/icons/view-collapse.svg"
             visible: root.ruleAction.interfaceName === ""
             onClicked: header.interfacesMode = !header.interfacesMode
         }
@@ -121,7 +121,7 @@ Page {
             id: delegate
             text: model.displayName
             width: parent.width
-            iconName: model.actionTypeId === "browse" ? "../images/browser/BrowserIconFolder.svg" : "../images/action.svg"
+            iconName: model.actionTypeId === "browse" ? "qrc:/icons/browser/BrowserIconFolder.svg" : "qrc:/icons/action.svg"
             property ActionType actionType: root.thing.thingClass.actionTypes.getActionType(model.actionTypeId)
             progressive: model.actionTypeId === "browse" || actionType.paramTypes.count > 0
 

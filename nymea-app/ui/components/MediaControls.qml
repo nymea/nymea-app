@@ -59,7 +59,7 @@ RowLayout {
     }
 
     ProgressButton {
-        imageSource: "../images/media-playlist-shuffle.svg"
+        imageSource: "qrc:/icons/media-playlist-shuffle.svg"
         longpressEnabled: false
         enabled: root.shuffleState !== null
         opacity: enabled ? 1 : .5
@@ -78,8 +78,8 @@ RowLayout {
     Item { Layout.fillWidth: true }
     ProgressButton {
         size: Style.iconSize * (root.showExtendedControls ? 1.5 : 1)
-        imageSource: "../images/media-skip-backward.svg"
-        longpressImageSource: "../images/media-seek-backward.svg"
+        imageSource: "qrc:/icons/media-skip-backward.svg"
+        longpressImageSource: "qrc:/icons/media-seek-backward.svg"
         longpressEnabled: root.thing.thingClass.actionTypes.findByName("fastRewind") !== null
         enabled: root.playbackState && root.playbackState.value !== "Stopped"
         opacity: enabled ? 1 : .5
@@ -96,8 +96,8 @@ RowLayout {
     Item { Layout.fillWidth: true }
     ProgressButton {
         size: Style.iconSize * (root.showExtendedControls ? 2 : 1)
-        imageSource: root.playbackState && root.playbackState.value === "Playing" ? "../images/media-playback-pause.svg" : "../images/media-playback-start.svg"
-        longpressImageSource: "../images/media-playback-stop.svg"
+        imageSource: root.playbackState && root.playbackState.value === "Playing" ? "qrc:/icons/media-playback-pause.svg" : "qrc:/icons/media-playback-start.svg"
+        longpressImageSource: "qrc:/icons/media-playback-stop.svg"
         longpressEnabled: root.playbackState && root.playbackState.value !== "Stopped"
         color: root.iconColor
 
@@ -116,8 +116,8 @@ RowLayout {
     Item { Layout.fillWidth: true }
     ProgressButton {
         size: Style.iconSize * (root.showExtendedControls ? 1.5 : 1)
-        imageSource: "../images/media-skip-forward.svg"
-        longpressImageSource: "../images/media-seek-forward.svg"
+        imageSource: "qrc:/icons/media-skip-forward.svg"
+        longpressImageSource: "qrc:/icons/media-seek-forward.svg"
         longpressEnabled: root.thing.thingClass.actionTypes.findByName("fastForward") !== null
         enabled: root.playbackState && root.playbackState.value !== "Stopped"
         opacity: enabled ? 1 : .5
@@ -134,7 +134,7 @@ RowLayout {
 
     ProgressButton {
         size: Style.iconSize
-        imageSource: root.repeatState.value === "One" ? "../images/media-playlist-repeat-one.svg" : "../images/media-playlist-repeat.svg"
+        imageSource: root.repeatState.value === "One" ? "qrc:/icons/media-playlist-repeat-one.svg" : "qrc:/icons/media-playlist-repeat.svg"
         color: root.repeatState.value === "None" ? root.iconColor : Style.accentColor
         longpressEnabled: false
         enabled: root.repeatState !== null

@@ -79,7 +79,7 @@
     </message>
     <message>
         <source>About %1</source>
-        <translation type="unfinished">Riguardo a %1</translation>
+        <translation>Riguardo a %1</translation>
     </message>
     <message>
         <source>Device serial number</source>
@@ -145,7 +145,7 @@
     <name>ActionLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished">Cronologia per %1</translation>
+        <translation>Cronologia per %1</translation>
     </message>
     <message>
         <source>Remove logs?</source>
@@ -204,7 +204,7 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Aggiungi</translation>
+        <translation>Aggiungi</translation>
     </message>
     <message>
         <source>WebSocket server interfaces</source>
@@ -347,7 +347,7 @@
     <name>AwningThingsListPage</name>
     <message>
         <source>Awnings</source>
-        <translation type="unfinished">Tende da sole</translation>
+        <translation>Tende da sole</translation>
     </message>
 </context>
 <context>
@@ -403,7 +403,7 @@
     <name>BlindThingsListPage</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished">Veneziane</translation>
+        <translation>Veneziane</translation>
     </message>
 </context>
 <context>
@@ -590,11 +590,7 @@
     <name>Configuration</name>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Aiuto</translation>
-    </message>
-    <message>
-        <source>Forum</source>
-        <translation type="unfinished"></translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <source>Telegram</source>
@@ -602,14 +598,6 @@
     </message>
     <message>
         <source>Discord</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Twitter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Facebook</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -707,6 +695,10 @@
         <source>Are you sure you want to remove %1 and all associated settings?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConnectingPage</name>
@@ -755,7 +747,7 @@
     <name>ConnectionInfoDialog</name>
     <message>
         <source>Available connections</source>
-        <translation type="unfinished">Connessioni disponibili</translation>
+        <translation>Connessioni disponibili</translation>
     </message>
     <message>
         <source>System information</source>
@@ -763,11 +755,11 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Aggiungi</translation>
+        <translation>Aggiungi</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">Chiudi</translation>
+        <translation>Chiudi</translation>
     </message>
 </context>
 <context>
@@ -832,7 +824,7 @@
     </message>
     <message>
         <source>Demo mode</source>
-        <translation type="unfinished">Modalità demo</translation>
+        <translation>Modalità demo</translation>
     </message>
     <message>
         <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
@@ -884,7 +876,7 @@
     </message>
     <message>
         <source>Manual connection</source>
-        <translation type="unfinished">Connessione manuale</translation>
+        <translation>Connessione manuale</translation>
     </message>
     <message>
         <source>Please wait while your nymea system is being discovered.</source>
@@ -916,7 +908,7 @@
     </message>
     <message>
         <source>Wireless setup</source>
-        <translation type="unfinished">Configurazione wireless</translation>
+        <translation>Configurazione wireless</translation>
     </message>
     <message>
         <source>Searching for the nymea system...</source>
@@ -1232,7 +1224,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Cancella</translation>
+        <translation>Cancella</translation>
     </message>
     <message>
         <source>Back</source>
@@ -1240,7 +1232,19 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
+    </message>
+    <message>
+        <source>Sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select depiction</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1417,6 +1421,14 @@
         <source>Debug interface active at %1.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Server logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
@@ -1427,6 +1439,17 @@
     <message>
         <source>Error: %1</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>DeviceDetailsPage</name>
+    <message>
+        <source>States</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1872,7 +1895,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>Assigned things</source>
@@ -2097,7 +2120,7 @@
     <name>EventLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished">Cronologia per %1</translation>
+        <translation>Cronologia per %1</translation>
     </message>
     <message>
         <source>Remove logs?</source>
@@ -2392,11 +2415,15 @@ Please try again.</source>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Cancella</translation>
+        <translation>Cancella</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
+    </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2488,11 +2515,11 @@ Please try again.</source>
     <name>GroupsView</name>
     <message>
         <source>There are no groups set up yet.</source>
-        <translation type="unfinished">Non ci sono gruppi già impostati.</translation>
+        <translation>Non ci sono gruppi già impostati.</translation>
     </message>
     <message>
         <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2530,10 +2557,6 @@ Please try again.</source>
         <translation></translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
         <translation></translation>
     </message>
@@ -2544,6 +2567,14 @@ Please try again.</source>
     <message>
         <source>Additional software licenses</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of chargebyte GmbH.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Licensed under the terms of the nymea commercial license.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3631,7 +3662,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Temperature</source>
-        <translation type="unfinished">Temperatura</translation>
+        <translation>Temperatura</translation>
     </message>
     <message>
         <source>Brightness</source>
@@ -3646,7 +3677,7 @@ Please try again.</source>
     <name>LightThingsListPage</name>
     <message>
         <source>Lights</source>
-        <translation type="unfinished">Luci</translation>
+        <translation>Luci</translation>
     </message>
 </context>
 <context>
@@ -3745,10 +3776,6 @@ Please try again.</source>
 <context>
     <name>LoginPage</name>
     <message>
-        <source>Welcome to %1!</source>
-        <translation>Benvenuto in %1!</translation>
-    </message>
-    <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
         <translation></translation>
     </message>
@@ -3818,6 +3845,10 @@ Please try again.</source>
     </message>
     <message>
         <source>If you are an installer and do not have your own account, you can authenticate yourself using the test button on the leaflet (see quick start guide or user manual).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3978,11 +4009,11 @@ Please try again.</source>
     </message>
     <message>
         <source>App settings</source>
-        <translation type="unfinished">Impostazioni app</translation>
+        <translation>Impostazioni app</translation>
     </message>
     <message>
         <source>System settings</source>
-        <translation type="unfinished">Impostazioni di sistema</translation>
+        <translation>Impostazioni di sistema</translation>
     </message>
     <message>
         <source>New connection</source>
@@ -3990,6 +4021,14 @@ Please try again.</source>
     </message>
     <message>
         <source>Set up another...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to log out from %1 and remove it from your connections?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4191,7 +4230,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Aggiungi</translation>
+        <translation>Aggiungi</translation>
     </message>
     <message>
         <source>Select a serial port.</source>
@@ -4575,6 +4614,29 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
 </context>
 <context>
+    <name>MultiStateChart</name>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NetworkSettingsPage</name>
     <message>
         <source>Network settings</source>
@@ -4876,6 +4938,14 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>An unexpected error happened.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The network configuration is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This feature is not supported on this platform.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewMagicPage</name>
@@ -4945,7 +5015,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     <name>NotificationsThingPage</name>
     <message>
         <source>Title</source>
-        <translation type="unfinished">Titolo</translation>
+        <translation>Titolo</translation>
     </message>
     <message>
         <source>Text</source>
@@ -4977,7 +5047,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">Chiudi</translation>
+        <translation>Chiudi</translation>
     </message>
 </context>
 <context>
@@ -6230,6 +6300,29 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
+    <name>ServerLoggingCategoriesPage</name>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SettingsPage</name>
     <message>
         <source>General</source>
@@ -6691,10 +6784,6 @@ A consumer, not consuming anything</extracomment>
         <translation></translation>
     </message>
     <message>
-        <source>Configure update sources</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Enable package source</source>
         <translation></translation>
     </message>
@@ -6740,6 +6829,10 @@ This can potentially break your system and lead to problems.
 Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Update sources</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TemperatureScheduleEditor</name>
@@ -6749,7 +6842,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
     </message>
 </context>
 <context>
@@ -6823,7 +6916,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
     </message>
 </context>
 <context>
@@ -6857,7 +6950,7 @@ Please only use this if you are sure you want this and consider reporting the is
     <name>ThingLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished">Cronologia per %1</translation>
+        <translation>Cronologia per %1</translation>
     </message>
     <message>
         <source>Filter by</source>
@@ -6907,10 +7000,93 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
 </context>
 <context>
+    <name>ThingStatusPage</name>
+    <message>
+        <source>Status for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing is up to date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installed version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to start the update now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signal strength: %1 %</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>Ok</translation>
+    </message>
+    <message>
+        <source>Battery level: %1 %</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ThingsView</name>
     <message>
         <source>Welcome to %1!</source>
-        <translation type="unfinished">Benvenuto in %1!</translation>
+        <translation>Benvenuto in %1!</translation>
     </message>
     <message>
         <source>There are no things set up yet.</source>
@@ -7028,7 +7204,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
     </message>
 </context>
 <context>
@@ -7376,6 +7552,21 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
 </context>
 <context>
+    <name>WirelessNetworksFilterSettingsPage</name>
+    <message>
+        <source>WiFi list options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show all networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple networks with the same name get filterd out</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>
@@ -7383,7 +7574,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Avanti</translation>
+        <translation>Avanti</translation>
     </message>
 </context>
 <context>
@@ -7448,7 +7639,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Aiuto</translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <source>Network settings</source>
@@ -7592,7 +7783,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>Remove Z-Wave node</source>
@@ -7863,7 +8054,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>ZigBee network settings</source>
@@ -7954,11 +8145,11 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Aiuto</translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
@@ -8010,7 +8201,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">Chiudi</translation>
+        <translation>Chiudi</translation>
     </message>
     <message numerus="yes">
         <source>%n device(s)</source>
@@ -8130,7 +8321,7 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Aiuto</translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <source>Device</source>

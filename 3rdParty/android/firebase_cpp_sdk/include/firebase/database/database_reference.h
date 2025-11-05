@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_DATABASE_REFERENCE_H_
-#define FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_DATABASE_REFERENCE_H_
+#ifndef FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_DATABASE_REFERENCE_H_
+#define FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_DATABASE_REFERENCE_H_
 
 #include <map>
 #include <string>
-#include "firebase/future.h"
-#include "firebase/internal/common.h"
-#include "firebase/variant.h"
+
 #include "firebase/database/disconnection.h"
 #include "firebase/database/query.h"
 #include "firebase/database/transaction.h"
+#include "firebase/future.h"
+#include "firebase/internal/common.h"
+#include "firebase/variant.h"
 
 namespace firebase {
 namespace database {
@@ -34,12 +35,14 @@ class Repo;
 
 class DataSnapshot;
 
+#ifndef SWIG
 /// DatabaseReference represents a particular location in your Database and can
 /// be used for reading or writing data to that Database location.
 ///
 /// This class is the starting point for all Database operations. After you've
 /// initialized it with a URL, you can use it to read data, write data, and to
 /// create new DatabaseReference instances.
+#endif  // SWIG
 class DatabaseReference : public Query {
  public:
   /// @brief Default constructor. This creates an invalid DatabaseReference.
@@ -471,4 +474,4 @@ bool operator==(const DatabaseReference& lhs, const DatabaseReference& rhs);
 }  // namespace database
 }  // namespace firebase
 
-#endif  // FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_DATABASE_REFERENCE_H_
+#endif  // FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_DATABASE_REFERENCE_H_

@@ -49,7 +49,7 @@ SettingsPageBase {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "/ui/images/help.svg"
+            imageSource: "qrc:/icons/help.svg"
             text: qsTr("Help")
             onClicked: {
                 var popup = zigbeeHelpDialog.createObject(app)
@@ -58,7 +58,7 @@ SettingsPageBase {
         }
 
         HeaderButton {
-            imageSource: "/ui/images/configure.svg"
+            imageSource: "qrc:/icons/configure.svg"
             text: qsTr("Network settings")
             onClicked: {
                 var page = pageStack.push(Qt.resolvedUrl("ZigbeeNetworkSettingsPage.qml"), { zigbeeManager: zigbeeManager, network: network })
@@ -209,7 +209,7 @@ SettingsPageBase {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
                     Layout.preferredWidth: Style.iconSize
-                    name: network.permitJoiningEnabled ? "/ui/images/lock-open.svg" : "/ui/images/lock-closed.svg"
+                    name: network.permitJoiningEnabled ? "qrc:/icons/lock-open.svg" : "qrc:/icons/lock-closed.svg"
                     visible: !network.permitJoiningEnabled
                 }
                 Label {
@@ -299,7 +299,7 @@ SettingsPageBase {
                          qsTr("Initializing...")
                        : nodeThings.count == 1 ? nodeThing.name :
                                                  nodeThings.count > 1 ? qsTr("%1 things").arg(nodeThings.count) : qsTr("Unrecognized device")
-            iconName: nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "/ui/images/zigbee.svg"
+            iconName: nodeThing ? app.interfacesToIcon(nodeThing.thingClass.interfaces) : "qrc:/icons/zigbee.svg"
             iconColor: busy
                        ? Style.tileOverlayColor
                        : nodeThing != null ? Style.accentColor : Style.iconColor
@@ -313,23 +313,23 @@ SettingsPageBase {
                 dialog.open()
             }
 
-            secondaryIconName: node && !node.rxOnWhenIdle ? "/ui/images/system-suspend.svg" : ""
+            secondaryIconName: node && !node.rxOnWhenIdle ? "qrc:/icons/system-suspend.svg" : ""
 
             tertiaryIconName: {
                 if (!node || !node.reachable)
-                    return "/ui/images/connections/nm-signal-00.svg"
+                    return "qrc:/icons/connections/nm-signal-00.svg"
 
                 if (signalStrength <= 25)
-                    return "/ui/images/connections/nm-signal-25.svg"
+                    return "qrc:/icons/connections/nm-signal-25.svg"
 
                 if (signalStrength <= 50)
-                    return "/ui/images/connections/nm-signal-50.svg"
+                    return "qrc:/icons/connections/nm-signal-50.svg"
 
                 if (signalStrength <= 75)
-                    return "/ui/images/connections/nm-signal-75.svg"
+                    return "qrc:/icons/connections/nm-signal-75.svg"
 
                 if (signalStrength <= 100)
-                    return "/ui/images/connections/nm-signal-100.svg"
+                    return "qrc:/icons/connections/nm-signal-100.svg"
             }
 
 
@@ -348,10 +348,10 @@ SettingsPageBase {
                 size: Style.smallIconSize
                 anchors.verticalCenter: parent.verticalCenter
                 name: node.type === ZigbeeNode.ZigbeeNodeTypeCoordinator
-                      ? "/ui/images/zigbee/zigbee-coordinator.svg"
+                      ? "qrc:/icons/zigbee/zigbee-coordinator.svg"
                       : node.type === ZigbeeNode.ZigbeeNodeTypeRouter
-                        ? "/ui/images/zigbee/zigbee-router.svg"
-                        : "/ui/images/zigbee/zigbee-enddevice.svg"
+                        ? "qrc:/icons/zigbee/zigbee-router.svg"
+                        : "qrc:/icons/zigbee/zigbee-enddevice.svg"
                 color: communicationIndicatorLedTimer.running ? Style.accentColor : Style.iconColor
             }
 
@@ -382,7 +382,7 @@ SettingsPageBase {
                         Layout.preferredHeight: Style.bigIconSize
                         Layout.preferredWidth: height
                         color: Style.accentColor
-                        name: "/ui/images/zigbee.svg"
+                        name: "qrc:/icons/zigbee.svg"
                     }
                     ColumnLayout {
                         Layout.margins: Style.margins
@@ -477,7 +477,7 @@ SettingsPageBase {
                 Button {
     //                    size: Style.iconSize
                     visible: node && node.type !== ZigbeeNode.ZigbeeNodeTypeCoordinator
-    //                    imageSource: "/ui/images/delete.svg"
+    //                    imageSource: "qrc:/icons/delete.svg"
                     text: qsTr("Remove")
                     Layout.alignment: Qt.AlignLeft
                     onClicked: {
@@ -507,7 +507,7 @@ SettingsPageBase {
 
             property ZigbeeNode zigbeeNode
 
-            headerIcon: "/ui/images/zigbee.svg"
+            headerIcon: "qrc:/icons/zigbee.svg"
             title: qsTr("Remove ZigBee node") + " " + (zigbeeNode ? zigbeeNode.model : "")
             text: qsTr("Are you sure you want to remove this node from the network?")
             standardButtons: Dialog.Ok | Dialog.Cancel
@@ -536,7 +536,7 @@ SettingsPageBase {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
                     Layout.preferredWidth: Style.iconSize
-                    name: "/ui/images/zigbee/zigbee-router.svg"
+                    name: "qrc:/icons/zigbee/zigbee-router.svg"
                 }
 
                 Label {
@@ -549,7 +549,7 @@ SettingsPageBase {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
                     Layout.preferredWidth: Style.iconSize
-                    name: "/ui/images/zigbee/zigbee-enddevice.svg"
+                    name: "qrc:/icons/zigbee/zigbee-enddevice.svg"
                 }
 
                 Label {
@@ -562,7 +562,7 @@ SettingsPageBase {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
                     Layout.preferredWidth: Style.iconSize
-                    name: "/ui/images/system-suspend.svg"
+                    name: "qrc:/icons/system-suspend.svg"
                 }
 
                 Label {

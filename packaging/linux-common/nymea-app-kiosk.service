@@ -18,4 +18,4 @@ User=nymea
 Group=nymea
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=graphical.target

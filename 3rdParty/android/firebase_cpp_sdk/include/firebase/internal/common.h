@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef FIREBASE_APP_CLIENT_CPP_SRC_INCLUDE_FIREBASE_INTERNAL_COMMON_H_
-#define FIREBASE_APP_CLIENT_CPP_SRC_INCLUDE_FIREBASE_INTERNAL_COMMON_H_
+#ifndef FIREBASE_APP_SRC_INCLUDE_FIREBASE_INTERNAL_COMMON_H_
+#define FIREBASE_APP_SRC_INCLUDE_FIREBASE_INTERNAL_COMMON_H_
 
 // This file contains definitions that configure the SDK.
 
@@ -23,10 +23,12 @@
 #include <utility>
 
 // Move operators use rvalue references, which are a C++11 extension.
+// Also, Visual Studio 2010 and later actually support move operators despite
+// reporting __cplusplus to be 199711L, so explicitly check for that.
 // Also, stlport doesn't implement std::move().
-#if __cplusplus >= 201103L && !defined(_STLPORT_VERSION)
+#if (__cplusplus >= 201103L || _MSC_VER >= 1600) && !defined(_STLPORT_VERSION)
 #define FIREBASE_USE_MOVE_OPERATORS
-#endif  // __cplusplus >= 201103L && !defined(_STLPORT_VERSION)
+#endif
 
 // stlport doesn't implement std::function.
 #if !defined(_STLPORT_VERSION)
@@ -36,7 +38,6 @@
 // stlport doesn't implement std::aligned_storage.
 #if defined(_STLPORT_VERSION)
 #include <cstddef>
-
 
 namespace firebase {
 template <std::size_t Length, std::size_t Alignment>
@@ -87,7 +88,7 @@ struct AlignedStorage {
 
 // Declare a module initializer variable as a global.
 #define FIREBASE_APP_REGISTER_CALLBACKS_INITIALIZER_VARIABLE(module_name)     \
-  namespace firebase {                                              \
+  namespace firebase {                                                        \
   extern void* FIREBASE_APP_REGISTER_CALLBACKS_INITIALIZER_NAME(module_name); \
   } /* namespace firebase */
 
@@ -96,7 +97,7 @@ struct AlignedStorage {
 // module initializer for the analytics module.
 #define FIREBASE_APP_REGISTER_CALLBACKS_REFERENCE(module_name)        \
   FIREBASE_APP_REGISTER_CALLBACKS_INITIALIZER_VARIABLE(module_name)   \
-  namespace firebase {                                      \
+  namespace firebase {                                                \
   static void* module_name##_ref FIREBASE_APP_KEEP_SYMBOL =           \
       &FIREBASE_APP_REGISTER_CALLBACKS_INITIALIZER_NAME(module_name); \
   }     /* namespace firebase */
@@ -118,4 +119,10 @@ struct AlignedStorage {
 #endif
 #endif  // FIREBASE_DEPRECATED
 
-#endif  // FIREBASE_APP_CLIENT_CPP_SRC_INCLUDE_FIREBASE_INTERNAL_COMMON_H_
+// Calculates the number of elements in an array.
+#define FIREBASE_ARRAYSIZE(x) (sizeof(x) / sizeof((x)[0]))
+
+// Guaranteed compile time strlen.
+#define FIREBASE_STRLEN(s) (FIREBASE_ARRAYSIZE(s) - sizeof((s)[0]))
+
+#endif  // FIREBASE_APP_SRC_INCLUDE_FIREBASE_INTERNAL_COMMON_H_

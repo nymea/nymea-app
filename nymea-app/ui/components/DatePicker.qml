@@ -43,7 +43,7 @@ ColumnLayout {
         ColorIcon {
             Layout.preferredHeight: Style.iconSize
             Layout.preferredWidth: Style.iconSize
-            name: "../images/back.svg"
+            name: "qrc:/icons/back.svg"
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
@@ -61,7 +61,7 @@ ColumnLayout {
         ColorIcon {
             Layout.preferredHeight: Style.iconSize
             Layout.preferredWidth: Style.iconSize
-            name: "../images/next.svg"
+            name: "qrc:/icons/next.svg"
             MouseArea {
                 anchors.fill: parent
                 onClicked: {

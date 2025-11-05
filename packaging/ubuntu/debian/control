@@ -1,7 +1,7 @@
 Source: nymea-app
 Section: utils
 Priority: optional
-Maintainer: Michael Zanetti <michael.zanetti@nymea.io>
+Maintainer: nymea GmbH <developer@nymea.io>
 Standards-Version: 3.9.7
 Homepage: https://nymea.io
 Vcs-Git: https://github.com/nymea/nymea-app.git

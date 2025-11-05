@@ -96,15 +96,15 @@ Page {
             Material.elevation: 1
             RowLayout {
                 HeaderButton {
-                    imageSource: "../images/powersocket.svg"
+                    imageSource: "qrc:/icons/powersocket.svg"
                     visible: socketsInGroup.count > 0
                 }
                 HeaderButton {
-                    imageSource: "../images/light-on.svg"
+                    imageSource: "qrc:/icons/light-on.svg"
                     visible: lightsInGroup.count > 0
                 }
                 HeaderButton {
-                    imageSource: "../images/radiator.svg"
+                    imageSource: "qrc:/icons/radiator.svg"
                 }
             }
         }

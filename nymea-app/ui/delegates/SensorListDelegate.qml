@@ -42,6 +42,11 @@ BigThingTile {
         id: dataGrid
         columns: Math.floor(contentItem.width / 120)
 
+        Connections {
+            target: itemDelegate
+            onThingChanged: stateModel.update()
+        }
+
         ListModel {
             id: interfacesModel
             ListElement { interfaceName: "temperaturesensor"; stateName: "temperature" }
@@ -74,8 +79,14 @@ BigThingTile {
         }
         Repeater {
             model: ListModel {
+                id: stateModel
                 dynamicRoles: true
                 Component.onCompleted: {
+                    update()
+                }
+
+                function update() {
+                    clear();
                     for (var i = 0; i < interfacesModel.count; i++) {
                         if (itemDelegate.thing.thingClass.interfaces.indexOf(interfacesModel.get(i).interfaceName) >= 0) {
                             append(interfacesModel.get(i))
@@ -144,7 +155,7 @@ BigThingTile {
                     name: {
                         switch (model.interfaceName) {
                         case "closablesensor":
-                            return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? Qt.resolvedUrl("qrc:/ui/images/sensors/window-closed.svg") : Qt.resolvedUrl("qrc:/ui/images/sensors/window-open.svg");
+                            return sensorValueDelegate.stateValue && sensorValueDelegate.stateValue.value === true ? Qt.resolvedUrl("qrc:/icons/sensors/window-closed.svg") : Qt.resolvedUrl("qrc:/icons/sensors/window-open.svg");
                         default:
                             return app.interfacesToIcon([model.interfaceName, "sensor"])
                         }

@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
+* Copyright 2013 - 2025, nymea GmbH
 * Contact: contact@nymea.io
 *
 * This file is part of nymea.
@@ -62,7 +62,6 @@ class PlatformHelper : public QObject
     Q_PROPERTY(int bottomPadding READ bottomPadding CONSTANT)
     Q_PROPERTY(int leftPadding READ leftPadding CONSTANT)
     Q_PROPERTY(int rightPadding READ rightPadding CONSTANT)
-
 
 public:
     enum HapticsFeedback {

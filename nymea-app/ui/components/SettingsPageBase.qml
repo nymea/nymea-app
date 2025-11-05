@@ -45,6 +45,8 @@ Page {
     property alias busy: busyOverlay.shown
     property alias busyText: busyOverlay.text
 
+    BackgroundFocusHandler { anchors.fill: parent }
+
     Flickable {
         id: flickable
         anchors.fill: parent

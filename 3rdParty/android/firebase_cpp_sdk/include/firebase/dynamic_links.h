@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_DYNAMIC_LINKS_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DYNAMIC_LINKS_H_
-#define FIREBASE_DYNAMIC_LINKS_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DYNAMIC_LINKS_H_
+#ifndef FIREBASE_DYNAMIC_LINKS_SRC_INCLUDE_FIREBASE_DYNAMIC_LINKS_H_
+#define FIREBASE_DYNAMIC_LINKS_SRC_INCLUDE_FIREBASE_DYNAMIC_LINKS_H_
 
 #include <string>
 
@@ -30,13 +30,19 @@ namespace firebase {
 ///
 /// Firebase Dynamic Links is a cross-platform solution for generating and
 /// receiving links, whether or not the app is already installed.
+///
+/// @deprecated Dynamic Links is now deprecated. Please see the support
+/// documentation at https://firebase.google.com/support/dynamic-links-faq
+/// for more information.
 namespace dynamic_links {
 
+#ifndef SWIG
 /// @brief Error code used by Futures returned by this API.
 enum ErrorCode {
   kErrorCodeSuccess = 0,
   kErrorCodeFailed,
 };
+#endif  // SWIG
 
 /// @brief Enum describing the strength of a dynamic links match.
 ///
@@ -84,22 +90,34 @@ class Listener {
 /// Listener provided at any time.
 ///
 /// @param[in] app The Firebase App object for this application.
-/// @param[in] listener A Listener object that recieves Dynamic Links.
+/// @param[in] listener A Listener object that receives Dynamic Links.
 ///
 /// @return kInitResultSuccess if initialization succeeded, or
 /// kInitResultFailedMissingDependency on Android if Google Play services is
 /// not available on the current device.
-InitResult Initialize(const App& app, Listener* listener);
+///
+/// @deprecated Dynamic Links is now deprecated. Please see the support
+/// documentation at https://firebase.google.com/support/dynamic-links-faq
+/// for more information.
+FIREBASE_DEPRECATED InitResult Initialize(const App& app, Listener* listener);
 
 /// @brief Terminate Firebase Dynamic Links.
-void Terminate();
+///
+/// @deprecated Dynamic Links is now deprecated. Please see the support
+/// documentation at https://firebase.google.com/support/dynamic-links-faq
+/// for more information.
+FIREBASE_DEPRECATED void Terminate();
 
 /// @brief Set the listener for receiving Dynamic Links.
 ///
 /// @param[in] listener A Listener object that receives Dynamic Links.
 ///
 /// @return Pointer to the previously set listener.
-Listener* SetListener(Listener* listener);
+///
+/// @deprecated Dynamic Links is now deprecated. Please see the support
+/// documentation at https://firebase.google.com/support/dynamic-links-faq
+/// for more information.
+FIREBASE_DEPRECATED Listener* SetListener(Listener* listener);
 
 /// Fetch any pending dynamic links. Each pending link will trigger a call to
 /// the registered Listener class.
@@ -107,9 +125,13 @@ Listener* SetListener(Listener* listener);
 /// This function is implicitly called on initialization. On iOS this is called
 /// automatically when the app gains focus, but on Android this needs to be
 /// called manually.
-void Fetch();
+///
+/// @deprecated Dynamic Links is now deprecated. Please see the support
+/// documentation at https://firebase.google.com/support/dynamic-links-faq
+/// for more information.
+FIREBASE_DEPRECATED void Fetch();
 
 }  // namespace dynamic_links
 }  // namespace firebase
 
-#endif  // FIREBASE_DYNAMIC_LINKS_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DYNAMIC_LINKS_H_
+#endif  // FIREBASE_DYNAMIC_LINKS_SRC_INCLUDE_FIREBASE_DYNAMIC_LINKS_H_

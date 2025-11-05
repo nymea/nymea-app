@@ -1,3 +1,343 @@
+nymea-app (1.10.13) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Android: fix keyboard margins
+
+ -- jenkins <developer@nymea.io>  Tue, 23 Sep 2025 15:15:25 +0200
+
+nymea-app (1.10.12) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add power balance pi chart icon properties
+
+ -- jenkins <developer@nymea.io>  Tue, 22 Jul 2025 09:48:45 +0200
+
+nymea-app (1.10.11) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Use Qt 5.12 as highest Qt version in QML
+
+ -- jenkins <developer@nymea.io>  Mon, 21 Jul 2025 10:40:17 +0200
+
+nymea-app (1.10.8) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add material icons and make icon set exchangable
+
+ -- jenkins <developer@nymea.io>  Mon, 14 Jul 2025 14:24:57 +0200
+
+nymea-app (1.10.2) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Bump build number
+
+ -- jenkins <developer@nymea.io>  Fri, 09 May 2025 12:04:43 +0200
+
+nymea-app (1.10.1) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Rework overlay
+
+ -- jenkins <developer@nymea.io>  Tue, 06 May 2025 15:46:15 +0200
+
+nymea-app (1.9.22) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add device code oauth handling
+
+ -- jenkins <developer@nymea.io>  Sat, 29 Mar 2025 23:11:19 +0100
+
+nymea-app (1.9.21) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Remove deprecated forum link
+
+ -- jenkins <developer@nymea.io>  Thu, 30 Jan 2025 16:54:56 +0100
+
+nymea-app (1.9.20) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Prevent unlocking yourself as admin user
+
+ -- jenkins <developer@nymea.io>  Thu, 30 Jan 2025 10:46:59 +0100
+
+nymea-app (1.9.18) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add additional imprint links
+
+ -- jenkins <developer@nymea.io>  Thu, 16 Jan 2025 14:09:09 +0100
+
+nymea-app (1.9.17) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Bump version
+
+ -- jenkins <developer@nymea.io>  Tue, 14 Jan 2025 11:01:20 +0100
+
+nymea-app (1.9.16) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Bump version to 1.9.16
+
+ -- jenkins <developer@nymea.io>  Tue, 14 Jan 2025 09:48:22 +0100
+
+nymea-app (1.9.15) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add server debug JSON RPC functionality
+
+ -- jenkins <developer@nymea.io>  Fri, 20 Dec 2024 15:30:33 +0100
+
+nymea-app (1.9.14) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Fix multisection tabs font
+
+ -- jenkins <developer@nymea.io>  Tue, 26 Nov 2024 16:36:23 +0100
+
+nymea-app (1.9.13) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Bump version
+
+ -- jenkins <developer@nymea.io>  Tue, 12 Nov 2024 15:05:55 +0100
+
+nymea-app (1.9.12) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Adapt links to online privacy policy through configuration parameter
+
+ -- jenkins <developer@nymea.io>  Fri, 25 Oct 2024 11:33:31 +0200
+
+nymea-app (1.9.11) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Clean up host information propertly once removed from settings
+  * Add wireless capabilities and disable wireless AP setting if not
+    capable
+
+ -- jenkins <developer@nymea.io>  Thu, 24 Oct 2024 16:36:07 +0200
+
+nymea-app (1.9.10) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update nymea-remoteproxy submodule
+
+ -- jenkins <developer@nymea.io>  Tue, 01 Oct 2024 15:41:25 +0200
+
+nymea-app (1.9.9) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add wifi networks filter duplicates option
+
+ -- jenkins <developer@nymea.io>  Mon, 16 Sep 2024 15:29:10 +0200
+
+nymea-app (1.9.8) bionic; urgency=medium
+
+  [ martinlukas84 ]
+  * Introduce overview for states and events of things
+
+ -- jenkins <developer@nymea.io>  Tue, 10 Sep 2024 16:20:28 +0200
+
+nymea-app (1.9.7) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Android: Update to firebase SDK 12.2.0
+
+ -- jenkins <developer@nymea.io>  Mon, 09 Sep 2024 17:07:24 +0200
+
+nymea-app (1.9.6) bionic; urgency=medium
+
+  [ martinlukas84 ]
+  * Update Aboutpage regarding the licence term
+
+ -- jenkins <developer@nymea.io>  Fri, 06 Sep 2024 12:28:31 +0200
+
+nymea-app (1.9.5) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update to gradle 8 and android SDK 34
+
+ -- jenkins <developer@nymea.io>  Thu, 05 Sep 2024 22:43:38 +0200
+
+nymea-app (1.9.3) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update translations
+
+ -- jenkins <developer@nymea.io>  Wed, 04 Sep 2024 21:27:51 +0200
+
+nymea-app (1.9.2) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update tunnel proy configuration and german translation
+
+ -- jenkins <developer@nymea.io>  Thu, 29 Aug 2024 12:15:19 +0200
+
+nymea-app (1.9.1) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update gradl and android firbease SDK and GCM notification handling
+
+ -- jenkins <developer@nymea.io>  Wed, 24 Jul 2024 08:39:47 +0200
+
+nymea-app (1.8.44) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Introduce font scaling mechanism
+
+ -- jenkins <developer@nymea.io>  Thu, 11 Jul 2024 09:11:33 +0200
+
+nymea-app (1.8.43) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update translations and company name
+
+ -- jenkins <developer@nymea.io>  Mon, 17 Jun 2024 12:36:06 +0200
+
+nymea-app (1.8.42) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update translations and fix german typos
+
+ -- jenkins <developer@nymea.io>  Thu, 13 Jun 2024 17:25:38 +0200
+
+nymea-app (1.8.40) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Remove deprecated documentations and links
+
+ -- jenkins <developer@nymea.io>  Tue, 04 Jun 2024 15:50:40 +0200
+
+nymea-app (1.8.38) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add Timer::restart() to script code completion
+  * Some layout fixes in the Sensor page
+
+ -- jenkins <developer@nymea.io>  Tue, 14 May 2024 11:19:09 +0200
+
+nymea-app (1.8.37) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix kiosk systemd target
+
+ -- jenkins <developer@nymea.io>  Mon, 01 Jan 2024 22:39:08 +0100
+
+nymea-app (1.8.36) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix removing window sensors in AC settings
+
+ -- jenkins <developer@nymea.io>  Sun, 31 Dec 2023 13:56:22 +0100
+
+nymea-app (1.8.35) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * New thing status view
+
+ -- jenkins <developer@nymea.io>  Sun, 31 Dec 2023 12:43:49 +0100
+
+nymea-app (1.8.33) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix ordering of live entries in logs
+
+ -- jenkins <developer@nymea.io>  Fri, 29 Dec 2023 14:13:29 +0100
+
+nymea-app (1.8.31) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Only handle things as disconnected when they implement the
+    connectable interface
+  * Add copy to clipboard action to generic state delegates
+  * Improve ScriptEditor zoom keyboard keys
+
+ -- jenkins <developer@nymea.io>  Tue, 28 Nov 2023 09:06:03 +0100
+
+nymea-app (1.8.30) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix bool charts after inverting them
+
+ -- jenkins <developer@nymea.io>  Fri, 20 Oct 2023 23:33:55 +0200
+
+nymea-app (1.8.29) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Invert state chart painting
+
+ -- jenkins <developer@nymea.io>  Tue, 17 Oct 2023 23:02:40 +0200
+
+nymea-app (1.8.28) bionic; urgency=medium
+
+  [ Daniel Frost ]
+  * fix typo dden to den
+
+ -- jenkins <developer@nymea.io>  Sat, 14 Oct 2023 22:01:18 +0200
+
+nymea-app (1.8.27) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow editing rule exitActions
+
+ -- jenkins <developer@nymea.io>  Sat, 14 Oct 2023 20:42:58 +0200
+
+nymea-app (1.8.26) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix sensor list page delegate updating
+  * Fix Button event view
+
+ -- jenkins <developer@nymea.io>  Sat, 14 Oct 2023 13:36:24 +0200
+
+nymea-app (1.8.25) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make dashboard wizard usable on small screens
+  * Update translations and complete german translation
+  * Add dashboard sensor delegate support
+
+ -- jenkins <developer@nymea.io>  Wed, 11 Oct 2023 23:59:08 +0200
+
+nymea-app (1.8.24) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix interface icon for update interface
+
+ -- jenkins <developer@nymea.io>  Wed, 11 Oct 2023 22:46:02 +0200
+
+nymea-app (1.8.23) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Ubuntu touch 20.04
+
+ -- jenkins <developer@nymea.io>  Tue, 03 Oct 2023 12:49:02 +0200
+
+nymea-app (1.8.22) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add dashboard state delegate
+  * Fix some issues with logs
+
+ -- jenkins <developer@nymea.io>  Thu, 21 Sep 2023 09:55:21 +0200
+
+nymea-app (1.8.21) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add czech translation
+  * Remove debug print leftover
+
+ -- jenkins <developer@nymea.io>  Thu, 07 Sep 2023 15:42:57 +0200
+
+nymea-app (1.8.20) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a confirmation dialog when removing hosts
+
+ -- jenkins <developer@nymea.io>  Fri, 01 Sep 2023 12:37:02 +0200
+
 nymea-app (1.8.19) bionic; urgency=medium
 
   [ Michael Zanetti ]

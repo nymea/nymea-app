@@ -55,7 +55,7 @@ Item {
         Item { Layout.fillWidth: true; Layout.fillHeight: true }
 
         ProgressButton {
-            imageSource: root.invert ? "../images/down.svg" : "../images/up.svg"
+            imageSource: root.invert ? "qrc:/icons/down.svg" : "qrc:/icons/up.svg"
             backgroundColor: root.backgroundEnabled ? Style.green : "transparent"
             color:  root.backgroundEnabled ? Style.white : Style.iconColor
             size: root.size
@@ -80,7 +80,7 @@ Item {
             backgroundColor: root.backgroundEnabled ? Style.yellow : "transparent"
             color:  root.backgroundEnabled ? Style.white : Style.iconColor
             size: root.size
-            imageSource: "../images/media-playback-stop.svg"
+            imageSource: "qrc:/icons/media-playback-stop.svg"
             onClicked: {
                 engine.thingManager.executeAction(root.thing.id, root.thing.thingClass.actionTypes.findByName("stop").id)
                 root.activated("stop")
@@ -92,7 +92,7 @@ Item {
         Item { Layout.fillWidth: true; Layout.fillHeight: true }
 
         ProgressButton {
-            imageSource: root.invert ? "../images/up.svg" : "../images/down.svg"
+            imageSource: root.invert ? "qrc:/icons/up.svg" : "qrc:/icons/down.svg"
             backgroundColor: root.backgroundEnabled ? Style.red : "transparent"
             color:  root.backgroundEnabled ? Style.white : Style.iconColor
             size: root.size

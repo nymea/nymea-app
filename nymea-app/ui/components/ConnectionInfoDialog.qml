@@ -28,7 +28,7 @@ Dialog {
             ColorIcon {
                 Layout.preferredHeight: Style.iconSize * 2
                 Layout.preferredWidth: height
-                name: "../images/info.svg"
+                name: "qrc:/icons/info.svg"
                 color: Style.accentColor
             }
 
@@ -101,21 +101,21 @@ Dialog {
                             case Connection.BearerTypeLan:
                             case Connection.BearerTypeWan:
                                 if (nymeaEngine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                                    return "../images/connections/network-wired.svg"
+                                    return "qrc:/icons/connections/network-wired.svg"
                                 }
-                                return "../images/connections/network-wifi.svg";
+                                return "qrc:/icons/connections/network-wifi.svg";
                             case Connection.BearerTypeBluetooth:
-                                return "../images/connections/bluetooth.svg";
+                                return "qrc:/icons/connections/bluetooth.svg";
                             case Connection.BearerTypeCloud:
-                                return "../images/connections/cloud.svg"
+                                return "qrc:/icons/connections/cloud.svg"
                             case Connection.BearerTypeLoopback:
-                                return "../images/connections/network-wired.svg"
+                                return "qrc:/icons/connections/network-wired.svg"
                             }
                             return ""
                         }
 
-                        tertiaryIconName: model.secure ? "../images/connections/network-secure.svg" : ""
-                        secondaryIconName: !model.online ? "../images/connections/cloud-error.svg" : ""
+                        tertiaryIconName: model.secure ? "qrc:/icons/connections/network-secure.svg" : ""
+                        secondaryIconName: !model.online ? "qrc:/icons/connections/cloud-error.svg" : ""
                         secondaryIconColor: "red"
                         canDelete: root.nymeaEngine.jsonRpcClient.currentConnection !== nymeaHost.connections.get(index)
                         onDeleteClicked: {

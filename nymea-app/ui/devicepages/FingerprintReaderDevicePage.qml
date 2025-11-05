@@ -77,7 +77,7 @@ ThingPageBase {
 
             delegate: NymeaSwipeDelegate {
                 width: parent.width
-                iconName: accessGranted ? "../images/tick.svg" : "../images/dialog-error-symbolic.svg"
+                iconName: accessGranted ? "qrc:/icons/tick.svg" : "qrc:/icons/dialog-error-symbolic.svg"
                 iconColor: accessGranted ? "green" : "red"
                 text: accessGranted ? qsTr("Access granted for user %1").arg(model.value) : qsTr("Access denied")
                 subText: Qt.formatDateTime(model.timestamp)
@@ -102,7 +102,7 @@ ThingPageBase {
                 onBackPressed: pageStack.pop()
 
                 HeaderButton {
-                    imageSource: "../images/contact-new.svg"
+                    imageSource: "qrc:/icons/contact-new.svg"
                     onClicked: pageStack.push(addUserComponent)
                 }
             }
@@ -128,7 +128,7 @@ ThingPageBase {
                         text: modelData
                         width: parent.width
                         progressive: false
-                        iconName: "../images/account.svg"
+                        iconName: "qrc:/icons/account.svg"
                         canDelete: true
                         onClicked: {
                             pageStack.push(addUserComponent, {user: modelData})
@@ -155,7 +155,7 @@ ThingPageBase {
                             Layout.preferredHeight: width
                             Layout.alignment: Qt.AlignHCenter
                             ColorIcon {
-                                name: "../images/fingerprint.svg"
+                                name: "qrc:/icons/fingerprint.svg"
                                 anchors.centerIn: parent
                                 height: Math.min(parent.width, parent.height)
                                 width: height
@@ -285,7 +285,7 @@ ThingPageBase {
                                 Layout.alignment: Qt.AlignCenter
 
                                 ColorIcon {
-                                    name: "../images/fingerprint.svg"
+                                    name: "qrc:/icons/fingerprint.svg"
                                     height: Math.min(parent.width, parent.height)
                                     width: height
                                     anchors.centerIn: parent

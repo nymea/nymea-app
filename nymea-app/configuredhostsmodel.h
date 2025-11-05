@@ -12,7 +12,7 @@ class ConfiguredHost: public QObject
     Q_OBJECT
     Q_PROPERTY(QUuid uuid READ uuid WRITE setUuid NOTIFY uuidChanged)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(Engine* engine READ engine CONSTANT)
+    Q_PROPERTY(Engine *engine READ engine CONSTANT)
 
 public:
     ConfiguredHost(const QUuid &uuid = QUuid(), QObject *parent = nullptr);
@@ -57,8 +57,8 @@ public:
     void setCurrentIndex(int currentIndex);
 
     Q_INVOKABLE int indexOf(ConfiguredHost *host) const;
-    Q_INVOKABLE ConfiguredHost* get(int index) const;
-    Q_INVOKABLE ConfiguredHost* createHost();
+    Q_INVOKABLE ConfiguredHost *get(int index) const;
+    Q_INVOKABLE ConfiguredHost *createHost();
     Q_INVOKABLE void removeHost(int index);
     Q_INVOKABLE void move(int from, int to);
 
@@ -72,7 +72,7 @@ private:
     void saveToDisk();
 
 private:
-    QList<ConfiguredHost*> m_list;
+    QList<ConfiguredHost *> m_list;
     int m_currentIndex = 0;
 };
 
@@ -85,13 +85,13 @@ class ConfiguredHostsProxyModel: public QSortFilterProxyModel
 public:
     ConfiguredHostsProxyModel(QObject *parent = nullptr);
 
-    ConfiguredHostsModel* model() const;
+    ConfiguredHostsModel *model() const;
     void setModel(ConfiguredHostsModel *model);
 
     QUuid currentHost() const;
     void setCurrentHost(const QUuid &currentHost);
 
-    Q_INVOKABLE ConfiguredHost* get(int index) const;
+    Q_INVOKABLE ConfiguredHost *get(int index) const;
 
 signals:
     void modelChanged();

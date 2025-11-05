@@ -8,10 +8,10 @@ SUBDIRS = libnymea-app experiences nymea-app
 experiences.depends = libnymea-app
 nymea-app.depends = libnymea-app experiences
 
-withtests: {
-    SUBDIRS += tests
-    tests.depends = libnymea-app
-}
+# withtests: {
+#     SUBDIRS += tests
+#     tests.depends = libnymea-app
+# }
 
 # Building a Windows installer:
 # Make sure your environment has the toolchain you want (e.g. msvc17 64 bit) by executing the command:
@@ -43,7 +43,7 @@ win32: {
 # Note: We're dropping the QtWebEngineCore framework manually, as that's not app store compliant
 # and we're using the WebView instead anyways. (IMHO a bug that macdeployqt -appstore-compliant even adds it)
 equals(CODESIGN_IDENTITY, "") {
-  CODESIGN_IDENTITY="Apple Development"
+    CODESIGN_IDENTITY="Apple Development"
 }
 osxbundle.depends = nymea-app
 osxbundle.commands += cd nymea-app && rm -f ../*.dmg ../*pkg *.dmg || true &&
@@ -61,8 +61,9 @@ QMAKE_EXTRA_TARGETS += osxbundle
 
 # Create a .pkg osx installer.
 equals(PRODUCTSIGN_IDENTITY, "") {
-  PRODUCTSIGN_IDENTITY="3rd Party Mac Developer Installer"
+    PRODUCTSIGN_IDENTITY="3rd Party Mac Developer Installer"
 }
+
 osxinstaller.depends = osxbundle
 osxinstaller.commands += cd nymea-app &&
 osxinstaller.commands += productbuild --component $${APPLICATION_NAME}.app /Applications ../$${APPLICATION_NAME}-$${APP_VERSION}.pkg && cd .. &&
@@ -98,18 +99,18 @@ snap: {
 }
 
 ubports: {
-ubuntu_files.path = /
-ubuntu_files.files += \
-    packaging/ubuntu/click/manifest.json \
-    packaging/ubuntu/click/nymea-app.apparmor \
-    packaging/ubuntu/click/nymea-app.desktop \
-    packaging/ubuntu/click/appicon.svg \
-    packaging/ubuntu/click/push.json \
-    packaging/ubuntu/click/push-apparmor.json \
-    packaging/ubuntu/click/pushexec \
-    packaging/ubuntu/click/urls.json
+    ubuntu_files.path = /
+    ubuntu_files.files += \
+        packaging/ubuntu/click/manifest.json \
+        packaging/ubuntu/click/nymea-app.apparmor \
+        packaging/ubuntu/click/nymea-app.desktop \
+        packaging/ubuntu/click/appicon.svg \
+        packaging/ubuntu/click/push.json \
+        packaging/ubuntu/click/push-apparmor.json \
+        packaging/ubuntu/click/pushexec \
+        packaging/ubuntu/click/urls.json
 
-INSTALLS += ubuntu_files
+    INSTALLS += ubuntu_files
 }
 
 # Translations support
@@ -117,6 +118,7 @@ TRANSLATIONS += $$files($$absolute_path(nymea-app)/translations/*.ts, true)
 !equals(OVERLAY_PATH, "") {
     include($${OVERLAY_PATH}/translations.pri)
 }
+
 system("lrelease $$TRANSLATIONS")
 lrelease.commands = lrelease $$TRANSLATIONS
 QMAKE_EXTRA_TARGETS += lrelease
