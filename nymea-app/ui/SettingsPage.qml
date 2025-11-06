@@ -143,6 +143,17 @@ Page {
                 onClicked:pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
             }
 
+
+            SettingsTile {
+                Layout.fillWidth: true
+                iconSource: "qrc:/icons/dashboard.svg"
+                text: qsTr("EV Dash")
+                subText: qsTr("Dashboard settings")
+                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) &&
+                         (engine.jsonRpcClient.experiences.hasOwnProperty("EvDash"))
+                onClicked:pageStack.push(Qt.resolvedUrl("system/EvDashSettingsPage.qml"))
+            }
+
             SettingsTile {
                 Layout.fillWidth: true
                 iconSource: "qrc:/icons/sdk.svg"

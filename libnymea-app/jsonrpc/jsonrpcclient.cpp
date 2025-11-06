@@ -668,7 +668,10 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     QString name = params.value("name").toString();
     m_experiences.clear();
     foreach (const QVariant &experience, params.value("experiences").toList()) {
-        m_experiences.insert(experience.toMap().value("name").toString(), experience.toMap().value("version").toString());
+        QString experienceName = experience.toMap().value("name").toString();
+        QString experienceVersion = experience.toMap().value("version").toString();
+        m_experiences.insert(experienceName, experienceVersion);
+        qCInfo(dcJsonRpc()) << "Experience available:" << experienceName << experienceVersion;
     }
 
     QString protoVersionString = params.value("protocol version").toString();
