@@ -120,8 +120,8 @@ SettingsPageBase {
                 progressive: false
                 prominentSubText: false
                 canDelete: true
-                iconName: "../images/connections/cloud.svg"
-                secondaryIconName: !model.online ? "../images/connections/cloud-error.svg" : ""
+                iconName: "/icons/connections/cloud.svg"
+                secondaryIconName: !model.online ? "/icons/connections/cloud-error.svg" : ""
 
                 onClicked: {
                     print("clicked, connected:", engine.jsonRpcClient.connected, model.id)
@@ -491,7 +491,7 @@ SettingsPageBase {
                         return;
                     }
                     var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
-                    var popup = dialog.createObject(app, {headerIcon: "../images/tick.svg", title: qsTr("Yay!"), text: qsTr("Your password has been reset.")})
+                    var popup = dialog.createObject(app, {headerIcon: "/icons/tick.svg", title: qsTr("Yay!"), text: qsTr("Your password has been reset.")})
                     popup.accepted.connect(function() {
                         pageStack.pop(root);
                     })
@@ -560,7 +560,7 @@ SettingsPageBase {
             id: logoutDialog
             title: qsTr("Goodbye")
             text: qsTr("Sorry to see you go. If you log out you won't be able to connect to %1 systems remotely any more. However, you can come back any time, we'll keep your user account. If you whish to completely delete your account and all the data associated with it, check the box below before hitting ok. If you decide to delete your account, all your personal information will be removed from %1:cloud and cannot be restored.").arg(Configuration.systemName)
-            headerIcon: "../images/dialog-warning-symbolic.svg"
+            headerIcon: "/icons/dialog-warning-symbolic.svg"
             standardButtons: Dialog.Cancel | Dialog.Ok
 
             RowLayout {

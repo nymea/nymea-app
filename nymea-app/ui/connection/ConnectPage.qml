@@ -44,7 +44,7 @@ Page {
             anchors.fill: parent
 
             HeaderButton {
-                imageSource: "../images/navigation-menu.svg"
+                imageSource: "/icons/navigation-menu.svg"
                 onClicked: app.mainMenu.open()
             }
 
@@ -157,13 +157,13 @@ Page {
                     case Connection.BearerTypeLan:
                     case Connection.BearerTypeWan:
                         if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                            return "../images/connections/network-wired.svg"
+                            return "/icons/connections/network-wired.svg"
                         }
-                        return "../images/connections/network-wifi.svg";
+                        return "/icons/connections/network-wifi.svg";
                     case Connection.BearerTypeBluetooth:
-                        return "../images/connections/bluetooth.svg";
+                        return "/icons/connections/bluetooth.svg";
                     case Connection.BearerTypeCloud:
-                        return "../images/connections/cloud.svg"
+                        return "/icons/connections/cloud.svg"
                     case Connection.BearerTypeLoopback:
                         return "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
                     }
@@ -177,8 +177,8 @@ Page {
                 progressive: false
                 property bool isSecure: nymeaHost.connections.get(defaultConnectionIndex).secure
                 property bool isOnline: nymeaHost.connections.get(defaultConnectionIndex).bearerType !== Connection.BearerTypeWan ? nymeaHost.connections.get(defaultConnectionIndex).online : true
-                tertiaryIconName: isSecure ? "../images/connections/network-secure.svg" : ""
-                secondaryIconName: !isOnline ? "../images/connections/cloud-error.svg" : ""
+                tertiaryIconName: isSecure ? "/icons/connections/network-secure.svg" : ""
+                secondaryIconName: !isOnline ? "/icons/connections/cloud-error.svg" : ""
                 secondaryIconColor: "red"
 
                 onClicked: {
@@ -188,7 +188,7 @@ Page {
                 contextOptions: [
                     {
                         text: qsTr("Info"),
-                        icon: Qt.resolvedUrl("../images/info.svg"),
+                        icon: Qt.resolvedUrl("/icons/info.svg"),
                         callback: function() {
                             var nymeaHost = hostsProxy.get(index);
                             var popup = infoDialog.createObject(app,{nymeaHost: nymeaHost})
@@ -294,7 +294,7 @@ Page {
                     ColorIcon {
                         Layout.preferredHeight: Style.iconSize * 2
                         Layout.preferredWidth: height
-                        name: "../images/info.svg"
+                        name: "/icons/info.svg"
                         color: Style.accentColor
                     }
 
@@ -379,21 +379,21 @@ Page {
                                     case Connection.BearerTypeLan:
                                     case Connection.BearerTypeWan:
                                         if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                                            return "../images/connections/network-wired.svg"
+                                            return "/icons/connections/network-wired.svg"
                                         }
-                                        return "../images/connections/network-wifi.svg";
+                                        return "/icons/connections/network-wifi.svg";
                                     case Connection.BearerTypeBluetooth:
-                                        return "../images/connections/bluetooth.svg";
+                                        return "/icons/connections/bluetooth.svg";
                                     case Connection.BearerTypeCloud:
-                                        return "../images/connections/cloud.svg"
+                                        return "/icons/connections/cloud.svg"
                                     case Connection.BearerTypeLoopback:
-                                        return "../images/connections/network-wired.svg"
+                                        return "/icons/connections/network-wired.svg"
                                     }
                                     return ""
                                 }
 
-                                tertiaryIconName: model.secure ? "../images/connections/network-secure.svg" : ""
-                                secondaryIconName: !model.online ? "../images/connections/cloud-error.svg" : ""
+                                tertiaryIconName: model.secure ? "/icons/connections/network-secure.svg" : ""
+                                secondaryIconName: !model.online ? "/icons/connections/cloud-error.svg" : ""
                                 secondaryIconColor: "red"
 
                                 onClicked: {

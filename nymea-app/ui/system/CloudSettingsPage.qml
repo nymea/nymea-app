@@ -95,10 +95,10 @@ SettingsPageBase {
             Layout.preferredHeight: busyIndicator.height
             Layout.preferredWidth: height
             name: engine.jsonRpcClient.cloudConnectionState === JsonRpcClient.CloudConnectionStateConnected
-                  ? "../images/connections/cloud.svg"
+                  ? "/icons/connections/cloud.svg"
                   : engine.jsonRpcClient.cloudConnectionState === JsonRpcClient.CloudConnectionStateUnconfigured
-                    ? "../images/connections/cloud-error.svg"
-                    : "../images/connections/cloud-offline.svg"
+                    ? "/icons/connections/cloud-error.svg"
+                    : "/icons/connections/cloud-offline.svg"
         }
 
         Label {
