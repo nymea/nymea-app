@@ -315,8 +315,6 @@
         <file>ui/devicepages/NotificationsThingPage.qml</file>
         <file>ui/devicepages/ActionLogPage.qml</file>
         <file>ui/devicepages/EventLogPage.qml</file>
-        <file>../LICENSE.APACHE2</file>
-        <file>../LICENSE.UFL</file>
         <file>ui/mainviews/dashboard/DashboardStateDelegate.qml</file>
         <file>ui/mainviews/dashboard/DashboardSensorDelegate.qml</file>
         <file>ui/devicepages/ThingStatusPage.qml</file>
