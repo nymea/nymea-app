@@ -163,7 +163,7 @@ int UserManager::setUserScopes(const QString &username, int scopes, const QList<
     if (m_engine->jsonRpcClient()->ensureServerVersion("8.4")) {
         QVariantList thingIds;
         foreach (const QUuid &thingId, allowedThingIds)
-            thingIds.append(thingId);
+            thingIds.append(thingId.toString());
 
         params.insert("allowedThingIds", thingIds);
     }
