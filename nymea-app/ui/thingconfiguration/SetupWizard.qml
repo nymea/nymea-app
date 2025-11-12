@@ -415,8 +415,14 @@ Page {
                             }
                         }
 
-                        // Manual setup, use default value from thing class
-                        return root.thingClass.paramTypes.get(index).defaultValue
+                        // Show current param value when reconfiguring a thing and default value
+                        // when setting up a new thing.
+                        if (root.thing) {
+                            var param = root.thing.params.getParam(paramType.id);
+                            return param.value
+                        } else {
+                            return root.thingClass.paramTypes.get(index).defaultValue
+                        }
                     }
                 }
             }
