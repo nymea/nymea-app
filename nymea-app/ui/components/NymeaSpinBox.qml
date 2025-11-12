@@ -41,6 +41,8 @@ RowLayout {
     Component.onCompleted: {
         if (root.floatingPoint) {
             root.showValue = NymeaUtils.floatToLocaleString(root.value)
+        } else {
+            root.showValue = root.value
         }
     }
 
@@ -55,7 +57,7 @@ RowLayout {
                 } else {
                     tmp = parseInt(root.value)
                 }
-                if (tmp != NaN){
+                if (!isNaN(tmp)){
                     root.value = Math.max(root.from, tmp - 1)
                     root.showValue = toUserVisibleFloat(root.value)
                     root.valueModified(root.value)
@@ -104,7 +106,7 @@ RowLayout {
                 } else {
                     tmp = parseInt(root.value)
                 }
-                if (tmp != NaN){
+                if (!isNaN(tmp)){
                     root.value = Math.min(root.to, tmp + 1)
                     root.showValue = toUserVisibleFloat(root.value)
                     root.valueModified(root.value)
