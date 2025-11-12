@@ -421,6 +421,27 @@ Page {
                 }
             }
 
+            SecondaryButton {
+                visible: root.thing ? true : false
+                Layout.fillWidth: true
+                Layout.leftMargin: app.margins
+                Layout.rightMargin: app.margins
+                Layout.topMargin: Style.bigMargins
+
+                text: qsTr("Reset values to default")
+                onClicked: {
+                    // Need to force reload of model here since otherwise the code below
+                    // (to set the parameters to their default values) does not work once
+                    // the user made changes to the parameters.
+                    var model = paramRepeater.model
+                    paramRepeater.model = []
+                    paramRepeater.model = model
+                    for (var i = 0; i < paramRepeater.count; i++) {
+                        paramRepeater.itemAt(i).value = paramRepeater.itemAt(i).paramType.defaultValue
+                    }
+                }
+            }
+
             Button {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins

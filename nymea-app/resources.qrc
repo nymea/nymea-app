@@ -318,5 +318,6 @@
         <file>ui/devicepages/EventLogPage.qml</file>
         <file>../LICENSE.APACHE2</file>
         <file>../LICENSE.UFL</file>
+        <file>ui/components/SecondaryButton.qml</file>
     </qresource>
 </RCC>
