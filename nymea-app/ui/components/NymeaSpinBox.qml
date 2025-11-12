@@ -2,6 +2,8 @@ import QtQuick 2.8
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.2
 
+import NymeaApp.Utils 1.0
+
 RowLayout {
     id: root
 
@@ -20,7 +22,7 @@ RowLayout {
     function parseUserInputFloat(text) {
         if (typeof text === "string") {
             if (text.includes(",")) {
-                text = text.replayce(",", ".")
+                text = text.replace(",", ".")
             }
             return parseFloat(text)
         } else {
@@ -28,24 +30,8 @@ RowLayout {
         }
     }
 
-    function decimals(x) {
-      const maxDigits = 8;
-      var remaining = x;
-      var lastDigit = 0;
-      for (var i = 1; i <= maxDigits; i++) {
-        // Advance to next digit, cut off leading digits
-        remaining = (remaining * 10) % 10
-
-        // Round to account for *.99999 case, modulo 10 to account for 9.999
-        if (Math.round(remaining) % 10 != 0) {
-          lastDigit = i;
-        }
-      }
-      return lastDigit;
-    }
-
     function toUserVisibleFloat(value) {
-        var text = value.toFixed(decimals(value))
+        var text = value.toFixed(NymeaUtils.numDecimals(value))
         if (typeof root.showValue === "string" && root.showValue.includes(",")) {
             text = text.replace(".", ",")
         }
@@ -53,7 +39,9 @@ RowLayout {
     }
 
     Component.onCompleted: {
-        root.showValue = toUserVisibleFloat(root.value)
+        if (root.floatingPoint) {
+            root.showValue = NymeaUtils.floatToLocaleString(root.value)
+        }
     }
 
     ColorIcon {
