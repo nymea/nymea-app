@@ -5,6 +5,15 @@
     android:installLocation="auto">
 
     <!-- %%INSERT_PERMISSIONS -->
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.ACCESS_CHECKIN_PROPERTIES"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <!-- %%INSERT_FEATURES -->
 
     <supports-screens
@@ -106,6 +115,5 @@
         </provider>
 
     </application>
-    <uses-permission android:name="android.permission.ACCESS_CHECKIN_PROPERTIES"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
 </manifest>

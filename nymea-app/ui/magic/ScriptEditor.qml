@@ -174,8 +174,8 @@ Page {
             }
         }
 
-        onFetchScriptReply: {
-            if (id == d.callId && status == ScriptManager.ScriptErrorNoError) {
+        onFetchScriptReply: (id, status, content) => {
+            if (id === d.callId && status === ScriptManager.ScriptErrorNoError) {
                 d.callId = -1;
                 d.oldContent = content;
 

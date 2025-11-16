@@ -85,6 +85,9 @@ PlatformPermissions::PermissionStatus PlatformPermissionsAndroid::checkPermissio
             break;
         }
     }
+    case PlatformPermissions::PermissionNotifications: {
+        break;
+    }
     default:
         qCWarning(dcPlatformPermissions()) << "Requested status of platform permission" << platformPermission << "but is not implemented yet.";
         break;
@@ -125,12 +128,27 @@ void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permissi
         });
         break;
     }
+    case PlatformPermissions::PermissionLocalNetwork: {
+        QFuture permission_request = QtAndroidPrivate::requestPermission("android.permission.POST_NOTIFICATIONS");
+        switch(permission_request.result())
+        {
+        case QtAndroidPrivate::Undetermined:
+            qWarning() << "Permission for posting notifications undetermined!";
+            break;
+        case QtAndroidPrivate::Authorized:
+            qDebug() << "Permission for posting notifications authorized";
+            break;
+        case QtAndroidPrivate::Denied:
+            qWarning() << "Permission for posting notifications denied!";
+            break;
+        }
+
+        break;
+    }
     default:
         qCWarning(dcPlatformPermissions()) << "Requested platform permission" << platformPermission << "but is not implemented yet.";
         break;
     }
-
-
 
     emit s_instance->locationPermissionChanged();
     emit s_instance->backgroundLocationPermissionChanged();

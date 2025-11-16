@@ -123,17 +123,17 @@ QString PlatformHelperAndroid::deviceSerial() const
 
 QString PlatformHelperAndroid::device() const
 {
-    return QJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","device").toString();
+    return QJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity", "device").toString();
 }
 
 QString PlatformHelperAndroid::deviceModel() const
 {
-    return QJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","deviceModel").toString();
+    return QJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity", "deviceModel").toString();
 }
 
 QString PlatformHelperAndroid::deviceManufacturer() const
 {
-    return QJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","deviceManufacturer").toString();
+    return QJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity", "deviceManufacturer").toString();
 }
 
 void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType)
@@ -165,9 +165,6 @@ void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType
 
     // Call the vibrate method
     vibrator.callMethod<void>("vibrate", "(J)V", duration);
-
-
-    //QtAndroid::androidActivity().callMethod<void>("vibrate","(I)V", duration);
 }
 
 //void PlatformHelperAndroid::syncThings()
@@ -282,7 +279,8 @@ int PlatformHelperAndroid::topPadding() const
     // if (QtAndroid::androidSdkVersion() < 35)
     //     return 0;
 
-    return QNativeInterface::QAndroidApplication::context().callMethod<jint>("topPadding") / QApplication::primaryScreen()->devicePixelRatio();
+    //return QNativeInterface::QAndroidApplication::context().callMethod<jint>("topPadding") / QApplication::primaryScreen()->devicePixelRatio();
+    return 0;
 }
 
 int PlatformHelperAndroid::bottomPadding() const
@@ -292,7 +290,8 @@ int PlatformHelperAndroid::bottomPadding() const
     // if (QtAndroid::androidSdkVersion() < 35)
     //     return 0;
 
-    return QNativeInterface::QAndroidApplication::context().callMethod<jint>("bottomPadding") / QApplication::primaryScreen()->devicePixelRatio();
+    // return QNativeInterface::QAndroidApplication::context().callMethod<jint>("bottomPadding") / QApplication::primaryScreen()->devicePixelRatio();
+    return 0;
 }
 
 bool PlatformHelperAndroid::darkModeEnabled() const
