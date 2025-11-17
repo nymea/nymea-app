@@ -33,6 +33,7 @@ import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import Nymea 1.0
+import NymeaApp.Utils 1.0
 import "../components"
 
 ItemDelegate {
@@ -139,6 +140,8 @@ ItemDelegate {
                 switch (root.paramType.type.toLowerCase()) {
                 case "int":
                     return Math.round(root.param.value);
+                case "double":
+                    return NymeaUtils.floatToLocaleString(root.param.value);
                 }
                 return root.param.value;
             }

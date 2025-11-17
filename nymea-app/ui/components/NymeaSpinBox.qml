@@ -2,6 +2,8 @@ import QtQuick 2.8
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.2
 
+import NymeaApp.Utils 1.0
+
 RowLayout {
     id: root
 
@@ -9,12 +11,45 @@ RowLayout {
     property var to
 
     property var value
+    property var showValue
 
     property bool floatingPoint: false
 
     property bool editable: true
 
     signal valueModified(var value)
+
+    function parseUserInputFloat(text) {
+        if (typeof text === "string") {
+            if (text.includes(",")) {
+                text = text.replace(",", ".")
+            }
+            return parseFloat(text)
+        } else {
+            return text
+        }
+    }
+
+    function toUserVisibleFloat(value) {
+        if (!Number.isFinite(value)) {
+            console.warn("Expected a finite number!")
+            return value
+        }
+
+        var text = value.toFixed(NymeaUtils.numDecimals(value))
+        if (typeof root.showValue === "string" && root.showValue.includes(",")) {
+            text = text.replace(".", ",")
+        }
+        return text
+    }
+
+    Component.onCompleted: {
+        if (root.floatingPoint) {
+            root.showValue = NymeaUtils.floatToLocaleString(root.value)
+        } else {
+            root.showValue = root.value
+        }
+    }
 
     ColorIcon {
         name: "remove"
@@ -23,24 +58,30 @@ RowLayout {
             onClicked: {
                 var tmp = NaN
                 if (root.floatingPoint) {
-                    tmp = parseFloat(root.value)
+                    tmp = parseUserInputFloat(root.value)
                 } else {
                     tmp = parseInt(root.value)
                 }
-                if (tmp != NaN){
+                if (!isNaN(tmp)){
                     root.value = Math.max(root.from, tmp - 1)
+                    root.showValue = toUserVisibleFloat(root.value)
                     root.valueModified(root.value)
                 }
             }
         }
     }
     TextField {
-        text: root.value
+        text: root.showValue
         readOnly: !root.editable
         horizontalAlignment: Text.AlignHCenter
         Layout.fillWidth: true
         onTextEdited: {
-            root.value = text
+            root.showValue = text
+            var input = text
+            if (input.includes(",")) {
+                input = input.replace(",", ".")
+            }
+            root.value = input
             root.valueModified(root.value)
         }
 
@@ -66,12 +107,13 @@ RowLayout {
             onClicked: {
                 var tmp = NaN
                 if (root.floatingPoint) {
-                    tmp = parseFloat(root.value)
+                    tmp = parseUserInputFloat(root.value)
                 } else {
                     tmp = parseInt(root.value)
                 }
-                if (tmp != NaN){
+                if (!isNaN(tmp)){
                     root.value = Math.min(root.to, tmp + 1)
+                    root.showValue = toUserVisibleFloat(root.value)
                     root.valueModified(root.value)
                 }
             }
