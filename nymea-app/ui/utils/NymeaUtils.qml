@@ -182,19 +182,23 @@ Item {
     }
 
     function numDecimals(x) {
-      const maxDigits = 8;
-      var remaining = x;
-      var lastDigit = 0;
-      for (var i = 1; i <= maxDigits; i++) {
-        // Advance to next digit, cut off leading digits
-        remaining = (remaining * 10) % 10
-
-        // Round to account for *.99999 case, modulo 10 to account for 9.999
-        if (Math.round(remaining) % 10 != 0) {
-          lastDigit = i;
+        if (!Number.isFinite(x)) {
+            return 0;
         }
-      }
-      return lastDigit;
+
+        const maxDigits = 8;
+        var remaining = x;
+        var lastDigit = 0;
+        for (var i = 1; i <= maxDigits; i++) {
+            // Advance to next digit, cut off leading digits
+            remaining = (remaining * 10) % 10
+
+            // Round to account for *.99999 case, modulo 10 to account for 9.999
+            if (Math.round(remaining) % 10 != 0) {
+                lastDigit = i;
+            }
+        }
+        return lastDigit;
     }
 
     function floatToLocaleString(v) {

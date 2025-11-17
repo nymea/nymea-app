@@ -31,6 +31,11 @@ RowLayout {
     }
 
     function toUserVisibleFloat(value) {
+        if (!Number.isFinite(value)) {
+            console.warn("Expected a finite number!")
+            return value
+        }
+
         var text = value.toFixed(NymeaUtils.numDecimals(value))
         if (typeof root.showValue === "string" && root.showValue.includes(",")) {
             text = text.replace(".", ",")
