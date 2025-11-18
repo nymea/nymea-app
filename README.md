@@ -91,9 +91,8 @@ This would the following minimum files in C:\path\to\my\styles\ :
 
 nymea-app is licensed under the terms of the GNU General Public License,
 version 3 or (at your option) any later version (SPDX identifier:
-GPL-3.0-or-later). Every source and QML file contains the new SPDX +
-copyright header that attributes both nymea GmbH and chargebyte austria
-GmbH <contact@nymea.io>. The complete license text is available in
-`LICENSE.GPL3`, and additional notices for bundled assets and fonts can be
-found in the `LICENSES/` directory.
+GPL-3.0-or-later). The complete GPL text is available in `LICENSE.GPL3`.
 
+libnymea-app is licensed under the GNU Lesser General Public License
+version 3 (SPDX identifier: LGPL-3.0-or-later). The full LGPL v3 text 
+can be found in `LICENSE.LGPL3`.
