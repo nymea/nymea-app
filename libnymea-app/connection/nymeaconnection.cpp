@@ -422,7 +422,7 @@ void NymeaConnection::onAvailableBearerTypesUpdated()
     if (!m_currentTransport) {
         // There's a host but no connection. Try connecting now...
         qCInfo(dcNymeaConnection()) << "There's a host but no connection. Trying to connect now...";
-        connectInternal(m_currentHost);
+        //connectInternal(m_currentHost);
     }
 }
 

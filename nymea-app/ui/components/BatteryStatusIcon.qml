@@ -18,12 +18,12 @@ ColorIcon {
     name: {
         if (!hasBatteryLevel) {
             if (isCritical) {
-                return "qrc:/icons/battery/battery-020.svg"
+                return "battery/battery-020"
             }
-            return "qrc:/icons/battery/battery-100.svg"
+            return "battery/battery-100"
         }
 
         var rounded = Math.round(batteryLevel / 10) * 10
-        return "qrc:/icons/battery/battery-" + NymeaUtils.pad(rounded, 3)
+        return "battery/battery-" + NymeaUtils.pad(rounded, 3)
     }
 }

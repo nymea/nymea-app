@@ -22,8 +22,9 @@ NetworkReachabilityMonitor::NetworkReachabilityMonitor(QObject *parent)
     qCDebug(dcNymeaConnection()) << "Network reachability:" << m_networkInformation->reachability();
     qCDebug(dcNymeaConnection()) << "Network trasport medium changed:" << m_networkInformation->transportMedium();
 
-    QObject::connect(m_networkInformation, &QNetworkInformation::reachabilityChanged, this, [](QNetworkInformation::Reachability reachability){
+    QObject::connect(m_networkInformation, &QNetworkInformation::reachabilityChanged, this, [this](QNetworkInformation::Reachability reachability){
         qCDebug(dcNymeaConnection()) << "Network reachability changed:" << reachability;
+        updateActiveBearers();
     });
 
     QObject::connect(m_networkInformation, &QNetworkInformation::transportMediumChanged, this, [this](QNetworkInformation::TransportMedium type){
@@ -78,7 +79,11 @@ void NetworkReachabilityMonitor::updateActiveBearers()
 // Note: some features are availabe since Qt 6.3.0, but the minimal Qt6 version is 6.6.0,
 //       so we don't want so have an unhanlded gap and let the compiler warn about incompatibility
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    availableBearerTypes.setFlag(qBearerTypeToNymeaBearerType(m_networkInformation->transportMedium()));
+    if (m_networkInformation->reachability() == QNetworkInformation::Reachability::Disconnected) {
+        qCDebug(dcNymeaConnection()) << "No reachable network transport medium available.";
+    } else {
+        availableBearerTypes.setFlag(qBearerTypeToNymeaBearerType(m_networkInformation->transportMedium()));
+    }
 #else
     QList<QNetworkConfiguration> configs = m_networkConfigManager->allConfigurations(QNetworkConfiguration::Active);
     qCDebug(dcNymeaConnection()) << "Network configuations:" << configs.count();
