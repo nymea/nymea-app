@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>ui/images/Built_with_Qt_RGB_logo_vertical.svg</file>
-        <file>ui/images/Built_with_Qt_RGB_logo.svg</file>
         <file>ui/images/nymea-logo.svg</file>
         <file>ui/images/nymea-box-setup.svg</file>
         <file>ui/images/rpi-setup.svg</file>

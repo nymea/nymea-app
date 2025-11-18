@@ -95,7 +95,7 @@ Item {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             font.bold: true
-            text: "Copyright (C) %1 chargebyte GmbH".arg(new Date().getFullYear())
+            text: "Copyright (C) %1 chargebyte austria GmbH".arg(new Date().getFullYear())
         }
 
         Label {
@@ -103,7 +103,7 @@ Item {
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
-            text: qsTr("nymea is a registered trademark of chargebyte GmbH.")
+            text: qsTr("nymea is a registered trademark of chargebyte austria GmbH.")
         }
 
         Label {
@@ -112,7 +112,7 @@ Item {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             font.pixelSize: app.smallFont
-            text: Configuration.closedSource ? qsTr("Licensed under the terms of the nymea commercial license.") : qsTr("Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.")
+            text: qsTr("Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.")
         }
 
         ColumnLayout {
@@ -204,40 +204,6 @@ Item {
                 onClicked: {
                     pageStack.push(licensesPageComponent)
                 }
-            }
-        }
-
-        ThinDivider { }
-
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: app.margins
-            spacing: app.margins
-
-            Image {
-                Layout.preferredHeight: Style.iconSize * 2
-                Layout.preferredWidth: height
-                fillMode: Image.PreserveAspectFit
-                source: "qrc:/ui/images/Built_with_Qt_RGB_logo_vertical.svg"
-                sourceSize.width: Style.iconSize * 2
-                sourceSize.height: Style.iconSize * 2
-            }
-
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.")
-                wrapMode: Text.WordWrap
-            }
-        }
-        NymeaSwipeDelegate {
-            Layout.fillWidth: true
-            iconName: "qrc:/icons/stock_website.svg"
-            text: qsTr("Visit the Qt website")
-            subText: "https://www.qt.io"
-            prominentSubText: false
-            wrapTexts: false
-            onClicked: {
-                Qt.openUrlExternally("https://www.qt.io")
             }
         }
     }
