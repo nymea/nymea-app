@@ -7,19 +7,18 @@ Files: *
 Copyright: 2013 - 2024, nymea GmbH
            2024 - 2025, chargebyte austria GmbH
 License: GPL-3+
- Unless stated otherwise (see the libnymea-app stanza below), the files
- included in this source package are part of nymea-app and distributed
+ This package is free software: you can redistribute it and/or modify it
  under the terms of the GNU General Public License as published by the
- Free Software Foundation, either version 3 of the License, or (at your
- option) any later version.
+ Free Software Foundation, version 3 or (at your option) any later
+ version.
  .
- nymea-app is distributed in the hope that it will be useful, but
+ This software is distributed in the hope that it will be useful, but
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  General Public License for more details.
  .
  On Debian systems, the complete text of the GNU General Public License
- version 3 can be found in `/usr/share/common-licenses/GPL-3`.
+ can be found in `/usr/share/common-licenses/GPL-3`.
 
 Files: libnymea-app/*
 Copyright: 2013 - 2024, nymea GmbH
