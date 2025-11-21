@@ -19,6 +19,11 @@ RowLayout {
 
     signal valueModified(var value)
 
+    QtObject {
+        id: internal
+        property bool reactToValueChanged: true
+    }
+
     function parseUserInputFloat(text) {
         if (typeof text === "string") {
             if (text.includes(",")) {
@@ -51,6 +56,15 @@ RowLayout {
         }
     }
 
+    onValueChanged: {
+        // Value was changed from outside (e.g. when resetting parameter values to
+        // defaults in SetupWizard). showValue needs to be set in this case explicitely
+        // to reflect the change of value.
+        if (internal.reactToValueChanged && status === Component.Ready) {
+            root.showValue = toUserVisibleFloat(root.value)
+        }
+    }
+
     ColorIcon {
         name: "remove"
         MouseArea {
@@ -63,9 +77,11 @@ RowLayout {
                     tmp = parseInt(root.value)
                 }
                 if (!isNaN(tmp)){
+                    internal.reactToValueChanged = false
                     root.value = Math.max(root.from, tmp - 1)
                     root.showValue = toUserVisibleFloat(root.value)
                     root.valueModified(root.value)
+                    internal.reactToValueChanged = true
                 }
             }
         }
@@ -76,6 +92,7 @@ RowLayout {
         horizontalAlignment: Text.AlignHCenter
         Layout.fillWidth: true
         onTextEdited: {
+            internal.reactToValueChanged = false
             root.showValue = text
             var input = text
             if (input.includes(",")) {
@@ -83,6 +100,7 @@ RowLayout {
             }
             root.value = input
             root.valueModified(root.value)
+            internal.reactToValueChanged = true
         }
 
         validator: root.floatingPoint ? doubleValidator : intValidator
@@ -112,9 +130,11 @@ RowLayout {
                     tmp = parseInt(root.value)
                 }
                 if (!isNaN(tmp)){
+                    internal.reactToValueChanged = false
                     root.value = Math.min(root.to, tmp + 1)
                     root.showValue = toUserVisibleFloat(root.value)
                     root.valueModified(root.value)
+                    internal.reactToValueChanged = true
                 }
             }
         }
