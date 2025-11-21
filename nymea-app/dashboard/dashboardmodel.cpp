@@ -36,7 +36,7 @@ DashboardModel::DashboardModel(QObject *parent) : QAbstractListModel(parent)
 int DashboardModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant DashboardModel::data(const QModelIndex &index, int role) const
@@ -64,7 +64,7 @@ QHash<int, QByteArray> DashboardModel::roleNames() const
 
 DashboardItem *DashboardModel::get(int index) const
 {
-    if (index < 0 || index >= m_list.count()) {
+    if (index < 0 || index >= m_list.size()) {
         return nullptr;
     }
     return m_list.at(index);
@@ -246,17 +246,17 @@ QByteArray DashboardModel::toJson() const
 
 void DashboardModel::addItem(DashboardItem *item, int index)
 {
-    if (index < 0 || index > m_list.count()) {
-        index = m_list.count();
+    if (index < 0 || index > m_list.size()) {
+        index = static_cast<int>(m_list.size());
     }
     connect(item, &DashboardItem::rowSpanChanged, this, [this, item](){
-        int idx = m_list.indexOf(item);
+        int idx = static_cast<int>(static_cast<int>(m_list.indexOf(item)));
         if (idx >= 0) {
             emit dataChanged(this->index(idx), this->index(idx), {RoleRowSpan});
         }
     });
     connect(item, &DashboardItem::columnSpanChanged, this, [this, item](){
-        int idx = m_list.indexOf(item);
+        int idx = static_cast<int>(static_cast<int>(m_list.indexOf(item)));
         if (idx >= 0) {
             emit dataChanged(this->index(idx), this->index(idx), {RoleColumnSpan});
         }

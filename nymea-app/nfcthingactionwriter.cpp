@@ -103,7 +103,7 @@ RuleActions *NfcThingActionWriter::actions() const
 
 int NfcThingActionWriter::messageSize() const
 {
-    return m_currentMessage.toByteArray().size();
+    return static_cast<int>(m_currentMessage.toByteArray().size());
 }
 
 NfcThingActionWriter::TagStatus NfcThingActionWriter::status() const
@@ -212,4 +212,3 @@ void NfcThingActionWriter::targetLost(QNearFieldTarget *target)
     m_status = TagStatusWaiting;
     emit statusChanged();
 }
-

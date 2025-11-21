@@ -44,7 +44,7 @@ void Rules::clear()
 int Rules::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant Rules::data(const QModelIndex &index, int role) const
@@ -78,7 +78,7 @@ QHash<int, QByteArray> Rules::roleNames() const
 void Rules::insert(Rule *rule)
 {
     rule->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(rule);
     connect(rule, &Rule::enabledChanged, this, &Rules::ruleChanged);
     connect(rule, &Rule::activeChanged, this, &Rules::ruleChanged);
@@ -125,7 +125,7 @@ void Rules::ruleChanged()
     if (!rule) {
         return;
     }
-    int idx = m_list.indexOf(rule);
+    int idx = static_cast<int>(m_list.indexOf(rule));
     if (idx < 0) {
         qDebug() << "Rule not found in list. Discarding changed event.";
         return;

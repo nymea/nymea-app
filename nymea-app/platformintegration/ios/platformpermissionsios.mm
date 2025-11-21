@@ -61,7 +61,7 @@ void PlatformPermissionsIOS::requestNotificationPermission()
 {
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
     [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionBadge + UNAuthorizationOptionSound)
-       completionHandler:^(BOOL granted, NSError * _Nullable error) {
+       completionHandler:^(BOOL granted, NSError * _Nullable) {
         m_notificationPermissions = granted ? PermissionStatusGranted : PermissionStatusDenied;
         emit notificationsPermissionChanged();
     }];

@@ -27,6 +27,8 @@
 #include <QUuid>
 #include <QScreen>
 #include <QApplication>
+#include <QTimer>
+#include <QWindow>
 #include <QtWebView>
 
 PlatformHelperIOS::PlatformHelperIOS(QObject *parent) : PlatformHelper(parent)
@@ -34,10 +36,22 @@ PlatformHelperIOS::PlatformHelperIOS(QObject *parent) : PlatformHelper(parent)
     QtWebView::initialize();
 
     QScreen *screen = qApp->primaryScreen();
-    screen->setOrientationUpdateMask(Qt::PortraitOrientation | Qt::LandscapeOrientation | Qt::InvertedPortraitOrientation | Qt::InvertedLandscapeOrientation);
+    //screen->setOrientationUpdateMask(Qt::PortraitOrientation | Qt::LandscapeOrientation | Qt::InvertedPortraitOrientation | Qt::InvertedLandscapeOrientation);
     QObject::connect(screen, &QScreen::orientationChanged, qApp, [this](Qt::ScreenOrientation) {
-        setBottomPanelColor(bottomPanelColor());
+        applyPanelColors();
     });
+    QObject::connect(screen, &QScreen::availableGeometryChanged, qApp, [this](const QRect &) {
+        applyPanelColors();
+    });
+    QObject::connect(qApp, &QGuiApplication::focusWindowChanged, this, [this](QWindow *) {
+        QTimer::singleShot(0, this, &PlatformHelperIOS::applyPanelColors);
+    });
+    QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
+        if (state == Qt::ApplicationActive) {
+            QTimer::singleShot(0, this, &PlatformHelperIOS::applyPanelColors);
+        }
+    });
+    QTimer::singleShot(0, this, &PlatformHelperIOS::applyPanelColors);
 }
 
 void PlatformHelperIOS::hideSplashScreen()
@@ -115,3 +129,9 @@ void PlatformHelperIOS::setBottomPanelColor(const QColor &color)
 
 }
 
+void PlatformHelperIOS::applyPanelColors()
+{
+    setTopPanelColor(topPanelColor());
+    setBottomPanelColor(bottomPanelColor());
+    updateSafeAreaPadding();
+}

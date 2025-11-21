@@ -33,7 +33,7 @@ Packages::Packages(QObject *parent) : QAbstractListModel(parent)
 int Packages::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant Packages::data(const QModelIndex &index, int role) const
@@ -76,30 +76,30 @@ QHash<int, QByteArray> Packages::roleNames() const
 void Packages::addPackage(Package *package)
 {
     package->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(package);
     connect(package, &Package::summaryChanged, this, [this, package](){
-        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleSummary});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(package))), index(static_cast<int>(m_list.indexOf(package))), {RoleSummary});
         emit countChanged();
     });
     connect(package, &Package::installedVersionChanged, this, [this, package](){
-        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleInstalledVersion});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(package))), index(static_cast<int>(m_list.indexOf(package))), {RoleInstalledVersion});
         emit countChanged();
     });
     connect(package, &Package::candidateVersionChanged, this, [this, package](){
-        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleCandidateVersion});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(package))), index(static_cast<int>(m_list.indexOf(package))), {RoleCandidateVersion});
         emit countChanged();
     });
     connect(package, &Package::changelogChanged, this, [this, package](){
-        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleChangelog});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(package))), index(static_cast<int>(m_list.indexOf(package))), {RoleChangelog});
         emit countChanged();
     });
     connect(package, &Package::updateAvailableChanged, this, [this, package](){
-        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleUpdateAvailable});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(package))), index(static_cast<int>(m_list.indexOf(package))), {RoleUpdateAvailable});
         emit countChanged();
     });
     connect(package, &Package::rollbackAvailableChanged, this, [this, package](){
-        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleRollbackAvailable});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(package))), index(static_cast<int>(m_list.indexOf(package))), {RoleRollbackAvailable});
         emit countChanged();
     });
     endInsertRows();

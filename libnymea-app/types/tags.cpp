@@ -39,7 +39,7 @@ Tags::Tags(QObject *parent) : QAbstractListModel(parent)
 int Tags::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant Tags::data(const QModelIndex &index, int role) const
@@ -71,7 +71,7 @@ void Tags::addTag(Tag *tag)
 {
     tag->setParent(this);
     connect(tag, &Tag::valueChanged, this, &Tags::tagValueChanged);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(tag);
     endInsertRows();
     qDebug() << "tags count changed";
@@ -83,7 +83,7 @@ void Tags::addTags(QList<Tag *> tags)
     if (tags.isEmpty()) {
         return;
     }
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + tags.count() - 1);
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()) + static_cast<int>(tags.count()) - 1);
     foreach (Tag *tag, tags) {
         tag->setParent(this);
         connect(tag, &Tag::valueChanged, this, &Tags::tagValueChanged);
@@ -95,7 +95,7 @@ void Tags::addTags(QList<Tag *> tags)
 
 void Tags::removeTag(Tag *tag)
 {
-    int idx = m_list.indexOf(tag);
+    int idx = static_cast<int>(m_list.indexOf(tag));
     if (idx < 0) {
         qWarning() << "Don't know this tag. Can't remove";
         return;
@@ -148,6 +148,6 @@ void Tags::tagValueChanged()
 {
     qCInfo(dcTags) << "Tag value in model changed";
     Tag *tag = static_cast<Tag*>(sender());
-    int idx = m_list.indexOf(tag);
+    int idx = static_cast<int>(m_list.indexOf(tag));
     emit dataChanged(index(idx, 0), index(idx, 0), {RoleValue});
 }

@@ -58,7 +58,7 @@ bool BrowserItems::busy() const
 int BrowserItems::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant BrowserItems::data(const QModelIndex &index, int role) const
@@ -109,7 +109,7 @@ QHash<int, QByteArray> BrowserItems::roleNames() const
 void BrowserItems::addBrowserItem(BrowserItem *browserItem)
 {
     browserItem->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(browserItem);
     endInsertRows();
     emit countChanged();
@@ -117,7 +117,7 @@ void BrowserItems::addBrowserItem(BrowserItem *browserItem)
 
 void BrowserItems::removeItem(BrowserItem *browserItem)
 {
-    int idx = m_list.indexOf(browserItem);
+    int idx = static_cast<int>(m_list.indexOf(browserItem));
     if (idx < 0) {
         return;
     }

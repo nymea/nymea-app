@@ -131,7 +131,7 @@ void TemperatureDaySchedule::clear()
 void TemperatureDaySchedule::addSchedule(TemperatureSchedule *schedule)
 {
     schedule->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(schedule);
     endInsertRows();
     emit countChanged();

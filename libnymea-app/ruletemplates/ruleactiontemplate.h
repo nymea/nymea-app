@@ -73,13 +73,13 @@ class RuleActionTemplates: public QAbstractListModel
     Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
 public:
     RuleActionTemplates(QObject *parent = nullptr): QAbstractListModel(parent) {}
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override { Q_UNUSED(parent); return m_list.count(); }
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override { Q_UNUSED(parent); return static_cast<int>(m_list.count()); }
     QVariant data(const QModelIndex &index, int role) const override { Q_UNUSED(index); Q_UNUSED(role); return QVariant(); }
     QStringList interfaces() const;
 
     void addRuleActionTemplate(RuleActionTemplate* ruleActionTemplate) {
         ruleActionTemplate->setParent(this);
-        beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+        beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
         m_list.append(ruleActionTemplate);
         endInsertRows();
         emit countChanged();

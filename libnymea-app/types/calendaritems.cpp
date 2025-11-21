@@ -33,7 +33,7 @@ CalendarItems::CalendarItems(QObject *parent) : QAbstractListModel(parent)
 int CalendarItems::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant CalendarItems::data(const QModelIndex &index, int role) const
@@ -46,7 +46,7 @@ QVariant CalendarItems::data(const QModelIndex &index, int role) const
 void CalendarItems::addCalendarItem(CalendarItem *calendarItem)
 {
     calendarItem->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(calendarItem);
     endInsertRows();
     emit countChanged();

@@ -321,7 +321,7 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
 int Interfaces::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant Interfaces::data(const QModelIndex &index, int role) const

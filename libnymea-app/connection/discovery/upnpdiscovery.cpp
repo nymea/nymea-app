@@ -181,7 +181,7 @@ void UpnpDiscovery::readData()
 
             const QStringList lines = QString(data).split("\r\n");
             foreach (const QString& line, lines) {
-                int separatorIndex = line.indexOf(':');
+                int separatorIndex = static_cast<int>(line.indexOf(':'));
                 QString key = line.left(separatorIndex).toUpper();
                 QString value = line.mid(separatorIndex+1).trimmed();
 

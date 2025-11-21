@@ -33,7 +33,7 @@ TokenInfos::TokenInfos(QObject *parent) : QAbstractListModel(parent)
 int TokenInfos::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant TokenInfos::data(const QModelIndex &index, int role) const
@@ -64,7 +64,7 @@ QHash<int, QByteArray> TokenInfos::roleNames() const
 void TokenInfos::addToken(TokenInfo *tokenInfo)
 {
     tokenInfo->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(tokenInfo);
     endInsertRows();
     emit countChanged();

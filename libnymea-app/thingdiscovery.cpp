@@ -40,7 +40,7 @@ ThingDiscovery::ThingDiscovery(QObject *parent) :
 int ThingDiscovery::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_foundThings.count();
+    return static_cast<int>(m_foundThings.count());
 }
 
 QVariant ThingDiscovery::data(const QModelIndex &index, int role) const
@@ -179,7 +179,7 @@ void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &pa
     QVariantList descriptors = params.value("thingDescriptors").toList();
     foreach (const QVariant &descriptorVariant, descriptors) {
         if (!contains(descriptorVariant.toMap().value("id").toUuid())) {
-            beginInsertRows(QModelIndex(), m_foundThings.count(), m_foundThings.count());
+            beginInsertRows(QModelIndex(), static_cast<int>(m_foundThings.count()), static_cast<int>(m_foundThings.count()));
             ThingDescriptor *descriptor = new ThingDescriptor(descriptorVariant.toMap().value("id").toUuid(),
                                                               descriptorVariant.toMap().value("thingClassId").toUuid(), // Note: This will only be provided as of nymea 0.28!
                                                    descriptorVariant.toMap().value("thingId").toUuid(),

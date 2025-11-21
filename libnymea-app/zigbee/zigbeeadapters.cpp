@@ -32,7 +32,7 @@ ZigbeeAdapters::ZigbeeAdapters(QObject *parent) : QAbstractListModel(parent)
 int ZigbeeAdapters::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_adapters.count();
+    return static_cast<int>(m_adapters.count());
 }
 
 QVariant ZigbeeAdapters::data(const QModelIndex &index, int role) const
@@ -70,36 +70,36 @@ void ZigbeeAdapters::addAdapter(ZigbeeAdapter *adapter)
 {
     adapter->setParent(this);
 
-    beginInsertRows(QModelIndex(), m_adapters.count(), m_adapters.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_adapters.count()), static_cast<int>(m_adapters.count()));
     m_adapters.append(adapter);
 
     connect(adapter, &ZigbeeAdapter::nameChanged, this, [this, adapter]() {
-        QModelIndex idx = index(m_adapters.indexOf(adapter), 0);
+        QModelIndex idx = index(static_cast<int>(m_adapters.indexOf(adapter)), 0);
         emit dataChanged(idx, idx, {RoleName});
     });
 
     connect(adapter, &ZigbeeAdapter::descriptionChanged, this, [this, adapter]() {
-        QModelIndex idx = index(m_adapters.indexOf(adapter), 0);
+        QModelIndex idx = index(static_cast<int>(m_adapters.indexOf(adapter)), 0);
         emit dataChanged(idx, idx, {RoleDescription});
     });
 
     connect(adapter, &ZigbeeAdapter::serialPortChanged, this, [this, adapter]() {
-        QModelIndex idx = index(m_adapters.indexOf(adapter), 0);
+        QModelIndex idx = index(static_cast<int>(m_adapters.indexOf(adapter)), 0);
         emit dataChanged(idx, idx, {RoleSerialPort});
     });
 
     connect(adapter, &ZigbeeAdapter::hardwareRecognizedChanged, this, [this, adapter]() {
-        QModelIndex idx = index(m_adapters.indexOf(adapter), 0);
+        QModelIndex idx = index(static_cast<int>(m_adapters.indexOf(adapter)), 0);
         emit dataChanged(idx, idx, {RoleHardwareRecognized});
     });
 
     connect(adapter, &ZigbeeAdapter::backendChanged, this, [this, adapter]() {
-        QModelIndex idx = index(m_adapters.indexOf(adapter), 0);
+        QModelIndex idx = index(static_cast<int>(m_adapters.indexOf(adapter)), 0);
         emit dataChanged(idx, idx, {RoleBackend});
     });
 
     connect(adapter, &ZigbeeAdapter::baudRateChanged, this, [this, adapter]() {
-        QModelIndex idx = index(m_adapters.indexOf(adapter), 0);
+        QModelIndex idx = index(static_cast<int>(m_adapters.indexOf(adapter)), 0);
         emit dataChanged(idx, idx, {RoleBaudRate});
     });
 

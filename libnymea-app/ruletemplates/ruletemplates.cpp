@@ -187,7 +187,7 @@ RuleTemplates::RuleTemplates(QObject *parent) : QAbstractListModel(parent)
 int RuleTemplates::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant RuleTemplates::data(const QModelIndex &index, int role) const

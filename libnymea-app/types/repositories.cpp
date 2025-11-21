@@ -33,7 +33,7 @@ Repositories::Repositories(QObject *parent): QAbstractListModel(parent)
 int Repositories::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant Repositories::data(const QModelIndex &index, int role) const
@@ -79,10 +79,10 @@ Repository *Repositories::getRepository(const QString &id) const
 void Repositories::addRepository(Repository *repository)
 {
     repository->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(repository);
     connect(repository, &Repository::enabledChanged, this, [this, repository](){
-        QModelIndex idx = index(m_list.indexOf(repository));
+        QModelIndex idx = index(static_cast<int>(m_list.indexOf(repository)));
         emit dataChanged(idx, idx, {RoleEnabled});
     });
     endInsertRows();

@@ -35,7 +35,7 @@ NymeaHosts::NymeaHosts(QObject *parent) :
 int NymeaHosts::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_hosts.count();
+    return static_cast<int>(m_hosts.count());
 }
 
 QVariant NymeaHosts::data(const QModelIndex &index, int role) const
@@ -65,16 +65,16 @@ void NymeaHosts::addHost(NymeaHost *host)
     }
     host->setParent(this);
     connect(host, &NymeaHost::nameChanged, this, [=](){
-        int idx = m_hosts.indexOf(host);
+        int idx = static_cast<int>(m_hosts.indexOf(host));
         emit dataChanged(index(idx), index(idx), {NameRole});
     });
     connect(host, &NymeaHost::versionChanged, this, [=](){
-        int idx = m_hosts.indexOf(host);
+        int idx = static_cast<int>(m_hosts.indexOf(host));
         emit dataChanged(index(idx), index(idx), {VersionRole});
     });
     connect(host, &NymeaHost::connectionChanged, this, &NymeaHosts::hostChanged);
 
-    beginInsertRows(QModelIndex(), m_hosts.count(), m_hosts.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_hosts.count()), static_cast<int>(m_hosts.count()));
     m_hosts.append(host);
     endInsertRows();
     emit hostAdded(host);
@@ -83,7 +83,7 @@ void NymeaHosts::addHost(NymeaHost *host)
 
 void NymeaHosts::removeHost(NymeaHost *host)
 {
-    int idx = m_hosts.indexOf(host);
+    int idx = static_cast<int>(m_hosts.indexOf(host));
     if (idx == -1) {
         qWarning() << "Cannot remove NymeaHost" << host << "as its not in the model";
         return;

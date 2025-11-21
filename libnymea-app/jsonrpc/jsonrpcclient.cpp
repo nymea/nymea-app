@@ -549,7 +549,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
     //    qDebug() << "JsonRpcClient: received data:" << qUtf8Printable(data);
     m_receiveBuffer.append(data);
 
-    int splitIndex = m_receiveBuffer.indexOf("}\n{") + 1;
+    int splitIndex = static_cast<int>(m_receiveBuffer.indexOf("}\n{")) + 1;
     if (splitIndex <= 0) {
         splitIndex = m_receiveBuffer.length();
     }

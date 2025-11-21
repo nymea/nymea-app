@@ -54,7 +54,7 @@ void WirelessAccessPoints::setWirelessAccessPoints(QList<WirelessAccessPoint *> 
 int WirelessAccessPoints::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_wirelessAccessPoints.count();
+    return static_cast<int>(m_wirelessAccessPoints.count());
 }
 
 QVariant WirelessAccessPoints::data(const QModelIndex &index, int role) const
@@ -83,7 +83,7 @@ QVariant WirelessAccessPoints::data(const QModelIndex &index, int role) const
 
 int WirelessAccessPoints::count() const
 {
-    return m_wirelessAccessPoints.count();
+    return static_cast<int>(m_wirelessAccessPoints.count());
 }
 
 WirelessAccessPoint *WirelessAccessPoints::getAccessPoint(const QString &ssid) const
@@ -118,18 +118,18 @@ void WirelessAccessPoints::addWirelessAccessPoint(WirelessAccessPoint *accessPoi
 {
     accessPoint->setParent(this);
 
-    beginInsertRows(QModelIndex(), m_wirelessAccessPoints.count(), m_wirelessAccessPoints.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_wirelessAccessPoints.count()), static_cast<int>(m_wirelessAccessPoints.count()));
      qDebug() << "WirelessAccessPoints: access point added" << accessPoint->ssid() << accessPoint->macAddress();
     m_wirelessAccessPoints.append(accessPoint);
     endInsertRows();
 
     connect(accessPoint, &WirelessAccessPoint::signalStrengthChanged, this, [accessPoint, this]() {
-        int idx = m_wirelessAccessPoints.indexOf(accessPoint);
+        int idx = static_cast<int>(m_wirelessAccessPoints.indexOf(accessPoint));
         if (idx < 0) return;
         emit dataChanged(index(idx), index(idx), {WirelessAccesspointRoleSignalStrength});
     });
     connect(accessPoint, &WirelessAccessPoint::hostAddressChanged, this, [accessPoint, this]() {
-        int idx = m_wirelessAccessPoints.indexOf(accessPoint);
+        int idx = static_cast<int>(m_wirelessAccessPoints.indexOf(accessPoint));
         if (idx < 0) return;
         emit dataChanged(index(idx), index(idx), {WirelessAccesspointRoleHostAddress});
     });
@@ -139,7 +139,7 @@ void WirelessAccessPoints::addWirelessAccessPoint(WirelessAccessPoint *accessPoi
 
 void WirelessAccessPoints::removeWirelessAccessPoint(WirelessAccessPoint *accessPoint)
 {
-    int index = m_wirelessAccessPoints.indexOf(accessPoint);
+    int index = static_cast<int>(m_wirelessAccessPoints.indexOf(accessPoint));
     beginRemoveRows(QModelIndex(), index, index);
     qDebug() << "WirelessAccessPoints: access point removed" << accessPoint->ssid() << accessPoint->macAddress();
     m_wirelessAccessPoints.removeAt(index);

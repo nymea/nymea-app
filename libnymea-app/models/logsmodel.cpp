@@ -62,7 +62,7 @@ void LogsModel::setEngine(Engine *engine)
 int LogsModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant LogsModel::data(const QModelIndex &index, int role) const
@@ -247,7 +247,7 @@ LogEntry *LogsModel::findClosest(const QDateTime &dateTime)
         return nullptr;
     }
     int newest = 0;
-    int oldest = m_list.count() - 1;
+    int oldest = static_cast<int>(m_list.count()) - 1;
     LogEntry *entry = nullptr;
     int step = 0;
 
@@ -348,7 +348,7 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
         return;
     }
 
-    beginInsertRows(QModelIndex(), offset, offset + newBlock.count() - 1);
+    beginInsertRows(QModelIndex(), offset, offset + static_cast<int>(newBlock.count()) - 1);
     for (int i = 0; i < newBlock.count(); i++) {
 //        qCDebug(dcLogEngine()) << objectName() << "Inserting: list count" << m_list.count() << "blockSize" << newBlock.count() << "insterting at:" << offset + i;
         LogEntry *entry = newBlock.at(i);

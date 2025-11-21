@@ -65,7 +65,7 @@ ParamType *ParamTypes::findByName(const QString &name) const
 int ParamTypes::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_paramTypes.count();
+    return static_cast<int>(m_paramTypes.count());
 }
 
 QVariant ParamTypes::data(const QModelIndex &index, int role) const
@@ -101,7 +101,7 @@ QVariant ParamTypes::data(const QModelIndex &index, int role) const
 void ParamTypes::addParamType(ParamType *paramType)
 {
     paramType->setParent(this);
-    beginInsertRows(QModelIndex(), m_paramTypes.count(), m_paramTypes.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_paramTypes.count()), static_cast<int>(m_paramTypes.count()));
     //qDebug() << "ParamTypes: loaded paramType" << paramType->name();
     m_paramTypes.append(paramType);
     endInsertRows();

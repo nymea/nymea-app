@@ -33,7 +33,7 @@ MqttPolicies::MqttPolicies(QObject *parent) : QAbstractListModel(parent)
 int MqttPolicies::rowCount(const QModelIndex &index) const
 {
     Q_UNUSED(index)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant MqttPolicies::data(const QModelIndex &index, int role) const
@@ -67,27 +67,27 @@ QHash<int, QByteArray> MqttPolicies::roleNames() const
 void MqttPolicies::addPolicy(MqttPolicy *policy)
 {
     policy->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(policy);
 
     connect(policy, &MqttPolicy::clientIdChanged, this, [this, policy]() {
-        QModelIndex index = this->index(m_list.indexOf(policy));
+        QModelIndex index = this->index(static_cast<int>(m_list.indexOf(policy)));
         emit dataChanged(index, index, {RoleClientId});
     });
     connect(policy, &MqttPolicy::usernameChanged, this, [this, policy]() {
-        QModelIndex index = this->index(m_list.indexOf(policy));
+        QModelIndex index = this->index(static_cast<int>(m_list.indexOf(policy)));
         emit dataChanged(index, index, {RoleUsername});
     });
     connect(policy, &MqttPolicy::passwordChanged, this, [this, policy]() {
-        QModelIndex index = this->index(m_list.indexOf(policy));
+        QModelIndex index = this->index(static_cast<int>(m_list.indexOf(policy)));
         emit dataChanged(index, index, {RolePassword});
     });
     connect(policy, &MqttPolicy::allowedPublishTopicFiltersChanged, this, [this, policy]() {
-        QModelIndex index = this->index(m_list.indexOf(policy));
+        QModelIndex index = this->index(static_cast<int>(m_list.indexOf(policy)));
         emit dataChanged(index, index, {RoleAllowedPublishTopicFilters});
     });
     connect(policy, &MqttPolicy::allowedSubscribeTopicFiltersChanged, this, [this, policy]() {
-        QModelIndex index = this->index(m_list.indexOf(policy));
+        QModelIndex index = this->index(static_cast<int>(m_list.indexOf(policy)));
         emit dataChanged(index, index, {RoleAllowedSubscribeTopicFilters});
     });
 
@@ -97,7 +97,7 @@ void MqttPolicies::addPolicy(MqttPolicy *policy)
 
 void MqttPolicies::removePolicy(MqttPolicy *policy)
 {
-    int idx = m_list.indexOf(policy);
+    int idx = static_cast<int>(m_list.indexOf(policy));
     if (idx < 0) {
         return;
     }

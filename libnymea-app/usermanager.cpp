@@ -295,7 +295,7 @@ Users::Users(QObject *parent): QAbstractListModel(parent)
 int Users::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_users.count();
+    return static_cast<int>(m_users.count());
 }
 
 QVariant Users::data(const QModelIndex &index, int role) const
@@ -327,25 +327,25 @@ void Users::insertUser(UserInfo *userInfo)
 {
     userInfo->setParent(this);
     connect(userInfo, &UserInfo::displayNameChanged, this, [=](){
-        int idx = m_users.indexOf(userInfo);
+        int idx = static_cast<int>(m_users.indexOf(userInfo));
         if (idx >= 0) {
             emit dataChanged(index(idx), index(idx), {RoleDisplayName});
         }
     });
     connect(userInfo, &UserInfo::emailChanged, this, [=](){
-        int idx = m_users.indexOf(userInfo);
+        int idx = static_cast<int>(m_users.indexOf(userInfo));
         if (idx >= 0) {
             emit dataChanged(index(idx), index(idx), {RoleEmail});
         }
     });
     connect(userInfo, &UserInfo::scopesChanged, this, [=](){
-        int idx = m_users.indexOf(userInfo);
+        int idx = static_cast<int>(m_users.indexOf(userInfo));
         if (idx >= 0) {
             emit dataChanged(index(idx), index(idx), {RoleScopes});
         }
     });
 
-    beginInsertRows(QModelIndex(), m_users.count(), m_users.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_users.count()), static_cast<int>(m_users.count()));
     m_users.append(userInfo);
     endInsertRows();
     emit countChanged();

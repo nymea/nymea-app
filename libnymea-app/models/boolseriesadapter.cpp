@@ -133,14 +133,14 @@ quint64 BoolSeriesAdapter::findIndex(qulonglong timestamp)
 
     // In 99.9% of the cases we'll be prepending (adding live entries) or appending (fetching history)
     if (timestamp < m_series->at(m_series->count() - 2).x()) {
-        return m_series->count() - 1;
+        return static_cast<quint64>(m_series->count() - 1);
     }
     if (timestamp > m_series->at(1).x()) {
         return 1;
     }
 
     // If for any reason a entry in the middle is added (can't think of one but hey), a binary search will probably do.
-    int idx = m_series->count() / 2;
+    int idx = static_cast<int>(m_series->count() / 2);
     int range = idx;
     int i = 0;
     while (true) {

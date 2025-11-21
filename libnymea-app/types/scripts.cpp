@@ -34,7 +34,7 @@ Scripts::Scripts(QObject *parent) : QAbstractListModel(parent)
 int Scripts::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant Scripts::data(const QModelIndex &index, int role) const
@@ -69,13 +69,13 @@ void Scripts::clear()
 void Scripts::addScript(Script *script)
 {
     script->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(script);
     endInsertRows();
     emit countChanged();
 
     connect(script, &Script::nameChanged, this, [this, script](){
-        int idx = m_list.indexOf(script);
+        int idx = static_cast<int>(m_list.indexOf(script));
         if (idx < 0) return;
         emit dataChanged(index(idx), index(idx), {RoleName});
     });

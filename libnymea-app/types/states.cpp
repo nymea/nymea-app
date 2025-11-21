@@ -54,7 +54,7 @@ State *States::getState(const QUuid &stateTypeId) const
 int States::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_states.count();
+    return static_cast<int>(m_states.count());
 }
 
 QVariant States::data(const QModelIndex &index, int role) const
@@ -74,11 +74,11 @@ QVariant States::data(const QModelIndex &index, int role) const
 void States::addState(State *state)
 {
     state->setParent(this);
-    beginInsertRows(QModelIndex(), m_states.count(), m_states.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_states.count()), static_cast<int>(m_states.count()));
     //qDebug() << "States: loaded state" << state->stateTypeId();
     m_states.append(state);
     connect(state, &State::valueChanged, this, [state, this]() {
-        int idx = m_states.indexOf(state);
+        int idx = static_cast<int>(m_states.indexOf(state));
         if (idx < 0) return;
         emit dataChanged(index(idx), index(idx), {ValueRole});
     });

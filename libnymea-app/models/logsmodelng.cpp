@@ -66,7 +66,7 @@ void LogsModelNg::setEngine(Engine *engine)
 int LogsModelNg::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant LogsModelNg::data(const QModelIndex &index, int role) const
@@ -252,7 +252,7 @@ LogEntry *LogsModelNg::findClosest(const QDateTime &dateTime) const
         return nullptr;
     }
     int newest = 0;
-    int oldest = m_list.count() - 1;
+    int oldest = static_cast<int>(m_list.count()) - 1;
     LogEntry *entry = nullptr;
     int step = 0;
 
@@ -338,7 +338,7 @@ void LogsModelNg::logsReply(int commandId, const QVariantMap &data)
         return;
     }
 
-    beginInsertRows(QModelIndex(), offset, offset + newBlock.count() - 1);
+    beginInsertRows(QModelIndex(), offset, offset + static_cast<int>(newBlock.count()) - 1);
     QVariant newMin = m_minValue;
     QVariant newMax = m_maxValue;
     for (int i = 0; i < newBlock.count(); i++) {
@@ -579,5 +579,4 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     emit countChanged();
 
 }
-
 

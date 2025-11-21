@@ -258,10 +258,10 @@ void ZoneInfos::addZoneInfo(ZoneInfo *zoneInfo)
 {
     zoneInfo->setParent(this);
     connect(zoneInfo, &ZoneInfo::nameChanged, this, [=](){
-        QModelIndex idx = index(m_list.indexOf(zoneInfo));
+        QModelIndex idx = index(static_cast<int>(m_list.indexOf(zoneInfo)));
         emit dataChanged(idx, idx, {RoleName});
     });
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(zoneInfo);
     endInsertRows();
     emit countChanged();

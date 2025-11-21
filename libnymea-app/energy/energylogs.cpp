@@ -183,7 +183,7 @@ void EnergyLogs::componentComplete()
 int EnergyLogs::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant EnergyLogs::data(const QModelIndex &index, int role) const
@@ -267,7 +267,7 @@ QList<EnergyLogEntry *> EnergyLogs::entries() const
 void EnergyLogs::appendEntry(EnergyLogEntry *entry, double minValue, double maxValue)
 {
     entry->setParent(this);
-    int index = m_list.count();
+    int index = static_cast<int>(m_list.count());
     beginInsertRows(QModelIndex(), index, index);
     m_list.append(entry);
     endInsertRows();
@@ -286,8 +286,8 @@ void EnergyLogs::appendEntry(EnergyLogEntry *entry, double minValue, double maxV
 
 void EnergyLogs::appendEntries(const QList<EnergyLogEntry *> &entries)
 {
-    int index = m_list.count();
-    beginInsertRows(QModelIndex(), index, index + entries.count());
+    int index = static_cast<int>(m_list.count());
+    beginInsertRows(QModelIndex(), index, index + static_cast<int>(entries.count()));
     for (int i = 0; i < entries.count(); i++) {
         EnergyLogEntry* entry = entries.at(i);
         entry->setParent(this);
@@ -316,7 +316,7 @@ void EnergyLogs::getLogsResponse(int commandId, const QVariantMap &params)
     if (!entries.isEmpty()) {
         if (m_list.isEmpty()) {
 //            qCDebug(dcEnergyLogs()) << "Energy logs received" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
-            beginInsertRows(QModelIndex(), 0, entries.count());
+            beginInsertRows(QModelIndex(), 0, static_cast<int>(entries.count()));
             m_list.append(entries);
             endInsertRows();
             emit entriesAdded(0, entries);
@@ -328,7 +328,7 @@ void EnergyLogs::getLogsResponse(int commandId, const QVariantMap &params)
         } else if (entries.first()->timestamp() < m_list.first()->timestamp()) {
 
             if (entries.last()->timestamp().addSecs(m_sampleRate * 60) == m_list.first()->timestamp()) {
-                beginInsertRows(QModelIndex(), 0, entries.count());
+                beginInsertRows(QModelIndex(), 0, static_cast<int>(entries.count()));
                 m_list = entries + m_list;
                 endInsertRows();
                 emit entriesAdded(0, entries);
@@ -348,7 +348,7 @@ void EnergyLogs::getLogsResponse(int commandId, const QVariantMap &params)
                 // If the mismatch is in the visible area, we'll discard everything and fetch again
                 // Else if the mismatch is outside the visible area, we'll just discard the old data and work with what we received
                 if (entries.first()->timestamp() <= m_startTime && entries.last()->timestamp() >= m_endTime) {
-                    beginInsertRows(QModelIndex(), 0, entries.count());
+                    beginInsertRows(QModelIndex(), 0, static_cast<int>(entries.count()));
                     m_list.append(entries);
                     endInsertRows();
                     emit entriesAdded(0, entries);
@@ -363,8 +363,8 @@ void EnergyLogs::getLogsResponse(int commandId, const QVariantMap &params)
             }
 
         } else if (entries.first()->timestamp().addSecs(-m_sampleRate * 60) == m_list.last()->timestamp()) {
-            int index = m_list.count();
-            beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + entries.count());
+            int index = static_cast<int>(m_list.count());
+            beginInsertRows(QModelIndex(), index, index + static_cast<int>(entries.count()));
             m_list.append(entries);
             endInsertRows();
             emit entriesAdded(index, entries);
@@ -379,7 +379,7 @@ void EnergyLogs::getLogsResponse(int commandId, const QVariantMap &params)
         } else {
             // Start of fetched entries does not line up with end of existing entries. Discarding existing entries
             clear();
-            beginInsertRows(QModelIndex(), 0, entries.count());
+            beginInsertRows(QModelIndex(), 0, static_cast<int>(entries.count()));
             m_list.append(entries);
             endInsertRows();
             emit entriesAdded(0, entries);
@@ -420,7 +420,7 @@ void EnergyLogs::notificationReceivedInternal(const QVariantMap &data)
 
 void EnergyLogs::clear()
 {
-    int count = m_list.count();
+    int count = static_cast<int>(m_list.count());
     beginResetModel();
     qDeleteAll(m_list);
     m_list.clear();
@@ -486,4 +486,3 @@ void EnergyLogs::fetchLogs()
     qCDebug(dcEnergyLogs()) << "Fetching energy logs:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
     m_engine->jsonRpcClient()->sendCommand("Energy.Get" + logsName(), params, this, "getLogsResponse");
 }
-

@@ -38,6 +38,8 @@
 #include <QQmlFileSelector>
 #include <QDir>
 #include <QFileInfo>
+#include <QOperatingSystemVersion>
+#include <QWindow>
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QNetworkInformation>
@@ -245,6 +247,17 @@ int main(int argc, char *argv[])
     application.setWindowIcon(QIcon(QString(":/styles/%1/logo.svg").arg(styleController.currentStyle())));
 
     engine->load(QUrl(QLatin1String("qrc:/ui/Nymea.qml")));
+
+#ifdef Q_OS_IOS
+    if (!engine->rootObjects().isEmpty()) {
+        if (QWindow *window = qobject_cast<QWindow*>(engine->rootObjects().constFirst())) {
+            const QRect screenRect = window->screen()->availableGeometry();
+            window->setPosition(screenRect.topLeft());
+            window->resize(screenRect.size());
+            window->showFullScreen();
+        }
+    }
+#endif
 
     return application.exec();
 }

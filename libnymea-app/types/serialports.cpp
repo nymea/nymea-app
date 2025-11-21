@@ -32,7 +32,7 @@ SerialPorts::SerialPorts(QObject *parent) : QAbstractListModel(parent)
 int SerialPorts::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_serialPorts.count();
+    return static_cast<int>(m_serialPorts.count());
 }
 
 QVariant SerialPorts::data(const QModelIndex &index, int role) const
@@ -64,7 +64,7 @@ void SerialPorts::addSerialPort(SerialPort *serialPort)
 {
     serialPort->setParent(this);
 
-    beginInsertRows(QModelIndex(), m_serialPorts.count(), m_serialPorts.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_serialPorts.count()), static_cast<int>(m_serialPorts.count()));
     m_serialPorts.append(serialPort);
     endInsertRows();
 

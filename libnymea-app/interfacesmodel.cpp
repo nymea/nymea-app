@@ -36,7 +36,7 @@ InterfacesModel::InterfacesModel(QObject *parent):
 int InterfacesModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_interfaces.count();
+    return static_cast<int>(m_interfaces.count());
 }
 
 QVariant InterfacesModel::data(const QModelIndex &index, int role) const
@@ -185,13 +185,13 @@ void InterfacesModel::syncInterfaces()
         interfacesToAdd.removeAll(interface);
     }
     foreach (const QString &interface, interfacesToRemove) {
-        int idx = m_interfaces.indexOf(interface);
+        int idx = static_cast<int>(m_interfaces.indexOf(interface));
         beginRemoveRows(QModelIndex(), idx, idx);
         m_interfaces.takeAt(idx);
         endRemoveRows();
     }
     if (!interfacesToAdd.isEmpty()) {
-        beginInsertRows(QModelIndex(), m_interfaces.count(), m_interfaces.count() + interfacesToAdd.count() - 1);
+        beginInsertRows(QModelIndex(), static_cast<int>(m_interfaces.count()), static_cast<int>(m_interfaces.count()) + static_cast<int>(interfacesToAdd.count()) - 1);
         m_interfaces.append(interfacesToAdd);
         endInsertRows();
     }

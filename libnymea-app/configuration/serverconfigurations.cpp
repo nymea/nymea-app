@@ -33,7 +33,7 @@ ServerConfigurations::ServerConfigurations(QObject *parent) : QAbstractListModel
 int ServerConfigurations::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant ServerConfigurations::data(const QModelIndex &index, int role) const
@@ -67,23 +67,23 @@ QHash<int, QByteArray> ServerConfigurations::roleNames() const
 void ServerConfigurations::addConfiguration(ServerConfiguration *configuration)
 {
     configuration->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(configuration);
 
     connect(configuration, &ServerConfiguration::addressChanged, this, [this, configuration]() {
-        QModelIndex idx = index(m_list.indexOf(configuration), 0);
+        QModelIndex idx = index(static_cast<int>(m_list.indexOf(configuration)), 0);
         emit dataChanged(idx, idx, {RoleAddress});
     });
     connect(configuration, &ServerConfiguration::portChanged, this, [this, configuration]() {
-        QModelIndex idx = index(m_list.indexOf(configuration), 0);
+        QModelIndex idx = index(static_cast<int>(m_list.indexOf(configuration)), 0);
         emit dataChanged(idx, idx, {RolePort});
     });
     connect(configuration, &ServerConfiguration::authenticationEnabledChanged, this, [this, configuration]() {
-        QModelIndex idx = index(m_list.indexOf(configuration), 0);
+        QModelIndex idx = index(static_cast<int>(m_list.indexOf(configuration)), 0);
         emit dataChanged(idx, idx, {RoleAuthenticationEnabled});
     });
     connect(configuration, &ServerConfiguration::sslEnabledChanged, this, [this, configuration]() {
-        QModelIndex idx = index(m_list.indexOf(configuration), 0);
+        QModelIndex idx = index(static_cast<int>(m_list.indexOf(configuration)), 0);
         emit dataChanged(idx, idx, {RoleSslEnabled});
     });
 

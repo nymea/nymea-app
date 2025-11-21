@@ -39,7 +39,7 @@ QList<Plugin *> Plugins::plugins()
 
 int Plugins::count() const
 {
-    return m_plugins.count();
+    return static_cast<int>(m_plugins.count());
 }
 
 Plugin *Plugins::get(int index) const
@@ -63,7 +63,7 @@ Plugin *Plugins::getPlugin(const QUuid &pluginId) const
 int Plugins::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_plugins.count();
+    return static_cast<int>(m_plugins.count());
 }
 
 QVariant Plugins::data(const QModelIndex &index, int role) const
@@ -82,7 +82,7 @@ QVariant Plugins::data(const QModelIndex &index, int role) const
 
 void Plugins::addPlugin(Plugin *plugin)
 {
-    beginInsertRows(QModelIndex(), m_plugins.count(), m_plugins.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_plugins.count()), static_cast<int>(m_plugins.count()));
     //qDebug() << "Plugin: loaded plugin" << plugin->name();
     m_plugins.append(plugin);
     endInsertRows();

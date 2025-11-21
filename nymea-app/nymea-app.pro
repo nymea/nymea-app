@@ -165,9 +165,13 @@ ios: {
     OTHER_FILES += $${OBJECTIVE_SOURCES}
 
     LIBS += -framework CoreLocation \
+        -framework CoreBluetooth \
+        -framework CoreNFC
+
 
     # Add Firebase SDK
     QMAKE_LFLAGS += -ObjC $(inherited)
+    DEFINES += FIREBASE_ANALYTICS_SUPPRESS_WARNING
     firebase_files.files += $$files($${IOS_PACKAGE_DIR}/GoogleService-Info.plist)
     QMAKE_BUNDLE_DATA += firebase_files
     INCLUDEPATH += ../3rdParty/ios/
@@ -180,6 +184,13 @@ ios: {
             -framework "FirebaseInstanceID" \
             -framework "FirebaseInstallations" \
             -framework "PromisesObjC" \
+
+
+    LIBS += -L$$top_builddir/libnymea-app -lnymea-app \
+        -L$$top_builddir/experiences/airconditioning -lnymea-app-airconditioning \
+
+    PRE_TARGETDEPS += $$top_builddir/libnymea-app/libnymea-app.a \
+        $$top_builddir/experiences/airconditioning/libnymea-app-airconditioning.a
 
 
     # Configure generated xcode project to have our bundle id
@@ -235,4 +246,3 @@ target.path = /usr/bin
 INSTALLS += target
 
 DISTFILES +=
-

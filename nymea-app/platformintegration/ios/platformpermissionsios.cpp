@@ -68,6 +68,8 @@ PlatformPermissions::PermissionStatus PlatformPermissionsIOS::checkPermission(Pe
 void PlatformPermissionsIOS::requestPermission(Permission permission)
 {
     switch (permission) {
+    case PermissionNone:
+        break;
     case PermissionLocalNetwork:
         requestLocalNetworkPermission();
         break;

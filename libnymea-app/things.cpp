@@ -57,13 +57,13 @@ Thing *Things::getThing(const QUuid &thingId) const
 
 int Things::indexOf(Thing *thing) const
 {
-    return m_things.indexOf(thing);
+    return static_cast<int>(static_cast<int>(m_things.indexOf(thing)));
 }
 
 int Things::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_things.count();
+    return static_cast<int>(m_things.count());
 }
 
 QVariant Things::data(const QModelIndex &index, int role) const
@@ -105,23 +105,25 @@ void Things::addThings(const QList<Thing *> things)
     if (things.isEmpty()) {
         return;
     }
-    beginInsertRows(QModelIndex(), m_things.count(), m_things.count() + things.count() - 1);
+    const int insertStart = static_cast<int>(m_things.count());
+    const int insertEnd = insertStart + static_cast<int>(things.count()) - 1;
+    beginInsertRows(QModelIndex(), insertStart, insertEnd);
     m_things.append(things);
 
     foreach (Thing *thing, things) {
         thing->setParent(this);
         connect(thing, &Thing::nameChanged, this, [thing, this]() {
-            int idx = m_things.indexOf(thing);
+            int idx = static_cast<int>(m_things.indexOf(thing));
             if (idx < 0) return;
             emit dataChanged(index(idx), index(idx), {RoleName});
         });
         connect(thing, &Thing::setupStatusChanged, this, [thing, this]() {
-            int idx = m_things.indexOf(thing);
+            int idx = static_cast<int>(m_things.indexOf(thing));
             if (idx < 0) return;
             emit dataChanged(index(idx), index(idx), {RoleSetupStatus, RoleSetupDisplayMessage});
         });
         connect(thing->states(), &States::dataChanged, this, [thing, this]() {
-            int idx = m_things.indexOf(thing);
+            int idx = static_cast<int>(m_things.indexOf(thing));
             if (idx < 0) return;
             emit dataChanged(index(idx), index(idx));
         });
@@ -134,7 +136,7 @@ void Things::addThings(const QList<Thing *> things)
 
 void Things::removeThing(Thing *thing)
 {
-    int index = m_things.indexOf(thing);
+    int index = static_cast<int>(m_things.indexOf(thing));
     beginRemoveRows(QModelIndex(), index, index);
     qDebug() << "Removed thing" << thing->name();
     m_things.takeAt(index)->deleteLater();

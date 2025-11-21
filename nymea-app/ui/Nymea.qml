@@ -36,8 +36,8 @@ import NymeaApp.Utils
 ApplicationWindow {
     id: app
     visible: true
-    width: 360
-    height: 580
+    width: Qt.platform.os === "ios" ? Screen.width : 360
+    height: Qt.platform.os === "ios" ? Screen.height : 580
     minimumWidth: 350
     minimumHeight: 480
     visibility: kioskMode ? ApplicationWindow.FullScreen : settings.viewMode

@@ -33,7 +33,7 @@ NetworkDevices::NetworkDevices(QObject *parent): QAbstractListModel(parent)
 int NetworkDevices::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant NetworkDevices::data(const QModelIndex &index, int role) const
@@ -70,14 +70,14 @@ QHash<int, QByteArray> NetworkDevices::roleNames() const
 void NetworkDevices::addNetworkDevice(NetworkDevice *networkDevice)
 {
     networkDevice->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(networkDevice);
     connect(networkDevice, &NetworkDevice::bitRateChanged, this, [this, networkDevice](){
-        emit dataChanged(index(m_list.indexOf(networkDevice)), index(m_list.indexOf(networkDevice)), {RoleBitRate});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(networkDevice))), index(static_cast<int>(m_list.indexOf(networkDevice))), {RoleBitRate});
         emit countChanged();
     });
     connect(networkDevice, &NetworkDevice::stateChanged, this, [this, networkDevice](){
-        emit dataChanged(index(m_list.indexOf(networkDevice)), index(m_list.indexOf(networkDevice)), {RoleState});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(networkDevice))), index(static_cast<int>(m_list.indexOf(networkDevice))), {RoleState});
         emit countChanged();
     });
     endInsertRows();
@@ -149,7 +149,7 @@ void WiredNetworkDevices::addWiredNetworkDevice(WiredNetworkDevice *device)
 {
     NetworkDevices::addNetworkDevice(device);
     connect(device, &WiredNetworkDevice::pluggedInChanged, [this, device](){
-        emit dataChanged(index(m_list.indexOf(device)), index(m_list.indexOf(device)), {RolePluggedIn});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(device))), index(static_cast<int>(m_list.indexOf(device))), {RolePluggedIn});
         emit countChanged();
     });
 }

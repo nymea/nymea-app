@@ -47,7 +47,7 @@ NewLogsModel::NewLogsModel(QObject *parent)
 int NewLogsModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant NewLogsModel::data(const QModelIndex &index, int role) const
@@ -279,8 +279,8 @@ NewLogEntry *NewLogsModel::find(const QDateTime &timestamp) const
     if (m_list.isEmpty()) {
         return nullptr;
     }
-    int idx = m_list.count() / 2;
-    int jump = m_list.count() / 4;
+    int idx = static_cast<int>(m_list.count() / 2);
+    int jump = static_cast<int>(m_list.count() / 4);
     int stopper = 10;
     while (stopper-- > 0) {
 //        qCDebug(dcLogEngine()) << "idx:" << idx << "cnt:" << m_list.count() << "jmp" << jump;
@@ -356,7 +356,7 @@ NewLogEntry *NewLogsModel::find(const QDateTime &timestamp) const
 
 void NewLogsModel::clear()
 {
-    int count = m_list.count();
+    int count = static_cast<int>(m_list.count());
     beginResetModel();
     qDeleteAll(m_list);
     m_list.clear();
@@ -450,7 +450,7 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
         qDeleteAll(oldEntries);
 
         if (!entries.isEmpty()) {
-            beginInsertRows(QModelIndex(), 0, entries.count() - 1);
+            beginInsertRows(QModelIndex(), 0, static_cast<int>(entries.count()) - 1);
             m_list = entries;
             endInsertRows();
         }
@@ -459,7 +459,7 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
 
     } else {
         if (!entries.isEmpty()) {
-            beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + entries.count() - 1);
+            beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()) + static_cast<int>(entries.count()) - 1);
             std::sort(entries.begin(), entries.end(), [](NewLogEntry *left, NewLogEntry *right){
                 return left->timestamp() > right->timestamp();
             });
@@ -488,7 +488,7 @@ void NewLogsModel::newLogEntryReceived(const QVariantMap &map)
             endInsertRows();
             emit entriesAdded(0, {entry});
         } else {
-            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+            beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
             m_list.append(entry);
             endInsertRows();
             emit entriesAdded(m_list.count() - 1, {entry});
