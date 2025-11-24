@@ -557,9 +557,16 @@ StatsBase {
                                     for (var i = 0; i < consumersRepeater.count; i++) {
                                         var consumerDelegate = consumersRepeater.itemAt(i)
                                         var consumer = consumerDelegate.thing
+                                        if (!consumer) {
+                                            continue;
+                                        }
+                                        var barSet = consumerDelegate.barSet
+                                        if (!barSet || barSet.count <= toolTip.idx) {
+                                            continue;
+                                        }
                                         var entry = {
                                             consumer: consumer,
-                                            value: consumersRepeater.itemAt(i).barSet.at(toolTip.idx).toFixed(2),
+                                            value: barSet.at(toolTip.idx).toFixed(2),
                                             indexInModel: i
                                         }
                                         unsorted.push(entry)
