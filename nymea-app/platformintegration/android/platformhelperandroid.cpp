@@ -29,6 +29,7 @@
 #include <QtCore/private/qandroidextras_p.h>
 #include <QApplication>
 #include <QJniObject>
+#include <QTimer>
 
 // WindowManager.LayoutParams
 #define FLAG_TRANSLUCENT_STATUS 0x04000000
@@ -89,8 +90,20 @@ PlatformHelperAndroid::PlatformHelperAndroid(QObject *parent) : PlatformHelper(p
         qCritical() << "----> Application state changed" << state;
         if (state == Qt::ApplicationActive) {
             emit locationServicesEnabledChanged();
+            updateSafeAreaPadding();
         }
     });
+
+    if (QScreen *screen = qApp->primaryScreen()) {
+        connect(screen, &QScreen::orientationChanged, this, [this](Qt::ScreenOrientation){
+            updateSafeAreaPadding();
+        });
+        connect(screen, &QScreen::availableGeometryChanged, this, [this](const QRect &){
+            updateSafeAreaPadding();
+        });
+    }
+
+    QTimer::singleShot(0, this, &PlatformHelperAndroid::updateSafeAreaPadding);
 }
 
 void PlatformHelperAndroid::hideSplashScreen()
@@ -266,26 +279,34 @@ void PlatformHelperAndroid::setBottomPanelTheme(Theme theme)
     // });
 }
 
+void PlatformHelperAndroid::updateSafeAreaPadding()
+{
+    int topPaddingPx = 0;
+    int bottomPaddingPx = 0;
+
+    QJniObject context = QNativeInterface::QAndroidApplication::context();
+    if (context.isValid()) {
+        topPaddingPx = context.callMethod<jint>("topPadding", "()I");
+        bottomPaddingPx = context.callMethod<jint>("bottomPadding", "()I");
+    }
+
+    QScreen *screen = qApp->primaryScreen();
+    qreal dpr = screen ? screen->devicePixelRatio() : 1.0;
+    if (dpr <= 0.0) {
+        dpr = 1.0;
+    }
+
+    setSafeAreaPadding(qRound(topPaddingPx / dpr), 0, qRound(bottomPaddingPx / dpr), 0);
+}
+
 int PlatformHelperAndroid::topPadding() const
 {
-    // Edge to edge has been forced since android SDK 35
-    // We don't want to handle it in earlied versions.
-    // if (QtAndroid::androidSdkVersion() < 35)
-    //     return 0;
-
-    //return QNativeInterface::QAndroidApplication::context().callMethod<jint>("topPadding") / QApplication::primaryScreen()->devicePixelRatio();
-    return 0;
+    return PlatformHelper::topPadding();
 }
 
 int PlatformHelperAndroid::bottomPadding() const
 {
-    // Edge to edge has been forced since android SDK 35
-    // We don't want to handle it in earlied versions.
-    // if (QtAndroid::androidSdkVersion() < 35)
-    //     return 0;
-
-    // return QNativeInterface::QAndroidApplication::context().callMethod<jint>("bottomPadding") / QApplication::primaryScreen()->devicePixelRatio();
-    return 0;
+    return PlatformHelper::bottomPadding();
 }
 
 bool PlatformHelperAndroid::darkModeEnabled() const

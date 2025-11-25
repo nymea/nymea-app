@@ -68,6 +68,9 @@ public:
     static void notificationActionReceivedJNI(JNIEnv *env, jobject /*thiz*/, jstring data);
     static void locationServicesEnabledChangedJNI();
 
+private:
+    void updateSafeAreaPadding();
+
 };
 
 #endif // PLATFORMHELPERANDROID_H
