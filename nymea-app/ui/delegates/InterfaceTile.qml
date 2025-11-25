@@ -233,7 +233,11 @@ MainPageTile {
                     var d = thingsProxy.get(i);
                     var st = d.thingClass.stateTypes.findByName("playbackStatus")
                     var s = d.states.getState(st.id)
-                    s.valueChanged.connect(function() {inlineMediaControl.updateTile()})
+                    s.valueChanged.connect(function() {
+                        if (inlineMediaControl) {
+                            inlineMediaControl.updateTile()
+                        }
+                    })
                 }
                 updateTile();
             }

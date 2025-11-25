@@ -43,8 +43,8 @@ class TagsProxyModel : public QSortFilterProxyModel
 public:
     explicit TagsProxyModel(QObject *parent = nullptr);
 
-    Tags* tags() const;
-    void setTags(Tags* tags);
+    Tags *tags() const;
+    void setTags(Tags *tags);
 
     QString filterTagId() const;
     void setFilterTagId(const QString &filterTagId);
