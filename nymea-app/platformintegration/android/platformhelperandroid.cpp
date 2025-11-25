@@ -283,11 +283,15 @@ void PlatformHelperAndroid::updateSafeAreaPadding()
 {
     int topPaddingPx = 0;
     int bottomPaddingPx = 0;
+    int leftPaddingPx = 0;
+    int rightPaddingPx = 0;
 
     QJniObject context = QNativeInterface::QAndroidApplication::context();
     if (context.isValid()) {
         topPaddingPx = context.callMethod<jint>("topPadding", "()I");
         bottomPaddingPx = context.callMethod<jint>("bottomPadding", "()I");
+        leftPaddingPx = context.callMethod<jint>("leftPadding", "()I");
+        rightPaddingPx = context.callMethod<jint>("rightPadding", "()I");
     }
 
     QScreen *screen = qApp->primaryScreen();
@@ -296,7 +300,10 @@ void PlatformHelperAndroid::updateSafeAreaPadding()
         dpr = 1.0;
     }
 
-    setSafeAreaPadding(qRound(topPaddingPx / dpr), 0, qRound(bottomPaddingPx / dpr), 0);
+    setSafeAreaPadding(qRound(topPaddingPx / dpr),
+                       qRound(rightPaddingPx / dpr),
+                       qRound(bottomPaddingPx / dpr),
+                       qRound(leftPaddingPx / dpr));
 }
 
 int PlatformHelperAndroid::topPadding() const
@@ -307,6 +314,16 @@ int PlatformHelperAndroid::topPadding() const
 int PlatformHelperAndroid::bottomPadding() const
 {
     return PlatformHelper::bottomPadding();
+}
+
+int PlatformHelperAndroid::leftPadding() const
+{
+    return PlatformHelper::leftPadding();
+}
+
+int PlatformHelperAndroid::rightPadding() const
+{
+    return PlatformHelper::rightPadding();
 }
 
 bool PlatformHelperAndroid::darkModeEnabled() const

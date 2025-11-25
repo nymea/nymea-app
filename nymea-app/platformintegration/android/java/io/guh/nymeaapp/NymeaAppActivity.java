@@ -178,6 +178,34 @@ public class NymeaAppActivity extends QtActivity
         return windowInsets.getStableInsetBottom();
     }
 
+    public int leftPadding() {
+        WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
+        if (windowInsets == null) {
+            return 0;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Insets insets = windowInsets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
+            return insets != null ? insets.left : 0;
+        }
+
+        return windowInsets.getStableInsetLeft();
+    }
+
+    public int rightPadding() {
+        WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
+        if (windowInsets == null) {
+            return 0;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Insets insets = windowInsets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
+            return insets != null ? insets.right : 0;
+        }
+
+        return windowInsets.getStableInsetRight();
+    }
+
     private void logStaticInitClassesMetadata() {
         try {
             ApplicationInfo appInfo = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
