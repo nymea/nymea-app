@@ -23,7 +23,6 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "things.h"
-#include "engine.h"
 
 #include <QDebug>
 
@@ -148,7 +147,9 @@ void Things::removeThing(Thing *thing)
 void Things::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_things);
+    foreach (Thing *thing, m_things)
+        thing->deleteLater();
+
     m_things.clear();
     endResetModel();
     emit countChanged();

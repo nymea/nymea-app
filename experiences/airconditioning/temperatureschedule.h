@@ -90,7 +90,7 @@ signals:
     void countChanged();
 
 private:
-    QList<TemperatureSchedule*> m_list;
+    QList<TemperatureSchedule *> m_list;
 };
 
 class TemperatureWeekSchedule: public QAbstractListModel

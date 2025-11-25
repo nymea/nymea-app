@@ -358,7 +358,9 @@ void NewLogsModel::clear()
 {
     int count = static_cast<int>(m_list.count());
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (NewLogEntry *entry, m_list)
+        entry->deleteLater();
+
     m_list.clear();
     m_currentNewest = QDateTime();
     m_lastOffset = 0;
@@ -447,7 +449,9 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
         m_list.clear();
         endResetModel();
         emit entriesRemoved(0, oldEntries.count());
-        qDeleteAll(oldEntries);
+
+        foreach (NewLogEntry *entry, oldEntries)
+            entry->deleteLater();
 
         if (!entries.isEmpty()) {
             beginInsertRows(QModelIndex(), 0, static_cast<int>(entries.count()) - 1);

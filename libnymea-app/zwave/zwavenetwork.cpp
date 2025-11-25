@@ -212,8 +212,12 @@ QHash<int, QByteArray> ZWaveNetworks::roleNames() const
 void ZWaveNetworks::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (ZWaveNetwork *network, m_list)
+        network->deleteLater();
+
+    m_list.clear();
     endResetModel();
+    emit countChanged();
 }
 
 void ZWaveNetworks::addNetwork(ZWaveNetwork *network)

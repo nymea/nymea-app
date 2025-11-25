@@ -146,7 +146,9 @@ Package *Packages::getPackage(const QString &packageId)
 void Packages::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (Package *package, m_list)
+        package->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

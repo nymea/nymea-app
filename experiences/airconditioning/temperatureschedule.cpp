@@ -123,7 +123,9 @@ QHash<int, QByteArray> TemperatureDaySchedule::roleNames() const
 void TemperatureDaySchedule::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (TemperatureSchedule *schedule, m_list)
+        schedule->deleteLater();
+
     m_list.clear();
     endResetModel();
 }

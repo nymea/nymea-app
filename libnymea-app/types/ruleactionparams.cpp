@@ -198,7 +198,9 @@ bool RuleActionParams::hasRuleActionParam(const QUuid &paramTypeId) const
 void RuleActionParams::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (RuleActionParam *param, m_list)
+        param->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

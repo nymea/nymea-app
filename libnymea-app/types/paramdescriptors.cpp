@@ -119,7 +119,9 @@ void ParamDescriptors::setParamDescriptorByName(const QString &paramName, const 
 void ParamDescriptors::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (ParamDescriptor *descriptor, m_list)
+        descriptor->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

@@ -161,7 +161,9 @@ void LogsModelNg::setTypeIds(const QStringList &typeIds)
         m_typeIds = fixedTypeIds;
         emit typeIdsChanged();
         beginResetModel();
-        qDeleteAll(m_list);
+        foreach (LogEntry *entry, m_list)
+            entry->deleteLater();
+
         m_list.clear();
         endResetModel();
         fetchMore();

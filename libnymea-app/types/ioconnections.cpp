@@ -90,7 +90,9 @@ void IOConnections::removeIOConnection(const QUuid &ioConnectionId)
 void IOConnections::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (IOConnection *connection, m_list)
+        connection->deleteLater();
+
     m_list.clear();
     endResetModel();
 }

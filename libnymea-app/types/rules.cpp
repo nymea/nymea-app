@@ -35,7 +35,9 @@ Rules::Rules(QObject *parent) : QAbstractListModel(parent)
 void Rules::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (Rule *rule, m_list)
+        rule->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

@@ -87,7 +87,9 @@ void SerialPorts::removeSerialPort(const QString &systemLocation)
 void SerialPorts::clear()
 {
     beginResetModel();
-    qDeleteAll(m_serialPorts);
+    foreach (SerialPort *port, m_serialPorts)
+        port->deleteLater();
+
     m_serialPorts.clear();
     endResetModel();
     emit countChanged();

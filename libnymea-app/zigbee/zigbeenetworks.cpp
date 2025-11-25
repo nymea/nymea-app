@@ -179,7 +179,9 @@ void ZigbeeNetworks::removeNetwork(const QUuid &networkUuid)
 void ZigbeeNetworks::clear()
 {
     beginResetModel();
-    qDeleteAll(m_networks);
+    foreach (ZigbeeNetwork *network, m_networks)
+        network->deleteLater();
+
     m_networks.clear();
     endResetModel();
     emit countChanged();

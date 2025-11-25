@@ -127,7 +127,9 @@ MqttPolicy *MqttPolicies::get(int index) const
 void MqttPolicies::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (MqttPolicy* policy, m_list)
+        policy->deleteLater();
+
     m_list.clear();
     endResetModel();
 }

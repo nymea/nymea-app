@@ -60,8 +60,11 @@ void ServerLoggingCategories::createFromVariantList(const QVariantList &loggingC
 {
     beginResetModel();
 
-    if (!m_list.isEmpty())
-        qDeleteAll(m_list);
+    if (!m_list.isEmpty()) {
+        foreach (ServerLoggingCategory *category, m_list) {
+            category->deleteLater();
+        }
+    }
 
     foreach(const QVariant &categoryVariant, loggingCategories) {
         QVariantMap categoryMap = categoryVariant.toMap();

@@ -150,7 +150,9 @@ void LogsModel::setTypeIds(const QStringList &typeIds)
         emit typeIdsChanged();
         qCDebug(dcLogEngine()) << "Resetting model because type ids changed";
         beginResetModel();
-        qDeleteAll(m_list);
+        foreach (LogEntry *entry, m_list)
+            entry->deleteLater();
+
         m_list.clear();
         m_generatedEntries = 0;
         endResetModel();

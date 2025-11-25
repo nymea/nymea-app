@@ -107,7 +107,9 @@ void ServerConfigurations::removeConfiguration(const QString &id)
 void ServerConfigurations::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (ServerConfiguration *config, m_list)
+        config->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

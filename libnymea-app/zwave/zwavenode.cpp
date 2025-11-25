@@ -334,7 +334,10 @@ QHash<int, QByteArray> ZWaveNodes::roleNames() const
 void ZWaveNodes::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (ZWaveNode *node, m_list)
+        node->deleteLater();
+
+    m_list.clear();
     endResetModel();
     emit countChanged();
 }

@@ -123,7 +123,9 @@ void ZigbeeAdapters::removeAdapter(const QString &serialPort)
 void ZigbeeAdapters::clear()
 {
     beginResetModel();
-    qDeleteAll(m_adapters);
+    foreach (ZigbeeAdapter *adapter, m_adapters)
+        adapter->deleteLater();
+
     m_adapters.clear();
     endResetModel();
     emit countChanged();

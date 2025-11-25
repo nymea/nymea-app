@@ -138,7 +138,9 @@ Tag *Tags::findRuleTag(const QUuid &ruleId, const QString &tagId) const
 void Tags::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (Tag *tag, m_list)
+        tag->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

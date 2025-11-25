@@ -111,7 +111,9 @@ void Repositories::removeRepository(const QString &repositoryId)
 void Repositories::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (Repository *repo, m_list)
+        repo->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

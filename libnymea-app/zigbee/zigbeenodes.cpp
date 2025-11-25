@@ -164,7 +164,9 @@ void ZigbeeNodes::removeNode(const QString &ieeeAddress)
 void ZigbeeNodes::clear()
 {
     beginResetModel();
-    qDeleteAll(m_nodes);
+    foreach (ZigbeeNode *node, m_nodes)
+        node->deleteLater();
+
     m_nodes.clear();
     endResetModel();
     emit countChanged();

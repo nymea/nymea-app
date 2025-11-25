@@ -67,7 +67,9 @@ void Vendors::addVendor(Vendor *vendor)
 void Vendors::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_vendors);
+    foreach (Vendor *vendor, m_vendors)
+        vendor->deleteLater();
+
     m_vendors.clear();
     endResetModel();
     emit countChanged();

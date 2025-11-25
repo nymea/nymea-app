@@ -422,7 +422,9 @@ void EnergyLogs::clear()
 {
     int count = static_cast<int>(m_list.count());
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (EnergyLogEntry *entry, m_list)
+        entry->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

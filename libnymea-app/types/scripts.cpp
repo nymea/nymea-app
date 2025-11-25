@@ -60,7 +60,9 @@ QHash<int, QByteArray> Scripts::roleNames() const
 void Scripts::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (Script *script, m_list)
+        script->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

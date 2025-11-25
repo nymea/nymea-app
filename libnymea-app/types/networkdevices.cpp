@@ -124,7 +124,9 @@ NetworkDevice *NetworkDevices::getNetworkDevice(const QString &interface)
 void NetworkDevices::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (NetworkDevice *device, m_list)
+        device->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

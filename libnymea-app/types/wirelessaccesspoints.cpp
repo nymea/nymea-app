@@ -42,7 +42,9 @@ void WirelessAccessPoints::setWirelessAccessPoints(QList<WirelessAccessPoint *> 
     beginResetModel();
 
     // Delete all
-    qDeleteAll(m_wirelessAccessPoints);
+    foreach (WirelessAccessPoint *ap, m_wirelessAccessPoints)
+        ap->deleteLater();
+
     m_wirelessAccessPoints.clear();
 
     m_wirelessAccessPoints = wirelessAccessPoints;
@@ -108,7 +110,9 @@ WirelessAccessPoint *WirelessAccessPoints::get(int index)
 void WirelessAccessPoints::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_wirelessAccessPoints);
+    foreach (WirelessAccessPoint *ap, m_wirelessAccessPoints)
+        ap->deleteLater();
+
     m_wirelessAccessPoints.clear();
     endResetModel();
     emit countChanged();

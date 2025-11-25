@@ -156,7 +156,9 @@ void ModbusRtuMasters::removeModbusRtuMaster(const QUuid &modbusUuid)
 void ModbusRtuMasters::clear()
 {
     beginResetModel();
-    qDeleteAll(m_modbusRtuMasters);
+    foreach (ModbusRtuMaster *master, m_modbusRtuMasters)
+        master->deleteLater();
+
     m_modbusRtuMasters.clear();
     endResetModel();
     emit countChanged();

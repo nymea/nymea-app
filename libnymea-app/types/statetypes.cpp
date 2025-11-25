@@ -118,7 +118,9 @@ QList<StateType *> StateTypes::ioStateTypes(Types::IOType ioType) const
 void StateTypes::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_stateTypes);
+    foreach (StateType *stateType, m_stateTypes)
+        stateType->deleteLater();
+
     m_stateTypes.clear();
     endResetModel();
     emit countChanged();

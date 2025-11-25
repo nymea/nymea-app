@@ -93,7 +93,9 @@ void BluetoothDeviceInfos::addBluetoothDeviceInfo(BluetoothDeviceInfo *deviceInf
 void BluetoothDeviceInfos::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_deviceInfos);
+    foreach (BluetoothDeviceInfo *deviceInfo, m_deviceInfos)
+        deviceInfo->deleteLater();
+
     m_deviceInfos.clear();
     endResetModel();
     emit countChanged();

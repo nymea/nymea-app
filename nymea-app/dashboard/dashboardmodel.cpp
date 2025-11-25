@@ -151,7 +151,9 @@ void DashboardModel::loadFromJson(const QByteArray &json)
     }
     beginResetModel();
 
-    qDeleteAll(m_list);
+    foreach (DashboardItem *item, m_list)
+        item->deleteLater();
+
     m_list.clear();
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(json);

@@ -91,7 +91,9 @@ void Plugins::addPlugin(Plugin *plugin)
 void Plugins::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_plugins);
+    foreach (Plugin *plugin, m_plugins)
+        plugin->deleteLater();
+
     m_plugins.clear();
     endResetModel();
 }

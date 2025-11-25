@@ -64,7 +64,7 @@ signals:
     void countChanged();
 
 private:
-    QList<Package*> m_list;
+    QList<Package *> m_list;
 };
 
 #endif // PACKAGES_H

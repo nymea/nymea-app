@@ -102,7 +102,9 @@ void ThingClasses::addThingClass(ThingClass *thingClass)
 void ThingClasses::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_thingClasses);
+    foreach (ThingClass *thingClass, m_thingClasses)
+        thingClass->deleteLater();
+
     m_thingClasses.clear();
     endResetModel();
     emit countChanged();
