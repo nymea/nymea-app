@@ -34,7 +34,12 @@ AutoSizeMenu {
 
     property bool showDetails: true
 
-    Component.onCompleted: {
+    property bool menuItemsInitialized: false
+
+    function ensureMenuItems() {
+        if (menuItemsInitialized) {
+            return;
+        }
         if (Configuration.magicEnabled) {
             root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Magic"), iconSource: "qrc:/icons/magic.svg", functionName: "openThingMagicPage"}))
         }
@@ -58,8 +63,6 @@ AutoSizeMenu {
                 functionName: "addToGroup"
             }))
 
-        print("*** creating menu")
-        print("NFC", NfcHelper.isAvailable)
         if (NfcHelper.isAvailable) {
             root.addItem(menuEntryComponent.createObject(root,
                 {
@@ -69,6 +72,12 @@ AutoSizeMenu {
 
                 }));
         }
+        menuItemsInitialized = true
+    }
+
+    onAboutToShow: {
+        ensureMenuItems();
+        calculateWidth();
     }
 
     function openThingMagicPage() {
