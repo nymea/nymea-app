@@ -57,6 +57,8 @@ public:
 
     int topPadding() const override;
     int bottomPadding() const override;
+    int leftPadding() const override;
+    int rightPadding() const override;
 
     bool darkModeEnabled() const override;
 
