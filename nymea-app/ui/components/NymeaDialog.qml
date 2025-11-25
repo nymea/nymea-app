@@ -25,11 +25,13 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Window
 import Nymea
 
 Dialog {
     id: root
-    width: Math.min(parent.width * .8, Math.max(contentLabel.implicitWidth, 400))
+    implicitWidth: Math.max(contentLabel.implicitWidth + app.margins * 2, 400)
+    width: Math.min((parent ? parent.width : Screen.width) * .8, implicitWidth)
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
