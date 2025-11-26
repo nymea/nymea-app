@@ -37,6 +37,7 @@
 #include <QIcon>
 #include <QQmlFileSelector>
 #include <QDir>
+#include <QSslSocket>
 #include <QFileInfo>
 #include <QOperatingSystemVersion>
 #include <QWindow>
