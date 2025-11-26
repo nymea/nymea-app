@@ -52,6 +52,20 @@ if(ANDROID)
     )
 endif()
 
+if(IOS)
+    list(APPEND NYMEA_APP_SOURCES
+        platformintegration/ios/platformhelperios.cpp
+        platformintegration/ios/platformpermissionsios.cpp
+        platformintegration/ios/platformhelperios.mm
+        platformintegration/ios/pushnotifications.mm
+        platformintegration/ios/platformpermissionsios.mm
+    )
+    list(APPEND NYMEA_APP_HEADERS
+        platformintegration/ios/platformhelperios.h
+        platformintegration/ios/platformpermissionsios.h
+    )
+endif()
+
 set(NYMEA_APP_RESOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/resources.qrc
     ${CMAKE_CURRENT_SOURCE_DIR}/ruletemplates.qrc
@@ -149,5 +163,59 @@ if(ANDROID)
     endif()
 endif()
 
-qt_finalize_executable(nymea-app)
+if(IOS)
+    target_link_libraries(nymea-app PRIVATE
+        "-framework CoreLocation"
+        "-framework CoreBluetooth"
+        "-framework CoreNFC"
+    )
 
+    set(_nymea_ios_plist "${CMAKE_CURRENT_BINARY_DIR}/ios/Info.plist")
+    file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/ios")
+    configure_file(
+        ${CMAKE_SOURCE_DIR}/packaging/ios/Info.plist.cmake.in
+        ${_nymea_ios_plist}
+        @ONLY
+    )
+
+    set_target_properties(nymea-app PROPERTIES
+        MACOSX_BUNDLE_INFO_PLIST "${_nymea_ios_plist}"
+        MACOSX_BUNDLE_GUI_IDENTIFIER "io.guh.nymeaApp"
+        MACOSX_BUNDLE_BUNDLE_VERSION "${APP_REVISION}"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "${APP_VERSION}"
+        XCODE_ATTRIBUTE_CODE_SIGN_ENTITLEMENTS "${CMAKE_SOURCE_DIR}/packaging/ios/app.entitlements"
+    )
+
+    target_link_options(nymea-app PRIVATE "-ObjC")
+
+    set_property(TARGET nymea-app APPEND PROPERTY
+        QT_IOS_ASSET_CATALOGS "${CMAKE_SOURCE_DIR}/packaging/ios/Assets.xcassets")
+
+    set(_nymea_ios_resources
+        ${CMAKE_SOURCE_DIR}/packaging/ios/NymeaLaunchScreen.storyboard
+        ${CMAKE_SOURCE_DIR}/packaging/ios/GoogleService-Info.plist
+    )
+    set_source_files_properties(${_nymea_ios_resources} PROPERTIES
+        MACOSX_PACKAGE_LOCATION Resources)
+    target_sources(nymea-app PRIVATE ${_nymea_ios_resources})
+
+    if(NYMEA_ENABLE_FIREBASE)
+        target_compile_definitions(nymea-app PRIVATE WITH_FIREBASE FIREBASE_ANALYTICS_SUPPRESS_WARNING)
+        target_include_directories(nymea-app PRIVATE ${CMAKE_SOURCE_DIR}/3rdParty/ios)
+        target_link_directories(nymea-app PRIVATE
+            ${CMAKE_SOURCE_DIR}/3rdParty/ios/Firebase/FirebaseAnalytics
+            ${CMAKE_SOURCE_DIR}/3rdParty/ios/Firebase/FirebaseMessaging
+        )
+        target_link_libraries(nymea-app PRIVATE
+            "-framework FirebaseMessaging"
+            "-framework GoogleUtilities"
+            "-framework Protobuf"
+            "-framework FirebaseCore"
+            "-framework FirebaseInstanceID"
+            "-framework FirebaseInstallations"
+            "-framework PromisesObjC"
+        )
+    endif()
+endif()
+
+qt_finalize_executable(nymea-app)

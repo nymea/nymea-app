@@ -14,6 +14,10 @@ endif()
 
 project(nymea-app VERSION ${NYMEA_APP_VERSION} LANGUAGES CXX)
 
+if(IOS)
+    enable_language(OBJCXX)
+endif()
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
