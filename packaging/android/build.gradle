@@ -5,6 +5,27 @@ properties.load(project.rootProject.file("nymeaapp.properties").newDataInputStre
 def nymeaAppRoot = properties.getProperty('nymeaAppRoot')
 def useFirebase = properties.getProperty('useFirebase')
 
+def nymeaVersionLines = file("${nymeaAppRoot}/version.txt").readLines().collect { it.trim() }.findAll { it }
+def nymeaAppVersionName = nymeaVersionLines ? nymeaVersionLines[0] : "0.0.0"
+def nymeaAppBaseVersionCode = nymeaVersionLines.size() > 1 ? nymeaVersionLines[1].toInteger() : 1
+
+// Use ABI-aware version codes per Qt's legacy single-ABI Play Store guidance.
+def abiVersionPrefixes = [
+    "armeabi-v7a": "132",
+    "arm64-v8a" : "164",
+    "x86"       : "232",
+    "x86_64"    : "264"
+]
+
+def qtTargetAbiListValue = project.hasProperty('qtTargetAbiList') ? qtTargetAbiList : ""
+def targetAbiList = qtTargetAbiListValue.split(",").collect { it.trim() }.findAll { it }
+def singleTargetAbi = targetAbiList.size() == 1 ? targetAbiList[0] : null
+def computeAbiVersionCode = { abi, baseCode ->
+    def prefix = abiVersionPrefixes[abi]
+    return prefix ? Integer.parseInt("${prefix}${baseCode}") : baseCode
+}
+def nymeaDefaultVersionCode = computeAbiVersionCode(singleTargetAbi, nymeaAppBaseVersionCode)
+
 println "Building Android package"
 println "Package source root ${nymeaAppRoot}"
 
@@ -127,6 +148,21 @@ android {
         resConfigs "en", "de", "ko", "it", "nl", "es"
         minSdkVersion = 23
         targetSdkVersion = 35
-        ndk.abiFilters = qtTargetAbiList.split(",")
+        ndk.abiFilters = targetAbiList
+        versionName nymeaAppVersionName
+        versionCode nymeaDefaultVersionCode
     }
+}
+
+androidComponents {
+    onVariants(selector().all(), { variant ->
+        variant.outputs.forEach { output ->
+            def abiFilter = output.filters.find { it.filterType == com.android.build.api.variant.FilterConfiguration.FilterType.ABI }?.identifier
+            if (abiFilter != null) {
+                output.versionCode.set(computeAbiVersionCode(abiFilter, nymeaAppBaseVersionCode))
+            } else if (singleTargetAbi != null) {
+                output.versionCode.set(nymeaDefaultVersionCode)
+            }
+        }
+    })
 }
