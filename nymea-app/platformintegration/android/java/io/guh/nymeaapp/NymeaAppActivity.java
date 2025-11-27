@@ -150,6 +150,10 @@ public class NymeaAppActivity extends QtActivity
     }
 
     public int topPadding() {
+        if (Build.VERSION.SDK_INT < 35) {
+            return 0;
+        }
+
         WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
 
         if (windowInsets == null) {
@@ -165,6 +169,10 @@ public class NymeaAppActivity extends QtActivity
     }
 
     public int bottomPadding() {
+        if (Build.VERSION.SDK_INT < 35) {
+            return 0;
+        }
+
         WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
         if (windowInsets == null) {
             return 0;
@@ -179,6 +187,10 @@ public class NymeaAppActivity extends QtActivity
     }
 
     public int leftPadding() {
+        if (Build.VERSION.SDK_INT < 35) {
+            return 0;
+        }
+
         WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
         if (windowInsets == null) {
             return 0;
@@ -193,6 +205,10 @@ public class NymeaAppActivity extends QtActivity
     }
 
     public int rightPadding() {
+        if (Build.VERSION.SDK_INT < 35) {
+            return 0;
+        }
+
         WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
         if (windowInsets == null) {
             return 0;
