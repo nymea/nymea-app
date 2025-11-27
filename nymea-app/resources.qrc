@@ -323,5 +323,6 @@
         <file>ui/system/WirelessNetworksFilterSettingsPage.qml</file>
         <file>ui/system/ServerLoggingCategoriesPage.qml</file>
         <file>ui/components/BackgroundFocusHandler.qml</file>
+        <file>ui/components/SecondaryButton.qml</file>
     </qresource>
 </RCC>

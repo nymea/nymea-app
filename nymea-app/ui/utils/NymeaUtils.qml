@@ -209,4 +209,35 @@ Item {
         "no2sensor": "no2"
     }
 
+    function numDecimals(x) {
+        if (!Number.isFinite(x)) {
+            return 0;
+        }
+
+        const maxDigits = 8;
+        var remaining = x;
+        var lastDigit = 0;
+        for (var i = 1; i <= maxDigits; i++) {
+            // Advance to next digit, cut off leading digits
+            remaining = (remaining * 10) % 10
+
+            // Round to account for *.99999 case, modulo 10 to account for 9.999
+            if (Math.round(remaining) % 10 != 0) {
+                lastDigit = i;
+            }
+        }
+        return lastDigit;
+    }
+
+    function floatToLocaleString(v) {
+        if (typeof v === "number") {
+            var loc = Qt.locale()
+            // Have to omit thousands separator here to avoid confusion
+            // when parsing input e.g. in NymeaSpinBox
+            loc.numberOptions = Locale.OmitGroupSeparator
+            return v.toLocaleString(loc, 'f', numDecimals(v))
+        } else {
+            return v
+        }
+    }
 }
