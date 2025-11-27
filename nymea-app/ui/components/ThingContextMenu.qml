@@ -12,25 +12,25 @@ AutoSizeMenu {
 
     Component.onCompleted: {
         if (Configuration.magicEnabled) {
-            root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Magic"), iconSource: "../images/magic.svg", functionName: "openThingMagicPage"}))
+            root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Magic"), iconSource: "qrc:/icons/magic.svg", functionName: "openThingMagicPage"}))
         }
 
         if (root.showDetails) {
-            root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Details"), iconSource: "../images/info.svg", functionName: "openGenericThingPage"}))
+            root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Details"), iconSource: "qrc:/icons/info.svg", functionName: "openGenericThingPage"}))
         }
-//            root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Settings"), iconSource: "../images/configure.svg", functionName: "openThingSettingsPage"}))
+//            root.addItem(menuEntryComponent.createObject(root, {text: qsTr("Settings"), iconSource: "qrc:/icons/configure.svg", functionName: "openThingSettingsPage"}))
 
         root.addItem(menuEntryComponent.createObject(root,
             {
                 text: Qt.binding(function() { return favoritesProxy.count === 0 ? qsTr("Mark as favorite") : qsTr("Remove from favorites")}),
-                iconSource: Qt.binding(function() { return favoritesProxy.count === 0 ? "../images/starred.svg" : "../images/non-starred.svg"}),
+                iconSource: Qt.binding(function() { return favoritesProxy.count === 0 ? "qrc:/icons/starred.svg" : "qrc:/icons/non-starred.svg"}),
                 functionName: "toggleFavorite"
             }))
 
         root.addItem(menuEntryComponent.createObject(root,
             {
                 text: qsTr("Grouping"),
-                iconSource: "../images/groups.svg",
+                iconSource: "qrc:/icons/groups.svg",
                 functionName: "addToGroup"
             }))
 
@@ -40,7 +40,7 @@ AutoSizeMenu {
             root.addItem(menuEntryComponent.createObject(root,
                 {
                     text: qsTr("Write NFC tag"),
-                    iconSource: "../images/nfc.svg",
+                    iconSource: "qrc:/icons/nfc.svg",
                     functionName: "writeNfcTag"
 
                 }));
@@ -101,7 +101,7 @@ AutoSizeMenu {
         id: addToGroupDialog
         NymeaDialog {
             title: qsTr("Groups for %1").arg(root.thing.name)
-            headerIcon: "../images/groups.svg"
+            headerIcon: "qrc:/icons/groups.svg"
             // NOTE: If CloseOnPressOutside is active (default) it will break the QtVirtualKeyboard
             // https://bugreports.qt.io/browse/QTBUG-56918
             closePolicy: Popup.CloseOnEscape

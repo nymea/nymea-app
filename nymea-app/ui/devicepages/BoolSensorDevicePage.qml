@@ -58,7 +58,7 @@ Item {
             ColorIcon {
                 anchors.fill: parent
                 anchors.margins: app.margins * 1.5
-                name: root.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
+                name: root.powerState.value === true ? "qrc:/icons/light-on.svg" : "qrc:/icons/light-off.svg"
                 color: root.powerState.value === true ? Style.accentColor : Style.iconColor
             }
         }

@@ -10,7 +10,7 @@ ColorIcon {
     readonly property bool updateAvailable: updateStatusState && updateStatusState.value === "available"
     readonly property bool updateRunning: updateStatusState && updateStatusState.value === "updating"
 
-    name: "../images/system-update.svg"
+    name: "qrc:/icons/system-update.svg"
     color: Style.accentColor
 
     RotationAnimation on rotation {

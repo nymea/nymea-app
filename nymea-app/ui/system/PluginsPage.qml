@@ -44,7 +44,7 @@ SettingsPageBase {
 
         HeaderButton {
             visible: false
-            imageSource: "../images/configure.svg"
+            imageSource: "qrc:/icons/configure.svg"
             color: pluginsProxy.showOnlyConfigurable ? Style.accentColor : Style.iconColor
             onClicked: {
                 pluginsProxy.showOnlyConfigurable = !pluginsProxy.showOnlyConfigurable
@@ -81,7 +81,7 @@ SettingsPageBase {
         delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
             property Plugin plugin: pluginsProxy.get(index)
-            iconName: "../images/plugin.svg"
+            iconName: "qrc:/icons/plugin.svg"
             text: model.name
             progressive: plugin.paramTypes.count > 0
             onClicked: if (progressive) { pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin}) }

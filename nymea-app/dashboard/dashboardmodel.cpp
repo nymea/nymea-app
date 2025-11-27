@@ -85,6 +85,18 @@ void DashboardModel::addWebViewItem(const QUrl &url, int columnSpan, int rowSpan
     addItem(item, index);
 }
 
+void DashboardModel::addStateItem(const QUuid &thingId, const QUuid &stateTypeId, int index)
+{
+    DashboardStateItem *item = new DashboardStateItem(thingId, stateTypeId, this);
+    addItem(item, index);
+}
+
+void DashboardModel::addSensorItem(const QUuid &thingId, const QStringList &interfaces, int index)
+{
+    DashboardSensorItem *item = new DashboardSensorItem(thingId, interfaces, this);
+    addItem(item, index);
+}
+
 void DashboardModel::removeItem(int index)
 {
     qWarning() << "removing" << index;
@@ -119,6 +131,7 @@ void DashboardModel::loadFromJson(const QByteArray &json)
     m_list.clear();
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(json);
+    qCritical() << "dashboard:" << qUtf8Printable(jsonDoc.toJson());
     foreach (const QVariant &itemVariant, jsonDoc.toVariant().toList()) {
         QVariantMap itemMap = itemVariant.toMap();
         QString type = itemMap.value("type").toString();
@@ -136,6 +149,10 @@ void DashboardModel::loadFromJson(const QByteArray &json)
             item = new DashboardSceneItem(itemMap.value("ruleId").toUuid(), this);
         } else if (type == "webview") {
             item = new DashboardWebViewItem(itemMap.value("url").toUrl(), itemMap.value("interactive", false).toBool(), this);
+        } else if (type == "state") {
+            item = new DashboardStateItem(itemMap.value("thingId").toUuid(), itemMap.value("stateTypeId").toUuid(), this);
+        } else if (type == "sensor") {
+            item = new DashboardSensorItem(itemMap.value("thingId").toUuid(), itemMap.value("interfaces").toStringList(), this);
         } else {
             qWarning() << "Dashboard item type" << type << "is not implemented. Skipping...";
             continue;
@@ -179,6 +196,14 @@ QByteArray DashboardModel::toJson() const
             if (webViewItem->interactive()) {
                 map.insert("interactive", true);
             }
+        } else if (item->type() == "sensor") {
+            DashboardSensorItem *sensorItem = dynamic_cast<DashboardSensorItem*>(item);
+            map.insert("thingId", sensorItem->thingId());
+            map.insert("interfaces", sensorItem->interfaces());
+        } else if (item->type() == "state") {
+            DashboardStateItem *stateItem = dynamic_cast<DashboardStateItem*>(item);
+            map.insert("thingId", stateItem->thingId());
+            map.insert("stateTypeId", stateItem->stateTypeId());
         } else {
             Q_ASSERT_X(false, Q_FUNC_INFO, "Type " + item->type().toUtf8() + " not implemented!");
             continue;

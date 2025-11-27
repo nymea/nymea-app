@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc. All Rights Reserved.
+// Copyright 2024 Google Inc. All Rights Reserved.
 
 #ifndef FIREBASE_ANALYTICS_CLIENT_CPP_INCLUDE_FIREBASE_ANALYTICS_USER_PROPERTY_NAMES_H_
 #define FIREBASE_ANALYTICS_CLIENT_CPP_INCLUDE_FIREBASE_ANALYTICS_USER_PROPERTY_NAMES_H_
@@ -7,6 +7,8 @@
 namespace firebase {
 /// @brief Firebase Analytics API.
 namespace analytics {
+
+
 
 /// @defgroup user_property_names Analytics User Properties
 ///
@@ -23,9 +25,6 @@ namespace analytics {
 /// prefixes are reserved and should not be used.
 /// @{
 
-/// The method used to sign in. For example, "google", "facebook" or
-/// "twitter".
-static const char *const kUserPropertySignUpMethod = "sign_up_method";
 
 /// Indicates whether events logged by Google Analytics can be used to
 /// personalize ads for the user. Set to "YES" to enable, or "NO" to
@@ -34,14 +33,18 @@ static const char *const kUserPropertySignUpMethod = "sign_up_method";
 /// more details and information about related settings.
 ///
 /// @code
-///  [FIRAnalytics setUserPropertyString:"NO"
-///                              forName:kUserPropertyAllowAdPersonalizationSignals];
+///  Analytics.setUserProperty("NO", forName: AnalyticsUserPropertyAllowAdPersonalizationSignals)
 /// @endcode
-static const char *const kUserPropertyAllowAdPersonalizationSignals =
-    "allow_personalized_ads";
+static const char*const kUserPropertyAllowAdPersonalizationSignals
+     = "allow_personalized_ads";
+
+/// The method used to sign in. For example, "google", "facebook" or
+/// "twitter".
+static const char*const kUserPropertySignUpMethod
+     = "sign_up_method";
 /// @}
 
-} // namespace analytics
-} // namespace firebase
+}  // namespace analytics
+}  // namespace firebase
 
-#endif // FIREBASE_ANALYTICS_CLIENT_CPP_INCLUDE_FIREBASE_ANALYTICS_USER_PROPERTY_NAMES_H_
+#endif  // FIREBASE_ANALYTICS_CLIENT_CPP_INCLUDE_FIREBASE_ANALYTICS_USER_PROPERTY_NAMES_H_

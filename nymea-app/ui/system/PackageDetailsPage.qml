@@ -50,7 +50,7 @@ SettingsPageBase {
             ColorIcon {
                 Layout.preferredHeight: Style.iconSize * 2
                 Layout.preferredWidth: Style.iconSize * 2
-                name: "../images/plugin.svg"
+                name: "qrc:/icons/plugin.svg"
                 color: Style.accentColor
             }
             Label {
@@ -95,7 +95,7 @@ SettingsPageBase {
                 + qsTr("\nDo you want to proceed?")
                 var popup = dialog.createObject(app,
                                                 {
-                                                    headerIcon: "../images/system-update.svg",
+                                                    headerIcon: "qrc:/icons/system-update.svg",
                                                     title: qsTr("Start update"),
                                                     text: text,
                                                     standardButtons: Dialog.Ok | Dialog.Cancel
@@ -117,7 +117,7 @@ SettingsPageBase {
                 var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(Configuration.systemName)
                 var popup = dialog.createObject(app,
                                                 {
-                                                    headerIcon: "../images/system-update.svg",
+                                                    headerIcon: "qrc:/icons/system-update.svg",
                                                     title: qsTr("Remove package"),
                                                     text: text,
                                                     standardButtons: Dialog.Ok | Dialog.Cancel

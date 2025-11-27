@@ -112,7 +112,7 @@ Page {
 
                 ColorIcon {
                     id: nfcIcon
-                    name: "../images/nfc.svg"
+                    name: "qrc:/icons/nfc.svg"
                     height: Style.iconSize * 2
                     width: Style.iconSize * 2
                     anchors.centerIn: parent
@@ -139,7 +139,7 @@ Page {
                     }
 
                     ColorIcon {
-                        name: "../images/smartphone.svg"
+                        name: "qrc:/icons/smartphone.svg"
                         anchors.fill: parent
                     }
                 }
@@ -175,7 +175,7 @@ Page {
                             y: (tick.height - height) / 2
                             height: Style.iconSize * 4
                             width: Style.iconSize * 4
-                            name: nfcWriter.status == NfcThingActionWriter.TagStatusFailed ? "../images/close.svg" : "../images/tick.svg"
+                            name: nfcWriter.status == NfcThingActionWriter.TagStatusFailed ? "qrc:/icons/close.svg" : "qrc:/icons/tick.svg"
                             color: nfcWriter.status == NfcThingActionWriter.TagStatusFailed ? "red" : "green"
                         }
                     }

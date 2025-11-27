@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_STORAGE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_STORAGE_STORAGE_REFERENCE_H_
-#define FIREBASE_STORAGE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_STORAGE_STORAGE_REFERENCE_H_
+#ifndef FIREBASE_STORAGE_SRC_INCLUDE_FIREBASE_STORAGE_STORAGE_REFERENCE_H_
+#define FIREBASE_STORAGE_SRC_INCLUDE_FIREBASE_STORAGE_STORAGE_REFERENCE_H_
 
 #include <string>
 #include <vector>
@@ -33,14 +33,17 @@ class Storage;
 namespace internal {
 class ControllerInternal;
 class MetadataInternal;
+class StorageInternal;
 class StorageReferenceInternalCommon;
 class StorageReferenceInternal;
 }  // namespace internal
 /// @endcond FIREBASE_APP_INTERNAL
 
+#ifndef SWIG
 /// Represents a reference to a Cloud Storage object.
 /// Developers can upload and download objects, get/set object metadata, and
 /// delete an object at a specified path.
+#endif  // SWIG
 class StorageReference {
  public:
   /// @brief Default constructor. This creates an invalid StorageReference.
@@ -355,4 +358,4 @@ class StorageReference {
 }  // namespace storage
 }  // namespace firebase
 
-#endif  // FIREBASE_STORAGE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_STORAGE_STORAGE_REFERENCE_H_
+#endif  // FIREBASE_STORAGE_SRC_INCLUDE_FIREBASE_STORAGE_STORAGE_REFERENCE_H_

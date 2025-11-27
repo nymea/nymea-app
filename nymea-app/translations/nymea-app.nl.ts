@@ -185,7 +185,7 @@
     </message>
     <message>
         <source>No data</source>
-        <translation type="unfinished">Geen gegevens</translation>
+        <translation>Geen gegevens</translation>
     </message>
     <message>
         <source>This action has not been executed yet.</source>
@@ -593,24 +593,12 @@
         <translation>Help</translation>
     </message>
     <message>
-        <source>Forum</source>
-        <translation>Forum</translation>
-    </message>
-    <message>
         <source>Telegram</source>
         <translation>Telegram</translation>
     </message>
     <message>
         <source>Discord</source>
         <translation>Discord</translation>
-    </message>
-    <message>
-        <source>Twitter</source>
-        <translation>Twitter</translation>
-    </message>
-    <message>
-        <source>Facebook</source>
-        <translation>Facebook</translation>
     </message>
 </context>
 <context>
@@ -706,6 +694,10 @@
     <message>
         <source>Are you sure you want to remove %1 and all associated settings?</source>
         <translation>Weet je zeker dat je %1 wilt verwijderen, samen met de bijbehorende instellingen?</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Details</translation>
     </message>
 </context>
 <context>
@@ -1242,6 +1234,18 @@
         <source>OK</source>
         <translation>OK</translation>
     </message>
+    <message>
+        <source>Sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>Select depiction</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DashboardFolderDelegate</name>
@@ -1417,6 +1421,14 @@
         <source>Debug interface active at %1.</source>
         <translation>Debug interface actief op %1.</translation>
     </message>
+    <message>
+        <source>Server logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
@@ -1427,6 +1439,17 @@
     <message>
         <source>Error: %1</source>
         <translation>Fout: %1</translation>
+    </message>
+</context>
+<context>
+    <name>DeviceDetailsPage</name>
+    <message>
+        <source>States</source>
+        <translation>Statussen</translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation>Gebeurtenissen</translation>
     </message>
 </context>
 <context>
@@ -2129,7 +2152,7 @@
     </message>
     <message>
         <source>No data</source>
-        <translation type="unfinished">Geen gegevens</translation>
+        <translation>Geen gegevens</translation>
     </message>
     <message>
         <source>This event has not been triggered yet.</source>
@@ -2407,6 +2430,10 @@ Probeer het nog een keer.</translation>
         <source>OK</source>
         <translation>OK</translation>
     </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GenericThingsListPage</name>
@@ -2539,10 +2566,6 @@ Probeer het nog een keer.</translation>
         <translation>Bezoek de Qt website</translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation>nymea is een geregistreerd handelsmerk van nymea GmbH.</translation>
-    </message>
-    <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
         <translation>Gelicentieerd onder de voorwaarden van de GNU General Public License, versie 3. Bezoek de GitHub pagina voor de broncode en de build instructies.</translation>
     </message>
@@ -2553,6 +2576,14 @@ Probeer het nog een keer.</translation>
     <message>
         <source>Additional software licenses</source>
         <translation>Aanvullende software licenties</translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of chargebyte GmbH.</source>
+        <translation>nymea is een geregistreerd handelsmerk van chargebyte GmbH.</translation>
+    </message>
+    <message>
+        <source>Licensed under the terms of the nymea commercial license.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3756,10 +3787,6 @@ Probeer het nog een keer.</translation>
 <context>
     <name>LoginPage</name>
     <message>
-        <source>Welcome to %1!</source>
-        <translation>Welkom bij %1!</translation>
-    </message>
-    <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
         <translation>Sorry, dat was niet goed. Probeer het nog eens.</translation>
     </message>
@@ -3829,6 +3856,10 @@ Probeer het nog een keer.</translation>
     </message>
     <message>
         <source>If you are an installer and do not have your own account, you can authenticate yourself using the test button on the leaflet (see quick start guide or user manual).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4002,6 +4033,14 @@ Probeer het nog een keer.</translation>
     <message>
         <source>Set up another...</source>
         <translation>Stel een andere in...</translation>
+    </message>
+    <message>
+        <source>Are you sure?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to log out from %1 and remove it from your connections?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4590,6 +4629,29 @@ Gebruik een timeout waarde die groter of gelijk is dan 10 ms.</translation>
     </message>
 </context>
 <context>
+    <name>MultiStateChart</name>
+    <message>
+        <source>Hours</source>
+        <translation>Uren</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Dagen</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation>Weken</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Maanden</translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation>Geen gegevens</translation>
+    </message>
+</context>
+<context>
     <name>NetworkSettingsPage</name>
     <message>
         <source>Network settings</source>
@@ -4890,6 +4952,14 @@ Gebruik een timeout waarde die groter of gelijk is dan 10 ms.</translation>
     <message>
         <source>An unexpected error happened.</source>
         <translation>Er ging onverwacht iets fout.</translation>
+    </message>
+    <message>
+        <source>The network configuration is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This feature is not supported on this platform.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6247,6 +6317,29 @@ Wil je doorgaan?</translation>
     </message>
 </context>
 <context>
+    <name>ServerLoggingCategoriesPage</name>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished">Kritiek</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished">Waarschuwing</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished">Informatie</translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation type="unfinished">Debug</translation>
+    </message>
+</context>
+<context>
     <name>SettingsPage</name>
     <message>
         <source>General</source>
@@ -6709,10 +6802,6 @@ A consumer, not consuming anything</extracomment>
         <translation>Alles bijwerken</translation>
     </message>
     <message>
-        <source>Configure update sources</source>
-        <translation>Stel de bronnen voor bijwerken in</translation>
-    </message>
-    <message>
         <source>Enable package source</source>
         <translation>Schakel de bron voor het pakket in</translation>
     </message>
@@ -6761,6 +6850,10 @@ Please only use this if you are sure you want this and consider reporting the is
 Dit kan ervoor zorgen dat je systeem niet meer goed functioneert.
 Gebruik deze optie alleen als je zeker weet dat je dit wilt.
 Als je fouten in de niet-officiële software vindt, geef deze dan door aan de ontwikkelaars.</translation>
+    </message>
+    <message>
+        <source>Update sources</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6926,6 +7019,89 @@ Als je fouten in de niet-officiële software vindt, geef deze dan door aan de on
     <message>
         <source>Update</source>
         <translation>Bijwerken</translation>
+    </message>
+</context>
+<context>
+    <name>ThingStatusPage</name>
+    <message>
+        <source>Status for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing is up to date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Aan het bijwerken...</translation>
+    </message>
+    <message>
+        <source>Installed version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available version: %1</source>
+        <translation>Beschikbare versie: %1</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Bijwerken</translation>
+    </message>
+    <message>
+        <source>Do you want to start the update now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current version: %1</source>
+        <translation>Huidige versie: %1</translation>
+    </message>
+    <message>
+        <source>Connection information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation>Verbonden</translation>
+    </message>
+    <message>
+        <source>Disconnected</source>
+        <translation>Niet verbonden</translation>
+    </message>
+    <message>
+        <source>Signal strength: %1 %</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation>Kritiek</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Battery level: %1 %</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7395,6 +7571,21 @@ Als je fouten in de niet-officiële software vindt, geef deze dan door aan de on
     <message>
         <source>Add</source>
         <translation>Toevoegen</translation>
+    </message>
+</context>
+<context>
+    <name>WirelessNetworksFilterSettingsPage</name>
+    <message>
+        <source>WiFi list options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show all networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple networks with the same name get filterd out</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

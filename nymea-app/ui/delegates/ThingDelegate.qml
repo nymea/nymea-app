@@ -40,19 +40,19 @@ NymeaSwipeDelegate {
     iconName: thing && thing.thingClass ? app.interfacesToIcon(thing.thingClass.interfaces) : ""
     text: thing ? thing.name : ""
     progressive: true
-    secondaryIconName: thing.setupStatus == Thing.ThingSetupStatusComplete && batteryCritical ? "../images/battery/battery-010.svg" : ""
+    secondaryIconName: thing.setupStatus == Thing.ThingSetupStatusComplete && batteryCritical ? "qrc:/icons/battery/battery-010.svg" : ""
     tertiaryIconName: {
         if (thing.setupStatus == Thing.ThingSetupStatusFailed) {
-            return "../images/dialog-warning-symbolic.svg";
+            return "qrc:/icons/dialog-warning-symbolic.svg";
         }
         if (thing.setupStatus == Thing.ThingSetupStatusInProgress) {
-            return "../images/settings.svg"
+            return "qrc:/icons/settings.svg"
         }
         if (connectedState && connectedState.value === false) {
             if (!isWireless) {
-                return "../images/connections/network-wired-offline.svg"
+                return "qrc:/icons/connections/network-wired-offline.svg"
             }
-            return "../images/connections/nm-signal-00.svg"
+            return "qrc:/icons/connections/nm-signal-00.svg"
         }
         return ""
     }

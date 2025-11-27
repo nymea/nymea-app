@@ -45,7 +45,7 @@ MainViewBase {
 
     headerButtons: [
         {
-            iconSource: "/ui/images/configure.svg",
+            iconSource: "qrc:/icons/configure.svg",
             color: dashboard.editMode ? Style.accentColor : Style.iconColor,
             trigger: function() {
                 dashboard.editMode = !dashboard.editMode;

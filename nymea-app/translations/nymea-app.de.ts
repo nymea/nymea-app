@@ -177,7 +177,7 @@
     </message>
     <message>
         <source>Enable logging</source>
-        <translation>Protokollieren aktivieren</translation>
+        <translation>Aktiviere Protokollierung</translation>
     </message>
     <message>
         <source>This action is not being logged.</source>
@@ -190,6 +190,7 @@
     <message>
         <source>This action has not been executed yet.</source>
         <translation>Diese Aktion wurd noch nicht ausgeführt.</translation>
+        <translation>Diese Aktion wurde noch nicht ausgeführt.</translation>
     </message>
 </context>
 <context>
@@ -838,24 +839,12 @@
         <translation>Hilfe</translation>
     </message>
     <message>
-        <source>Forum</source>
-        <translation>Forum</translation>
-    </message>
-    <message>
         <source>Telegram</source>
         <translation>Telegram</translation>
     </message>
     <message>
         <source>Discord</source>
         <translation>Discord</translation>
-    </message>
-    <message>
-        <source>Twitter</source>
-        <translation>Twitter</translation>
-    </message>
-    <message>
-        <source>Facebook</source>
-        <translation>Facebook</translation>
     </message>
 </context>
 <context>
@@ -952,6 +941,10 @@
         <source>Are you sure you want to remove %1 and all associated settings?</source>
         <translation>Bist Du sicher, dass %1 und alle zugehörigen Einstellungen entfernt werden sollen?</translation>
     </message>
+    <message>
+        <source>Details</source>
+        <translation>Details</translation>
+    </message>
 </context>
 <context>
     <name>ConnectPage</name>
@@ -1039,7 +1032,7 @@
     </message>
     <message>
         <source>It seems you&apos;re not connected to the network.</source>
-        <translation>Es scheint als sei keine Netzwerkverbindung verfügbar.</translation>
+        <translation>Es scheint, als sei keine Netzwerkverbindung verfügbar.</translation>
     </message>
     <message>
         <source>The host has rejected our connection. This probably means that %1 is not running on this host. Perhaps it&apos;s restarting?</source>
@@ -1124,7 +1117,7 @@
     </message>
     <message>
         <source>Enabling the remote connection will allow connecting to this %1 system from anywhere.</source>
-        <translation>Das Aktivieren der Fernverbindung erlaubt von überall aus auf dieses %1 system zuzugreifen.</translation>
+        <translation>Das Aktivieren der Fernverbindung erlaubt von überall aus auf dieses %1 System zuzugreifen.</translation>
     </message>
     <message>
         <source>Enabled</source>
@@ -1580,6 +1573,18 @@
         <source>OK</source>
         <translation>OK</translation>
     </message>
+    <message>
+        <source>Sensor</source>
+        <translation>Sensor</translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation>Zustand</translation>
+    </message>
+    <message>
+        <source>Select depiction</source>
+        <translation>Darstellung auswählen</translation>
+    </message>
 </context>
 <context>
     <name>DashboardFolderDelegate</name>
@@ -1755,6 +1760,14 @@
         <source>Debug interface active at %1.</source>
         <translation>Entwicklerschnittstelle aktiv unter %1.</translation>
     </message>
+    <message>
+        <source>Server logging</source>
+        <translation>Server Logs</translation>
+    </message>
+    <message>
+        <source>Server logging categories</source>
+        <translation>Server Log-Kategorien</translation>
+    </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
@@ -1765,6 +1778,17 @@
     <message>
         <source>Error: %1</source>
         <translation>Fehler: %1</translation>
+    </message>
+</context>
+<context>
+    <name>DeviceDetailsPage</name>
+    <message>
+        <source>States</source>
+        <translation>Zustände</translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation>Ereignisse</translation>
     </message>
 </context>
 <context>
@@ -2453,11 +2477,11 @@
     </message>
     <message>
         <source>Logging not enabled</source>
-        <translation>Protokoll nicht aktiv</translation>
+        <translation>Protokollieren nicht aktiv</translation>
     </message>
     <message>
         <source>Enable logging</source>
-        <translation>Protokollieren aktivieren</translation>
+        <translation>Aktiviere Protokollierung</translation>
     </message>
     <message>
         <source>This event is not being logged.</source>
@@ -2469,7 +2493,7 @@
     </message>
     <message>
         <source>This event has not been triggered yet.</source>
-        <translation>Diese Event wurde noch nicht ausgelöst.</translation>
+        <translation>Dieses Ereignis ist noch nicht aufgetreten.</translation>
     </message>
 </context>
 <context>
@@ -2743,6 +2767,10 @@ Bitte versuche es erneut.</translation>
         <source>OK</source>
         <translation>OK</translation>
     </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation>ID in die Zwischenablage kopiert</translation>
+    </message>
 </context>
 <context>
     <name>GenericThingsListPage</name>
@@ -2875,10 +2903,6 @@ Bitte versuche es erneut.</translation>
         <translation>Besuchen Sie die Qt Webseite</translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation>nymea ist ein eingetragenes Markenzeichen der nymea GmbH.</translation>
-    </message>
-    <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
         <translation>Lizensiert unter den Bedingungen der GNU General Public License, Version 3. Bitte besuche die GitHub Seite für mehr Informationen zum Quellcode und Kompilier-Anleitungen.</translation>
     </message>
@@ -2889,6 +2913,14 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Additional software licenses</source>
         <translation>Zusätzliche Software-Lizenzen</translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of chargebyte GmbH.</source>
+        <translation>nymea ist ein eingetragenes Markenzeichen von chargebyte GmbH.</translation>
+    </message>
+    <message>
+        <source>Licensed under the terms of the nymea commercial license.</source>
+        <translation>Lizensiert unter den Bedingungen der kommerzielle Lizenz von Nymea.</translation>
     </message>
 </context>
 <context>
@@ -4090,12 +4122,8 @@ Bitte versuche es erneut.</translation>
 <context>
     <name>LoginPage</name>
     <message>
-        <source>Welcome to %1!</source>
-        <translation>Willkommen zu %1!</translation>
-    </message>
-    <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
-        <translation>Entschuldingung, das war nicht richtig. Bitte erneut versuchen.</translation>
+        <translation>Entschuldingung, das war nicht richtig. Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>The email you&apos;ve entered isn&apos;t valid.</source>
@@ -4103,7 +4131,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please log in.</source>
-        <translation>Um Ihr %1 system zu nutzen, melden Sie sich bitte an.</translation>
+        <translation>Um Dein %1 System zu nutzen, melden Sie sich bitte an.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -4127,7 +4155,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>In order to use your %1 system, please create an account.</source>
-        <translation>Erstelle ein Benutzerkonto um dieses %1 System zu benutzen.</translation>
+        <translation>Erstelle ein Benutzerkonto, um dieses %1 System zu benutzen.</translation>
     </message>
     <message>
         <source>Username</source>
@@ -4164,6 +4192,10 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>If you are an installer and do not have your own account, you can authenticate yourself using the test button on the leaflet (see quick start guide or user manual).</source>
         <translation>Sind Sie Installateur und besitzen keinen Account, können Sie sich über den Test-Taster authentifizieren (siehe Kurzanleitung und Gebrauchsanleitung).</translation>
+    </message>
+    <message>
+        <source>Welcome!</source>
+        <translation>Willkommen!</translation>
     </message>
 </context>
 <context>
@@ -4336,6 +4368,14 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Set up another...</source>
         <translation>Ein weiteres einrichten...</translation>
+    </message>
+    <message>
+        <source>Are you sure?</source>
+        <translation>Bist Du sicher?</translation>
+    </message>
+    <message>
+        <source>Do you want to log out from %1 and remove it from your connections?</source>
+        <translation>Möchtest Du dich von %1 abmelden und die Verbindung entfernen?</translation>
     </message>
 </context>
 <context>
@@ -4682,7 +4722,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Reconfigure Modbus RTU master</source>
-        <translation>Mobus RTU Master neu einrichten</translation>
+        <translation>Modbus RTU Master neu einrichten</translation>
     </message>
 </context>
 <context>
@@ -4853,7 +4893,7 @@ Bitte versuche es erneut.</translation>
 Maybe the hardware is already in use.</source>
         <translation>Verbindung zum Modbus RTU Master kann nicht hergestellt werden.
 
-Wird das Gerät bereits benutzt?</translation>
+Eventuell wird das Gerät bereits benutzt.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this Modbus RTU master?</source>
@@ -4956,6 +4996,29 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     <message>
         <source>Client info</source>
         <translation>Klient-Informationen</translation>
+    </message>
+</context>
+<context>
+    <name>MultiStateChart</name>
+    <message>
+        <source>Hours</source>
+        <translation>Stunden</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Tage</translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation>Wochen</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Monate</translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation>Keine Daten</translation>
     </message>
 </context>
 <context>
@@ -5118,7 +5181,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Disabling networking will disconnect all connected clients. Be aware that you will not be able to interact remotely with this %1 system any more. Do not proceed unless you know what your are doing.</source>
-        <translation>Das Deaktivieren der Netzwerk-Funktionalität wird alle verbunden Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird über das Netzwerk mit diesem %1 System zu interagieren. Es wird nicht empfohlen fortzufahren insofern dies nicht ausdrücklich gewünscht ist.</translation>
+        <translation>Das Deaktivieren der Netzwerk-Funktionalität wird alle verbunden Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird, über das Netzwerk mit diesem %1 System zu interagieren. Es wird nicht empfohlen fortzufahren insofern dies nicht ausdrücklich gewünscht ist.</translation>
     </message>
     <message>
         <source>Do you want to proceed?</source>
@@ -5126,7 +5189,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Disabling WiFi will disconnect all clients connected via WiFi. Be aware that you will not be able to interact remotely with this %1 system any more unless a LAN cable is connected.</source>
-        <translation>Das Deaktivieren der WLAN-Verbindung wird alle über WLAN verbundenen Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird mit diesem %1 System zu interagieren insofern kein Netzwerk-Kabel angeschlossen ist.</translation>
+        <translation>Das Deaktivieren der WLAN-Verbindung wird alle über WLAN verbundenen Geräte trennen. Bitte beachte, dass es nicht mehr möglich sein wird, mit diesem %1 System zu interagieren insofern kein Netzwerk-Kabel angeschlossen ist.</translation>
     </message>
     <message>
         <source>General</source>
@@ -5259,6 +5322,14 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     <message>
         <source>An unexpected error happened.</source>
         <translation>Ein unerwarteter Fehler ist aufgetreten.</translation>
+    </message>
+    <message>
+        <source>The network configuration is not valid.</source>
+        <translation>Die Netzwerkkonfiguration ist nicht gültig.</translation>
+    </message>
+    <message>
+        <source>This feature is not supported on this platform.</source>
+        <translation>Diese Funktion wird auf diese Plattform nicht unterstützt.</translation>
     </message>
 </context>
 <context>
@@ -6191,7 +6262,7 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source></source>
         <comment>example: &quot;and temperature &gt; 5&quot;</comment>
-        <translation></translation>
+        <translation>Beispiel: &quot;und Temperatur &gt; 5&quot;</translation>
     </message>
     <message>
         <source>only if %1 %2 %3</source>
@@ -6300,7 +6371,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Press &quot;Add script&quot; to get started.</source>
-        <translation>Drücke dden &quot;Script erstellen&quot; Knopf um loszulegen.</translation>
+        <translation>Drücke den &quot;Script erstellen&quot; Knopf um loszulegen.</translation>
     </message>
     <message>
         <source>Add script</source>
@@ -6623,6 +6694,29 @@ Möchtest Du fortfahren?</translation>
     </message>
 </context>
 <context>
+    <name>ServerLoggingCategoriesPage</name>
+    <message>
+        <source>Server logging categories</source>
+        <translation>Server Log-Kategorien</translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation>Kritisch</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Warnung</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation>Fehlersuche</translation>
+    </message>
+</context>
+<context>
     <name>SettingsPage</name>
     <message>
         <source>Plugins</source>
@@ -6698,7 +6792,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Configure who can log in</source>
-        <translation>Konfiguriere wer sich Verbinden darf</translation>
+        <translation>Konfiguriere, wer sich Verbinden darf</translation>
     </message>
     <message>
         <source>ZigBee</source>
@@ -6722,7 +6816,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Configure Modbus RTU master interfaces</source>
-        <translation>Modbug RTU Master Schnittstellen einrichten</translation>
+        <translation>Modbus RTU Master Schnittstellen einrichten</translation>
     </message>
     <message>
         <source>Connection settings</source>
@@ -6730,7 +6824,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Configure how applications can connect to this system</source>
-        <translation>Verwalte wie sich Anwendungen zu diesem System verbinden können</translation>
+        <translation>Verwalte, wie sich Anwendungen zu diesem System verbinden können</translation>
     </message>
     <message>
         <source>Z-Wave</source>
@@ -6805,7 +6899,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>This %1 system has not been set up yet. This wizard will guide you through a few simple steps to set it up.</source>
-        <translation>Dieses %1 System wurde noch nicht eingerichtet. Dieser Assistent wird Dich durch ein paar einfache Schritte leiten um es einzurichten.</translation>
+        <translation>Dieses %1 System wurde noch nicht eingerichtet. Dieser Assistent wird Dich durch ein paar einfache Schritte leiten, um es einzurichten.</translation>
     </message>
     <message>
         <source>Next</source>
@@ -6957,7 +7051,7 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message>
         <source>Obtaining</source>
-        <translation></translation>
+        <translation>Erhaltend</translation>
     </message>
     <message>
         <source>At the current rate, the battery will be fully charged at %1.</source>
@@ -7066,11 +7160,11 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message>
         <source>This state is not being logged.</source>
-        <translation>Dieser Zustand wird nicht protokolliert</translation>
+        <translation>Dieser Zustand wird nicht protokolliert.</translation>
     </message>
     <message>
         <source>Enable logging</source>
-        <translation>Protokoll aktivieren</translation>
+        <translation>Aktiviere Protokollierung</translation>
     </message>
 </context>
 <context>
@@ -7086,10 +7180,6 @@ A consumer, not consuming anything</extracomment>
     <message>
         <source>Update all</source>
         <translation>Alle aktualisieren</translation>
-    </message>
-    <message>
-        <source>Configure update sources</source>
-        <translation>Quellen für die Aktualisierung einrichten</translation>
     </message>
     <message>
         <source>Enable package source</source>
@@ -7139,6 +7229,10 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation>Das Aktivieren zusätzlicher Software-Quellen erlaubt das Installieren von %1 Vorschauversionen.
 Dies kann unter Umständen Deine Installation beschädigen und zu Problemen füren.
 Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du möchtest und hilf uns Fehler zu finden indem Du uns darüber informierst.</translation>
+    </message>
+    <message>
+        <source>Update sources</source>
+        <translation>Quellen für die Aktualisierung</translation>
     </message>
 </context>
 <context>
@@ -7304,6 +7398,89 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Update</source>
         <translation>Aktualisierung</translation>
+    </message>
+</context>
+<context>
+    <name>ThingStatusPage</name>
+    <message>
+        <source>Status for %1</source>
+        <translation>Status für %1</translation>
+    </message>
+    <message>
+        <source>Update information</source>
+        <translation>Update Informationen</translation>
+    </message>
+    <message>
+        <source>Thing is up to date</source>
+        <translation>Gerät ist auf dem neuesten Stand</translation>
+    </message>
+    <message>
+        <source>Update available</source>
+        <translation>Update verfügbar</translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>Update wird durchgeführt...</translation>
+    </message>
+    <message>
+        <source>Installed version: %1</source>
+        <translation>Installierte Version: %1</translation>
+    </message>
+    <message>
+        <source>Available version: %1</source>
+        <translation>Verfügbare Version: %1</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Aktualisierung</translation>
+    </message>
+    <message>
+        <source>Do you want to start the update now?</source>
+        <translation>Möchtest du das Update jetzt durchführen?</translation>
+    </message>
+    <message>
+        <source>Current version: %1</source>
+        <translation>Aktuelle Version: %1</translation>
+    </message>
+    <message>
+        <source>Connection information</source>
+        <translation>Verbindungs Information</translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation>Verbunden</translation>
+    </message>
+    <message>
+        <source>Disconnected</source>
+        <translation>Getrennt</translation>
+    </message>
+    <message>
+        <source>Signal strength: %1 %</source>
+        <translation>Signalstärke: %1 %</translation>
+    </message>
+    <message>
+        <source>Battery information</source>
+        <translation>Batterie Informationen</translation>
+    </message>
+    <message>
+        <source>Battery level critical</source>
+        <translation>Batterie Ladung kritisch</translation>
+    </message>
+    <message>
+        <source>Battery level ok</source>
+        <translation>Batterie Ladung OK</translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation>Kritisch</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Battery level: %1 %</source>
+        <translation>Batterie Ladung: %1 %</translation>
     </message>
 </context>
 <context>
@@ -7773,6 +7950,21 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Add</source>
         <translation>Hinzufügen</translation>
+    </message>
+</context>
+<context>
+    <name>WirelessNetworksFilterSettingsPage</name>
+    <message>
+        <source>WiFi list options</source>
+        <translation>WiFi Listen Optionen</translation>
+    </message>
+    <message>
+        <source>Show all networks</source>
+        <translation>Zeige alle Netzwerke</translation>
+    </message>
+    <message>
+        <source>Multiple networks with the same name get filterd out</source>
+        <translation>Mehrere Netzwerke mit gleichem Namen werden gefiltert</translation>
     </message>
 </context>
 <context>

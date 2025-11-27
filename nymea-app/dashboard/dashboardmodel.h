@@ -30,6 +30,8 @@ public:
     Q_INVOKABLE void addGraphItem(const QUuid &thingId, const QUuid &stateTypeId, int index = -1);
     Q_INVOKABLE void addSceneItem(const QUuid &ruleId, int index = -1);
     Q_INVOKABLE void addWebViewItem(const QUrl &url, int columnSpan, int rowSpan, bool interactive, int index = -1);
+    Q_INVOKABLE void addStateItem(const QUuid &thingId, const QUuid &stateTypeId, int index = -1);
+    Q_INVOKABLE void addSensorItem(const QUuid &thingId, const QStringList &interfaces, int index = -1);
 
     Q_INVOKABLE void removeItem(int index);
     Q_INVOKABLE void move(int from, int to);

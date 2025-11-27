@@ -130,6 +130,7 @@ MainPageTile {
         id: devicesSubProxyConnectables
         engine: _engine
         parentProxy: thingsProxy
+        shownInterfaces: ["connectable"]
         filterDisconnected: true
     }
     ThingsProxy {

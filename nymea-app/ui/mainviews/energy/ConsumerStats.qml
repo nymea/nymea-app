@@ -117,7 +117,7 @@ StatsBase {
                         barSet.replace(i, consumption)
                         valueAxis.adjustMax(consumption)
 
-                    } else if (timestamp.getTime() == upcomingTimestamp.getTime() && (previousEntry || !d.loading)) {
+                    } else if (timestamp.getTime() == upcomingTimestamp.getTime() && (previousEntry || !d.loading) && thingPowerLogs.liveEntry()) {
                         var consumption = thingPowerLogs.liveEntry().totalConsumption
 //                        print("it's today for thing", thing.name, consumption, previousEntry)
                         if (previousEntry) {
@@ -571,7 +571,5 @@ StatsBase {
                 }
             }
         }
-
     }
-
 }

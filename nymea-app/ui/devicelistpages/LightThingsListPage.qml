@@ -46,7 +46,7 @@ ThingsListPageBase {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/system-shutdown.svg"
+            imageSource: "qrc:/icons/system-shutdown.svg"
             onClicked: {
                 var allOff = true;
                 for (var i = 0; i < thingsProxy.count; i++) {
@@ -140,7 +140,7 @@ ThingsListPageBase {
                                     id: lightIcon
                                     Layout.preferredHeight: Style.iconSize
                                     Layout.preferredWidth: Style.iconSize
-                                    name: itemDelegate.powerState.value === true ? "../images/light-on.svg" : "../images/light-off.svg"
+                                    name: itemDelegate.powerState.value === true ? "qrc:/icons/light-on.svg" : "qrc:/icons/light-off.svg"
                                     color: itemDelegate.powerState.value === true ? Style.accentColor : Style.iconColor
                                     Binding {
                                         target: lightIcon

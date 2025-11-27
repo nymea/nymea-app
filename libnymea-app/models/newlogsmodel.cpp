@@ -266,32 +266,64 @@ NewLogEntry *NewLogsModel::find(const QDateTime &timestamp) const
             return entry;
         }
         qint64 diff = timestamp.msecsTo(entry->timestamp());
-        if (entry->timestamp() > timestamp) {
-//            qCDebug(dcLogEngine()) << "entry is newer than searched:" << entry->timestamp().toString() << timestamp.toString();
-            if (idx == 0) {
-//                qCDebug(dcLogEngine()) << "Is oldest.";
-                return entry;
+        if (m_sortOrder == Qt::AscendingOrder) {
+            if (entry->timestamp() > timestamp) {
+//                qCDebug(dcLogEngine()) << "entry is newer than searched:" << entry->timestamp().toString() << timestamp.toString();
+                if (idx == 0) {
+//                    qCDebug(dcLogEngine()) << "Is oldest.";
+                    return entry;
+                }
+                NewLogEntry *previousEntry = m_list.at(idx-1);
+                if (previousEntry->timestamp() < timestamp) {
+                    qint64 previousDiff = timestamp.msecsTo(previousEntry->timestamp());
+//                    qCDebug(dcLogEngine()) << "time between this and previous:" << entry->timestamp().toString() << previousEntry->timestamp().toString() << (qAbs(previousDiff) < qAbs(diff) ? "next" : "this");
+                    return qAbs(previousDiff) < qAbs(diff) ? previousEntry : entry;
+                }
+                idx -= jump;
+            } else if (entry->timestamp() < timestamp) {
+//                qCDebug(dcLogEngine()) << "entry is older than searched:" << entry->timestamp().toString() << timestamp.toString();
+                if (idx == m_list.count() - 1) {
+//                    qCDebug(dcLogEngine()) << "Is newest.";
+                    return entry;
+                }
+                NewLogEntry *nextEntry = m_list.at(idx+1);
+                if (nextEntry->timestamp() > timestamp) {
+                    qint64 nextDiff = timestamp.msecsTo(nextEntry->timestamp());
+//                    qCDebug(dcLogEngine()) << "time between next and this:" << nextEntry->timestamp().toString() << "-" << entry->timestamp().toString()  << (qAbs(nextDiff) > qAbs(diff) ? "prev" : "this");
+                    return qAbs(nextDiff) < qAbs(diff) ? nextEntry : entry;
+                }
+                idx += jump;
             }
-            NewLogEntry *previousEntry = m_list.at(idx-1);
-            if (previousEntry->timestamp() < timestamp) {
-                qint64 previousDiff = timestamp.msecsTo(previousEntry->timestamp());
-//                qCDebug(dcLogEngine()) << "time between this and previous:" << entry->timestamp().toString() << previousEntry->timestamp().toString() << (qAbs(previousDiff) < qAbs(diff) ? "next" : "this");
-                return qAbs(previousDiff) < qAbs(diff) ? previousEntry : entry;
+        } else {
+            if (entry->timestamp() > timestamp) {
+//                qCDebug(dcLogEngine()) << "entry is newer than searched:" << entry->timestamp().toString() << timestamp.toString();
+                if (idx == m_list.count() - 1) {
+//                    qCDebug(dcLogEngine()) << "Is newest.";
+                    return entry;
+                }
+                NewLogEntry *previousEntry = m_list.at(idx+1);
+//                qCDebug(dcLogEngine) << "previous:" << previousEntry->timestamp().toString();
+                if (previousEntry->timestamp() < timestamp) {
+                    qint64 previousDiff = timestamp.msecsTo(previousEntry->timestamp());
+//                    qCDebug(dcLogEngine()) << "time between previous and this:" << previousEntry->timestamp().toString() << entry->timestamp().toString() << previousDiff;
+                    return qAbs(previousDiff) < qAbs(diff) ? previousEntry : entry;
+                }
+                idx += jump;
+            } else if (entry->timestamp() < timestamp) {
+//                qCDebug(dcLogEngine()) << "entry is older than searched:" << entry->timestamp().toString() << timestamp.toString();
+                if (idx == 0) {
+//                    qCDebug(dcLogEngine()) << "Is oldest.";
+                    return entry;
+                }
+                NewLogEntry *nextEntry = m_list.at(idx-1);
+//                qCDebug(dcLogEngine) << "next:" << nextEntry;
+                if (nextEntry->timestamp() > timestamp) {
+                    qint64 nextDiff = timestamp.msecsTo(nextEntry->timestamp());
+//                    qCDebug(dcLogEngine()) << "time between this and next:" << entry->timestamp().toString() << nextEntry->timestamp().toString() << nextDiff;
+                    return qAbs(nextDiff) < qAbs(diff) ? nextEntry : entry;
+                }
+                idx -= jump;
             }
-            idx -= jump;
-        } else if (entry->timestamp() < timestamp) {
-//            qCDebug(dcLogEngine()) << "entry is older than searched:" << entry->timestamp().toString() << timestamp.toString();
-            if (idx == m_list.count() - 1) {
-//                qCDebug(dcLogEngine()) << "Is newest.";
-                return entry;
-            }
-            NewLogEntry *nextEntry = m_list.at(idx+1);
-            if (nextEntry->timestamp() > timestamp) {
-                qint64 nextDiff = timestamp.msecsTo(nextEntry->timestamp());
-//                qCDebug(dcLogEngine()) << "time between next and this:" << nextEntry->timestamp().toString() << "-" << entry->timestamp().toString()  << (qAbs(nextDiff) > qAbs(diff) ? "prev" : "this");
-                return qAbs(nextDiff) < qAbs(diff) ? nextEntry : entry;
-            }
-            idx += jump;
         }
         jump = qMax(1, jump / 2);
     };
@@ -379,7 +411,7 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
         QVariantMap values = map.value("values").toMap();
         NewLogEntry *entry = new NewLogEntry(source, timestamp, values, this);
         entries.append(entry);
-
+        qCDebug(dcLogEngine()) << "Log entry:" << entry->timestamp() << entry->values();;
     }
 
     m_canFetchMore = entries.count() >= m_blockSize;
@@ -397,8 +429,8 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
             beginInsertRows(QModelIndex(), 0, entries.count() - 1);
             m_list = entries;
             endInsertRows();
-            emit entriesAdded(0, entries);
         }
+        emit entriesAdded(0, entries);
         emit countChanged();
 
     } else {
@@ -409,9 +441,9 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
             });
             m_list.append(entries);
             endInsertRows();
-            emit entriesAdded(m_list.count() - entries.count(), entries);
-            emit countChanged();
         }
+        emit entriesAdded(m_list.count() - entries.count(), entries);
+        emit countChanged();
     }
 
 }
@@ -422,18 +454,20 @@ void NewLogsModel::newLogEntryReceived(const QVariantMap &map)
     QDateTime timestamp = QDateTime::fromMSecsSinceEpoch(map.value("timestamp").toULongLong());
     QVariantMap values = map.value("values").toMap();
 
+
     if (m_sources.contains(source) && m_sampleRate == SampleRateAny) {
+        qCritical() << "New entry!" << m_sources << source << m_sampleRate;
         NewLogEntry *entry = new NewLogEntry(source, timestamp, values, this);
-        if (m_sortOrder == Qt::AscendingOrder) {
-            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
-            m_list.append(entry);
-            endInsertRows();
-            emit entriesAdded(m_list.count() - 1, {entry});
-        } else {
+        if (m_sortOrder == Qt::DescendingOrder) {
             beginInsertRows(QModelIndex(), 0, 0);
             m_list.prepend(entry);
             endInsertRows();
             emit entriesAdded(0, {entry});
+        } else {
+            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+            m_list.append(entry);
+            endInsertRows();
+            emit entriesAdded(m_list.count() - 1, {entry});
         }
         emit countChanged();
     }

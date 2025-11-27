@@ -57,7 +57,7 @@ Page {
         onInterfacesModeChanged: root.buildInterface()
 
 //        HeaderButton {
-//            imageSource: header.interfacesMode ? "../images/view-expand.svg" : "../images/view-collapse.svg"
+//            imageSource: header.interfacesMode ? "qrc:/icons/view-expand.svg" : "qrc:/icons/view-collapse.svg"
 //            visible: root.eventDescriptor.interfaceName === ""
 //            onClicked: header.interfacesMode = !header.interfacesMode
 //        }

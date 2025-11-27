@@ -136,10 +136,29 @@ ThingPageBase {
                 MouseArea {
                     Layout.fillHeight: true
                     Layout.preferredWidth: height
+                    visible: model.type === ThingModel.TypeStateType
+
                     ColorIcon {
                         anchors.fill: parent
                         anchors.margins: app.margins
-                        name: "../images/logs.svg"
+                        name: "qrc:/icons/edit-copy.svg"
+                    }
+                    onClicked: {
+                        swipe.close();
+                        print("opening logs for", delegate.stateType.id)
+                        PlatformHelper.toClipBoard(root.thing.states.getState(delegate.stateType.id).value)
+                        ToolTip.show(qsTr("ID copied to clipboard"), 500);
+
+                    }
+                }
+
+                MouseArea {
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: height
+                    ColorIcon {
+                        anchors.fill: parent
+                        anchors.margins: app.margins
+                        name: "qrc:/icons/logs.svg"
                     }
                     onClicked: {
                         swipe.close();
@@ -464,7 +483,7 @@ ThingPageBase {
                 ColorIcon {
                     anchors.fill: parent
                     visible: actionDelegate.pendingActionId === -1
-                    name: actionDelegate.lastSuccess ? "../images/tick.svg" : "../images/close.svg"
+                    name: actionDelegate.lastSuccess ? "qrc:/icons/tick.svg" : "qrc:/icons/close.svg"
                     color: actionDelegate.lastSuccess ? "green" : "red"
                 }
             }

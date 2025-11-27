@@ -110,4 +110,32 @@ private:
     bool m_interactive = false;
 };
 
+class DashboardStateItem: public DashboardItem
+{
+    Q_OBJECT
+    Q_PROPERTY(QUuid thingId READ thingId CONSTANT)
+    Q_PROPERTY(QUuid stateTypeId READ stateTypeId CONSTANT)
+public:
+    explicit DashboardStateItem(const QUuid &thingId, const QUuid &stateTypeId, QObject *parent = nullptr);
+    QUuid thingId() const;
+    QUuid stateTypeId() const;
+private:
+    QUuid m_thingId;
+    QUuid m_stateTypeId;
+};
+
+class DashboardSensorItem: public DashboardItem
+{
+    Q_OBJECT
+    Q_PROPERTY(QUuid thingId READ thingId CONSTANT)
+    Q_PROPERTY(QStringList interfaces READ interfaces CONSTANT)
+public:
+    explicit DashboardSensorItem(const QUuid &thingId, const QStringList &interfaces, QObject *parent = nullptr);
+    QUuid thingId() const;
+    QStringList interfaces() const;
+private:
+    QUuid m_thingId;
+    QStringList m_interfaces;
+};
+
 #endif // DASHBOARDITEM_H

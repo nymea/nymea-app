@@ -44,7 +44,7 @@ Page {
 
         HeaderButton {
             text: qsTr("Settings")
-            imageSource: "../images/settings.svg"
+            imageSource: "qrc:/icons/settings.svg"
             onClicked: {
                 pageStack.push(repositoryListComponent)
             }
@@ -85,7 +85,7 @@ Page {
                     Layout.preferredHeight: Style.iconSize * 4
                     Layout.preferredWidth: height
                     Layout.alignment: Qt.AlignHCenter
-                    name: "../images/system-update.svg"
+                    name: "qrc:/icons/system-update.svg"
                     color: Style.accentColor
                     RotationAnimation on rotation {
                         from: 0; to: 360
@@ -126,7 +126,7 @@ Page {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize * 2
                     Layout.preferredWidth: height
-                    name: "../images/system-update.svg"
+                    name: "qrc:/icons/system-update.svg"
                     color: Style.accentColor
                     RotationAnimation on rotation {
                         from: 0; to: 360
@@ -161,7 +161,7 @@ Page {
                                 var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(Configuration.systemName)
                                 var popup = dialog.createObject(app,
                                                                 {
-                                                                    headerIcon: "../images/system-update.svg",
+                                                                    headerIcon: "qrc:/icons/system-update.svg",
                                                                     title: qsTr("System update"),
                                                                     text: text,
                                                                     standardButtons: Dialog.Ok | Dialog.Cancel
@@ -191,8 +191,8 @@ Page {
                     subText: model.candidateVersion
                     prominentSubText: false
                     iconName: model.updateAvailable
-                              ? Qt.resolvedUrl("../images/system-update.svg")
-                                : Qt.resolvedUrl("../images/view-" + (model.installedVersion.length > 0 ? "expand" : "collapse") + ".svg")
+                              ? Qt.resolvedUrl("qrc:/icons/system-update.svg")
+                                : Qt.resolvedUrl("qrc:/icons/view-" + (model.installedVersion.length > 0 ? "expand" : "collapse") + ".svg")
                     iconColor: model.updateAvailable
                                ? "green"
                                  : model.installedVersion.length > 0 ? "blue" : Style.iconColor
@@ -219,7 +219,7 @@ Page {
         Page {
             id: repositoryListPage
             header: NymeaHeader {
-                text: qsTr("Configure update sources")
+                text: qsTr("Update sources")
                 onBackPressed: pageStack.pop()
             }
             ListView {
@@ -235,7 +235,7 @@ Page {
                             var text = qsTr("Enabling additional software sources allows to install unreleased %1 packages.\nThis can potentially break your system and lead to problems.\nPlease only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.").arg(Configuration.systemName)
                             var popup = dialog.createObject(app,
                                                             {
-                                                                headerIcon: "../images/dialog-warning-symbolic.svg",
+                                                                headerIcon: "qrc:/icons/dialog-warning-symbolic.svg",
                                                                 title: qsTr("Enable package source"),
                                                                 text: text,
                                                                 standardButtons: Dialog.Ok | Dialog.Cancel

@@ -197,7 +197,6 @@ SettingsPageBase {
         }
     }
 
-
     Component {
         id: styleChangedDialog
         Dialog {

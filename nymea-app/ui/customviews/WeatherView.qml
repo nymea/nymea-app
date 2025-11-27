@@ -72,7 +72,7 @@ Item {
                     anchors.centerIn: parent
                     columns: 2
                     ColorIcon {
-                        name: "../images/sensors/temperature.svg"
+                        name: "qrc:/icons/sensors/temperature.svg"
                         Layout.preferredWidth: Style.iconSize
                         Layout.preferredHeight: width
                         color: app.interfaceToColor("temperaturesensor")
@@ -83,7 +83,7 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                     }
                     ColorIcon {
-                        name: "../images/weathericons/humidity.svg"
+                        name: "qrc:/icons/weathericons/humidity.svg"
                         Layout.preferredWidth: Style.iconSize
                         Layout.preferredHeight: width
                         color: app.interfaceToColor("humiditysensor")
@@ -100,7 +100,7 @@ Item {
                 id: mainImage
                 Layout.preferredWidth: parent.mainImageSize
                 Layout.preferredHeight: width
-                name: weatherConditionState ? "../images/weathericons/weather-" + weatherConditionState.value + ".svg" : ""
+                name: weatherConditionState ? "qrc:/icons/weathericons/weather-" + weatherConditionState.value + ".svg" : ""
                 color: Style.foregroundColor
             }
 
@@ -111,7 +111,7 @@ Item {
                     columns: 2
                     anchors.centerIn: parent
                     ColorIcon {
-                        name: "../images/sensors/pressure.svg"
+                        name: "qrc:/icons/sensors/pressure.svg"
                         width: Style.iconSize
                         height: width
                         color: app.interfaceToColor("pressuresensor")
@@ -121,7 +121,7 @@ Item {
                         text: (pressureState ? "%1 %2".arg(Types.toUiValue(pressureState.value, pressureStateType.unit)).arg(Types.toUiUnit(pressureStateType.unit)) : "N/A")
                     }
                     ColorIcon {
-                        name: "../images/weathericons/wind.svg"
+                        name: "qrc:/icons/weathericons/wind.svg"
                         width: Style.iconSize
                         height: width
                         color: app.interfaceToColor("windspeedsensor")

@@ -811,23 +811,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Forum</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Telegram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Discord</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Twitter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Facebook</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -923,6 +911,10 @@
     </message>
     <message>
         <source>Are you sure you want to remove %1 and all associated settings?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1553,6 +1545,18 @@
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select depiction</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DashboardFolderDelegate</name>
@@ -1728,6 +1732,14 @@
         <source>Debug interface active at %1.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Server logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
@@ -1737,6 +1749,17 @@
     </message>
     <message>
         <source>Error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DeviceDetailsPage</name>
+    <message>
+        <source>States</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Events</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2709,6 +2732,10 @@ Please try again.</source>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GenericThingsListPage</name>
@@ -2841,10 +2868,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2854,6 +2877,14 @@ Please try again.</source>
     </message>
     <message>
         <source>Additional software licenses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of chargebyte GmbH.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Licensed under the terms of the nymea commercial license.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3113,10 +3144,6 @@ Please try again.</source>
 <context>
     <name>LoginPage</name>
     <message>
-        <source>Welcome to %1!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3186,6 +3213,10 @@ Please try again.</source>
     </message>
     <message>
         <source>If you are an installer and do not have your own account, you can authenticate yourself using the test button on the leaflet (see quick start guide or user manual).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3358,6 +3389,14 @@ Please try again.</source>
     </message>
     <message>
         <source>Set up another...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to log out from %1 and remove it from your connections?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3978,6 +4017,29 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
 </context>
 <context>
+    <name>MultiStateChart</name>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NetworkSettingsPage</name>
     <message>
         <source>Network settings</source>
@@ -4277,6 +4339,14 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>An unexpected error happened.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network configuration is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This feature is not supported on this platform.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5640,6 +5710,29 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
+    <name>ServerLoggingCategoriesPage</name>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SettingsPage</name>
     <message>
         <source>General</source>
@@ -6105,10 +6198,6 @@ A consumer, not consuming anything</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Configure update sources</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Enable package source</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6152,6 +6241,10 @@ Do you want to proceed?</source>
         <source>Enabling additional software sources allows to install unreleased %1 packages.
 This can potentially break your system and lead to problems.
 Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update sources</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6317,6 +6410,89 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ThingStatusPage</name>
+    <message>
+        <source>Status for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing is up to date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installed version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to start the update now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disconnected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signal strength: %1 %</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level: %1 %</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6786,6 +6962,21 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WirelessNetworksFilterSettingsPage</name>
+    <message>
+        <source>WiFi list options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show all networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple networks with the same name get filterd out</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

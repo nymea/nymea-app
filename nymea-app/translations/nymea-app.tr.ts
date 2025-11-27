@@ -87,7 +87,7 @@
     </message>
     <message>
         <source>ID copied to clipboard</source>
-        <translation type="unfinished">Kimlik panoya kopyalandı</translation>
+        <translation>Kimlik panoya kopyalandı</translation>
     </message>
     <message>
         <source>Serial copied to clipboard</source>
@@ -145,7 +145,7 @@
     <name>ActionLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished">%1 için geçmiş</translation>
+        <translation>%1 için geçmiş</translation>
     </message>
     <message>
         <source>Remove logs?</source>
@@ -196,19 +196,19 @@
     <name>AdvancedConnectionInterfacesPage</name>
     <message>
         <source>Connection interfaces</source>
-        <translation type="unfinished">Bağlantı arayüzleri</translation>
+        <translation>Bağlantı arayüzleri</translation>
     </message>
     <message>
         <source>TCP server interfaces</source>
-        <translation type="unfinished">TCP sunucu arayüzleri</translation>
+        <translation>TCP sunucu arayüzleri</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Ekle</translation>
+        <translation>Ekle</translation>
     </message>
     <message>
         <source>WebSocket server interfaces</source>
-        <translation type="unfinished">WebSocket sunucu arayüzleri</translation>
+        <translation>WebSocket sunucu arayüzleri</translation>
     </message>
     <message>
         <source>Remote connection server interfaces</source>
@@ -447,19 +447,19 @@
     <name>ButtonControls</name>
     <message>
         <source>On</source>
-        <translation type="unfinished">Açık</translation>
+        <translation>Açık</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation type="unfinished">Kapalı</translation>
+        <translation>Kapalı</translation>
     </message>
     <message>
         <source>All off</source>
-        <translation type="unfinished">hepsi kapalı</translation>
+        <translation>hepsi kapalı</translation>
     </message>
     <message>
         <source>%1 on</source>
-        <translation type="unfinished">%1 açık</translation>
+        <translation>%1 açık</translation>
     </message>
 </context>
 <context>
@@ -589,11 +589,7 @@
     <name>Configuration</name>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Yardım</translation>
-    </message>
-    <message>
-        <source>Forum</source>
-        <translation type="unfinished"></translation>
+        <translation>Yardım</translation>
     </message>
     <message>
         <source>Telegram</source>
@@ -601,14 +597,6 @@
     </message>
     <message>
         <source>Discord</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Twitter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Facebook</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -688,11 +676,11 @@
     </message>
     <message>
         <source>Vendor</source>
-        <translation type="unfinished">SATICI</translation>
+        <translation>SATICI</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tip</translation>
+        <translation>Tip</translation>
     </message>
     <message>
         <source>ID</source>
@@ -705,6 +693,10 @@
     <message>
         <source>Are you sure you want to remove %1 and all associated settings?</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Detaylar</translation>
     </message>
 </context>
 <context>
@@ -754,7 +746,7 @@
     <name>ConnectionInfoDialog</name>
     <message>
         <source>Available connections</source>
-        <translation type="unfinished">Mevcut bağlantılar</translation>
+        <translation>Mevcut bağlantılar</translation>
     </message>
     <message>
         <source>System information</source>
@@ -762,11 +754,11 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Ekle</translation>
+        <translation>Ekle</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">kapalı</translation>
+        <translation>kapalı</translation>
     </message>
 </context>
 <context>
@@ -800,7 +792,7 @@
     </message>
     <message>
         <source>Remote connection</source>
-        <translation type="unfinished">Uzak bağlantı</translation>
+        <translation>Uzak bağlantı</translation>
     </message>
     <message>
         <source>Enabling the remote connection will allow connecting to this %1 system from anywhere.</source>
@@ -808,7 +800,7 @@
     </message>
     <message>
         <source>Enabled</source>
-        <translation type="unfinished">Etkin</translation>
+        <translation>Etkin</translation>
     </message>
     <message>
         <source>Disabled</source>
@@ -823,59 +815,59 @@
     <name>ConnectionWizard</name>
     <message>
         <source>Welcome</source>
-        <translation type="unfinished">Hoş geldin</translation>
+        <translation>Hoş geldin</translation>
     </message>
     <message>
         <source>This wizard will guide you through the process of setting up a new nymea system.</source>
-        <translation type="unfinished">Bu sihirbaz, yeni bir nymea sistemi kurma sürecinde size rehberlik edecektir.</translation>
+        <translation>Bu sihirbaz, yeni bir nymea sistemi kurma sürecinde size rehberlik edecektir.</translation>
     </message>
     <message>
         <source>Demo mode</source>
-        <translation type="unfinished">Demo modu</translation>
+        <translation>Demo modu</translation>
     </message>
     <message>
         <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
-        <translation type="unfinished">nymea&apos;yı kullanmak için ağınızdaki bir bilgisayara nymea:core yüklemeniz gerekir. Bu bir Raspberry Pi veya herhangi bir genel Linux bilgisayarı olabilir.</translation>
+        <translation>nymea&apos;yı kullanmak için ağınızdaki bir bilgisayara nymea:core yüklemeniz gerekir. Bu bir Raspberry Pi veya herhangi bir genel Linux bilgisayarı olabilir.</translation>
     </message>
     <message>
         <source>Please follow the installation instructions on %1 to install a nymea system.</source>
-        <translation type="unfinished">Bir nymea sistemi kurmak için lütfen %1 üzerindeki kurulum talimatlarını takip edin.</translation>
+        <translation>Bir nymea sistemi kurmak için lütfen %1 üzerindeki kurulum talimatlarını takip edin.</translation>
     </message>
     <message>
         <source>Connectivity</source>
-        <translation type="unfinished">bağlantı</translation>
+        <translation>bağlantı</translation>
     </message>
     <message>
         <source>How would you like to connect nymea to your network?</source>
-        <translation type="unfinished">Nymea&apos;yı ağınıza nasıl bağlamak istersiniz?</translation>
+        <translation>Nymea&apos;yı ağınıza nasıl bağlamak istersiniz?</translation>
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished">Atla</translation>
+        <translation>Atla</translation>
     </message>
     <message>
         <source>Wired network</source>
-        <translation type="unfinished">Kablolu ağ</translation>
+        <translation>Kablolu ağ</translation>
     </message>
     <message>
         <source>Connect nymea to your network using a network cable. This is recommended for best performance.</source>
-        <translation type="unfinished">Bir ağ kablosu kullanarak nymea&apos;yı ağınıza bağlayın. Bu, en iyi performans için önerilir.</translation>
+        <translation>Bir ağ kablosu kullanarak nymea&apos;yı ağınıza bağlayın. Bu, en iyi performans için önerilir.</translation>
     </message>
     <message>
         <source>Wireless network</source>
-        <translation type="unfinished">Kablosuz ağ</translation>
+        <translation>Kablosuz ağ</translation>
     </message>
     <message>
         <source>Connect nymea to your WiFi network.</source>
-        <translation type="unfinished">Nymea&apos;yı WiFi ağınıza bağlayın.</translation>
+        <translation>Nymea&apos;yı WiFi ağınıza bağlayın.</translation>
     </message>
     <message>
         <source>If your nymea system is already connected to the network you can skip this step.</source>
-        <translation type="unfinished">nymea sisteminiz zaten ağa bağlıysa bu adımı atlayabilirsiniz.</translation>
+        <translation>nymea sisteminiz zaten ağa bağlıysa bu adımı atlayabilirsiniz.</translation>
     </message>
     <message>
         <source>Connection</source>
-        <translation type="unfinished">Bağlantı</translation>
+        <translation>Bağlantı</translation>
     </message>
     <message>
         <source>Select nymea system</source>
@@ -883,43 +875,43 @@
     </message>
     <message>
         <source>Manual connection</source>
-        <translation type="unfinished">Manuel bağlantı</translation>
+        <translation>Manuel bağlantı</translation>
     </message>
     <message>
         <source>Please wait while your nymea system is being discovered.</source>
-        <translation type="unfinished">Lütfen nymea sisteminiz keşfedilirken bekleyin.</translation>
+        <translation>Lütfen nymea sisteminiz keşfedilirken bekleyin.</translation>
     </message>
     <message>
         <source>Info</source>
-        <translation type="unfinished">Bilgi</translation>
+        <translation>Bilgi</translation>
     </message>
     <message>
         <source>Please enter the connection information for your nymea system</source>
-        <translation type="unfinished">Lütfen nymea sisteminiz için bağlantı bilgilerini girin</translation>
+        <translation>Lütfen nymea sisteminiz için bağlantı bilgilerini girin</translation>
     </message>
     <message>
         <source>Wired connection</source>
-        <translation type="unfinished">Kablolu bağlantı</translation>
+        <translation>Kablolu bağlantı</translation>
     </message>
     <message>
         <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
-        <translation type="unfinished">Bir ethernet kablosu kullanarak nymea sistemini ağınıza bağlayın ve açın.</translation>
+        <translation>Bir ethernet kablosu kullanarak nymea sistemini ağınıza bağlayın ve açın.</translation>
     </message>
     <message>
         <source>Wireless connection</source>
-        <translation type="unfinished">Kablosuz bağlantı</translation>
+        <translation>Kablosuz bağlantı</translation>
     </message>
     <message>
         <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
-        <translation type="unfinished">Güç kablosunu bağlayarak nymea sistemini açın ve başlamasını bekleyin.</translation>
+        <translation>Güç kablosunu bağlayarak nymea sistemini açın ve başlamasını bekleyin.</translation>
     </message>
     <message>
         <source>Wireless setup</source>
-        <translation type="unfinished">Kablosuz kurulum</translation>
+        <translation>Kablosuz kurulum</translation>
     </message>
     <message>
         <source>Searching for the nymea system...</source>
-        <translation type="unfinished">Nymea sistemi aranıyor...</translation>
+        <translation>Nymea sistemi aranıyor...</translation>
     </message>
     <message>
         <source>Bluetooth doesn&apos;t seem to be available on this system.</source>
@@ -931,15 +923,15 @@
     </message>
     <message>
         <source>Connecting to the nymea system...</source>
-        <translation type="unfinished">Nymea sistemine bağlanılıyor...</translation>
+        <translation>Nymea sistemine bağlanılıyor...</translation>
     </message>
     <message>
         <source>Select the WiFi you want to use.</source>
-        <translation type="unfinished">Kullanmak istediğiniz WiFi&apos;yi seçin.</translation>
+        <translation>Kullanmak istediğiniz WiFi&apos;yi seçin.</translation>
     </message>
     <message>
         <source>Hidden Network</source>
-        <translation type="unfinished">Gizli Ağ</translation>
+        <translation>Gizli Ağ</translation>
     </message>
     <message>
         <source>Hidden WiFi</source>
@@ -955,31 +947,31 @@
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">Şifre</translation>
+        <translation>Şifre</translation>
     </message>
     <message>
         <source>Enter the password for the WiFi network.</source>
-        <translation type="unfinished">WiFi ağının şifresini girin.</translation>
+        <translation>WiFi ağının şifresini girin.</translation>
     </message>
     <message>
         <source>An error happened in the Bluetooth connection. Please try again.</source>
-        <translation type="unfinished">Bluetooth bağlantısında bir hata oluştu. Lütfen tekrar deneyin.</translation>
+        <translation>Bluetooth bağlantısında bir hata oluştu. Lütfen tekrar deneyin.</translation>
     </message>
     <message>
         <source>Please wait while the nymea system is being connected to the WiFi.</source>
-        <translation type="unfinished">Nymea sistemi WiFi&apos;ye bağlanırken lütfen bekleyin.</translation>
+        <translation>Nymea sistemi WiFi&apos;ye bağlanırken lütfen bekleyin.</translation>
     </message>
     <message>
         <source>The nymea system has been connected successfully.</source>
-        <translation type="unfinished">Nymea sistemi başarıyla bağlandı.</translation>
+        <translation>Nymea sistemi başarıyla bağlandı.</translation>
     </message>
     <message>
         <source>You can now go ahead and configure your nymea system.</source>
-        <translation type="unfinished">Şimdi devam edebilir ve nymea sisteminizi yapılandırabilirsiniz.</translation>
+        <translation>Şimdi devam edebilir ve nymea sisteminizi yapılandırabilirsiniz.</translation>
     </message>
     <message>
         <source>Waiting for your nymea setup to appear in the network.</source>
-        <translation type="unfinished">Nymea kurulumunuzun ağda görünmesini bekliyorum.</translation>
+        <translation>Nymea kurulumunuzun ağda görünmesini bekliyorum.</translation>
     </message>
     <message>
         <source>Location services are disabled. Please enable location services on this device in order to search for nearby nymea systems.</source>
@@ -1032,7 +1024,7 @@
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">Bilinmeyen</translation>
+        <translation>Bilinmeyen</translation>
     </message>
     <message>
         <source>Total</source>
@@ -1074,7 +1066,7 @@
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">Bilinmeyen</translation>
+        <translation>Bilinmeyen</translation>
     </message>
     <message>
         <source>Total</source>
@@ -1240,6 +1232,18 @@
     <message>
         <source>OK</source>
         <translation>Tamam</translation>
+    </message>
+    <message>
+        <source>Sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation>Durum</translation>
+    </message>
+    <message>
+        <source>Select depiction</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1416,6 +1420,14 @@
         <source>Debug interface active at %1.</source>
         <translation>%1 konumunda hata ayıklama arayüzü etkin.</translation>
     </message>
+    <message>
+        <source>Server logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DeviceBrowserPage</name>
@@ -1426,6 +1438,17 @@
     <message>
         <source>Error: %1</source>
         <translation>Hata: %1</translation>
+    </message>
+</context>
+<context>
+    <name>DeviceDetailsPage</name>
+    <message>
+        <source>States</source>
+        <translation>Ülkeler</translation>
+    </message>
+    <message>
+        <source>Events</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1862,7 +1885,7 @@
     <name>EditZonePage</name>
     <message>
         <source>Edit %1</source>
-        <translation type="unfinished">%1&apos;i düzenle</translation>
+        <translation>%1&apos;i düzenle</translation>
     </message>
     <message>
         <source>Zone information</source>
@@ -1870,7 +1893,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">İsim</translation>
+        <translation>İsim</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1905,7 +1928,7 @@
     </message>
     <message>
         <source>Thermostats</source>
-        <translation type="unfinished">termostatlar</translation>
+        <translation>termostatlar</translation>
     </message>
     <message>
         <source>Add thermostat</source>
@@ -1977,7 +2000,7 @@
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished">Bildirimler</translation>
+        <translation>Bildirimler</translation>
     </message>
     <message>
         <source>Add notification target</source>
@@ -2001,7 +2024,7 @@
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished">Bir şeyler ekle</translation>
+        <translation>Bir şeyler ekle</translation>
     </message>
 </context>
 <context>
@@ -2012,7 +2035,7 @@
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">Genel</translation>
+        <translation>Genel</translation>
     </message>
     <message>
         <source>Multiple energy meters are installed in the system. Please select the one you&apos;d like to use as the root meter. That is, the one measuring the entire household.</source>
@@ -2077,7 +2100,7 @@
     <name>EvChargerThingPage</name>
     <message>
         <source>Maximum charging current</source>
-        <translation type="unfinished">Maksimum şarj akımı</translation>
+        <translation>Maksimum şarj akımı</translation>
     </message>
     <message>
         <source>The car is not plugged in.</source>
@@ -2099,7 +2122,7 @@
     <name>EventLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished">%1 için geçmiş</translation>
+        <translation>%1 için geçmiş</translation>
     </message>
     <message>
         <source>Remove logs?</source>
@@ -2382,11 +2405,11 @@ Please try again.</source>
     <name>GenericThingPage</name>
     <message>
         <source>States</source>
-        <translation type="unfinished">Ülkeler</translation>
+        <translation>Ülkeler</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation type="unfinished">Hareketler</translation>
+        <translation>Hareketler</translation>
     </message>
     <message>
         <source>Events</source>
@@ -2394,11 +2417,15 @@ Please try again.</source>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">İptal</translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>OK</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ID copied to clipboard</source>
+        <translation>Kimlik panoya kopyalandı</translation>
     </message>
 </context>
 <context>
@@ -2525,10 +2552,6 @@ Please try again.</source>
         <translation>Qt&apos;nin web sitesini ziyaret edin</translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of nymea GmbH.</source>
-        <translation>nymea, nymea GmbH&apos;nin tescilli ticari markasıdır.</translation>
-    </message>
-    <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
         <translation>GNU Genel Kamu Lisansı, sürüm 3 koşulları altında lisanslanmıştır. Kaynak kodu ve yapım talimatları için lütfen GitHub sayfasını ziyaret edin.</translation>
     </message>
@@ -2539,6 +2562,14 @@ Please try again.</source>
     <message>
         <source>Additional software licenses</source>
         <translation>Ek yazılım lisansları</translation>
+    </message>
+    <message>
+        <source>nymea is a registered trademark of chargebyte GmbH.</source>
+        <translation>nymea, chargebyte GmbH.nin tescilli ticari markasıdır.</translation>
+    </message>
+    <message>
+        <source>Licensed under the terms of the nymea commercial license.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3669,39 +3700,39 @@ Please try again.</source>
     <name>LogViewerPagePre18</name>
     <message>
         <source>Log viewer</source>
-        <translation type="unfinished">Günlük görüntüleyici</translation>
+        <translation>Günlük görüntüleyici</translation>
     </message>
     <message>
         <source>%1 Server</source>
-        <translation type="unfinished">%1 Sunucu</translation>
+        <translation>%1 Sunucu</translation>
     </message>
     <message>
         <source>System started</source>
-        <translation type="unfinished">Sistem başlatıldı</translation>
+        <translation>Sistem başlatıldı</translation>
     </message>
     <message>
         <source>Rule triggered</source>
-        <translation type="unfinished">Kural tetiklendi</translation>
+        <translation>Kural tetiklendi</translation>
     </message>
     <message>
         <source>Actions executed</source>
-        <translation type="unfinished">Yürütülen eylemler</translation>
+        <translation>Yürütülen eylemler</translation>
     </message>
     <message>
         <source>Rule active</source>
-        <translation type="unfinished">Kural etkin</translation>
+        <translation>Kural etkin</translation>
     </message>
     <message>
         <source>Rule inactive</source>
-        <translation type="unfinished">Kural etkin değil</translation>
+        <translation>Kural etkin değil</translation>
     </message>
     <message>
         <source>Exit actions executed</source>
-        <translation type="unfinished">Yürütülen çıkış işlemleri</translation>
+        <translation>Yürütülen çıkış işlemleri</translation>
     </message>
     <message>
         <source>Enabled changed</source>
-        <translation type="unfinished">Etkin değiştirildi</translation>
+        <translation>Etkin değiştirildi</translation>
     </message>
 </context>
 <context>
@@ -3729,10 +3760,6 @@ Please try again.</source>
 </context>
 <context>
     <name>LoginPage</name>
-    <message>
-        <source>Welcome to %1!</source>
-        <translation>%1&apos;e hoş geldiniz!</translation>
-    </message>
     <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
         <translation>Üzgünüm, bu doğru değildi. Lütfen tekrar deneyiniz.</translation>
@@ -3771,7 +3798,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished">Kullanıcı adı</translation>
+        <translation>Kullanıcı adı</translation>
     </message>
     <message>
         <source>Your e-mail address</source>
@@ -3783,7 +3810,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished">Şifre</translation>
+        <translation>Şifre</translation>
     </message>
     <message>
         <source>Your name</source>
@@ -3791,7 +3818,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Optional</source>
-        <translation type="unfinished">İsteğe bağlı</translation>
+        <translation>İsteğe bağlı</translation>
     </message>
     <message>
         <source>Email</source>
@@ -3803,6 +3830,10 @@ Please try again.</source>
     </message>
     <message>
         <source>If you are an installer and do not have your own account, you can authenticate yourself using the test button on the leaflet (see quick start guide or user manual).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Welcome!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3977,6 +4008,14 @@ Please try again.</source>
         <source>Set up another...</source>
         <translation>Başka bir tane ayarla...</translation>
     </message>
+    <message>
+        <source>Are you sure?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to log out from %1 and remove it from your connections?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainPage</name>
@@ -4045,7 +4084,7 @@ Please try again.</source>
     <name>ManualConnectionEntry</name>
     <message>
         <source>Protocol</source>
-        <translation type="unfinished">Protokol</translation>
+        <translation>Protokol</translation>
     </message>
     <message>
         <source>TCP</source>
@@ -4053,7 +4092,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Websocket</source>
-        <translation type="unfinished">Web yuvası</translation>
+        <translation>Web yuvası</translation>
     </message>
     <message>
         <source>Remote proxy</source>
@@ -4061,7 +4100,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished">Adres:</translation>
+        <translation>Adres:</translation>
     </message>
     <message>
         <source>Proxy address:</source>
@@ -4073,7 +4112,7 @@ Please try again.</source>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">bağlantı:</translation>
+        <translation>bağlantı:</translation>
     </message>
     <message>
         <source>SSL:</source>
@@ -4560,6 +4599,29 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
 </context>
 <context>
+    <name>MultiStateChart</name>
+    <message>
+        <source>Hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weeks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No data</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NetworkSettingsPage</name>
     <message>
         <source>Network settings</source>
@@ -4831,7 +4893,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Manual</source>
-        <translation type="unfinished">Manuel</translation>
+        <translation>Manuel</translation>
     </message>
     <message>
         <source>Shared (DHCP server)</source>
@@ -4859,6 +4921,14 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>An unexpected error happened.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The network configuration is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This feature is not supported on this platform.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4930,39 +5000,39 @@ Use a timeout value greater or equal to 10 ms.</source>
     <name>NotificationsThingPage</name>
     <message>
         <source>Title</source>
-        <translation type="unfinished">Başlık</translation>
+        <translation>Başlık</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished">Metin</translation>
+        <translation>Metin</translation>
     </message>
     <message>
         <source>No messages sent yet.</source>
-        <translation type="unfinished">Henüz mesaj gönderilmedi.</translation>
+        <translation>Henüz mesaj gönderilmedi.</translation>
     </message>
     <message>
         <source>Sent messages will appear here.</source>
-        <translation type="unfinished">Gönderilen mesajlar burada görünecektir.</translation>
+        <translation>Gönderilen mesajlar burada görünecektir.</translation>
     </message>
     <message>
         <source>Notification details</source>
-        <translation type="unfinished">Bildirim ayrıntıları</translation>
+        <translation>Bildirim ayrıntıları</translation>
     </message>
     <message>
         <source>Date sent</source>
-        <translation type="unfinished">Tarih gönderildi</translation>
+        <translation>Tarih gönderildi</translation>
     </message>
     <message>
         <source>Sending failed</source>
-        <translation type="unfinished">Gönderim başarısız</translation>
+        <translation>Gönderim başarısız</translation>
     </message>
     <message>
         <source>Resend</source>
-        <translation type="unfinished">Yeniden gönder</translation>
+        <translation>Yeniden gönder</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">kapalı</translation>
+        <translation>kapalı</translation>
     </message>
 </context>
 <context>
@@ -5253,7 +5323,7 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Configure things</source>
-        <translation type="unfinished">Şeyleri yapılandırın</translation>
+        <translation>Şeyleri yapılandırın</translation>
     </message>
     <message>
         <source>Execute magic</source>
@@ -5268,41 +5338,41 @@ Use a timeout value greater or equal to 10 ms.</source>
     <name>PackageDetailsPage</name>
     <message>
         <source>Package information</source>
-        <translation type="unfinished">Paket Bilgileri</translation>
+        <translation>Paket Bilgileri</translation>
     </message>
     <message>
         <source>Installed version:</source>
-        <translation type="unfinished">Yüklü sürüm:</translation>
+        <translation>Yüklü sürüm:</translation>
     </message>
     <message>
         <source>Not installed</source>
-        <translation type="unfinished">Yüklü değil</translation>
+        <translation>Yüklü değil</translation>
     </message>
     <message>
         <source>Candidate version:</source>
-        <translation type="unfinished">Aday versiyonu:</translation>
+        <translation>Aday versiyonu:</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">Güncelleme</translation>
+        <translation>Güncelleme</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation type="unfinished">Yükle</translation>
+        <translation>Yükle</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
-        <translation type="unfinished">Bu bir sistem güncellemesi başlatacaktır. Güncellemenin birkaç dakika sürebileceğini ve bu süre içinde %1&apos;inizin düzgün çalışmayabileceğini veya yeniden başlamayabileceğini unutmayın.</translation>
+        <translation>Bu bir sistem güncellemesi başlatacaktır. Güncellemenin birkaç dakika sürebileceğini ve bu süre içinde %1&apos;inizin düzgün çalışmayabileceğini veya yeniden başlamayabileceğini unutmayın.</translation>
     </message>
     <message>
         <source>
 Do you want to proceed?</source>
-        <translation type="unfinished">
+        <translation>
 Devam etmek istiyor musunuz?</translation>
     </message>
     <message>
         <source>Start update</source>
-        <translation type="unfinished">Güncellemeyi Başlat</translation>
+        <translation>Güncellemeyi Başlat</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -5311,18 +5381,18 @@ Devam etmek istiyor musunuz?</translation>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
 Do you want to proceed?</source>
-        <translation type="unfinished">Bu bir sistem güncellemesi başlatacaktır. Güncellemenin birkaç dakika sürebileceğini ve %1 sisteminizin bu süre içinde düzgün çalışmayabileceğini ve işlem sırasında yeniden başlatılabileceğini unutmayın. Devam etmek istiyor musunuz?</translation>
+        <translation>Bu bir sistem güncellemesi başlatacaktır. Güncellemenin birkaç dakika sürebileceğini ve %1 sisteminizin bu süre içinde düzgün çalışmayabileceğini ve işlem sırasında yeniden başlatılabileceğini unutmayın. Devam etmek istiyor musunuz?</translation>
     </message>
     <message>
         <source>Remove package</source>
-        <translation type="unfinished">Paketi kaldır</translation>
+        <translation>Paketi kaldır</translation>
     </message>
 </context>
 <context>
     <name>PackageListPage</name>
     <message>
         <source>All packages</source>
-        <translation type="unfinished">Tüm paketler</translation>
+        <translation>Tüm paketler</translation>
     </message>
     <message>
         <source>No package found</source>
@@ -5337,19 +5407,19 @@ Do you want to proceed?</source>
     <name>ParamDescriptorDelegate</name>
     <message>
         <source>is</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>is equal to</source>
-        <translation type="unfinished">eşittir</translation>
+        <translation>eşittir</translation>
     </message>
     <message>
         <source>is not equal to</source>
-        <translation type="unfinished">eşit değildir</translation>
+        <translation>eşit değildir</translation>
     </message>
     <message>
         <source>is greater than</source>
-        <translation type="unfinished">daha büyüktür</translation>
+        <translation>daha büyüktür</translation>
     </message>
     <message>
         <source>is less than</source>
@@ -6106,35 +6176,35 @@ Do you want to proceed?</source>
     <name>SensorListDelegate</name>
     <message>
         <source>Closed</source>
-        <translation type="unfinished">Kapalı</translation>
+        <translation>Kapalı</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished">Açık</translation>
+        <translation>Açık</translation>
     </message>
     <message>
         <source>Presence</source>
-        <translation type="unfinished">Mevcudiyet</translation>
+        <translation>Mevcudiyet</translation>
     </message>
     <message>
         <source>Vacant</source>
-        <translation type="unfinished">Boş</translation>
+        <translation>Boş</translation>
     </message>
     <message>
         <source>Daytime</source>
-        <translation type="unfinished">Gündüz</translation>
+        <translation>Gündüz</translation>
     </message>
     <message>
         <source>Nighttime</source>
-        <translation type="unfinished">gece vakti</translation>
+        <translation>gece vakti</translation>
     </message>
     <message>
         <source>Wet</source>
-        <translation type="unfinished">Islak</translation>
+        <translation>Islak</translation>
     </message>
     <message>
         <source>Dry</source>
-        <translation type="unfinished">Kuru</translation>
+        <translation>Kuru</translation>
     </message>
     <message>
         <source>Fire</source>
@@ -6146,11 +6216,11 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>On</source>
-        <translation type="unfinished">Açık</translation>
+        <translation>Açık</translation>
     </message>
     <message>
         <source>Off</source>
-        <translation type="unfinished">Kapalı</translation>
+        <translation>Kapalı</translation>
     </message>
     <message>
         <source>Last vibration: %1</source>
@@ -6173,7 +6243,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Thermostats</source>
-        <translation type="unfinished">termostatlar</translation>
+        <translation>termostatlar</translation>
     </message>
 </context>
 <context>
@@ -6213,6 +6283,29 @@ Do you want to proceed?</source>
     <message>
         <source>Login required</source>
         <translation>Oturum açmak gereklidir</translation>
+    </message>
+</context>
+<context>
+    <name>ServerLoggingCategoriesPage</name>
+    <message>
+        <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished">kritik</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished">Uyarı</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished">Bilgi</translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation type="unfinished">hata ayıklama</translation>
     </message>
 </context>
 <context>
@@ -6442,7 +6535,7 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished">Kullanıcı adı</translation>
+        <translation>Kullanıcı adı</translation>
     </message>
 </context>
 <context>
@@ -6471,7 +6564,7 @@ Do you want to proceed?</source>
     <name>SmartMeterChart</name>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">Bilinmeyen</translation>
+        <translation>Bilinmeyen</translation>
     </message>
 </context>
 <context>
@@ -6526,11 +6619,11 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message>
         <source>Charging</source>
-        <translation type="unfinished">Doluyor</translation>
+        <translation>Doluyor</translation>
     </message>
     <message>
         <source>Discharging</source>
-        <translation type="unfinished">boşaltma</translation>
+        <translation>boşaltma</translation>
     </message>
     <message>
         <source>Producing</source>
@@ -6677,10 +6770,6 @@ A consumer, not consuming anything</extracomment>
         <translation>Tümünü güncelle</translation>
     </message>
     <message>
-        <source>Configure update sources</source>
-        <translation>Güncelleme kaynaklarını yapılandırın</translation>
-    </message>
-    <message>
         <source>Enable package source</source>
         <translation>Paket kaynağını etkinleştir</translation>
     </message>
@@ -6726,6 +6815,10 @@ Please only use this if you are sure you want this and consider reporting the is
         <translation>Ek yazılım kaynaklarının etkinleştirilmesi, yayınlanmamış %1 paketlerinin yüklenmesine izin verir.
 Bu, potansiyel olarak sisteminizi bozabilir ve sorunlara yol açabilir.
 Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları test ederken bulduğunuz sorunları bildirin.</translation>
+    </message>
+    <message>
+        <source>Update sources</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6844,11 +6937,11 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <name>ThingLogPage</name>
     <message>
         <source>History for %1</source>
-        <translation type="unfinished">%1 için geçmiş</translation>
+        <translation>%1 için geçmiş</translation>
     </message>
     <message>
         <source>Filter by</source>
-        <translation type="unfinished">Tarafından filtre</translation>
+        <translation>Tarafından filtre</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -6891,6 +6984,89 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>Update</source>
         <translation>Güncelleme</translation>
+    </message>
+</context>
+<context>
+    <name>ThingStatusPage</name>
+    <message>
+        <source>Status for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thing is up to date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updating...</source>
+        <translation>güncelleniyor...</translation>
+    </message>
+    <message>
+        <source>Installed version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available version: %1</source>
+        <translation>Kullanılabilir sürüm: %1</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Güncelleme</translation>
+    </message>
+    <message>
+        <source>Do you want to start the update now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current version: %1</source>
+        <translation>Geçerli sürüm: %1</translation>
+    </message>
+    <message>
+        <source>Connection information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation>bağlı</translation>
+    </message>
+    <message>
+        <source>Disconnected</source>
+        <translation>Bağlantı kesildi</translation>
+    </message>
+    <message>
+        <source>Signal strength: %1 %</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level critical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation>kritik</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Battery level: %1 %</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7061,7 +7237,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished">bağlantı:</translation>
+        <translation>bağlantı:</translation>
     </message>
     <message>
         <source>Require login</source>
@@ -7073,7 +7249,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>SSL enabled</source>
-        <translation type="unfinished">SSL etkin</translation>
+        <translation>SSL etkin</translation>
     </message>
     <message>
         <source>Ignore SSL errors</source>
@@ -7147,7 +7323,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Manage users</source>
-        <translation type="unfinished">Kullanıcıları Yönet</translation>
+        <translation>Kullanıcıları Yönet</translation>
     </message>
     <message>
         <source>Your name</source>
@@ -7179,7 +7355,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Users</source>
-        <translation type="unfinished">Kullanıcılar</translation>
+        <translation>Kullanıcılar</translation>
     </message>
     <message>
         <source>Manage users for this %1 system</source>
@@ -7191,7 +7367,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Remove user</source>
-        <translation type="unfinished">Kullanıcıyı kaldır</translation>
+        <translation>Kullanıcıyı kaldır</translation>
     </message>
     <message>
         <source>User information for %1</source>
@@ -7199,7 +7375,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">İsim</translation>
+        <translation>İsim</translation>
     </message>
     <message>
         <source>Save</source>
@@ -7223,11 +7399,11 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Username:</source>
-        <translation type="unfinished">Kullanıcı adı:</translation>
+        <translation>Kullanıcı adı:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished">Şifre:</translation>
+        <translation>Şifre:</translation>
     </message>
     <message>
         <source>Full name:</source>
@@ -7363,6 +7539,21 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
 </context>
 <context>
+    <name>WirelessNetworksFilterSettingsPage</name>
+    <message>
+        <source>WiFi list options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show all networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple networks with the same name get filterd out</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>WizardPageBase</name>
     <message>
         <source>Back</source>
@@ -7412,7 +7603,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>The selected adapter is already in use.</source>
-        <translation type="unfinished">Seçilen bağdaştırıcı zaten kullanımda.</translation>
+        <translation>Seçilen bağdaştırıcı zaten kullanımda.</translation>
     </message>
     <message>
         <source>An error happened in the ZWave backend.</source>
@@ -7420,7 +7611,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Available serial ports</source>
-        <translation type="unfinished">Kullanılabilir seri bağlantı noktaları</translation>
+        <translation>Kullanılabilir seri bağlantı noktaları</translation>
     </message>
     <message>
         <source>Please verify that the Z-Wave adapter is properly connected to a serial port and select the appropriate port.</source>
@@ -7435,11 +7626,11 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Yardım</translation>
+        <translation>Yardım</translation>
     </message>
     <message>
         <source>Network settings</source>
-        <translation type="unfinished">Ağ ayarları</translation>
+        <translation>Ağ ayarları</translation>
     </message>
     <message>
         <source>Un unexpected error happened in the Z-Wave backend.</source>
@@ -7471,27 +7662,27 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Network</source>
-        <translation type="unfinished">Ağ</translation>
+        <translation>Ağ</translation>
     </message>
     <message>
         <source>Network state:</source>
-        <translation type="unfinished">Ağ durumu:</translation>
+        <translation>Ağ durumu:</translation>
     </message>
     <message>
         <source>Online</source>
-        <translation type="unfinished">Çevrimiçi</translation>
+        <translation>Çevrimiçi</translation>
     </message>
     <message>
         <source>Offline</source>
-        <translation type="unfinished">Çevrimdışı</translation>
+        <translation>Çevrimdışı</translation>
     </message>
     <message>
         <source>Starting</source>
-        <translation type="unfinished">Başlangıç</translation>
+        <translation>Başlangıç</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished">Hata</translation>
+        <translation>Hata</translation>
     </message>
     <message>
         <source>Device management</source>
@@ -7587,15 +7778,15 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Are you sure you want to remove this node from the network?</source>
-        <translation type="unfinished">Bu düğümü ağdan kaldırmak istediğinizden emin misiniz?</translation>
+        <translation>Bu düğümü ağdan kaldırmak istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
-        <translation type="unfinished">Lütfen bu düğüm bir şeye atanmışsa, sistemden de kaldırılacağını unutmayın.</translation>
+        <translation>Lütfen bu düğüm bir şeye atanmışsa, sistemden de kaldırılacağını unutmayın.</translation>
     </message>
     <message>
         <source>Sleepy device</source>
-        <translation type="unfinished">uykulu cihaz</translation>
+        <translation>uykulu cihaz</translation>
     </message>
     <message>
         <source>Z-Wave network help</source>
@@ -7630,27 +7821,27 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Network information</source>
-        <translation type="unfinished">ağ bilgileri</translation>
+        <translation>ağ bilgileri</translation>
     </message>
     <message>
         <source>Network state</source>
-        <translation type="unfinished">Ağ durumu</translation>
+        <translation>Ağ durumu</translation>
     </message>
     <message>
         <source>The network is online</source>
-        <translation type="unfinished">ağ çevrimiçi</translation>
+        <translation>ağ çevrimiçi</translation>
     </message>
     <message>
         <source>The network is offline</source>
-        <translation type="unfinished">ağ çevrimdışı</translation>
+        <translation>ağ çevrimdışı</translation>
     </message>
     <message>
         <source>The network is starting...</source>
-        <translation type="unfinished">Ağ başlıyor...</translation>
+        <translation>Ağ başlıyor...</translation>
     </message>
     <message>
         <source>The network is in an error state.</source>
-        <translation type="unfinished">Ağ bir hata durumunda.</translation>
+        <translation>Ağ bir hata durumunda.</translation>
     </message>
     <message>
         <source>Home ID:</source>
@@ -7678,7 +7869,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Hardware information</source>
-        <translation type="unfinished">donanım bilgileri</translation>
+        <translation>donanım bilgileri</translation>
     </message>
     <message>
         <source>Serial port</source>
@@ -7686,15 +7877,15 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Manage network</source>
-        <translation type="unfinished">Ağı yönet</translation>
+        <translation>Ağı yönet</translation>
     </message>
     <message>
         <source>Remove network</source>
-        <translation type="unfinished">Ağı kaldır</translation>
+        <translation>Ağı kaldır</translation>
     </message>
     <message>
         <source>Factory reset controller</source>
-        <translation type="unfinished">Fabrika ayarlarına sıfırlama denetleyicisi</translation>
+        <translation>Fabrika ayarlarına sıfırlama denetleyicisi</translation>
     </message>
     <message>
         <source>Are you sure you want to factory reset the controller? This will recreate the network and remove all associated devices from the system.</source>
@@ -7729,7 +7920,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Add network</source>
-        <translation type="unfinished">Ağ ekle</translation>
+        <translation>Ağ ekle</translation>
     </message>
     <message>
         <source>Z-Wave Plus network</source>
@@ -7741,23 +7932,23 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Network state:</source>
-        <translation type="unfinished">Ağ durumu:</translation>
+        <translation>Ağ durumu:</translation>
     </message>
     <message>
         <source>Online</source>
-        <translation type="unfinished">Çevrimiçi</translation>
+        <translation>Çevrimiçi</translation>
     </message>
     <message>
         <source>Offline</source>
-        <translation type="unfinished">Çevrimdışı</translation>
+        <translation>Çevrimdışı</translation>
     </message>
     <message>
         <source>Starting</source>
-        <translation type="unfinished">Başlangıç</translation>
+        <translation>Başlangıç</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished">Hata</translation>
+        <translation>Hata</translation>
     </message>
     <message>
         <source>Adapter:</source>
@@ -7832,15 +8023,15 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Add ZigBee network</source>
-        <translation type="unfinished">ZigBee ağı ekle</translation>
+        <translation>ZigBee ağı ekle</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished">Kanal</translation>
+        <translation>Kanal</translation>
     </message>
     <message>
         <source>Auto</source>
-        <translation type="unfinished">Oto</translation>
+        <translation>Oto</translation>
     </message>
     <message>
         <source>Auto light link</source>
@@ -7852,7 +8043,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>ZigBee network settings</source>
-        <translation type="unfinished">ZigBee ağ ayarları</translation>
+        <translation>ZigBee ağ ayarları</translation>
     </message>
 </context>
 <context>
@@ -7939,7 +8130,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Yardım</translation>
+        <translation>Yardım</translation>
     </message>
     <message>
         <source>OK</source>
@@ -7975,7 +8166,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">Bilinmeyen</translation>
+        <translation>Bilinmeyen</translation>
     </message>
     <message>
         <source>Associated things</source>
@@ -7987,7 +8178,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Network state</source>
-        <translation type="unfinished">Ağ durumu</translation>
+        <translation>Ağ durumu</translation>
     </message>
     <message>
         <source>Extend</source>
@@ -7995,7 +8186,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">kapalı</translation>
+        <translation>kapalı</translation>
     </message>
     <message numerus="yes">
         <source>%n device(s)</source>
@@ -8113,7 +8304,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished">Yardım</translation>
+        <translation>Yardım</translation>
     </message>
     <message>
         <source>Device</source>
@@ -8129,7 +8320,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Address:</source>
-        <translation type="unfinished">Adres:</translation>
+        <translation>Adres:</translation>
     </message>
     <message>
         <source>Model:</source>
@@ -8141,7 +8332,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Last seen:</source>
-        <translation type="unfinished">Son görülen:</translation>
+        <translation>Son görülen:</translation>
     </message>
     <message>
         <source>Neighbor</source>
@@ -8240,27 +8431,27 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Manufacturer</source>
-        <translation type="unfinished">Üretici firma</translation>
+        <translation>Üretici firma</translation>
     </message>
     <message>
         <source>IEEE address</source>
-        <translation type="unfinished">IEEE adresi</translation>
+        <translation>IEEE adresi</translation>
     </message>
     <message>
         <source>Network address</source>
-        <translation type="unfinished">Ağ adresi</translation>
+        <translation>Ağ adresi</translation>
     </message>
     <message>
         <source>Signal strength</source>
-        <translation type="unfinished">Sinyal gücü</translation>
+        <translation>Sinyal gücü</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">Bilinmeyen</translation>
+        <translation>Bilinmeyen</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Sürüm</translation>
+        <translation>Sürüm</translation>
     </message>
     <message>
         <source>Associated things</source>
@@ -8280,15 +8471,15 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Remove ZigBee node</source>
-        <translation type="unfinished">ZigBee düğümünü kaldır</translation>
+        <translation>ZigBee düğümünü kaldır</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this node from the network?</source>
-        <translation type="unfinished">Bu düğümü ağdan kaldırmak istediğinizden emin misiniz?</translation>
+        <translation>Bu düğümü ağdan kaldırmak istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <source>Please note that if this node has been assigned to a thing, it will also be removed from the system.</source>
-        <translation type="unfinished">Lütfen bu düğüm bir şeye atanmışsa, sistemden de kaldırılacağını unutmayın.</translation>
+        <translation>Lütfen bu düğüm bir şeye atanmışsa, sistemden de kaldırılacağını unutmayın.</translation>
     </message>
     <message>
         <source>Device endpoints</source>
@@ -8442,7 +8633,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Add things</source>
-        <translation type="unfinished">Bir şeyler ekle</translation>
+        <translation>Bir şeyler ekle</translation>
     </message>
 </context>
 <context>

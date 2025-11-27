@@ -32,8 +32,10 @@ import QtQuick 2.9
 import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.1
+import Qt.labs.settings 1.1
+
 import Nymea 1.0
-import "../components"
+import "qrc:/ui/components"
 
 SettingsPageBase {
     id: root
@@ -56,6 +58,7 @@ SettingsPageBase {
             if (id === d.pendingCallId) {
                 d.pendingCallId = -1
             }
+
             var errorMessage;
             switch (status) {
             case "NetworkManagerErrorNoError":
@@ -84,10 +87,15 @@ SettingsPageBase {
             case "NetworkManagerErrorNetworkManagerNotAvailable":
                 errorMessage = qsTr("The network manager is not available.")
                 break;
+            case "NetworkManagerErrorInvalidConfiguration":
+                errorMessage = qsTr("The network configuration is not valid.")
+                break;
+            case "NetworkManagerErrorUnsupportedFeature":
+                errorMessage = qsTr("This feature is not supported on this platform.")
+                break;
             case "NetworkManagerErrorUnknownError":
                 errorMessage = qsTr("An unexpected error happened.")
                 break;
-
             }
             print("network config reply:", status, errorMessage)
 
@@ -146,7 +154,7 @@ SettingsPageBase {
         ColorIcon {
             Layout.preferredHeight: Style.iconSize
             Layout.preferredWidth: Style.iconSize
-            name: "../images/connections/network-wired-disabled.svg"
+            name: "qrc:/icons/connections/network-wired-disabled.svg"
         }
         Label {
             Layout.fillWidth: true
@@ -228,7 +236,7 @@ SettingsPageBase {
                             + qsTr("Do you want to proceed?")
                     var popup = dialog.createObject(app,
                                                     {
-                                                        headerIcon: "../images/dialog-warning-symbolic.svg",
+                                                        headerIcon: "qrc:/icons/dialog-warning-symbolic.svg",
                                                         title: qsTr("Disable networking?"),
                                                         text: text,
                                                         standardButtons: Dialog.Ok | Dialog.Cancel
@@ -266,7 +274,7 @@ SettingsPageBase {
 
         NymeaItemDelegate {
             Layout.fillWidth: true
-            iconName: model.pluggedIn ? "../images/connections/network-wired.svg" : "../images/connections/network-wired-offline.svg"
+            iconName: model.pluggedIn ? "qrc:/icons/connections/network-wired.svg" : "qrc:/icons/connections/network-wired-offline.svg"
             text: model.interface + " (" + model.macAddress + ")"
             visible: networkManager.available && networkManager.networkingEnabled
             subText: {
@@ -315,7 +323,7 @@ SettingsPageBase {
                             + qsTr("Do you want to proceed?")
                     var popup = dialog.createObject(app,
                                                     {
-                                                        headerIcon: "../images/dialog-warning-symbolic.svg",
+                                                        headerIcon: "qrc:/icons/dialog-warning-symbolic.svg",
                                                         title: qsTr("Disable WiFi?"),
                                                         text: text,
                                                         standardButtons: Dialog.Ok | Dialog.Cancel
@@ -356,21 +364,21 @@ SettingsPageBase {
                 case NetworkDevice.NetworkDeviceStateDisconnected:
                 case NetworkDevice.NetworkDeviceStateDeactivating:
                 case NetworkDevice.NetworkDeviceStateFailed:
-                    return "../images/connections/network-wifi-offline.svg"
+                    return "qrc:/icons/connections/network-wifi-offline.svg"
                 case NetworkDevice.NetworkDeviceStatePrepare:
-                    return "../images/connections/network-wifi.svg";
+                    return "qrc:/icons/connections/network-wifi.svg";
                 case NetworkDevice.NetworkDeviceStateConfig:
-                    return "../images/connections/network-wifi-offline.svg"
+                    return "qrc:/icons/connections/network-wifi-offline.svg"
                 case NetworkDevice.NetworkDeviceStateNeedAuth:
-                    return "../images/connections/network-wifi.svg";
+                    return "qrc:/icons/connections/network-wifi.svg";
                 case NetworkDevice.NetworkDeviceStateIpConfig:
-                    return "../images/connections/network-wifi-offline.svg"
+                    return "qrc:/icons/connections/network-wifi-offline.svg"
                 case NetworkDevice.NetworkDeviceStateIpCheck:
-                    return "../images/connections/network-wifi.svg";
+                    return "qrc:/icons/connections/network-wifi.svg";
                 case NetworkDevice.NetworkDeviceStateSecondaries:
-                    return "../images/connections/network-wifi-offline.svg"
+                    return "qrc:/icons/connections/network-wifi-offline.svg"
                 case NetworkDevice.NetworkDeviceStateActivated:
-                    return "../images/connections/network-wifi.svg";
+                    return "qrc:/icons/connections/network-wifi.svg";
 
                 }
                 console.warn("Unhandled enum", model.state)
@@ -398,13 +406,13 @@ SettingsPageBase {
 
             property WirelessNetworkDevice wirelessNetworkDevice: null
 
-            WirelessAccessPointsProxy {
-                id: apProxy
-                accessPoints: wirelessAccessPointsPage.wirelessNetworkDevice.accessPoints
-            }
+            property bool apFeatureAvailable: wirelessNetworkDevice &&
+                                              wirelessNetworkDevice.wirelessCapabilities !== WirelessNetworkDevice.WirelessCapabilityNone &&
+                                              wirelessNetworkDevice.wirelessCapabilities | WirelessNetworkDevice.WirelessCapabilityAP
 
             SettingsPageSectionHeader {
                 text: qsTr("Access Point")
+                visible: apFeatureAvailable
             }
 
             TextField {
@@ -414,6 +422,7 @@ SettingsPageBase {
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
                 placeholderText: qsTr("SSID")
+                visible: apFeatureAvailable
             }
 
             ConsolinnoPasswordTextField {
@@ -427,6 +436,7 @@ SettingsPageBase {
                 requireNumber: false
                 requireSpecialChar: false
                 signup: false
+                visible: apFeatureAvailable
             }
 
             Button {
@@ -436,14 +446,38 @@ SettingsPageBase {
                 Layout.rightMargin: app.margins
                 text: qsTr("Create Access Point")
                 enabled: ssidTextField.displayText.length > 0 && passwordTextField.isValidPassword
+                visible: apFeatureAvailable
                 onClicked: {
                     d.pendingCallId = networkManager.startAccessPoint(wirelessAccessPointsPage.wirelessNetworkDevice.interface, ssidTextField.text, passwordTextField.password)
                     pageStack.pop(root);
                 }
             }
 
-            SettingsPageSectionHeader {
-                text: qsTr("Connect to wireless network")
+            Settings {
+                id: settings
+                property bool wirelessShowDuplicates: false
+            }
+
+            WirelessAccessPointsProxy {
+                id: apProxy
+                accessPoints: wirelessAccessPointsPage.wirelessNetworkDevice ? wirelessAccessPointsPage.wirelessNetworkDevice.accessPoints : null
+                showDuplicates: settings.wirelessShowDuplicates
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                SettingsPageSectionHeader {
+                    Layout.fillWidth: true
+                    text: qsTr("Connect to wireless network")
+                }
+
+                HeaderButton {
+                    id: filterButton
+                    imageSource: "qrc:/icons/filters.svg"
+                    color: Style.iconColor
+                    onClicked: pageStack.push(Qt.createComponent("/ui/system/WirelessNetworksFilterSettingsPage.qml"),
+                                                                      { wirelessAccessPointsProxy: apProxy });
+                }
             }
 
             Repeater {
@@ -455,7 +489,7 @@ SettingsPageBase {
                     subText: "%1 (%2)".arg(model.macAddress).arg(model.frequency < 3 ? "2.4GHz" : "5GHz")
                     prominentSubText: false
                     iconName: {
-                        var ret = "../images/connections/nm-signal-";
+                        var ret = "qrc:/icons/connections/nm-signal-";
                         if (model.signalStrength > 90) {
                             ret += "100";
                         } else if (model.signalStrength > 60) {
@@ -544,7 +578,7 @@ SettingsPageBase {
                         horizontalAlignment: Text.AlignRight
                         validator: RegExpValidator {
                             regExp:  /^((?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){0,3}(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/
-                       }
+                        }
                     }
 
                     Label {
@@ -571,7 +605,7 @@ SettingsPageBase {
                     Layout.fillWidth: true
                     validator: RegExpValidator {
                         regExp:  /^((?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){0,3}(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/
-                   }
+                    }
                 }
 
                 Label {
@@ -584,7 +618,7 @@ SettingsPageBase {
                     Layout.fillWidth: true
                     validator: RegExpValidator {
                         regExp:  /^((?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\.){0,3}(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/
-                   }
+                    }
                 }
             }
 
@@ -644,7 +678,7 @@ SettingsPageBase {
                 ColorIcon {
                     Layout.preferredHeight: Style.iconSize
                     Layout.preferredWidth: Style.iconSize
-                    name: "../images/eye.svg"
+                    name: "qrc:/icons/eye.svg"
                     color: passwordTextField.showPassword ? Style.accentColor : Style.iconColor
                     MouseArea {
                         anchors.fill: parent

@@ -87,8 +87,8 @@ SettingsPageBase {
             subText: model.candidateVersion
             prominentSubText: false
             iconName: model.updateAvailable
-                      ? Qt.resolvedUrl("../images/system-update.svg")
-                      : Qt.resolvedUrl("../images/view-" + (model.installedVersion.length > 0 ? "expand" : "collapse") + ".svg")
+                      ? Qt.resolvedUrl("qrc:/icons/system-update.svg")
+                      : Qt.resolvedUrl("qrc:/icons/view-" + (model.installedVersion.length > 0 ? "expand" : "collapse") + ".svg")
             iconColor: model.updateAvailable
                        ? "green"
                        : model.installedVersion.length > 0 ? "blue" : Style.iconColor
@@ -103,7 +103,7 @@ SettingsPageBase {
             visible: filterModel.count == 0
             title: qsTr("No package found")
             text: qsTr("We're sorry. We couldn't find any package matching the search term %1.").arg(packageListPage.filter)
-            imageSource: "/ui/images/dialog-error-symbolic.svg"
+            imageSource: "qrc:/icons/dialog-error-symbolic.svg"
             buttonVisible: false
         }
 

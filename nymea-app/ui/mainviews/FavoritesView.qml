@@ -129,7 +129,7 @@ MainViewBase {
                         }
                     }
                     ColorIcon {
-                        name: "/ui/images/delete.svg"
+                        name: "qrc:/icons/delete.svg"
                         size: Style.iconSize
                         anchors.centerIn: parent
                         color: Style.white
@@ -271,7 +271,7 @@ MainViewBase {
         text: engine.thingManager.things.count === 0 ?
                   qsTr("It appears there are no things set up either yet. In order to use favorites you need to add some things first.") :
                   qsTr("Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.")
-        imageSource: "../images/starred.svg"
+        imageSource: "qrc:/icons/starred.svg"
         buttonVisible: engine.thingManager.things.count === 0
         buttonText: qsTr("Add things")
         onButtonClicked: pageStack.push(Qt.resolvedUrl("../thingconfiguration/NewThingPage.qml"))

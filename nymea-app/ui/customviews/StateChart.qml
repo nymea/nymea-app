@@ -59,22 +59,34 @@ Item {
         startTime: new Date(d.startTime.getTime() - d.range * 1.1 * 60000)
         endTime: new Date(d.endTime.getTime() + d.range * 1.1 * 60000)
         sampleRate: d.sampleRate
+        sortOrder: Qt.AscendingOrder
 
         Component.onCompleted: {
-            if (source != "") {
+//            print("****** completed")
+            ready = true
+            update()
+        }
+        property bool ready: false
+        onSourceChanged: {
+//            print("***** source changed")
+            update()
+        }
+
+        function update() {
+//            print("*********+ source", source, "start", startTime, "end", endTime, ready)
+            if (ready && source != "") {
                 fetchLogs()
             }
         }
-        onSourceChanged: fetchLogs()
 
         property double minValue
         property double maxValue
 
         onEntriesAddedIdx: {
-            print("**** entries added", index, count, "entries in series:", valueSeries.count, "in model", logsModel.count)
+//            print("**** entries added", index, count, "entries in series:", valueSeries.count, "in model", logsModel.count)
             for (var i = 0; i < count; i++) {
                 var entry = logsModel.get(i)
-                //                print("entry", entry.timestamp, entry.source, JSON.stringify(entry.values))
+//                                print("entry", entry.timestamp, entry.source, JSON.stringify(entry.values))
                 zeroSeries.ensureValue(entry.timestamp)
 
                 if (root.stateType.type.toLowerCase() == "bool") {
@@ -83,10 +95,17 @@ Item {
                         value = false;
                     }
                     value *= root.inverted ? -1 : 1
+                    var previousEntry = i > 0 ? logsModel.get(i-1) : null;
+                    var previousValue = previousEntry ? previousEntry.values[root.stateType.name] : false
+                    if (previousValue == null) {
+                        previousValue = false
+                    }
 
-                    // for booleans, we'll insert the opposite value right before the new one so the position is doubled
+                    // for booleans, we'll insert the previous value right before the new one so the position is doubled
                     var insertIdx = (index + i) * 2
-                    valueSeries.insert(insertIdx, entry.timestamp.getTime() - 500, !value)
+//                    print("inserting bool 1", insertIdx, entry.timestamp.getTime() - 500, !value, new Date(entry.timestamp.getTime() - 500))
+                    valueSeries.insert(insertIdx, entry.timestamp.getTime() - 500, previousValue)
+//                    print("inserting bool 2", insertIdx + 1, entry.timestamp.getTime(), value, entry.timestamp)
                     valueSeries.insert(insertIdx+1, entry.timestamp, value)
 
                 } else {
@@ -140,6 +159,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             text: root.stateType.displayName
             visible: root.titleVisible
+            elide: Text.ElideMiddle
             //            MouseArea {
             //                anchors.fill: parent
             //                onClicked: {
@@ -345,12 +365,12 @@ Item {
                                     append(timestamp, 0)
                                 }
                             } else {
-                                if (timestamp.getTime() < at(0).x) {
-                                    remove(0)
-                                    insert(0, timestamp, 0)
-                                } else if (timestamp.getTime() > at(1).x) {
+                                if (timestamp.getTime() > at(0).x) {
                                     remove(1)
                                     append(timestamp, 0)
+                                } else if (timestamp.getTime() < at(1).x) {
+                                    remove(0)
+                                    insert(0, timestamp, 0)
                                 }
                             }
                         }

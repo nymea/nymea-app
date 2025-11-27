@@ -1,6 +1,8 @@
 #include "configuredhostsmodel.h"
 
+#include <QDir>
 #include <QSettings>
+#include <QStandardPaths>
 
 #include <QLoggingCategory>
 Q_DECLARE_LOGGING_CATEGORY(dcApplication)
@@ -99,11 +101,54 @@ void ConfiguredHostsModel::removeHost(int index)
         qCWarning(dcApplication()) << "Cannot remove connection at index" << index;
         return;
     }
+
     beginRemoveRows(QModelIndex(), index, index);
-    m_list.takeAt(index)->deleteLater();
+
+    ConfiguredHost *host = m_list.takeAt(index);
+    qCDebug(dcApplication()) << "Remove configured host" << host->name() << host->uuid().toString();
+
+    QSettings settings;
+
+    QString hostUuidString = host->uuid().toString();
+
+    qCDebug(dcApplication()) << "-> Remove stored token";
+    settings.beginGroup("jsonTokens");
+    if (settings.contains(hostUuidString)) {
+        settings.remove(hostUuidString);
+    }
+    settings.endGroup();
+
+    qCDebug(dcApplication()) << "-> Remove cached hosts";
+    settings.beginGroup("HostCache");
+    settings.beginGroup(hostUuidString);
+    settings.remove("");
+    settings.endGroup();
+    settings.endGroup();
+
+    qCDebug(dcApplication()) << "-> Remove host settings";
+    settings.beginGroup(hostUuidString);
+    settings.remove("");
+    settings.endGroup();
+
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
+    QFile certFile(dir.absoluteFilePath(hostUuidString.remove(QRegExp("[{}]")) + ".pem"));
+    if (certFile.exists()) {
+        if (!certFile.remove()) {
+            qCWarning(dcApplication()) << "Failed to remove certificate file" << certFile.fileName() << certFile.errorString();
+        } else {
+            qCDebug(dcApplication()) << "-> Removed successfully host certificate" << certFile.fileName();
+        }
+    } else {
+        qCDebug(dcApplication()) << "-> No certificated stored for this host";
+    }
+
+    host->deleteLater();
+
     saveToDisk();
+
     endRemoveRows();
     emit countChanged();
+
 
     if (m_list.isEmpty()) {
         createHost();

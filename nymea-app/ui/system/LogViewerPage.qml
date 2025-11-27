@@ -42,7 +42,7 @@ Page {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/down.svg"
+            imageSource: "qrc:/icons/down.svg"
             color: root.autoScroll ? Style.accentColor : Style.iconColor
             onClicked: {
                 listView.positionViewAtEnd();
@@ -132,7 +132,7 @@ Page {
                         case "stopped":
                             switch (delegate.entry.values.shutdownReason) {
                             case "ShutdownReasonQuit":
-                                return "system-logout"
+                                return "system-log-out"
                             case "ShutdownReasonTerm":
                                 return "system-shutdown"
                             case "ShutdownReasonFailure":

@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_TRANSACTION_H_
-#define FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_TRANSACTION_H_
+#ifndef FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_TRANSACTION_H_
+#define FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_TRANSACTION_H_
 
-#include "firebase/internal/common.h"
-#include "firebase/variant.h"
 #include "firebase/database/common.h"
 #include "firebase/database/data_snapshot.h"
 #include "firebase/database/mutable_data.h"
+#include "firebase/internal/common.h"
+#include "firebase/variant.h"
 
 #if defined(FIREBASE_USE_STD_FUNCTION)
 #include <functional>
@@ -70,6 +70,7 @@ typedef TransactionResult (*DoTransaction)(MutableData* data);
 /// Best practices for this function are to ONLY rely on the data passed in.
 ///
 /// @param[in] data Mutable data, which the callback can edit.
+/// @param[in] context Context pointer, passed verbatim to the callback.
 ///
 /// @returns The callback should return kTransactionResultSuccess if the data
 /// was modified, or kTransactionResultAbort if it was unable to modify the
@@ -98,4 +99,4 @@ typedef std::function<TransactionResult(MutableData* data)>
 }  // namespace database
 }  // namespace firebase
 
-#endif  // FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_TRANSACTION_H_
+#endif  // FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_TRANSACTION_H_

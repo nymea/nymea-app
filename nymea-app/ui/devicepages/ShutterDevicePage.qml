@@ -335,13 +335,13 @@ ThingPageBase {
 //                                anchors { horizontalCenter: parent.horizontalCenter; top: parent.top; topMargin: app.margins }
 //                                height: Style.iconSize
 //                                width: Style.iconSize
-//                                name: "../images/up.svg"
+//                                name: "qrc:/icons/up.svg"
 //                            }
 //                            ColorIcon {
 //                                anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom; bottomMargin: app.margins }
 //                                height: Style.iconSize
 //                                width: Style.iconSize
-//                                name: "../images/down.svg"
+//                                name: "qrc:/icons/down.svg"
 //                            }
 //                            Rectangle {
 //                                width: parent.width

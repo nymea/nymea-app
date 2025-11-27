@@ -69,6 +69,7 @@ ThingPageBase {
                 engine: _engine
                 sources: ["event-" + root.thing.id + "-pressed", "event-" + root.thing.id + "-longPressed"]
                 live: true
+                sortOrder: Qt.DescendingOrder
                 fetchBlockSize: 200 // As paging doesn't work with multiple sources
             }
 
@@ -146,7 +147,7 @@ ThingPageBase {
                 text: qsTr("Press a button on the switch to see logs appearing here.")
                 visible: !logsModel.busy && logsModel.count === 0
                 buttonVisible: false
-                imageSource: "../images/system-shutdown.svg"
+                imageSource: "qrc:/icons/system-shutdown.svg"
             }
         }
     }
@@ -200,7 +201,7 @@ ThingPageBase {
                 text: qsTr("Press a button on the switch to see logs appearing here.")
                 visible: !logsModel.busy && logsModel.count === 0 && !root.isVirtual
                 buttonVisible: false
-                imageSource: "../images/system-shutdown.svg"
+                imageSource: "qrc:/icons/system-shutdown.svg"
             }
         }
     }

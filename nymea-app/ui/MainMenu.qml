@@ -13,15 +13,15 @@ Drawer {
     property ConfiguredHostsModel configuredHosts: null
     readonly property Engine currentEngine: configuredHosts.count > 0 ? configuredHosts.get(configuredHosts.currentIndex).engine : null
 
-    signal openThingSettings();
-    signal openMagicSettings();
-    signal openAppSettings();
-    signal openSystemSettings();
-    signal openCustomPage(string page);
-    signal configureMainView();
+    signal openThingSettings()
+    signal openMagicSettings()
+    signal openAppSettings()
+    signal openSystemSettings()
+    signal openCustomPage(string page)
+    signal configureMainView()
 
-    signal startWirelessSetup();
-    signal startManualConnection();
+    signal startWirelessSetup()
+    signal startManualConnection()
 
     background: Item {
         Rectangle {
@@ -45,6 +45,17 @@ Drawer {
     }
 
     onClosed: topSectionLayout.configureConnections = false;
+
+    // This allows to emit a custom signal and perform any other task besids opening a page
+    // By defining a signalName property in the customMenuLinks it can be distinguished by using
+    // the signalName string
+    signal customMenuLinkClicked(string signalName)
+    property var customMenuLinks: [ ]
+
+    Settings {
+        id: tokenSettings
+        category: "jsonTokens"
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -75,7 +86,7 @@ Drawer {
                         source: "qrc:/styles/%1/logo-wide.svg".arg(styleController.currentStyle)
                     }
                     ProgressButton {
-                        imageSource: "/ui/images/configure.svg"
+                        imageSource: "qrc:/icons/configure.svg"
                         longpressEnabled: false
                         Layout.alignment: Qt.AlignBottom
                         color: topSectionLayout.configureConnections ? Style.accentColor : Style.iconColor
@@ -127,14 +138,9 @@ Drawer {
 
                             ProgressButton {
                                 id: closeButton
-                                imageSource: "/ui/images/close.svg"
+                                imageSource: "qrc:/icons/close.svg"
                                 visible: topSectionLayout.configureConnections && (autoConnectHost.length === 0 || index > 0)
                                 longpressEnabled: false
-
-                                Settings {
-                                    id: tokenSettings
-                                    category: "jsonTokens"
-                                }
                             }
                         }
 
@@ -179,9 +185,29 @@ Drawer {
                                 height: width
                                 enabled: topSectionLayout.configureConnections
                                 onClicked: {
-                                    tokenSettings.setValue(hostDelegate.configuredHost.uuid, "")
-                                    configuredHostsModel.removeHost(index)
+                                    print("host is:", hostDelegate.configuredHost.uuid)
+                                    if (hostDelegate.configuredHost.uuid != "{00000000-0000-0000-0000-000000000000}") {
+                                        var popup = askCloseDialog.createObject(app, {uuid: hostDelegate.configuredHost.uuid, index: index})
+                                        popup.open();
+                                    } else {
+                                        configuredHostsModel.removeHost(index)
+                                    }
                                 }
+                            }
+                        }
+                    }
+
+                    Component {
+                        id: askCloseDialog
+                        NymeaDialog {
+                            property string uuid
+                            property int index
+                            title: qsTr("Are you sure?")
+                            text: qsTr("Do you want to log out from %1 and remove it from your connections?").arg(configuredHostsModel.get(index).name)
+                            standardButtons: Dialog.Yes | Dialog.No
+                            onAccepted: {
+                                tokenSettings.setValue(uuid, "")
+                                configuredHostsModel.removeHost(index)
                             }
                         }
                     }
@@ -290,7 +316,7 @@ Drawer {
                 NymeaItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("Configure things")
-                    iconName: "../images/things.svg"
+                    iconName: "qrc:/icons/things.svg"
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
                              && NymeaUtils.hasPermissionScope(root.currentEngine.jsonRpcClient.permissions, UserInfo.PermissionScopeConfigureThings)
                              && root.currentEngine.jsonRpcClient.connected && settings.showHiddenOptions
@@ -303,7 +329,7 @@ Drawer {
                 NymeaItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("Magic")
-                    iconName: "../images/magic.svg"
+                    iconName: "qrc:/icons/magic.svg"
                     progressive: false
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost
                                  && NymeaUtils.hasPermissionScope(root.currentEngine.jsonRpcClient.permissions, UserInfo.PermissionScopeConfigureRules)
@@ -316,7 +342,7 @@ Drawer {
                 NymeaItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("Configure main view")
-                    iconName: "../images/configure.svg"
+                    iconName: "qrc:/icons/configure.svg"
                     progressive: false
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected &&
                              !Configuration.hasOwnProperty("mainViewsFilter") && settings.showHiddenOptions
@@ -328,7 +354,7 @@ Drawer {
                 NymeaItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("App settings")
-                    iconName: "../images/stock_application.svg"
+                    iconName: "qrc:/icons/stock_application.svg"
                     progressive: false
                     onClicked: {
                         root.openAppSettings();
@@ -338,25 +364,58 @@ Drawer {
                 NymeaItemDelegate {
                     Layout.fillWidth: true
                     text: qsTr("System settings")
-                    iconName: "../images/settings.svg"
+                    iconName: "qrc:/icons/settings.svg"
                     progressive: false
                     visible: root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected
                     onClicked: {
                         root.openSystemSettings();
                         root.close();
                     }
+                }
 
-                    Layout.bottomMargin: app.margins
+                // Custom entries
+                Repeater {
+                    id: customRepeater
+
+                    model: root.customMenuLinks
+                    delegate: NymeaItemDelegate {
+                        property var entry: root.customMenuLinks[index]
+                        Layout.fillWidth: true
+                        text: entry.text
+                        iconName: entry.iconName
+                        visible: entry.requiresEngine === true ? root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected : true
+                        progressive: false
+                        onClicked: {
+                            if (entry.page !== undefined) {
+                                root.openCustomPage(entry.page)
+                            }
+
+                            if (entry.signalName !== undefined) {
+                                root.customMenuLinkClicked(entry.signalName)
+                            }
+
+                            root.close()
+                        }
+                    }
                 }
 
 
+                Item {
+                    id: spaceItem
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: app.margins
+                }
+
                 Repeater {
+                    id: configurationRepeater
+
                     model: Configuration.mainMenuLinks
                     delegate: NymeaItemDelegate {
                         property var entry: Configuration.mainMenuLinks[index]
                         Layout.fillWidth: true
                         text: entry.text
                         iconName: entry.iconName
+                        visible: entry.requiresEngine === true ? root.currentEngine && root.currentEngine.jsonRpcClient.currentHost && root.currentEngine.jsonRpcClient.connected : true
                         progressive: false
                         onClicked: {
                             if (entry.page !== undefined) {
@@ -376,12 +435,5 @@ Drawer {
             }
         }
     }
-
-    //    Component {
-    //        id: hostConnectionInfoComponent
-    //        MeaDialog {
-
-    //        }
-    //    }
 }
 

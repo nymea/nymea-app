@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_MESSAGING_CLIENT_CPP_INCLUDE_FIREBASE_MESSAGING_H_
-#define FIREBASE_MESSAGING_CLIENT_CPP_INCLUDE_FIREBASE_MESSAGING_H_
+#ifndef FIREBASE_MESSAGING_SRC_INCLUDE_FIREBASE_MESSAGING_H_
+#define FIREBASE_MESSAGING_SRC_INCLUDE_FIREBASE_MESSAGING_H_
 
 #include <stdint.h>
 
@@ -57,7 +57,7 @@ struct MessagingOptions {
   /// If this prompt has already been accepted once in the past the prompt will
   /// not be displayed again.
   ///
-  /// This option currently only applies to iOS.
+  /// This option currently only applies to iOS and tvOS.
   bool suppress_notification_permission_prompt;
 };
 
@@ -75,9 +75,12 @@ struct AndroidNotificationParams {
 struct Notification {
   Notification() : android(nullptr) {}
 
+#ifndef SWIG
   /// Copy constructor. Makes a deep copy of this Message.
   Notification(const Notification& other) : android(nullptr) { *this = other; }
+#endif  // !SWIG
 
+#ifndef SWIG
   /// Copy assignment operator. Makes a deep copy of this Message.
   Notification& operator=(const Notification& other) {
     this->title = other.title;
@@ -99,12 +102,13 @@ struct Notification {
     }
     return *this;
   }
+#endif  // !SWIG
 
   /// Destructor.
   ~Notification() { delete android; }
 
-  /// Indicates notification title. This field is not visible on iOS phones
-  /// and tablets.
+  /// Indicates notification title. This field is not visible on tvOS, iOS
+  /// phones and tablets.
   std::string title;
 
   /// Indicates notification body text.
@@ -118,12 +122,12 @@ struct Notification {
   /// Supports default, or the filename of a sound resource bundled in the
   /// app.
   ///
-  /// Android sound files must reside in /res/raw/, while iOS sound files
-  /// can be in the main bundle of the client app or in the Library/Sounds
-  /// folder of the app’s data container.
+  /// Android sound files must reside in /res/raw/, while iOS and tvOS sound
+  /// files can be in the main bundle of the client app or in the
+  /// Library/Sounds folder of the app’s data container.
   std::string sound;
 
-  /// Indicates the badge on the client app home icon. iOS only.
+  /// Indicates the badge on the client app home icon. iOS and tvOS only.
   std::string badge;
 
   /// Indicates whether each notification results in a new entry in the
@@ -141,12 +145,12 @@ struct Notification {
   /// On Android, if this is set, an activity with a matching intent filter is
   /// launched when user clicks the notification.
   ///
-  /// If set on iOS, corresponds to category in APNS payload.
+  /// If set on iOS or tvOS, corresponds to category in APNS payload.
   std::string click_action;
 
   /// Indicates the key to the body string for localization.
   ///
-  /// On iOS, this corresponds to "loc-key" in APNS payload.
+  /// On iOS and tvOS, this corresponds to "loc-key" in APNS payload.
   ///
   /// On Android, use the key in the app's string resources when populating this
   /// value.
@@ -155,7 +159,7 @@ struct Notification {
   /// Indicates the string value to replace format specifiers in body string
   /// for localization.
   ///
-  /// On iOS, this corresponds to "loc-args" in APNS payload.
+  /// On iOS and tvOS, this corresponds to "loc-args" in APNS payload.
   ///
   /// On Android, these are the format arguments for the string resource. For
   /// more information, see [Formatting strings][1].
@@ -166,7 +170,7 @@ struct Notification {
 
   /// Indicates the key to the title string for localization.
   ///
-  /// On iOS, this corresponds to "title-loc-key" in APNS payload.
+  /// On iOS and tvOS, this corresponds to "title-loc-key" in APNS payload.
   ///
   /// On Android, use the key in the app's string resources when populating this
   /// value.
@@ -175,7 +179,7 @@ struct Notification {
   /// Indicates the string value to replace format specifiers in title string
   /// for localization.
   ///
-  /// On iOS, this corresponds to "title-loc-args" in APNS payload.
+  /// On iOS and tvOS, this corresponds to "title-loc-args" in APNS payload.
   ///
   /// On Android, these are the format arguments for the string resource. For
   /// more information, see [Formatting strings][1].
@@ -188,8 +192,7 @@ struct Notification {
   AndroidNotificationParams* android;
 };
 
-/// @brief Data structure used to send messages to, and receive messages from,
-/// cloud messaging.
+/// @brief Data structure used to receive messages from cloud messaging.
 struct Message {
   /// Initialize the message.
   Message()
@@ -201,9 +204,12 @@ struct Message {
   /// Destructor.
   ~Message() { delete notification; }
 
+#ifndef SWIG
   /// Copy constructor. Makes a deep copy of this Message.
   Message(const Message& other) : notification(nullptr) { *this = other; }
+#endif  // !SWIG
 
+#ifndef SWIG
   /// Copy assignment operator. Makes a deep copy of this Message.
   Message& operator=(const Message& other) {
     this->from = other.from;
@@ -229,13 +235,11 @@ struct Message {
     this->link = other.link;
     return *this;
   }
+#endif  // !SWIG
 
   /// Authenticated ID of the sender. This is a project number in most cases.
   ///
   /// Any value starting with google.com, goog. or gcm. are reserved.
-  ///
-  /// This field is only used for downstream messages received through
-  /// Listener::OnMessage().
   std::string from;
 
   /// This parameter specifies the recipient of a message.
@@ -243,11 +247,6 @@ struct Message {
   /// For example it can be a registration token, a topic name, an Instance ID
   /// or project ID.
   ///
-  /// For upstream messages use the format  PROJECT_ID@gcm.googleapis.com.
-  ///
-  /// This field is used for both upstream messages sent with
-  /// firebase::messaging::Send() and downstream messages received through
-  /// Listener::OnMessage(). For upstream messages,
   /// PROJECT_ID@gcm.googleapis.com or Instance ID are accepted.
   std::string to;
 
@@ -263,31 +262,20 @@ struct Message {
   /// This means a FCM connection server can simultaneously store 4 different
   /// send-to-sync messages per client app. If you exceed this number, there is
   /// no guarantee which 4 collapse keys the FCM connection server will keep.
-  ///
-  /// This field is only used for downstream messages received through
-  /// Listener::OnMessage().
   std::string collapse_key;
 
   /// The metadata, including all original key/value pairs. Includes some of the
   /// HTTP headers used when sending the message. `gcm`, `google` and `goog`
   /// prefixes are reserved for internal use.
-  ///
-  /// This field is used for both upstream messages sent with
-  /// firebase::messaging::Send() and downstream messages received through
-  /// Listener::OnMessage().
   std::map<std::string, std::string> data;
 
-  /// Binary payload. This field is currently unused.
-  std::string raw_data;
+  /// Binary payload.
+  std::vector<unsigned char> raw_data;
 
   /// Message ID. This can be specified by sender. Internally a hash of the
   /// message ID and other elements will be used for storage. The ID must be
   /// unique for each topic subscription - using the same ID may result in
   /// overriding the original message or duplicate delivery.
-  ///
-  /// This field is used for both upstream messages sent with
-  /// firebase::messaging::Send() and downstream messages received through
-  /// Listener::OnMessage().
   std::string message_id;
 
   /// Equivalent with a content-type.
@@ -305,13 +293,10 @@ struct Message {
   ///     Parameters: "message_id" and "error"
   ///
   /// If this field is missing, the message is a regular message.
-  ///
-  /// This field is only used for downstream messages received through
-  /// Listener::OnMessage().
   std::string message_type;
 
   /// Sets the priority of the message. Valid values are "normal" and "high." On
-  /// iOS, these correspond to APNs priority 5 and 10.
+  /// iOS and tvOS, these correspond to APNs priority 5 and 10.
   ///
   /// By default, messages are sent with normal priority. Normal priority
   /// optimizes the client app's battery consumption, and should be used unless
@@ -324,9 +309,6 @@ struct Message {
   ///
   /// For more information, see [Setting the priority of a message][1].
   ///
-  /// This field is only used for downstream messages received through
-  /// Listener::OnMessage().
-  ///
   /// [1]:
   /// https://firebase.google.com/docs/cloud-messaging/concept-options#setting-the-priority-of-a-message
   std::string priority;
@@ -336,24 +318,15 @@ struct Message {
   /// supported is 4 weeks, and the default value is 4 weeks. For more
   /// information, see [Setting the lifespan of a message][1].
   ///
-  /// This field is only used for downstream messages received through
-  /// Listener::OnMessage().
-  ///
   /// [1]: https://firebase.google.com/docs/cloud-messaging/concept-options#ttl
   int32_t time_to_live;
 
   /// Error code. Used in "nack" messages for CCS, and in responses from the
   /// server.
   /// See the CCS specification for the externally-supported list.
-  ///
-  /// This field is only used for downstream messages received through
-  /// Listener::OnMessage().
   std::string error;
 
   /// Human readable details about the error.
-  ///
-  /// This field is only used for downstream messages received through
-  /// Listener::OnMessage().
   std::string error_description;
 
   /// Optional notification to show. This only set if a notification was
@@ -364,9 +337,6 @@ struct Message {
   /// to make a copy of either the Message or Notification. Copying the Message
   /// object implicitly makes a deep copy of the notification (allocated with
   /// new) which is owned by the Message.
-  ///
-  /// This field is only used for downstream messages received through
-  /// Listener::OnMessage().
   Notification* notification;
 
   /// A flag indicating whether this message was opened by tapping a
@@ -375,9 +345,6 @@ struct Message {
   bool notification_opened;
 
   /// The link into the app from the message.
-  ///
-  /// This field is only used for downstream messages received through
-  /// Listener::OnMessage().
   std::string link;
 
   /// @cond FIREBASE_APP_INTERNAL
@@ -465,7 +432,7 @@ bool IsTokenRegistrationOnInitEnabled();
 /// If this setting is enabled, it triggers the token registration refresh
 /// immediately. This setting is persisted across app restarts and overrides the
 /// setting "firebase_messaging_auto_init_enabled" specified in your Android
-/// manifest (on Android) or Info.plist (on iOS).
+/// manifest (on Android) or Info.plist (on iOS and tvOS).
 ///
 /// <p>By default, token registration during initialization is enabled.
 ///
@@ -485,7 +452,7 @@ bool IsTokenRegistrationOnInitEnabled();
 /// @endcode
 /// @endif
 ///
-/// or on iOS to your Info.plist:
+/// or on iOS or tvOS to your Info.plist:
 ///
 /// @if NOT_DOXYGEN
 ///   <key>FirebaseMessagingAutoInitEnabled</key>
@@ -501,6 +468,7 @@ bool IsTokenRegistrationOnInitEnabled();
 /// initialization.
 void SetTokenRegistrationOnInitEnabled(bool enable);
 
+#ifndef SWIG
 /// @brief Set the listener for events from the Firebase Cloud Messaging
 /// servers.
 ///
@@ -513,6 +481,7 @@ void SetTokenRegistrationOnInitEnabled(bool enable);
 ///
 /// @return Pointer to the previously set listener.
 Listener* SetListener(Listener* listener);
+#endif  // !SWIG
 
 /// Error code returned by Firebase Cloud Messaging C++ functions.
 enum Error {
@@ -531,9 +500,9 @@ enum Error {
 /// @brief Displays a prompt to the user requesting permission to display
 ///        notifications.
 ///
-/// The permission prompt only appears on iOS. If the user has already agreed to
-/// allow notifications, no prompt is displayed and the returned future is
-/// completed immediately.
+/// The permission prompt only appears on iOS and tvOS. If the user has
+/// already agreed to allow notifications, no prompt is displayed and the
+/// returned future is completed immediately.
 ///
 /// @return A future that completes when the notification prompt has been
 ///         dismissed.
@@ -541,18 +510,8 @@ Future<void> RequestPermission();
 
 /// @brief Gets the result of the most recent call to RequestPermission();
 ///
-/// @returns Result of the most recent call to RequestPermission().
+/// @return Result of the most recent call to RequestPermission().
 Future<void> RequestPermissionLastResult();
-
-/// Send an upstream ("device to cloud") message. You can only use the upstream
-/// feature if your FCM implementation uses the XMPP-based Cloud Connection
-/// Server. The current limits for max storage time and number of outstanding
-/// messages per application are documented in the [FCM Developers Guide].
-///
-/// [FCM Developers Guide]: https://firebase.google.com/docs/cloud-messaging/
-///
-/// @param[in] message The message to send upstream.
-void Send(const Message& message);
 
 /// @brief Subscribe to receive all messages to the specified topic.
 ///
@@ -567,7 +526,7 @@ Future<void> Subscribe(const char* topic);
 
 /// @brief Gets the result of the most recent call to Unsubscribe();
 ///
-/// @returns Result of the most recent call to Unsubscribe().
+/// @return Result of the most recent call to Unsubscribe().
 Future<void> SubscribeLastResult();
 
 /// @brief Unsubscribe from a topic.
@@ -583,8 +542,62 @@ Future<void> Unsubscribe(const char* topic);
 
 /// @brief Gets the result of the most recent call to Unsubscribe();
 ///
-/// @returns Result of the most recent call to Unsubscribe().
+/// @return Result of the most recent call to Unsubscribe().
 Future<void> UnsubscribeLastResult();
+
+/// Determines whether Firebase Cloud Messaging exports message delivery metrics
+/// to BigQuery.
+///
+/// This function is currently only implemented on Android, and returns false
+/// with no other behavior on other platforms.
+///
+/// @return true if Firebase Cloud Messaging exports message delivery metrics to
+/// BigQuery.
+bool DeliveryMetricsExportToBigQueryEnabled();
+
+/// Enables or disables Firebase Cloud Messaging message delivery metrics export
+/// to BigQuery.
+///
+/// By default, message delivery metrics are not exported to BigQuery. Use this
+/// method to enable or disable the export at runtime. In addition, you can
+/// enable the export by adding to your manifest. Note that the run-time method
+/// call will override the manifest value.
+///
+/// <meta-data android:name= "delivery_metrics_exported_to_big_query_enabled"
+///            android:value="true"/>
+///
+/// This function is currently only implemented on Android, and has no behavior
+/// on other platforms.
+///
+/// @param[in] enable Whether Firebase Cloud Messaging should export message
+///            delivery metrics to BigQuery.
+void SetDeliveryMetricsExportToBigQuery(bool enable);
+
+/// @brief This creates a Firebase Installations ID, if one does not exist, and
+/// sends information about the application and the device where it's running to
+/// the Firebase backend.
+///
+/// @return A future with the token.
+Future<std::string> GetToken();
+
+/// @brief Gets the result of the most recent call to GetToken();
+///
+/// @return Result of the most recent call to GetToken().
+Future<std::string> GetTokenLastResult();
+
+/// @brief Deletes the default token for this Firebase project.
+///
+/// Note that this does not delete the Firebase Installations ID that may have
+/// been created when generating the token. See Installations.Delete() for
+/// deleting that.
+///
+/// @return A future that completes when the token is deleted.
+Future<void> DeleteToken();
+
+/// @brief Gets the result of the most recent call to DeleteToken();
+///
+/// @return Result of the most recent call to DeleteToken().
+Future<void> DeleteTokenLastResult();
 
 class PollableListenerImpl;
 
@@ -684,4 +697,4 @@ class PollableListener : public Listener {
 }  // namespace messaging
 }  // namespace firebase
 
-#endif  // FIREBASE_MESSAGING_CLIENT_CPP_SRC_INCLUDE_FIREBASE_MESSAGING_H_
+#endif  // FIREBASE_MESSAGING_SRC_INCLUDE_FIREBASE_MESSAGING_H_

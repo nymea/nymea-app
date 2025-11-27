@@ -44,7 +44,7 @@ SettingsPageBase {
         onBackPressed: pageStack.pop()
 
         HeaderButton {
-            imageSource: "../images/add.svg"
+            imageSource: "qrc:/icons/add.svg"
             text: qsTr("Add Modbus RTU master")
             onClicked: pageStack.push(Qt.resolvedUrl("ModbusRtuAddMasterPage.qml"), {
                                           modbusRtuManager: modbusRtuManager,
@@ -181,7 +181,7 @@ SettingsPageBase {
             anchors.centerIn: parent
             title: qsTr("Modbus RTU masters")
             text: qsTr("There are no Modbus RTU masters set up yet.") + "\n" + qsTr("In order to use Modbus RTU devices, add a new Modbus RTU master.")
-            imageSource: "/ui/images/modbus.svg"
+            imageSource: "qrc:/icons/modbus.svg"
             buttonText: qsTr("Add Modbus RTU master")
             onButtonClicked: {
                 pageStack.push(Qt.resolvedUrl("ModbusRtuAddMasterPage.qml"), {
@@ -209,7 +209,7 @@ SettingsPageBase {
         model: modbusRtuManager.modbusRtuMasters
         delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
-            iconName: "../images/modbus.svg"
+            iconName: "qrc:/icons/modbus.svg"
             text: model.serialPort + " " + model.baudrate
             subText: model.connected ? qsTr("Connected") : qsTr("Disconnected")
             onClicked: pageStack.push(modbusDetailsComponent, { modbusRtuManager: modbusRtuManager, modbusRtuMaster: modbusRtuManager.modbusRtuMasters.get(index) })
@@ -233,7 +233,7 @@ SettingsPageBase {
                 onBackPressed: pageStack.pop()
 
                 HeaderButton {
-                    imageSource: "../images/delete.svg"
+                    imageSource: "qrc:/icons/delete.svg"
                     text: qsTr("Remove Modbus RTU master")
                     enabled: modbusRtuManager.supported
                     onClicked: {
@@ -251,7 +251,7 @@ SettingsPageBase {
 
                     property ModbusRtuMaster modbusRtuMaster
 
-                    headerIcon: "../images/modbus.svg"
+                    headerIcon: "qrc:/icons/modbus.svg"
                     title: qsTr("Remove Modbus RTU master")
                     text: qsTr("Are you sure you want to remove this Modbus RTU master?")
                     standardButtons: Dialog.Ok | Dialog.Cancel

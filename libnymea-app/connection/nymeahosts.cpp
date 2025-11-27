@@ -92,12 +92,15 @@ void NymeaHosts::removeHost(NymeaHost *host)
 {
     int idx = m_hosts.indexOf(host);
     if (idx == -1) {
-        qWarning() << "Cannot remove NymeaHost" << host << "as its nit in the model";
+        qWarning() << "Cannot remove NymeaHost" << host << "as its not in the model";
         return;
     }
     beginRemoveRows(QModelIndex(), idx, idx);
     m_hosts.takeAt(idx);
     endRemoveRows();
+
+
+
     emit hostRemoved(host);
     emit countChanged();
 }

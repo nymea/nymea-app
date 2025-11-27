@@ -144,7 +144,7 @@ public:
     Q_INVOKABLE Param *param(const QUuid &paramTypeId) const;
     Q_INVOKABLE Param *paramByName(const QString &paramName) const;
 
-    Q_INVOKABLE virtual int executeAction(const QString &actionName, const QVariantList &params);
+    Q_INVOKABLE virtual int executeAction(const QString &actionName, const QVariantList &params = QVariantList());
 
 signals:
     void nameChanged();

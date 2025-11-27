@@ -108,9 +108,9 @@ Item {
                         y: parent.contentItem.y + parent.contentItem.height - height - Style.smallMargins
                         size: Math.min(Style.bigIconSize, thermostatDial.height / 5)
                         name: zoneWrapper.heatingThermostats.count > 0
-                              ? "../images/thermostat/heating.svg"
+                              ? "qrc:/icons/thermostat/heating.svg"
                               : zoneWrapper.coolingThermostats.count > 0
-                                ? "../images/thermostat/cooling.svg"
+                                ? "qrc:/icons/thermostat/cooling.svg"
                                 : ""
                         color: zoneWrapper.heatingThermostats.count > 0
                               ? app.interfaceToColor("heating")
@@ -196,7 +196,7 @@ Item {
         width: parent.width - app.margins * 2
         title: qsTr("No things in this zone.")
         text: qsTr("In order for this zone zo be useful, assign some things to it.")
-        imageSource: "/ui/images/sensors.svg"
+        imageSource: "qrc:/icons/sensors.svg"
         buttonText: qsTr("Add things")
         onButtonClicked: {
             pageStack.push(Qt.resolvedUrl("EditZoneThingsPage.qml"), {acManager: acManager, zone: zone})

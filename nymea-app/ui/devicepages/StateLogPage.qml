@@ -85,6 +85,7 @@ Page {
         engine: _engine
         source: "state-" + root.thing.id + "-" + root.stateType.name
         sortOrder: Qt.DescendingOrder
+        live: true
     }
 
     Component.onCompleted: {
@@ -133,7 +134,7 @@ Page {
         width: parent.width - app.margins * 2
         title: qsTr("Logging not enabled")
         text: qsTr("This state is not being logged.")
-        imageSource: "../images/logs.svg"
+        imageSource: "qrc:/icons/logs.svg"
         buttonText: qsTr("Enable logging")
         visible: !root.isLogged
         onButtonClicked: {

@@ -60,8 +60,8 @@ MainViewBase {
         delegate: MainPageTile {
             width: interfacesGridView.cellWidth
             height: interfacesGridView.cellHeight
-            iconName: iconTag ? "../images/" + iconTag.value + ".svg" : "../images/slideshow.svg";
-            fallbackIconName: "../images/slideshow.svg"
+            iconName: iconTag ? "qrc:/icons/" + iconTag.value + ".svg" : "qrc:/icons/slideshow.svg";
+            fallbackIconName: "qrc:/icons/slideshow.svg"
             iconColor: colorTag && colorTag.value.length > 0 ? colorTag.value : Style.accentColor;
             lowerText: model.name
 
@@ -89,7 +89,7 @@ MainViewBase {
         text: engine.thingManager.things.count === 0 ?
                   qsTr("It appears there are no things set up either yet. In order to use scenes you need to add some things first.") :
                   qsTr("Scenes provide a useful way to control your things with just one click.")
-        imageSource: "../images/slideshow.svg"
+        imageSource: "qrc:/icons/slideshow.svg"
         buttonText: engine.thingManager.things.count === 0 ? qsTr("Add things") : qsTr("Add scenes")
         onButtonClicked: {
             if (engine.thingManager.things.count === 0) {

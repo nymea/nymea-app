@@ -51,7 +51,7 @@ CodeCompletion::CodeCompletion(QObject *parent):
     m_classes.insert("InterfaceState", ClassInfo("InterfaceState", {"id", "interfaceName", "stateName"}, {}, {}, {"onStateChanged"}));
     m_classes.insert("Thing", ClassInfo("Thing", {"id", "thingId"}, {"name"}, {"executeAction", "setStateValue"}, {"onEventTriggered", "onStateValueChanged", "onActionExecuted"}));
     m_classes.insert("Things", ClassInfo("Things", {"id", "filterInterface"}, {"count"}, {"get", "getThing"}, {"onThingAdded", "onThingRemoved", "onCountChanged"}));
-    m_classes.insert("Timer", ClassInfo("Timer", {"id", "interval", "running", "repeat"}, {}, {"start", "stop"}, {"onTriggered"}));
+    m_classes.insert("Timer", ClassInfo("Timer", {"id", "interval", "running", "repeat"}, {}, {"start", "stop", "restart"}, {"onTriggered"}));
     m_classes.insert("Alarm", ClassInfo("Alarm", {"id", "time", "endTime", "weekDays"}, {"active"}, {}, {"onTriggered", "onActiveChanged"}));
     m_classes.insert("PropertyAnimation", ClassInfo("PropertyAnimation", {"id", "target", "targets", "property", "properties", "value", "from", "to", "easing", "exclude", "duration", "alwaysRunToEnd", "loops"}, {"paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));
     m_classes.insert("ColorAnimation", ClassInfo("ColorAnimation", {"id", "target", "targets", "property", "properties", "value", "from", "to", "easing", "exclude", "duration", "alwaysRunToEnd", "loops"}, {"paused", "running"}, {"start", "stop", "pause", "resume", "complete"}, {"onStarted", "onStopped", "onFinished", "onRunningChanged"}));

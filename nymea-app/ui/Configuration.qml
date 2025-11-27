@@ -5,6 +5,7 @@ ConfigurationBase {
     systemName: "nymea"
     appName: "nymea:app"
     appId: "io.guh.nymeaapp"
+    company: "chargebyte GmbH"
 
     connectionWizard: "/ui/connection/ConnectionWizard.qml"
 
@@ -18,37 +19,19 @@ ConfigurationBase {
     modbusSettingsEnabled: true
     pluginSettingsEnabled: true
 
+    tunnelProxyUrl: "tunnelproxy.nymea.io"
+    privacyPolicyUrl: "https://nymea.io/privacy-statement/en/nymea_privacy.html"
 
     mainMenuLinks: [
         {
             text: qsTr("Help"),
-            iconName: "../images/help.svg",
+            iconName: "qrc:/icons/help.svg",
             url: "https://nymea.io/documentation/users/usage/first-steps"
         },
         {
-            text: qsTr("Forum"),
-            iconName: "../images/discourse.svg",
-            url: "https://forum.nymea.io"
-        },
-        {
             text: qsTr("Telegram"),
-            iconName: "../images/telegram.svg",
+            iconName: "qrc:/icons/telegram.svg",
             url: "https://t.me/nymeacommunity"
-        },
-        {
-            text: qsTr("Discord"),
-            iconName: "../images/discord.svg",
-            url: "https://discord.gg/tX9YCpD"
-        },
-        {
-            text: qsTr("Twitter"),
-            iconName: "../images/twitter.svg",
-            url: "https://twitter.com/nymea_io"
-        },
-        {
-            text: qsTr("Facebook"),
-            iconName: "../images/facebook.svg",
-            url: "https://m.facebook.com/groups/nymea"
         }
     ]
 }

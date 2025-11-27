@@ -46,7 +46,7 @@ ThingPageBase {
         text: qsTr("Scan a code to see it appearing here.")
         visible: logView.logsModel.count === 0
         buttonVisible: false
-        imageSource: "../images/qrcode.svg"
+        imageSource: "qrc:/icons/qrcode.svg"
     }
 
     Connections {

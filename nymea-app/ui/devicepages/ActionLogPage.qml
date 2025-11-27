@@ -150,7 +150,7 @@ Page {
         width: parent.width - app.margins * 2
         title: qsTr("No data")
         text: qsTr("This action has not been executed yet.")
-        imageSource: "../images/logs.svg"
+        imageSource: "qrc:/icons/logs.svg"
         buttonVisible: false
         visible: root.isLogged && logsModel.count == 0
     }
@@ -160,7 +160,7 @@ Page {
         width: parent.width - app.margins * 2
         title: qsTr("Logging not enabled")
         text: qsTr("This action is not being logged.")
-        imageSource: "../images/logs.svg"
+        imageSource: "qrc:/icons/logs.svg"
         buttonText: qsTr("Enable logging")
         visible: !root.isLogged
         onButtonClicked: {

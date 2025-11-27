@@ -39,7 +39,7 @@ SettingsPageBase {
     signal backPressed();
 
     header: NymeaHeader {
-        text: qsTr("Welcome to %1!").arg(Configuration.systemName)
+        text: qsTr("Welcome!")
         backButtonVisible: true
         onBackPressed: root.backPressed()
     }
@@ -95,7 +95,7 @@ SettingsPageBase {
             ColorIcon {
                 Layout.preferredHeight: Style.iconSize * 2
                 Layout.preferredWidth: Style.iconSize * 2
-                name: "../images/lock-closed.svg"
+                name: "qrc:/icons/lock-closed.svg"
                 color: Style.accentColor
             }
 
@@ -142,11 +142,6 @@ SettingsPageBase {
             ConsolinnoPasswordTextField {
                 id: passwordTextField
                 Layout.fillWidth: true
-                minPasswordLength: 8
-                requireLowerCaseLetter: true
-                requireUpperCaseLetter: true
-                requireNumber: true
-                requireSpecialChar: false
                 signup: engine.jsonRpcClient.initialSetupRequired
                 showErrors: loginForm.showErrors
                 onAccepted: {

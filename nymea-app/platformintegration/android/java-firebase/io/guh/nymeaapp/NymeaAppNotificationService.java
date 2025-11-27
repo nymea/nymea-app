@@ -2,8 +2,8 @@ package io.guh.nymeaapp;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import android.util.Log;
 import android.content.Intent;
@@ -22,7 +22,6 @@ import android.content.res.Resources;
 import androidx.core.app.NotificationCompat;
 
 import java.util.Random;
-
 
 public class NymeaAppNotificationService extends FirebaseMessagingService {
 
@@ -49,79 +48,70 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
     }
 
     @Override
+    public void onNewToken(String token) {
+        Log.d(TAG, "Refreshed token: " + token);
+    }
+
+    @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // https://firebase.google.com/docs/reference/android/com/google/firebase/messaging/RemoteMessage
 
-        // Make sure channels exist
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel alertChannel = new NotificationChannel("alert", "Alerts about your nymea system", NotificationManager.IMPORTANCE_HIGH);
-            notificationManager.createNotificationChannel(alertChannel);
-            NotificationChannel infoChannel = new NotificationChannel("info", "Information about your nymea system", NotificationManager.IMPORTANCE_LOW);
-            notificationManager.createNotificationChannel(infoChannel);
-        }
+        super.onMessageReceived(remoteMessage);
 
+        Log.d(TAG, "Notification from: " + remoteMessage.getFrom());
+        Log.d(TAG, "Notification title: " + remoteMessage.getNotification().getTitle());
+        Log.d(TAG, "Notification body: " + remoteMessage.getNotification().getBody());
+        Log.d(TAG, "Notification priority: " + remoteMessage.getPriority());
+        Log.d(TAG, "Notification data: " + remoteMessage.getData());
+        Log.d(TAG, "Notification message ID: " + remoteMessage.getMessageId());
 
         Intent intent = new Intent(this, NymeaAppActivity.class);
-        Log.d(TAG, "Notification data: " + remoteMessage.getData());
-
-        String notificationIdString = remoteMessage.getData().get("notificationId");
-        Log.d(TAG, "NotificationID " + notificationIdString);
-        int notificationId = new Random().nextInt(60000);;
-        if (notificationIdString != null) {
-            notificationId = hashId(notificationIdString);
-        }
-
-        boolean sound = remoteMessage.getData().get("sound") == null || remoteMessage.getData().get("sound").equals("true");
-        boolean remove = remoteMessage.getData().get("remove") != null && remoteMessage.getData().get("remove").equals("true");
-        Log.d(TAG, "NotificationID " + notificationIdString + " int " + notificationId + " remove: " + (remove ? "yes" : "no") + " sound: " + (sound ? "yes" : "no"));
-
-        if (remove) {
-            notificationManager.cancel(notificationId);
-            return;
-        }
-
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setAction(Intent.ACTION_SEND);
         intent.putExtra("notificationData", remoteMessage.getData().get("nymeaData"));
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // We can't directly access R.drawable.notificationicon from here:
         // When the package is branded, the package name is not "io.guh.nymeaapp" and resources in
         // the res/ folder are built into the app's package which isn't the same as this files package.
         // Because of this, we need to dynamically fetch the resource from the package resources
         int resId = getResources().getIdentifier("notificationicon", "drawable", getPackageName());
+        Log.d(TAG, "Notification icon resource: " + resId + " Package:" + getPackageName());
 
-        Log.d(TAG, "notification icon resource: " + resId + " Package:" + getPackageName());
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, sound ? "alert" : "info")
+        // Since android Oreo notification channel is needed.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("default-channel", "Default notification channel for nymea-app", NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setContentTitle(remoteMessage.getNotification().getTitle())
+                .setContentText(remoteMessage.getNotification().getBody())
                 .setSmallIcon(resId)
-                .setColor(0xFF57BAAE)
-                .setContentTitle(remoteMessage.getData().get("title"))
-                .setContentText(remoteMessage.getData().get("body"))
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
 
+        boolean sound = remoteMessage.getData().get("sound") == null || remoteMessage.getData().get("sound").equals("true");
+        Log.d(TAG, "Notification sound enabled: " + (sound ? "true" : "false"));
         if (sound) {
             notificationBuilder.setSound(android.provider.Settings.System.DEFAULT_RINGTONE_URI);
         }
 
-
         // Action tests
-//        Intent actionIntent = new Intent(this, NymeaAppActivity.class);
-//        actionIntent.setAction(Intent.ACTION_SEND);
-//        actionIntent.putExtra("foobar", "baz");
-//        PendingIntent actionPendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, actionIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-//        notificationBuilder.addAction(resId, "30%", actionPendingIntent);
-//        notificationBuilder.addAction(resId, "50%", actionPendingIntent);
-//        notificationBuilder.addAction(resId, "70%", actionPendingIntent);
+        //        Intent actionIntent = new Intent(this, NymeaAppActivity.class);
+        //        actionIntent.setAction(Intent.ACTION_SEND);
+        //        actionIntent.putExtra("foobar", "baz");
+        //        PendingIntent actionPendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, actionIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        //        notificationBuilder.addAction(resId, "30%", actionPendingIntent);
+        //        notificationBuilder.addAction(resId, "50%", actionPendingIntent);
+        //        notificationBuilder.addAction(resId, "70%", actionPendingIntent);
         // Action tests end
 
-
         Log.d(TAG, "Posting Notification: " + remoteMessage.getMessageId());
-        notificationManager.notify(notificationId, notificationBuilder.build());
-
+        notificationManager.notify(0, notificationBuilder.build());
     }
-
 }

@@ -112,14 +112,14 @@ Item {
                        : 1.0 * Math.round(Types.toUiValue(root.valueState.value, root.stateType.unit) * Math.pow(10, root.roundTo)) / Math.pow(10, root.roundTo) + " " + Types.toUiUnit(root.stateType.unit)
             }
             HeaderButton {
-                imageSource: "../images/zoom-out.svg"
+                imageSource: "qrc:/icons/zoom-out.svg"
                 onClicked: {
                     var newTime = new Date(xAxis.min.getTime() - (xAxis.timeDiff * 1000 / 4))
                     xAxis.min = newTime;
                 }
             }
             HeaderButton {
-                imageSource: "../images/zoom-in.svg"
+                imageSource: "qrc:/icons/zoom-in.svg"
                 enabled: xAxis.timeDiff > (60 * 5)
                 onClicked: {
                     var newTime = new Date(Math.min(xAxis.min.getTime() + (xAxis.timeDiff * 1000 / 4), xAxis.max.getTime() - (1000 * 60 * 5)))

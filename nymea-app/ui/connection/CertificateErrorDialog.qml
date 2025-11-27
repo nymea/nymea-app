@@ -39,7 +39,7 @@ NymeaDialog {
     id: root
 
     title: qsTr("Insecure connection")
-    headerIcon: "../images/lock-broken.svg"
+    headerIcon: "qrc:/icons/lock-broken.svg"
     text: qsTr("The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?").arg(Configuration.systemName)
     standardButtons: Dialog.Ok | Dialog.Cancel
 }

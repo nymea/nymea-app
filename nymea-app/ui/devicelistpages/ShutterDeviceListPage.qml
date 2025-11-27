@@ -32,5 +32,5 @@ import QtQuick 2.9
 
 ClosablesThingsListPage {
     title: qsTr("Shutters")
-    iconBasename: "../images/shutter/shutter"
+    iconBasename: "qrc:/icons/shutter/shutter"
 }

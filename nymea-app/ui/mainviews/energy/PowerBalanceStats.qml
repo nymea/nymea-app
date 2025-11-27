@@ -12,6 +12,10 @@ StatsBase {
 
     property bool titleVisible: true
 
+    property string gridIcon
+    property string pvIcon
+    property string homeIcon
+
     property ThingsProxy producers: ThingsProxy {
         engine: _engine
         shownInterfaces: ["smartmeterproducer"]
@@ -381,7 +385,7 @@ StatsBase {
                         spacing: Style.smallMargins
                         opacity: consumptionSet.opacity
                         ColorIcon {
-                            name: "powersocket"
+                            name: root.homeIcon === "" ? "qrc:/icons/powersocket.svg": root.homeIcon
                             size: Style.smallIconSize
                             color: Style.powerConsumptionColor
                         }
@@ -410,7 +414,7 @@ StatsBase {
                         spacing: Style.smallMargins
                         opacity: productionSet.opacity
                         ColorIcon {
-                            name: "weathericons/weather-clear-day"
+                            name: root.pvIcon === "" ? "qrc:/icons/weathericons/weather-clear-day.svg" : root.pvIcon
                             size: Style.smallIconSize
                             color: Style.powerSelfProductionConsumptionColor
                         }
@@ -440,7 +444,7 @@ StatsBase {
                         opacity: acquisitionSet.opacity
                         Row {
                             ColorIcon {
-                                name: "power-grid"
+                                name: root.gridIcon === "" ? "qrc:/icons/power-grid.svg" : root.gridIcon
                                 size: Style.smallIconSize
                                 color: Style.powerAcquisitionColor
                             }
@@ -475,7 +479,7 @@ StatsBase {
                         opacity: returnSet.opacity
                         Row {
                             ColorIcon {
-                                name: "power-grid"
+                                name: root.gridIcon === "" ? "qrc:/icons/power-grid.svg" : root.gridIcon
                                 size: Style.smallIconSize
                                 color: Style.powerReturnColor
                             }

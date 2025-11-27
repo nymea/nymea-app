@@ -5,7 +5,14 @@ Item {
     property string appName: ""
     property string appId: ""
 
+    property string company: ""
+
     property string connectionWizard: ""
+
+    property string tunnelProxyUrl: ""
+    property int tunnelProxyPort: 2213
+
+    property string privacyPolicyUrl: ""
 
     // Enable/disable certain features
     property bool magicEnabled: false
@@ -20,5 +27,11 @@ Item {
 
     property string defaultMainView: "things"
 
+    property string alternativeMainPage: ""
+
     property var mainMenuLinks: null
+    property bool closedSource: false
+
+    property var additionalImrintLinks: null
+    property var additionalLicenses: null
 }

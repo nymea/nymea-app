@@ -69,7 +69,7 @@ Item {
         Repeater {
             model: arrows.height / Style.iconSize + 1
             ColorIcon {
-                name: arrows.up ? "../images/up.svg" : "../images/down.svg"
+                name: arrows.up ? "qrc:/icons/up.svg" : "qrc:/icons/down.svg"
                 width: parent.width
                 height: width
                 color: Style.accentColor

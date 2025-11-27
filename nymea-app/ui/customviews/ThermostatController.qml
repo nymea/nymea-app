@@ -184,9 +184,9 @@ Item {
         anchors.bottomMargin: Style.smallMargins
         size: Math.min(Style.bigIconSize, parent.height / 5)
         name: root.heatingOnState && root.heatingOnState.value === true
-              ? "../images/thermostat/heating.svg"
+              ? "qrc:/icons/thermostat/heating.svg"
               : root.coolingOnState && root.coolingOnState.value === true
-                ? "../images/thermostat/cooling.svg"
+                ? "qrc:/icons/thermostat/cooling.svg"
                 : ""
         color: root.heatingOnState && root.heatingOnState.value === true
               ? app.interfaceToColor("heating")

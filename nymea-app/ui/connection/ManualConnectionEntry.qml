@@ -69,7 +69,7 @@ ColumnLayout {
             id: addressTextInput
             objectName: "addressTextInput"
             Layout.fillWidth: true
-            placeholderText: connectionTypeComboBox.currentIndex < 2 ? "127.0.0.1" : "tunnelproxy.nymea.io"
+            placeholderText: connectionTypeComboBox.currentIndex < 2 ? "127.0.0.1" : Configuration.tunnelProxyUrl
         }
 
         Label {
@@ -89,7 +89,7 @@ ColumnLayout {
                              ? "2222"
                              : connectionTypeComboBox.currentIndex == 1
                                ? "4444"
-                               : "2213"
+                               : Configuration.tunnelProxyPort
             validator: IntValidator{bottom: 1; top: 65535;}
         }
 

@@ -47,10 +47,10 @@ Dialog {
 
     onClosed: root.destroy()
 
-    Connections {
-        target: root.parent
-        onDestroyed: root.destroy()
-    }
+    // Connections {
+    //     target: root.parent
+    //     onDestroye: root.destroy()
+    // }
 
     MouseArea {
         parent: app.overlay

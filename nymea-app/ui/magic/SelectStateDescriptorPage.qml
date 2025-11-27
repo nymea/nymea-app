@@ -56,7 +56,7 @@ Page {
         onInterfacesModeChanged: root.buildInterface()
 
         HeaderButton {
-            imageSource: header.interfacesMode ? "../images/view-expand.svg" : "../images/view-collapse.svg"
+            imageSource: header.interfacesMode ? "qrc:/icons/view-expand.svg" : "qrc:/icons/view-collapse.svg"
             visible: root.stateDescriptor && root.stateDescriptor.interfaceName.length === 0
             onClicked: header.interfacesMode = !header.interfacesMode
         }

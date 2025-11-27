@@ -23,6 +23,8 @@ Page {
 
     readonly property int visibleContentHeight: contentFlickable.height - contentContainer.y
 
+    property var headerButtons: []
+
     ColumnLayout {
         anchors.fill: parent
         spacing: Style.margins
@@ -30,7 +32,7 @@ Page {
         RowLayout {
             Layout.margins: Style.margins
             ProgressButton {
-                imageSource: "/ui/images/navigation-menu.svg"
+                imageSource: "qrc:/icons/navigation-menu.svg"
                 longpressEnabled: false
                 onClicked: mainMenu.open()
             }
@@ -45,6 +47,22 @@ Page {
             Item {
                 Layout.preferredHeight: Style.iconSize + Style.smallMargins * 2
                 Layout.preferredWidth: Style.iconSize + Style.smallMargins * 2
+            }
+
+            Row {
+                id: additionalIcons
+                anchors { right: parent.right; top: parent.top }
+                visible: !d.configOverlay
+                width: visible ? implicitWidth : 0
+                Repeater {
+                    model: headerButtons
+                    delegate: HeaderButton {
+                        imageSource: root.headerButtons[index].iconSource
+                        onClicked: root.headerButtons[index].trigger()
+                        visible: root.headerButtons[index].visible
+                        color: root.headerButtons[index].color
+                    }
+                }
             }
         }
 

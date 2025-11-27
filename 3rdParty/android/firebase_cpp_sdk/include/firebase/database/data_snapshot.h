@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_DATA_SNAPSHOT_H_
-#define FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_DATA_SNAPSHOT_H_
+#ifndef FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_DATA_SNAPSHOT_H_
+#define FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_DATA_SNAPSHOT_H_
 
 #include <stddef.h>
 
@@ -39,10 +39,12 @@ class ValueEventRegistration;
 class Database;
 class DatabaseReference;
 
+#ifndef SWIG
 /// A DataSnapshot instance contains data from a Firebase Database location. Any
 /// time you read Database data, you receive the data as a DataSnapshot. These
 /// are efficiently-generated and cannot be changed. To modify data,
 /// use DatabaseReference::SetValue() or DatabaseReference::RunTransaction().
+#endif  // SWIG
 class DataSnapshot {
  public:
   /// @brief Default constructor.
@@ -52,6 +54,9 @@ class DataSnapshot {
   /// will later populate with data from a database callback.
   DataSnapshot() : internal_(nullptr) {}
 
+#ifdef INTERNAL_EXPERIMENTAL
+  explicit DataSnapshot(internal::DataSnapshotInternal* internal);
+#endif
 
   /// @brief Copy constructor. DataSnapshots are immutable, so they can be
   /// efficiently copied.
@@ -168,7 +173,7 @@ class DataSnapshot {
 
   /// @brief Returns true if this snapshot is valid, false if it is not
   /// valid. An invalid snapshot could be returned by a transaction where an
-  /// error has occured.
+  /// error has occurred.
   ///
   /// @returns true if this snapshot is valid, false if this snapshot is
   /// invalid.
@@ -187,7 +192,9 @@ class DataSnapshot {
   friend class internal::ValueEventRegistration;
   /// @endcond
 
+#ifndef INTERNAL_EXPERIMENTAL
   explicit DataSnapshot(internal::DataSnapshotInternal* internal);
+#endif
 
   internal::DataSnapshotInternal* internal_;
 };
@@ -195,4 +202,4 @@ class DataSnapshot {
 }  // namespace database
 }  // namespace firebase
 
-#endif  // FIREBASE_DATABASE_CLIENT_CPP_SRC_INCLUDE_FIREBASE_DATABASE_DATA_SNAPSHOT_H_
+#endif  // FIREBASE_DATABASE_SRC_INCLUDE_FIREBASE_DATABASE_DATA_SNAPSHOT_H_

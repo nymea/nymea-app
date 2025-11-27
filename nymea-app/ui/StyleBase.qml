@@ -40,32 +40,32 @@ Item {
 
     // Note: Font files need to be provided in a "fonts" folder in the style
     property string fontFamily: "Ubuntu"
-
+    property real fontScaleFactor: 1
 
     // Fonts
     readonly property font extraSmallFont: Qt.font({
-        family: "Ubuntu",
-        pixelSize: 10
+        family: fontFamily,
+        pixelSize: Math.round(10 * fontScaleFactor)
     })
     readonly property font smallFont: Qt.font({
-        family: "Ubuntu",
-        pixelSize: 13
+        family: fontFamily,
+        pixelSize: Math.round(13 * fontScaleFactor)
     })
     readonly property font font: Qt.font({
-        family: "Ubuntu",
-        pixelSize: 16
+        family: fontFamily,
+        pixelSize: Math.round(16 * fontScaleFactor)
     })
     readonly property font bigFont: Qt.font({
-        family: "Ubuntu",
-        pixelSize: 20
+        family: fontFamily,
+        pixelSize: Math.round(20 * fontScaleFactor)
     })
     readonly property font largeFont: Qt.font({
-        family: "Ubuntu",
-        pixelSize: 32
+        family: fontFamily,
+        pixelSize: Math.round(32 * fontScaleFactor)
     })
     readonly property font hugeFont: Qt.font({
-        family: "Ubuntu",
-        pixelSize: 46
+        family: fontFamily,
+        pixelSize: Math.round(46 * fontScaleFactor)
     })
 
 

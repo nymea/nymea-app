@@ -1,6 +1,8 @@
 import QtQuick 2.3
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.2
+import Qt.labs.settings 1.1
+
 import "../components"
 import Nymea 1.0
 
@@ -237,13 +239,13 @@ WizardPageBase {
                             case Connection.BearerTypeLan:
                             case Connection.BearerTypeWan:
                                 if (engine.jsonRpcClient.availableBearerTypes & NymeaConnection.BearerTypeEthernet != NymeaConnection.BearerTypeNone) {
-                                    return "/ui/images/connections/network-wired.svg"
+                                    return "qrc:/icons/connections/network-wired.svg"
                                 }
-                                return "/ui/images/connections/network-wifi.svg";
+                                return "qrc:/icons/connections/network-wifi.svg";
                             case Connection.BearerTypeBluetooth:
-                                return "/ui/images/connections/bluetooth.svg";
+                                return "qrc:/icons/connections/bluetooth.svg";
                             case Connection.BearerTypeCloud:
-                                return "/ui/images/connections/cloud.svg"
+                                return "qrc:/icons/connections/cloud.svg"
                             case Connection.BearerTypeLoopback:
                                 return "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
                             }
@@ -256,8 +258,8 @@ WizardPageBase {
                         progressive: false
                         property bool isSecure: nymeaHost && nymeaHost.connections.get(defaultConnectionIndex).secure
                         property bool isOnline: nymeaHost && nymeaHost.connections.get(defaultConnectionIndex).bearerType !== Connection.BearerTypeWan ? nymeaHost.connections.get(defaultConnectionIndex).online : true
-                        tertiaryIconName: isSecure ? "/ui/images/connections/network-secure.svg" : ""
-                        secondaryIconName: !isOnline ? "/ui/images/connections/cloud-error.svg" : ""
+                        tertiaryIconName: isSecure ? "qrc:/icons/connections/network-secure.svg" : ""
+                        secondaryIconName: !isOnline ? "qrc:/icons/connections/cloud-error.svg" : ""
                         secondaryIconColor: "red"
 
                         onClicked: {
@@ -267,7 +269,7 @@ WizardPageBase {
                         contextOptions: [
                             {
                                 text: qsTr("Info"),
-                                icon: Qt.resolvedUrl("/ui/images/info.svg"),
+                                icon: Qt.resolvedUrl("qrc:/icons/info.svg"),
                                 callback: function() {
                                     var nymeaHost = hostsProxy.get(index);
                                     var connectionInfoDialog = Qt.createComponent("/ui/components/ConnectionInfoDialog.qml")
@@ -327,7 +329,7 @@ WizardPageBase {
                 Layout.margins: Style.margins
                 fillMode: Image.PreserveAspectFit
                 sourceSize.width: width
-                source: "/ui/images/setupwizard/wired-connection.svg"
+                source: "qrc:/icons/setupwizard/wired-connection.svg"
             }
         }
     }
@@ -348,7 +350,7 @@ WizardPageBase {
                 Layout.margins: Style.margins
                 fillMode: Image.PreserveAspectFit
                 sourceSize.width: width
-                source: "/ui/images/setupwizard/wireless-connection.svg"
+                source: "qrc:/icons/setupwizard/wireless-connection.svg"
             }
         }
     }
@@ -431,7 +433,7 @@ WizardPageBase {
 
                 delegate: NymeaSwipeDelegate {
                     width: parent.width
-                    iconName: Qt.resolvedUrl("/ui/images/connections/bluetooth.svg")
+                    iconName: Qt.resolvedUrl("qrc:/icons/connections/bluetooth.svg")
                     text: model.name
                     subText: model.address
 
@@ -448,7 +450,7 @@ WizardPageBase {
                     visible: !bluetoothDiscovery.bluetoothAvailable || !bluetoothDiscovery.bluetoothEnabled || !PlatformHelper.locationServicesEnabled
 
                     ColorIcon {
-                        name: "/ui/images/connections/bluetooth.svg"
+                        name: "qrc:/icons/connections/bluetooth.svg"
                         size: Style.iconSize * 5
                         color: !bluetoothDiscovery.bluetoothAvailable ? Style.red : Style.gray
                         Layout.alignment: Qt.AlignHCenter
@@ -503,6 +505,29 @@ WizardPageBase {
             showNextButton: false
             onBack: pageStack.pop()
 
+            headerButtons: [
+                {
+                    iconSource: "qrc:/icons/filters.svg",
+                    color: Style.iconColor,
+                    trigger: function() {
+                        pageStack.push(Qt.createComponent("/ui/system/WirelessNetworksFilterSettingsPage.qml"),
+                                       { wirelessAccessPointsProxy: wirelessAccessPointsModel });
+                    },
+                    visible: true
+                }
+            ]
+
+            Settings {
+                id: settings
+                property bool wirelessShowDuplicates: false
+            }
+
+            WirelessAccessPointsProxy {
+                id: wirelessAccessPointsModel
+                showDuplicates: settings.wirelessShowDuplicates
+                accessPoints: wifiSetup.accessPoints
+            }
+
             property var wifiSetup: null
 
             Component.onCompleted: {
@@ -519,43 +544,42 @@ WizardPageBase {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    model: wifiSetup.accessPoints
+                    model: wirelessAccessPointsModel
                     clip: true
 
                     delegate: NymeaItemDelegate {
                         width: parent.width
-
                         text: model.ssid !== "" ? model.ssid : qsTr("Hidden Network")
-                        subText: model.hostAddress
-
+                        subText: model.macAddress + (model.hostAddress === "" ? "" : (" (" + model.hostAddress + ")"))
+                        prominentSubText: false
                         iconColor: model.selectedNetwork ? Style.accentColor : "#808080"
                         iconName:  {
                             if (model.protected) {
                                 if (model.signalStrength <= 25)
-                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-25-secure.svg")
+                                    return  Qt.resolvedUrl("qrc:/icons/connections/nm-signal-25-secure.svg")
 
                                 if (model.signalStrength <= 50)
-                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-50-secure.svg")
+                                    return  Qt.resolvedUrl("qrc:/icons/connections/nm-signal-50-secure.svg")
 
                                 if (model.signalStrength <= 75)
-                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-75-secure.svg")
+                                    return  Qt.resolvedUrl("qrc:/icons/connections/nm-signal-75-secure.svg")
 
                                 if (model.signalStrength <= 100)
-                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-100-secure.svg")
+                                    return  Qt.resolvedUrl("qrc:/icons/connections/nm-signal-100-secure.svg")
 
                             } else {
 
                                 if (model.signalStrength <= 25)
-                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-25.svg")
+                                    return  Qt.resolvedUrl("qrc:/icons/connections/nm-signal-25.svg")
 
                                 if (model.signalStrength <= 50)
-                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-50.svg")
+                                    return  Qt.resolvedUrl("qrc:/icons/connections/nm-signal-50.svg")
 
                                 if (model.signalStrength <= 75)
-                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-75.svg")
+                                    return  Qt.resolvedUrl("qrc:/icons/connections/nm-signal-75.svg")
 
                                 if (model.signalStrength <= 100)
-                                    return  Qt.resolvedUrl("/ui/images/connections/nm-signal-100.svg")
+                                    return  Qt.resolvedUrl("qrc:/icons/connections/nm-signal-100.svg")
 
                             }
                         }
@@ -577,7 +601,6 @@ WizardPageBase {
                     visible: wifiSetup.wirelessServiceVersion >= 2
                     onClicked: {
                         pageStack.push(hiddenWifiComponent, {wifiSetup: wifiSetup})
-
                     }
                 }
             }

@@ -56,7 +56,7 @@ Page {
         }
 
         HeaderButton {
-            imageSource: "../images/folder.svg"
+            imageSource: "qrc:/icons/folder.svg"
             visible: root.thing.thingClass.browsable && root.showBrowserButton
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("DeviceBrowserPage.qml"), {thing: root.thing})
@@ -64,7 +64,7 @@ Page {
         }
 
         HeaderButton {
-            imageSource: "../images/navigation-menu.svg"
+            imageSource: "qrc:/icons/navigation-menu.svg"
             onClicked: thingMenu.open();
         }
     }

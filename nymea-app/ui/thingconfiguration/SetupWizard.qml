@@ -57,7 +57,7 @@ Page {
         property int pairRequestId: 0
         property var pairingTransactionId: null
         property int addRequestId: 0
-        property var name: ""
+        property string name: ""
         property var params: []
 
         function pairThing() {
@@ -126,7 +126,7 @@ Page {
                 print("New thing setup")
                 internalPageStack.push(paramsPage)
 
-            // Reconfigure
+                // Reconfigure
             } else if (root.thing) {
                 print("Existing thing")
                 // There are params. Open params page in any case
@@ -134,7 +134,7 @@ Page {
                     print("Params:", root.thingClass.paramTypes.count)
                     internalPageStack.push(paramsPage)
 
-                // No params... go straight to reconfigure/repair
+                    // No params... go straight to reconfigure/repair
                 } else {
                     print("no params")
                     switch (root.thingClass.setupMethod) {
@@ -271,7 +271,7 @@ Page {
                 onBackPressed: pageStack.pop()
 
                 HeaderButton {
-                    imageSource: "../images/configure.svg"
+                    imageSource: "qrc:/icons/configure.svg"
                     visible: root.thingClass.createMethods.indexOf("CreateMethodUser") >= 0
                     text: qsTr("Add thing manually")
                     onClicked: internalPageStack.push(paramsPage)
@@ -391,7 +391,7 @@ Page {
                 id: paramRepeater
                 model: engine.jsonRpcClient.ensureServerVersion("1.12") || d.thingDescriptor == null ?  root.thingClass.paramTypes : null
                 delegate: ParamDelegate {
-//                            Layout.preferredHeight: 60
+                    //                            Layout.preferredHeight: 60
                     Layout.fillWidth: true
                     enabled: !model.readOnly
                     paramType: root.thingClass.paramTypes.get(index)
@@ -587,13 +587,24 @@ Page {
                             anchors.fill: parent
                             url: oAuthPage.oAuthUrl
 
+                            function finishProcess(url) {
+                                print("Confirm pairing")
+                                engine.thingManager.confirmPairing(d.pairingTransactionId, url)
+                                busyIndicator.running = true
+                                oAuthWebView.visible = false
+                            }
+
                             onUrlChanged: {
                                 print("OAUTH URL changed", url)
                                 if (url.toString().indexOf("https://127.0.0.1") == 0) {
-                                    print("Redirect URL detected!");
-                                    engine.thingManager.confirmPairing(d.pairingTransactionId, url)
-                                    busyIndicator.running = true
-                                    oAuthWebView.visible = false
+                                    print("Redirect URL detected!")
+                                    finishProcess(url)
+                                } else if (url.toString().indexOf("device-complete") >= 0) {
+                                    // Unfortunatly device code authentication does not support redirect URLs like tado,
+                                    // yet this hack does work for this case when the authentication has been completed.
+                                    // The alternative would be a finished button below the webview.
+                                    print("Device code finish URL detected!")
+                                    finishProcess(url)
                                 }
                             }
                         }
