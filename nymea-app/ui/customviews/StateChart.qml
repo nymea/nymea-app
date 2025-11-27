@@ -484,7 +484,7 @@ Item {
                     d.now = new Date(Math.min(new Date(), new Date(startDatetime.getTime() + timeDelta)))
                 }
 
-                onWheel: {
+                onWheel: (wheel) => {
                     startDatetime = d.now
                     var totalTime = d.endTime.getTime() - d.startTime.getTime()
                     // pixelDelta : timeDelta = width : totalTime

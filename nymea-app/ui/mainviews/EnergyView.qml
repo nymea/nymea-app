@@ -138,7 +138,6 @@ MainViewBase {
                     consumers: consumers
                     animationsEnabled: Qt.application.active && root.isCurrentItem && flickable.contentY < y + height && flickable.contentY + flickable.height > y
                     onAnimationsEnabledChanged: print("animations for consumer balance chart", animationsEnabled ? "enabled" : "disabled")
-
                 }
 
                 ConsumersHistory {

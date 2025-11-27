@@ -104,34 +104,6 @@
         <source>App version:</source>
         <translation>App 버전:</translation>
     </message>
-    <message>
-        <source>Qt version:</source>
-        <translation>Qt 버전:</translation>
-    </message>
-    <message>
-        <source>Built with %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Suru icons by Ubuntu</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ubuntu font by Ubuntu</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>QtZeroConf library by Jonathan Bagg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OpenSSL libraries by Eric Young</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Oswald font by The Oswald Project</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>ActionLogPage</name>
@@ -585,10 +557,6 @@
     </message>
     <message>
         <source>Telegram</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Discord</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2525,24 +2493,12 @@ Please try again.</source>
         <translation>카우보이!</translation>
     </message>
     <message>
-        <source>Visit the nymea website</source>
-        <translation>nymea 웹 사이트 방문</translation>
-    </message>
-    <message>
         <source>Visit GitHub page</source>
         <translation>GitHub 페이지 방문</translation>
     </message>
     <message>
         <source>View privacy policy</source>
         <translation>개인 정보 보호 정책 보기</translation>
-    </message>
-    <message>
-        <source>Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.</source>
-        <translation>Qt는 Qt사 및 자회사의 등록 상표입니다.</translation>
-    </message>
-    <message>
-        <source>Visit the Qt website</source>
-        <translation>Qt 웹 사이트 방문</translation>
     </message>
     <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
@@ -2557,11 +2513,115 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of chargebyte GmbH.</source>
-        <translation>nymea는 chargebyte GmbH 및 그 자회사의 등록 상표입니다.</translation>
+        <source>nymea is a registered trademark of chargebyte austria GmbH.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Licensed under the terms of the nymea commercial license.</source>
+        <source>chargebyte GmbH</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visit the nymea project website</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Source Licenses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt core module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt gui module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt network module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt QML module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Quick module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Quick Controls module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Quick Dialogs module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Quick Layouts module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt 5 compatibility module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt image formats module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt SVG module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt charts module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt websockets module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt bluetooth module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt NFC module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client library for remote connections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>QtZeroConf library by Jonathan Bagg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Firebase iOS SDK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Firebase Android SDK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OpenSSL libraries by Eric Young</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suru icons by Ubuntu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ubuntu font by Ubuntu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oswald font by The Oswald Project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Google fonts and material icons</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

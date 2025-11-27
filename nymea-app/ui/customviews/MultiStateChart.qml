@@ -241,7 +241,7 @@ Item {
                 property double minValue
                 property double maxValue
 
-                onBusyChanged: {
+                onBusyChanged: (busy) => {
                     if (busy) {
                         chartView.busyCounter++
                     } else {
@@ -545,7 +545,7 @@ Item {
                     d.now = new Date(Math.min(new Date(), new Date(startDatetime.getTime() + timeDelta)))
                 }
 
-                onWheel: {
+                onWheel: (wheel) => {
                     startDatetime = d.now
                     var totalTime = d.endTime.getTime() - d.startTime.getTime()
                     // pixelDelta : timeDelta = width : totalTime

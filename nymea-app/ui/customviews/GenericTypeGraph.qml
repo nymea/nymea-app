@@ -405,7 +405,7 @@ Item {
                 mainSeries.markClosestPoint(pt)
             }
 
-            onWheel: {
+            onWheel: (wheel) => {
                 scrollRightLimited(-wheel.pixelDelta.x)
                 //                    zoomInLimited(wheel.pixelDelta.y)
             }
