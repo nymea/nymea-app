@@ -61,7 +61,7 @@ Item {
             }
         }
 
-        onEntriesRemoved: {
+        onEntriesRemoved: (index, count) => {
             consumptionUpperSeries.removePoints(index, Math.min(count, consumptionUpperSeries.count))
             zeroSeries.shrink()
         }
@@ -227,7 +227,7 @@ Item {
                 anchors.fill: parent
 
                 backgroundColor: "transparent"
-                margins.left: 0
+                margins.left: Math.max(Style.smallMargins * 2, valueLabelMetrics.width + Style.smallMargins * 2)
                 margins.right: 0
                 margins.top: 0
                 margins.bottom: Style.smallIconSize + Style.margins
@@ -252,6 +252,11 @@ Item {
                     opacity: .5
                 }
 
+                TextMetrics {
+                    id: valueLabelMetrics
+                    font: Style.extraSmallFont
+                    text: ((valueAxis.max) / 1000).toFixed(2) + "kW"
+                }
 
                 ValueAxis {
                     id: valueAxis
@@ -263,7 +268,6 @@ Item {
                     lineVisible: false
                     titleVisible: false
                     shadesVisible: false
-                    //        visible: false
 
                     function adjustMax(value) {
                         max = Math.max(max, Math.ceil(value / 100) * 100)
@@ -275,7 +279,7 @@ Item {
                     x: Style.smallMargins
                     y: chartView.plotArea.y
                     height: chartView.plotArea.height
-                    width: chartView.plotArea.x - x
+                    width: Math.max(0, chartView.margins.left - Style.smallMargins)
                     Repeater {
                         model: valueAxis.tickCount
                         delegate: Label {
@@ -692,7 +696,7 @@ Item {
                     d.now = new Date(Math.min(new Date(), new Date(startDatetime.getTime() + timeDelta)))
                 }
 
-                onWheel: {
+                onWheel: (wheel) => {
                     startDatetime = d.now
                     var totalTime = d.endTime.getTime() - d.startTime.getTime()
                     // pixelDelta : timeDelta = width : totalTime

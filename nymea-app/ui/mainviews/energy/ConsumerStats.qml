@@ -247,7 +247,7 @@ StatsBase {
                 anchors.fill: parent
 
                 backgroundColor: "transparent"
-                //    margins.left: 0
+                margins.left: Math.max(Style.smallMargins * 2, valueLabelMetrics.width + Style.smallMargins * 2)
                 margins.right: 0
                 margins.top: 0
                 margins.bottom: Style.smallIconSize + Style.margins
@@ -291,12 +291,18 @@ StatsBase {
                     Behavior on opacity { NumberAnimation {}}
                 }
 
+                TextMetrics {
+                    id: valueLabelMetrics
+                    font: Style.extraSmallFont
+                    text: (valueAxis.max).toFixed(1) + "kWh"
+                }
+
                 Item {
                     id: labelsLayout
                     x: Style.smallMargins
                     y: chartView.plotArea.y
                     height: chartView.plotArea.height
-                    width: chartView.plotArea.x - x
+                    width: Math.max(0, chartView.margins.left - Style.smallMargins)
                     Repeater {
                         model: valueAxis.tickCount
                         delegate: Label {
@@ -484,7 +490,7 @@ StatsBase {
                 }
 
                 property int wheelDelta: 0
-                onWheel: {
+                onWheel: (wheel) => {
                     wheelDelta += wheel.pixelDelta.x
                     var slotWidth = mouseArea.width / d.config.count
                     while (wheelDelta > slotWidth) {
