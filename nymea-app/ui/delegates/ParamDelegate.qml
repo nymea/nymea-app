@@ -151,6 +151,7 @@ ItemDelegate {
                 }
                 horizontalAlignment: Text.AlignRight
                 elide: Text.ElideRight
+                font: Style.font
             }
 
             Label {
