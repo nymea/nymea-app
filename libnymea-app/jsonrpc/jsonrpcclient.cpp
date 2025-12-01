@@ -76,6 +76,17 @@ void JsonRpcClient::registerNotificationHandler(QObject *handler, const QString 
     }
     m_notificationHandlers.insert(nameSpace, handler);
     m_notificationHandlerMethods.insert(handler, method);
+
+    // Clean up if the handler gets destroyed so we don't dereference dangling pointers when
+    // processing notifications.
+    connect(handler, &QObject::destroyed, this, [this](QObject *obj){
+        for (const QString &ns : m_notificationHandlers.keys(obj)) {
+            m_notificationHandlers.remove(ns, obj);
+        }
+        m_notificationHandlerMethods.remove(obj);
+        setNotificationsEnabled();
+    });
+
     setNotificationsEnabled();
 }
 
