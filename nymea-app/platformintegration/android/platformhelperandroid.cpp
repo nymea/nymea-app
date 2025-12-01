@@ -145,7 +145,7 @@ QString PlatformHelperAndroid::deviceManufacturer() const
 
 void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType)
 {
-    int duration;
+    jlong duration;
     switch (feedbackType) {
     case HapticsFeedbackSelection:
         duration = 10;
@@ -164,13 +164,28 @@ void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType
         return;
     }
 
-    QJniObject vibrator = context.callMethod<jobject>("getSystemService", "Landroid/content/Context;Ljava/lang/String;", QJniObject::fromString("vibrator").object());
+    QJniObject vibrator = context.callObjectMethod("getSystemService", "(Ljava/lang/String;)Ljava/lang/Object;", QJniObject::fromString("vibrator").object());
     if (!vibrator.isValid()) {
         qDebug() << "Could not get vibrator service.";
         return;
     }
 
-    // Call the vibrate method
+    const jint sdkInt = QJniObject::getStaticField<jint>("android/os/Build$VERSION", "SDK_INT");
+    if (sdkInt >= 26) {
+        const jint defaultAmplitude = QJniObject::getStaticField<jint>("android/os/VibrationEffect", "DEFAULT_AMPLITUDE");
+        QJniObject vibrationEffect = QJniObject::callStaticObjectMethod("android/os/VibrationEffect",
+                                                                        "createOneShot",
+                                                                        "(JI)Landroid/os/VibrationEffect;",
+                                                                        duration,
+                                                                        defaultAmplitude);
+        if (vibrationEffect.isValid()) {
+            vibrator.callMethod<void>("vibrate", "(Landroid/os/VibrationEffect;)V", vibrationEffect.object());
+            return;
+        }
+        qDebug() << "Falling back to legacy vibrate API, vibration effect invalid.";
+    }
+
+    // Fallback for pre-API 26 or if creating the vibration effect failed
     vibrator.callMethod<void>("vibrate", "(J)V", duration);
 }
 
