@@ -25,7 +25,7 @@
     <application
         android:name="org.qtproject.qt.android.bindings.QtApplication"
         android:hardwareAccelerated="true"
-        android:label="nymea:app"
+        android:label="@string/app_name"
         android:icon="@mipmap/icon"
         android:roundIcon="@mipmap/round_icon"
         android:requestLegacyExternalStorage="true"
@@ -36,7 +36,7 @@
             android:name="io.guh.nymeaapp.NymeaAppActivity"
             android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density"
             android:launchMode="singleTop"
-            android:label="nymea:app"
+            android:label="@string/app_name"
             android:screenOrientation="unspecified"
             android:theme="@style/SplashScreenTheme"
             android:exported="true">
@@ -67,11 +67,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="unspecified"
             android:exported="true"
-            android:label="">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            android:label="@string/app_name">
             <meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/>
             <meta-data android:name="android.app.arguments" android:value="-- %%INSERT_APP_ARGUMENTS%% --"/>
         </activity>
