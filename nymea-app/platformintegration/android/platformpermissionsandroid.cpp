@@ -28,6 +28,8 @@
 #include <QApplication>
 #include <QPermission>
 #include <QOperatingSystemVersion>
+#include <QFuture>
+#include <QtCore/private/qandroidextras_p.h>
 
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcPlatformPermissions, "PlatformPermissions")
@@ -108,8 +110,30 @@ PlatformPermissions::PermissionStatus PlatformPermissionsAndroid::checkPermissio
             });
             break;
         }
+        break;
     }
     case PlatformPermissions::PermissionNotifications: {
+        if (QOperatingSystemVersion::current() < QOperatingSystemVersion(QOperatingSystemVersion::Android, 13)) {
+            status = PermissionStatusGranted;
+            break;
+        }
+
+        auto futureResult = QtAndroidPrivate::checkPermission("android.permission.POST_NOTIFICATIONS");
+        QtAndroidPrivate::PermissionResult result = futureResult.result();
+        switch (result) {
+        case QtAndroidPrivate::Authorized:
+            qCDebug(dcPlatformPermissions()) << "Notifications permission already granted.";
+            status = PermissionStatusGranted;
+            break;
+        case QtAndroidPrivate::Denied:
+            qCDebug(dcPlatformPermissions()) << "Notifications permission denied.";
+            status = PermissionStatusDenied;
+            break;
+        case QtAndroidPrivate::Undetermined:
+            qCDebug(dcPlatformPermissions()) << "Notifications permission not yet requested. Requesting...";
+            status = PermissionStatusNotDetermined;
+            break;
+        }
         break;
     }
     default:
@@ -154,8 +178,7 @@ void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permissi
     }
     case PlatformPermissions::PermissionLocalNetwork: {
         QFuture permission_request = QtAndroidPrivate::requestPermission("android.permission.POST_NOTIFICATIONS");
-        switch(permission_request.result())
-        {
+        switch(permission_request.result()) {
         case QtAndroidPrivate::Undetermined:
             qWarning() << "Permission for posting notifications undetermined!";
             break;
@@ -167,6 +190,31 @@ void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permissi
             break;
         }
 
+        break;
+    }
+    case PlatformPermissions::PermissionNotifications: {
+        if (QOperatingSystemVersion::current() < QOperatingSystemVersion(QOperatingSystemVersion::Android, 13)) {
+            qCDebug(dcPlatformPermissions()) << "Notifications permission implicitly granted on Android < 13.";
+            emit s_instance->notificationsPermissionChanged();
+            break;
+        }
+
+        QFuture permission_request = QtAndroidPrivate::requestPermission("android.permission.POST_NOTIFICATIONS");
+        auto result = permission_request.result();
+        switch(result) {
+        case QtAndroidPrivate::Undetermined:
+            qWarning() << "Permission for posting notifications undetermined!";
+            s_instance->m_requestedButDeniedPermissions.append(platformPermission);
+            break;
+        case QtAndroidPrivate::Authorized:
+            qDebug() << "Permission for posting notifications authorized";
+            break;
+        case QtAndroidPrivate::Denied:
+            qWarning() << "Permission for posting notifications denied!";
+            s_instance->m_requestedButDeniedPermissions.append(platformPermission);
+            break;
+        }
+        emit s_instance->notificationsPermissionChanged();
         break;
     }
     default:
@@ -276,4 +324,3 @@ void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permissi
 //     emit s_instance->backgroundLocationPermissionChanged();
 //     emit s_instance->notificationsPermissionChanged();
 // }
-

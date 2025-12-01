@@ -24,6 +24,7 @@
 
 #include "pushnotifications.h"
 #include "platformhelper.h"
+#include "platformintegration/platformpermissions.h"
 
 #include <QDebug>
 #include <QCoreApplication>
@@ -86,6 +87,9 @@ void PushNotifications::setEnabled(bool enabled)
 void PushNotifications::registerForPush()
 {
 #if defined Q_OS_ANDROID && defined WITH_FIREBASE
+    // Ensure we have runtime permission to post notifications (Android 13+).
+    PlatformPermissions::instance()->requestPermission(PlatformPermissions::PermissionNotifications);
+
     qDebug() << "Checking for play services";
     jboolean playServicesAvailable = QJniObject::callStaticMethod<jboolean>("io.guh.nymeaapp.NymeaAppNotificationService", "checkPlayServices", "()Z");
     if (playServicesAvailable) {
@@ -102,8 +106,9 @@ void PushNotifications::registerForPush()
         firebase::messaging::Initialize(*m_firebaseApp, this);
         firebase::messaging::SetListener(this);
 
-        // (Optional, Android 13+): Benachrichtigungs-Erlaubnis anfragen
-        // firebase::messaging::RequestPermission();
+        // Android 13+ requires the POST_NOTIFICATIONS runtime permission. Request it here so
+        // Firebase is allowed to show notifications when the app is backgrounded or closed.
+        firebase::messaging::RequestPermission();
 
 
 

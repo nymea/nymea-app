@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">nymea:app</string>
+    <string name="notification_channel_id">default-channel</string>
+    <string name="notification_channel_name">nymea notifications</string>
 </resources>

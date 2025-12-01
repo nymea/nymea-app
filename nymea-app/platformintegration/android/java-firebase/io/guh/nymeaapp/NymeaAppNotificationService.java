@@ -26,6 +26,8 @@ import java.util.Random;
 public class NymeaAppNotificationService extends FirebaseMessagingService {
 
     private static final String TAG = "nymea-app: NymeaAppNotificationService";
+    private static final String DEFAULT_CHANNEL_ID = "default-channel";
+    private static final String DEFAULT_CHANNEL_NAME = "nymea notifications";
 
     private int hashId(String id) {
         int hash = 7;
@@ -59,12 +61,27 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
 
         super.onMessageReceived(remoteMessage);
 
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
+        String title = notification != null ? notification.getTitle() : null;
+        String body = notification != null ? notification.getBody() : null;
+        if (title == null) {
+            title = remoteMessage.getData().get("title");
+        }
+        if (body == null) {
+            body = remoteMessage.getData().get("body");
+        }
+
         Log.d(TAG, "Notification from: " + remoteMessage.getFrom());
-        Log.d(TAG, "Notification title: " + remoteMessage.getNotification().getTitle());
-        Log.d(TAG, "Notification body: " + remoteMessage.getNotification().getBody());
+        Log.d(TAG, "Notification title: " + title);
+        Log.d(TAG, "Notification body: " + body);
         Log.d(TAG, "Notification priority: " + remoteMessage.getPriority());
         Log.d(TAG, "Notification data: " + remoteMessage.getData());
         Log.d(TAG, "Notification message ID: " + remoteMessage.getMessageId());
+
+        if (title == null && body == null && remoteMessage.getData().isEmpty()) {
+            Log.w(TAG, "No notification payload received, skipping notification creation.");
+            return;
+        }
 
         Intent intent = new Intent(this, NymeaAppActivity.class);
         //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -79,21 +96,36 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
         // Because of this, we need to dynamically fetch the resource from the package resources
         int resId = getResources().getIdentifier("notificationicon", "drawable", getPackageName());
         Log.d(TAG, "Notification icon resource: " + resId + " Package:" + getPackageName());
+        if (resId == 0) {
+            resId = getApplicationInfo().icon;
+            Log.w(TAG, "Notification icon resource missing, using application icon: " + resId);
+        }
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager == null) {
+            Log.w(TAG, "NotificationManager not available, cannot display notification.");
+            return;
+        }
+
+        String channelId = resolveStringResource("notification_channel_id", DEFAULT_CHANNEL_ID);
+        String channelName = resolveStringResource("notification_channel_name", DEFAULT_CHANNEL_NAME);
 
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("default-channel", "Default notification channel for nymea-app", NotificationManager.IMPORTANCE_HIGH);
-            notificationManager.createNotificationChannel(channel);
+            NotificationChannel existingChannel = notificationManager.getNotificationChannel(channelId);
+            if (existingChannel == null) {
+                NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+                notificationManager.createNotificationChannel(channel);
+            }
         }
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle(remoteMessage.getNotification().getTitle())
-                .setContentText(remoteMessage.getNotification().getBody())
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                .setContentTitle(title)
+                .setContentText(body)
                 .setSmallIcon(resId)
                 .setAutoCancel(true)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         boolean sound = remoteMessage.getData().get("sound") == null || remoteMessage.getData().get("sound").equals("true");
         Log.d(TAG, "Notification sound enabled: " + (sound ? "true" : "false"));
@@ -113,5 +145,20 @@ public class NymeaAppNotificationService extends FirebaseMessagingService {
 
         Log.d(TAG, "Posting Notification: " + remoteMessage.getMessageId());
         notificationManager.notify(0, notificationBuilder.build());
+    }
+
+    private String resolveStringResource(String resourceName, String fallback) {
+        int resId = getResources().getIdentifier(resourceName, "string", getPackageName());
+        if (resId != 0) {
+            try {
+                String resolved = getString(resId);
+                if (resolved != null && !resolved.isEmpty()) {
+                    return resolved;
+                }
+            } catch (Resources.NotFoundException e) {
+                Log.w(TAG, "String resource not found for " + resourceName + ", using fallback");
+            }
+        }
+        return fallback;
     }
 }
