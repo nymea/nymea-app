@@ -30,6 +30,7 @@
 #include <QTimer>
 #include <QWindow>
 #include <QtWebView>
+#include <sys/utsname.h>
 
 PlatformHelperIOS::PlatformHelperIOS(QObject *parent) : PlatformHelper(parent)
 {
@@ -61,7 +62,21 @@ void PlatformHelperIOS::hideSplashScreen()
 
 QString PlatformHelperIOS::machineHostname() const
 {
-    return QSysInfo::machineHostName();
+    const QString hostName = QSysInfo::machineHostName();
+    if (!hostName.isEmpty() && hostName != "localhost") {
+        return hostName;
+    }
+
+    // Fall back to something user visible when the OS only reports "localhost".
+    const QString model = deviceModel();
+    const QString manufacturer = deviceManufacturer();
+    if (model.isEmpty()) {
+        return manufacturer;
+    }
+    if (manufacturer.isEmpty() || model.startsWith(manufacturer)) {
+        return model;
+    }
+    return manufacturer + " " + model;
 }
 
 QString PlatformHelperIOS::device() const
@@ -87,6 +102,14 @@ QString PlatformHelperIOS::deviceSerial() const
 
 QString PlatformHelperIOS::deviceModel() const
 {
+    struct utsname systemInfo;
+    if (uname(&systemInfo) == 0) {
+        const QString machine = QString::fromUtf8(systemInfo.machine);
+        if (!machine.isEmpty()) {
+            return machine;
+        }
+    }
+
     return QSysInfo::prettyProductName();
 }
 
