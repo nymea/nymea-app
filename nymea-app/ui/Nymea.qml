@@ -54,6 +54,18 @@ ApplicationWindow {
     font.capitalization: Font.MixedCase
     font.family: Style.fontFamily
 
+    Binding {
+        target: PlatformHelper
+        property: "topPanelColor"
+        value: app.color
+    }
+
+    Binding {
+        target: PlatformHelper
+        property: "bottomPanelColor"
+        value: app.color
+    }
+
     property int margins: 16
     property int bigMargins: 20
 
@@ -85,8 +97,6 @@ ApplicationWindow {
 
     Component.onCompleted: {
         styleController.setSystemFont(app.font)
-        PlatformHelper.topPanelColor = Style.backgroundColor
-        PlatformHelper.bottomPanelColor = Style.backgroundColor
     }
 
     Binding {
