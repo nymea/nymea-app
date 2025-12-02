@@ -3,8 +3,9 @@
 
 export DH_VERBOSE=1
 
-override_dh_missing:
-	dh_missing --fail-missing
+override_dh_auto_install:
+	dh_auto_install --destdir=debian/tmp
 
 %:
-	dh $@ --buildsystem=qmake --parallel --with systemd
+	dh $@ --buildsystem=qmake6 --parallel 
+
