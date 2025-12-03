@@ -102,7 +102,8 @@ ItemDelegate {
                     case "string":
                     case "qstring":
                         if (root.paramType.allowedValues.length > 0) {
-                            return comboBoxComponent;
+//                            return comboBoxComponent;
+                            return filterComboBoxComponent;
                         }
                         return textFieldComponent;
                     case "color":
@@ -310,6 +311,163 @@ ItemDelegate {
                 if (root.value === undefined) {
                     root.value = model[0]
                 }
+            }
+        }
+    }
+
+    Component {
+        id: filterComboBoxComponent
+
+        ComboBox {
+            id: control
+
+            Layout.fillWidth: true
+
+            property var basemodel: root.paramType.allowedValues
+
+            model: basemodel.filter(value => {
+                                        var ret = (filterConditionText.text.length > 0) ?
+                                            value.toLowerCase().includes(filterConditionText.text.toLowerCase()) :
+                                            true;
+                                        return ret;
+                                    });
+
+            Component.onCompleted: {
+                console.debug("===", root.param.value);
+                currentIndex = root.paramType.allowedValues.indexOf(root.param.value !== undefined ? root.param.value : root.paramType.defaultValue)
+            }
+
+            onCurrentTextChanged: {
+                if (status === Component.Ready) {
+                    root.param.value = currentText
+                }
+            }
+
+            onActivated: {
+                d.activatedIndex = index;
+            }
+
+            QtObject {
+                id: d
+                property string previousText: ""
+                property int activatedIndex: -1
+            }
+
+            // #TODO
+            // - highlighted index when filter text changes
+            // - Design
+
+            popup: Popup {
+                id: comboPopup
+                y: control.height - 1
+                width: control.width
+                implicitHeight: contentItem.implicitHeight
+
+                onVisibleChanged: {
+                    if (visible) {
+                        var currentText = control.currentText;
+                        // Remember current combobox text when opening popup to be able
+                        // to restore it when popup did not yield an acceptable selection.
+                        d.previousText = currentText;
+                        d.activatedIndex = -1;
+                        // Put focus to text field
+                        filterConditionText.forceActiveFocus();
+                    } else {
+                        var currentIndexTextToSet = "";
+                        // Set combo box current index by item text (depending on
+                        // whether popup closed with an acceptable solution or not)
+                        // after resetting the filter text. This is needed since
+                        // resetting the filter text alters the model and thus the
+                        // indices of items.
+                        if (d.activatedIndex === -1 || // Popup closed without selection (Click outside or "Esc")
+                                list.model.count === 0) { // Popup closed without any item visible due to filter text
+                            // Popup closed without acceptable selection.
+                            // Restore value from before opening popup.
+                            currentIndexTextToSet = d.previousText;
+                        } else {
+                            // Popup closed with acceptable selection.
+                            currentIndexTextToSet = control.textAt(d.activatedIndex);
+                        }
+                        filterConditionText.clear();
+                        var ind = control.find(currentIndexTextToSet);
+                        if (ind !== -1) {
+                            control.currentIndex = ind;
+                        }
+                    }
+                }
+
+                contentItem: Item {
+                    anchors.fill: parent
+
+                    TextArea {
+                        id: filterConditionText
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.top: parent.bottom
+
+                        Keys.forwardTo: [control, filterConditionText]
+                        leftPadding: 12
+
+                        wrapMode: TextEdit.WrapAnywhere
+                        placeholderText: qsTr("Type to search")
+
+                        background: Rectangle {
+                            color: "lightgray"
+                        }
+
+                        Rectangle {
+                            anchors.bottom: parent.bottom
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            color: "steelblue"
+                            height: 1
+                        }
+                    }
+
+                    ListView {
+                        id: list
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            top: filterConditionText.bottom
+                        }
+                        height: 250
+                        clip: true
+
+                        model: control.popup.visible ? control.delegateModel : null
+                        currentIndex: control.highlightedIndex
+
+                        ScrollBar.vertical: ScrollBar {
+                            parent: list.parent
+                            anchors {
+                                top: list.top
+                                left: list.right
+                                bottom: list.bottom
+                            }
+                        }
+                    }
+                }
+            }
+
+            delegate: ItemDelegate {
+                width: control.width
+                height: control.height
+
+                contentItem: Text {
+                    text: modelData
+                    font.family: "Roboto"
+                    font.pointSize: 12
+                    color: "white"
+                    maximumLineCount: 1
+                    elide: Text.ElideRight
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                background: Rectangle {
+                    color: highlighted ? Qt.lighter("#1c2127", 2) : "#1c2127"
+                }
+
+                highlighted: control.highlightedIndex === index
             }
         }
     }
