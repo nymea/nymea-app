@@ -33,11 +33,14 @@
 PlatformPermissions *PlatformPermissions::instance()
 {
 #ifdef Q_OS_ANDROID
-    return new PlatformPermissionsAndroid();
+    static PlatformPermissionsAndroid instance;
+    return &instance;
 #elif defined Q_OS_IOS
-    return new PlatformPermissionsIOS();
+    static PlatformPermissionsIOS instance;
+    return &instance;
 #else
-    return new PlatformPermissions();
+    static PlatformPermissions instance;
+    return &instance;
 #endif
 }
 
