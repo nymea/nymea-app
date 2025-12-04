@@ -376,7 +376,6 @@ ItemDelegate {
 
             popup: Popup {
                 id: comboPopup
-                y: control.height - 1
                 width: control.width
                 implicitHeight: contentItem.implicitHeight
 
