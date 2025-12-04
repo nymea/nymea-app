@@ -373,7 +373,6 @@ ItemDelegate {
 
             // #TODO
             // - highlighted index when filter text changes
-            // - Design
 
             popup: Popup {
                 id: comboPopup
@@ -456,14 +455,7 @@ ItemDelegate {
                         model: control.popup.visible ? control.delegateModel : null
                         currentIndex: control.highlightedIndex
 
-                        ScrollBar.vertical: ScrollBar {
-                            parent: list.parent
-                            anchors {
-                                top: list.top
-                                left: list.right
-                                bottom: list.bottom
-                            }
-                        }
+                        ScrollBar.vertical: {}
                     }
                 }
             }
