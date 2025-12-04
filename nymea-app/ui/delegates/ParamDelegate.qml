@@ -32,6 +32,7 @@ import QtQuick 2.8
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
+import QtGraphicalEffects 1.15
 import Nymea 1.0
 import NymeaApp.Utils 1.0
 import "../components"
@@ -378,6 +379,32 @@ ItemDelegate {
                 id: comboPopup
                 width: control.width
                 implicitHeight: contentItem.implicitHeight
+
+
+                background: Item {
+                    anchors {
+                        top: filterConditionText.top
+                        right: parent.right
+                        left: parent.left
+                    }
+                    height: filterConditionText.height + list.height
+
+                    Rectangle {
+                        id: bg
+                        anchors.fill: parent
+                    }
+
+                    DropShadow {
+                        anchors.fill: bg
+                        source: bg
+                        color: "#60000000"
+                        radius: 12
+                        samples: 16
+                        horizontalOffset: 0
+                        verticalOffset: 4
+                    }
+                }
+
 
                 onVisibleChanged: {
                     if (visible) {
