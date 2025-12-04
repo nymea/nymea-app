@@ -458,7 +458,7 @@ ItemDelegate {
                         placeholderTextColor: Style.subTextColor
 
                         background: Rectangle {
-                            color: Style.lightGray
+                            color: Style.backgroundColor
                         }
 
                         Rectangle {
@@ -477,7 +477,8 @@ ItemDelegate {
                             right: parent.right
                             top: filterConditionText.bottom
                         }
-                        height: 250
+
+                        height: Math.min(250, contentHeight)
                         clip: true
 
                         model: control.popup.visible ? control.delegateModel : null
