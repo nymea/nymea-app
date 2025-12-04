@@ -423,7 +423,9 @@ ItemDelegate {
                         anchors.top: parent.bottom
 
                         Keys.forwardTo: [control, filterConditionText]
-                        leftPadding: 12
+                        leftPadding: Style.margins
+                        topPadding: Style.margins - 4
+                        bottomPadding: Style.margins - 4
 
                         wrapMode: TextEdit.WrapAnywhere
                         placeholderText: qsTr("Type to search")
