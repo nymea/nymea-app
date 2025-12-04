@@ -455,8 +455,6 @@ ItemDelegate {
 
                         model: control.popup.visible ? control.delegateModel : null
                         currentIndex: control.highlightedIndex
-
-                        ScrollBar.vertical: {}
                     }
                 }
             }
