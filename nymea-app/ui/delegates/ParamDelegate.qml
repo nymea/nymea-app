@@ -93,7 +93,7 @@ ItemDelegate {
                         }
                     case "double":
                         if (root.paramType.allowedValues.length > 0) {
-                            if (root.paramType.allowedValues.length > 7) { // #TODO adjust limit
+                            if (root.paramType.allowedValues.length > 20) {
                                 return filterComboBoxComponent;
                             } else {
                                 return comboBoxComponent;
@@ -107,7 +107,7 @@ ItemDelegate {
                     case "string":
                     case "qstring":
                         if (root.paramType.allowedValues.length > 0) {
-                            if (root.paramType.allowedValues.length > 7) { // #TODO adjust limit
+                            if (root.paramType.allowedValues.length > 20) {
                                 return filterComboBoxComponent;
                             } else {
                                 return comboBoxComponent;
