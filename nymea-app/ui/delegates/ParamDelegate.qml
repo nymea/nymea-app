@@ -428,16 +428,17 @@ ItemDelegate {
 
                         wrapMode: TextEdit.WrapAnywhere
                         placeholderText: qsTr("Type to search")
+                        placeholderTextColor: Style.subTextColor
 
                         background: Rectangle {
-                            color: "lightgray"
+                            color: Style.lightGray
                         }
 
                         Rectangle {
                             anchors.bottom: parent.bottom
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            color: "steelblue"
+                            color: Style.textfield
                             height: 1
                         }
                     }
@@ -473,16 +474,14 @@ ItemDelegate {
 
                 contentItem: Text {
                     text: modelData
-                    font.family: "Roboto"
-                    font.pointSize: 12
-                    color: "white"
+                    color: Style.textColor
                     maximumLineCount: 1
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                 }
 
                 background: Rectangle {
-                    color: highlighted ? Qt.lighter("#1c2127", 2) : "#1c2127"
+                    color: highlighted ? Style.lightGray : Style.backgroundColor;
                 }
 
                 highlighted: control.highlightedIndex === index
