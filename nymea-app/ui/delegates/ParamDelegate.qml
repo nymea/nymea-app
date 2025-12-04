@@ -92,7 +92,11 @@ ItemDelegate {
                         }
                     case "double":
                         if (root.paramType.allowedValues.length > 0) {
-                            return comboBoxComponent;
+                            if (root.paramType.allowedValues.length > 7) { // #TODO adjust limit
+                                return filterComboBoxComponent;
+                            } else {
+                                return comboBoxComponent;
+                            }
                         } else if (root.paramType.minValue !== undefined && root.paramType.maxValue !== undefined
                                    && (root.paramType.maxValue - root.paramType.minValue <= 100)) {
                             return sliderComponent;
@@ -102,8 +106,11 @@ ItemDelegate {
                     case "string":
                     case "qstring":
                         if (root.paramType.allowedValues.length > 0) {
-//                            return comboBoxComponent;
-                            return filterComboBoxComponent;
+                            if (root.paramType.allowedValues.length > 7) { // #TODO adjust limit
+                                return filterComboBoxComponent;
+                            } else {
+                                return comboBoxComponent;
+                            }
                         }
                         return textFieldComponent;
                     case "color":
@@ -332,8 +339,19 @@ ItemDelegate {
                                         return ret;
                                     });
 
+            Connections {
+                target: root
+                onValueChanged: {
+                    if (value !== control.currentText) {
+                        var ind = control.find(value);
+                        if (ind !== -1) {
+                            control.currentIndex = ind;
+                        }
+                    }
+                }
+            }
+
             Component.onCompleted: {
-                console.debug("===", root.param.value);
                 currentIndex = root.paramType.allowedValues.indexOf(root.param.value !== undefined ? root.param.value : root.paramType.defaultValue)
             }
 
