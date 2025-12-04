@@ -489,13 +489,14 @@ ItemDelegate {
 
             delegate: ItemDelegate {
                 width: control.width
-                height: control.height + Style.smallMargins
+                height: contentItem.implicitHeight + Style.margins
 
                 contentItem: Text {
                     text: modelData
                     color: Style.textColor
                     wrapMode: Text.WordWrap
                     verticalAlignment: Text.AlignVCenter
+                    lineHeight: 1.2
                 }
 
                 background: Rectangle {
