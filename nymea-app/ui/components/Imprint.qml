@@ -27,13 +27,15 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import Nymea 1.0
 
+
 Item {
     id: root
     implicitHeight: aboutColumn.implicitHeight
 
     property alias title: titleLabel.text
     property url githubLink
-    property var additionalLicenses: null
+
+    property bool showOpensourceLicenses: true
 
     default property alias content: contentGrid.data
 
@@ -121,41 +123,35 @@ Item {
             Repeater {
                 visible: Configuration.additionalImrintLinks !== null && Configuration.additionalImrintLinks.count > 0
                 model: Configuration.additionalImrintLinks
-                delegate:NymeaSwipeDelegate {
+                delegate: NymeaSwipeDelegate {
                     Layout.fillWidth: true
                     iconName: "qrc:/icons/stock_website.svg"
                     text: model.text
                     subText: model.subText
                     prominentSubText: false
                     wrapTexts: false
-                    onClicked: {
-                        Qt.openUrlExternally(model.url)
-                    }
+                    onClicked: { Qt.openUrlExternally(model.url) }
                 }
             }
 
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 iconName: "qrc:/icons/stock_website.svg"
-                text: qsTr("Chargebyte")
+                text: qsTr("chargebyte GmbH")
                 subText: "https://chargebyte.com"
                 prominentSubText: false
                 wrapTexts: false
-                onClicked: {
-                    Qt.openUrlExternally("https://chargebyte.com")
-                }
+                onClicked: { Qt.openUrlExternally("https://chargebyte.com") }
             }
 
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 iconName: "qrc:/icons/stock_website.svg"
-                text: qsTr("Visit the nymea website")
+                text: qsTr("Visit the nymea project website")
                 subText: "https://nymea.io"
                 prominentSubText: false
                 wrapTexts: false
-                onClicked: {
-                    Qt.openUrlExternally("https://nymea.io")
-                }
+                onClicked: { Qt.openUrlExternally("https://nymea.io") }
             }
 
             NymeaSwipeDelegate {
@@ -165,9 +161,7 @@ Item {
                 subText: root.githubLink
                 prominentSubText: false
                 wrapTexts: false
-                onClicked: {
-                    Qt.openUrlExternally(root.githubLink)
-                }
+                onClicked: { Qt.openUrlExternally(root.githubLink) }
             }
 
             NymeaSwipeDelegate {
@@ -177,8 +171,7 @@ Item {
                 subText: Configuration.privacyPolicyUrl
                 prominentSubText: false
                 wrapTexts: false
-                onClicked:
-                    Qt.openUrlExternally(Configuration.privacyPolicyUrl)
+                onClicked: Qt.openUrlExternally(Configuration.privacyPolicyUrl)
             }
 
             NymeaSwipeDelegate {
@@ -188,19 +181,17 @@ Item {
                 subText: "The nymea sofware license"
                 prominentSubText: false
                 wrapTexts: false
-                onClicked: {
-                    Qt.openUrlExternally("https://nymea.io/license")
-                }
+                onClicked: { Qt.openUrlExternally("https://www.gnu.org/licenses/gpl-3.0-standalone.html") }
             }
 
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
-                text: qsTr("Additional software licenses")
+                text: qsTr("Open Source Licenses")
                 iconName: "qrc:/icons/logs.svg"
-                subText: "Additional used software licenses"
+                subText: "List of all open source components used in this app."
                 prominentSubText: false
                 wrapTexts: false
-                visible: root.additionalLicenses && root.additionalLicenses.count > 0
+                visible: root.showOpensourceLicenses
                 onClicked: {
                     pageStack.push(licensesPageComponent)
                 }
@@ -218,22 +209,267 @@ Item {
                 onBackPressed: pageStack.pop()
             }
 
-            ColumnLayout {
-                anchors { left: parent.left; top: parent.top; right: parent.right }
+            Flickable {
+                anchors.fill: parent
+                contentHeight: licensesColumnLayout.implicitHeight + app.margins
+                clip: true
 
-                Repeater {
-                    model: root.additionalLicenses
+                ColumnLayout {
+                    id: licensesColumnLayout
+                    anchors { left: parent.left; top: parent.top; right: parent.right }
 
-                    delegate: NymeaSwipeDelegate {
+                    LicenseInformationItem {
                         Layout.fillWidth: true
-                        text: model.component
-                        subText: model.infoText
-                        prominentSubText: false
-                        visible: model.platforms === "*" ||  model.platforms.indexOf(Qt.platform.os) >= 0
-                        onClicked: {
-                            pageStack.push(licenseTextComponent, {license: model.license})
-                        }
+                        component: "QtCore"
+                        description: qsTr("Qt core module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtbase"
+                        platforms: "*"
                     }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtGui"
+                        description: qsTr("Qt gui module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtbase"
+                        platforms: "*"
+                    }
+
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtNetwork"
+                        description: qsTr("Qt network module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtbase"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtQML"
+                        description: qsTr("Qt QML module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtdeclarative"
+                        platforms: "*"
+                    }
+
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtQuick"
+                        description: qsTr("Qt Quick module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtdeclarative"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtQuickControls"
+                        description: qsTr("Qt Quick Controls module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtdeclarative"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtQuickDialogs"
+                        description: qsTr("Qt Quick Dialogs module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtdeclarative"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtQuickLayouts"
+                        description: qsTr("Qt Quick Layouts module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtdeclarative"
+                        platforms: "*"
+                    }
+
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "Qt5CoreComapitbility"
+                        description: qsTr("Qt 5 compatibility module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "Qt Image Formats"
+                        description: qsTr("Qt image formats module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtSvg"
+                        description: qsTr("Qt SVG module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtsvg"
+                        platforms: "*"
+                    }
+
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtCharts"
+                        description: qsTr("Qt charts module")
+                        license: "GPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtWebsockets"
+                        description: qsTr("Qt websockets module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtwebsockets"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtBluetooth"
+                        description: qsTr("Qt bluetooth module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtconnectivity"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtNfc"
+                        description: qsTr("Qt NFC module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtconnectivity"
+                        platforms: "*"
+                    }
+
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "nymea-remoteproxy"
+                        description: qsTr("Client library for remote connections")
+                        license: "LGPLv3"
+                        version: "1.14.0"
+                        url: "https://github.com/nymea/nymea-remoteproxy"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtZeroConf"
+                        description: qsTr("QtZeroConf library by Jonathan Bagg")
+                        license: "LGPLv3"
+                        version: ""
+                        url: "https://github.com/jbagg/QtZeroConf"
+                        platforms: "android,ios,linux,osx"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "FirebaseSDK";
+                        description: qsTr("Firebase iOS SDK")
+                        license: "Apache 2.0"
+                        version: "18.1.0"
+                        url: "https://github.com/firebase/firebase-ios-sdk"
+                        platforms: "ios"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "FirebaseSDK";
+                        description: qsTr("Firebase Android SDK")
+                        license: "Apache 2.0"
+                        version: "18.1.0"
+                        url: "https://github.com/firebase/firebase-android-sdk"
+                        platforms: "android"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "OpenSSL"
+                        description: qsTr("OpenSSL libraries by Eric Young")
+                        license: "OpenSSL"
+                        version: sslLibraryVersion
+                        platforms: "android,windows,linux"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "Suru icons"
+                        description: qsTr("Suru icons by Ubuntu")
+                        license: "CC-BY-SA-3.0"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "Ubuntu font"
+                        description: qsTr("Ubuntu font by Ubuntu")
+                        license: "CC-BY-SA-3.0"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "Oswald font"
+                        description: qsTr("Oswald font by The Oswald Project")
+                        license: "OFL"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "Material Icons"
+                        description: qsTr("Google fonts and material icons")
+                        license: "Apache 2.0"
+                        url: "https://fonts.google.com/icons"
+                        platforms: "*"
+                    }
+
+
+                    // Repeater {
+                    //     model: root.additionalLicenses
+
+                    //     delegate: NymeaSwipeDelegate {
+                    //         Layout.fillWidth: true
+                    //         text: model.component
+                    //         subText: model.description
+                    //         prominentSubText: false
+                    //         visible: model.platforms === "*" ||  model.platforms.indexOf(Qt.platform.os) >= 0
+                    //         onClicked: {
+                    //             pageStack.push(licenseTextComponent, {license: model.license})
+                    //         }
+                    //     }
+                    // }
                 }
             }
         }
@@ -276,4 +512,3 @@ Item {
         }
     }
 }
-

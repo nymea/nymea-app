@@ -30,6 +30,7 @@
 #include <QSysInfo>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <QSslSocket>
 #include "utils/qhashqml.h"
 
 #include "libnymea-app-core.h"
@@ -94,6 +95,7 @@ int main(int argc, char *argv[])
     qCInfo(dcApplication()) << "Command line:" << application.arguments().join(" ");
     qCInfo(dcApplication()) << "System:" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion() << PlatformHelper::instance()->deviceManufacturer() << PlatformHelper::instance()->deviceModel();
     qCInfo(dcApplication()) << "Locale:" << QLocale() << QLocale().name() << QLocale().language();
+    qCInfo(dcApplication()) << "SSL version:" << QSslSocket::sslLibraryVersionString();
 
     QScreen *screen = application.primaryScreen();
     qCInfo(dcApplication()).noquote() << QString("Screen name: %1").arg(screen->name());
@@ -198,8 +200,10 @@ int main(int argc, char *argv[])
 #endif
 
     engine->rootContext()->setContextProperty("appVersion", APP_VERSION);
+    engine->rootContext()->setContextProperty("appRevision", APP_REVISION);
     engine->rootContext()->setContextProperty("qtBuildVersion", QT_VERSION_STR);
     engine->rootContext()->setContextProperty("qtVersion", qVersion());
+    engine->rootContext()->setContextProperty("sslLibraryVersion", QSslSocket::sslLibraryVersionString());
 
     engine->rootContext()->setContextProperty("defaultMainViewFilter", parser.value(defaultViewsOption));
     engine->rootContext()->setContextProperty("kioskMode", parser.isSet(kioskOption));
