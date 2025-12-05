@@ -17,10 +17,15 @@ INCLUDEPATH += $$top_srcdir/libnymea-app \
 
 linux:!android: LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app -L$$top_builddir/experiences/airconditioning -lnymea-app-airconditioning
 
-win32:Debug:LIBS += -L$$top_builddir/libnymea-app/debug \
-                    -L$$top_builddir/experiences/airconditioning/debug
-win32:Release:LIBS += -L$$top_builddir/libnymea-app/release \
-                      -L$$top_builddir/experiences/airconditioning/release
+win32:Debug:LIBS += -L$$top_builddir/libnymea-app/debug -lnymea-app \
+                    -L$$top_builddir/experiences/airconditioning/debug -lnymea-app-airconditioning
+win32:Release:LIBS += -L$$top_builddir/libnymea-app/release -lnymea-app \
+                      -L$$top_builddir/experiences/airconditioning/release -lnymea-app-airconditioning
+
+win32:Debug:PRE_TARGETDEPS += $$top_builddir/libnymea-app/debug/nymea-app.lib \
+                              $$top_builddir/experiences/airconditioning/debug/nymea-app-airconditioning.lib
+win32:Release:PRE_TARGETDEPS += $$top_builddir/libnymea-app/release/nymea-app.lib \
+                                $$top_builddir/experiences/airconditioning/release/nymea-app-airconditioning.lib
 win32:CXX_FLAGS += /w
 
 linux:!android:!nozeroconf:LIBS += -lavahi-client -lavahi-common

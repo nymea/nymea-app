@@ -11,7 +11,16 @@ greaterThan(QT_MAJOR_VERSION, 5) {
     DEFINES += QT_DISABLE_DEPRECATED_UP_TO=0x050F00
 }
 
-QMAKE_CXXFLAGS *= -Werror -g -Wno-deprecated-declarations
+win32-msvc {
+    QMAKE_CXXFLAGS += /WX
+    QMAKE_CXXFLAGS += /wd4996
+} else {
+    QMAKE_CXXFLAGS += -Werror
+    QMAKE_CXXFLAGS += -Wno-deprecated-declarations
+    QMAKE_CXXFLAGS += -Wno-deprecated-copy
+}
+
+QMAKE_CXXFLAGS += -g
 
 top_srcdir=$$PWD
 top_builddir=$$shadowed($$PWD)
@@ -36,8 +45,6 @@ INCLUDEPATH += $${top_builddir}
 # We want -Wall to keep the code clean and tidy, however:
 # On Windows, -Wall goes mental, so not using it there
 !win32:QMAKE_CXXFLAGS += -Wall
-
-QMAKE_CXXFLAGS += -Wno-deprecated-declarations -Wno-deprecated-copy
 
 android: {
     QMAKE_CXXFLAGS += -Wno-deprecated-declarations
