@@ -1,0 +1,66 @@
+License overview
+
+nymea:app and related components are distributed under open-source licenses.
+
+===============================================================================
+
+nymea-app
+
+The application code under `nymea-app/` and `experiences/` is licensed under
+the GNU General Public License, version 3 or (at your option) any later
+version (SPDX identifier: GPL-3.0-or-later). Source files carry SPDX + GPL
+headers attributing both nymea GmbH and chargebyte austria GmbH
+<contact@nymea.io>. The complete license text is provided in LICENSE.GPL3.
+
+===============================================================================
+
+libnymea-app
+
+The library code in `libnymea-app/` is licensed under the GNU Lesser General
+Public License, version 3 (SPDX identifier: LGPL-3.0-or-later). The full text
+is provided in LICENSE.LGPL3 and the headers inside `libnymea-app/` have been
+updated accordingly.
+
+===============================================================================
+
+More about the GPLv3 and LGPLv3 here:
+https://www.gnu.org/licenses/licenses.html
+
+===============================================================================
+
+Additional software licenses
+
+The open source build of nymea:app uses other open source software provided by
+3rd party projects.
+
+* Ubuntu font
+Files: nymea-app/ui/fonts/Ubuntu-*
+The Ubuntu font is provided by Ubuntu (www.ubuntu.com) and licensed under the
+terms of the Creative Commons BY-SA 3.0. Please see LICENSE.CC-BY-SA-3.0 for
+more details.
+
+* Suru icons
+Files: nymea-app/ui/icons/
+The Suru icon theme is provided by Ubuntu (www.ubuntu.com) and licensed under
+the terms of the Creative Commons BY-SA 3.0. Please see LICENSE.CC-BY-SA-3.0
+for more details.
+
+* QtZeroConf
+Files: QtZeroConf/
+The QtZeroConf library is provided by Jonathan Bagg and licensed under the
+terms of the GNU Lesser General Public License, version 3. Please see
+LICENSE.LGPL3 for more details.
+QtZeroConf can be excluded by adding the config option CONFIG-=nozeroconf
+to qmake.
+
+* OpenSSL
+Files: windows_openssl/* and android_openssl/*
+This product includes cryptographic software written by Eric Young
+(eay@cryptsoft.com). Please see LICENSE.OpenSSL for more details.
+
+* Oswald font
+Files: nymea-app/ui/fonts/Oswald-*
+The Oswald font is provided by the Oswald Font Projects and licensed under the
+terms of the Open Font License OFL. Please see LICENSE.OFL for more details.
+
+===============================================================================
