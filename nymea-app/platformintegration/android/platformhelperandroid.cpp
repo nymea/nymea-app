@@ -270,27 +270,6 @@ int PlatformHelperAndroid::bottomPadding() const
     return QtAndroid::androidActivity().callMethod<jint>("bottomPadding") / QApplication::primaryScreen()->devicePixelRatio();
 }
 
-int PlatformHelperAndroid::topPadding() const
-{
-    // Edge to edge has been forced since android SDK 35
-    // We don't want to handle it in earlied versions.
-    if (QtAndroid::androidSdkVersion() < 35)
-        return 0;
-
-    return QtAndroid::androidActivity().callMethod<jint>("topPadding") / QApplication::primaryScreen()->devicePixelRatio();
-}
-
-int PlatformHelperAndroid::bottomPadding() const
-{
-    // Edge to edge has been forced since android SDK 35
-    // We don't want to handle it in earlied versions.
-    if (QtAndroid::androidSdkVersion() < 35)
-        return 0;
-
-    return QtAndroid::androidActivity().callMethod<jint>("bottomPadding") / QApplication::primaryScreen()->devicePixelRatio();
-}
-
-
 bool PlatformHelperAndroid::darkModeEnabled() const
 {
     return QtAndroid::androidActivity().callMethod<jboolean>("darkModeEnabled");
