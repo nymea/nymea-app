@@ -1,3 +1,10 @@
+nymea-app (1.10.21) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  *  Update license text and add SPDX identifier
+
+ -- jenkins <developer@nymea.io>  Fri, 05 Dec 2025 13:00:27 +0100
+
 nymea-app (1.10.13) bionic; urgency=medium
 
   [ Simon Stürz ]
