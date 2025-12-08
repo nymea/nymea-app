@@ -32,6 +32,7 @@ import QtQuick 2.8
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
+import QtGraphicalEffects 1.15
 import Nymea 1.0
 import NymeaApp.Utils 1.0
 import "../components"
@@ -92,7 +93,11 @@ ItemDelegate {
                         }
                     case "double":
                         if (root.paramType.allowedValues.length > 0) {
-                            return comboBoxComponent;
+                            if (root.paramType.allowedValues.length > 20) {
+                                return filterComboBoxComponent;
+                            } else {
+                                return comboBoxComponent;
+                            }
                         } else if (root.paramType.minValue !== undefined && root.paramType.maxValue !== undefined
                                    && (root.paramType.maxValue - root.paramType.minValue <= 100)) {
                             return sliderComponent;
@@ -102,7 +107,11 @@ ItemDelegate {
                     case "string":
                     case "qstring":
                         if (root.paramType.allowedValues.length > 0) {
-                            return comboBoxComponent;
+                            if (root.paramType.allowedValues.length > 20) {
+                                return filterComboBoxComponent;
+                            } else {
+                                return comboBoxComponent;
+                            }
                         }
                         return textFieldComponent;
                     case "color":
@@ -310,6 +319,191 @@ ItemDelegate {
                 if (root.value === undefined) {
                     root.value = model[0]
                 }
+            }
+        }
+    }
+
+    Component {
+        id: filterComboBoxComponent
+
+        ComboBox {
+            id: control
+
+            Layout.fillWidth: true
+
+            property var basemodel: root.paramType.allowedValues
+
+            model: basemodel.filter(value => {
+                                        var ret = (filterConditionText.text.length > 0) ?
+                                            value.toLowerCase().includes(filterConditionText.text.toLowerCase()) :
+                                            true;
+                                        return ret;
+                                    });
+
+            Connections {
+                target: root
+                onValueChanged: {
+                    if (value !== control.currentText) {
+                        var ind = control.find(value);
+                        if (ind !== -1) {
+                            control.currentIndex = ind;
+                        }
+                    }
+                }
+            }
+
+            Component.onCompleted: {
+                currentIndex = root.paramType.allowedValues.indexOf(root.param.value !== undefined ? root.param.value : root.paramType.defaultValue)
+            }
+
+            onCurrentTextChanged: {
+                if (status === Component.Ready) {
+                    root.param.value = currentText
+                }
+            }
+
+            onActivated: {
+                d.activatedIndex = index;
+            }
+
+            QtObject {
+                id: d
+                property string previousText: ""
+                property int activatedIndex: -1
+            }
+
+            // #TODO
+            // - highlighted index when filter text changes
+
+            popup: Popup {
+                id: comboPopup
+                width: control.width
+                implicitHeight: contentItem.implicitHeight
+
+
+                background: Item {
+                    anchors {
+                        top: filterConditionText.top
+                        right: parent.right
+                        left: parent.left
+                    }
+                    height: filterConditionText.height + list.height
+
+                    Rectangle {
+                        id: bg
+                        anchors.fill: parent
+                    }
+
+                    DropShadow {
+                        anchors.fill: bg
+                        source: bg
+                        color: "#60000000"
+                        radius: 12
+                        samples: 16
+                        horizontalOffset: 0
+                        verticalOffset: 4
+                    }
+                }
+
+
+                onVisibleChanged: {
+                    if (visible) {
+                        var currentText = control.currentText;
+                        // Remember current combobox text when opening popup to be able
+                        // to restore it when popup did not yield an acceptable selection.
+                        d.previousText = currentText;
+                        d.activatedIndex = -1;
+                        // Put focus to text field
+                        filterConditionText.forceActiveFocus();
+                    } else {
+                        var currentIndexTextToSet = "";
+                        // Set combo box current index by item text (depending on
+                        // whether popup closed with an acceptable solution or not)
+                        // after resetting the filter text. This is needed since
+                        // resetting the filter text alters the model and thus the
+                        // indices of items.
+                        if (d.activatedIndex === -1 || // Popup closed without selection (Click outside or "Esc")
+                                list.model.count === 0) { // Popup closed without any item visible due to filter text
+                            // Popup closed without acceptable selection.
+                            // Restore value from before opening popup.
+                            currentIndexTextToSet = d.previousText;
+                        } else {
+                            // Popup closed with acceptable selection.
+                            currentIndexTextToSet = control.textAt(d.activatedIndex);
+                        }
+                        filterConditionText.clear();
+                        var ind = control.find(currentIndexTextToSet);
+                        if (ind !== -1) {
+                            control.currentIndex = ind;
+                        }
+                    }
+                }
+
+                contentItem: Item {
+                    anchors.fill: parent
+
+                    TextArea {
+                        id: filterConditionText
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.top: parent.bottom
+
+                        Keys.forwardTo: [control, filterConditionText]
+                        leftPadding: Style.margins
+                        topPadding: Style.margins - 4
+                        bottomPadding: Style.margins - 4
+
+                        wrapMode: TextEdit.WrapAnywhere
+                        placeholderText: qsTr("Type to search")
+                        placeholderTextColor: Style.subTextColor
+
+                        background: Rectangle {
+                            color: Style.backgroundColor
+                        }
+
+                        Rectangle {
+                            anchors.bottom: parent.bottom
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            color: Style.textfield
+                            height: 1
+                        }
+                    }
+
+                    ListView {
+                        id: list
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            top: filterConditionText.bottom
+                        }
+
+                        height: Math.min(250, contentHeight)
+                        clip: true
+
+                        model: control.popup.visible ? control.delegateModel : null
+                        currentIndex: control.highlightedIndex
+                    }
+                }
+            }
+
+            delegate: ItemDelegate {
+                width: control.width
+                height: contentItem.implicitHeight + Style.margins
+
+                contentItem: Text {
+                    text: modelData
+                    color: Style.textColor
+                    wrapMode: Text.WordWrap
+                    verticalAlignment: Text.AlignVCenter
+                    lineHeight: 1.2
+                }
+
+                background: Rectangle {
+                    color: highlighted ? Style.lightGray : Style.backgroundColor;
+                }
+
+                highlighted: control.highlightedIndex === index
             }
         }
     }
