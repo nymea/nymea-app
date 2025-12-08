@@ -16,7 +16,7 @@ equals(OVERLAY_PATH, "") {
 } else {
     message("Overlay enabled. Using overlay from $${OVERLAY_PATH}")
     include($${OVERLAY_PATH}/overlay-config.pri)
-    PACKAGE_BASE_DIR = $$shell_path($${OVERLAY_PACKAGE_DIR})
+    PACKAGE_BASE_DIR = $$shell_path($${OVERLAY_PATH}/packaging)
 }
 
 QMAKE_SUBSTITUTES += $${top_srcdir}/config.h.in
