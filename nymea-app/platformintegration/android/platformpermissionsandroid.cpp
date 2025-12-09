@@ -90,6 +90,25 @@ PlatformPermissions::PermissionStatus PlatformPermissionsAndroid::checkPermissio
             status = PermissionStatusNotDetermined;
             break;
         }
+
+        // Some Android/Qt stacks still gate BLE scans on location permission; ensure it is present alongside bluetooth.
+        if (status != PermissionStatusDenied) {
+            QLocationPermission locationPermission;
+            locationPermission.setAccuracy(QLocationPermission::Precise);
+            const auto locationStatus = qApp->checkPermission(locationPermission);
+            switch (locationStatus) {
+            case Qt::PermissionStatus::Granted:
+                break;
+            case Qt::PermissionStatus::Denied:
+                qCWarning(dcPlatformPermissions()) << "Location permission denied but required for bluetooth scanning.";
+                status = PermissionStatusDenied;
+                break;
+            case Qt::PermissionStatus::Undetermined:
+                qCDebug(dcPlatformPermissions()) << "Location permission not yet requested but required for bluetooth scanning.";
+                status = PermissionStatusNotDetermined;
+                break;
+            }
+        }
         break;
     }
     case PlatformPermissions::PermissionLocalNetwork: {
@@ -194,24 +213,44 @@ PlatformPermissions::PermissionStatus PlatformPermissionsAndroid::checkPermissio
 void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permission platformPermission)
 {
     switch (platformPermission) {
-    case PlatformPermissions::PermissionBluetooth:
+    case PlatformPermissions::PermissionBluetooth: {
         qCDebug(dcPlatformPermissions()) << "Requesting bluetooth permission";
         {
             QBluetoothPermission permission;
             permission.setCommunicationModes(QBluetoothPermission::Access);
             qApp->requestPermission(permission, [platformPermission](const QPermission &permission) {
-            if (permission.status() == Qt::PermissionStatus::Denied) {
-                qCWarning(dcPlatformPermissions()) << "Bluetooth permission denied.";
-                s_instance->m_requestedButDeniedPermissions.append(platformPermission);
-            }
+                if (permission.status() == Qt::PermissionStatus::Denied) {
+                    qCWarning(dcPlatformPermissions()) << "Bluetooth permission denied.";
+                    s_instance->m_requestedButDeniedPermissions.append(platformPermission);
+                }
 
-            if (permission.status() == Qt::PermissionStatus::Granted)
-                qCDebug(dcPlatformPermissions()) << "Bluetooth permission granted.";
+                if (permission.status() == Qt::PermissionStatus::Granted)
+                    qCDebug(dcPlatformPermissions()) << "Bluetooth permission granted.";
 
-            emit s_instance->bluetoothPermissionChanged();
+                emit s_instance->bluetoothPermissionChanged();
+            });
+        }
+
+        QLocationPermission locationPermission;
+        locationPermission.setAccuracy(QLocationPermission::Precise);
+        const auto locationStatus = qApp->checkPermission(locationPermission);
+        if (locationStatus != Qt::PermissionStatus::Granted) {
+            qCDebug(dcPlatformPermissions()) << "Requesting location permission needed for bluetooth scanning on this Android version.";
+            qApp->requestPermission(locationPermission, [platformPermission](const QPermission &permission) {
+                if (permission.status() == Qt::PermissionStatus::Denied) {
+                    qCWarning(dcPlatformPermissions()) << "Location permission denied.";
+                    s_instance->m_requestedButDeniedPermissions.append(platformPermission);
+                }
+
+                if (permission.status() == Qt::PermissionStatus::Granted)
+                    qCDebug(dcPlatformPermissions()) << "Location permission granted.";
+
+                emit s_instance->locationPermissionChanged();
+                emit s_instance->bluetoothPermissionChanged();
             });
         }
         break;
+    }
     case PlatformPermissions::PermissionLocation: {
         QLocationPermission locationPermission;
         locationPermission.setAccuracy(QLocationPermission::Precise);
