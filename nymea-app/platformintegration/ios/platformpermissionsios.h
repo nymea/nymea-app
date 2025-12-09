@@ -32,9 +32,11 @@
 #if __OBJC__
 @class CLLocationManager;
 @class CBCentralManager;
+@class BluetoothManagerDelegate;
 #else
 typedef void CLLocationManager;
 typedef void CBCentralManager;
+typedef void BluetoothManagerDelegate;
 #endif
 
 class PlatformPermissionsIOS : public PlatformPermissions
@@ -44,8 +46,8 @@ public:
     explicit PlatformPermissionsIOS(QObject *parent = nullptr);
     static PlatformPermissionsIOS *instance();
 
-    PermissionStatus checkPermission(Permission permission) const override;
-    void requestPermission(Permission permission) override;
+    PermissionStatus checkPermission(Permission ) const override;
+    void requestPermission(Permission platformPermission) override;
     void openPermissionSettings() override;
 
 private:
@@ -62,14 +64,15 @@ private:
     void requestLocalNetworkPermission();
     void requestNotificationPermission();
     void requestBluetoothPermission();
+    void requestBluetoothPermissionLegacy();
     void requestLocationPermission();
     void requestBackgroundLocationPermission();
 
     PermissionStatus m_notificationPermissions = PermissionStatusNotDetermined;
 
-
     CLLocationManager *m_locationManager = nullptr;
     CBCentralManager *m_bluetoothManager = nullptr;
+    BluetoothManagerDelegate *m_bluetoothDelegate = nullptr;
 };
 
 #endif // PLATFORMPERMISSIONSIOS_H

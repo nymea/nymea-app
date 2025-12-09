@@ -48,6 +48,14 @@
             <string>_jsonrpc._tcp</string>
             <string>_ws._tcp</string>
         </array>
+        <key>NSAppTransportSecurity</key>
+        <dict>
+            <!-- Fallback: allow all loads, including self-signed LAN TLS. -->
+            <key>NSAllowsArbitraryLoads</key>
+            <true/>
+            <key>NSAllowsLocalNetworking</key>
+            <true/>
+        </dict>
         <key>UIViewControllerBasedStatusBarAppearance</key>
         <false/>
         <key>XSAppIconAssets</key>

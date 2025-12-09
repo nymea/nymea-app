@@ -176,9 +176,8 @@ ios: {
     OTHER_FILES += $${OBJECTIVE_SOURCES}
 
     LIBS += -framework CoreLocation \
-        -framework CoreBluetooth \
-        -framework CoreNFC
-
+            -framework CoreBluetooth \
+            -framework CoreNFC
 
     # Add Firebase SDK
     QMAKE_LFLAGS += -ObjC $(inherited)
@@ -186,8 +185,10 @@ ios: {
     firebase_files.files += $$files($${IOS_PACKAGE_DIR}/GoogleService-Info.plist)
     QMAKE_BUNDLE_DATA += firebase_files
     INCLUDEPATH += ../3rdParty/ios/
+
     LIBS += -F$$PWD/../3rdParty/ios/Firebase/FirebaseAnalytics/ \
             -F$$PWD/../3rdParty/ios/Firebase/FirebaseMessaging
+
     LIBS += -framework "FirebaseMessaging" \
             -framework "GoogleUtilities" \
             -framework "Protobuf" \
@@ -196,13 +197,13 @@ ios: {
             -framework "FirebaseInstallations" \
             -framework "PromisesObjC" \
 
-
     LIBS += -L$$top_builddir/libnymea-app -lnymea-app \
-        -L$$top_builddir/experiences/airconditioning -lnymea-app-airconditioning \
+            -L$$top_builddir/experiences/airconditioning -lnymea-app-airconditioning \
+            -L$$top_builddir/experiences/evdash -lnymea-app-evdash
 
     PRE_TARGETDEPS += $$top_builddir/libnymea-app/libnymea-app.a \
-        $$top_builddir/experiences/airconditioning/libnymea-app-airconditioning.a
-
+        $$top_builddir/experiences/airconditioning/libnymea-app-airconditioning.a \
+        $$top_builddir/experiences/evdash/libnymea-app-evdash.a
 
     # Configure generated xcode project to have our bundle id
     QMAKE_TARGET_BUNDLE_PREFIX=$${IOS_BUNDLE_PREFIX}
@@ -219,6 +220,9 @@ ios: {
 
     ios_launch_images.files += $${IOS_PACKAGE_DIR}/NymeaLaunchScreen.storyboard
     QMAKE_BUNDLE_DATA += ios_launch_images
+
+    DEFINES += QT_STATICPLUGIN
+    QTPLUGIN += qdarwinbluetoothpermission
 
     IOS_DEVELOPMENT_TEAM.name = DEVELOPMENT_TEAM
     IOS_DEVELOPMENT_TEAM.value = $$IOS_TEAM_ID
