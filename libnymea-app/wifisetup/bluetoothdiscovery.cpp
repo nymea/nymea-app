@@ -166,10 +166,13 @@ void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice:
             connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered, this, &BluetoothDiscovery::deviceDiscovered);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
             connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceUpdated, this, &BluetoothDiscovery::deviceDiscovered);
+#elif (QT_VERSION >= QT_VERSION_CHECK(6, 2, 0))
+            connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::errorOccurred, this, &BluetoothDiscovery::onError);
+#else
+            connect(m_discoveryAgent, SIGNAL(error(QBluetoothDeviceDiscoveryAgent::Error)), this, SLOT(onError(QBluetoothDeviceDiscoveryAgent::Error)));
 #endif
             connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this, &BluetoothDiscovery::discoveryFinished);
             connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::canceled, this, &BluetoothDiscovery::discoveryCancelled);
-            connect(m_discoveryAgent, SIGNAL(error(QBluetoothDeviceDiscoveryAgent::Error)), this, SLOT(onError(QBluetoothDeviceDiscoveryAgent::Error)));
         }
         if (m_discoveryEnabled && !m_discoveryAgent->isActive()) {
             start();

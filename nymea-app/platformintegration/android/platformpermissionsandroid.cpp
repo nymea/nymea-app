@@ -65,6 +65,8 @@ PlatformPermissions::PermissionStatus PlatformPermissionsAndroid::checkPermissio
     switch (platformPermission) {
     case PlatformPermissions::PermissionBluetooth: {
         QBluetoothPermission permission;
+        // Only request scan/connect access; advertising isn't needed and isn't declared in the manifest.
+        permission.setCommunicationModes(QBluetoothPermission::Access);
 
         const auto permissionStatus = qApp->checkPermission(permission);
 
@@ -194,7 +196,10 @@ void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permissi
     switch (platformPermission) {
     case PlatformPermissions::PermissionBluetooth:
         qCDebug(dcPlatformPermissions()) << "Requesting bluetooth permission";
-        qApp->requestPermission(QBluetoothPermission{}, [platformPermission](const QPermission &permission) {
+        {
+            QBluetoothPermission permission;
+            permission.setCommunicationModes(QBluetoothPermission::Access);
+            qApp->requestPermission(permission, [platformPermission](const QPermission &permission) {
             if (permission.status() == Qt::PermissionStatus::Denied) {
                 qCWarning(dcPlatformPermissions()) << "Bluetooth permission denied.";
                 s_instance->m_requestedButDeniedPermissions.append(platformPermission);
@@ -204,7 +209,8 @@ void PlatformPermissionsAndroid::requestPermission(PlatformPermissions::Permissi
                 qCDebug(dcPlatformPermissions()) << "Bluetooth permission granted.";
 
             emit s_instance->bluetoothPermissionChanged();
-        });
+            });
+        }
         break;
     case PlatformPermissions::PermissionLocation: {
         QLocationPermission locationPermission;

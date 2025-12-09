@@ -54,6 +54,10 @@ BtWiFiSetup::BtWiFiSetup(QObject *parent) : QObject(parent)
 {
     m_accessPoints = new WirelessAccessPoints(this);
     qRegisterMetaType<BluetoothDeviceInfo*>("const BluetoothDeviceInfo*");
+
+    connect(this, &BtWiFiSetup::bluetoothStatusChanged, this, [this](){
+        qCDebug(dcBtWiFiSetup()) << "Bluetooth status changed" << m_bluetoothStatus;
+    });
 }
 
 BtWiFiSetup::~BtWiFiSetup()
@@ -81,12 +85,17 @@ void BtWiFiSetup::connectToDevice(const BluetoothDeviceInfo *device)
     }
 
     m_btController = QLowEnergyController::createCentral(device->bluetoothDeviceInfo(), this);
-    connect(m_btController, &QLowEnergyController::connected, this, [this](){
-        qCInfo(dcBtWiFiSetup()) << "Bluetooth connected";
+    connect(m_btController, &QLowEnergyController::connected, this, [this, device](){
+        qCInfo(dcBtWiFiSetup()) << "Bluetooth connected" << device->address() << device->name();
         m_btController->discoverServices();
         m_bluetoothStatus = BluetoothStatusConnectedToBluetooth;
         emit bluetoothStatusChanged(m_bluetoothStatus);
     }, Qt::QueuedConnection);
+
+
+    connect(m_btController, &QLowEnergyController::stateChanged, this, [](QLowEnergyController::ControllerState state){
+        qCInfo(dcBtWiFiSetup()) << "Bluetooth constroller state changed" << state;
+    });
 
     connect(m_btController, &QLowEnergyController::disconnected, this, [this](){
         qCInfo(dcBtWiFiSetup()) << "Bluetooth disconnected";
