@@ -5,7 +5,7 @@
 [submodule "nymea-remoteproxy"]
 	path = nymea-remoteproxy
 	url = https://github.com/nymea/nymea-remoteproxy.git
-	branch = qt6-cmake
+	branch = master
 [submodule "android_openssl"]
 	path = 3rdParty/android/android_openssl
 	url = https://github.com/KDAB/android_openssl.git
