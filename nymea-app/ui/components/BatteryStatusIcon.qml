@@ -24,6 +24,6 @@ ColorIcon {
         }
 
         var rounded = Math.round(batteryLevel / 10) * 10
-        return "qrc:/icons/battery/battery-" + NymeaUtils.pad(rounded, 3)
+        return "qrc:/icons/battery/battery-" + NymeaUtils.pad(rounded, 3) + ".svg"
     }
 }
