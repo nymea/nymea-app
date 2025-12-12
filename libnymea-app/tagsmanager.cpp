@@ -150,7 +150,11 @@ void TagsManager::getTagsResponse(int /*commandId*/, const QVariantMap &params)
 {
     QList<Tag*> tags;
     foreach (const QVariant &tagVariant, params.value("tags").toList()) {
-        Tag *tag = unpackTag(tagVariant.toMap());
+        QVariantMap tagMap = tagVariant.toMap();
+        if (tagMap.value("appId").toString() != "nymea:app") {
+            continue;
+        }
+        Tag *tag = unpackTag(tagMap);
         if (tag) {
             tags.append(tag);
         }
