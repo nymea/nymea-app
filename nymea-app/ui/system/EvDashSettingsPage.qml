@@ -28,12 +28,14 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
-import Nymea 1.0
-import Nymea.EvDash 1.0
+import Nymea
+import NymeaApp.Utils
+
+import Nymea.EvDash
 
 import "../components"
 
@@ -66,25 +68,27 @@ SettingsPageBase {
 
     Component {
         id: removeUserPopup
+
         NymeaDialog {
             id: removeUserDialog
 
             property string username
 
             headerIcon: "qrc:/icons/dialog-warning-symbolic.svg"
+            standardButtons: Dialog.Yes | Dialog.No
             title: qsTr("Remove user")
             text: qsTr("Are you sure you want to remove \"%1\"?").arg(username)
 
             onAccepted:  {
                 evDashManager.removeUser(username);
-                popup.close();
+                removeUserDialog.close();
             }
         }
     }
 
     Connections {
         target: evDashManager
-        onAddUserReply: {
+        onAddUserReply: (commandId, error) => {
             if (error === EvDashManager.EvDashErrorNoError)
                 return
 
@@ -105,7 +109,7 @@ SettingsPageBase {
             popup.open()
         }
 
-        onRemoveUserReply: {
+        onRemoveUserReply: (commandId, error) => {
             if (error === EvDashManager.EvDashErrorNoError)
                 return
 
@@ -133,17 +137,19 @@ SettingsPageBase {
         NymeaDialog {
             id: addUserDialog
 
-            title: qsTr("Create new user")
+            title: qsTr("Create a new user")
             standardButtons: Dialog.NoButton
-
-            Label { text: qsTr("Username") }
 
             NymeaTextField {
                 id: usernameTextField
+                placeholderText: qsTr("Username")
                 Layout.fillWidth: true
             }
 
-            Label { text: qsTr("Password") }
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: Style.margins
+            }
 
             PasswordTextField {
                 id: passwordTextField
@@ -194,6 +200,14 @@ SettingsPageBase {
         delegate: NymeaItemDelegate {
             Layout.fillWidth: true
             text: model.name
+            iconName: "account"
+            progressive: false
+            additionalItem: ColorIcon {
+                name: "delete"
+                color: Style.foregroundColor
+                anchors.verticalCenter:  parent.verticalCenter
+            }
+
             onClicked: {
                 var popup = removeUserPopup.createObject(app, {username: model.name});
                 popup.open()
