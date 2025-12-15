@@ -39,7 +39,6 @@ SettingsPageBase {
         onBackPressed: root.backPressed()
     }
 
-
     Connections {
         target: engine.jsonRpcClient
         onAuthenticationFailed: {
@@ -104,36 +103,21 @@ SettingsPageBase {
         }
 
 
-        GridLayout {
+        ColumnLayout {
             id: loginForm
             Layout.fillWidth: true
-            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            columns: app.width > 500 ? 2 : 1
-            columnSpacing: app.margins
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            spacing: app.margins
 
             property bool showErrors: false
 
-            Label {
-                text: (engine.jsonRpcClient.ensureServerVersion("6.0") ? qsTr("Username") : qsTr("Your e-mail address"))
-                Layout.fillWidth: true
-                Layout.minimumWidth: implicitWidth
-            }
-            NymeaTextField {
+            UsernameTextField {
                 id: usernameTextField
                 Layout.fillWidth: true
-                placeholderText: qsTr("Required")
-                inputMethodHints: engine.jsonRpcClient.ensureServerVersion("6.0")
-                                  ? Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-                                  : Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
                 error: loginForm.showErrors && !acceptableInput
-                validator: RegularExpressionValidator {
-                    regularExpression: /[a-zA-Z0-9_\\.+-@]{3,}/
-                }
             }
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Password")
-            }
+
             PasswordTextField {
                 id: passwordTextField
                 Layout.fillWidth: true
@@ -146,27 +130,17 @@ SettingsPageBase {
                 }
             }
 
-            Label {
-                text: qsTr("Your name")
-                Layout.fillWidth: true
-                visible: engine.jsonRpcClient.ensureServerVersion("6.0") && engine.jsonRpcClient.initialSetupRequired
-            }
             TextField {
                 id: displayNameTextField
                 Layout.fillWidth: true
-                placeholderText: qsTr("Optional")
+                placeholderText: qsTr("Your name") + " (" + qsTr("Optional") + ")"
                 visible: engine.jsonRpcClient.ensureServerVersion("6.0") && engine.jsonRpcClient.initialSetupRequired
             }
 
-            Label {
-                text: qsTr("Email")
-                Layout.fillWidth: true
-                visible: engine.jsonRpcClient.ensureServerVersion("6.0") && engine.jsonRpcClient.initialSetupRequired
-            }
             TextField {
                 id: emailTextField
                 Layout.fillWidth: true
-                placeholderText: qsTr("Optional")
+                placeholderText:  qsTr("Email") + " (" + qsTr("Optional") + ")"
                 visible: engine.jsonRpcClient.ensureServerVersion("6.0") && engine.jsonRpcClient.initialSetupRequired
             }
         }

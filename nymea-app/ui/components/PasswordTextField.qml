@@ -131,6 +131,8 @@ ColumnLayout {
         }
     }
 
+    spacing: root.signup ? Style.margins : 0
+
     RowLayout {
         visible: root.signup
 

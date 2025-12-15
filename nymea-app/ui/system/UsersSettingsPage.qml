@@ -141,27 +141,27 @@ SettingsPageBase {
         SettingsPageBase {
             id: editUserInfoPage
             title: qsTr("Edit user information")
-            GridLayout {
+
+            ColumnLayout {
+                Layout.fillWidth: true
                 Layout.margins: Style.margins
-                columnSpacing: Style.margins
-                columns: 2
-                Label {
-                    text: qsTr("Your name")
-                }
-                NymeaTextField {
+                spacing: Style.margins
+
+                TextField {
                     id: displayNameTextField
                     Layout.fillWidth: true
+                    placeholderText: qsTr("Your name")
                     text: userManager.userInfo.displayName
                 }
-                Label {
-                    text: qsTr("Email")
-                }
-                NymeaTextField {
+
+                TextField {
                     id: emailTextField
                     Layout.fillWidth: true
+                    placeholderText: qsTr("Email")
                     text: userManager.userInfo.email
                 }
             }
+
             Button {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
@@ -171,6 +171,7 @@ SettingsPageBase {
                     userManager.setUserInfo(userManager.userInfo.username, displayNameTextField.text, emailTextField.text)
                 }
             }
+
             Connections {
                 target: userManager
                 onSetUserInfoReply: (id, error) => {
@@ -262,6 +263,7 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins
                 Layout.rightMargin: app.margins
+                bottomPadding: Style.margins
                 text: qsTr("Please enter the new password for %1").arg(userManager.userInfo.username)
                 wrapMode: Text.WordWrap
             }
@@ -400,25 +402,22 @@ SettingsPageBase {
                 text: qsTr("User information for %1").arg(userDetailsPage.userInfo.username)
             }
 
-            GridLayout {
+            ColumnLayout {
                 Layout.leftMargin: Style.margins
                 Layout.rightMargin: Style.margins
-                columnSpacing: Style.margins
-                columns: 2
-                Label {
-                    text: qsTr("Name")
-                }
+                spacing: Style.margins
+
                 NymeaTextField {
                     id: displayNameTextField
                     Layout.fillWidth: true
+                    placeholderText: qsTr("Name")
                     text: userDetailsPage.userInfo.displayName
                 }
-                Label {
-                    text: qsTr("Email")
-                }
+
                 NymeaTextField {
                     id: emailTextField
                     Layout.fillWidth: true
+                    placeholderText: qsTr("Email")
                     text: userDetailsPage.userInfo.email
                 }
             }
@@ -548,43 +547,31 @@ SettingsPageBase {
                 text: qsTr("User information")
             }
 
-            GridLayout {
+            ColumnLayout {
                 Layout.fillWidth: true
                 Layout.leftMargin: Style.margins
                 Layout.rightMargin: Style.margins
-                columns: 2
-                Label {
-                    text: qsTr("Username:") + "*"
-                }
-                TextField {
+                spacing: Style.margins
+
+                UsernameTextField {
                     id: usernameTextField
                     Layout.fillWidth: true
-                    inputMethodHints: Qt.ImhNoAutoUppercase
                 }
 
-                Label {
-                    text: qsTr("Password:") + "*"
-                    Layout.alignment: Qt.AlignTop
-                    Layout.topMargin: Style.smallMargins
-                }
                 PasswordTextField {
                     id: passwordTextField
                     Layout.fillWidth: true
                 }
 
-                Label {
-                    text: qsTr("Full name:")
-                }
                 TextField {
                     id: displayNameTextField
+                    placeholderText: qsTr("Full name:")  + " (" + qsTr("Optional") + ")"
                     Layout.fillWidth: true
                 }
 
-                Label {
-                    text: qsTr("e-mail:")
-                }
                 TextField {
                     id: emailTextField
+                    placeholderText: qsTr("Email") + " (" + qsTr("Optional") + ")"
                     Layout.fillWidth: true
                 }
             }
