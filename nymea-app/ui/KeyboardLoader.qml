@@ -22,8 +22,8 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.4
-import QtQuick.Window 2.3
+import QtQuick
+import QtQuick.Window
 
 Item {
     id: root
@@ -40,8 +40,8 @@ Item {
         property var kbd: null
         property string virtualKeyboardString:
             '
-            import QtQuick 2.8;
-            import QtQuick.VirtualKeyboard 2.1
+            import QtQuick
+            import QtQuick.VirtualKeyboard
             InputPanel {
                 id: inputPanel
                 y: Qt.inputMethod.visible ? parent.height - inputPanel.height : parent.height

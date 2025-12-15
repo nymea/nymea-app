@@ -28,6 +28,7 @@
 #include <QObject>
 #include <QUuid>
 
+#include "types/tag.h"
 #include "types/tags.h"
 
 class TagWatcher : public QObject

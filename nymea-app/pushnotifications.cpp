@@ -24,13 +24,19 @@
 
 #include "pushnotifications.h"
 #include "platformhelper.h"
+#include "platformintegration/platformpermissions.h"
 
 #include <QDebug>
+#include <QCoreApplication>
 
 #if defined Q_OS_ANDROID
-#include <QtAndroid>
-#include <QtAndroidExtras>
-#include <QAndroidJniObject>
+#include <QJniObject>
+#include <QJniEnvironment>
+
+#include <QtCore/qjnienvironment.h> // QJniEnvironment
+#include <QtCore/qjniobject.h>      // QJniObject
+#include <QtCore/qjnitypes.h>       // QtJniTypes::Context / Activity
+#include <QtCore/qnativeinterface.h>
 static PushNotifications *m_client_pointer;
 #endif
 
@@ -81,15 +87,31 @@ void PushNotifications::setEnabled(bool enabled)
 void PushNotifications::registerForPush()
 {
 #if defined Q_OS_ANDROID && defined WITH_FIREBASE
+    // Only proceed if notifications permission is granted (Android 13+).
+    if (PlatformPermissions::instance()->notificationsPermission() != PlatformPermissions::PermissionStatusGranted) {
+        qDebug() << "Notifications permission not granted yet, skipping Firebase registration.";
+        return;
+    }
+
     qDebug() << "Checking for play services";
-    jboolean playServicesAvailable = QAndroidJniObject::callStaticMethod<jboolean>("io.guh.nymeaapp.NymeaAppNotificationService", "checkPlayServices", "()Z");
+    jboolean playServicesAvailable = QJniObject::callStaticMethod<jboolean>("io.guh.nymeaapp.NymeaAppNotificationService", "checkPlayServices", "()Z");
     if (playServicesAvailable) {
+
         qDebug() << "Setting up firebase";
         m_client_pointer = this;
-        m_firebaseApp = ::firebase::App::Create(::firebase::AppOptions(), QAndroidJniEnvironment(), QtAndroid::androidActivity().object());
-        m_firebase_initializer.Initialize(m_firebaseApp, nullptr, [](::firebase::App * fapp, void *) {
-            return ::firebase::messaging::Initialize( *fapp, (::firebase::messaging::Listener *)m_client_pointer);
-        });
+
+        JNIEnv *jni = QJniEnvironment().jniEnv();
+        QtJniTypes::Context ctx = QNativeInterface::QAndroidApplication::context();
+        jobject contextObj = ctx.object<jobject>();
+
+        m_firebaseApp = firebase::App::Create(firebase::AppOptions(), jni, contextObj);
+
+        firebase::messaging::Initialize(*m_firebaseApp, this);
+        firebase::messaging::SetListener(this);
+
+        // Android 13+ requires the POST_NOTIFICATIONS runtime permission. Request it here so
+        // Firebase is allowed to show notifications when the app is backgrounded or closed.
+        firebase::messaging::RequestPermission();
     } else {
         qDebug() << "Google Play Services not available. Cannot connect to push client.";
     }

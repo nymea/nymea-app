@@ -27,17 +27,16 @@
 
 #include <QObject>
 
-#include "serverloggingcategory.h"
+#include "engine.h"
+#include "serverloggingcategories.h"
 
-class Engine;
 class JsonRpcClient;
-class ServerLoggingCategories;
 
 class ServerDebugManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
-    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged)
+    Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged FINAL)
+    Q_PROPERTY(bool fetchingData READ fetchingData NOTIFY fetchingDataChanged FINAL)
     Q_PROPERTY(ServerLoggingCategories *categories READ categories CONSTANT FINAL)
 
 public:

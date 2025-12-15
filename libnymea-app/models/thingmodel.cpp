@@ -34,7 +34,7 @@ ThingModel::ThingModel(QObject *parent) : QAbstractListModel(parent)
 int ThingModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant ThingModel::data(const QModelIndex &index, int role) const

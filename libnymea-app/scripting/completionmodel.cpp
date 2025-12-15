@@ -34,7 +34,7 @@ CompletionModel::CompletionModel(QObject *parent): QAbstractListModel(parent)
 int CompletionModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QHash<int, QByteArray> CompletionModel::roleNames() const
@@ -135,8 +135,8 @@ bool CompletionProxyModel::lessThan(const QModelIndex &source_left, const QModel
 
     static QStringList ordering = {"property", "method", "event", "type", "attachedProperty", "keyword" };
 
-    int leftOrder = ordering.indexOf(left.decoration);
-    int rightOrder = ordering.indexOf(right.decoration);
+    int leftOrder = static_cast<int>(ordering.indexOf(left.decoration));
+    int rightOrder = static_cast<int>(ordering.indexOf(right.decoration));
 
     if (leftOrder != rightOrder) {
         return leftOrder < rightOrder;

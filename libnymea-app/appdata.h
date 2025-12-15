@@ -29,7 +29,7 @@
 #include <QTimer>
 #include <QHash>
 
-class Engine;
+#include "engine.h"
 
 class AppData : public QObject, public QQmlParserStatus
 {

@@ -22,9 +22,8 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.4
-import QtGraphicalEffects 1.0
-import Nymea 1.0
+import QtQuick
+import Nymea
 
 Item {
     id: icon
@@ -72,16 +71,6 @@ Item {
         property color inColor: "#808080"
         property real threshold: 0.1
 
-        fragmentShader: "
-            varying highp vec2 qt_TexCoord0;
-            uniform sampler2D source;
-            uniform highp vec4 outColor;
-            uniform highp vec4 inColor;
-            uniform lowp float threshold;
-            uniform lowp float qt_Opacity;
-            void main() {
-                lowp vec4 sourceColor = texture2D(source, qt_TexCoord0);
-                gl_FragColor = mix(vec4(outColor.rgb, 1.0) * sourceColor.a, sourceColor, step(threshold, distance(sourceColor.rgb / sourceColor.a, inColor.rgb))) * qt_Opacity;
-            }"
+        fragmentShader: "/ui/shaders/coloricon.frag.qsb"
     }
 }

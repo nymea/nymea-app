@@ -22,9 +22,10 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.4
-import QtQuick.Controls 2.1
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import Nymea
+
 import "../components"
 import "../delegates"
 

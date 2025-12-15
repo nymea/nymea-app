@@ -34,7 +34,7 @@ RuleActionParams::RuleActionParams(QObject *parent) : QAbstractListModel(parent)
 int RuleActionParams::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant RuleActionParams::data(const QModelIndex &index, int role) const
@@ -65,7 +65,7 @@ QHash<int, QByteArray> RuleActionParams::roleNames() const
 void RuleActionParams::addRuleActionParam(RuleActionParam *ruleActionParam)
 {
     ruleActionParam->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(ruleActionParam);
     endInsertRows();
     emit countChanged();
@@ -103,7 +103,7 @@ void RuleActionParams::setRuleActionParamByName(const QString &paramName, const 
     addRuleActionParam(rap);
 }
 
-void RuleActionParams::setRuleActionParamEvent(const QString &paramTypeId, const QString &eventTypeId, const QString &eventParamTypeId)
+void RuleActionParams::setRuleActionParamEvent(const QUuid &paramTypeId, const QString &eventTypeId, const QString &eventParamTypeId)
 {
     foreach (RuleActionParam *rap, m_list) {
         if (rap->paramTypeId() == paramTypeId) {
@@ -135,7 +135,7 @@ void RuleActionParams::setRuleActionParamEventByName(const QString &paramName, c
     addRuleActionParam(rap);
 }
 
-void RuleActionParams::setRuleActionParamState(const QString &paramTypeId, const QString &stateThingId, const QString &stateTypeId)
+void RuleActionParams::setRuleActionParamState(const QUuid &paramTypeId, const QString &stateThingId, const QString &stateTypeId)
 {
     foreach (RuleActionParam *rap, m_list) {
         if (rap->paramTypeId() == paramTypeId) {
@@ -185,7 +185,7 @@ RuleActionParam *RuleActionParams::getParam(const QUuid &paramTypeId)
     return nullptr;
 }
 
-bool RuleActionParams::hasRuleActionParam(const QString &paramTypeId) const
+bool RuleActionParams::hasRuleActionParam(const QUuid &paramTypeId) const
 {
     for (int i = 0; i < m_list.count(); i++) {
         if (m_list.at(i)->paramTypeId() == paramTypeId) {
@@ -198,7 +198,9 @@ bool RuleActionParams::hasRuleActionParam(const QString &paramTypeId) const
 void RuleActionParams::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (RuleActionParam *param, m_list)
+        param->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

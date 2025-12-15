@@ -28,8 +28,7 @@
 #include <QObject>
 #include <QSortFilterProxyModel>
 
-class WirelessAccessPoint;
-class WirelessAccessPoints;
+#include "types/wirelessaccesspoints.h"
 
 class WirelessAccessPointsProxy : public QSortFilterProxyModel
 {

@@ -31,8 +31,7 @@
 #include "params.h"
 #include "states.h"
 #include "statesproxy.h"
-
-class ThingClass;
+#include "thingclass.h"
 class ThingManager;
 
 class Thing : public QObject

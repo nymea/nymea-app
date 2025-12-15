@@ -22,13 +22,14 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.2
-import QtGraphicalEffects 1.0
-import QtCharts 2.2
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
+import QtCharts
+import Nymea
+
 import "../components"
 import "../delegates"
 import "energy"
@@ -137,7 +138,6 @@ MainViewBase {
                     consumers: consumers
                     animationsEnabled: Qt.application.active && root.isCurrentItem && flickable.contentY < y + height && flickable.contentY + flickable.height > y
                     onAnimationsEnabledChanged: print("animations for consumer balance chart", animationsEnabled ? "enabled" : "disabled")
-
                 }
 
                 ConsumersHistory {

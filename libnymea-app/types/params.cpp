@@ -39,7 +39,7 @@ QList<Param *> Params::params()
 
 int Params::count() const
 {
-    return m_params.count();
+    return static_cast<int>(m_params.count());
 }
 
 Param *Params::get(int index) const
@@ -62,13 +62,13 @@ Param *Params::getParam(const QUuid &paramTypeId) const
 
 int Params::paramCount() const
 {
-    return m_params.count();
+    return static_cast<int>(m_params.count());
 }
 
 int Params::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_params.count();
+    return static_cast<int>(m_params.count());
 }
 
 QVariant Params::data(const QModelIndex &index, int role) const
@@ -88,7 +88,7 @@ QVariant Params::data(const QModelIndex &index, int role) const
 void Params::addParam(Param *param)
 {
     param->setParent(this);
-    beginInsertRows(QModelIndex(), m_params.count(), m_params.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_params.count()), static_cast<int>(m_params.count()));
     //qDebug() << "Params: loaded param" << param->name();
     m_params.append(param);
     endInsertRows();

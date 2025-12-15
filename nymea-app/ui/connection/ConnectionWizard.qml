@@ -22,13 +22,13 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.3
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.2
-import Qt.labs.settings 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtCore
+import Nymea
 
 import "../components"
-import Nymea 1.0
 
 WizardPageBase {
     id: root
@@ -67,7 +67,7 @@ WizardPageBase {
                 ColorIcon {
                     anchors.centerIn: parent
                     size: Math.min(parent.width, parent.height, Style.hugeIconSize * 2)
-                    name: "nymea-logo"
+                    name: "qrc:/ui/images/nymea-logo.svg"
                 }
             }
 
@@ -98,7 +98,7 @@ WizardPageBase {
                 font: Style.smallFont
                 text: qsTr("Please follow the installation instructions on %1 to install a nymea system.").arg('<a href="https://nymea.io/documentation/users/installation/core">nymea.io</a>')
                 horizontalAlignment: Text.AlignHCenter
-                onLinkActivated: Qt.openUrlExternally(link)
+                onLinkActivated: (link) => Qt.openUrlExternally(link)
             }
         }
         Item { Layout.fillHeight: true }
@@ -297,7 +297,7 @@ WizardPageBase {
                                 callback: function() {
                                     var nymeaHost = hostsProxy.get(index);
                                     var connectionInfoDialog = Qt.createComponent("/ui/components/ConnectionInfoDialog.qml")
-                                    print("**", connectionInfoDialog.errorString())
+                                    console.log("**", connectionInfoDialog.errorString())
                                     var popup = connectionInfoDialog.createObject(app,{nymeaEngine: engine, nymeaHost: nymeaHost})
                                     popup.open()
                                     popup.connectionSelected.connect(function(connection) {
@@ -322,7 +322,7 @@ WizardPageBase {
 
             onNext: {
                 var rpcUrl = manualEntry.rpcUrl;
-                print("Try to connect ", rpcUrl)
+                console.log("Try to connect ", rpcUrl)
                 var host = nymeaDiscovery.nymeaHosts.createWanHost("Manual connection", rpcUrl);
                 engine.jsonRpcClient.connectToHost(host)
             }
@@ -353,7 +353,7 @@ WizardPageBase {
                 Layout.margins: Style.margins
                 fillMode: Image.PreserveAspectFit
                 sourceSize.width: width
-                source: "qrc:/icons/setupwizard/wired-connection.svg"
+                source: "qrc:/ui/images/setupwizard/wired-connection.svg"
             }
         }
     }
@@ -374,7 +374,7 @@ WizardPageBase {
                 Layout.margins: Style.margins
                 fillMode: Image.PreserveAspectFit
                 sourceSize.width: width
-                source: "qrc:/icons/setupwizard/wireless-connection.svg"
+                source: "qrc:/ui/images/setupwizard/wireless-connection.svg"
             }
         }
     }
@@ -390,8 +390,8 @@ WizardPageBase {
             BtWiFiSetup {
                 id: wifiSetup
 
-                onBluetoothStatusChanged: {
-                    print("status changed", status)
+                onBluetoothStatusChanged: (status) => {
+                    console.log("status changed", status)
                     switch (status) {
                     case BtWiFiSetup.BluetoothStatusDisconnected:
                         pageStack.pop(wirelessBluetoothDiscoveryPage)
@@ -419,12 +419,12 @@ WizardPageBase {
 
                 onCurrentConnectionChanged: {
                     if (wifiSetup.currentConnection) {
-                        print("**** connected!")
+                        console.log("**** connected!")
                         pageStack.push(wirelessConnectionCompletedComponent, {wifiSetup: wifiSetup})
                     }
                 }
                 onWirelessStatusChanged: {
-                    print("Wireless status changed:", wifiSetup.networkStatus)
+                    console.log("Wireless status changed:", wifiSetup.networkStatus)
                     if (wifiSetup.wirelessStatus === BtWiFiSetup.WirelessStatusFailed) {
                         pageStack.pop()
                     }
@@ -452,7 +452,9 @@ WizardPageBase {
 
                 BusyIndicator {
                     anchors.centerIn: parent
-                    visible: bluetoothDiscovery.discovering && deviceInfosProxy.count == 0 && bluetoothDiscovery.bluetoothAvailable && bluetoothDiscovery.bluetoothEnabled && PlatformHelper.locationServicesEnabled
+                    visible: bluetoothDiscovery.discovering && deviceInfosProxy.count === 0 &&
+                             bluetoothDiscovery.bluetoothAvailable && bluetoothDiscovery.bluetoothEnabled &&
+                             PlatformHelper.locationServicesEnabled
                 }
 
                 delegate: NymeaSwipeDelegate {
@@ -609,7 +611,7 @@ WizardPageBase {
                         }
 
                         onClicked: {
-                            print("Connect to ", model.ssid, " --> ", model.macAddress)
+                            console.log("Connect to ", model.ssid, " --> ", model.macAddress)
                             if (model.selectedNetwork) {
                                 pageStack.push(networkInformationPage, { ssid: model.ssid})
                             } else {
@@ -642,7 +644,7 @@ WizardPageBase {
             onBack: pageStack.pop();
 
             onNext: {
-                print("connecting to", ssidTextField.text, passwordTextField.password)
+                console.log("connecting to", ssidTextField.text, passwordTextField.password)
                 wifiSetup.connectDeviceToWiFi(ssidTextField.text, passwordTextField.password, true)
                 pageStack.push(wirelessConnectingWiFiComponent)
             }
@@ -661,7 +663,6 @@ WizardPageBase {
                 NymeaTextField {
                     id: ssidTextField
                     Layout.fillWidth: true
-
                 }
 
                 Label {
@@ -691,7 +692,7 @@ WizardPageBase {
             showNextButton: passwordTextField.isValidPassword
 
             onNext: {
-                print("connecting to", ssid, passwordTextField.password)
+                console.log("connecting to", ssid, passwordTextField.password)
                 wifiSetup.connectDeviceToWiFi(ssid, passwordTextField.password)
                 pageStack.push(wirelessConnectingWiFiComponent)
             }

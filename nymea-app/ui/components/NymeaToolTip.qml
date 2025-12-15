@@ -22,9 +22,9 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.3
-import QtGraphicalEffects 1.0
-import Nymea 1.0
+import QtQuick
+import Qt5Compat.GraphicalEffects
+import Nymea
 
 Item {
     id: root

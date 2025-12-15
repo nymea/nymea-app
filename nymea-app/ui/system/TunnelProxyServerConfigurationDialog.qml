@@ -22,11 +22,11 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.1
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import Nymea
 
 Dialog {
     id: root
@@ -40,17 +40,15 @@ Dialog {
 
     ColumnLayout {
         anchors { left: parent.left; top: parent.top; right: parent.right }
-        RowLayout {
-            Label {
-                text: qsTr("Proxy server address:")
-                Layout.fillWidth: true
-            }
-            TextField {
-                id: addressTextField
-                Layout.fillWidth: true
-                text: root.serverConfiguration ? root.serverConfiguration.address : ""
-                onEditingFinished: root.serverConfiguration.address = text
-            }
+        Label {
+            text: qsTr("Proxy server address:")
+            Layout.fillWidth: true
+        }
+        TextField {
+            id: addressTextField
+            Layout.fillWidth: true
+            text: root.serverConfiguration ? root.serverConfiguration.address : ""
+            onEditingFinished: root.serverConfiguration.address = text
         }
 
         RowLayout {

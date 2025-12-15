@@ -34,7 +34,7 @@ Vendors::Vendors(QObject *parent) :
 int Vendors::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_vendors.count();
+    return static_cast<int>(m_vendors.count());
 }
 
 QVariant Vendors::data(const QModelIndex &index, int role) const
@@ -57,7 +57,7 @@ QVariant Vendors::data(const QModelIndex &index, int role) const
 void Vendors::addVendor(Vendor *vendor)
 {
     vendor->setParent(this);
-    beginInsertRows(QModelIndex(), m_vendors.count(), m_vendors.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_vendors.count()), static_cast<int>(m_vendors.count()));
     //qDebug() << "Vendors: loaded vendor" << vendor->name();
     m_vendors.append(vendor);
     endInsertRows();
@@ -67,7 +67,9 @@ void Vendors::addVendor(Vendor *vendor)
 void Vendors::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_vendors);
+    foreach (Vendor *vendor, m_vendors)
+        vendor->deleteLater();
+
     m_vendors.clear();
     endResetModel();
     emit countChanged();

@@ -27,17 +27,32 @@
 #include <QUuid>
 #include <QScreen>
 #include <QApplication>
+#include <QTimer>
+#include <QWindow>
 #include <QtWebView>
+#include <sys/utsname.h>
 
 PlatformHelperIOS::PlatformHelperIOS(QObject *parent) : PlatformHelper(parent)
 {
     QtWebView::initialize();
 
     QScreen *screen = qApp->primaryScreen();
-    screen->setOrientationUpdateMask(Qt::PortraitOrientation | Qt::LandscapeOrientation | Qt::InvertedPortraitOrientation | Qt::InvertedLandscapeOrientation);
+    //screen->setOrientationUpdateMask(Qt::PortraitOrientation | Qt::LandscapeOrientation | Qt::InvertedPortraitOrientation | Qt::InvertedLandscapeOrientation);
     QObject::connect(screen, &QScreen::orientationChanged, qApp, [this](Qt::ScreenOrientation) {
-        setBottomPanelColor(bottomPanelColor());
+        applyPanelColors();
     });
+    QObject::connect(screen, &QScreen::availableGeometryChanged, qApp, [this](const QRect &) {
+        applyPanelColors();
+    });
+    QObject::connect(qApp, &QGuiApplication::focusWindowChanged, this, [this](QWindow *) {
+        QTimer::singleShot(0, this, &PlatformHelperIOS::applyPanelColors);
+    });
+    QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
+        if (state == Qt::ApplicationActive) {
+            QTimer::singleShot(0, this, &PlatformHelperIOS::applyPanelColors);
+        }
+    });
+    QTimer::singleShot(0, this, &PlatformHelperIOS::applyPanelColors);
 }
 
 void PlatformHelperIOS::hideSplashScreen()
@@ -47,7 +62,21 @@ void PlatformHelperIOS::hideSplashScreen()
 
 QString PlatformHelperIOS::machineHostname() const
 {
-    return QSysInfo::machineHostName();
+    const QString hostName = QSysInfo::machineHostName();
+    if (!hostName.isEmpty() && hostName != "localhost") {
+        return hostName;
+    }
+
+    // Fall back to something user visible when the OS only reports "localhost".
+    const QString model = deviceModel();
+    const QString manufacturer = deviceManufacturer();
+    if (model.isEmpty()) {
+        return manufacturer;
+    }
+    if (manufacturer.isEmpty() || model.startsWith(manufacturer)) {
+        return model;
+    }
+    return manufacturer + " " + model;
 }
 
 QString PlatformHelperIOS::device() const
@@ -73,6 +102,14 @@ QString PlatformHelperIOS::deviceSerial() const
 
 QString PlatformHelperIOS::deviceModel() const
 {
+    struct utsname systemInfo;
+    if (uname(&systemInfo) == 0) {
+        const QString machine = QString::fromUtf8(systemInfo.machine);
+        if (!machine.isEmpty()) {
+            return machine;
+        }
+    }
+
     return QSysInfo::prettyProductName();
 }
 
@@ -115,3 +152,9 @@ void PlatformHelperIOS::setBottomPanelColor(const QColor &color)
 
 }
 
+void PlatformHelperIOS::applyPanelColors()
+{
+    setTopPanelColor(topPanelColor());
+    setBottomPanelColor(bottomPanelColor());
+    updateSafeAreaPadding();
+}

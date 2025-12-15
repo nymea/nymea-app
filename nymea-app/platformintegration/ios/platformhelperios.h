@@ -63,6 +63,9 @@ private:
     void generateSelectionFeedback();
     void generateImpactFeedback();
     void generateNotificationFeedback();
+
+    void applyPanelColors();
+    void updateSafeAreaPadding();
 };
 
 #endif // PLATFORMHELPERIOS_H

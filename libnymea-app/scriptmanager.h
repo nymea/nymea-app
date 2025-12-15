@@ -28,8 +28,7 @@
 #include <QObject>
 
 #include "jsonrpc/jsonrpcclient.h"
-
-class Scripts;
+#include "types/scripts.h"
 
 class ScriptManager : public QObject
 {

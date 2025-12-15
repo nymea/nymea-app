@@ -59,7 +59,7 @@ bool TunnelProxyTransport::connect(const QUrl &url)
     serverUrl.setScheme(url.scheme() == "tunnels" ? "ssl" : "tcp");
     serverUrl.setHost(url.host());
     serverUrl.setPort(url.port());
-    QUuid serverUuid = QUrlQuery(url).queryItemValue("uuid");
+    QUuid serverUuid(QUrlQuery(url).queryItemValue("uuid"));
 
     return m_remoteConnection->connectServer(serverUrl, serverUuid);
 }

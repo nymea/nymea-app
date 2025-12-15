@@ -1,10 +1,24 @@
 #include "platformpermissionsios.h"
 
+#include <QApplication>
+#include <QBluetoothPermission>
+#include <QPermission>
+#include <QSharedPointer>
+#include <QTimer>
+#include <QtPlugin>
+
 #import <UserNotifications/UNUserNotificationCenter.h>
 #import <UserNotifications/UNNotificationSettings.h>
 #import <CoreLocation/CoreLocation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <UIKit/UIKit.h>
+
+#include "logging.h"
+Q_DECLARE_LOGGING_CATEGORY(dcPlatformPermissions)
+
+#ifdef QT_STATICPLUGIN
+Q_IMPORT_PLUGIN(QDarwinBluetoothPermissionPlugin)
+#endif
 
 @interface LocationManagerPermissionDelegate : NSObject <CLLocationManagerDelegate>
 @end
@@ -61,7 +75,7 @@ void PlatformPermissionsIOS::requestNotificationPermission()
 {
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
     [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionBadge + UNAuthorizationOptionSound)
-       completionHandler:^(BOOL granted, NSError * _Nullable error) {
+       completionHandler:^(BOOL granted, NSError * _Nullable) {
         m_notificationPermissions = granted ? PermissionStatusGranted : PermissionStatusDenied;
         emit notificationsPermissionChanged();
     }];
@@ -69,28 +83,112 @@ void PlatformPermissionsIOS::requestNotificationPermission()
 
 PlatformPermissions::PermissionStatus PlatformPermissionsIOS::checkBluetoothPermission() const
 {
-    // iOS 13.0 would have an api but it's more complicated and also deprecated... Ignoring...
+    qCDebug(dcPlatformPermissions()) << "Checking bluetooth permission...";
+    QBluetoothPermission btPermission;
+    btPermission.setCommunicationModes(QBluetoothPermission::Access);
+    const auto qtStatus = qGuiApp->checkPermission(btPermission);
+    if (qtStatus == Qt::PermissionStatus::Granted) {
+        qCDebug(dcPlatformPermissions()) << "Bluetooth permisson granted (Qt plugin)";
+        return PermissionStatusGranted;
+    } else {
+        qCDebug(dcPlatformPermissions()) << "Bluetooth permisson NOT granted (Qt plugin)";
+    }
+
+    PermissionStatus fallbackStatus = PermissionStatusGranted;
     if (@available(iOS 13.1, *)) {
         switch (CBCentralManager.authorization) {
         case CBManagerAuthorizationAllowedAlways:
+            fallbackStatus = PermissionStatusGranted;
+            break;
         case CBManagerAuthorizationRestricted:
-            return PermissionStatusGranted;
+            fallbackStatus = PermissionStatusGranted;
+            break;
         case CBManagerAuthorizationDenied:
-            return PermissionStatusDenied;
+            fallbackStatus = PermissionStatusDenied;
+            break;
         case CBManagerAuthorizationNotDetermined:
-            return PermissionStatusNotDetermined;
+            fallbackStatus = PermissionStatusNotDetermined;
+            break;
         }
+    } else {
+        // Before iOS 13, Bluetooth permissions are not required
+        fallbackStatus = PermissionStatusGranted;
     }
-    // Before iOS 13, Bluetooth permissions are not required
-    return PermissionStatusGranted;
+
+    switch (qtStatus) {
+    case Qt::PermissionStatus::Denied:
+        qCWarning(dcPlatformPermissions()) << "Bluetooth permission denied by Qt plugin, fallback reports" << fallbackStatus;
+        break;
+    case Qt::PermissionStatus::Undetermined:
+        qCWarning(dcPlatformPermissions()) << "QBluetoothPermission status Undetermined...using fallback.";
+        break;
+    case Qt::PermissionStatus::Granted:
+        break;
+    }
+
+    return fallbackStatus;
 }
 
 void PlatformPermissionsIOS::requestBluetoothPermission()
 {
-    // Instantiating a Bluetooth manager just trigger the popup...
+    qCDebug(dcPlatformPermissions()) << "Requesting bluetooth permission...";
+    auto handlePermissionResult = [](const QPermission &permission) {
+        switch (permission.status()) {
+        case Qt::PermissionStatus::Granted:
+            qCDebug(dcPlatformPermissions()) << "Bluetooth permission granted.";
+            emit s_instance->bluetoothPermissionChanged();
+            return;
+        case Qt::PermissionStatus::Denied:
+            if (s_instance->checkBluetoothPermission() == PermissionStatusNotDetermined) {
+                qCWarning(dcPlatformPermissions()) << "Bluetooth permission plugin unavailable, falling back to CoreBluetooth request.";
+                s_instance->requestBluetoothPermissionLegacy();
+                return;
+            }
+            qCWarning(dcPlatformPermissions()) << "Bluetooth permission denied.";
+            emit s_instance->bluetoothPermissionChanged();
+            return;
+        case Qt::PermissionStatus::Undetermined:
+            qCWarning(dcPlatformPermissions()) << "Bluetooth permission plugin unavailable, falling back to CoreBluetooth request.";
+            s_instance->requestBluetoothPermissionLegacy();
+            return;
+        }
+    };
+
+    QBluetoothPermission btPermission;
+    btPermission.setCommunicationModes(QBluetoothPermission::Access);
+
+    if (qApp->checkPermission(btPermission) == Qt::PermissionStatus::Undetermined) {
+        auto permissionHandled = QSharedPointer<bool>::create(false);
+
+        qApp->requestPermission(btPermission, [handlePermissionResult, permissionHandled](const QPermission &permission) {
+            *permissionHandled = true;
+            handlePermissionResult(permission);
+        });
+
+        // The Qt permission plugin might be missing from certain builds. If we still don't have
+        // a decision after giving it a moment, fall back to the CoreBluetooth prompt.
+        QTimer::singleShot(2000, this, [this, permissionHandled]() {
+            if (*permissionHandled) {
+                return;
+            }
+            if (checkBluetoothPermission() == PermissionStatusNotDetermined) {
+                qCWarning(dcPlatformPermissions()) << "Bluetooth permission plugin unavailable, falling back to CoreBluetooth request.";
+                requestBluetoothPermissionLegacy();
+            }
+        });
+        return;
+    }
+
+    handlePermissionResult(btPermission);
+}
+
+void PlatformPermissionsIOS::requestBluetoothPermissionLegacy()
+{
+    qCDebug(dcPlatformPermissions()) << "Requesting bluetooth permission legacy...";
+    // Instantiating a Bluetooth manager triggers the native dialog on first use.
     if (!m_bluetoothManager) {
-        BluetoothManagerDelegate *delegate = [[BluetoothManagerDelegate alloc] init];
-        m_bluetoothManager = [[CBCentralManager alloc] initWithDelegate:delegate queue:nil];
+        m_bluetoothDelegate = [[BluetoothManagerDelegate alloc] init];
+        m_bluetoothManager = [[CBCentralManager alloc] initWithDelegate:m_bluetoothDelegate queue:nil];
     }
 }
 

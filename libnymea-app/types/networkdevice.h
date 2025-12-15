@@ -27,8 +27,8 @@
 
 #include <QObject>
 
-class WirelessAccessPoint;
-class WirelessAccessPoints;
+#include "wirelessaccesspoint.h"
+#include "wirelessaccesspoints.h"
 
 class NetworkDevice : public QObject
 {

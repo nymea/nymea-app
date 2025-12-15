@@ -39,7 +39,7 @@ QList<ThingClass *> ThingClasses::thingClasses()
 int ThingClasses::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_thingClasses.count();
+    return static_cast<int>(m_thingClasses.count());
 }
 
 QVariant ThingClasses::data(const QModelIndex &index, int role) const
@@ -69,7 +69,7 @@ QVariant ThingClasses::data(const QModelIndex &index, int role) const
 
 int ThingClasses::count() const
 {
-    return m_thingClasses.count();
+    return static_cast<int>(m_thingClasses.count());
 }
 
 ThingClass *ThingClasses::get(int index) const
@@ -93,7 +93,7 @@ ThingClass *ThingClasses::getThingClass(QUuid thingClassId) const
 void ThingClasses::addThingClass(ThingClass *thingClass)
 {
     thingClass->setParent(this);
-    beginInsertRows(QModelIndex(), m_thingClasses.count(), m_thingClasses.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_thingClasses.count()), static_cast<int>(m_thingClasses.count()));
     m_thingClasses.append(thingClass);
     endInsertRows();
     emit countChanged();
@@ -102,7 +102,9 @@ void ThingClasses::addThingClass(ThingClass *thingClass)
 void ThingClasses::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_thingClasses);
+    foreach (ThingClass *thingClass, m_thingClasses)
+        thingClass->deleteLater();
+
     m_thingClasses.clear();
     endResetModel();
     emit countChanged();

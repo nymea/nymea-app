@@ -4,7 +4,46 @@
 #import <UIKit/UIKit.h>
 
 #include <QtDebug>
+#include <QtGlobal>
 #include "platformintegration/ios/platformhelperios.h"
+
+static UIWindow *activeWindow()
+{
+    UIApplication *application = [UIApplication sharedApplication];
+    UIWindow *window = application.keyWindow;
+    if (window) {
+        return window;
+    }
+
+    for (UIWindow *candidate in application.windows) {
+        if (candidate.isKeyWindow) {
+            return candidate;
+        }
+    }
+
+    return application.windows.firstObject;
+}
+
+static CGRect statusBarFrameForWindow(UIWindow *window)
+{
+    if (!window) {
+        return CGRectZero;
+    }
+
+    if (@available(iOS 13.0, *)) {
+        UIStatusBarManager *statusBarManager = window.windowScene.statusBarManager;
+        if (statusBarManager) {
+            CGRect frame = statusBarManager.statusBarFrame;
+            if (!CGRectIsEmpty(frame)) {
+                return frame;
+            }
+        }
+        CGFloat height = window.safeAreaInsets.top;
+        return CGRectMake(0, 0, window.bounds.size.width, height);
+    }
+
+    return [UIApplication sharedApplication].statusBarFrame;
+}
 
 QString PlatformHelperIOS::readKeyChainEntry(const QString &service, const QString &key)
 {
@@ -28,7 +67,7 @@ QString PlatformHelperIOS::readKeyChainEntry(const QString &service, const QStri
     }
 
     if (dataRef)
-        [dataRef release];
+        CFRelease(dataRef); // SecItemCopyMatching creates a retained object; release with CFRelease.
 
     return data;
 }
@@ -101,18 +140,27 @@ void PlatformHelperIOS::generateNotificationFeedback()
 
 void PlatformHelperIOS::setTopPanelColorInternal(const QColor &color)
 {
-    if (@available(iOS 13.0, *)) {
-        UIView *statusBar = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.windowScene.statusBarManager.statusBarFrame];
-        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-            statusBar.backgroundColor = [UIColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
-        }
-        [[UIApplication sharedApplication].keyWindow addSubview:statusBar];
-    } else {
-        UIView *statusBar = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.frame];
-        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-            statusBar.backgroundColor = [UIColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
-        }
+    UIWindow *window = activeWindow();
+    if (!window) {
+        return;
     }
+
+    static const NSInteger statusBarViewTag = 0x6E796D; // "nym" to avoid clashes
+    UIColor *uiColor = [UIColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
+    CGRect frame = statusBarFrameForWindow(window);
+    UIView *statusBar = [window viewWithTag:statusBarViewTag];
+    if (statusBar) {
+        statusBar.frame = frame;
+    } else {
+        statusBar = [[UIView alloc] initWithFrame:frame];
+        statusBar.tag = statusBarViewTag;
+        statusBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [window addSubview:statusBar];
+    }
+    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+        statusBar.backgroundColor = uiColor;
+    }
+    [window bringSubviewToFront:statusBar];
 
     if (((color.red() * 299 + color.green() * 587 + color.blue() * 114) / 1000) > 123) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDarkContent animated:YES];
@@ -124,8 +172,16 @@ void PlatformHelperIOS::setTopPanelColorInternal(const QColor &color)
 void PlatformHelperIOS::setBottomPanelColorInternal(const QColor &color)
 {
     //Bottom
-    UIApplication *app = [UIApplication sharedApplication];
-    app.windows.firstObject.backgroundColor = [UIColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
+    UIColor *uiColor = [UIColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:color.alphaF()];
+    UIWindow *window = activeWindow();
+    if (!window) {
+        return;
+    }
+
+    window.backgroundColor = uiColor;
+    if (window.rootViewController && window.rootViewController.view) {
+        window.rootViewController.view.backgroundColor = uiColor;
+    }
 }
 
 bool PlatformHelperIOS::darkModeEnabled() const
@@ -143,4 +199,17 @@ void PlatformHelperIOS::shareFile(const QString &fileName)
     [qtController presentViewController:activityController animated:YES completion:nil];
 }
 
-
+void PlatformHelperIOS::updateSafeAreaPadding()
+{
+    UIWindow *window = activeWindow();
+    UIEdgeInsets insets = UIEdgeInsetsZero;
+    if (window) {
+        if (@available(iOS 11.0, *)) {
+            insets = window.safeAreaInsets;
+        } else {
+            CGRect statusFrame = statusBarFrameForWindow(window);
+            insets.top = statusFrame.size.height;
+        }
+    }
+    setSafeAreaPadding(qRound(insets.top), qRound(insets.right), qRound(insets.bottom), qRound(insets.left));
+}

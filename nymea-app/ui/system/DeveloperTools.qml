@@ -22,10 +22,11 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Nymea
+
 import "../components"
 
 SettingsPageBase {
@@ -107,7 +108,7 @@ SettingsPageBase {
             var path = engine.jsonRpcClient.currentConnection.hostAddress + ":" + root.usedConfig.port + "/debug"
             return qsTr("Debug interface active at %1.").arg('<a href="' + proto + path + '">' + proto + path + '</a>')
         }
-        onLinkActivated: Qt.openUrlExternally(link)
+        onLinkActivated: (link) => Qt.openUrlExternally(link)
     }
 
     SettingsPageSectionHeader {

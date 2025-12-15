@@ -85,7 +85,7 @@ void PluginConfigManager::getPluginConfigResponse(int /*commandId*/, const QVari
     QVariantList pluginParams = params.value("configuration").toList();
     foreach (const QVariant &paramVariant, pluginParams) {
         Param* param = new Param();
-        param->setParamTypeId(paramVariant.toMap().value("paramTypeId").toString());
+        param->setParamTypeId(paramVariant.toMap().value("paramTypeId").toUuid());
         param->setValue(paramVariant.toMap().value("value"));
         m_params->addParam(param);
     }

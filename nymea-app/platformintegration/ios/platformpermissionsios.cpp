@@ -26,6 +26,11 @@
 
 #include <QSettings>
 #include <QApplication>
+#include <QPermission>
+#include <QBluetoothPermission>
+
+#include "logging.h"
+NYMEA_LOGGING_CATEGORY(dcPlatformPermissions, "PlatformPermissions")
 
 PlatformPermissionsIOS *PlatformPermissionsIOS::s_instance = nullptr;
 
@@ -61,13 +66,15 @@ PlatformPermissions::PermissionStatus PlatformPermissionsIOS::checkPermission(Pe
     case PermissionBluetooth:
         return checkBluetoothPermission();
     default:
-        return  PermissionStatusGranted;
+        return PermissionStatusGranted;
     }
 }
 
-void PlatformPermissionsIOS::requestPermission(Permission permission)
+void PlatformPermissionsIOS::requestPermission(Permission platformPermission)
 {
-    switch (permission) {
+    switch (platformPermission) {
+    case PermissionNone:
+        break;
     case PermissionLocalNetwork:
         requestLocalNetworkPermission();
         break;

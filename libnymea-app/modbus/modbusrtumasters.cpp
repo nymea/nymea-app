@@ -37,7 +37,7 @@ QList<ModbusRtuMaster *> ModbusRtuMasters::modbusRtuMasters() const
 int ModbusRtuMasters::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_modbusRtuMasters.count();
+    return static_cast<int>(m_modbusRtuMasters.count());
 }
 
 QVariant ModbusRtuMasters::data(const QModelIndex &index, int role) const
@@ -86,54 +86,54 @@ void ModbusRtuMasters::addModbusRtuMaster(ModbusRtuMaster *modbusRtuMaster)
 
     connect(modbusRtuMaster, &ModbusRtuMaster::serialPortChanged, this, [=](const QString &serialPort) {
         Q_UNUSED(serialPort)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleSerialPort});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::baudrateChanged, this, [=](qint32 baudrate) {
         Q_UNUSED(baudrate)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleBaudrate});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::parityChanged, this, [=](SerialPort::SerialPortParity parity) {
         Q_UNUSED(parity)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleParity});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::dataBitsChanged, this, [=](SerialPort::SerialPortDataBits dataBits) {
         Q_UNUSED(dataBits)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleDataBits});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::stopBitsChanged, this, [=](SerialPort::SerialPortStopBits stopBites) {
         Q_UNUSED(stopBites)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleStopBits});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::numberOfRetriesChanged, this, [=](uint numberOfRetries) {
         Q_UNUSED(numberOfRetries)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleNumberOfRetries});
     });
 
 
     connect(modbusRtuMaster, &ModbusRtuMaster::timeoutChanged, this, [=](uint timeout) {
         Q_UNUSED(timeout)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleTimeout});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::connectedChanged, this, [=](bool connected) {
         Q_UNUSED(connected)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleConnected});
     });
 
-    beginInsertRows(QModelIndex(), m_modbusRtuMasters.count(), m_modbusRtuMasters.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_modbusRtuMasters.count()), static_cast<int>(m_modbusRtuMasters.count()));
     m_modbusRtuMasters.append(modbusRtuMaster);
     endInsertRows();
 
@@ -156,7 +156,9 @@ void ModbusRtuMasters::removeModbusRtuMaster(const QUuid &modbusUuid)
 void ModbusRtuMasters::clear()
 {
     beginResetModel();
-    qDeleteAll(m_modbusRtuMasters);
+    foreach (ModbusRtuMaster *master, m_modbusRtuMasters)
+        master->deleteLater();
+
     m_modbusRtuMasters.clear();
     endResetModel();
     emit countChanged();

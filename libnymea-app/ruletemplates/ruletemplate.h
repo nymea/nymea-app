@@ -27,10 +27,10 @@
 
 #include <QObject>
 
-class EventDescriptorTemplates;
-class RuleActionTemplates;
-class StateEvaluatorTemplate;
-class TimeDescriptorTemplate;
+#include "eventdescriptortemplate.h"
+#include "ruleactiontemplate.h"
+#include "stateevaluatortemplate.h"
+#include "timedescriptortemplate.h"
 
 class RuleTemplate : public QObject
 {

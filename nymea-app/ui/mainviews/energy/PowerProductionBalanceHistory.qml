@@ -22,11 +22,12 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.0
-import QtCharts 2.2
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.2
-import Nymea 1.0
+import QtQuick
+import QtCharts
+import QtQuick.Layouts
+import QtQuick.Controls
+import Nymea
+
 import "qrc:/ui/components"
 
 Item {
@@ -110,7 +111,7 @@ Item {
             }
         }
 
-        onEntriesRemoved: {
+        onEntriesRemoved: (index, count) => {
             acquisitionUpperSeries.removePoints(index, count)
             storageUpperSeries.removePoints(index, count)
             selfConsumptionUpperSeries.removePoints(index, count)
@@ -194,7 +195,7 @@ Item {
                 id: chartView
                 anchors.fill: parent
                 backgroundColor: "transparent"
-                margins.left: 0
+                margins.left: Math.max(Style.smallMargins * 2, valueLabelMetrics.width + Style.smallMargins * 2)
                 margins.right: 0
                 margins.bottom: 0
                 margins.top: 0
@@ -218,6 +219,12 @@ Item {
                     opacity: .5
                 }
 
+                TextMetrics {
+                    id: valueLabelMetrics
+                    font: Style.extraSmallFont
+                    text: ((valueAxis.max) / 1000).toFixed(2) + "kW"
+                }
+
                 ValueAxis {
                     id: valueAxis
                     min: 0
@@ -234,7 +241,7 @@ Item {
                     x: Style.smallMargins
                     y: chartView.plotArea.y
                     height: chartView.plotArea.height
-                    width: chartView.plotArea.x - x
+                    width: Math.max(0, chartView.margins.left - Style.smallMargins)
                     Repeater {
                         model: valueAxis.tickCount
                         delegate: Label {
@@ -494,7 +501,7 @@ Item {
                     d.now = new Date(Math.min(new Date(), new Date(startDatetime.getTime() + timeDelta)))
                 }
 
-                onWheel: {
+                onWheel: (wheel) => {
                     startDatetime = d.now
                     var totalTime = d.endTime.getTime() - d.startTime.getTime()
                     // pixelDelta : timeDelta = width : totalTime
@@ -624,6 +631,5 @@ Item {
 
 
 }
-
 
 

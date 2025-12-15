@@ -40,7 +40,7 @@ QList<BluetoothDeviceInfo *> BluetoothDeviceInfos::deviceInfos()
 int BluetoothDeviceInfos::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_deviceInfos.count();
+    return static_cast<int>(m_deviceInfos.count());
 }
 
 QVariant BluetoothDeviceInfos::data(const QModelIndex &index, int role) const
@@ -64,7 +64,7 @@ QVariant BluetoothDeviceInfos::data(const QModelIndex &index, int role) const
 
 int BluetoothDeviceInfos::count() const
 {
-    return m_deviceInfos.count();
+    return static_cast<int>(m_deviceInfos.count());
 }
 
 BluetoothDeviceInfo *BluetoothDeviceInfos::get(int index) const
@@ -79,10 +79,10 @@ void BluetoothDeviceInfos::addBluetoothDeviceInfo(BluetoothDeviceInfo *deviceInf
 {
     qDebug() << "Adding device" << deviceInfo->name();
     deviceInfo->setParent(this);
-    beginInsertRows(QModelIndex(), m_deviceInfos.count(), m_deviceInfos.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_deviceInfos.count()), static_cast<int>(m_deviceInfos.count()));
     m_deviceInfos.append(deviceInfo);
     connect(deviceInfo, &BluetoothDeviceInfo::deviceChanged, this, [=]{
-        int idx = m_deviceInfos.indexOf(deviceInfo);
+        int idx = static_cast<int>(m_deviceInfos.indexOf(deviceInfo));
         QModelIndex index = this->index(idx);
         emit dataChanged(index, index);
     });
@@ -93,7 +93,9 @@ void BluetoothDeviceInfos::addBluetoothDeviceInfo(BluetoothDeviceInfo *deviceInf
 void BluetoothDeviceInfos::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_deviceInfos);
+    foreach (BluetoothDeviceInfo *deviceInfo, m_deviceInfos)
+        deviceInfo->deleteLater();
+
     m_deviceInfos.clear();
     endResetModel();
     emit countChanged();
@@ -176,8 +178,8 @@ QString BluetoothDeviceInfosProxy::filterForServiceUUID() const
 
 void BluetoothDeviceInfosProxy::setFilterForServiceUUID(const QString &filterForServiceUUID)
 {
-    if (m_filterForServiceUUID != filterForServiceUUID) {
-        m_filterForServiceUUID = filterForServiceUUID;
+    if (m_filterForServiceUUID != QBluetoothUuid(filterForServiceUUID)) {
+        m_filterForServiceUUID = QBluetoothUuid(filterForServiceUUID);
         emit filterForServiceUUIDChanged();
         invalidateFilter();
         emit countChanged();

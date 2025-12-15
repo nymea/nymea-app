@@ -2,6 +2,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
+// Copyright (C) 2017 The Qt Company Ltd.
 * Copyright (C) 2013 - 2024, nymea GmbH
 * Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
@@ -22,90 +23,78 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Templates 2.2 as T
-import QtQuick.Controls 2.2
-import QtQuick.Controls.impl 2.2
-import QtQuick.Controls.Material 2.2
-import QtQuick.Controls.Material.impl 2.2
-import Nymea 1.0
+import QtQuick
+import QtQuick.Templates as T
+import QtQuick.Controls.impl
+import QtQuick.Controls.Material
+import QtQuick.Controls.Material.impl
 
 T.Button {
     id: control
 
-    implicitWidth: Math.max(background ? background.implicitWidth : 0,
-                            contentItem.implicitWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(background ? background.implicitHeight : 0,
-                             contentItem.implicitHeight + topPadding + bottomPadding)
-    baselineOffset: contentItem.y + contentItem.baselineOffset
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             implicitContentHeight + topPadding + bottomPadding)
 
-    // external vertical padding is 6 (to increase touch area)
-    padding: 12
-    leftPadding: padding - 4
-    rightPadding: padding - 4
+    topInset: 6
+    bottomInset: 6
+    verticalPadding: Material.buttonVerticalPadding
+    leftPadding: Material.buttonLeftPadding(flat, hasIcon && (display !== AbstractButton.TextOnly))
+    rightPadding: Material.buttonRightPadding(flat, hasIcon && (display !== AbstractButton.TextOnly),
+                                              (text !== "") && (display !== AbstractButton.IconOnly))
+    spacing: 8
 
-    Material.elevation: flat ? control.down || control.hovered ? 2 : 0
-                             : control.down ? 8 : 2
-    Material.background: flat ? "transparent" : undefined
+    icon.width: 24
+    icon.height: 24
+    icon.color: !enabled ? Material.hintTextColor :
+        (control.flat && control.highlighted) || (control.checked && !control.highlighted) ? Material.accentColor :
+        highlighted ? Material.primaryHighlightedTextColor : Material.foreground
 
-    contentItem: Text {
+    readonly property bool hasIcon: icon.name.length > 0 || icon.source.toString().length > 0
+
+    Material.elevation: control.down ? 8 : 2
+    Material.roundedScale: Material.FullScale
+
+    contentItem: IconLabel {
+        spacing: control.spacing
+        mirrored: control.mirrored
+        display: control.display
+
+        icon: control.icon
         text: control.text
-        color: Style.foregroundColor
-        font.bold: control.font.bold
-        font.capitalization: Font.AllUppercase
-        font.family: control.font.family
-        font.hintingPreference: control.font.hintingPreference
-        font.italic: control.font.italic
-        font.letterSpacing: 2
-        font.overline: control.font.overline
-        font.pixelSize: app.smallFont
-        font.weight: Font.Bold
-
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
+        font: control.font
+        color: !control.enabled ? control.Material.hintTextColor :
+            (control.flat && control.highlighted) || (control.checked && !control.highlighted) ? control.Material.accentColor :
+            control.highlighted ? control.Material.primaryHighlightedTextColor : control.Material.foreground
     }
 
-    // TODO: Add a proper ripple/ink effect for mouse/touch input and focus state
     background: Rectangle {
         implicitWidth: 64
-        implicitHeight: Style.smallDelegateHeight
+        implicitHeight: control.Material.buttonHeight
 
-        // external vertical padding is 6 (to increase touch area)
-        y: 6
-        width: parent.width
-        height: parent.height - 12
-        radius: Style.smallCornerRadius
-        color: !control.enabled ? control.Material.buttonDisabledColor :
-                control.highlighted ? control.Material.highlightedButtonColor : control.Material.accentColor
-
-        PaddedRectangle {
-            y: parent.height - 4
-            width: parent.width
-            height: 4
-            radius: 2
-            topPadding: -2
-            clip: true
-            visible: control.checkable && (!control.highlighted || control.flat)
-            color: control.checked && control.enabled ? control.Material.accentColor : control.Material.secondaryTextColor
-        }
+        radius: control.Material.roundedScale === Material.FullScale ? height / 2 : control.Material.roundedScale
+        color: control.Material.buttonColor(control.Material.theme, control.Material.background,
+            control.Material.accent, control.enabled, control.flat, control.highlighted, control.checked)
 
         // The layer is disabled when the button color is transparent so you can do
         // Material.background: "transparent" and get a proper flat button without needing
         // to set Material.elevation as well
-        layer.enabled: control.enabled && control.Material.buttonColor.a > 0
-        layer.effect: ElevationEffect {
+        layer.enabled: control.enabled && color.a > 0 && !control.flat
+        layer.effect: RoundedElevationEffect {
             elevation: control.Material.elevation
+            roundedScale: control.background.radius
         }
 
         Ripple {
-            clipRadius: 2
+            clip: true
+            clipRadius: parent.radius
             width: parent.width
             height: parent.height
             pressed: control.pressed
             anchor: control
-            active: control.down || control.visualFocus || control.hovered
-            color: control.Material.rippleColor
+            active: enabled && (control.down || control.visualFocus || control.hovered)
+            color: control.flat && control.highlighted ? control.Material.highlightedRippleColor : control.Material.rippleColor
         }
     }
 }

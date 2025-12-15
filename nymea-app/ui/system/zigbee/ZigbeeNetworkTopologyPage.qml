@@ -22,11 +22,12 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.4
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Nymea
+
 import "qrc:/ui/components"
-import Nymea 1.0
 
 Page {
     id: root
@@ -500,7 +501,7 @@ Page {
                         canvas.requestPaint();
                     }
 
-                    onWheel: {
+                    onWheel: (wheel) => {
                         if (wheel.modifiers & Qt.ControlModifier) {
                             root.scale = Math.min(root.maxScale, Math.max(root.minScale, root.scale + 1.0 * wheel.angleDelta.y / 1000))
                             root.reload()

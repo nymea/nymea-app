@@ -56,7 +56,7 @@ public:
     bool sslEnabled() const;
     void setSslEnabled(bool sslEnabled);
 
-    Q_INVOKABLE virtual ServerConfiguration* clone() const;
+    Q_INVOKABLE virtual ServerConfiguration *clone() const;
 
 signals:
     void addressChanged();

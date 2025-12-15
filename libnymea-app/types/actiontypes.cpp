@@ -53,7 +53,7 @@ ActionType *ActionTypes::getActionType(const QUuid &actionTypeId) const
 int ActionTypes::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_actionTypes.count();
+    return static_cast<int>(m_actionTypes.count());
 }
 
 QVariant ActionTypes::data(const QModelIndex &index, int role) const
@@ -73,7 +73,7 @@ QVariant ActionTypes::data(const QModelIndex &index, int role) const
 void ActionTypes::addActionType(ActionType *actionType)
 {
     actionType->setParent(this);
-    beginInsertRows(QModelIndex(), m_actionTypes.count(), m_actionTypes.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_actionTypes.count()), static_cast<int>(m_actionTypes.count()));
     //qDebug() << "ActionTypes: loaded actionType" << actionType->name();
     m_actionTypes.append(actionType);
     endInsertRows();

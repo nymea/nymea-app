@@ -308,7 +308,7 @@ LogMessages::LogMessages(QObject *parent):
 int LogMessages::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_messages.count();
+    return static_cast<int>(m_messages.count());
 }
 
 QVariant LogMessages::data(const QModelIndex &index, int role) const
@@ -342,7 +342,7 @@ QHash<int, QByteArray> LogMessages::roleNames() const
 
 void LogMessages::append(const QDateTime &timestamp, const QString &category, const QString &message, AppLogController::LogLevel level)
 {
-    beginInsertRows(QModelIndex(), m_messages.count(), m_messages.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_messages.count()), static_cast<int>(m_messages.count()));
     LogMessage msg;
     msg.timestamp = timestamp;
     msg.category = category;
@@ -372,7 +372,7 @@ LoggingCategories::LoggingCategories(AppLogController *parent):
 int LoggingCategories::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return nymeaLoggingCategories().count();
+    return static_cast<int>(nymeaLoggingCategories().count());
 }
 
 QVariant LoggingCategories::data(const QModelIndex &index, int role) const

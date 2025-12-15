@@ -53,7 +53,7 @@ void TagListModel::setTagsProxy(TagsProxyModel *tagsProxy)
 int TagListModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant TagListModel::data(const QModelIndex &index, int role) const
@@ -112,7 +112,7 @@ void TagListModel::update()
             Tag *t = new Tag(tag->tagId(), tag->value(), this);
             t->setThingId(tag->thingId());
             t->setRuleId(tag->ruleId());
-            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+            beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
             m_list.append(t);
             endInsertRows();
         }
@@ -130,7 +130,7 @@ void TagListModel::update()
             }
         }
         if (!found) {
-            int idx = m_list.indexOf(tag);
+            int idx = static_cast<int>(m_list.indexOf(tag));
             beginRemoveRows(QModelIndex(), idx, idx);
             m_list.at(idx)->deleteLater();
             it.remove();

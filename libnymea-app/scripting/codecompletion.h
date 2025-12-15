@@ -30,9 +30,8 @@
 #include <QTextCursor>
 #include <QHash>
 
+#include "engine.h"
 #include "completionmodel.h"
-
-class Engine;
 
 class CodeCompletion: public QObject
 {

@@ -35,7 +35,7 @@ ParamDescriptors::ParamDescriptors(QObject *parent) : QAbstractListModel(parent)
 int ParamDescriptors::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant ParamDescriptors::data(const QModelIndex &index, int role) const
@@ -76,13 +76,13 @@ ParamDescriptor *ParamDescriptors::createNewParamDescriptor() const
 void ParamDescriptors::addParamDescriptor(ParamDescriptor *paramDescriptor)
 {
     paramDescriptor->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(paramDescriptor);
     endInsertRows();
     emit countChanged();
 }
 
-void ParamDescriptors::setParamDescriptor(const QString &paramTypeId, const QVariant &value, ValueOperator operatorType)
+void ParamDescriptors::setParamDescriptor(const QUuid &paramTypeId, const QVariant &value, ValueOperator operatorType)
 {
     foreach (ParamDescriptor* paramDescriptor, m_list) {
         if (paramDescriptor->paramTypeId() == paramTypeId) {
@@ -119,13 +119,15 @@ void ParamDescriptors::setParamDescriptorByName(const QString &paramName, const 
 void ParamDescriptors::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (ParamDescriptor *descriptor, m_list)
+        descriptor->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();
 }
 
-ParamDescriptor *ParamDescriptors::getParamDescriptor(const QString &paramTypeId) const
+ParamDescriptor *ParamDescriptors::getParamDescriptor(const QUuid &paramTypeId) const
 {
     qDebug() << "getParamDescriptor" << paramTypeId;
     for (int i = 0; i < m_list.count(); i++) {

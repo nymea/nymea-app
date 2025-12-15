@@ -28,8 +28,9 @@
 #include <QObject>
 #include <QSortFilterProxyModel>
 
+#include "zigbeemanager.h"
+
 class ZigbeeAdapter;
-class ZigbeeManager;
 
 class ZigbeeAdaptersProxy : public QSortFilterProxyModel
 {

@@ -57,7 +57,7 @@ StateType *StateTypes::getStateType(const QUuid &stateTypeId) const
 int StateTypes::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_stateTypes.count();
+    return static_cast<int>(m_stateTypes.count());
 }
 
 QVariant StateTypes::data(const QModelIndex &index, int role) const
@@ -88,7 +88,7 @@ QVariant StateTypes::data(const QModelIndex &index, int role) const
 void StateTypes::addStateType(StateType *stateType)
 {
     stateType->setParent(this);
-    beginInsertRows(QModelIndex(), m_stateTypes.count(), m_stateTypes.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_stateTypes.count()), static_cast<int>(m_stateTypes.count()));
     m_stateTypes.append(stateType);
     endInsertRows();
     emit countChanged();
@@ -118,7 +118,9 @@ QList<StateType *> StateTypes::ioStateTypes(Types::IOType ioType) const
 void StateTypes::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_stateTypes);
+    foreach (StateType *stateType, m_stateTypes)
+        stateType->deleteLater();
+
     m_stateTypes.clear();
     endResetModel();
     emit countChanged();

@@ -45,23 +45,23 @@ ZeroconfDiscovery::ZeroconfDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
     connect(m_zeroconfJsonRPC, &QZeroConf::serviceUpdated, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfJsonRPC, &QZeroConf::serviceRemoved, this, &ZeroconfDiscovery::serviceEntryRemoved);
 
-    if (m_zeroconfJsonRPC->isValid()) {
+    // if (m_zeroconfJsonRPC->isValid()) {
         m_zeroconfJsonRPC->startBrowser("_jsonrpc._tcp", QAbstractSocket::IPv4Protocol);
         qCInfo(dcZeroConf()) << "Created service browser for _jsonrpc._tcp:" << m_zeroconfJsonRPC->browserExists();
-    } else {
-        qCWarning(dcZeroConf()) << "Failed to initialize service broeser for _jsonprc._tcp";
-    }
+    // } else {
+    //     qCWarning(dcZeroConf()) << "Failed to initialize service broeser for _jsonprc._tcp";
+    // }
 
     m_zeroconfWebSocket = new QZeroConf(this);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceAdded, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceUpdated, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceRemoved, this, &ZeroconfDiscovery::serviceEntryRemoved);
-    if (m_zeroconfWebSocket->isValid()) {
+    // if (m_zeroconfWebSocket->isValid()) {
         m_zeroconfWebSocket->startBrowser("_ws._tcp", QAbstractSocket::IPv4Protocol);
         qCInfo(dcZeroConf()) << "Created service browser for _ws._tcp:" << m_zeroconfWebSocket->browserExists();
-    } else {
-        qCWarning(dcZeroConf()) << "Failed to initialize service browserr for _ws._tcp";
-    }
+    // } else {
+    //     qCWarning(dcZeroConf()) << "Failed to initialize service browserr for _ws._tcp";
+    // }
 
 #else
     qCInfo(dcZeroConf()) << "Zeroconf support not compiled in. Zeroconf will not be available.";
@@ -108,7 +108,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
 
     qCDebug(dcZeroConf()) << "Service discovered" << entry->type() << entry->name() << " IP:" << entry->ip().toString() << entry->txt();
 
-    QString uuid;
+    QUuid uuid;
     bool sslEnabled = false;
     QString serverName;
     QString version;
@@ -118,7 +118,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
             sslEnabled = (txtRecord.second == "true");
         }
         if (txtRecord.first == "uuid") {
-            uuid = txtRecord.second;
+            uuid = QUuid(txtRecord.second);
         }
         if (txtRecord.first == "name") {
             serverName = txtRecord.second;
@@ -167,7 +167,7 @@ void ZeroconfDiscovery::serviceEntryRemoved(const QZeroConfService &entry)
         return;
     }
 
-    QString uuid;
+    QUuid uuid;
     bool sslEnabled = false;
     QString serverName;
     QString version;
@@ -177,7 +177,7 @@ void ZeroconfDiscovery::serviceEntryRemoved(const QZeroConfService &entry)
             sslEnabled = (txtRecord.second == "true");
         }
         if (txtRecord.first == "uuid") {
-            uuid = txtRecord.second;
+            uuid = QUuid(txtRecord.second);
         }
         if (txtRecord.first == "name") {
             serverName = txtRecord.second;

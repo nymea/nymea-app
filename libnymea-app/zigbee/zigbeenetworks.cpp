@@ -32,7 +32,7 @@ ZigbeeNetworks::ZigbeeNetworks(QObject *parent) : QAbstractListModel(parent)
 int ZigbeeNetworks::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_networks.count();
+    return static_cast<int>(m_networks.count());
 }
 
 QVariant ZigbeeNetworks::data(const QModelIndex &index, int role) const
@@ -91,70 +91,70 @@ QHash<int, QByteArray> ZigbeeNetworks::roleNames() const
 void ZigbeeNetworks::addNetwork(ZigbeeNetwork *network)
 {
     network->setParent(this);
-    beginInsertRows(QModelIndex(), m_networks.count(), m_networks.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_networks.count()), static_cast<int>(m_networks.count()));
     m_networks.append(network);
     connect(network, &ZigbeeNetwork::networkUuidChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RoleUuid});
     });
 
     connect(network, &ZigbeeNetwork::serialPortChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RoleSerialPort});
     });
 
     connect(network, &ZigbeeNetwork::baudRateChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RoleBaudRate});
     });
 
     connect(network, &ZigbeeNetwork::macAddressChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RoleMacAddress});
     });
 
     connect(network, &ZigbeeNetwork::firmwareVersionChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RoleFirmwareVersion});
     });
 
     connect(network, &ZigbeeNetwork::panIdChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RolePanId});
     });
 
     connect(network, &ZigbeeNetwork::channelChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RoleChannel});
     });
 
     connect(network, &ZigbeeNetwork::channelMaskChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RoleChannelMask});
     });
 
     connect(network, &ZigbeeNetwork::permitJoiningEnabledChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RolePermitJoiningEnabled});
     });
 
     connect(network, &ZigbeeNetwork::permitJoiningDurationChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RolePermitJoiningDuration});
     });
 
     connect(network, &ZigbeeNetwork::permitJoiningRemainingChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RolePermitJoiningRemaining});
     });
 
     connect(network, &ZigbeeNetwork::backendChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RoleBackend});
     });
 
     connect(network, &ZigbeeNetwork::networkStateChanged, this, [this, network]() {
-        QModelIndex idx = index(m_networks.indexOf(network), 0);
+        QModelIndex idx = index(static_cast<int>(m_networks.indexOf(network)), 0);
         emit dataChanged(idx, idx, {RoleNetworkState});
     });
 
@@ -179,7 +179,9 @@ void ZigbeeNetworks::removeNetwork(const QUuid &networkUuid)
 void ZigbeeNetworks::clear()
 {
     beginResetModel();
-    qDeleteAll(m_networks);
+    foreach (ZigbeeNetwork *network, m_networks)
+        network->deleteLater();
+
     m_networks.clear();
     endResetModel();
     emit countChanged();

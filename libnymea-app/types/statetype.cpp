@@ -113,7 +113,7 @@ QStringList StateType::possibleValuesDisplayNames() const
 
 QString StateType::localizedValue(const QVariant &value) const
 {
-    int idx = m_possibleValues.indexOf(value);
+    int idx = static_cast<int>(m_possibleValues.indexOf(value));
     return m_possibleValuesDisplayNames.at(idx);
 }
 

@@ -28,6 +28,7 @@
 #include "engine.h"
 #include "connection/nymeahosts.h"
 #include "connection/nymeahost.h"
+#include "models/nymeahostsfiltermodel.h"
 #include "connection/discovery/nymeadiscovery.h"
 #include "vendorsproxy.h"
 #include "thingclassesproxy.h"
@@ -371,7 +372,7 @@ void registerQmlTypes() {
     qmlRegisterType<ScriptAutoSaver>(uri, 1, 0, "ScriptAutoSaver");
 
     qmlRegisterType<UserManager>(uri, 1, 0, "UserManager");
-    qmlRegisterUncreatableType<UserInfo>(uri, 1, 0, "UserInfo", "Get it from UserManager");
+    qmlRegisterType<UserInfo>(uri, 1, 0, "UserInfo");
     qmlRegisterUncreatableType<TokenInfo>(uri, 1, 0, "TokenInfo", "Get it from TokenInfos");
     qmlRegisterUncreatableType<TokenInfos>(uri, 1, 0, "TokenInfos", "Get it from UserManager");
     qmlRegisterUncreatableType<Users>(uri, 1, 0, "Users", "Get it from UserManager");

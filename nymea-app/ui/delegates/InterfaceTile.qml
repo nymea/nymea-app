@@ -22,12 +22,13 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.2
-import Nymea 1.0
-import NymeaApp.Utils 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
+import Nymea
+import NymeaApp.Utils
+
 import "../components"
 
 MainPageTile {
@@ -232,7 +233,11 @@ MainPageTile {
                     var d = thingsProxy.get(i);
                     var st = d.thingClass.stateTypes.findByName("playbackStatus")
                     var s = d.states.getState(st.id)
-                    s.valueChanged.connect(function() {inlineMediaControl.updateTile()})
+                    s.valueChanged.connect(function() {
+                        if (inlineMediaControl) {
+                            inlineMediaControl.updateTile()
+                        }
+                    })
                 }
                 updateTile();
             }

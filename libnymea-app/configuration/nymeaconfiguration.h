@@ -27,6 +27,9 @@
 
 #include <QObject>
 
+#include "serverconfigurations.h"
+#include "mqttpolicies.h"
+
 class JsonRpcClient;
 class ServerConfiguration;
 class ServerConfigurations;
@@ -35,7 +38,6 @@ class WebServerConfigurations;
 class TunnelProxyServerConfiguration;
 class TunnelProxyServerConfigurations;
 class MqttPolicy;
-class MqttPolicies;
 
 class NymeaConfiguration : public QObject
 {
@@ -131,7 +133,7 @@ signals:
     void serverNameChanged();
 
 private:
-    JsonRpcClient* m_client = nullptr;
+    JsonRpcClient *m_client = nullptr;
 
     bool m_fetchingData = false;
     bool m_debugServerEnabled = false;

@@ -28,8 +28,9 @@
 #include "platformhelper.h"
 
 #include <QObject>
-#include <QtAndroid>
-#include <QAndroidServiceConnection>
+#include <QJniObject>
+#include <QJniEnvironment>
+#include <QtCore/private/qandroidextras_p.h>
 
 class PlatformHelperAndroid : public PlatformHelper
 {
@@ -56,6 +57,8 @@ public:
 
     int topPadding() const override;
     int bottomPadding() const override;
+    int leftPadding() const override;
+    int rightPadding() const override;
 
     bool darkModeEnabled() const override;
 
@@ -68,7 +71,8 @@ public:
     static void locationServicesEnabledChangedJNI();
 
 private:
-    static void permissionRequestFinished(const QtAndroid::PermissionResultMap &);
+    void updateSafeAreaPadding();
+
 };
 
 #endif // PLATFORMHELPERANDROID_H

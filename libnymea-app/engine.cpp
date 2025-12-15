@@ -48,9 +48,6 @@ Engine::Engine(QObject *parent) :
 
     connect(m_thingManager, &ThingManager::fetchingDataChanged, this, &Engine::onThingManagerFetchingChanged);
 
-    connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, [this]() {
-        qDebug() << "JSONRpc connected changed:" << m_jsonRpcClient->connected();
-    });
 }
 
 ThingManager *Engine::thingManager() const

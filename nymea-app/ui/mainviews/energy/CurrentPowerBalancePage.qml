@@ -22,10 +22,11 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.3
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.2
-import Nymea 1.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Nymea
+
 import "qrc:/ui/components"
 
 Page {
@@ -49,14 +50,14 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
             energyManager: root.energyManager
-            visible: root.producers.count > 0
+            visible: root.producers ? root.producers.count > 0 : false
             animationsEnabled: Qt.application.active
         }
         CurrentProductionBalancePieChart {
             Layout.fillWidth: true
             Layout.fillHeight: true
             energyManager: root.energyManager
-            visible: root.producers.count > 0
+            visible: root.producers ? root.producers.count > 0 : false
             animationsEnabled: Qt.application.active
         }
     }

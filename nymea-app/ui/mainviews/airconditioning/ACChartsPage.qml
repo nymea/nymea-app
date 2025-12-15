@@ -22,14 +22,15 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.0
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtCharts
+import Nymea
+import Nymea.AirConditioning
+
 import "qrc:/ui/components"
 import "qrc:/ui/customviews"
-import Nymea 1.0
-import Nymea.AirConditioning 1.0
-import QtCharts 2.3
 
 Page {
     id: root
@@ -339,7 +340,7 @@ Page {
                             startTime: new Date(d.startTime.getTime() - d.range * 60000)
                             endTime: new Date(d.endTime.getTime() + d.range * 60000)
                             sampleRate: d.sampleRate
-                            onBusyChanged: {
+                            onBusyChanged: (busy) => {
                                 if (busy) {
                                     chartView.busyCounter++
                                 } else {
@@ -347,17 +348,17 @@ Page {
                                 }
                             }
 
-                            onEntriesAddedIdx: {
+                            onEntriesAddedIdx: (index, count) => {
                                 for (var i = 0; i < count; i++) {
                                     var entry = logsModel.get(i)
                                     var value = entry.values["temperature"]
-                                    if (value == null) {
+                                    if (value === null) {
                                         value = 0;
                                     }
                                     series.insert(index + i, entry.timestamp, value)
                                 }
                             }
-                            onEntriesRemoved: {
+                            onEntriesRemoved: (index, count) => {
                                 series.removePoints(index, count)
                             }
                             Component.onCompleted: fetchLogs()
@@ -396,7 +397,7 @@ Page {
                             startTime: new Date(d.startTime.getTime() - d.range * 60000)
                             endTime: new Date(d.endTime.getTime() + d.range * 60000)
                             sampleRate: d.sampleRate
-                            onBusyChanged: {
+                            onBusyChanged: (busy) => {
                                 if (busy) {
                                     chartView.busyCounter++
                                 } else {
@@ -404,7 +405,7 @@ Page {
                                 }
                             }
 
-                            onEntriesAddedIdx: {
+                            onEntriesAddedIdx: (index, count) => {
                                 for (var i = 0; i < count; i++) {
                                     var entry = logsModel.get(i)
                                     var value = entry.values["temperature"]
@@ -414,7 +415,7 @@ Page {
                                     series.insert(index + i, entry.timestamp, value)
                                 }
                             }
-                            onEntriesRemoved: {
+                            onEntriesRemoved: (index, count) => {
                                 series.removePoints(index, count)
                             }
                             Component.onCompleted: fetchLogs()
@@ -454,7 +455,7 @@ Page {
                             startTime: new Date(d.startTime.getTime() - d.range * 60000)
                             endTime: new Date(d.endTime.getTime() + d.range * 60000)
                             sampleRate: d.sampleRate
-                            onBusyChanged: {
+                            onBusyChanged: (busy) => {
                                 if (busy) {
                                     chartView.busyCounter++
                                 } else {
@@ -462,7 +463,7 @@ Page {
                                 }
                             }
 
-                            onEntriesAddedIdx: {
+                            onEntriesAddedIdx: (index, count) => {
                                 for (var i = 0; i < count; i++) {
                                     var entry = logsModel.get(i)
                                     var value = entry.values["humidity"]
@@ -472,7 +473,7 @@ Page {
                                     series.insert(index + i, entry.timestamp, value)
                                 }
                             }
-                            onEntriesRemoved: {
+                            onEntriesRemoved: (index, count) => {
                                 series.removePoints(index, count)
                             }
                             Component.onCompleted: fetchLogs()
@@ -508,14 +509,14 @@ Page {
                             startTime: new Date(d.startTime.getTime() - d.range * 60000)
                             endTime: new Date(d.endTime.getTime() + d.range * 60000)
                             sampleRate: d.sampleRate
-                            onBusyChanged: {
+                            onBusyChanged: (busy) => {
                                 if (busy) {
                                     chartView.busyCounter++
                                 } else {
                                     chartView.busyCounter--
                                 }
                             }
-                            onEntriesAddedIdx: {
+                            onEntriesAddedIdx: (index, count) => {
                                 for (var i = 0; i < count; i++) {
                                     var entry = logsModel.get(i)
                                     var value = entry.values["voc"]
@@ -525,7 +526,7 @@ Page {
                                     series.insert(index + i, entry.timestamp, value)
                                 }
                             }
-                            onEntriesRemoved: {
+                            onEntriesRemoved: (index, count) => {
                                 series.removePoints(index, count)
                             }
                             Component.onCompleted: fetchLogs()
@@ -597,18 +598,18 @@ Page {
                             startTime: new Date(d.startTime.getTime() - d.range * 60000)
                             endTime: new Date(d.endTime.getTime() + d.range * 60000)
                             property bool haveGeneratedLast: false
-                            onBusyChanged: {
+                            onBusyChanged: (busy) => {
                                 if (busy) {
                                     chartView.busyCounter++
                                 } else {
                                     chartView.busyCounter--
                                 }
                             }
-                            onEntriesAddedIdx: {
+                            onEntriesAddedIdx: (index, count) => {
                                 for (var i = 0; i < count; i++) {
                                     var entry = logsModel.get(i)
                                     var value = entry.values["closed"]
-                                    if (value == null) {
+                                    if (value === null) {
                                         value = false;
                                     }
 
@@ -626,7 +627,7 @@ Page {
                                     haveGeneratedLast = true
                                 }
                             }
-                            onEntriesRemoved: {
+                            onEntriesRemoved: (index, count) => {
                                 closableUpperSeries.removePoints(index * 2, count * 2)
                                 if (haveGeneratedLast) {
                                     closableUpperSeries.removePoints(series.count - 1, 1)
@@ -673,9 +674,9 @@ Page {
                             XYPoint {x: dateTimeAxis.min.getTime(); y: 0}
                             XYPoint {x: dateTimeAxis.max.getTime(); y: 0}
                             function ensureValue(timestamp) {
-                                if (count == 0) {
+                                if (count === 0) {
                                     append(timestamp, 0)
-                                } else if (count == 1) {
+                                } else if (count === 1) {
                                     if (timestamp.getTime() < at(0).x) {
                                         insert(0, timestamp, 0)
                                     } else {
@@ -707,18 +708,18 @@ Page {
                             startTime: new Date(d.startTime.getTime() - d.range * 60000)
                             endTime: new Date(d.endTime.getTime() + d.range * 60000)
                             property bool haveGeneratedLast: false
-                            onBusyChanged: {
+                            onBusyChanged: (busy) => {
                                 if (busy) {
                                     chartView.busyCounter++
                                 } else {
                                     chartView.busyCounter--
                                 }
                             }
-                            onEntriesAddedIdx: {
+                            onEntriesAddedIdx: (index, count) => {
                                 for (var i = 0; i < count; i++) {
                                     var entry = logsModel.get(i)
                                     var value = entry.values["heatingOn"]
-                                    if (value == null) {
+                                    if (value === null) {
                                         value = false;
                                     }
 
@@ -737,7 +738,7 @@ Page {
                                     haveGeneratedLast = true
                                 }
                             }
-                            onEntriesRemoved: {
+                            onEntriesRemoved: (index, count) => {
                                 heatingUpperSeries.removePoints(index * 2, count * 2)
                                 if (haveGeneratedLast) {
                                     heatingUpperSeries.removePoints(series.count - 1, 1)
@@ -835,7 +836,7 @@ Page {
                     d.now = new Date(Math.min(new Date(), new Date(startDatetime.getTime() + timeDelta)))
                 }
 
-                onWheel: {
+                onWheel: (wheel) => {
                     startDatetime = d.now
                     var totalTime = d.endTime.getTime() - d.startTime.getTime()
                     // pixelDelta : timeDelta = width : totalTime

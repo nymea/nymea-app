@@ -1,6 +1,26 @@
-CONFIG *= c++14
-QMAKE_LFLAGS *= -std=c++14
-QMAKE_CXXFLAGS *= -std=c++14
+greaterThan(QT_MAJOR_VERSION, 5) {
+    message("Building using Qt6 support")
+    CONFIG *= c++17
+    QMAKE_LFLAGS *= -std=c++17
+    QMAKE_CXXFLAGS *= -std=c++17
+} else {
+    message("Building using Qt5 support")
+    CONFIG *= c++14
+    QMAKE_LFLAGS *= -std=c++14
+    QMAKE_CXXFLAGS *= -std=c++14
+    DEFINES += QT_DISABLE_DEPRECATED_UP_TO=0x050F00
+}
+
+win32-msvc {
+    QMAKE_CXXFLAGS += /WX
+    QMAKE_CXXFLAGS += /wd4996
+} else {
+    QMAKE_CXXFLAGS += -Werror
+    QMAKE_CXXFLAGS += -Wno-deprecated-declarations
+    QMAKE_CXXFLAGS += -Wno-deprecated-copy
+}
+
+QMAKE_CXXFLAGS += -g
 
 top_srcdir=$$PWD
 top_builddir=$$shadowed($$PWD)
@@ -25,11 +45,6 @@ INCLUDEPATH += $${top_builddir}
 # We want -Wall to keep the code clean and tidy, however:
 # On Windows, -Wall goes mental, so not using it there
 !win32:QMAKE_CXXFLAGS += -Wall
-
-# As of Qt 5.15, lots of things are deprecated inside Qt in preparation for Qt6 but no replacement to actually fix those yet.
-linux:!android {
-    QMAKE_CXXFLAGS += -Wno-deprecated-declarations -Wno-deprecated-copy
-}
 
 android: {
     QMAKE_CXXFLAGS += -Wno-deprecated-declarations

@@ -22,11 +22,12 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import Nymea 1.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import Nymea
+
 import "../components"
 
 Page {
@@ -88,8 +89,9 @@ Page {
         delegate: NymeaItemDelegate {
             id: delegate
             width: listView.width
-            leftPadding: 0
-            rightPadding: 0
+
+            leftPadding: app.margins
+            rightPadding: app.margins
             topPadding: 0
             bottomPadding: 0
             property NewLogEntry entry: newLogsModel.get(index)

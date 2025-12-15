@@ -22,15 +22,17 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.2
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Nymea
+
 import "../components"
 import "../delegates"
 
 SettingsPageBase {
     id: root
+
     property Thing thing: null
     busy: d.pendingCommand != -1
 
@@ -46,12 +48,14 @@ SettingsPageBase {
 
     ThingInfoPane {
         id: infoPane
+
         Layout.fillWidth: true
         thing: root.thing
     }
 
     Menu {
         id: deviceMenu
+
         width: implicitWidth + app.margins
         x: parent.width - width
 
@@ -193,6 +197,7 @@ SettingsPageBase {
         analogInputs: true
         analogOutputs: true
     }
+
     Repeater {
         model: ioModel
         delegate: NymeaSwipeDelegate {
@@ -268,6 +273,7 @@ SettingsPageBase {
         }
         property bool dirty: false
     }
+
     Button {
         Layout.fillWidth: true
         Layout.leftMargin: app.margins
@@ -294,13 +300,16 @@ SettingsPageBase {
 
     Component {
         id: errorDialog
+
         ErrorDialog { }
     }
 
     Component {
         id: removeDialogComponent
+
         NymeaDialog {
             id: removeDialog
+
             title: qsTr("Remove thing?")
             text: qsTr("Are you sure you want to remove %1 and all associated settings?").arg(root.thing.name)
             standardButtons: Dialog.Yes | Dialog.No
@@ -313,8 +322,10 @@ SettingsPageBase {
 
     Component {
         id: renameDialog
+
         Dialog {
             id: dialog
+
             width: parent.width * .8
             x: (parent.width - width) / 2
             y: app.margins
@@ -339,6 +350,7 @@ SettingsPageBase {
 
     Component {
         id: ioConnectionsDialogComponent
+
         NymeaDialog {
             id: ioConnectionDialog
             standardButtons: Dialog.NoButton
@@ -355,18 +367,13 @@ SettingsPageBase {
                 text: qsTr("Connect \"%1\" to:").arg(ioConnectionDialog.ioStateType.displayName)
                 wrapMode: Text.WordWrap
             }
-//            Label { text: "\n" } // Fake in some spacing
 
             GridLayout {
                 columns: (ioConnectionDialog.width / 400) * 2
 
-//                Label {
-//                    Layout.fillWidth: true
-//                    text: qsTr("Thing")
-//                }
-
                 ComboBox {
                     id: ioThingComboBox
+
                     model: ThingsProxy {
                         id: connectableIODevices
                         engine: _engine
@@ -394,13 +401,9 @@ SettingsPageBase {
                     }
                 }
 
-//                Label {
-//                    Layout.fillWidth: true
-//                    text: (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) ? qsTr("Output") : qsTr("Input")
-//                }
-
                 ComboBox {
                     id: ioStateComboBox
+
                     model: StateTypesProxy {
                         id: connectableStateTypes
                         stateTypes: connectableIODevices.get(ioThingComboBox.currentIndex).thingClass.stateTypes
@@ -412,7 +415,7 @@ SettingsPageBase {
                     textRole: "displayName"
                     Layout.fillWidth: true
                     onCountChanged: {
-//                        print("loading for:", ioConnectionDialog.inputWatcher.ioConnection.outputStateTypeId)
+                        //                        print("loading for:", ioConnectionDialog.inputWatcher.ioConnection.outputStateTypeId)
                         for (var i = 0; i < connectableStateTypes.count; i++) {
                             print("checking:", connectableStateTypes.get(i).id)
                             if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
@@ -442,14 +445,16 @@ SettingsPageBase {
                         checked: ioConnectionDialog.isInput ? ioConnectionDialog.inputWatcher.ioConnection.inverted : ioConnectionDialog.outputWatcher.ioConnection.inverted
                     }
                 }
-                }
+            }
 
 
             GridLayout {
                 id: buttonGrid
+
                 columns: width > (cancelButton.implicitWidth + disconnectButton.implicitWidth + connectButton.implicitWidth)
                          ? 4 : 1
                 layoutDirection: columns == 1 ? Qt.RightToLeft : Qt.LeftToRight
+
                 Item {
                     Layout.fillWidth: true
                 }
@@ -460,6 +465,7 @@ SettingsPageBase {
                     Layout.fillWidth: buttonGrid.columns === 1
                     onClicked: ioConnectionDialog.reject();
                 }
+
                 Button {
                     id: disconnectButton
                     text: qsTr("Disconnect")
@@ -477,6 +483,7 @@ SettingsPageBase {
                         ioConnectionDialog.reject();
                     }
                 }
+
                 Button {
                     id: connectButton
                     text: qsTr("Connect")
@@ -509,8 +516,6 @@ SettingsPageBase {
                     }
                 }
             }
-
-
         }
     }
 }

@@ -22,12 +22,12 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.5
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.1
-import Nymea 1.0
-import NymeaApp.Utils 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import Nymea
+import NymeaApp.Utils
 import "components"
 
 Page {
@@ -141,6 +141,17 @@ Page {
                 subText: qsTr("List and cofigure installed plugins")
                 visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) && Configuration.pluginSettingsEnabled
                 onClicked:pageStack.push(Qt.resolvedUrl("system/PluginsPage.qml"))
+            }
+
+
+            SettingsTile {
+                Layout.fillWidth: true
+                iconSource: "qrc:/icons/dashboard.svg"
+                text: qsTr("EV Dash")
+                subText: qsTr("Dashboard settings")
+                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) &&
+                         (engine.jsonRpcClient.experiences.hasOwnProperty("EvDash"))
+                onClicked:pageStack.push(Qt.resolvedUrl("system/EvDashSettingsPage.qml"))
             }
 
             SettingsTile {

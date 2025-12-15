@@ -1,0 +1,5 @@
+packaging/linux-common/nymea-app-kiosk.desktop /usr/share/xsessions/
+packaging/linux-common/lightdm/60-nymea-app-kiosk.conf /usr/share/lightdm/lightdm.conf.d/
+packaging/linux-common/nymea-app-kiosk-wrapper /usr/bin/
+packaging/linux-common/nymea-app-session /usr/bin/
+packaging/linux-common/udev/90-pi-backlight.rules /lib/udev/rules.d/

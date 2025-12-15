@@ -32,9 +32,23 @@
 #include <QCommandLineOption>
 #include <QSslSocket>
 #include "utils/qhashqml.h"
+#include <QTranslator>
+#include <QLibraryInfo>
+#include <QIcon>
+#include <QQmlFileSelector>
+#include <QDir>
+#include <QSslSocket>
+#include <QFileInfo>
+#include <QOperatingSystemVersion>
+#include <QWindow>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QNetworkInformation>
+#endif
 
 #include "libnymea-app-core.h"
 #include "libnymea-app-airconditioning.h"
+#include "libnymea-app-evdash.h"
 
 #include "stylecontroller.h"
 #include "pushnotifications.h"
@@ -47,8 +61,9 @@
 #include "dashboard/dashboarditem.h"
 #include "mouseobserver.h"
 #include "configuredhostsmodel.h"
-#include "../config.h"
+#include "utils/qhashqml.h"
 #include "utils/privacypolicyhelper.h"
+#include "config.h"
 
 #include "logging.h"
 
@@ -65,10 +80,7 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_OSX
     qputenv("QT_WEBVIEW_PLUGIN", "native");
 #endif
-
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication application(argc, argv);
-
     application.setApplicationName(APPLICATION_NAME);
     application.setOrganizationName(ORGANISATION_NAME);
 
@@ -108,8 +120,11 @@ int main(int argc, char *argv[])
         }
     }
 
-    QTranslator qtTranslator;    
-    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    QTranslator qtTranslator;
+    if (!qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
+        qCWarning(dcApplication()) << "Unable to load translations from" << QLibraryInfo::path(QLibraryInfo::TranslationsPath);
+    }
+
     application.installTranslator(&qtTranslator);
 
     QStringList loadedTranslations;
@@ -131,6 +146,7 @@ int main(int argc, char *argv[])
 
     Nymea::Core::registerQmlTypes();
     Nymea::AirConditioning::registerQmlTypes();
+    Nymea::EvDash::registerQmlTypes();
 
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
 
@@ -139,8 +155,10 @@ int main(int argc, char *argv[])
     QString defaultStyle;
     if (parser.isSet(defaultStyleOption)) {
         defaultStyle = parser.value(defaultStyleOption);
+#ifndef DISABLE_DARK_MODE
     } else if (PlatformHelper::instance()->darkModeEnabled()) {
         defaultStyle = "dark";
+#endif
     } else {
         defaultStyle = "light";
     }
@@ -160,6 +178,21 @@ int main(int argc, char *argv[])
         qCDebug(dcApplication()) << "Adding style font:" << fi.absoluteFilePath();
         QFontDatabase::addApplicationFont(fi.absoluteFilePath());
     }
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    // Note: QNetworkInformation should always first be loaded in the same thread as the QCoreApplication object
+    qCInfo(dcApplication()) << "Available network information backends" << QNetworkInformation::instance()->availableBackends();
+
+    if (QNetworkInformation::instance()->loadDefaultBackend()) {
+        qCInfo(dcApplication()) << "Loaded default network information backend" << QNetworkInformation::instance()->backendName();
+        qCInfo(dcApplication()) << "Network infromation supported features:" << QNetworkInformation::instance()->supportedFeatures();
+        qCInfo(dcApplication()) << "Network reachability:" << QNetworkInformation::instance()->reachability();
+        qCInfo(dcApplication()) << "Network trasport medium changed:" << QNetworkInformation::instance()->transportMedium();
+
+    } else {
+        qCWarning(dcApplication()) << "Unable to load default network information backend." << QNetworkInformation::instance()->availableBackends();
+    }
+#endif
 
     qmlRegisterSingletonType(QUrl("qrc:///styles/" + styleController.currentStyle() + "/Style.qml"), "Nymea", 1, 0, "Style" );
     qmlRegisterType(QUrl("qrc:///styles/" + styleController.currentStyle() + "/Background.qml"), "Nymea", 1, 0, "Background" );
@@ -217,6 +250,17 @@ int main(int argc, char *argv[])
     application.setWindowIcon(QIcon(QString(":/styles/%1/logo.svg").arg(styleController.currentStyle())));
 
     engine->load(QUrl(QLatin1String("qrc:/ui/Nymea.qml")));
+
+#ifdef Q_OS_IOS
+    if (!engine->rootObjects().isEmpty()) {
+        if (QWindow *window = qobject_cast<QWindow*>(engine->rootObjects().constFirst())) {
+            const QRect screenRect = window->screen()->availableGeometry();
+            window->setPosition(screenRect.topLeft());
+            window->resize(screenRect.size());
+            window->showFullScreen();
+        }
+    }
+#endif
 
     return application.exec();
 }

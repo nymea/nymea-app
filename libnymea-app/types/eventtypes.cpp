@@ -54,7 +54,7 @@ EventType *EventTypes::getEventType(const QUuid &eventTypeId) const
 int EventTypes::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_eventTypes.count();
+    return static_cast<int>(m_eventTypes.count());
 }
 
 QVariant EventTypes::data(const QModelIndex &index, int role) const
@@ -74,7 +74,7 @@ QVariant EventTypes::data(const QModelIndex &index, int role) const
 void EventTypes::addEventType(EventType *eventType)
 {
     eventType->setParent(this);
-    beginInsertRows(QModelIndex(), m_eventTypes.count(), m_eventTypes.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_eventTypes.count()), static_cast<int>(m_eventTypes.count()));
     //qDebug() << "EventTypes: loaded eventType" << eventType->name();
     m_eventTypes.append(eventType);
     endInsertRows();

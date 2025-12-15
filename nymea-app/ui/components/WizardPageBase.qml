@@ -22,11 +22,12 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.2
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Nymea
+
 import "../components"
-import Nymea 1.0
 
 Page {
     id: root
@@ -75,7 +76,8 @@ Page {
 
             Row {
                 id: additionalIcons
-                anchors { right: parent.right; top: parent.top }
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                //anchors { right: parent.right; top: parent.top }
                 visible: !d.configOverlay
                 width: visible ? implicitWidth : 0
                 Repeater {

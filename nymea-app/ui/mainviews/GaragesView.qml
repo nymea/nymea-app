@@ -22,12 +22,13 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.3
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.2
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Nymea
+
 import "../components"
 import "../customviews"
-import Nymea 1.0
 
 MainViewBase {
     id: root

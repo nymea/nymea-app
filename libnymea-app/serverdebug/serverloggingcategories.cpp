@@ -31,7 +31,7 @@ ServerLoggingCategories::ServerLoggingCategories(QObject *parent)
 int ServerLoggingCategories::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant ServerLoggingCategories::data(const QModelIndex &index, int role) const
@@ -60,8 +60,11 @@ void ServerLoggingCategories::createFromVariantList(const QVariantList &loggingC
 {
     beginResetModel();
 
-    if (!m_list.isEmpty())
-        qDeleteAll(m_list);
+    if (!m_list.isEmpty()) {
+        foreach (ServerLoggingCategory *category, m_list) {
+            category->deleteLater();
+        }
+    }
 
     foreach(const QVariant &categoryVariant, loggingCategories) {
         QVariantMap categoryMap = categoryVariant.toMap();
@@ -69,7 +72,7 @@ void ServerLoggingCategories::createFromVariantList(const QVariantList &loggingC
 
         connect(category, &ServerLoggingCategory::levelChanged, this, [this, category](ServerLoggingCategory::Level level) {
             Q_UNUSED(level)
-            QModelIndex idx = index(m_list.indexOf(category), 0);
+            QModelIndex idx = index(static_cast<int>(static_cast<int>(m_list.indexOf(category))), 0);
             emit dataChanged(idx, idx, {RoleLevel});
         });
 

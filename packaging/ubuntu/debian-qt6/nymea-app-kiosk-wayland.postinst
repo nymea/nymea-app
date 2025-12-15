@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Restart nymea-app after update if it's running
+systemctl daemon-reload
+systemctl status nymea-app-kiosk > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+        systemctl restart nymea-app-kiosk
+        if [ $? -eq 0 ]; then
+                echo "Successfully restarted nymea app kiosk."
+        else
+                echo "FAILED to restart nymea app kiosk."
+        fi
+fi
+
+#DEBHELPER#
+
+exit 0

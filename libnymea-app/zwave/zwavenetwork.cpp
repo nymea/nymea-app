@@ -172,7 +172,7 @@ ZWaveNetworks::ZWaveNetworks(QObject *parent):
 int ZWaveNetworks::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant ZWaveNetworks::data(const QModelIndex &index, int role) const
@@ -212,20 +212,24 @@ QHash<int, QByteArray> ZWaveNetworks::roleNames() const
 void ZWaveNetworks::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (ZWaveNetwork *network, m_list)
+        network->deleteLater();
+
+    m_list.clear();
     endResetModel();
+    emit countChanged();
 }
 
 void ZWaveNetworks::addNetwork(ZWaveNetwork *network)
 {
     network->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(network);
     endInsertRows();
     emit countChanged();
 
     connect(network, &ZWaveNetwork::networkStateChanged, this, [this, network](){
-        QModelIndex idx = index(m_list.indexOf(network));
+        QModelIndex idx = index(static_cast<int>(m_list.indexOf(network)));
         emit dataChanged(idx, idx, {RoleNetworkState});
     });
 }

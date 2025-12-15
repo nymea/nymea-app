@@ -22,11 +22,12 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.2
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Nymea
+
 import "components"
-import Nymea 1.0
 
 Page {
     id: root
@@ -99,8 +100,8 @@ Page {
 
     Connections {
         target: engine.ruleManager
-        onAddRuleReply: {
-            if (ruleError == RuleManager.RuleErrorNoError) {
+        onAddRuleReply: (commandId, ruleError, ruleId) => {
+            if (ruleError === RuleManager.RuleErrorNoError) {
 //                print("should tag rule now:", d.editRulePage.rule.id, d.editRulePage.ruleIcon, d.editRulePage.ruleColor)
 //                engine.tagsManager.tagRule(ruleId, "color", d.editRulePage.ruleColor)
 //                engine.tagsManager.tagRule(ruleId, "icon", d.editRulePage.ruleIcon)
@@ -112,8 +113,8 @@ Page {
             d.editRulePage.busy = false;
         }
 
-        onEditRuleReply: {
-            if (ruleError == RuleManager.RuleErrorNoError) {
+        onEditRuleReply: (commandId, ruleError) => {
+            if (ruleError === RuleManager.RuleErrorNoError) {
 //                print("should tag rule now:", d.editRulePage.ruleIcon, d.editRulePage.ruleColor)
                 engine.tagsManager.tagRule(d.editRulePage.rule.id, "color", d.editRulePage.ruleColor)
                 engine.tagsManager.tagRule(d.editRulePage.rule.id, "icon", d.editRulePage.ruleIcon)

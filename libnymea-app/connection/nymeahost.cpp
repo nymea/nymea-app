@@ -126,7 +126,7 @@ Connections::~Connections()
 int Connections::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_connections.count();
+    return static_cast<int>(m_connections.count());
 }
 
 QVariant Connections::data(const QModelIndex &index, int role) const
@@ -159,10 +159,10 @@ Connection* Connections::find(const QUrl &url) const
 void Connections::addConnection(Connection *connection)
 {
     connection->setParent(this);
-    beginInsertRows(QModelIndex(), m_connections.count(), m_connections.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_connections.count()), static_cast<int>(m_connections.count()));
     m_connections.append(connection);
     connect(connection, &Connection::onlineChanged, this, [this, connection]() {
-        int idx = m_connections.indexOf(connection);
+        int idx = static_cast<int>(m_connections.indexOf(connection));
         if (idx < 0) {
             return;
         }
@@ -175,7 +175,7 @@ void Connections::addConnection(Connection *connection)
 
 void Connections::removeConnection(Connection *connection)
 {
-    int idx = m_connections.indexOf(connection);
+    int idx = static_cast<int>(m_connections.indexOf(connection));
     if (idx == -1) {
         qWarning() << "Cannot remove connections as it's not in this model";
         return;

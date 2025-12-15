@@ -22,14 +22,16 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.2
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Window
+import Nymea
 
 Dialog {
     id: root
-    width: Math.min(parent.width * .8, Math.max(contentLabel.implicitWidth, 400))
+    implicitWidth: Math.max(contentLabel.implicitWidth + app.margins * 2, 400)
+    width: Math.min((parent ? parent.width : Screen.width) * .8, implicitWidth)
     x: (parent.width - width) / 2
     y: (parent.height - height) / 2
 
@@ -46,15 +48,15 @@ Dialog {
     //     onDestroye: root.destroy()
     // }
 
-    MouseArea {
-        parent: app.overlay
-        anchors.fill: parent
-        z: -1
-        onPressed: {
-            print("Dialog: eating mouse press", root.title)
-            mouse.accepted = true
-        }
-    }
+    // MouseArea {
+    //     // parent: app.overlay
+    //     anchors.fill: parent
+    //     z: -1
+    //     onPressed: {
+    //         print("Dialog: eating mouse press", root.title)
+    //         mouse.accepted = true
+    //     }
+    // }
 
     header: Item {
         implicitHeight: headerRow.height + app.margins

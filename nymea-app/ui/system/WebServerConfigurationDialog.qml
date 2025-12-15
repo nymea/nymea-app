@@ -22,11 +22,11 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.1
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import Nymea
 
 Dialog {
     id: root
@@ -54,7 +54,7 @@ Dialog {
                                 ? 0
                                 : root.serverConfiguration.address === "127.0.0.1"
                                   ? 1 : 2
-                onActivated: {
+                onActivated: (index) => {
                     switch (index) {
                     case 0:
                         root.serverConfiguration.address = "0.0.0.0";

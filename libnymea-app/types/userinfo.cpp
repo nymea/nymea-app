@@ -92,6 +92,39 @@ void UserInfo::setScopes(PermissionScopes scopes)
     }
 }
 
+QList<QUuid> UserInfo::allowedThingIds() const
+{
+    return m_allowedThingIds;
+}
+
+void UserInfo::setAllowedThingIds(const QList<QUuid> &allowedThingIds)
+{
+    if (m_allowedThingIds != allowedThingIds) {
+        m_allowedThingIds = allowedThingIds;
+        emit allowedThingIdsChanged();
+    }
+}
+
+bool UserInfo::thingAllowed(const QUuid &thingId) const
+{
+    return m_allowedThingIds.contains(thingId);
+}
+
+void UserInfo::allowThingId(const QUuid &thingId, bool allowed)
+{
+    if (allowed) {
+        if (!m_allowedThingIds.contains(thingId)) {
+            m_allowedThingIds.append(thingId);
+            emit allowedThingIdsChanged();
+        }
+    } else {
+        if (m_allowedThingIds.contains(thingId)) {
+            m_allowedThingIds.removeAll(thingId);
+            emit allowedThingIdsChanged();
+        }
+    }
+}
+
 QStringList UserInfo::scopesToList(PermissionScopes scopes)
 {
     QStringList ret;

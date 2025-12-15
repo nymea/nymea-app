@@ -24,6 +24,7 @@
 
 #include "zwavenode.h"
 #include <QMetaEnum>
+#include <QRegularExpression>
 
 ZWaveNode::ZWaveNode(const QUuid &networkUuid, quint8 id, QObject *parent):
     QObject{parent},
@@ -59,7 +60,7 @@ void ZWaveNode::setNodeType(ZWaveNodeType nodeType)
 QString ZWaveNode::nodeTypeString() const
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<ZWaveNode::ZWaveNodeType>();
-    return QString(metaEnum.valueToKey(m_nodeType)).remove(QRegExp("^ZWaveNodeType"));
+    return QString(metaEnum.valueToKey(m_nodeType)).remove(QRegularExpression("^ZWaveNodeType"));
 }
 
 ZWaveNode::ZWaveNodeRole ZWaveNode::role() const
@@ -78,7 +79,7 @@ void ZWaveNode::setRole(ZWaveNodeRole role)
 QString ZWaveNode::roleString() const
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<ZWaveNode::ZWaveNodeRole>();
-    return QString(metaEnum.valueToKey(m_role)).remove(QRegExp("^ZWaveNodeRole"));
+    return QString(metaEnum.valueToKey(m_role)).remove(QRegularExpression("^ZWaveNodeRole"));
 }
 
 ZWaveNode::ZWaveDeviceType ZWaveNode::deviceType() const
@@ -94,7 +95,7 @@ void ZWaveNode::setDeviceType(ZWaveDeviceType deviceType)
 QString ZWaveNode::deviceTypeString() const
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<ZWaveNode::ZWaveDeviceType>();
-    return QString(metaEnum.valueToKey(m_deviceType)).remove(QRegExp("^ZWaveDeviceType"));
+    return QString(metaEnum.valueToKey(m_deviceType)).remove(QRegularExpression("^ZWaveDeviceType"));
 }
 
 quint16 ZWaveNode::manufacturerId() const
@@ -315,7 +316,7 @@ ZWaveNodes::ZWaveNodes(QObject *parent):
 int ZWaveNodes::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant ZWaveNodes::data(const QModelIndex &index, int role) const
@@ -333,7 +334,10 @@ QHash<int, QByteArray> ZWaveNodes::roleNames() const
 void ZWaveNodes::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (ZWaveNode *node, m_list)
+        node->deleteLater();
+
+    m_list.clear();
     endResetModel();
     emit countChanged();
 }
@@ -341,7 +345,7 @@ void ZWaveNodes::clear()
 void ZWaveNodes::addNode(ZWaveNode *node)
 {
     node->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(node);
     endInsertRows();
     emit countChanged();

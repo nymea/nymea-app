@@ -22,13 +22,14 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.1
-import Qt.labs.settings 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtCore
+import Nymea
+import NymeaApp.Utils
+
 import "components"
-import Nymea 1.0
-import NymeaApp.Utils 1.0
 
 Drawer {
     id: root
@@ -66,6 +67,8 @@ Drawer {
 
     ColumnLayout {
         anchors.fill: parent
+        anchors.topMargin: PlatformHelper.topPadding
+        anchors.leftMargin: PlatformHelper.leftPadding
         spacing: 0
 
         Rectangle {
@@ -187,7 +190,7 @@ Drawer {
                                 enabled: topSectionLayout.configureConnections
                                 onClicked: {
                                     print("host is:", hostDelegate.configuredHost.uuid)
-                                    if (hostDelegate.configuredHost.uuid != "{00000000-0000-0000-0000-000000000000}") {
+                                    if (hostDelegate.configuredHost.uuid !== "{00000000-0000-0000-0000-000000000000}") {
                                         var popup = askCloseDialog.createObject(app, {uuid: hostDelegate.configuredHost.uuid, index: index})
                                         popup.open();
                                     } else {
@@ -265,7 +268,7 @@ Drawer {
                             fakeDragItem.y = Math.max(0, Math.min(hostsListView.height - fakeDragItem.height, originY - diff))
 
                             var hoveredIdx = hostsListView.indexAt(mouseX, mouseY)
-                            if (hoveredIdx >= 0 && draggedIndex != hoveredIdx) {
+                            if (hoveredIdx >= 0 && draggedIndex !== hoveredIdx) {
                                 print("moved", draggedIndex, "to", hoveredIdx)
                                 root.configuredHosts.move(draggedIndex, hoveredIdx)
                                 draggedIndex = hoveredIdx;

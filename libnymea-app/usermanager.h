@@ -53,7 +53,8 @@ public:
         UserErrorDuplicateUserId,
         UserErrorBadPassword,
         UserErrorTokenNotFound,
-        UserErrorPermissionDenied
+        UserErrorPermissionDenied,
+        UserErrorInconsistantScopes
     };
     Q_ENUM(UserError)
 
@@ -70,12 +71,12 @@ public:
     Users *users() const;
 
     // NOTE: Q_FLAG from another QObject (UserInfo::PermissionScopes) doesn't seem to work in certain Qt versions. Using int instead
-    Q_INVOKABLE int createUser(const QString &username, const QString &password, const QString &displayName, const QString &email, int permissionScopes = UserInfo::PermissionScopeAdmin);
+    Q_INVOKABLE int createUser(const QString &username, const QString &password, const QString &displayName, const QString &email, int permissionScopes = UserInfo::PermissionScopeAdmin, const QList<QUuid> &allowedThingIds = QList<QUuid>());
     Q_INVOKABLE int changePassword(const QString &newPassword);
     Q_INVOKABLE int removeToken(const QUuid &id);
     Q_INVOKABLE int removeUser(const QString &username);
     // NOTE: Q_FLAG from another QObject (UserInfo::PermissionScopes) doesn't seem to work in certain Qt versions. Using int instead
-    Q_INVOKABLE int setUserScopes(const QString &username, int permissionScopes);
+    Q_INVOKABLE int setUserScopes(const QString &username, int permissionScopes, const QList<QUuid> &allowedThingIds = QList<QUuid>());
     Q_INVOKABLE int setUserInfo(const QString &username, const QString &displayName, const QString &email);
 
 signals:
@@ -123,7 +124,8 @@ public:
         RoleUsername,
         RoleDisplayName,
         RoleEmail,
-        RoleScopes
+        RoleScopes,
+        RoleAllowedThingIds
     };
     Q_ENUM(Roles)
 
@@ -136,14 +138,14 @@ public:
     void insertUser(UserInfo *userInfo);
     void removeUser(const QString &username);
 
-    Q_INVOKABLE UserInfo* get(int index) const;
-    Q_INVOKABLE UserInfo* getUserInfo(const QString &username) const;
+    Q_INVOKABLE UserInfo *get(int index) const;
+    Q_INVOKABLE UserInfo *getUserInfo(const QString &username) const;
 
 signals:
     void countChanged();
 
 private:
-    QList<UserInfo*> m_users;
+    QList<UserInfo *> m_users;
 };
 
 #endif // USERMANAGER_H

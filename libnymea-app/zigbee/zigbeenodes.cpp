@@ -32,7 +32,7 @@ ZigbeeNodes::ZigbeeNodes(QObject *parent) : QAbstractListModel(parent)
 int ZigbeeNodes::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_nodes.count();
+    return static_cast<int>(m_nodes.count());
 }
 
 QVariant ZigbeeNodes::data(const QModelIndex &index, int role) const
@@ -88,56 +88,56 @@ QHash<int, QByteArray> ZigbeeNodes::roleNames() const
 void ZigbeeNodes::addNode(ZigbeeNode *node)
 {
     node->setParent(this);
-    beginInsertRows(QModelIndex(), m_nodes.count(), m_nodes.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_nodes.count()), static_cast<int>(m_nodes.count()));
     m_nodes.append(node);
 
     connect(node, &ZigbeeNode::networkAddressChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleNetworkAddress});
     });
 
     connect(node, &ZigbeeNode::typeChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleType});
     });
 
     connect(node, &ZigbeeNode::stateChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleState});
     });
 
     connect(node, &ZigbeeNode::manufacturerChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleManufacturer});
     });
 
     connect(node, &ZigbeeNode::modelChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleModel});
     });
 
     connect(node, &ZigbeeNode::versionChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleVersion});
     });
 
     connect(node, &ZigbeeNode::rxOnWhenIdleChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleRxOnWhenIdle});
     });
 
     connect(node, &ZigbeeNode::reachableChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleReachable});
     });
 
     connect(node, &ZigbeeNode::lqiChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleLqi});
     });
 
     connect(node, &ZigbeeNode::lastSeenChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleLastSeen});
     });
 
@@ -164,7 +164,9 @@ void ZigbeeNodes::removeNode(const QString &ieeeAddress)
 void ZigbeeNodes::clear()
 {
     beginResetModel();
-    qDeleteAll(m_nodes);
+    foreach (ZigbeeNode *node, m_nodes)
+        node->deleteLater();
+
     m_nodes.clear();
     endResetModel();
     emit countChanged();

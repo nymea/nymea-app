@@ -253,13 +253,13 @@ void RuleManager::parseEventDescriptors(const QVariantList &eventDescriptorList,
 {
     foreach (const QVariant &eventDescriptorVariant, eventDescriptorList) {
         EventDescriptor *eventDescriptor = new EventDescriptor(rule);
-        eventDescriptor->setThingId(eventDescriptorVariant.toMap().value("thingId").toString());
-        eventDescriptor->setEventTypeId(eventDescriptorVariant.toMap().value("eventTypeId").toString());
+        eventDescriptor->setThingId(eventDescriptorVariant.toMap().value("thingId").toUuid());
+        eventDescriptor->setEventTypeId(eventDescriptorVariant.toMap().value("eventTypeId").toUuid());
         eventDescriptor->setInterfaceName(eventDescriptorVariant.toMap().value("interface").toString());
         eventDescriptor->setInterfaceEvent(eventDescriptorVariant.toMap().value("interfaceEvent").toString());
         foreach (const QVariant &paramDescriptorVariant, eventDescriptorVariant.toMap().value("paramDescriptors").toList()) {
             ParamDescriptor *paramDescriptor = new ParamDescriptor();
-            paramDescriptor->setParamTypeId(paramDescriptorVariant.toMap().value("paramTypeId").toString());
+            paramDescriptor->setParamTypeId(paramDescriptorVariant.toMap().value("paramTypeId").toUuid());
             paramDescriptor->setParamName(paramDescriptorVariant.toMap().value("paramName").toString());
             paramDescriptor->setValue(paramDescriptorVariant.toMap().value("value"));
             QMetaEnum operatorEnum = QMetaEnum::fromType<ParamDescriptor::ValueOperator>();
@@ -335,7 +335,7 @@ RuleAction *RuleManager::parseRuleAction(const QVariantMap &ruleAction)
     }
     foreach (const QVariant &ruleActionParamVariant, ruleAction.value("ruleActionParams").toList()) {
         RuleActionParam *param = new RuleActionParam();
-        param->setParamTypeId(ruleActionParamVariant.toMap().value("paramTypeId").toString());
+        param->setParamTypeId(ruleActionParamVariant.toMap().value("paramTypeId").toUuid());
         param->setParamName(ruleActionParamVariant.toMap().value("paramName").toString());
         param->setValue(ruleActionParamVariant.toMap().value("value"));
         param->setEventTypeId(ruleActionParamVariant.toMap().value("eventTypeId").toString());

@@ -5,7 +5,7 @@ QtQuick nymea client application
 # building
 
 Required packages:
-It is recommended to install a complete Qt installation. Minimum required Qt Version *5.7.0*.
+It is recommended to install a complete Qt installation. Minimum required Qt version is Qt 6.
 
 No extra modules are required for a basic desktop build.
 
@@ -14,14 +14,19 @@ After cloning the repository, run
     $ git submodule init
     $ git submodule update
 
-To build a binary run
+To build a binary with CMake run
 
-    $ mkdir builddir
-    $ cd builddir
-    $ qmake path/to/source/dir
-    $ make
+    $ cmake -S . -B build
+    $ cmake --build build
 
-Or open `nymea-app.pro` in QtCreator and click the **"Play"** button.
+The build can be customised with the following cache variables:
+
+- `-DNYMEA_ENABLE_ZEROCONF=ON` enables ZeroConf support when the QtZeroConf and
+  Avahi dependencies are available.
+- `-DNYMEA_USE_MATERIAL_ICONS=ON` switches the icon theme to the Material icon set.
+
+Legacy qmake builds are still available by opening `nymea-app.pro` in QtCreator
+and building the project there.
 
 Optional configuration flags to be passed to qmake:
 
@@ -30,8 +35,13 @@ Optional configuration flags to be passed to qmake:
 > Enables building the testrunner target
 
 ## Android
-As Qt can't bundle a build of openssl for android, you need to place a copy to
-`/opt/android-ssl/`
+When targeting Android, the build will download the KDAB
+[`android_openssl`](https://github.com/KDAB/android_openssl) package at
+configure time and automatically bundle the provided `libssl` and `libcrypto`
+shared libraries inside the APK. An active internet connection is therefore
+required the first time you configure an Android build directory. Other
+platforms will build without explicitly linking to OpenSSL if the development
+package is not installed.
 
 ## Windows
 

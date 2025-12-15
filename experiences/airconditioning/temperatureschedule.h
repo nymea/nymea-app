@@ -75,7 +75,7 @@ public:
     TemperatureDaySchedule(QObject *parent = nullptr);
     ~TemperatureDaySchedule();
 
-    int rowCount(const QModelIndex & = QModelIndex()) const override { return m_list.count(); }
+    int rowCount(const QModelIndex & = QModelIndex()) const override { return static_cast<int>(m_list.count()); }
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
@@ -90,7 +90,7 @@ signals:
     void countChanged();
 
 private:
-    QList<TemperatureSchedule*> m_list;
+    QList<TemperatureSchedule *> m_list;
 };
 
 class TemperatureWeekSchedule: public QAbstractListModel
@@ -101,7 +101,7 @@ public:
     TemperatureWeekSchedule(QObject *parent = nullptr);
     ~TemperatureWeekSchedule();
 
-    int rowCount(const QModelIndex & = QModelIndex()) const override { return m_list.count(); }
+    int rowCount(const QModelIndex & = QModelIndex()) const override { return static_cast<int>(m_list.count()); }
     QVariant data(const QModelIndex &, int) const override { return QVariant(); }
     QHash<int, QByteArray> roleNames() const override { return QHash<int, QByteArray>(); }
 

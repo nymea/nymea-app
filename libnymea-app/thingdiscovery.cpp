@@ -40,7 +40,7 @@ ThingDiscovery::ThingDiscovery(QObject *parent) :
 int ThingDiscovery::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_foundThings.count();
+    return static_cast<int>(m_foundThings.count());
 }
 
 QVariant ThingDiscovery::data(const QModelIndex &index, int role) const
@@ -179,10 +179,10 @@ void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &pa
     QVariantList descriptors = params.value("thingDescriptors").toList();
     foreach (const QVariant &descriptorVariant, descriptors) {
         if (!contains(descriptorVariant.toMap().value("id").toUuid())) {
-            beginInsertRows(QModelIndex(), m_foundThings.count(), m_foundThings.count());
+            beginInsertRows(QModelIndex(), static_cast<int>(m_foundThings.count()), static_cast<int>(m_foundThings.count()));
             ThingDescriptor *descriptor = new ThingDescriptor(descriptorVariant.toMap().value("id").toUuid(),
                                                               descriptorVariant.toMap().value("thingClassId").toUuid(), // Note: This will only be provided as of nymea 0.28!
-                                                   descriptorVariant.toMap().value("thingId").toString(),
+                                                   descriptorVariant.toMap().value("thingId").toUuid(),
                                                    descriptorVariant.toMap().value("title").toString(),
                                                    descriptorVariant.toMap().value("description").toString(), this);
             // Work around a bug in nymea:core which didn't properly update deviceParams in the device->things transition
@@ -194,7 +194,7 @@ void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &pa
             }
             foreach (const QVariant &paramVariant, paramList) {
                 qDebug() << "Adding param:" << paramVariant.toMap().value("paramTypeId").toString() << paramVariant.toMap().value("value");
-                Param* p = new Param(paramVariant.toMap().value("paramTypeId").toString(), paramVariant.toMap().value("value"));
+                Param* p = new Param(paramVariant.toMap().value("paramTypeId").toUuid(), paramVariant.toMap().value("value"));
                 descriptor->params()->addParam(p);
             }
             qCInfo(dcThingManager()) << "Found thing. Descriptor:" << descriptor->name() << descriptor->id();

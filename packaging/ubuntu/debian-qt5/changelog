@@ -1,0 +1,4125 @@
+nymea-app (1.10.13) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Android: fix keyboard margins
+
+ -- jenkins <developer@nymea.io>  Tue, 23 Sep 2025 15:15:25 +0200
+
+nymea-app (1.10.12) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add power balance pi chart icon properties
+
+ -- jenkins <developer@nymea.io>  Tue, 22 Jul 2025 09:48:45 +0200
+
+nymea-app (1.10.11) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Use Qt 5.12 as highest Qt version in QML
+
+ -- jenkins <developer@nymea.io>  Mon, 21 Jul 2025 10:40:17 +0200
+
+nymea-app (1.10.8) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add material icons and make icon set exchangable
+
+ -- jenkins <developer@nymea.io>  Mon, 14 Jul 2025 14:24:57 +0200
+
+nymea-app (1.10.2) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Bump build number
+
+ -- jenkins <developer@nymea.io>  Fri, 09 May 2025 12:04:43 +0200
+
+nymea-app (1.10.1) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Rework overlay
+
+ -- jenkins <developer@nymea.io>  Tue, 06 May 2025 15:46:15 +0200
+
+nymea-app (1.9.22) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add device code oauth handling
+
+ -- jenkins <developer@nymea.io>  Sat, 29 Mar 2025 23:11:19 +0100
+
+nymea-app (1.9.21) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Remove deprecated forum link
+
+ -- jenkins <developer@nymea.io>  Thu, 30 Jan 2025 16:54:56 +0100
+
+nymea-app (1.9.20) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Prevent unlocking yourself as admin user
+
+ -- jenkins <developer@nymea.io>  Thu, 30 Jan 2025 10:46:59 +0100
+
+nymea-app (1.9.18) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add additional imprint links
+
+ -- jenkins <developer@nymea.io>  Thu, 16 Jan 2025 14:09:09 +0100
+
+nymea-app (1.9.17) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Bump version
+
+ -- jenkins <developer@nymea.io>  Tue, 14 Jan 2025 11:01:20 +0100
+
+nymea-app (1.9.16) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Bump version to 1.9.16
+
+ -- jenkins <developer@nymea.io>  Tue, 14 Jan 2025 09:48:22 +0100
+
+nymea-app (1.9.15) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add server debug JSON RPC functionality
+
+ -- jenkins <developer@nymea.io>  Fri, 20 Dec 2024 15:30:33 +0100
+
+nymea-app (1.9.14) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Fix multisection tabs font
+
+ -- jenkins <developer@nymea.io>  Tue, 26 Nov 2024 16:36:23 +0100
+
+nymea-app (1.9.13) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Bump version
+
+ -- jenkins <developer@nymea.io>  Tue, 12 Nov 2024 15:05:55 +0100
+
+nymea-app (1.9.12) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Adapt links to online privacy policy through configuration parameter
+
+ -- jenkins <developer@nymea.io>  Fri, 25 Oct 2024 11:33:31 +0200
+
+nymea-app (1.9.11) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Clean up host information propertly once removed from settings
+  * Add wireless capabilities and disable wireless AP setting if not
+    capable
+
+ -- jenkins <developer@nymea.io>  Thu, 24 Oct 2024 16:36:07 +0200
+
+nymea-app (1.9.10) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update nymea-remoteproxy submodule
+
+ -- jenkins <developer@nymea.io>  Tue, 01 Oct 2024 15:41:25 +0200
+
+nymea-app (1.9.9) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add wifi networks filter duplicates option
+
+ -- jenkins <developer@nymea.io>  Mon, 16 Sep 2024 15:29:10 +0200
+
+nymea-app (1.9.8) bionic; urgency=medium
+
+  [ martinlukas84 ]
+  * Introduce overview for states and events of things
+
+ -- jenkins <developer@nymea.io>  Tue, 10 Sep 2024 16:20:28 +0200
+
+nymea-app (1.9.7) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Android: Update to firebase SDK 12.2.0
+
+ -- jenkins <developer@nymea.io>  Mon, 09 Sep 2024 17:07:24 +0200
+
+nymea-app (1.9.6) bionic; urgency=medium
+
+  [ martinlukas84 ]
+  * Update Aboutpage regarding the licence term
+
+ -- jenkins <developer@nymea.io>  Fri, 06 Sep 2024 12:28:31 +0200
+
+nymea-app (1.9.5) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update to gradle 8 and android SDK 34
+
+ -- jenkins <developer@nymea.io>  Thu, 05 Sep 2024 22:43:38 +0200
+
+nymea-app (1.9.3) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update translations
+
+ -- jenkins <developer@nymea.io>  Wed, 04 Sep 2024 21:27:51 +0200
+
+nymea-app (1.9.2) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update tunnel proy configuration and german translation
+
+ -- jenkins <developer@nymea.io>  Thu, 29 Aug 2024 12:15:19 +0200
+
+nymea-app (1.9.1) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update gradl and android firbease SDK and GCM notification handling
+
+ -- jenkins <developer@nymea.io>  Wed, 24 Jul 2024 08:39:47 +0200
+
+nymea-app (1.8.44) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Introduce font scaling mechanism
+
+ -- jenkins <developer@nymea.io>  Thu, 11 Jul 2024 09:11:33 +0200
+
+nymea-app (1.8.43) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update translations and company name
+
+ -- jenkins <developer@nymea.io>  Mon, 17 Jun 2024 12:36:06 +0200
+
+nymea-app (1.8.42) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update translations and fix german typos
+
+ -- jenkins <developer@nymea.io>  Thu, 13 Jun 2024 17:25:38 +0200
+
+nymea-app (1.8.40) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Remove deprecated documentations and links
+
+ -- jenkins <developer@nymea.io>  Tue, 04 Jun 2024 15:50:40 +0200
+
+nymea-app (1.8.38) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add Timer::restart() to script code completion
+  * Some layout fixes in the Sensor page
+
+ -- jenkins <developer@nymea.io>  Tue, 14 May 2024 11:19:09 +0200
+
+nymea-app (1.8.37) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix kiosk systemd target
+
+ -- jenkins <developer@nymea.io>  Mon, 01 Jan 2024 22:39:08 +0100
+
+nymea-app (1.8.36) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix removing window sensors in AC settings
+
+ -- jenkins <developer@nymea.io>  Sun, 31 Dec 2023 13:56:22 +0100
+
+nymea-app (1.8.35) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * New thing status view
+
+ -- jenkins <developer@nymea.io>  Sun, 31 Dec 2023 12:43:49 +0100
+
+nymea-app (1.8.33) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix ordering of live entries in logs
+
+ -- jenkins <developer@nymea.io>  Fri, 29 Dec 2023 14:13:29 +0100
+
+nymea-app (1.8.31) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Only handle things as disconnected when they implement the
+    connectable interface
+  * Add copy to clipboard action to generic state delegates
+  * Improve ScriptEditor zoom keyboard keys
+
+ -- jenkins <developer@nymea.io>  Tue, 28 Nov 2023 09:06:03 +0100
+
+nymea-app (1.8.30) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix bool charts after inverting them
+
+ -- jenkins <developer@nymea.io>  Fri, 20 Oct 2023 23:33:55 +0200
+
+nymea-app (1.8.29) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Invert state chart painting
+
+ -- jenkins <developer@nymea.io>  Tue, 17 Oct 2023 23:02:40 +0200
+
+nymea-app (1.8.28) bionic; urgency=medium
+
+  [ Daniel Frost ]
+  * fix typo dden to den
+
+ -- jenkins <developer@nymea.io>  Sat, 14 Oct 2023 22:01:18 +0200
+
+nymea-app (1.8.27) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow editing rule exitActions
+
+ -- jenkins <developer@nymea.io>  Sat, 14 Oct 2023 20:42:58 +0200
+
+nymea-app (1.8.26) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix sensor list page delegate updating
+  * Fix Button event view
+
+ -- jenkins <developer@nymea.io>  Sat, 14 Oct 2023 13:36:24 +0200
+
+nymea-app (1.8.25) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make dashboard wizard usable on small screens
+  * Update translations and complete german translation
+  * Add dashboard sensor delegate support
+
+ -- jenkins <developer@nymea.io>  Wed, 11 Oct 2023 23:59:08 +0200
+
+nymea-app (1.8.24) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix interface icon for update interface
+
+ -- jenkins <developer@nymea.io>  Wed, 11 Oct 2023 22:46:02 +0200
+
+nymea-app (1.8.23) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Ubuntu touch 20.04
+
+ -- jenkins <developer@nymea.io>  Tue, 03 Oct 2023 12:49:02 +0200
+
+nymea-app (1.8.22) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add dashboard state delegate
+  * Fix some issues with logs
+
+ -- jenkins <developer@nymea.io>  Thu, 21 Sep 2023 09:55:21 +0200
+
+nymea-app (1.8.21) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add czech translation
+  * Remove debug print leftover
+
+ -- jenkins <developer@nymea.io>  Thu, 07 Sep 2023 15:42:57 +0200
+
+nymea-app (1.8.20) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a confirmation dialog when removing hosts
+
+ -- jenkins <developer@nymea.io>  Fri, 01 Sep 2023 12:37:02 +0200
+
+nymea-app (1.8.19) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix SSL enabled checkbox when editing a tunnel proxy connection
+
+ -- jenkins <developer@nymea.io>  Mon, 03 Jul 2023 17:34:08 +0200
+
+nymea-app (1.8.18) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for dynamic and localized possibleValues on states
+
+ -- jenkins <developer@nymea.io>  Wed, 28 Jun 2023 12:44:15 +0200
+
+nymea-app (1.8.17) bionic; urgency=medium
+
+  [ alpha-rd ]
+  * Dutch translation ready
+
+ -- jenkins <developer@nymea.io>  Thu, 22 Jun 2023 19:20:52 +0200
+
+nymea-app (1.8.16) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix paramdelegate for editing rules
+
+ -- jenkins <developer@nymea.io>  Wed, 21 Jun 2023 20:13:57 +0200
+
+nymea-app (1.8.15) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve param delegates
+
+ -- jenkins <developer@nymea.io>  Mon, 19 Jun 2023 16:02:19 +0200
+
+nymea-app (1.8.14) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Replace some Android support.v4 with androidx libraries
+
+ -- jenkins <developer@nymea.io>  Tue, 13 Jun 2023 19:32:25 +0200
+
+nymea-app (1.8.13) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve charts axis labels for small value states
+
+ -- jenkins <developer@nymea.io>  Sun, 11 Jun 2023 19:43:35 +0200
+
+nymea-app (1.8.12) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add code completion for action executed events
+
+ -- jenkins <developer@nymea.io>  Wed, 07 Jun 2023 14:53:34 +0200
+
+nymea-app (1.8.11) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Remove old logs view from the thing context menu
+  * Disable dashboard longpress editmode
+
+ -- jenkins <developer@nymea.io>  Tue, 06 Jun 2023 21:17:44 +0200
+
+nymea-app (1.8.10) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix dashboard charts title for non-numeric states
+
+ -- jenkins <developer@nymea.io>  Tue, 06 Jun 2023 14:45:54 +0200
+
+nymea-app (1.8.9) bionic; urgency=medium
+
+  [ alpha-rd ]
+  * Update nymea-app.nl.ts
+
+ -- jenkins <developer@nymea.io>  Thu, 01 Jun 2023 11:41:38 +0200
+
+nymea-app (1.8.8) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve rules editor
+
+ -- jenkins <developer@nymea.io>  Wed, 31 May 2023 10:31:59 +0200
+
+nymea-app (1.8.7) bionic; urgency=medium
+
+  [ pop-ch ]
+  * Update nymea-app.de.ts
+
+ -- jenkins <developer@nymea.io>  Tue, 30 May 2023 13:08:04 +0200
+
+nymea-app (1.8.6) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Drop old unused cloudEnabled settings
+
+ -- jenkins <developer@nymea.io>  Thu, 25 May 2023 12:44:22 +0200
+
+nymea-app (1.8.5) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve group editing popup
+  * Elide labels in Selection tabs
+
+ -- jenkins <developer@nymea.io>  Wed, 24 May 2023 20:02:13 +0200
+
+nymea-app (1.8.4) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix import in AC view
+
+ -- jenkins <developer@nymea.io>  Sat, 20 May 2023 23:30:05 +0200
+
+nymea-app (1.8.3) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide ac admin options for users
+  * Fix popup being cut off in AC time scehdule editor
+
+ -- jenkins <developer@nymea.io>  Sat, 20 May 2023 13:11:18 +0200
+
+nymea-app (1.8.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix value axis labels for negative values in StateChart
+
+ -- jenkins <developer@nymea.io>  Thu, 18 May 2023 12:19:56 +0200
+
+nymea-app (1.8.1) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve action/event log views when there's no data yet
+
+ -- jenkins <developer@nymea.io>  Wed, 17 May 2023 11:58:48 +0200
+
+nymea-app (1.8.0) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump version to 1.8
+
+ -- jenkins <developer@nymea.io>  Tue, 16 May 2023 12:48:49 +0200
+
+nymea-app (1.7.23) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix icon on missig AC plugin placeholder message
+
+ -- jenkins <developer@nymea.io>  Tue, 16 May 2023 11:04:37 +0200
+
+nymea-app (1.7.20) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix new charts for older Qt versions
+
+ -- jenkins <developer@nymea.io>  Wed, 10 May 2023 23:19:50 +0200
+
+nymea-app (1.7.19) bionic; urgency=medium
+
+  [ Danfro ]
+  * add build folder to .gitignore
+  * fix typo thigns to things
+
+ -- jenkins <developer@nymea.io>  Wed, 10 May 2023 22:38:47 +0200
+
+nymea-app (1.7.18) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a missing changed signal in AC settings
+
+ -- jenkins <developer@nymea.io>  Tue, 09 May 2023 09:12:44 +0200
+
+nymea-app (1.7.17) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update android's libssl to latest version
+
+ -- jenkins <developer@nymea.io>  Mon, 08 May 2023 17:09:18 +0200
+
+nymea-app (1.7.16) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a confirmation question when removing a thing
+
+ -- jenkins <developer@nymea.io>  Mon, 08 May 2023 15:58:20 +0200
+
+nymea-app (1.7.15) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+  * Improve tooltips in new charts
+
+ -- jenkins <developer@nymea.io>  Mon, 08 May 2023 00:33:00 +0200
+
+nymea-app (1.7.14) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Use a ComboBox for number states with allowedValues
+
+ -- jenkins <developer@nymea.io>  Wed, 03 May 2023 19:27:16 +0200
+
+nymea-app (1.7.13) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix scrolling by touch in AC charts
+  * Adjust repeat combobox width when creating a rule
+
+ -- jenkins <developer@nymea.io>  Wed, 03 May 2023 07:54:44 +0200
+
+nymea-app (1.7.12) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve ac charts
+
+ -- jenkins <developer@nymea.io>  Tue, 02 May 2023 01:17:27 +0200
+
+nymea-app (1.7.11) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve new logs integration further
+
+ -- jenkins <developer@nymea.io>  Wed, 26 Apr 2023 23:46:36 +0200
+
+nymea-app (1.7.10) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve new logging stuff further
+
+ -- jenkins <developer@nymea.io>  Tue, 25 Apr 2023 00:01:05 +0200
+
+nymea-app (1.7.9) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More work on the new logs
+
+ -- jenkins <developer@nymea.io>  Mon, 24 Apr 2023 11:39:35 +0200
+
+nymea-app (1.7.8) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix dashboard chart item for legacy charts
+
+ -- jenkins <developer@nymea.io>  Thu, 20 Apr 2023 14:22:50 +0200
+
+nymea-app (1.7.7) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for the new log engine (protocol version 8.0)
+
+ -- jenkins <developer@nymea.io>  Wed, 19 Apr 2023 12:27:56 +0200
+
+nymea-app (1.7.6) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the script editor breaking when trying to add a new script with
+    errors
+
+ -- jenkins <developer@nymea.io>  Sun, 09 Apr 2023 23:51:34 +0200
+
+nymea-app (1.7.5) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix removing a zigbee node from within the nodes view
+
+ -- jenkins <developer@nymea.io>  Fri, 07 Apr 2023 13:17:33 +0200
+
+nymea-app (1.7.4) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Handle inline controls for virtual switch and button
+  * Add WindowCovering zigbee cluster id
+
+ -- jenkins <developer@nymea.io>  Tue, 04 Apr 2023 19:47:35 +0200
+
+nymea-app (1.7.3) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Optimize loading performance of the energy history charts
+
+ -- jenkins <developer@nymea.io>  Thu, 30 Mar 2023 09:41:03 +0200
+
+nymea-app (1.7.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a typo in german translation
+  * Add a find() method to SerialPorts
+
+ -- jenkins <developer@nymea.io>  Tue, 28 Mar 2023 19:53:28 +0200
+
+nymea-app (1.7.1) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide user admin settings for unprivileged users
+  * Fix overlapping views at startup
+  * Allow overriding the IOS_TEAM_ID
+  * Change how translations are loaded
+
+ -- jenkins <developer@nymea.io>  Sat, 18 Mar 2023 01:06:25 +0100
+
+nymea-app (1.7.0) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Ignore return code 3010 from vcredist package.
+  * Bump version to 1.7
+
+ -- jenkins <developer@nymea.io>  Thu, 09 Mar 2023 23:19:56 +0100
+
+nymea-app (1.6.31) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow styling energy colors
+  * Allow styling of tabbar icon color
+  * Fix color picker for interface based rule action
+
+ -- jenkins <developer@nymea.io>  Thu, 09 Mar 2023 12:52:25 +0100
+
+nymea-app (1.6.29) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+
+ -- jenkins <developer@nymea.io>  Wed, 08 Mar 2023 09:34:57 +0100
+
+nymea-app (1.6.28) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the main menus remove buttons being clickable when hidden
+
+ -- jenkins <developer@nymea.io>  Fri, 03 Mar 2023 12:15:57 +0100
+
+nymea-app (1.6.27) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide outdoor sensor settings in AC settings
+  * Fix ac charts also showing actions
+
+ -- jenkins <developer@nymea.io>  Thu, 02 Mar 2023 23:31:36 +0100
+
+nymea-app (1.6.26) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Switch to demo server with authentication
+
+ -- jenkins <developer@nymea.io>  Mon, 27 Feb 2023 00:49:40 +0100
+
+nymea-app (1.6.25) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Support notification alerts for air conditioning
+  * Don't show a positive currentPower for producers in thing page
+  * Make the producer visible when there's return
+
+ -- jenkins <developer@nymea.io>  Sat, 25 Feb 2023 23:18:46 +0100
+
+nymea-app (1.6.24) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix power balance chart when there's returned energy but no producer
+
+ -- jenkins <developer@nymea.io>  Wed, 22 Feb 2023 17:43:11 +0100
+
+nymea-app (1.6.23) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add PrivacyPolicyHelper
+
+ -- jenkins <developer@nymea.io>  Mon, 20 Feb 2023 12:33:50 +0100
+
+nymea-app (1.6.22) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add more sensor delegates to ZoneView and allow opening the thing
+    view
+
+ -- jenkins <developer@nymea.io>  Sat, 18 Feb 2023 12:43:24 +0100
+
+nymea-app (1.6.20) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix selection in power balance history
+
+ -- jenkins <developer@nymea.io>  Thu, 16 Feb 2023 19:25:03 +0100
+
+nymea-app (1.6.18) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rework overlay mechanism
+
+ -- jenkins <developer@nymea.io>  Tue, 14 Feb 2023 17:51:00 +0100
+
+nymea-app (1.6.16) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix energy charts with old Qt versions
+
+ -- jenkins <developer@nymea.io>  Tue, 14 Feb 2023 14:27:28 +0100
+
+nymea-app (1.6.15) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix close button in main menu to remove a connection
+  * Improve wording for unknown error
+  * Fix working in rules param condition selectors
+
+ -- jenkins <developer@nymea.io>  Mon, 13 Feb 2023 15:06:58 +0100
+
+nymea-app (1.6.14) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes for older Qt versions
+
+ -- jenkins <developer@nymea.io>  Sun, 12 Feb 2023 23:07:29 +0100
+
+nymea-app (1.6.13) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix calculation of zone temperature in certain circumstances
+
+ -- jenkins <developer@nymea.io>  Sun, 12 Feb 2023 22:11:17 +0100
+
+nymea-app (1.6.12) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow ordering the hosts list
+
+ -- jenkins <developer@nymea.io>  Sun, 12 Feb 2023 00:34:54 +0100
+
+nymea-app (1.6.11) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add air conditioning experience
+
+ -- jenkins <developer@nymea.io>  Sat, 11 Feb 2023 22:18:23 +0100
+
+nymea-app (1.6.10) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix network settings appearing to freeze on errors
+
+ -- jenkins <developer@nymea.io>  Wed, 08 Feb 2023 19:47:28 +0100
+
+nymea-app (1.6.9) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * more iOS reachabilitty tuning
+
+ -- jenkins <developer@nymea.io>  Fri, 27 Jan 2023 14:32:51 +0100
+
+nymea-app (1.6.8) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix frequent reconnects on iOS
+  * Fix energy chargs legend opacity when single items are selected
+
+ -- jenkins <developer@nymea.io>  Wed, 25 Jan 2023 22:50:22 +0100
+
+nymea-app (1.6.5) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Enable building on riscv64
+  * Fix webview not working in the snap package
+
+ -- jenkins <developer@nymea.io>  Wed, 25 Jan 2023 15:49:58 +0100
+
+nymea-app (1.6.4) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide install more plugins hint when the system does not support it
+
+ -- jenkins <developer@nymea.io>  Tue, 17 Jan 2023 20:12:53 +0100
+
+nymea-app (1.6.3) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Suggest to install more plugins in add things page
+
+ -- jenkins <developer@nymea.io>  Sun, 15 Jan 2023 20:27:32 +0100
+
+nymea-app (1.6.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Specify some base interfaces for better grouping
+  * Fix energy return in chart when there are no producers
+  * cleanup runtime debug prints
+  * Drop connection tabs support
+  * Move utils into separate module
+
+ -- jenkins <developer@nymea.io>  Sun, 15 Jan 2023 10:51:41 +0100
+
+nymea-app (1.6.1) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make energy logs more robust against faulty databases
+  * Fix rule action param editor with value from state
+
+ -- jenkins <developer@nymea.io>  Thu, 22 Dec 2022 14:47:13 +0100
+
+nymea-app (1.6.0) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump version
+
+ -- jenkins <developer@nymea.io>  Mon, 19 Dec 2022 11:28:45 +0100
+
+nymea-app (1.5.23) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve managing of manual connections
+
+ -- jenkins <developer@nymea.io>  Fri, 16 Dec 2022 15:51:47 +0100
+
+nymea-app (1.5.22) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a crash with checking location permissions on old androids
+  * Fix some permission backwards compatibility issues with older
+    android versions
+  * Fix firebase libs for android x86
+
+ -- jenkins <developer@nymea.io>  Thu, 15 Dec 2022 14:58:31 +0100
+
+nymea-app (1.5.21) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+
+ -- jenkins <developer@nymea.io>  Mon, 12 Dec 2022 11:53:37 +0100
+
+nymea-app (1.5.20) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix bluetooth permission checking for android <= 30 (11)
+
+ -- jenkins <developer@nymea.io>  Fri, 09 Dec 2022 15:29:51 +0100
+
+nymea-app (1.5.19) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Refresh notification permission on iOS when the app is focused
+
+ -- jenkins <developer@nymea.io>  Thu, 08 Dec 2022 16:31:30 +0100
+
+nymea-app (1.5.18) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix some glitches in energy chats if the user changes the time zone
+
+ -- jenkins <developer@nymea.io>  Thu, 08 Dec 2022 00:24:37 +0100
+
+nymea-app (1.5.17) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add NSLocationAlwaysAndWhenInUseUsageDescription declaration for iOS
+
+ -- jenkins <developer@nymea.io>  Wed, 07 Dec 2022 21:25:22 +0100
+
+nymea-app (1.5.16) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a check for location services being enabled in BtWiFi setup
+
+ -- jenkins <developer@nymea.io>  Wed, 07 Dec 2022 20:19:13 +0100
+
+nymea-app (1.5.15) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Ignore error code 1638 in win installer for the vc_redist package
+
+ -- jenkins <developer@nymea.io>  Wed, 07 Dec 2022 14:42:22 +0100
+
+nymea-app (1.5.14) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add vibration sensor interface
+
+ -- jenkins <developer@nymea.io>  Wed, 07 Dec 2022 00:29:29 +0100
+
+nymea-app (1.5.13) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Drop AWS cloud support
+
+ -- jenkins <developer@nymea.io>  Fri, 02 Dec 2022 12:15:25 +0100
+
+nymea-app (1.5.12) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix energy canvas scaling problems on iOS
+
+ -- jenkins <developer@nymea.io>  Fri, 02 Dec 2022 00:21:40 +0100
+
+nymea-app (1.5.11) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add ios location permission declaration
+
+ -- jenkins <developer@nymea.io>  Mon, 28 Nov 2022 16:28:28 +0100
+
+nymea-app (1.5.10) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix bluetooth permission on android
+  * Add ubuntu mono font
+
+ -- jenkins <developer@nymea.io>  Mon, 28 Nov 2022 15:36:20 +0100
+
+nymea-app (1.5.9) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More improvements on the energy view
+  * Add MultiSelectionTabs component
+
+ -- jenkins <developer@nymea.io>  Sat, 26 Nov 2022 01:30:33 +0100
+
+nymea-app (1.5.8) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes on unified energy charts
+
+ -- jenkins <developer@nymea.io>  Wed, 23 Nov 2022 12:28:51 +0100
+
+nymea-app (1.5.7) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes in the platform permission helper for android
+
+ -- jenkins <developer@nymea.io>  Tue, 22 Nov 2022 14:08:31 +0100
+
+nymea-app (1.5.6) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Tweak rendering performance for power balance animation
+
+ -- jenkins <developer@nymea.io>  Mon, 21 Nov 2022 01:00:35 +0100
+
+nymea-app (1.5.5) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix crash in the connectionwizard on android (requesting
+    localnetwork permission)
+
+ -- jenkins <developer@nymea.io>  Sun, 20 Nov 2022 22:02:57 +0100
+
+nymea-app (1.5.4) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update permission handling
+
+ -- jenkins <developer@nymea.io>  Sun, 20 Nov 2022 19:57:11 +0100
+
+nymea-app (1.5.3) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump android api level to 31
+  * Unified energy charts
+
+ -- jenkins <developer@nymea.io>  Sat, 19 Nov 2022 12:49:47 +0100
+
+nymea-app (1.5.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add total values to energy device pages
+  * Fix settings page for Qt 5.9
+  * Fix dial not using dynamic max value
+  * Fix a race condition in initializing the android service
+  * Add support for the childlock interface
+
+ -- jenkins <developer@nymea.io>  Sat, 19 Nov 2022 01:09:06 +0100
+
+nymea-app (1.5.1) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix energy charts when DST changes
+
+ -- jenkins <developer@nymea.io>  Tue, 01 Nov 2022 12:45:31 +0100
+
+nymea-app (1.5.0) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump version to 1.5
+
+ -- jenkins <developer@nymea.io>  Tue, 25 Oct 2022 11:04:18 +0200
+
+nymea-app (1.4.29) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix NymeaUtils.pad() regression
+
+ -- jenkins <developer@nymea.io>  Thu, 20 Oct 2022 21:24:52 +0200
+
+nymea-app (1.4.28) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+
+ -- jenkins <developer@nymea.io>  Thu, 20 Oct 2022 14:55:22 +0200
+
+nymea-app (1.4.27) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Zigbee cleanup
+  * Fix energy consumers history sometimes not loading when a filter is
+    set
+
+ -- jenkins <developer@nymea.io>  Wed, 19 Oct 2022 23:16:27 +0200
+
+nymea-app (1.4.26) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Align various sensor displays
+
+ -- jenkins <developer@nymea.io>  Mon, 17 Oct 2022 23:37:59 +0200
+
+nymea-app (1.4.25) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More air quality sensors
+  * Fix style of media browser header
+  * Add support for wired network configuration
+
+ -- jenkins <developer@nymea.io>  Tue, 11 Oct 2022 09:12:08 +0200
+
+nymea-app (1.4.24) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Show serial port name when adding a zwave network
+  * Fix a typo in the german translation
+  * Send last queued command in an actionqueue on destruction
+  * Update gas interface
+
+ -- jenkins <developer@nymea.io>  Mon, 03 Oct 2022 01:45:53 +0200
+
+nymea-app (1.4.23) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add code completion for new script things
+
+ -- jenkins <developer@nymea.io>  Sun, 25 Sep 2022 01:26:04 +0200
+
+nymea-app (1.4.22) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix placeholder replacement for interface based rule templates
+  * Fix things info for Zigbee nodes with multiple things
+  * Another fix for the energy tooltips
+  * Fix occational duplicate entries in consumer stats
+
+ -- jenkins <developer@nymea.io>  Sat, 24 Sep 2022 13:28:44 +0200
+
+nymea-app (1.4.21) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow binding all clusters to the coordinator
+  * Fix params for actions in the generic log page
+
+ -- jenkins <developer@nymea.io>  Wed, 21 Sep 2022 16:02:05 +0200
+
+nymea-app (1.4.20) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for Android themed icons
+
+ -- jenkins <developer@nymea.io>  Tue, 20 Sep 2022 01:10:33 +0200
+
+nymea-app (1.4.19) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix destination node selection for Zigbee bindings
+  * Re-enable energy charts
+
+ -- jenkins <developer@nymea.io>  Fri, 16 Sep 2022 00:44:07 +0200
+
+nymea-app (1.4.18) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes for the energy dashboard for various corner cases
+
+ -- jenkins <developer@nymea.io>  Thu, 15 Sep 2022 17:45:30 +0200
+
+nymea-app (1.4.17) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for configuring ZigBee bindings
+
+ -- jenkins <developer@nymea.io>  Wed, 14 Sep 2022 23:48:59 +0200
+
+nymea-app (1.4.16) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix zigbee topology map pinch area
+
+ -- jenkins <developer@nymea.io>  Sun, 11 Sep 2022 13:11:58 +0200
+
+nymea-app (1.4.15) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Optimizations and pinch scaling for Zigbee topology map
+
+ -- jenkins <developer@nymea.io>  Sun, 11 Sep 2022 01:41:40 +0200
+
+nymea-app (1.4.14) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More fixes in the Zigbee Topology map
+
+ -- jenkins <developer@nymea.io>  Sat, 10 Sep 2022 10:52:15 +0200
+
+nymea-app (1.4.13) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improvements in the ZigBee topology map
+
+ -- jenkins <developer@nymea.io>  Fri, 09 Sep 2022 00:51:46 +0200
+
+nymea-app (1.4.12) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes for the network reachaiblity monitor
+
+ -- jenkins <developer@nymea.io>  Thu, 08 Sep 2022 00:35:51 +0200
+
+nymea-app (1.4.11) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add ZigBee routing information to topology map
+
+ -- jenkins <developer@nymea.io>  Wed, 07 Sep 2022 12:36:11 +0200
+
+nymea-app (1.4.10) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add more debug prints to network reachability monitor
+
+ -- jenkins <developer@nymea.io>  Tue, 06 Sep 2022 19:45:32 +0200
+
+nymea-app (1.4.9) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Replace QNetworkworkConfiguration with Reachability API on iOS
+
+ -- jenkins <developer@nymea.io>  Tue, 06 Sep 2022 13:29:03 +0200
+
+nymea-app (1.4.8) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some improvements in the zigbee topology map
+
+ -- jenkins <developer@nymea.io>  Mon, 05 Sep 2022 19:11:34 +0200
+
+nymea-app (1.4.7) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More fixes in scrollable energy charts
+
+ -- jenkins <developer@nymea.io>  Sun, 04 Sep 2022 22:03:55 +0200
+
+nymea-app (1.4.6) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a zigbee network topology map
+
+ -- jenkins <developer@nymea.io>  Sat, 03 Sep 2022 02:13:08 +0200
+
+nymea-app (1.4.5) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix tooltips in energy charts
+  * Fix setup status warning not always updating in ThingsView
+
+ -- jenkins <developer@nymea.io>  Fri, 02 Sep 2022 15:57:52 +0200
+
+nymea-app (1.4.4) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for connecting to hidden wifi networks during bt wifi
+    setup
+
+ -- jenkins <developer@nymea.io>  Thu, 01 Sep 2022 17:36:26 +0200
+
+nymea-app (1.4.3) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make the energy charts scrollable
+
+ -- jenkins <developer@nymea.io>  Tue, 30 Aug 2022 16:55:42 +0200
+
+nymea-app (1.4.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix zwave device info data
+
+ -- jenkins <developer@nymea.io>  Sat, 27 Aug 2022 13:56:47 +0200
+
+nymea-app (1.4.1) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix Z-Wave security mode display
+
+ -- jenkins <developer@nymea.io>  Fri, 26 Aug 2022 01:01:09 +0200
+
+nymea-app (1.4.0) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations and bump version
+
+ -- jenkins <developer@nymea.io>  Tue, 23 Aug 2022 00:09:46 +0200
+
+nymea-app (1.3.14) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes in the Energy View if there is only a producer
+
+ -- jenkins <developer@nymea.io>  Fri, 12 Aug 2022 00:18:40 +0200
+
+nymea-app (1.3.13) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Show an appropriate message if Z-Wave is not available on the system
+
+ -- jenkins <developer@nymea.io>  Wed, 10 Aug 2022 10:39:41 +0200
+
+nymea-app (1.3.12) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some more fixes for Z-Wave
+
+ -- jenkins <developer@nymea.io>  Mon, 08 Aug 2022 23:53:35 +0200
+
+nymea-app (1.3.11) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Show more details about the zwave controller
+
+ -- jenkins <developer@nymea.io>  Thu, 04 Aug 2022 22:27:11 +0200
+
+nymea-app (1.3.10) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes and improvements for Z-Wave
+
+ -- jenkins <developer@nymea.io>  Tue, 02 Aug 2022 22:22:33 +0200
+
+nymea-app (1.3.9) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add Z-Wave support
+
+ -- jenkins <developer@nymea.io>  Fri, 29 Jul 2022 19:59:47 +0200
+
+nymea-app (1.3.8) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Only load plugin configs on demand
+
+ -- jenkins <developer@nymea.io>  Thu, 28 Jul 2022 17:51:50 +0200
+
+nymea-app (1.3.7) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix nymea:// uri handling on ubuntu touch
+  * Fix hiding the EnergyView configuration button if there's nothing to
+    configure
+  * Fix background of consumption balance pie chart if all values are 0
+
+ -- jenkins <developer@nymea.io>  Tue, 26 Jul 2022 15:04:13 +0200
+
+nymea-app (1.3.6) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix irrigation auto-off rule
+
+ -- jenkins <developer@nymea.io>  Mon, 18 Jul 2022 11:47:19 +0200
+
+nymea-app (1.3.5) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix unit in consumers pie chart (kWh -> kW)
+
+ -- jenkins <developer@nymea.io>  Mon, 11 Jul 2022 14:15:04 +0200
+
+nymea-app (1.3.4) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for deep linking through push notification data
+  * Add encryption declaration for macOS to Info.plist
+
+ -- jenkins <developer@nymea.io>  Fri, 08 Jul 2022 15:17:57 +0200
+
+nymea-app (1.3.3) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the tunnel proxy configuration sometimes getting lost on sync
+
+ -- jenkins <developer@nymea.io>  Sun, 03 Jul 2022 20:31:56 +0200
+
+nymea-app (1.3.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix tunnel proxy configurations being messed up on reconnects during
+    runtime
+  * Fix android navigation panel color
+
+ -- jenkins <developer@nymea.io>  Sun, 03 Jul 2022 15:13:49 +0200
+
+nymea-app (1.3.1) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a potential crash when destroying ProxyModels
+
+ -- jenkins <developer@nymea.io>  Sat, 02 Jul 2022 13:16:42 +0200
+
+nymea-app (1.3.0) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump version to 1.3.0
+
+ -- jenkins <developer@nymea.io>  Fri, 01 Jul 2022 20:50:11 +0200
+
+nymea-app (1.2.10) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the new background handling on older Qt versions
+
+ -- jenkins <developer@nymea.io>  Fri, 01 Jul 2022 19:34:13 +0200
+
+nymea-app (1.2.9) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve energy tooltips a little more
+
+ -- jenkins <developer@nymea.io>  Fri, 01 Jul 2022 17:56:48 +0200
+
+nymea-app (1.2.8) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Revert early initialisation of the web engine
+
+ -- jenkins <developer@nymea.io>  Fri, 01 Jul 2022 08:34:32 +0200
+
+nymea-app (1.2.5) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes and optimizations
+
+ -- jenkins <developer@nymea.io>  Tue, 28 Jun 2022 15:07:51 +0200
+
+nymea-app (1.2.4) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix some back buttons in the wifi setup wizard
+
+ -- jenkins <developer@nymea.io>  Thu, 23 Jun 2022 11:33:22 +0200
+
+nymea-app (1.2.3) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some visual tweaks in the energy view
+
+ -- jenkins <developer@nymea.io>  Wed, 22 Jun 2022 18:10:13 +0200
+
+nymea-app (1.2.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rework bottom panel
+
+ -- jenkins <developer@nymea.io>  Wed, 22 Jun 2022 17:13:12 +0200
+
+nymea-app (1.2.1) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Replace white push button box image with black one
+
+ -- jenkins <developer@nymea.io>  Mon, 20 Jun 2022 16:18:43 +0200
+
+nymea-app (1.2.0) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump version
+  * Update translations
+
+ -- jenkins <developer@nymea.io>  Thu, 16 Jun 2022 23:11:10 +0200
+
+nymea-app (1.1.6) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix power balance stats sometimes not being initialized properly
+  * Hide battery stats when there are no energy storages installed
+  * Fix for some light controls being invisible after entering details
+    view
+
+ -- jenkins <developer@nymea.io>  Tue, 14 Jun 2022 00:46:17 +0200
+
+nymea-app (1.1.5) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix some typos
+
+ -- jenkins <developer@nymea.io>  Wed, 08 Jun 2022 13:14:58 +0200
+
+nymea-app (1.1.4) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Automatically turn lights on/off when brightness moves from/to 0
+
+ -- jenkins <developer@nymea.io>  Fri, 03 Jun 2022 16:02:01 +0200
+
+nymea-app (1.1.3) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow launching custom pages from main menu entries
+
+ -- jenkins <developer@nymea.io>  Fri, 03 Jun 2022 10:35:46 +0200
+
+nymea-app (1.1.2) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide user settings on system with push button auth
+
+ -- jenkins <developer@nymea.io>  Wed, 01 Jun 2022 23:03:48 +0200
+
+nymea-app (1.1.1) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow executing code in main menu links configuration
+
+ -- jenkins <developer@nymea.io>  Wed, 01 Jun 2022 20:05:45 +0200
+
+nymea-app (1.1.0) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump version to 1.1.0
+
+ -- jenkins <developer@nymea.io>  Thu, 12 May 2022 12:36:38 +0200
+
+nymea-app (1.0.461) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+
+ -- jenkins <developer@nymea.io>  Wed, 11 May 2022 14:04:35 +0200
+
+nymea-app (1.0.459) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add android x86
+  * Update tunnel proxy url in connection wizard
+
+ -- jenkins <developer@nymea.io>  Tue, 10 May 2022 14:42:58 +0200
+
+nymea-app (1.0.458) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More radius
+  * Improve zigbee settings when a node has multiple things
+
+ -- jenkins <developer@nymea.io>  Sun, 08 May 2022 22:12:00 +0200
+
+nymea-app (1.0.457) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve sensor views
+
+ -- jenkins <developer@nymea.io>  Sun, 08 May 2022 02:54:02 +0200
+
+nymea-app (1.0.456) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix color scheme to only use the new palette colors
+
+ -- jenkins <developer@nymea.io>  Fri, 06 May 2022 19:46:09 +0200
+
+nymea-app (1.0.455) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve energy charts when there is a hidden producer
+  * Fix fingerprint reader setup page
+  * Confirm the login form on enter
+
+ -- jenkins <developer@nymea.io>  Fri, 06 May 2022 14:58:38 +0200
+
+nymea-app (1.0.454) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improvements in the energy view
+  * Fix count property in zigbeedevicesproxy
+  * Add debug category for bluetooth discovery
+
+ -- jenkins <developer@nymea.io>  Mon, 25 Apr 2022 09:40:22 +0200
+
+nymea-app (1.0.453) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix syncing aws devices when they don't have a uuid as id
+
+ -- jenkins <developer@nymea.io>  Fri, 22 Apr 2022 19:58:38 +0200
+
+nymea-app (1.0.452) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add autocompletion for minimumValue and maximumValue in script
+    editor
+  * Add icon for car interface
+  * Don't show wrong time zone in settings page
+  * Update click package for latest frameworks/clickable
+
+ -- jenkins <developer@nymea.io>  Fri, 22 Apr 2022 10:59:09 +0200
+
+nymea-app (1.0.451) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix server time display when client and server timezone don't line
+    up
+  * Fix zigbee settings loading spinner
+  * Add mellow style
+
+ -- jenkins <developer@nymea.io>  Wed, 20 Apr 2022 15:40:03 +0200
+
+nymea-app (1.0.449) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make androidssl submodule shallow
+  * Show consumption history also if there's only a root meter
+
+ -- jenkins <developer@nymea.io>  Fri, 08 Apr 2022 11:09:12 +0200
+
+nymea-app (1.0.448) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix permission handling after push button auth
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 28 Mar 2022 13:59:52 +0200
+
+nymea-app (1.0.447) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Revert "Hide producer bars in power balance stats when there are no
+    p…
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 26 Mar 2022 13:38:11 +0100
+
+nymea-app (1.0.446) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide producer bars in power balance stats when there are no
+    producers
+  * Small ventilation interfaces fixes
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 25 Mar 2022 21:00:09 +0100
+
+nymea-app (1.0.445) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve some debug prints in the things discovery
+  * Add more colors to the energy charts
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 23 Mar 2022 19:48:23 +0100
+
+nymea-app (1.0.444) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix energy view when there is no root meter
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 22 Mar 2022 01:14:14 +0100
+
+nymea-app (1.0.443) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a highlight to energy bar charts
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 21 Mar 2022 22:31:50 +0100
+
+nymea-app (1.0.442) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix consumers history double loading glitch
+  * Fix tooltips for powerbalance history graphs
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 21 Mar 2022 15:04:55 +0100
+
+nymea-app (1.0.441) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix thing state logs
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 19 Mar 2022 15:04:05 +0100
+
+nymea-app (1.0.440) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix syncing of remote connection settings directly on activation
+  * More translation fixes
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 18 Mar 2022 20:06:10 +0100
+
+nymea-app (1.0.439) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rework remote connection settings
+  * Set default debug level to warning
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 17 Mar 2022 10:17:40 +0100
+
+nymea-app (1.0.438) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 16 Mar 2022 23:49:23 +0100
+
+nymea-app (1.0.437) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix OSK size not always being correct with GBoard
+  * Fix opening package details from main update page
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 16 Mar 2022 14:48:18 +0100
+
+nymea-app (1.0.436) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix debug category for cloud transport
+  * Fix calculation of samples for months and years
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 15 Mar 2022 13:53:02 +0100
+
+nymea-app (1.0.435) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for discoveryType
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 01 Mar 2022 19:28:54 +0100
+
+nymea-app (1.0.434) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make it work with Qt 5.9 again
+  * Fix initializing event descriptor params in rules wizard
+  * Fix discovery wizard if search results return instantly
+  * Update ZigbeeNodesProxy filter when a device changes reachable state
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 21 Feb 2022 00:56:06 +0100
+
+nymea-app (1.0.433) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix connecting via preferred connection
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 20 Feb 2022 16:15:53 +0100
+
+nymea-app (1.0.432) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Handle EnterPin setup method
+
+  [ Michael Zanetti ]
+  * Fix a crash in the charts when adding/removing things
+  * Fix a potential crash in Energy logs when disconnecting older setups
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 18 Feb 2022 12:13:58 +0100
+
+nymea-app (1.0.431) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Clean up preferred connection if it vanishes
+  * Add support for the virtual button/switch thing classes
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 16 Feb 2022 14:40:47 +0100
+
+nymea-app (1.0.430) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update rule editor to not use generated events for states any more
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 11 Feb 2022 00:57:54 +0100
+
+nymea-app (1.0.429) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Verbose macOS bundle signing
+  * Fixes in the energy view
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 10 Feb 2022 14:06:14 +0100
+
+nymea-app (1.0.428) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow overriding the macOS signing ID
+  * Fix re-pair thing call
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 10 Feb 2022 10:21:30 +0100
+
+nymea-app (1.0.427) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Disable charts animations on Samsung S8
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 06 Feb 2022 13:08:10 +0100
+
+nymea-app (1.0.426) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for the TI ZigBee backend
+  * Fix crash when syncing remote connection configs via a remote
+    connection
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 06 Feb 2022 12:04:50 +0100
+
+nymea-app (1.0.425) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update mac os certificate name to new Apple default
+  * Fix modbus baudrate selection
+  * Fix year in imprint
+  * Clip the list in the magic page
+  * Fix wrench icon in energy view missing if all consumers are disabled
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 30 Jan 2022 02:03:51 +0100
+
+nymea-app (1.0.423) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix import for older Qt versions
+
+  [ Simon Stürz ]
+  * Add tunnel proxy remote connection
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 22 Jan 2022 12:15:49 +0100
+
+nymea-app (1.0.422) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More work on multi-user support
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 20 Jan 2022 17:53:56 +0100
+
+nymea-app (1.0.421) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix version.txt parsing in android builds with QtCreator >= 6
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 20 Jan 2022 12:07:24 +0100
+
+nymea-app (1.0.420) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make default main view and menu links configurable
+  * Fix permissions on systems that don't require authentication
+  * Fix VCS url in debian/control
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 12 Jan 2022 14:33:53 +0100
+
+nymea-app (1.0.419) bionic; urgency=medium
+
+  [ Benjamin Zeller ]
+  * Add initial packaging for openSUSE
+
+  [ Michael Zanetti ]
+  * Fixes and improvements in the energy charts
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 05 Jan 2022 01:52:50 +0100
+
+nymea-app (1.0.418) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for user permissions
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 20 Dec 2021 01:11:44 +0100
+
+nymea-app (1.0.417) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the crash from previous commit for real
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 19 Dec 2021 00:01:00 +0100
+
+nymea-app (1.0.416) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a crash that may happen during initial loading
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 18 Dec 2021 14:10:19 +0100
+
+nymea-app (1.0.415) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix shownThingClassIds filter for older Qt versions
+  * Improve reconnecting logic even more
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 17 Dec 2021 16:00:25 +0100
+
+nymea-app (1.0.414) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Don't wait for all transport candidates to fail before retrying
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Dec 2021 15:23:58 +0100
+
+nymea-app (1.0.413) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Another little fix in finding the closest to timestamp in a history
+    log
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Dec 2021 12:10:07 +0100
+
+nymea-app (1.0.412) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Drop blurred label
+  * Improve tooltip dragging in energy charts
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Dec 2021 01:33:55 +0100
+
+nymea-app (1.0.411) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Optimize loading of things
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Dec 2021 00:26:01 +0100
+
+nymea-app (1.0.410) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix findClosest() in logsmodel
+  * Some more fixes in the bluetooth discovery
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Dec 2021 00:02:32 +0100
+
+nymea-app (1.0.409) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add configuration option to disable magic
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 15 Dec 2021 13:30:27 +0100
+
+nymea-app (1.0.408) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Blur chart tooltips
+  * Fix header blur
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 15 Dec 2021 00:49:49 +0100
+
+nymea-app (1.0.407) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Prevent mouse event stealing while inspecting chart tooltips
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 14 Dec 2021 22:36:06 +0100
+
+nymea-app (1.0.406) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide settings while disconnected
+  * Some minor tunings in the EnergyView
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 14 Dec 2021 16:11:35 +0100
+
+nymea-app (1.0.405) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a typo in german translation
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 14 Dec 2021 15:17:05 +0100
+
+nymea-app (1.0.404) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow disabling plugin settings by configuration
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 14 Dec 2021 12:40:48 +0100
+
+nymea-app (1.0.403) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Settings entries configuration
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 13 Dec 2021 17:59:47 +0100
+
+nymea-app (1.0.402) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations and translate new strings to german
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 13 Dec 2021 17:36:04 +0100
+
+nymea-app (1.0.401) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the check whether the energy plugin is available or not
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 13 Dec 2021 14:48:28 +0100
+
+nymea-app (1.0.400) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Use dynamic min/max values for thermostat view
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 13 Dec 2021 01:27:59 +0100
+
+nymea-app (1.0.399) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update energy views to finalized API
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 13 Dec 2021 00:43:29 +0100
+
+nymea-app (1.0.397) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix bluetoothEnabled state on iOS
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 08 Dec 2021 10:42:01 +0100
+
+nymea-app (1.0.396) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improvements in the energy view
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 06 Dec 2021 01:02:06 +0100
+
+nymea-app (1.0.395) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes in NymeaConnection
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 01 Dec 2021 00:41:49 +0100
+
+nymea-app (1.0.394) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Immediately delete a disconnected transport
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 30 Nov 2021 12:47:33 +0100
+
+nymea-app (1.0.393) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add timestamps to app logs
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 30 Nov 2021 10:39:57 +0100
+
+nymea-app (1.0.392) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes in the connection setup wizard
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 29 Nov 2021 22:59:22 +0100
+
+nymea-app (1.0.391) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add energymeters to consumers
+  * Add missing fl oz unit
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 29 Nov 2021 22:03:31 +0100
+
+nymea-app (1.0.390) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Tune powerbalance stats
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 29 Nov 2021 14:34:10 +0100
+
+nymea-app (1.0.389) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix LogsModel::findClosest() returning entries before logging
+    started
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 25 Nov 2021 14:11:00 +0100
+
+nymea-app (1.0.388) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Reenable energy views
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 25 Nov 2021 10:48:33 +0100
+
+nymea-app (1.0.387) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Adjust energy view layouts
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 25 Nov 2021 01:10:51 +0100
+
+nymea-app (1.0.386) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rework energy view
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 24 Nov 2021 19:59:40 +0100
+
+nymea-app (1.0.385) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Implement energy logger api
+  * Fix push notifications ids with branding
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 19 Nov 2021 00:04:57 +0100
+
+nymea-app (1.0.384) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for the providedInterfaces thing class property
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 12 Nov 2021 12:14:48 +0100
+
+nymea-app (1.0.381) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix german translation for the energy view placeholder
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 12 Nov 2021 09:30:35 +0100
+
+nymea-app (1.0.380) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add energy manager class
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 09 Nov 2021 14:06:02 +0100
+
+nymea-app (1.0.379) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a blue color to stylebase
+  * Fix uint handling in event descriptor delegate
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 03 Nov 2021 13:58:33 +0100
+
+nymea-app (1.0.378) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Don't depend on qt5-default any more
+  * Allow renaming Zigbee devices from the zigbee network config page
+  * Fix a crash when removing smart meters
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 22 Oct 2021 20:12:52 +0200
+
+nymea-app (1.0.377) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes in zigbee settings
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 22 Oct 2021 09:09:24 +0200
+
+nymea-app (1.0.376) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for selecting the channel on zigbee network creation
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 21 Oct 2021 23:17:15 +0200
+
+nymea-app (1.0.375) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add block size param to logs model
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 21 Oct 2021 13:25:05 +0200
+
+nymea-app (1.0.374) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix visuals for stateful garage doors
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 19 Oct 2021 23:15:46 +0200
+
+nymea-app (1.0.373) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix double value input in paramdelegates
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 18 Oct 2021 14:35:04 +0200
+
+nymea-app (1.0.372) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for the water level interface
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 13 Oct 2021 00:03:31 +0200
+
+nymea-app (1.0.371) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More smaller fixes in energy views
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 01 Oct 2021 17:50:35 +0200
+
+nymea-app (1.0.370) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix layout issues in smart meter views
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 01 Oct 2021 12:54:49 +0200
+
+nymea-app (1.0.369) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix layout issues in smart meter views
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 01 Oct 2021 11:59:05 +0200
+
+nymea-app (1.0.368) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Align font sizes across energy views
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 01 Oct 2021 10:42:56 +0200
+
+nymea-app (1.0.367) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve ev charger view and minor fixes in similar views
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 01 Oct 2021 10:07:35 +0200
+
+nymea-app (1.0.366) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for dynamic min/max state values
+  * Update UPnP discovery when the device interfaces change
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 30 Sep 2021 12:01:10 +0200
+
+nymea-app (1.0.365) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix reconfiguration of discovered things
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 28 Sep 2021 13:56:27 +0200
+
+nymea-app (1.0.364) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Enable multicast entitlement on iOS
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 27 Sep 2021 23:45:05 +0200
+
+nymea-app (1.0.363) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve energy pages
+  * Fixes in UPnP discovery on iOS
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 24 Sep 2021 23:04:41 +0200
+
+nymea-app (1.0.362) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Modernize and align controllable things pages
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 20 Sep 2021 17:02:10 +0200
+
+nymea-app (1.0.361) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump QtZeroConf version
+  * Hide inactive instances more agressively
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 19 Sep 2021 22:20:40 +0200
+
+nymea-app (1.0.360) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix blurry logo with low res screens
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 17 Sep 2021 18:24:07 +0200
+
+nymea-app (1.0.359) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow inverting the XYSeriesAdapter values
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 17 Sep 2021 14:40:23 +0200
+
+nymea-app (1.0.358) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix tagwatcher not filtering correctly in all circumstances
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 15 Sep 2021 14:59:12 +0200
+
+nymea-app (1.0.357) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Clip notifications list
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 15 Sep 2021 11:14:05 +0200
+
+nymea-app (1.0.356) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump QtZeroconf once more
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 14 Sep 2021 11:14:49 +0200
+
+nymea-app (1.0.355) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update to latest fixes
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 14 Sep 2021 00:31:35 +0200
+
+nymea-app (1.0.354) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix saving manual connections in config
+  * Update QtZeroConf commit
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 13 Sep 2021 19:39:19 +0200
+
+nymea-app (1.0.353) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix iOS top panel font color with phone dark mode and light style
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 13 Sep 2021 14:06:02 +0200
+
+nymea-app (1.0.352) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bigger blocksize in logs
+  * Reduce font size in graphs
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 08 Sep 2021 15:18:37 +0200
+
+nymea-app (1.0.351) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix static value selection in state descriptor editor
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 30 Aug 2021 23:31:51 +0200
+
+nymea-app (1.0.350) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix multiple connections setup when autoconnect option is given
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 30 Aug 2021 22:30:39 +0200
+
+nymea-app (1.0.349) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix text color in new thing filter panel
+  * Fix app name in controloverlay
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 30 Aug 2021 21:31:07 +0200
+
+nymea-app (1.0.348) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix updating of bt discovery results
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 30 Aug 2021 15:54:44 +0200
+
+nymea-app (1.0.347) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Drop header color settings from style
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 30 Aug 2021 11:53:18 +0200
+
+nymea-app (1.0.346) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Modernize the header visuals
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 29 Aug 2021 21:06:30 +0200
+
+nymea-app (1.0.345) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add constants for gray to style base
+  * Add 15 mins sample rate to xyseriesadapter
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 25 Aug 2021 22:52:30 +0200
+
+nymea-app (1.0.344) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add api to handle discovery errors better
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 24 Aug 2021 16:38:24 +0200
+
+nymea-app (1.0.343) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Energy view fixes
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 24 Aug 2021 14:46:54 +0200
+
+nymea-app (1.0.342) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for gas and CO sensors
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 21 Aug 2021 00:58:38 +0200
+
+nymea-app (1.0.341) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix Bluetooth Discovery on Android again
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 20 Aug 2021 12:54:22 +0200
+
+nymea-app (1.0.340) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix setup for push notifications
+  * Show the URL for the debug interface
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 19 Aug 2021 12:56:09 +0200
+
+nymea-app (1.0.339) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update UBPorts package to Qt 5.12
+  * Improve setup wizard for things
+  * Add support for state based value comparison in rules
+  * Fix webview clipping on OSX
+  * Use Button controls on thing tiles too
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 18 Aug 2021 15:12:22 +0200
+
+nymea-app (1.0.338) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for translating overlays
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 18 Aug 2021 12:22:30 +0200
+
+nymea-app (1.0.337) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a configuration option to hide links in menu
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 13 Aug 2021 18:33:26 +0200
+
+nymea-app (1.0.336) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Move ConnectionInfoDialog to be a component
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 12 Aug 2021 13:58:08 +0200
+
+nymea-app (1.0.335) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Bump Android API target level to 30
+  * Fix current index in main menu after a setup is aborted
+  * Fix button margins in wizard pages
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 11 Aug 2021 21:44:28 +0200
+
+nymea-app (1.0.334) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix value display for event descriptors with multiple params
+  * Fix a possible crash in ThingClassesProxy
+  * Persist generated device serial on Ubuntu Phone
+  * Disable main view configuration with branding
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 10 Aug 2021 23:18:08 +0200
+
+nymea-app (1.0.333) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Compare BT devices based on uuid instead of mac address
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 09 Aug 2021 13:45:34 +0200
+
+nymea-app (1.0.332) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix duplicate BT discovery results on iOS
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 09 Aug 2021 10:12:14 +0200
+
+nymea-app (1.0.331) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add startup time to logs
+  * Adjust logging category for bluetooth discovery
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 06 Aug 2021 19:45:24 +0200
+
+nymea-app (1.0.330) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix translations generating in deb packages
+  * Fix smartmeter interfaces
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 06 Aug 2021 14:50:28 +0200
+
+nymea-app (1.0.329) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix generating translations in deb package build
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 06 Aug 2021 13:39:36 +0200
+
+nymea-app (1.0.328) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix parenting of ThingDescriptors
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 05 Aug 2021 13:36:48 +0200
+
+nymea-app (1.0.327) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update to latest bt discovery code
+  * Update translations
+  * Show interfaces in thing classs details
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 04 Aug 2021 14:28:38 +0200
+
+nymea-app (1.0.326) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add some more sensor support to inlinecontrols
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 13 Jul 2021 11:33:33 +0200
+
+nymea-app (1.0.325) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix an issue when editing rule action params
+  * Added support for O2, ORP and PH sensors
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 11 Jul 2021 22:13:41 +0200
+
+nymea-app (1.0.324) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the current index when removing a configured host
+  * Make the webview work in the snap package
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 07 Jul 2021 19:03:47 +0200
+
+nymea-app (1.0.323) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Adjust main menu to fit better with new connection setup
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 06 Jul 2021 12:34:32 +0200
+
+nymea-app (1.0.322) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow including cpp sources in the overlay
+  * Allow running discoveries by interface
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 05 Jul 2021 16:50:22 +0200
+
+nymea-app (1.0.321) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix an occational crash in logsmodel
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 04 Jul 2021 23:57:31 +0200
+
+nymea-app (1.0.320) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add proper category for account interface
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 02 Jul 2021 21:38:32 +0200
+
+nymea-app (1.0.319) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix some imports that would prevent it from working on Qt 5.9
+  * Simplify json notification api
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 01 Jul 2021 01:17:32 +0200
+
+nymea-app (1.0.318) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes in the wizard
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 29 Jun 2021 10:40:00 +0200
+
+nymea-app (1.0.317) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Zigbee node management and JSON RPC API implementation
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 28 Jun 2021 22:54:23 +0200
+
+nymea-app (1.0.316) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the script console not working directly after deploying a new
+    script
+  * Fix subtext in generic log viewer entries
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 18 Jun 2021 22:49:01 +0200
+
+nymea-app (1.0.315) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix visual glitch while loading the dashboard
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 16 Jun 2021 01:03:43 +0200
+
+nymea-app (1.0.314) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix icon sizing in main menu
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 15 Jun 2021 23:02:39 +0200
+
+nymea-app (1.0.313) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow overriding the connect wizard by the overlay
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 11 Jun 2021 16:18:36 +0200
+
+nymea-app (1.0.312) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * New connection setup wizard
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 10 Jun 2021 16:08:28 +0200
+
+nymea-app (1.0.311) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes in the Dashboard
+
+  [ Simon Stürz ]
+  * Add support for the Modbus RTU hardware resource
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 07 Jun 2021 22:38:41 +0200
+
+nymea-app (1.0.310) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Align RuleManager api with other apis and add more signals
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 07 Jun 2021 20:35:29 +0200
+
+nymea-app (1.0.309) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a Dashboard main view
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 06 Jun 2021 23:27:36 +0200
+
+nymea-app (1.0.308) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix height of thing/interface/time selection in rule creation
+  * Add overlay support to iOS build
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 29 May 2021 17:13:33 +0200
+
+nymea-app (1.0.307) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix an issue when disabling screen dimming
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 20 May 2021 00:07:11 +0200
+
+nymea-app (1.0.306) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Don't delete discovery objects while not needed
+  * Fix ventilation control
+  * Rework button visuals
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 19 May 2021 16:21:31 +0200
+
+nymea-app (1.0.305) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Use dynamic app name for remote proxy connection
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 07 May 2021 00:24:11 +0200
+
+nymea-app (1.0.304) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a crash in the weather view
+  * Update translations
+  * Improve some debug prints in nymeaconfiguration
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 27 Apr 2021 15:20:34 +0200
+
+nymea-app (1.0.303) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * some fixes in the graph series adapter
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 16 Apr 2021 17:49:52 +0200
+
+nymea-app (1.0.302) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix an occationaly crash in logsmodel
+  * Add support cleaning robots
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 12 Apr 2021 23:57:10 +0200
+
+nymea-app (1.0.301) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add api to filter for thing class ids
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 10 Apr 2021 15:16:56 +0200
+
+nymea-app (1.0.300) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Added a TagWatcher component
+  * Convert some old debug prints to new ones
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 10 Apr 2021 00:29:31 +0200
+
+nymea-app (1.0.299) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix windows package
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 07 Apr 2021 20:41:24 +0200
+
+nymea-app (1.0.298) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix log exporting
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 06 Apr 2021 13:13:07 +0200
+
+nymea-app (1.0.297) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Only start the reconnect timer once
+  * Make the cloud discovery a bit easier to work with
+  * Rework overlay mechanism
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 01 Apr 2021 23:58:20 +0200
+
+nymea-app (1.0.296) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix bearer for manual connection
+  * Fix firebase path
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 29 Mar 2021 13:01:47 +0200
+
+nymea-app (1.0.295) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Prioritze the used connections by taking last seen time into account
+  * Fix updating the tags proxy on dataChanged
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 25 Mar 2021 19:57:33 +0100
+
+nymea-app (1.0.294) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix event params in eventTriggered signal
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 24 Mar 2021 20:15:41 +0100
+
+nymea-app (1.0.293) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix awning control spacing
+  * Follow OS light/dark mode
+  * Cleanup warnings
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 24 Mar 2021 17:54:00 +0100
+
+nymea-app (1.0.292) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add signals for thing added and removed
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 23 Mar 2021 15:47:42 +0100
+
+nymea-app (1.0.291) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a method to allow checking if a token exists for a particular
+    host
+  * Dont hide splash if autoconnecting
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 22 Mar 2021 20:06:29 +0100
+
+nymea-app (1.0.290) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Require the "splash" kernel command line argument
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 21 Mar 2021 23:31:15 +0100
+
+nymea-app (1.0.289) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix splash screen
+  * Improve screen brightness control
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 21 Mar 2021 19:52:14 +0100
+
+nymea-app (1.0.288) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add splash support
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 21 Mar 2021 16:25:13 +0100
+
+nymea-app (1.0.287) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add ScriptProxyModel
+  * Add device serial api
+  * Fix refreshing the push token
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 19 Mar 2021 14:39:37 +0100
+
+nymea-app (1.0.286) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow filtering for multiple thing class ids
+  * Fix AppLogController to activate changes immediately
+  * Fix state selection in rule page
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 16 Mar 2021 23:08:24 +0100
+
+nymea-app (1.0.285) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix thing discovery params
+  * Fix a crash that could happen when destroying LogsModel
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 16 Mar 2021 19:07:59 +0100
+
+nymea-app (1.0.284) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix discovery
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 14 Mar 2021 15:35:19 +0100
+
+nymea-app (1.0.283) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update battery interface
+  * Move AppLogController to libnymea-app
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 14 Mar 2021 01:19:30 +0100
+
+nymea-app (1.0.282) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Remove some noisy debug prints
+  * Keep more logs
+  * Fix visual glitches in OAuth flow
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 11 Mar 2021 23:24:58 +0100
+
+nymea-app (1.0.281) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Simplify ZigBee settings
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 07 Mar 2021 22:47:12 +0100
+
+nymea-app (1.0.280) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix snap version
+  * Cleanup legacy
+  * Update clickable file for newer clickable version
+  * Fix message when there are no wireless interfaces
+
+  [ Michał Sawicz ]
+  * [snap] add daemon mode
+  * [snap] refresh and add GitHub workflow
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 07 Mar 2021 12:29:10 +0100
+
+nymea-app (1.0.279) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 03 Mar 2021 20:56:59 +0100
+
+nymea-app (1.0.278) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Declare iOS encryption in the Info.plist file
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 02 Mar 2021 23:39:16 +0100
+
+nymea-app (1.0.277) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix Thing tile for mediaplayers that also implement the power
+    interface
+  * Fix eventdescriptor params in edit rule page
+  * Fix default scene icons
+  * Fix wind speed display in weather view
+  * Fix changed signal when new hosts are discovered
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 25 Feb 2021 23:51:00 +0100
+
+nymea-app (1.0.276) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rename editDevice to editThing
+  * Inlude also the previous runs logs in the applogcontroller
+  * Fix a crash on engine destruction
+  * update evcharger interface
+  * Fix volume slider limits if a thing doesn't have volume from 0 to
+    100
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 19 Feb 2021 00:40:15 +0100
+
+nymea-app (1.0.275) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update devices to things in interfacesproxy
+  * Add x86_64 support for android build
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 13 Feb 2021 14:29:40 +0100
+
+nymea-app (1.0.274) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow disabling individual discovery methods
+  * Tweak plugin settings pages
+  * Fix mouse area size of the progressbutton
+  * Fix group action executions
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 12 Feb 2021 23:56:49 +0100
+
+nymea-app (1.0.273) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes for units (pressure mostly)
+  * Extract certificate data before disconnecting
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 30 Jan 2021 23:22:02 +0100
+
+nymea-app (1.0.272) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix encryption flag erraneously set for "ws" connections
+  * Revert "Update the Mac signing ID to the new default by apple"
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 23 Jan 2021 20:30:21 +0100
+
+nymea-app (1.0.271) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Don't automatically pair the cloud every time we refresh something
+    from the cloud
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 21 Jan 2021 13:24:29 +0100
+
+nymea-app (1.0.270) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow changing the connection given by the --connect flag
+  * Update the Mac signing ID to the new default by apple
+  * Fix cloud pairing not working automagically in all cases
+  * Rename Devices to Things in tags api
+  * Some fixes in the energy view
+  * Rename removeDevice to removeThing
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 20 Jan 2021 22:07:55 +0100
+
+nymea-app (1.0.269) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some more fixes in the BT discovery
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Jan 2021 14:59:44 +0100
+
+nymea-app (1.0.268) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add sorting capability to generic sortfilter proxy model
+  * Retry the connection if the discovery finds more URLs for a host
+    afte…
+  * Rename DeviceDiscovery to ThingDiscovery
+  * Improve bt setup
+  * Create a pri for the lib
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Jan 2021 00:38:23 +0100
+
+nymea-app (1.0.267) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow resizing the console/error panel in the scripteditor
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 09 Jan 2021 19:34:47 +0100
+
+nymea-app (1.0.266) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix weather device list page
+  * Some improvements in the Script autocompletion
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 09 Jan 2021 12:54:18 +0100
+
+nymea-app (1.0.265) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes for push notifications
+  * Fix a warning in the gradlew script
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 08 Jan 2021 22:15:54 +0100
+
+nymea-app (1.0.264) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve smartmeter and sensor views
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 06 Jan 2021 19:32:01 +0100
+
+nymea-app (1.0.263) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Clean up warnings in code
+  * Fix presence sensor in sensors list view
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 05 Jan 2021 19:16:11 +0100
+
+nymea-app (1.0.262) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix UPnP when multiple hosts reply and add more debug
+  * Fix the default port for manual connections
+  * Improve thermostat views
+  * Revert the hotfix for broken desktop helpers
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 02 Jan 2021 13:30:21 +0100
+
+nymea-app (1.0.261) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update QtZeroConf
+  * Fix brightness settings
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 23 Dec 2020 21:12:20 +0100
+
+nymea-app (1.0.260) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make the screen helper more generic
+  * Fix erraneously displayed powet switch in generic list page
+  * Allow changing the tile overlay icon color in the style
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 20 Dec 2020 16:47:42 +0100
+
+nymea-app (1.0.259) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add some more media templates
+  * Views cmdline options
+  * More cmdline style options
+  * Add a rule template for automatic night mode
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 10 Dec 2020 00:21:21 +0100
+
+nymea-app (1.0.258) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Some fixes for regressions after the style changes
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 07 Dec 2020 15:35:57 +0100
+
+nymea-app (1.0.257) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rework the styling mechanism
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 06 Dec 2020 18:27:54 +0100
+
+nymea-app (1.0.256) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More fixes for the media player
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 05 Dec 2020 18:37:37 +0100
+
+nymea-app (1.0.255) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More fixes in things lists
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 05 Dec 2020 02:15:25 +0100
+
+nymea-app (1.0.254) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Move main view configuration into menu
+  * Fixes and improvements for lights
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 04 Dec 2020 13:48:23 +0100
+
+nymea-app (1.0.253) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Remove link in menu logo
+  * Make menu replace pages instead of pushing
+  * Fix garage views
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 29 Nov 2020 18:58:07 +0100
+
+nymea-app (1.0.252) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rework main menu
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 29 Nov 2020 01:50:03 +0100
+
+nymea-app (1.0.251) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rework media views for new interfaces
+  * Add support for autosaving in the script editor
+  * New tiles
+
+  [ Simon Stürz ]
+  * Add support for zigbee network management
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 28 Nov 2020 21:09:18 +0100
+
+nymea-app (1.0.250) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Sort groups alphabetically
+  * Fix invalid property access with Qt 5.15 in AppLogPage
+  * Fix adaptive icon on "round" launchers
+  * Use main views from branding if set
+  * Align param and state delegates better
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 11 Nov 2020 16:48:38 +0100
+
+nymea-app (1.0.249) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix snap package
+  * Allow builds with firebase to work on devices without play services
+    again
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 29 Oct 2020 20:22:37 +0100
+
+nymea-app (1.0.248) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow building without firebase
+  * Clean up some list views
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 24 Oct 2020 02:19:05 +0200
+
+nymea-app (1.0.247) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for color the temperature picker in param delegates
+  * Allow overriding the complete android packaging structure for
+    branding
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 19 Oct 2020 22:23:59 +0200
+
+nymea-app (1.0.246) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the Ubuntu phone build
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 16 Oct 2020 13:49:16 +0200
+
+nymea-app (1.0.245) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for writing NFC tags and launching stuff with them
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 15 Oct 2020 20:01:19 +0200
+
+nymea-app (1.0.243) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for interface based Actions/Event in ScriptEditor
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 13 Oct 2020 18:51:28 +0200
+
+nymea-app (1.0.242) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add Fastlane structure for F-Droid
+  * Fix Android Device Controls not always loading on initial setup
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 29 Sep 2020 23:46:08 +0200
+
+nymea-app (1.0.241) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make use of Google Play Services optional
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 29 Sep 2020 19:59:21 +0200
+
+nymea-app (1.0.239) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix app freeze when selecting a point in an empty graph
+  * Add barcode scanner grouping
+  * Fix entering uncategorized when there's only 1 thing
+  * Improve notifications view
+  * Allow overriding the header icon in styles
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 28 Sep 2020 21:38:26 +0200
+
+nymea-app (1.0.238) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Reduce Android target API to 29
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 23 Sep 2020 13:49:54 +0200
+
+nymea-app (1.0.237) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix entering thing pages
+  * Add new permission requests as required by iOS 14
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 22 Sep 2020 19:48:17 +0200
+
+nymea-app (1.0.235) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Move a java file to the correct .pro file
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 22 Sep 2020 17:55:50 +0200
+
+nymea-app (1.0.234) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * bump revision so we can try uploading it to google play again
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 22 Sep 2020 12:22:52 +0200
+
+nymea-app (1.0.231) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow adding custom main views in the overlay
+  * Fix entering things pages when there's only one in the list
+  * Android device controls
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 22 Sep 2020 10:34:09 +0200
+
+nymea-app (1.0.230) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make use of the new caching mechanism in nymea
+  * Fix weather view crashing with Qt 5.15
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 15 Sep 2020 19:11:18 +0200
+
+nymea-app (1.0.229) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make it work with Qt 5.15
+  * Fix translation loading on android
+  * Fix a threading issue in AppLogController
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 11 Sep 2020 13:06:39 +0200
+
+nymea-app (1.0.228) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix graphs not filtering properly for type id
+  * Update ev charger icon
+  * Fix icons in ThingDelegate
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 09 Sep 2020 01:05:52 +0200
+
+nymea-app (1.0.227) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rearrange some connectivity icons
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 06 Sep 2020 04:31:28 +0200
+
+nymea-app (1.0.226) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make plugin issues more visible to the user
+  * Some fixes in zeroconf discovery
+  * Update the windows installer
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 05 Sep 2020 22:41:11 +0200
+
+nymea-app (1.0.225) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the footer dropshadow
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 30 Aug 2020 17:23:15 +0200
+
+nymea-app (1.0.224) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix more views that broke on the LogsModel transition
+  * Autocomplete action params in script editor
+  * Fix inputtrigger view
+  * Fix warning because of bad arg usage
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 30 Aug 2020 16:16:54 +0200
+
+nymea-app (1.0.223) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make Pane corners slightly rounded in energize style
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 29 Aug 2020 20:26:37 +0200
+
+nymea-app (1.0.222) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * More fixes and translations
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 28 Aug 2020 17:21:05 +0200
+
+nymea-app (1.0.221) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes and translations
+  * Add engergize style
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 27 Aug 2020 19:03:07 +0200
+
+nymea-app (1.0.220) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make the main view more customizable
+  * Fix broken button box style in lime style
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 27 Aug 2020 16:12:08 +0200
+
+nymea-app (1.0.219) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve irrigation view, add support for time based rule templates
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 15 Aug 2020 00:24:46 +0200
+
+nymea-app (1.0.218) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fixes in garage door and barcode scanner related UIs
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 06 Aug 2020 16:18:38 +0200
+
+nymea-app (1.0.217) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for barcode scanners
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 06 Aug 2020 01:16:51 +0200
+
+nymea-app (1.0.216) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix creating interface based rules with event based parameters
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 05 Aug 2020 14:19:44 +0200
+
+nymea-app (1.0.215) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Dynamically show/hide the mouse cursor, depending on the input type
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 04 Aug 2020 11:35:13 +0200
+
+nymea-app (1.0.214) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve garage door views
+  * Update help url for the script editor
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 03 Aug 2020 15:24:17 +0200
+
+nymea-app (1.0.213) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve color picker throttling
+  * User proper type for eventtypeId in events from things
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 20 Jul 2020 19:21:52 +0200
+
+nymea-app (1.0.212) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Show browser error messages to the user when available
+  * Fix event inidication LED in things details page
+  * Rework closable views and add support for venetian blinds
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 06 Jul 2020 14:21:26 +0200
+
+nymea-app (1.0.211) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+  * Add a thing class viewer page to thing settings
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 08 Jun 2020 17:57:03 +0200
+
+nymea-app (1.0.210) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add ID to the thing config page
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 08 Jun 2020 11:34:51 +0200
+
+nymea-app (1.0.209) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix description for debian/ubuntu package
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 27 May 2020 19:55:10 +0200
+
+nymea-app (1.0.208) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for the ventilation interface
+  * Reduce some warnings from QML
+  * Improve thing pages with graphs
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 27 May 2020 11:59:28 +0200
+
+nymea-app (1.0.207) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Support inverted IO connections
+  * Don't use ResetRole in dialog
+  * Improve attached properties in scripting code completion
+  * Fix the browsers context menu positioning
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 10 May 2020 22:56:41 +0200
+
+nymea-app (1.0.206) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Small improvements in the edit rules page
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 07 May 2020 17:51:04 +0200
+
+nymea-app (1.0.205) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for restarting nymea in the settings
+  * Add support for allowed values in number type params
+  * Add support for AP mode in settings and display IP address configs
+  * Fix building with ZeroConf disabled
+  * Add support for the irrigation interface
+  * Add support for generic IO connections
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 06 May 2020 00:16:29 +0200
+
+nymea-app (1.0.204) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix pushbutton auth appearing to fail on a first set
+  * Improve network settings
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 23 Apr 2020 18:05:26 +0200
+
+nymea-app (1.0.203) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix Scripting code completion with just one entry
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 21 Apr 2020 15:58:09 +0200
+
+nymea-app (1.0.202) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve certificate pinning mechanism
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 19 Apr 2020 15:24:07 +0200
+
+nymea-app (1.0.201) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix popping the page stack when things are deleted
+  * Fix time zone handling on Android
+  * Don't allow editing read only params
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 11 Apr 2020 12:41:51 +0200
+
+nymea-app (1.0.200) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix filtering for uncategorized on main page tile
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 05 Apr 2020 19:48:06 +0200
+
+nymea-app (1.0.199) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update upstream android-ssl
+  * Fix the snap package after including desktop helpers
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 04 Apr 2020 12:19:38 +0200
+
+nymea-app (1.0.198) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 03 Apr 2020 23:26:52 +0200
+
+nymea-app (1.0.197) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix setting iOS status bar color with new xcode apis
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 03 Apr 2020 20:46:41 +0200
+
+nymea-app (1.0.196) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix unit for pressure in weather view
+  * Fix providing param overrides for rediscovery
+  * Fix the check for preventing to remove auto things
+  * Fix ios appicon catalog
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 03 Apr 2020 12:29:54 +0200
+
+nymea-app (1.0.195) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix resource config for AAB package
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 01 Apr 2020 23:31:00 +0200
+
+nymea-app (1.0.194) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update android packaging to support Qt 5.14
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 01 Apr 2020 19:40:54 +0200
+
+nymea-app (1.0.193) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix opening links from the snap package
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 31 Mar 2020 13:22:24 +0200
+
+nymea-app (1.0.192) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix units in dynamic graph view updates
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 29 Mar 2020 20:23:42 +0200
+
+nymea-app (1.0.191) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix interfaces handling
+  * Add Thing items and thingId support to script editor
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 29 Mar 2020 01:09:32 +0100
+
+nymea-app (1.0.190) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Change group behavior a bit
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 27 Mar 2020 01:05:37 +0100
+
+nymea-app (1.0.189) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix font color on dark headers
+  * Allow removing childs which weren't autocreated
+  * Add Radio Paradise icon
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 26 Mar 2020 19:35:52 +0100
+
+nymea-app (1.0.188) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix log viewers string/uuid conversion
+  * Fix spaces and umlauts in code completion for deviceId
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 17 Mar 2020 12:51:27 +0100
+
+nymea-app (1.0.187) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix LogViewer and Weather view unit conversion
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 05 Mar 2020 11:55:13 +0100
+
+nymea-app (1.0.186) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix building with latest clickable
+  * Add a Placeholder in button views if there are no presses yet
+  * Add support for changing the password and manage tokens
+  * Make use of the new setupStatus property
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 26 Feb 2020 19:43:36 +0100
+
+nymea-app (1.0.185) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Reduce minimum tile size to support 2 columns on most devices
+  * Fix an assertion when there are no tags
+  * Revert "Fix the app bundle name in the macOS installer."
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 19 Feb 2020 22:58:22 +0100
+
+nymea-app (1.0.184) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix crash on startup on some android phones
+  * Fix error code missing in error message
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 07 Feb 2020 12:31:12 +0100
+
+nymea-app (1.0.183) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update translations
+  * Open context menu on longpress in list items
+  * Hide the delete option on child devices
+  * Fix dropshadow of tabbed views reaching into other tabs
+  * Fix the app bundle name in the macOS installer.
+  * Copyright
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 03 Feb 2020 23:37:08 +0100
+
+nymea-app (1.0.182) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Don't change viewmode "by accident"
+  * Fix grouping by base interface
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 31 Jan 2020 01:01:12 +0100
+
+nymea-app (1.0.181) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow building different architectures with clickable
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 23 Jan 2020 23:42:04 +0100
+
+nymea-app (1.0.180) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix dependency to Qt.labs.calendar for click, snap and dpkg
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 23 Jan 2020 16:20:54 +0100
+
+nymea-app (1.0.179) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add info about Qt versions in about pages
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 21 Jan 2020 23:35:49 +0100
+
+nymea-app (1.0.178) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for imperial unit conversion
+  * Fix signing of the macOS app bundle
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 21 Jan 2020 14:55:52 +0100
+
+nymea-app (1.0.177) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Enable building macOS AppStore compliant packages
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 18 Jan 2020 02:09:37 +0100
+
+nymea-app (1.0.176) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix SSL connections on windows
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 18 Jan 2020 01:48:13 +0100
+
+nymea-app (1.0.175) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Reenable UPnP, regardless if ZeroConf is enabled already
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 18 Jan 2020 01:31:39 +0100
+
+nymea-app (1.0.174) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve ParamDelegate layout
+  * Allow filtering by vendor when adding new things
+  * Fix wording for heating and garagedoors
+  * Add a smartlock interface
+  * Add Bluetooth media browser icon
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Jan 2020 19:27:01 +0100
+
+nymea-app (1.0.173) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Implement new system time api
+  * Add a script editor for nymea scripts
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 16 Jan 2020 11:43:35 +0100
+
+nymea-app (1.0.172) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix AWS config casing
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 14 Jan 2020 17:05:45 +0100
+
+nymea-app (1.0.171) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make it build in sbuild
+  * Fix AWS testing environment at app startup
+  * Use The displayMessage in discovery results
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 12 Jan 2020 22:12:28 +0100
+
+nymea-app (1.0.170) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update the AWS device name when it changes in the cloud
+  * Use a more unique nonce for the remote connection
+  * Fix view mode breaking on iOS when opening Look and feel page
+  * Use accounts icon for account interface
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 09 Jan 2020 13:50:50 +0100
+
+nymea-app (1.0.169) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the Add scene button
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 17 Dec 2019 11:36:22 +0100
+
+nymea-app (1.0.168) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve UBPorts support
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 16 Dec 2019 16:58:14 +0100
+
+nymea-app (1.0.167) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix setup of discovered devices with pairing
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 15 Dec 2019 13:58:17 +0100
+
+nymea-app (1.0.166) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Don't use  deprecated Events and Actions namespaces any more
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 12 Dec 2019 14:29:45 +0100
+
+nymea-app (1.0.165) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix new thing page after uuid changes
+  * Fix login field for things setup with a login
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 10 Dec 2019 23:21:30 +0100
+
+nymea-app (1.0.163) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix generating action type for rule creation
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 08 Dec 2019 19:40:41 +0100
+
+nymea-app (1.0.162) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Hide group placeholder while loading
+  * Fix browserItemActionTypes
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 02 Dec 2019 00:19:54 +0100
+
+nymea-app (1.0.161) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix popup destruction
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 01 Dec 2019 14:44:25 +0100
+
+nymea-app (1.0.160) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Work around QtVirtualKeyboard layering issues
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 01 Dec 2019 12:56:31 +0100
+
+nymea-app (1.0.159) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Grouping
+  * Improve closable views a bit
+  * Complete support for reconfiguring devices
+  * Make use of new notifications subscription mechanism
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 30 Nov 2019 18:22:10 +0100
+
+nymea-app (1.0.158) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update password entry fields
+  * Fix the create a scene button
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 25 Nov 2019 13:31:16 +0100
+
+nymea-app (1.0.157) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Don't use "-" for UnitNone
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 19 Nov 2019 20:19:35 +0100
+
+nymea-app (1.0.156) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Don't compare QUUid with QStrings in an unsafe way
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 18 Nov 2019 21:50:04 +0100
+
+nymea-app (1.0.155) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Try using the UserNotification framework
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Nov 2019 17:29:32 +0100
+
+nymea-app (1.0.154) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Revert iOS push notifications changes...
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Nov 2019 14:54:46 +0100
+
+nymea-app (1.0.153) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * And another attempt to fix iOS push notifications... narf
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Nov 2019 12:06:34 +0100
+
+nymea-app (1.0.152) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a filter input field when adding new things
+  * Another attempt to fix push notifications
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Nov 2019 11:00:09 +0100
+
+nymea-app (1.0.150) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix push notifications for iOS 13
+  * Fix webserver public folder configuration
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 14 Nov 2019 01:01:17 +0100
+
+nymea-app (1.0.149) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix spacing of shutter controls
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 28 Oct 2019 17:20:58 +0100
+
+nymea-app (1.0.148) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * guh GmbH is now nymea GmbH
+  * More ruletemplates
+  * Fix initialization of networking page
+  * Fix device lists getting messed up when devices are reordered
+  * Update the app properly when the core system capabilities change
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 28 Oct 2019 12:23:25 +0100
+
+nymea-app (1.0.147) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve adding/removing repositories a bit
+  * Add more icons for media services
+
+  [ Simon Stürz ]
+  * Fix fingerprint reader view
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 11 Oct 2019 11:13:23 +0200
+
+nymea-app (1.0.146) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix session startup scripts to work on buster
+  * Make the webview optional
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 27 Sep 2019 19:22:09 +0200
+
+nymea-app (1.0.145) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Include NSBluetoothAlwaysUsageDescription in Info.plist
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 27 Sep 2019 12:43:51 +0200
+
+nymea-app (1.0.144) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Allow thing settings to be opened directly from the things page
+  * Herz has been fixed to Hertz in the core
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 27 Sep 2019 00:08:44 +0200
+
+nymea-app (1.0.143) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Also color the panel on android, fix iOS landscape mode
+  * Some fixes in the add device results page
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 20 Sep 2019 01:21:28 +0200
+
+nymea-app (1.0.142) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a a fallback "en" translation
+  * Handle the iPhone notch better
+  * Strip QtWebengine's execstack in snap package
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 19 Sep 2019 17:50:20 +0200
+
+nymea-app (1.0.141) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Call methods necessary to init QtWebView on some platforms
+  * Add missing icon for the loopback bearer type
+  * Fix sorting of vendors list in add thing dialog
+  * Fix ThingDelegate not updating connection status
+  * Improve rule creation
+  * Smoothen the volume slider
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 01 Sep 2019 01:51:47 +0200
+
+nymea-app (1.0.140) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for OAuth during thing setup
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 28 Aug 2019 12:18:25 +0200
+
+nymea-app (1.0.139) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix AWS credentials getting lost
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 30 Jul 2019 10:44:46 +0200
+
+nymea-app (1.0.138) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix some strings and translations
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 25 Jul 2019 15:01:06 +0200
+
+nymea-app (1.0.137) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for the keypad interface in media devices
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 24 Jul 2019 09:56:57 +0200
+
+nymea-app (1.0.136) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix item selection for rules in nested browser subpages
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 18 Jul 2019 18:03:17 +0200
+
+nymea-app (1.0.135) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add support for browsing things
+  * Improve back button handling
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 18 Jul 2019 01:18:15 +0200
+
+nymea-app (1.0.134) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a lime theme
+  * Improve back button handling
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 17 Jul 2019 12:23:30 +0200
+
+nymea-app (1.0.133) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix an issue where the app might not reconnect to the core.
+  * Improve back button handling
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 10 Jul 2019 19:52:27 +0200
+
+nymea-app (1.0.132) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve back button handling
+  * Update to newer Android API
+
+ -- Jenkins <jenkins@nymea.io>  Sun, 07 Jul 2019 21:06:27 +0200
+
+nymea-app (1.0.131) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update to latest upstream QtZeroConf
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 05 Jul 2019 18:17:12 +0200
+
+nymea-app (1.0.130) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Rename some old components
+  * Support the upcoming powerswitch interface
+  * Add support for setting the screen brightness on Raspberry Pis
+  * Don't allow X to blank the screen
+  * Allow the "All lights off" button to also turn all lights on
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 05 Jul 2019 01:25:36 +0200
+
+nymea-app (1.0.129) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Only include active bearers
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 21 Jun 2019 00:38:56 +0200
+
+nymea-app (1.0.128) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Respawn the app in kiosk mode when it exits (e.g. on updates)
+  * Improve login page
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 20 Jun 2019 22:47:49 +0200
+
+nymea-app (1.0.127) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Also handle loopback connections in bearer management
+  * Drop include path for qmqtt, not needed any more
+  * Fix app logging not working when the cache dir does not exist.
+  * Fix a crash when a graphview is updated with the very first value
+  * Fix the back button in the login page
+  * Update box name for cloud devices
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 19 Jun 2019 01:10:16 +0200
+
+nymea-app (1.0.126) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Use KDAB's openssl builds
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 13 Jun 2019 01:42:27 +0200
+
+nymea-app (1.0.125) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Update firebase dependency
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 12 Jun 2019 17:08:35 +0200
+
+nymea-app (1.0.124) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Link proper libssl arch
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 12 Jun 2019 15:24:09 +0200
+
+nymea-app (1.0.123) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Make it build with arm64
+  * Add missing dependency to qml-module-qtgraphicaleffects
+  * Add support for device settings
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 12 Jun 2019 12:30:36 +0200
+
+nymea-app (1.0.122) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix the crash when opening and closing tabs
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 06 Jun 2019 03:20:59 +0200
+
+nymea-app (1.0.121) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Fix a crash when a delayed reply would call a callback for an object
+    …
+  * Add missing dependency to qtcharts
+
+ -- Jenkins <jenkins@nymea.io>  Thu, 30 May 2019 15:30:00 +0200
+
+nymea-app (1.0.120) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Implement network management
+
+ -- Jenkins <jenkins@nymea.io>  Fri, 24 May 2019 03:24:57 +0200
+
+nymea-app (1.0.119) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improve Kiosk experience
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 22 May 2019 15:56:09 +0200
+
+nymea-app (1.0.118) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a kiosk dpkg package
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 21 May 2019 22:46:37 +0200
+
+nymea-app (1.0.117) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Improved system update mechanism
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 21 May 2019 18:14:28 +0200
+
+nymea-app (1.0.116) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * System controller
+  * Add support for the closablesensor interface
+  * Fix labels overflowing for long state values
+  * Add some better debug prints
+
+ -- Jenkins <jenkins@nymea.io>  Sat, 18 May 2019 02:38:42 +0200
+
+nymea-app (1.0.115) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Prefer http over https for the debug interface to ease up things
+
+ -- Jenkins <jenkins@nymea.io>  Wed, 24 Apr 2019 12:54:25 +0200
+
+nymea-app (1.0.114) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add a kiosk mode command line option
+  * Fix the kiosk systemd service
+  * State based ruleactionparams
+
+ -- Jenkins <jenkins@nymea.io>  Tue, 16 Apr 2019 01:33:12 +0200
+
+nymea-app (1.0.113) bionic; urgency=medium
+
+  [ Michael Zanetti ]
+  * Add Ubuntu packaging
+
+ -- Jenkins <jenkins@nymea.io>  Mon, 15 Apr 2019 22:32:16 +0200
+
+nymea-app (1.0.112) bionic; urgency=medium
+
+  * Initial release.
+
+ -- Michael Zanetti <michael.zanetti@guh.io>  Sun, 14 Apr 2019 23:06:13 +0200

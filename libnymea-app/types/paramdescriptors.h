@@ -62,11 +62,11 @@ public:
     ParamDescriptor* createNewParamDescriptor() const;
     void addParamDescriptor(ParamDescriptor* paramDescriptor);
 
-    Q_INVOKABLE void setParamDescriptor(const QString &paramTypeId, const QVariant &value, ValueOperator operatorType);
+    Q_INVOKABLE void setParamDescriptor(const QUuid &paramTypeId, const QVariant &value, ValueOperator operatorType);
     Q_INVOKABLE void setParamDescriptorByName(const QString &paramName, const QVariant &value, ValueOperator operatorType);
     Q_INVOKABLE void clear();
 
-    Q_INVOKABLE ParamDescriptor *getParamDescriptor(const QString &paramTypeId) const;
+    Q_INVOKABLE ParamDescriptor *getParamDescriptor(const QUuid &paramTypeId) const;
     Q_INVOKABLE ParamDescriptor *getParamDescriptorByName(const QString &paramName) const;
 
     bool operator==(ParamDescriptors *other) const;

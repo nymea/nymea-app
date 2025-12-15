@@ -150,7 +150,11 @@ void TagsManager::getTagsResponse(int /*commandId*/, const QVariantMap &params)
 {
     QList<Tag*> tags;
     foreach (const QVariant &tagVariant, params.value("tags").toList()) {
-        Tag *tag = unpackTag(tagVariant.toMap());
+        QVariantMap tagMap = tagVariant.toMap();
+        if (tagMap.value("appId").toString() != "nymea:app") {
+            continue;
+        }
+        Tag *tag = unpackTag(tagMap);
         if (tag) {
             tags.append(tag);
         }
@@ -177,20 +181,19 @@ void TagsManager::removeTagResponse(int commandId, const QVariantMap &params)
 
 Tag* TagsManager::unpackTag(const QVariantMap &tagMap)
 {
-    QString thingId = tagMap.value("thingId").toString();
-    QString ruleId = tagMap.value("ruleId").toString();
+    QUuid thingId = tagMap.value("thingId").toUuid();
+    QUuid ruleId = tagMap.value("ruleId").toUuid();
     QString tagId = tagMap.value("tagId").toString();
     QString value = tagMap.value("value").toString();
     Tag *tag = nullptr;
-    if (!thingId.isEmpty()) {
+    if (!thingId.isNull()) {
         tag = new Tag(tagId, value);
         tag->setThingId(thingId);
-    } else if (!ruleId.isEmpty()) {
+    } else if (!ruleId.isNull()) {
         tag = new Tag(tagId, value);
         tag->setRuleId(ruleId);
     } else {
         qCWarning(dcTags()) << "Invalid tag. Neither thingId nor ruleId are set. Skipping...";
-        tag->deleteLater();
         return nullptr;
     }
 //    qDebug() << "adding tag" << tag->tagId() << tag->value();
