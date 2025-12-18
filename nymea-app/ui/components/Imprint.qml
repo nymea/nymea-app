@@ -50,7 +50,7 @@ Item {
 
             Image {
                 id: logo
-                Layout.preferredHeight: Style.iconSize * 2
+                Layout.preferredHeight: Style.hugeIconSize
                 Layout.preferredWidth: height
                 fillMode: Image.PreserveAspectFit
                 source: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
@@ -76,6 +76,8 @@ Item {
 
             Label {
                 id: titleLabel
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: app.largeFont
             }
         }
