@@ -17,7 +17,7 @@ Build-Depends: debhelper,
                qt6-charts-dev,
                qt6-svg-dev,
                qt6-websockets-dev,
-               qt6-webview-dev,
+               qt6-webview-dev[!riscv64],
                qt6-declarative-dev,
                qt6-tools-dev,
                libqt6quickcontrols2-6
