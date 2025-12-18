@@ -53,6 +53,7 @@ BigTile {
             text: root.thing.name
             elide: Text.ElideRight
         }
+
         ThingStatusIcons {
             thing: root.thing
         }

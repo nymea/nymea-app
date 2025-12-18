@@ -323,7 +323,7 @@ MainViewBase {
                 }
             }
 
-            onClicked: {
+            onClicked: (mouse) => {
                 var ret = itemUnderMouse()
                 if (ret.item) {
                     dragArea.editIndex = ret.index

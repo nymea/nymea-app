@@ -25,6 +25,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import QtQuick.Controls.Material.impl
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import Nymea
@@ -102,7 +103,18 @@ Item {
         maskSource: backgroundImgClipper
     }
 
+    Ripple {
+        anchors.fill: background
+        clip: true
+        clipRadius: background.radius
+        pressed: delegate.pressed
+        anchor: delegate
+        active: delegate.pressed || delegate.visualFocus || delegate.hovered
+        color: delegate.Material.rippleColor
+    }
+
     ItemDelegate {
+        id: delegate
         anchors {
             top: parent.top; left: parent.left; right: parent.right; bottom: innerContent.top
             topMargin: app.margins / 2; leftMargin: app.margins / 2; rightMargin: app.margins / 2
@@ -110,6 +122,7 @@ Item {
         padding: 0; topPadding: 0; bottomPadding: 0
         onClicked: root.clicked()
         onPressAndHold: root.pressAndHold()
+        background: null
 
         contentItem: ColumnLayout {
             spacing: 0
@@ -217,4 +230,3 @@ Item {
         }
     }
 }
-

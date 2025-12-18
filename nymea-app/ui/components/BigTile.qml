@@ -26,6 +26,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import QtQuick.Controls.Material.impl
 
 import Nymea
 
@@ -101,6 +102,16 @@ Item {
                         : Style.tileBackgroundColor
             }
         }
+
+        Ripple {
+            anchors.fill: parent
+            clip: true
+            clipRadius: background.radius
+            pressed: content.pressed
+            anchor: content
+            active: content.pressed || content.visualFocus || content.hovered
+            color: content.Material.rippleColor
+        }
     }
 
 
@@ -128,6 +139,9 @@ Item {
                 if (root.interactive) {
                     root.pressAndHold()
                 }
+            }
+            background: Item {
+                implicitHeight: Style.delegateHeight
             }
         }
     }
