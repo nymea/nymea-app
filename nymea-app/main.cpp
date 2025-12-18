@@ -105,7 +105,19 @@ int main(int argc, char *argv[])
 
     qCInfo(dcApplication()) << "-->" << application.applicationName() << APP_VERSION << QDateTime::currentDateTime().toString();
     qCInfo(dcApplication()) << "Command line:" << application.arguments().join(" ");
-    qCInfo(dcApplication()) << "System:" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion() << PlatformHelper::instance()->deviceManufacturer() << PlatformHelper::instance()->deviceModel();
+    qCInfo(dcApplication()) << "System: Device model:" << PlatformHelper::instance()->deviceModel();
+    qCInfo(dcApplication()) << "  Hostname:" << QSysInfo::machineHostName();
+    qCInfo(dcApplication()) << "  Product name:" << QSysInfo::prettyProductName();
+    qCInfo(dcApplication()) << "  Product type:" << QSysInfo::productType();
+    qCInfo(dcApplication()) << "  Product version:" << QSysInfo::productVersion();
+    qCInfo(dcApplication()) << "  Kernel type:" << QSysInfo::kernelType();
+    qCInfo(dcApplication()) << "  Kernel version:" << QSysInfo::kernelVersion();
+    qCInfo(dcApplication()) << "  Machine uid:" << QSysInfo::machineUniqueId();
+    qCInfo(dcApplication()) << "  CPU architecture:" << QSysInfo::currentCpuArchitecture();
+    qCInfo(dcApplication()) << "  Platform: Device:" << PlatformHelper::instance()->device();
+    qCInfo(dcApplication()) << "  Platform: Device serial:" << PlatformHelper::instance()->deviceSerial();
+    qCInfo(dcApplication()) << "  Platform: Device manufacturer:" << PlatformHelper::instance()->deviceManufacturer();
+
     qCInfo(dcApplication()) << "Locale:" << QLocale() << QLocale().name() << QLocale().language();
     qCInfo(dcApplication()) << "SSL version:" << QSslSocket::sslLibraryVersionString();
 

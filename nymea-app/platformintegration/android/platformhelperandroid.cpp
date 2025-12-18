@@ -119,7 +119,7 @@ void PlatformHelperAndroid::hideSplashScreen()
 QString PlatformHelperAndroid::machineHostname() const
 {
     // QSysInfo::machineHostname always gives "localhost" on android... best we can do here is:
-    return deviceManufacturer() +  " " + deviceModel();
+    return deviceManufacturer() + " " + deviceModel();
 }
 
 QString PlatformHelperAndroid::deviceSerial() const

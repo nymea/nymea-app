@@ -228,10 +228,6 @@ QString PlatformHelperIOS::machineHostname() const
         return hostName;
     }
 
-    const QString name = deviceName();
-    if (!name.isEmpty() && name != "localhost") {
-        return name;
-    }
 
     // Fall back to something user visible when the OS only reports "localhost".
     const QString model = deviceModel();
@@ -242,6 +238,7 @@ QString PlatformHelperIOS::machineHostname() const
     if (manufacturer.isEmpty() || model.startsWith(manufacturer)) {
         return model;
     }
+
     return manufacturer + " " + model;
 }
 
