@@ -54,6 +54,7 @@ public:
 
 private:
     // defined in platformhelperios.mm
+    QString deviceName() const;
     QString readKeyChainEntry(const QString &service, const QString &key);
     void writeKeyChainEntry(const QString &service, const QString &key, const QString &value);
 

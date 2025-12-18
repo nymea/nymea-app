@@ -45,6 +45,15 @@ static CGRect statusBarFrameForWindow(UIWindow *window)
     return [UIApplication sharedApplication].statusBarFrame;
 }
 
+QString PlatformHelperIOS::deviceName() const
+{
+    NSString *const name = UIDevice.currentDevice.name;
+    if (!name) {
+        return QString();
+    }
+    return QString::fromNSString(name).trimmed();
+}
+
 QString PlatformHelperIOS::readKeyChainEntry(const QString &service, const QString &key)
 {
     NSDictionary *const query = @{
