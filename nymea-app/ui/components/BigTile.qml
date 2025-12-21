@@ -27,6 +27,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
+import Qt5Compat.GraphicalEffects
 
 import Nymea
 
@@ -98,6 +99,19 @@ Item {
             anchor: content
             active: content.pressed || content.visualFocus || content.hovered
             color: content.Material.rippleColor
+        }
+    }
+
+    Glow {
+        anchors.fill: background
+        source: background
+        radius: 8
+        samples: 17
+        spread: 0.4
+        color: Style.accentColor
+        opacity: (content.pressed || content.visualFocus || content.hovered) ? 1 : 0
+        Behavior on opacity {
+            SmoothedAnimation { duration: Style.slowAnimationDuration }
         }
     }
 

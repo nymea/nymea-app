@@ -60,6 +60,19 @@ Item {
         radius: Style.cornerRadius
     }
 
+    Glow {
+        anchors.fill: background
+        source: background
+        radius: 8
+        samples: 17
+        spread: 0.4
+        color: Style.accentColor
+        opacity: (delegate.pressed || delegate.visualFocus || delegate.hovered) ? 1 : 0
+        Behavior on opacity {
+            SmoothedAnimation { duration: Style.slowAnimationDuration }
+        }
+    }
+
     Image {
         id: backgroundImg
         anchors.fill: parent
@@ -232,7 +245,4 @@ Item {
         }
     }
 
-    DropShadow {
-
-    }
 }
