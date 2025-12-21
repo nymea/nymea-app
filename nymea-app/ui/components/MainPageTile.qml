@@ -56,17 +56,7 @@ Item {
         id: background
         anchors.fill: parent
         anchors.margins: app.margins / 2
-        gradient: Gradient {
-            GradientStop {
-                position: 1 - innerContent.height / background.height
-                color: Style.tileOverlayColor
-            }
-            GradientStop {
-                position: 1 - innerContent.height / background.height
-                color: Style.tileBackgroundColor
-            }
-        }
-
+        color: Style.tileBackgroundColor
         radius: Style.cornerRadius
     }
 
@@ -189,6 +179,15 @@ Item {
         anchors.fill: innerContent
     }
 
+    ThinDivider {
+        anchors.left: innerContent.left
+        anchors.right: innerContent.right
+        anchors.bottom: innerContent.top
+        width: parent.width
+        opacity: 0.1
+        color: Style.tileForegroundColor
+    }
+
     Item {
         id: innerContent
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right; margins: app.margins / 2 }
@@ -199,6 +198,7 @@ Item {
     RowLayout {
         id: quickAlertPane
         anchors { top: parent.top; right: parent.right; margins: app.margins }
+
         ColorIcon {
             height: Style.smallIconSize
             width: height
@@ -214,6 +214,7 @@ Item {
             color: root.disconnected ? Style.red : Style.orange
             visible: root.setupStatus == Thing.ThingSetupStatusComplete && (root.disconnected || (root.isWireless && root.signalStrength < 20 && root.signalStrength >= 0))
         }
+
         ColorIcon {
             height: Style.smallIconSize
             width: height
@@ -221,6 +222,7 @@ Item {
             color: root.setupStatus === Thing.ThingSetupStatusFailed ? Style.red : Style.tileForegroundColor
             visible: root.setupStatus === Thing.ThingSetupStatusFailed || root.setupStatus === Thing.ThingSetupStatusInProgress
         }
+
         ColorIcon {
             height: Style.smallIconSize
             width: height
@@ -228,5 +230,9 @@ Item {
             visible: root.setupStatus == Thing.ThingSetupStatusComplete && root.batteryCritical
             color: Style.tileForegroundColor
         }
+    }
+
+    DropShadow {
+
     }
 }

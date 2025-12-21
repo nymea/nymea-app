@@ -87,21 +87,8 @@ Item {
         id: background
         anchors.fill: parent
         anchors.margins: app.margins / 2
+        color: Style.tileBackgroundColor
         radius: Style.cornerRadius
-        clip: true
-
-        gradient: Gradient {
-            GradientStop {
-                position: (headerContainer.height + app.margins) / background.height
-                color: Style.tileBackgroundColor
-            }
-            GradientStop {
-                position: (headerContainer.height + app.margins) / background.height
-                color: headerContainer.visible ?
-                          Style.tileOverlayColor
-                        : Style.tileBackgroundColor
-            }
-        }
 
         Ripple {
             anchors.fill: parent
@@ -128,6 +115,12 @@ Item {
             height: childrenRect.height
         }
 
+        ThinDivider {
+            Layout.fillWidth: true
+            opacity: 0.1
+            visible: headerContainer.visible
+            color: Style.tileForegroundColor
+        }
 
         ItemDelegate {
             id: content
