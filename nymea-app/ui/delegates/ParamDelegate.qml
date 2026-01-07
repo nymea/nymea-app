@@ -392,6 +392,7 @@ ItemDelegate {
                     Rectangle {
                         id: bg
                         anchors.fill: parent
+                        color: Style.backgroundColor
                     }
 
                     DropShadow {
@@ -400,7 +401,7 @@ ItemDelegate {
                         color: "#60000000"
                         radius: 12
                         samples: 16
-                        horizontalOffset: 0
+                        horizontalOffset: 4
                         verticalOffset: 4
                     }
                 }
@@ -493,14 +494,14 @@ ItemDelegate {
 
                 contentItem: Text {
                     text: modelData
-                    color: Style.textColor
+                    color: styleController.currentStyle === "dark" ? "#FFFFFF" : "#000000"
                     wrapMode: Text.WordWrap
                     verticalAlignment: Text.AlignVCenter
                     lineHeight: 1.2
                 }
 
                 background: Rectangle {
-                    color: highlighted ? Style.lightGray : Style.backgroundColor;
+                    color: highlighted ? (styleController.currentStyle === "dark" ? "#555555" : "#CCCCCC") : Style.backgroundColor;
                 }
 
                 highlighted: control.highlightedIndex === index
