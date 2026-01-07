@@ -25,9 +25,9 @@
 #ifndef STATETYPE_H
 #define STATETYPE_H
 
-#include <QVariant>
 #include <QObject>
 #include <QUuid>
+#include <QVariant>
 
 #include "types.h"
 
@@ -47,6 +47,7 @@ class StateType : public QObject
     Q_PROPERTY(Types::IOType ioType READ ioType CONSTANT)
     Q_PROPERTY(QVariant minValue READ minValue CONSTANT)
     Q_PROPERTY(QVariant maxValue READ maxValue CONSTANT)
+    Q_PROPERTY(double stepSize READ stepSize CONSTANT)
 
 public:
     StateType(QObject *parent = nullptr);
@@ -87,6 +88,9 @@ public:
     QVariant maxValue() const;
     void setMaxValue(const QVariant &maxValue);
 
+    double stepSize() const;
+    void setStepSize(double stepSize);
+
 private:
     QUuid m_id;
     QString m_name;
@@ -100,6 +104,7 @@ private:
     Types::IOType m_ioType = Types::IOTypeNone;
     QVariant m_minValue;
     QVariant m_maxValue;
+    double m_stepSize = 0;
 };
 
 #endif // STATETYPE_H

@@ -184,7 +184,7 @@ ThingPageBase {
 
             Connections {
                 target: engine.thingManager
-                onExecuteActionReply: {
+                onExecuteActionReply: (commandId, thingError, displayMessage) => {
                     addUserPage.error = thingError !== Thing.ThingErrorNoError
                     var masks =[]
                     masks.push({x: 0, y: 0, width: 1, height: 1});

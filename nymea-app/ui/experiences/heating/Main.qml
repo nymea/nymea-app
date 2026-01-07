@@ -113,7 +113,7 @@ Item {
 
     Connections {
         target: engine.thingManager
-        onExecuteActionReply: {
+        onExecuteActionReply: (commandId, thingError, displayMessage) => {
             print("executeActionReply:", commandId)
             if (commandId === d.pendingCallId) {
                 d.pendingCallId = -1;

@@ -27,8 +27,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Nymea
 
-import "../components"
-import "../utils"
+import "qrc:/ui/components"
+import "qrc:/ui/utils"
 
 ThingPageBase {
     id: root
@@ -36,6 +36,7 @@ ThingPageBase {
     readonly property State powerState: thing.stateByName("power")
     readonly property State maxChargingCurrentState: thing.stateByName("maxChargingCurrent")
     readonly property StateType maxChargingCurrentStateType: thing.thingClass.stateTypes.findByName("maxChargingCurrent")
+    readonly property real precision: maxChargingCurrentStateType.stepSize !== 0 ? maxChargingCurrentStateType.stepSize : 0.1
     readonly property State currentPowerState: thing.stateByName("currentPower")
     readonly property State pluggedInState: thing.stateByName("pluggedIn")
 
@@ -94,6 +95,7 @@ ThingPageBase {
                 thing: root.thing
                 stateName: "maxChargingCurrent"
                 color: app.interfaceToColor("evcharger")
+                precision: root.precision
                 on: (actionQueue.pendingValue || powerState.value) === true
             }
         }

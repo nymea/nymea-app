@@ -38,7 +38,8 @@ Item {
 
     property color color: Style.accentColor
     property bool on: true
-    property int precision: 1
+    property real precision: 1
+    property real linePrecision: 1
 
     readonly property State progressState: thing ? thing.states.getState(stateType.id) : null
     readonly property State powerState: thing ? thing.stateByName("power") : null
@@ -46,8 +47,10 @@ Item {
     property int startAngle: 135
     property int maxAngle: 270
     readonly property int steps: canvas.roundToPrecision(root.progressState.maxValue - root.progressState.minValue) / root.precision + 1
+    readonly property int lineSteps: canvas.roundToPrecision(root.progressState.maxValue - root.progressState.minValue, root.linePrecision) / root.linePrecision + 1
     readonly property double stepSize: (root.progressState.maxValue - root.progressState.minValue) / steps
     readonly property double anglePerStep: maxAngle / steps
+    readonly property double lineAnglePerStep: maxAngle / lineSteps
 
 
     ActionQueue {
@@ -81,8 +84,9 @@ Item {
         Behavior on effectColor { ColorAnimation { duration: Style.animationDuration } }
         onEffectColorChanged: requestPaint()
 
-        function roundToPrecision(value) {
-            var tmp = Math.round(value / root.precision) * root.precision;
+        function roundToPrecision(value, precision) {
+            var effectivePrecision = precision === undefined ? root.precision : precision;
+            var tmp = Math.round(value / effectivePrecision) * effectivePrecision;
             return tmp;
         }
 
@@ -94,19 +98,20 @@ Item {
 
             // Step lines
             var currentValue = actionQueue.pendingValue || root.progressState.value
-            var currentStep;
+            var currentStepValue;
             if (root.progressState) {
-                currentStep = roundToPrecision(currentValue - root.progressState.minValue) / root.precision
+                currentStepValue = roundToPrecision(currentValue - root.progressState.minValue, root.linePrecision)
             }
 
-//            print("* current step", currentStep, root.steps, currentValue)
+//            print("* current step", currentStepValue, root.lineSteps, currentValue)
 
-            for(var step = 0; step < steps; step += root.precision) {
-                var angle = step * anglePerStep + startAngle;
+            for (var step = 0; step < lineSteps; step += 1) {
+                var stepValue = step * root.linePrecision
+                var angle = step * lineAnglePerStep + startAngle;
                 var innerRadius = canvas.width * 0.4
                 var outerRadius = canvas.width * 0.5
 
-                if (step <= currentStep) {
+                if (stepValue <= currentStepValue) {
                     ctx.strokeStyle = canvas.effectColor
                     innerRadius = canvas.width * 0.38
                     ctx.lineWidth = 4;

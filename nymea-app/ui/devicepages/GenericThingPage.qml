@@ -359,7 +359,7 @@ ThingPageBase {
             }
             Connections {
                 target: engine.thingManager
-                onExecuteActionReply: {
+                onExecuteActionReply: (commandId, thingError, displayMessage) => {
                     if (stateDelegate.pendingActionId === commandId) {
                         stateDelegate.pendingActionId = -1
                         if (stateDelegate.valueCacheDirty) {
@@ -384,7 +384,7 @@ ThingPageBase {
 
             Connections {
                 target: engine.thingManager
-                onExecuteActionReply: {
+                onExecuteActionReply: (commandId, thingError, displayMessage) => {
                     if (commandId === actionDelegate.pendingActionId) {
                         pendingTimer.start();
                         actionDelegate.lastSuccess = thingError === Thing.ThingErrorNoError

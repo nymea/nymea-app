@@ -832,6 +832,7 @@ ParamType *ThingManager::unpackParamType(const QVariantMap &paramTypeMap, QObjec
     paramType->setDefaultValue(paramTypeMap.value("defaultValue"));
     paramType->setMinValue(paramTypeMap.value("minValue"));
     paramType->setMaxValue(paramTypeMap.value("maxValue"));
+    paramType->setStepSize(paramTypeMap.value("stepSize").toDouble());
     paramType->setAllowedValues(paramTypeMap.value("allowedValues").toList());
     paramType->setInputType(stringToInputType(paramTypeMap.value("inputType").toString()));
     paramType->setReadOnly(paramTypeMap.value("readOnly").toBool());
@@ -858,6 +859,7 @@ StateType *ThingManager::unpackStateType(const QVariantMap &stateTypeMap, QObjec
     stateType->setType(stateTypeMap.value("type").toString());
     stateType->setMinValue(stateTypeMap.value("minValue"));
     stateType->setMaxValue(stateTypeMap.value("maxValue"));
+    stateType->setStepSize(stateTypeMap.value("stepSize").toDouble());
     stateType->setUnit(stringToUnit(stateTypeMap.value("unit").toString()));
 
     QMetaEnum metaEnum = QMetaEnum::fromType<Types::IOType>();

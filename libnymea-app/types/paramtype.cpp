@@ -24,20 +24,19 @@
 
 #include "paramtype.h"
 
-ParamType::ParamType(QObject *parent) :
-    QObject(parent)
+ParamType::ParamType(QObject *parent)
+    : QObject(parent)
 {
     m_readOnly = false;
 }
 
-ParamType::ParamType(const QString &name, const QVariant::Type type, const QVariant &defaultValue, QObject *parent) :
-    QObject(parent),
-    m_name(name),
-    m_type(QVariant::typeToName(type)),
-    m_defaultValue(defaultValue),
-    m_readOnly(false)
-{
-}
+ParamType::ParamType(const QString &name, const QVariant::Type type, const QVariant &defaultValue, QObject *parent)
+    : QObject(parent)
+    , m_name(name)
+    , m_type(QVariant::typeToName(type))
+    , m_defaultValue(defaultValue)
+    , m_readOnly(false)
+{}
 
 QUuid ParamType::id() const
 {
@@ -117,6 +116,16 @@ QVariant ParamType::maxValue() const
 void ParamType::setMaxValue(const QVariant &maxValue)
 {
     m_maxValue = maxValue;
+}
+
+double ParamType::stepSize() const
+{
+    return m_stepSize;
+}
+
+void ParamType::setStepSize(double stepSize)
+{
+    m_stepSize = stepSize;
 }
 
 Types::InputType ParamType::inputType() const

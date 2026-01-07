@@ -73,8 +73,8 @@ Item {
 
     Connections {
         target: engine.thingManager
-        onExecuteActionReply: {
-            if (commandId == d.pendingCallId) {
+        onExecuteActionReply: (commandId, thingError, displayMessage) => {
+            if (commandId === d.pendingCallId) {
                 if (thingError !== Thing.ThingErrorNoError) {
                     var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
                     var dialogParams = {}

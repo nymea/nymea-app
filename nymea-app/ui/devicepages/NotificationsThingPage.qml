@@ -40,8 +40,8 @@ ThingPageBase {
 
     Connections {
         target: engine.thingManager
-        onExecuteActionReply: {
-            if (commandId == d.pendingAction) {
+        onExecuteActionReply: (commandId, thingError, displayMessage) => {
+            if (commandId === d.pendingAction) {
                 d.pendingAction = -1
             }
         }

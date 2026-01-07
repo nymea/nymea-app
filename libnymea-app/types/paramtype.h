@@ -25,10 +25,10 @@
 #ifndef PARAMTYPE_H
 #define PARAMTYPE_H
 
-#include <QVariant>
-#include <QObject>
 #include <QDebug>
+#include <QObject>
 #include <QUuid>
+#include <QVariant>
 
 #include "types.h"
 
@@ -43,6 +43,7 @@ class ParamType : public QObject
     Q_PROPERTY(QVariant defaultValue READ defaultValue CONSTANT)
     Q_PROPERTY(QVariant minValue READ minValue CONSTANT)
     Q_PROPERTY(QVariant maxValue READ maxValue CONSTANT)
+    Q_PROPERTY(double stepSize READ stepSize CONSTANT)
     Q_PROPERTY(Types::InputType inputType READ inputType CONSTANT)
     Q_PROPERTY(Types::Unit unit READ unit CONSTANT)
     Q_PROPERTY(QVariantList allowedValues READ allowedValues CONSTANT)
@@ -76,6 +77,9 @@ public:
     QVariant maxValue() const;
     void setMaxValue(const QVariant &maxValue);
 
+    double stepSize() const;
+    void setStepSize(double stepSize);
+
     Types::InputType inputType() const;
     void setInputType(const Types::InputType &inputType);
 
@@ -97,6 +101,7 @@ private:
     QVariant m_defaultValue;
     QVariant m_minValue;
     QVariant m_maxValue;
+    double m_stepSize = 0;
     Types::InputType m_inputType;
     Types::Unit m_unit;
     QVariantList m_allowedValues;

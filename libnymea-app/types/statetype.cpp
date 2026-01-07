@@ -24,10 +24,9 @@
 
 #include "statetype.h"
 
-StateType::StateType(QObject *parent) :
-    QObject(parent)
-{
-}
+StateType::StateType(QObject *parent)
+    : QObject(parent)
+{}
 
 QUuid StateType::id() const
 {
@@ -145,6 +144,16 @@ QVariant StateType::maxValue() const
 void StateType::setMaxValue(const QVariant &maxValue)
 {
     m_maxValue = maxValue;
+}
+
+double StateType::stepSize() const
+{
+    return m_stepSize;
+}
+
+void StateType::setStepSize(double stepSize)
+{
+    m_stepSize = stepSize;
 }
 
 Types::IOType StateType::ioType() const
