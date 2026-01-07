@@ -27,8 +27,8 @@
 
 #include <QObject>
 
-#include "serverconfigurations.h"
 #include "mqttpolicies.h"
+#include "serverconfigurations.h"
 
 class JsonRpcClient;
 class ServerConfiguration;
@@ -49,16 +49,19 @@ class NymeaConfiguration : public QObject
 
     Q_PROPERTY(bool debugServerEnabled READ debugServerEnabled WRITE setDebugServerEnabled NOTIFY debugServerEnabledChanged)
 
-    Q_PROPERTY(ServerConfigurations* tcpServerConfigurations READ tcpServerConfigurations CONSTANT)
-    Q_PROPERTY(ServerConfigurations* webSocketServerConfigurations READ webSocketServerConfigurations CONSTANT)
-    Q_PROPERTY(WebServerConfigurations* webServerConfigurations READ webServerConfigurations CONSTANT)
-    Q_PROPERTY(TunnelProxyServerConfigurations* tunnelProxyServerConfigurations READ tunnelProxyServerConfigurations CONSTANT)
-    Q_PROPERTY(ServerConfigurations* mqttServerConfigurations READ mqttServerConfigurations CONSTANT)
+    Q_PROPERTY(QString backupDestinationDirectory READ backupDestinationDirectory WRITE setBackupDestinationDirectory NOTIFY backupDestinationDirectoryChanged FINAL)
+    Q_PROPERTY(int backupMaxCount READ backupMaxCount NOTIFY backupMaxCountChanged FINAL)
 
-    Q_PROPERTY(MqttPolicies* mqttPolicies READ mqttPolicies CONSTANT)
+    Q_PROPERTY(ServerConfigurations *tcpServerConfigurations READ tcpServerConfigurations CONSTANT)
+    Q_PROPERTY(ServerConfigurations *webSocketServerConfigurations READ webSocketServerConfigurations CONSTANT)
+    Q_PROPERTY(WebServerConfigurations *webServerConfigurations READ webServerConfigurations CONSTANT)
+    Q_PROPERTY(TunnelProxyServerConfigurations *tunnelProxyServerConfigurations READ tunnelProxyServerConfigurations CONSTANT)
+    Q_PROPERTY(ServerConfigurations *mqttServerConfigurations READ mqttServerConfigurations CONSTANT)
+
+    Q_PROPERTY(MqttPolicies *mqttPolicies READ mqttPolicies CONSTANT)
 
 public:
-    explicit NymeaConfiguration(JsonRpcClient* client, QObject *parent = nullptr);
+    explicit NymeaConfiguration(JsonRpcClient *client, QObject *parent = nullptr);
 
     bool fetchingData() const;
 
@@ -76,6 +79,12 @@ public:
     bool debugServerEnabled() const;
     void setDebugServerEnabled(bool debugServerEnabled);
 
+    QString backupDestinationDirectory() const;
+    void setBackupDestinationDirectory(const QString &backupDestinationDirectory);
+
+    int backupMaxCount() const;
+    void setBackupMaxCount(int backupMaxCount);
+
     ServerConfigurations *tcpServerConfigurations() const;
     ServerConfigurations *webSocketServerConfigurations() const;
     WebServerConfigurations *webServerConfigurations() const;
@@ -83,10 +92,12 @@ public:
     ServerConfigurations *mqttServerConfigurations() const;
     MqttPolicies *mqttPolicies() const;
 
-    Q_INVOKABLE ServerConfiguration* createServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false);
-    Q_INVOKABLE WebServerConfiguration* createWebServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false, const QString &publicFolder = QString());
-    Q_INVOKABLE TunnelProxyServerConfiguration* createTunnelProxyServerConfiguration(const QString &address, int port, bool authEnabled = true, bool sslEnabled = true, bool ignoreSslErrors = false);
-    Q_INVOKABLE MqttPolicy* createMqttPolicy() const;
+    Q_INVOKABLE ServerConfiguration *createServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false);
+    Q_INVOKABLE WebServerConfiguration *createWebServerConfiguration(
+        const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false, const QString &publicFolder = QString());
+    Q_INVOKABLE TunnelProxyServerConfiguration *createTunnelProxyServerConfiguration(
+        const QString &address, int port, bool authEnabled = true, bool sslEnabled = true, bool ignoreSslErrors = false);
+    Q_INVOKABLE MqttPolicy *createMqttPolicy() const;
 
     Q_INVOKABLE void setTcpServerConfiguration(ServerConfiguration *configuration);
     Q_INVOKABLE void setWebSocketServerConfiguration(ServerConfiguration *configuration);
@@ -100,7 +111,7 @@ public:
     Q_INVOKABLE void deleteTunnelProxyServerConfiguration(const QString &id);
     Q_INVOKABLE void deleteMqttServerConfiguration(const QString &id);
 
-    Q_INVOKABLE void updateMqttPolicy(MqttPolicy* policy);
+    Q_INVOKABLE void updateMqttPolicy(MqttPolicy *policy);
     Q_INVOKABLE void deleteMqttPolicy(const QString &clientId);
     void init();
 
@@ -131,6 +142,8 @@ signals:
     void fetchingDataChanged();
     void debugServerEnabledChanged();
     void serverNameChanged();
+    void backupDestinationDirectoryChanged();
+    void backupMaxCountChanged();
 
 private:
     JsonRpcClient *m_client = nullptr;
@@ -139,13 +152,15 @@ private:
     bool m_debugServerEnabled = false;
     QString m_serverName;
 
+    QString m_backupDestinationDirectory;
+    int m_backupMaxCount = 1;
+
     ServerConfigurations *m_tcpServerConfigurations = nullptr;
     ServerConfigurations *m_webSocketServerConfigurations = nullptr;
-    WebServerConfigurations* m_webServerConfigurations = nullptr;
+    WebServerConfigurations *m_webServerConfigurations = nullptr;
     TunnelProxyServerConfigurations *m_tunnelProxyServerConfigurations = nullptr;
     ServerConfigurations *m_mqttServerConfigurations = nullptr;
     MqttPolicies *m_mqttPolicies = nullptr;
-
 };
 
 #endif // NYMEACONFIGURATION_H
