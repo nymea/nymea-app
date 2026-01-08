@@ -196,7 +196,6 @@ Tag* TagsManager::unpackTag(const QVariantMap &tagMap)
         tag->setRuleId(ruleId);
     } else {
         qCWarning(dcTags()) << "Invalid tag. Neither thingId nor ruleId are set. Skipping...";
-        tag->deleteLater();
         return nullptr;
     }
 //    qDebug() << "adding tag" << tag->tagId() << tag->value();
