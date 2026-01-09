@@ -42,6 +42,7 @@
 #include <QLocale>
 #include <QDir>
 #include <QStandardPaths>
+#include <QRegularExpression>
 
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcJsonRpc, "JsonRpc")
