@@ -1,3 +1,11 @@
+nymea-app (1.11.3) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add step size to StateType and ParamType
+  * Fix username creation login bug
+
+ -- jenkins <developer@nymea.io>  Fri, 09 Jan 2026 11:37:10 +0100
+
 nymea-app (1.10.21) bionic; urgency=medium
 
   [ Simon Stürz ]
