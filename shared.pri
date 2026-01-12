@@ -20,6 +20,15 @@ win32-msvc {
     QMAKE_CXXFLAGS += -Wno-deprecated-copy
 }
 
+# This warning group is not available on older clang version.
+# When building with Qt >= 6.10.x -Wno-unknown-warning-option
+# this seems not to work with the available clang versions (Android/Windows).
+# Disable this warning group until this is fixed with the shiped clang version:
+# https://github.com/llvm/llvm-project/issues/163719
+contains(QMAKE_COMPILER, clang) {
+    QMAKE_CXXFLAGS += -Wno-unknown-warning-option
+}
+
 QMAKE_CXXFLAGS += -g
 
 top_srcdir=$$PWD
