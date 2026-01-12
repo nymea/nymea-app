@@ -31,6 +31,10 @@
 #include <QJniObject>
 #include <QTimer>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <QtAndroid>
+#endif
+
 // WindowManager.LayoutParams
 #define FLAG_TRANSLUCENT_STATUS 0x04000000
 #define FLAG_TRANSLUCENT_NAVIGATION 0x08000000
@@ -110,10 +114,15 @@ void PlatformHelperAndroid::hideSplashScreen()
 {
     // Android's splash will flicker when fading out twice
     static bool alreadyHiding = false;
-    if (!alreadyHiding) {
-        //QtAndroid::hideSplashScreen(250);
-        alreadyHiding = true;
+    if (alreadyHiding) {
+        return;
     }
+
+    alreadyHiding = true;
+    PlatformHelper::hideSplashScreen();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QtAndroid::hideSplashScreen(250);
+#endif
 }
 
 QString PlatformHelperAndroid::machineHostname() const

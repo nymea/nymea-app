@@ -17,7 +17,6 @@ import android.content.IntentFilter;
 import android.content.BroadcastReceiver;
 import android.location.LocationManager;
 import androidx.core.content.FileProvider;
-import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import android.view.WindowInsets;
 import android.graphics.Insets;
@@ -32,6 +31,7 @@ public class NymeaAppActivity extends QtActivity
 {
     private static final String TAG = "nymea-app: NymeaAppActivity";
     private static Context context = null;
+    private boolean mDecorFitsSystemWindows = true;
 
     private static native void darkModeEnabledChangedJNI();
     private static native void notificationActionReceivedJNI(String data);
@@ -50,7 +50,13 @@ public class NymeaAppActivity extends QtActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.w(TAG, "Create activity");
+        setTheme(R.style.NormalTheme);
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= 35) {
+            // Let the system handle insets to avoid double padding in Qt content.
+            WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+            mDecorFitsSystemWindows = true;
+        }
         // Move th app to the background (Edge to edge is forced since SDK 35)
         //WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         this.context = getApplicationContext();
@@ -150,7 +156,7 @@ public class NymeaAppActivity extends QtActivity
     }
 
     public int topPadding() {
-        if (Build.VERSION.SDK_INT < 35) {
+        if (mDecorFitsSystemWindows || Build.VERSION.SDK_INT < 35) {
             return 0;
         }
 
@@ -169,7 +175,7 @@ public class NymeaAppActivity extends QtActivity
     }
 
     public int bottomPadding() {
-        if (Build.VERSION.SDK_INT < 35) {
+        if (mDecorFitsSystemWindows || Build.VERSION.SDK_INT < 35) {
             return 0;
         }
 
@@ -187,7 +193,7 @@ public class NymeaAppActivity extends QtActivity
     }
 
     public int leftPadding() {
-        if (Build.VERSION.SDK_INT < 35) {
+        if (mDecorFitsSystemWindows || Build.VERSION.SDK_INT < 35) {
             return 0;
         }
 
@@ -205,7 +211,7 @@ public class NymeaAppActivity extends QtActivity
     }
 
     public int rightPadding() {
-        if (Build.VERSION.SDK_INT < 35) {
+        if (mDecorFitsSystemWindows || Build.VERSION.SDK_INT < 35) {
             return 0;
         }
 
