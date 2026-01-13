@@ -50,7 +50,13 @@ public class NymeaAppActivity extends QtActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.w(TAG, "Create activity");
-        setTheme(R.style.NormalTheme);
+        int themeId = resolveStyleResource("NormalTheme");
+        if (themeId != 0) {
+            setTheme(themeId);
+        } else {
+            Log.w(TAG, "NormalTheme style missing, falling back to system theme");
+            setTheme(android.R.style.Theme_DeviceDefault_DayNight);
+        }
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= 35) {
             // Let the system handle insets to avoid double padding in Qt content.
@@ -258,5 +264,10 @@ public class NymeaAppActivity extends QtActivity
         } catch (PackageManager.NameNotFoundException exception) {
             Log.e(TAG, "Failed to inspect android.app.static_init_classes meta-data", exception);
         }
+    }
+
+    private int resolveStyleResource(String resourceName) {
+        // Resolve app resources dynamically to support branded package names.
+        return getResources().getIdentifier(resourceName, "style", getPackageName());
     }
 }
