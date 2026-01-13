@@ -1,6 +1,14 @@
 nymea-app (1.11.3) bionic; urgency=medium
 
   [ Simon Stürz ]
+  * Update to Qt 6.10.1 and fix android spash screen
+  * Add step size to StateType and ParamType
+
+ -- jenkins <developer@nymea.io>  Tue, 13 Jan 2026 14:28:25 +0100
+
+nymea-app (1.11.3) bionic; urgency=medium
+
+  [ Simon Stürz ]
   * Add step size to StateType and ParamType
   * Fix username creation login bug
 
