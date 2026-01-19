@@ -663,7 +663,7 @@ Page {
                     Layout.fillWidth: true
                     Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                     visible: !resultsView.success
-                    text: "Retry"
+                    text: qsTr("Retry")
                     onClicked: {
                         internalPageStack.pop({immediate: true});
                         internalPageStack.pop({immediate: true});

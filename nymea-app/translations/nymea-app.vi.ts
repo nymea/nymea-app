@@ -595,10 +595,6 @@
         <source>Telegram</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Discord</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>ConfigureThingPage</name>
@@ -2566,6 +2562,10 @@ Please try again.</source>
     </message>
     <message>
         <source>Licensed under the terms of the nymea commercial license.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chargebyte</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5400,6 +5400,13 @@ Do you want to proceed?</source>
     </message>
 </context>
 <context>
+    <name>ParamDelegate</name>
+    <message>
+        <source>Type to search</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ParamDescriptorDelegate</name>
     <message>
         <source>is</source>
@@ -6531,6 +6538,14 @@ Do you want to proceed?</source>
     </message>
     <message>
         <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset values to default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retry</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

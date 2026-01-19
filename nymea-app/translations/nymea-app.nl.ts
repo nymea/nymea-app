@@ -598,7 +598,7 @@
     </message>
     <message>
         <source>Discord</source>
-        <translation>Discord</translation>
+        <translation type="vanished">Discord</translation>
     </message>
 </context>
 <context>
@@ -2583,6 +2583,10 @@ Probeer het nog een keer.</translation>
     </message>
     <message>
         <source>Licensed under the terms of the nymea commercial license.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chargebyte</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5435,6 +5439,13 @@ Wil je doorgaan?</translation>
     </message>
 </context>
 <context>
+    <name>ParamDelegate</name>
+    <message>
+        <source>Type to search</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ParamDescriptorDelegate</name>
     <message>
         <source>is</source>
@@ -6568,6 +6579,14 @@ Wil je doorgaan?</translation>
     <message>
         <source>Username</source>
         <translation>Gebruikersnaam</translation>
+    </message>
+    <message>
+        <source>Reset values to default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retry</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

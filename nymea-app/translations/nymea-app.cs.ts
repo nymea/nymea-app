@@ -93,6 +93,14 @@
         <source>Serial copied to clipboard</source>
         <translation>SN zkopírováno do schránky</translation>
     </message>
+    <message>
+        <source>Consolinno HEMS version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HEMS version copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AboutPage</name>
@@ -591,7 +599,7 @@
     </message>
     <message>
         <source>Discord</source>
-        <translation>Discord</translation>
+        <translation type="vanished">Discord</translation>
     </message>
 </context>
 <context>
@@ -2583,6 +2591,10 @@ Prosím zkuste to znovu.</translation>
         <source>Licensed under the terms of the nymea commercial license.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Chargebyte</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>InterfaceTile</name>
@@ -3858,6 +3870,14 @@ Prosím zkuste to znovu.</translation>
     </message>
     <message>
         <source>Welcome!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you are the owner and do not have your own account, have your installer create an account for you.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you are an installer and do not have your own account, you can authenticate yourself using the test button on the leaflet (see quick start guide or user manual).</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5433,6 +5453,13 @@ Chcete pokračovat?</translation>
     </message>
 </context>
 <context>
+    <name>ParamDelegate</name>
+    <message>
+        <source>Type to search</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ParamDescriptorDelegate</name>
     <message>
         <source>is</source>
@@ -5809,11 +5836,23 @@ Chcete pokračovat?</translation>
     </message>
     <message>
         <source>Authentication required</source>
-        <translation>Vyžadováno ověření</translation>
+        <translation type="vanished">Vyžadováno ověření</translation>
     </message>
     <message>
         <source>Please press the button on your %1 gateway to authenticate this device.</source>
-        <translation>Chcete-li toto zařízení ověřit, stiskněte tlačítko na bráně %1.</translation>
+        <translation type="vanished">Chcete-li toto zařízení ověřit, stiskněte tlačítko na bráně %1.</translation>
+    </message>
+    <message>
+        <source>Finish authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To complete authentication, press the test button again for 5 sec. until the status LED lights up green.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If the status LED flashes red briefly or this screen remains displayed, the authentication has failed. Please go back and restart the process.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6562,6 +6601,14 @@ Chcete pokračovat?</translation>
     <message>
         <source>Username</source>
         <translation>Uživatelské jméno</translation>
+    </message>
+    <message>
+        <source>Reset values to default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Retry</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7457,6 +7504,14 @@ Toto prosím používejte pouze v případě, že jste si jisti tím co děláte
     <message>
         <source>User information</source>
         <translation>Uživatelské informace</translation>
+    </message>
+    <message>
+        <source>User login via authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authenticated user</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
