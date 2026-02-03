@@ -35,14 +35,18 @@ class SystemController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool powerManagementAvailable READ powerManagementAvailable NOTIFY powerManagementAvailableChanged)
+
     // Whether the update mechanism is available in the connected core
     Q_PROPERTY(bool updateManagementAvailable READ updateManagementAvailable NOTIFY updateManagementAvailableChanged)
+    Q_PROPERTY(UpdateType updateManagementType READ updateManagementType NOTIFY updateManagementTypeChanged FINAL)
     Q_PROPERTY(bool timeManagementAvailable READ timeManagementAvailable NOTIFY timeManagementAvailableChanged)
 
     Q_PROPERTY(bool updateManagementBusy READ updateManagementBusy NOTIFY updateManagementBusyChanged)
     Q_PROPERTY(bool updateRunning READ updateRunning NOTIFY updateRunningChanged)
-    Q_PROPERTY(Packages* packages READ packages CONSTANT)
-    Q_PROPERTY(Repositories* repositories READ repositories CONSTANT)
+    Q_PROPERTY(int updateProgress READ updateProgress NOTIFY updateProgressChanged)
+
+    Q_PROPERTY(Packages *packages READ packages CONSTANT)
+    Q_PROPERTY(Repositories *repositories READ repositories CONSTANT)
 
     Q_PROPERTY(QDateTime serverTime READ serverTime WRITE setServerTime NOTIFY serverTimeChanged)
     Q_PROPERTY(QString serverTimeZone READ serverTimeZone WRITE setServerTimeZone NOTIFY serverTimeZoneChanged)
@@ -53,23 +57,34 @@ class SystemController : public QObject
     Q_PROPERTY(QString deviceSerialNumber READ deviceSerialNumber NOTIFY deviceSerialNumberChanged)
 
 public:
+    enum UpdateType {
+        UpdateTypeNone,
+        UpdateTypeSystem,
+        UpdateTypePackageManager
+    };
+    Q_ENUM(UpdateType)
+
     explicit SystemController(JsonRpcClient *jsonRpcClient, QObject *parent = nullptr);
 
     void init();
 
     bool powerManagementAvailable() const;
+
     Q_INVOKABLE int restart();
     Q_INVOKABLE int reboot();
     Q_INVOKABLE int shutdown();
 
     bool updateManagementAvailable() const;
+    UpdateType updateManagementType() const;
+
     bool updateManagementBusy() const;
     bool updateRunning() const;
+    int updateProgress() const;
     Q_INVOKABLE void checkForUpdates();
-    Packages* packages() const;
+    Packages *packages() const;
     Q_INVOKABLE void updatePackages(const QString packageId = QString());
     Q_INVOKABLE void removePackages(const QString packageId = QString());
-    Repositories* repositories() const;
+    Repositories *repositories() const;
     Q_INVOKABLE int enableRepository(const QString &id, bool enabled);
 
     bool timeManagementAvailable() const;
@@ -87,9 +102,11 @@ public:
 signals:
     void powerManagementAvailableChanged();
     void updateManagementAvailableChanged();
+    void updateManagementTypeChanged();
     void timeManagementAvailableChanged();
     void updateManagementBusyChanged();
     void updateRunningChanged();
+    void updateProgressChanged();
     void enableRepositoryFinished(int id, bool success);
     void serverTimeChanged();
     void serverTimeZoneChanged();
@@ -117,7 +134,6 @@ private slots:
 
     void notificationReceived(const QVariantMap &data);
 
-
 protected:
     void timerEvent(QTimerEvent *event) override;
 
@@ -126,10 +142,12 @@ private:
 
     bool m_powerManagementAvailable = false;
     bool m_updateManagementAvailable = false;
+    UpdateType m_updateManagementType = UpdateTypeNone;
     bool m_timeManagementAvailable = false;
 
     bool m_updateManagementBusy = false;
     bool m_updateRunning = false;
+    int m_updateProgress = -1;
     Packages *m_packages = nullptr;
     Repositories *m_repositories = nullptr;
 

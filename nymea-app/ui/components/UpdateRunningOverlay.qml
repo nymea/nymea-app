@@ -64,6 +64,15 @@ Rectangle {
             wrapMode: Text.WordWrap
             font.pixelSize: app.largeFont
         }
+
+        ProgressBar {
+            Layout.fillWidth: true
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            visible: engine.systemController.updateProgress >=  0
+            value: engine.systemController.updateProgress / 100.0
+        }
+
         Label {
             Layout.fillWidth: true
             Layout.margins: app.margins * 2

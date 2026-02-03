@@ -26,6 +26,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+
 import Nymea
 
 import "../components"
@@ -48,12 +49,12 @@ Page {
 
     Connections {
         target: engine.systemController
-        onEnableRepositoryFinished: {
-            if (!success) {
-                var popup = errorDialogComponent.createObject(app, {errorCode: qsTr("Failure adding repository.") })
-                popup.open();
-            }
-        }
+        onEnableRepositoryFinished: (id, success) => {
+                                        if (!success) {
+                                            var popup = errorDialogComponent.createObject(app, {errorCode: qsTr("Failure adding repository.") })
+                                            popup.open();
+                                        }
+                                    }
     }
 
     PackagesFilterModel {
@@ -62,149 +63,348 @@ Page {
         updatesOnly: true
     }
 
-    ColumnLayout {
-        id: contentColumn
+    Loader {
+        id: updateTypeLoader
         anchors.fill: parent
+        sourceComponent: engine.systemController.updateManagementType === SystemController.UpdateTypeSystem ?
+                             updateSystemComponent :
+                             updatePackageManagerComponent
 
-        Item {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            visible: updatesModel.count === 0
+    }
+
+    Component {
+        id: updateSystemComponent
+
+        ColumnLayout {
+            id: systemUpdateContentColumn
+
+            property Package systemPackage: engine.systemController.packages.get(0)
+            property bool changelogAvailable: systemUpdateContentColumn.systemPackage.changelog.length !== 0
+
+            anchors.fill: parent
+            anchors.margins: app.margins
+
+            Item {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                visible: updatesModel.count === 0
+
+                ColumnLayout {
+                    width: parent.width
+                    anchors.centerIn: parent
+                    spacing: app.margins * 2
+
+                    ColorIcon {
+                        Layout.preferredHeight: Style.iconSize * 4
+                        Layout.preferredWidth: height
+                        Layout.alignment: Qt.AlignHCenter
+                        name: "qrc:/icons/system-update.svg"
+                        color: Style.accentColor
+                        RotationAnimation on rotation {
+                            from: 0; to: 360
+                            duration: 2000
+                            running: engine.systemController.updateManagementBusy
+                            loops: Animation.Infinite
+                        }
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Style.margins
+                        Layout.rightMargin: Style.margins
+
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
+                        text: engine.systemController.updateManagementBusy ? qsTr("Checking for updates...") : qsTr("Your system is up to date.")
+                    }
+
+                    Label {
+                        id: versionLabel
+                        Layout.alignment: Qt.AlignHCenter
+                        wrapMode: Text.WordWrap
+                        text: qsTr("Version:") + " " + systemUpdateContentColumn.systemPackage.installedVersion
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                PlatformHelper.toClipBoard(versionLabel.text);
+                                ToolTip.show(qsTr("Version copied to clipboard"), 500);
+                            }
+                        }
+                    }
+
+                    Button {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Style.margins
+                        Layout.rightMargin: Style.margins
+
+                        text: qsTr("Check for updates")
+                        enabled: !engine.systemController.updateManagementBusy
+                        onClicked: {
+                            engine.systemController.checkForUpdates()
+                        }
+                    }
+                }
+            }
 
             ColumnLayout {
-                width: parent.width
-                anchors.centerIn: parent
-                spacing: app.margins * 2
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                visible: updatesModel.count > 0
 
-                ColorIcon {
-                    Layout.preferredHeight: Style.iconSize * 4
-                    Layout.preferredWidth: height
-                    Layout.alignment: Qt.AlignHCenter
-                    name: "qrc:/icons/system-update.svg"
-                    color: Style.accentColor
-                    RotationAnimation on rotation {
-                        from: 0; to: 360
-                        duration: 2000
-                        running: engine.systemController.updateManagementBusy
-                        loops: Animation.Infinite
+                RowLayout {
+                    Layout.margins: app.margins
+                    spacing: app.margins
+
+                    ColorIcon {
+                        Layout.preferredHeight: Style.iconSize * 2
+                        Layout.preferredWidth: height
+                        name: "qrc:/icons/system-update.svg"
+                        color: Style.accentColor
+                        RotationAnimation on rotation {
+                            from: 0; to: 360
+                            duration: 2000
+                            running: engine.systemController.updateManagementBusy
+                            loops: Animation.Infinite
+                        }
                     }
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: engine.systemController.updateManagementBusy ? qsTr("Checking for updates...") : qsTr("%1 update available").arg(Configuration.systemName)
+                    }
+                }
+
+
+                Button {
+                    Layout.fillWidth: true
+                    text: qsTr("Check again")
+                    enabled: !engine.systemController.updateManagementBusy
+                    onClicked: engine.systemController.checkForUpdates()
+                }
+
+                NymeaSwipeDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Installed version:")
+                    subText: systemUpdateContentColumn.systemPackage.installedVersion
+                    progressive: false
+                }
+
+                NymeaSwipeDelegate {
+                    Layout.fillWidth: true
+                    text: qsTr("Candidate version:")
+                    subText: systemUpdateContentColumn.systemPackage.candidateVersion
+                    visible: systemUpdateContentColumn.systemPackage.updateAvailable || systemUpdateContentColumn.systemPackage.installedVersion.length === 0
+                    progressive: false
+                }
+
+                ThinDivider {
+                    visible: changelogAvailable
                 }
 
                 Label {
                     Layout.fillWidth: true
-                    Layout.margins: app.margins
-                    horizontalAlignment: Text.AlignHCenter
+                    Layout.leftMargin: Style.margins
+                    Layout.rightMargin: Style.margins
+
+                    visible: changelogAvailable
+                    text: qsTr("Update changelog:")
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: Style.margins
+                    Layout.rightMargin: Style.margins
+
+                    Layout.alignment: Qt.AlignHCenter
                     wrapMode: Text.WordWrap
-                    text: engine.systemController.updateManagementBusy ? qsTr("Checking for updates...") : qsTr("Your system is up to date.")
+                    visible: changelogAvailable
+                    text: systemPackage.changelog
+
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                 }
 
                 Button {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: qsTr("Check for updates")
+                    Layout.fillWidth: true
+                    //Layout.leftMargin: Style.margins
+                    //Layout.rightMargin: Style.margins
+
+                    text: qsTr("Update")
+                    visible: updatesModel.count > 0
                     enabled: !engine.systemController.updateManagementBusy
                     onClicked: {
-                        engine.systemController.checkForUpdates()
+                        var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
+                        var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(Configuration.systemName)
+                        var popup = dialog.createObject(app,
+                                                        {
+                                                            headerIcon: "qrc:/icons/system-update.svg",
+                                                            title: qsTr("System update"),
+                                                            text: text,
+                                                            standardButtons: Dialog.Ok | Dialog.Cancel
+                                                        });
+                        popup.open();
+                        popup.accepted.connect(function() {
+                            engine.systemController.updatePackages()
+                        })
                     }
                 }
             }
         }
+    }
+
+
+    Component {
+        id: updatePackageManagerComponent
 
         ColumnLayout {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            visible: updatesModel.count > 0
+            id: contentColumn
+            anchors.fill: parent
 
-            RowLayout {
-                Layout.margins: app.margins
-                spacing: app.margins
+            Item {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
 
-                ColorIcon {
-                    Layout.preferredHeight: Style.iconSize * 2
-                    Layout.preferredWidth: height
-                    name: "qrc:/icons/system-update.svg"
-                    color: Style.accentColor
-                    RotationAnimation on rotation {
-                        from: 0; to: 360
-                        duration: 2000
-                        running: engine.systemController.updateManagementBusy
-                        loops: Animation.Infinite
-                    }
-                }
+                visible: updatesModel.count === 0
 
                 ColumnLayout {
+                    width: parent.width
+                    anchors.centerIn: parent
+                    spacing: app.margins * 2
+
+                    ColorIcon {
+                        Layout.preferredHeight: Style.iconSize * 4
+                        Layout.preferredWidth: height
+                        Layout.alignment: Qt.AlignHCenter
+                        name: "qrc:/icons/system-update.svg"
+                        color: Style.accentColor
+                        RotationAnimation on rotation {
+                            from: 0; to: 360
+                            duration: 2000
+                            running: engine.systemController.updateManagementBusy
+                            loops: Animation.Infinite
+                        }
+                    }
+
                     Label {
                         Layout.fillWidth: true
-                        text: engine.systemController.updateManagementBusy ? qsTr("Checking for updates...") : qsTr("%n update(s) available", "", updatesModel.count)
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WordWrap
+                        text: engine.systemController.updateManagementBusy ? qsTr("Checking for updates...") : qsTr("Your system is up to date.")
                     }
-                    GridLayout {
-                        columns: width > 250 ? 2 : 1
-                        Button {
+
+                    Button {
+                        Layout.fillWidth: true
+                        text: qsTr("Check for updates")
+                        enabled: !engine.systemController.updateManagementBusy
+                        onClicked: engine.systemController.checkForUpdates()
+                    }
+                }
+            }
+
+            ColumnLayout {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                visible: updatesModel.count > 0
+
+                RowLayout {
+                    spacing: Style.margins
+                    Layout.leftMargin: Style.margins
+                    Layout.rightMargin: Style.margins
+
+                    ColorIcon {
+                        Layout.preferredHeight: Style.iconSize * 2
+                        Layout.preferredWidth: height
+                        name: "qrc:/icons/system-update.svg"
+                        color: Style.accentColor
+                        RotationAnimation on rotation {
+                            from: 0; to: 360
+                            duration: 2000
+                            running: engine.systemController.updateManagementBusy
+                            loops: Animation.Infinite
+                        }
+                    }
+
+                    ColumnLayout {
+                        Label {
                             Layout.fillWidth: true
-                            text: qsTr("Check again")
-                            enabled: !engine.systemController.updateManagementBusy
-                            onClicked: {
-                                engine.systemController.checkForUpdates()
+                            text: engine.systemController.updateManagementBusy ? qsTr("Checking for updates...") : qsTr("%n update(s) available", "", updatesModel.count)
+                        }
+                        GridLayout {
+                            columns: width > 250 ? 2 : 1
+                            Button {
+                                Layout.fillWidth: true
+                                text: qsTr("Check again")
+                                enabled: !engine.systemController.updateManagementBusy
+                                onClicked: {
+                                    engine.systemController.checkForUpdates()
+                                }
+                            }
+                            Button {
+                                Layout.fillWidth: true
+                                text: qsTr("Update all")
+                                visible: updatesModel.count > 0
+                                enabled: !engine.systemController.updateManagementBusy
+                                onClicked: {
+                                    var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
+                                    var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(Configuration.systemName)
+                                    var popup = dialog.createObject(app,
+                                                                    {
+                                                                        headerIcon: "qrc:/icons/system-update.svg",
+                                                                        title: qsTr("System update"),
+                                                                        text: text,
+                                                                        standardButtons: Dialog.Ok | Dialog.Cancel
+                                                                    });
+                                    popup.open();
+                                    popup.accepted.connect(function() {
+                                        engine.systemController.updatePackages()
+                                    })
+                                }
                             }
                         }
-                        Button {
-                            Layout.fillWidth: true
-                            text: qsTr("Update all")
-                            visible: updatesModel.count > 0
-                            enabled: !engine.systemController.updateManagementBusy
-                            onClicked: {
-                                var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
-                                var text = qsTr("This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.\nDo you want to proceed?").arg(Configuration.systemName)
-                                var popup = dialog.createObject(app,
-                                                                {
-                                                                    headerIcon: "qrc:/icons/system-update.svg",
-                                                                    title: qsTr("System update"),
-                                                                    text: text,
-                                                                    standardButtons: Dialog.Ok | Dialog.Cancel
-                                                                });
-                                popup.open();
-                                popup.accepted.connect(function() {
-                                    engine.systemController.updatePackages()
-                                })
-                            }
+                    }
+
+                }
+
+                ThinDivider {}
+
+                ListView {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    visible: count > 0
+                    model: updatesModel
+                    clip: true
+                    delegate: NymeaSwipeDelegate {
+                        width: parent.width
+                        text: model.displayName
+                        subText: model.candidateVersion
+                        prominentSubText: false
+                        iconName: model.updateAvailable
+                                  ? Qt.resolvedUrl("qrc:/icons/system-update.svg")
+                                  : Qt.resolvedUrl("qrc:/icons/view-" + (model.installedVersion.length > 0 ? "expand" : "collapse") + ".svg")
+                        iconColor: model.updateAvailable
+                                   ? "green"
+                                   : model.installedVersion.length > 0 ? "blue" : Style.iconColor
+                        onClicked: {
+                            pageStack.push(Qt.resolvedUrl("PackageDetailsPage.qml"), {pkg: updatesModel.get(index)})
                         }
                     }
                 }
-
             }
 
             ThinDivider {}
 
-            ListView {
+            NymeaSwipeDelegate {
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                visible: count > 0
-                model: updatesModel
-                clip: true
-                delegate: NymeaSwipeDelegate {
-                    width: parent.width
-                    text: model.displayName
-                    subText: model.candidateVersion
-                    prominentSubText: false
-                    iconName: model.updateAvailable
-                              ? Qt.resolvedUrl("qrc:/icons/system-update.svg")
-                                : Qt.resolvedUrl("qrc:/icons/view-" + (model.installedVersion.length > 0 ? "expand" : "collapse") + ".svg")
-                    iconColor: model.updateAvailable
-                               ? "green"
-                                 : model.installedVersion.length > 0 ? "blue" : Style.iconColor
-                    onClicked: {
-                        pageStack.push(Qt.resolvedUrl("PackageDetailsPage.qml"), {pkg: updatesModel.get(index)})
-                    }
+                text: qsTr("Install or remove software")
+                onClicked: {
+                    pageStack.push("PackageListPage.qml")
                 }
-            }
-        }
-
-        ThinDivider {}
-
-        NymeaSwipeDelegate {
-            Layout.fillWidth: true
-            text: qsTr("Install or remove software")
-            onClicked: {
-                pageStack.push("PackageListPage.qml")
             }
         }
     }
@@ -253,8 +453,7 @@ Page {
         }
     }
 
-    UpdateRunningOverlay {
-    }
+    UpdateRunningOverlay { }
 
     Component {
         id: errorDialogComponent
