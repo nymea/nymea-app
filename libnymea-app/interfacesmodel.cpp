@@ -160,7 +160,7 @@ void InterfacesModel::syncInterfaces()
         }
     }
 
-    qWarning() << "syncing for interfaces:" << m_shownInterfaces;
+//    qWarning() << "syncing for interfaces:" << m_shownInterfaces;
     QStringList interfacesInSource;
     foreach (ThingClass *dc, thingClasses) {
 //        qWarning() << "thing" <<dc->name() << "has interfaces" << dc->interfaces();
