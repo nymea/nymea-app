@@ -45,12 +45,16 @@ SettingsPageBase {
         property int pendingCommand: -1
     }
 
+    HemsManager {
+        id: hemsManager
+        engine: _engine
+    }
+
     Connections {
         target: engine.systemController
         onRestartReply: handleReply(id, success)
         onRebootReply: handleReply(id, success)
         onShutdownReply: handleReply(id, success)
-
         function handleReply(id, success) {
             if (id === d.pendingCommand) {
                 d.pendingCommand = -1
@@ -58,6 +62,23 @@ SettingsPageBase {
                     var component = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
                     var popup = component.createObject(root);
                     popup.open()
+                }
+            }
+        }
+    }
+
+    Connections {
+        target: hemsManager
+        onFactoryResetReply: {
+            if (commandId == d.pendingCommand) {
+                d.pendingCommand = -1
+
+                var props = {};
+                if (error !== "HemsErrorNoError") {
+                    props.errorCode = error;
+                    var comp = Qt.createComponent("../components/ErrorDialog.qml")
+                    var popup = comp.createObject(app, props)
+                    popup.open();
                 }
             }
         }
@@ -286,7 +307,62 @@ SettingsPageBase {
             })
         }
     }
+    Button {
+        Layout.fillWidth: true
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        text: qsTr("Reset to factory settings")
+        visible: engine.systemController.powerManagementAvailable && !Configuration.hideFactoryResetButton && hemsManager.available
+        onClicked: {
+            var popup = factoryResetDialogComponent.createObject(app);
+            popup.open();
+            popup.accepted.connect(function() {
+                d.pendingCommand = hemsManager.factoryReset()
+            })
+        }
+    }
 
+    Component {
+        id: factoryResetDialogComponent
+        Dialog {
+            id: factoryResetDialog
+            width: Math.min(parent.width * 0.9, 400)
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+            title: qsTr("Reset to factory settings")
+            standardButtons: Dialog.Ok | Dialog.Cancel
+
+            ColumnLayout {
+                width: parent.width
+                spacing: app.margins
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: app.margins
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: qsTr("The factory reset restores all software settings to their factory defaults, thereby deleting all device settings, commissioning settings and data.")
+                        wrapMode: Text.WordWrap
+                    }
+                }
+
+                CheckBox {
+                    id: confirmCheckBox
+                    Layout.fillWidth: true
+                    text: qsTr("I have read the message.")
+                }
+            }
+
+            onAccepted: {
+                // Will be handled by connection in parent
+            }
+
+            Component.onCompleted: {
+                standardButton(Dialog.Ok).enabled = Qt.binding(function() { return confirmCheckBox.checked })
+            }
+        }
+    }
 
     Component {
         id: timePickerComponent

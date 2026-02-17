@@ -2438,6 +2438,18 @@ Bitte versuche es erneut.</translation>
         <source>Are you sure you want to shut down your %1 sytem now?</source>
         <translation>Bist Du sicher, dass Du dein %1 System jetzt herunterfahren möchtest?</translation>
     </message>
+    <message>
+        <source>Reset to factory settings</source>
+        <translation>Auf Werkseinstellungen zurücksetzen</translation>
+    </message>
+    <message>
+        <source>The factory reset restores all software settings to their factory defaults, thereby deleting all device settings, commissioning settings and data.</source>
+        <translation>Das Zurücksetzen auf Werkseinstellungen setzt alle Software-Einstellungen auf den Werkszustand zurück. Dabei werden alle Geräte-Einstellungen, Inbetriebnahme-Einstellungen und Daten gelöscht.</translation>
+    </message>
+    <message>
+        <source>I have read the message.</source>
+        <translation>Ich habe den Hinweis gelesen.</translation>
+    </message>
 </context>
 <context>
     <name>GenericThingPage</name>
