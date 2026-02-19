@@ -457,6 +457,7 @@ ItemDelegate {
                         wrapMode: TextEdit.WrapAnywhere
                         placeholderText: qsTr("Type to search")
                         placeholderTextColor: Style.subTextColor
+                        inputMethodHints: Qt.ImhNoPredictiveText
 
                         background: Rectangle {
                             color: Style.backgroundColor
