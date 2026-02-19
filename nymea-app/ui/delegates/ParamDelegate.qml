@@ -330,6 +330,7 @@ ItemDelegate {
             id: control
 
             Layout.fillWidth: true
+            inputMethodHints: Qt.ImhNoPredictiveText
 
             property var basemodel: root.paramType.allowedValues
 
