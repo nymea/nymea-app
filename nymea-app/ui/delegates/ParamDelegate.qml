@@ -330,13 +330,12 @@ ItemDelegate {
             id: control
 
             Layout.fillWidth: true
-            inputMethodHints: Qt.ImhNoPredictiveText
 
             property var basemodel: root.paramType.allowedValues
 
             model: basemodel.filter(value => {
-                                        var ret = (filterConditionText.text.length > 0) ?
-                                            value.toLowerCase().includes(filterConditionText.text.toLowerCase()) :
+                                        var ret = (filterConditionText.displayText.length > 0) ?
+                                            value.toLowerCase().includes(filterConditionText.displayText.toLowerCase()) :
                                             true;
                                         return ret;
                                     });
@@ -444,7 +443,7 @@ ItemDelegate {
                 contentItem: Item {
                     anchors.fill: parent
 
-                    TextArea {
+                    TextField {
                         id: filterConditionText
                         anchors.left: parent.left
                         anchors.right: parent.right
