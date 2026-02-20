@@ -216,38 +216,42 @@ int EnergyLogs::indexOf(const QDateTime &timestamp)
     if (m_list.isEmpty()) {
         return -1;
     }
-    QDateTime first = m_list.first()->timestamp();
 
-    int index = qRound(1.0 * first.secsTo(timestamp) / (m_sampleRate * 60));
-    if (index < 0 || index >= m_list.count()) {
-        qCDebug(dcEnergyLogs()) << "finding:" << timestamp << index << first.toString() << "NOT FOUND" << m_list.last()->timestamp() << m_list.count();
+    const qint64 target = timestamp.toMSecsSinceEpoch();
+    const qint64 firstTimestamp = m_list.first()->timestamp().toMSecsSinceEpoch();
+    const qint64 lastTimestamp = m_list.last()->timestamp().toMSecsSinceEpoch();
+    if (target < firstTimestamp || target > lastTimestamp) {
         return -1;
     }
-    qCDebug(dcEnergyLogs()) << "finding:" << timestamp << index << first.toString() << m_list.at(index)->timestamp();
 
+    int low = 0;
+    int high = m_list.count() - 1;
 
-    // Normally, if the DB is in a consistent state, we can rely that the above finds the correct entry.
-    // However, if the user changes the timezone, during the lifetime, or other woes may appear like NTP
-    // changing time which may cause inconsistent entries like passing the same time twice, we could end up
-    // off by one. In order to compensate for that, we'll see if the next or previous entries may be closer
-    // In theory we could even be off by some more samples in very rare circumstances, but unlikely enough
-    // to not bother with that at this point.
-    QDateTime found = m_list.at(index)->timestamp();
-    QDateTime previous = index > 0 ? m_list.at(index-1)->timestamp() : found;
-    QDateTime next = index < m_list.count() - 1 ? m_list.at(index+1)->timestamp() : found;
-
-    int diffToFound = qAbs(timestamp.secsTo(found));
-    int diffToPrevious = qAbs(timestamp.secsTo(previous));
-    int diffToNext = qAbs(timestamp.secsTo(next));
-    if (diffToPrevious < diffToFound && diffToPrevious < diffToNext) {
-//        qWarning() << "Correcting to previous" << index << m_list.count() << found << previous << diffToPrevious << diffToFound;
-        return index - 1;
+    // Use timestamp-based lookup instead of sample-rate math. This is robust against
+    // duplicate/missing rows (e.g. after resampling glitches or timezone jumps).
+    while (low <= high) {
+        const int mid = low + (high - low) / 2;
+        const qint64 midTimestamp = m_list.at(mid)->timestamp().toMSecsSinceEpoch();
+        if (midTimestamp < target) {
+            low = mid + 1;
+        } else if (midTimestamp > target) {
+            high = mid - 1;
+        } else {
+            return mid;
+        }
     }
-    if (diffToNext < diffToFound) {
-//        qWarning() << "Correcting to next" << index << m_list.count() << found << next << diffToNext << diffToFound;
-        return index + 1;
+
+    const int previousIndex = low - 1;
+    const int nextIndex = low;
+    const qint64 previousTimestamp = m_list.at(previousIndex)->timestamp().toMSecsSinceEpoch();
+    const qint64 nextTimestamp = m_list.at(nextIndex)->timestamp().toMSecsSinceEpoch();
+    const qint64 diffToPrevious = qAbs(target - previousTimestamp);
+    const qint64 diffToNext = qAbs(target - nextTimestamp);
+
+    if (diffToPrevious <= diffToNext) {
+        return previousIndex;
     }
-    return index;
+    return nextIndex;
 }
 
 EnergyLogEntry *EnergyLogs::find(const QDateTime &timestamp)
