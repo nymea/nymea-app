@@ -324,11 +324,11 @@ SettingsPageBase {
 
     Component {
         id: factoryResetDialogComponent
-        Dialog {
+        NymeaDialog {
             id: factoryResetDialog
-            width: Math.min(parent.width * 0.9, 400)
-            x: (parent.width - width) / 2
-            y: (parent.height - height) / 2
+            // width: Math.min(parent.width * 0.9, 400)
+            // x: (parent.width - width) / 2
+            // y: (parent.height - height) / 2
             title: qsTr("Reset to factory settings")
             standardButtons: Dialog.Ok | Dialog.Cancel
 
