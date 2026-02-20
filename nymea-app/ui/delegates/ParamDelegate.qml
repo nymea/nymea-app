@@ -334,8 +334,8 @@ ItemDelegate {
             property var basemodel: root.paramType.allowedValues
 
             model: basemodel.filter(value => {
-                                        var ret = (filterConditionText.text.length > 0) ?
-                                            value.toLowerCase().includes(filterConditionText.text.toLowerCase()) :
+                                        var ret = (filterConditionText.displayText.length > 0) ?
+                                            value.toLowerCase().includes(filterConditionText.displayText.toLowerCase()) :
                                             true;
                                         return ret;
                                     });
@@ -443,7 +443,7 @@ ItemDelegate {
                 contentItem: Item {
                     anchors.fill: parent
 
-                    TextArea {
+                    TextField {
                         id: filterConditionText
                         anchors.left: parent.left
                         anchors.right: parent.right
@@ -457,6 +457,7 @@ ItemDelegate {
                         wrapMode: TextEdit.WrapAnywhere
                         placeholderText: qsTr("Type to search")
                         placeholderTextColor: Style.subTextColor
+                        inputMethodHints: Qt.ImhNoPredictiveText
 
                         background: Rectangle {
                             color: Style.backgroundColor
