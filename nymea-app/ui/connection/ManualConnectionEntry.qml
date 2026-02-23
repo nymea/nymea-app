@@ -49,23 +49,23 @@ ColumnLayout {
             port = portTextInput.text
         }
 
-        if (connectionTypeComboBox.currentIndex == 0) {
+        if (connectionTypeComboBox.currentIndex === 0) {
             if (secureCheckBox.checked) {
                 rpcUrl = "nymeas://" + hostAddress + ":" + port
             } else {
                 rpcUrl = "nymea://" + hostAddress + ":" + port
             }
-        } else if (connectionTypeComboBox.currentIndex == 1) {
+        } else if (connectionTypeComboBox.currentIndex === 1) {
             if (secureCheckBox.checked) {
                 rpcUrl = "wss://" + hostAddress + ":" + port
             } else {
                 rpcUrl = "ws://" + hostAddress + ":" + port
             }
-        } else if (connectionTypeComboBox.currentIndex == 2) {
+        } else if (connectionTypeComboBox.currentIndex === 2) {
             if (secureCheckBox.checked) {
-                rpcUrl = "tunnels://" + hostAddress + ":" + port + "?uuid=" + serverUuidTextInput.text
+                rpcUrl = "tunnels://" + hostAddress + ":" + port + "?uuid=" + serverUuidTextInput.text.replace('{', '').replace('}', '')
             } else {
-                rpcUrl = "tunnel://" + hostAddress + ":" + port + "?uuid=" + serverUuidTextInput.text
+                rpcUrl = "tunnel://" + hostAddress + ":" + port + "?uuid=" + serverUuidTextInput.text.replace('{', '').replace('}', '')
             }
         }
 
@@ -90,41 +90,72 @@ ColumnLayout {
         Label {
             text: connectionTypeComboBox.currentIndex < 2 ? qsTr("Address:") : qsTr("Proxy address:")
         }
+
         TextField {
             id: addressTextInput
+
             objectName: "addressTextInput"
             Layout.fillWidth: true
-            placeholderText: connectionTypeComboBox.currentIndex < 2 ? "127.0.0.1" : Configuration.tunnelProxyUrl
-        }
+            placeholderText: {
+                if (focus || text)
+                    return ""
 
-        Label {
-            text: qsTr("%1 UUID:").arg(Configuration.systemName)
-            visible: connectionTypeComboBox.currentIndex == 2
-        }
-        TextField {
-            id: serverUuidTextInput
-            Layout.fillWidth: true
-            visible: connectionTypeComboBox.currentIndex == 2
-        }
-        Label { text: qsTr("Port:") }
-        TextField {
-            id: portTextInput
-            Layout.fillWidth: true
-            placeholderText: connectionTypeComboBox.currentIndex === 0
-                             ? "2222"
-                             : connectionTypeComboBox.currentIndex == 1
-                               ? "4444"
-                               : Configuration.tunnelProxyPort
-            validator: IntValidator{bottom: 1; top: 65535;}
+                return connectionTypeComboBox.currentIndex < 2 ? "127.0.0.1" : Configuration.tunnelProxyUrl
+            }
         }
 
         Label {
             Layout.fillWidth: true
             text: qsTr("SSL:")
         }
+
         CheckBox {
             id: secureCheckBox
+
             checked: true
         }
+
+        Label { text: qsTr("Port:") }
+        TextField {
+            id: portTextInput
+
+            Layout.fillWidth: true
+            validator: IntValidator{bottom: 1; top: 65535;}
+            placeholderText: {
+                if (focus || text)
+                    return ""
+
+                if (connectionTypeComboBox.currentIndex === 0) {
+                    if (secureCheckBox.checked) {
+                        return "2222"
+                    } else {
+                        return "2223"
+                    }
+                }
+
+                if (connectionTypeComboBox.currentIndex === 1) {
+                    if (secureCheckBox.checked) {
+                        return "4444"
+                    } else {
+                        return "4445"
+                    }
+                }
+
+                if (connectionTypeComboBox.currentIndex === 2)
+                    return Configuration.tunnelProxyPort
+
+                return "2222"
+            }
+        }
+
+
+        TextField {
+            id: serverUuidTextInput
+            Layout.fillWidth: true
+            Layout.columnSpan: 2
+            placeholderText: qsTr("%1 UUID:").arg(Configuration.systemName)
+            visible: connectionTypeComboBox.currentIndex === 2
+        }
+
     }
 }
