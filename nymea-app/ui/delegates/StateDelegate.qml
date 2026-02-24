@@ -63,7 +63,7 @@ ItemDelegate {
                 id: loader
                 Layout.fillWidth: !parent.labelFillsWidth
                 sourceComponent: {
-                    print("Loading ParamDelegate");
+                    print("Loading StateDelegate");
                     print("Writable:", root.writable, "type:", root.stateType.type, "min:", root.stateType.minValue, "max:", root.stateType.maxValue, "value:", root.param.value)
                     if (!root.writable) {
                         return stringComponent;
@@ -222,7 +222,7 @@ ItemDelegate {
                 width: 150
                 onValueModified: root.param.value = value
 
-                floatingPoint: root.stateType.type.toLowerCase() == "double"
+                floatingPoint: root.stateType.type.toLowerCase() === "double"
 
                 Component.onCompleted: {
                     print("from:", from, "min", root.stateType.minValue)
@@ -264,11 +264,11 @@ ItemDelegate {
             id: control
             Layout.fillWidth: true
             model: root.stateType.allowedValues
-            displayText: currentText + ( root.stateType.unit != Types.UnitNone ? " " + Types.toUiUnit(root.stateType.unit) : "")
+            displayText: currentText + ( root.stateType.unit !== Types.UnitNone ? " " + Types.toUiUnit(root.stateType.unit) : "")
             currentIndex: root.stateType.allowedValues.indexOf(root.param.value !== undefined ? root.param.value : root.stateType.defaultValue)
             delegate: ItemDelegate {
                 width: control.width
-                text: Types.toUiValue(modelData, root.stateType.unit) + ( root.stateType.unit != Types.UnitNone ? " " + Types.toUiUnit(root.stateType.unit) : "")
+                text: Types.toUiValue(modelData, root.stateType.unit) + ( root.stateType.unit !== Types.UnitNone ? " " + Types.toUiUnit(root.stateType.unit) : "")
                 highlighted: control.highlightedIndex === index
             }
             onActivated: (index) => {

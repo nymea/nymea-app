@@ -57,7 +57,7 @@ Item {
             if (root.interfaceName == "closablesensor") {
                 return true
             }
-            return sensorStateType && sensorStateType.type.toLowerCase() == "bool" && sensorState.value === true
+            return sensorStateType && sensorStateType.type.toLowerCase() === "bool" && sensorState.value === true
         }
         iconSource: {
             if (root.interfaceName == "closablesensor") {
@@ -100,7 +100,7 @@ Item {
             }
 
             sourceComponent: {
-                if (stateType.type.toLowerCase() == "bool") {
+                if (stateType.type.toLowerCase() === "bool") {
                     return boolComponent;
                 }
 

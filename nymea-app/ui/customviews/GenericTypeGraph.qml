@@ -126,7 +126,7 @@ Item {
         ValueAxis {
             id: yAxis
             max: {
-                if (root.stateType && root.stateType.type.toLowerCase() == "bool") {
+                if (root.stateType && root.stateType.type.toLowerCase() === "bool") {
                     return 1;
                 } else {
                     Math.ceil(logsModelNg.maxValue + Math.abs(logsModelNg.maxValue * .05))
@@ -137,7 +137,7 @@ Item {
             //                onMaxChanged: applyNiceNumbers();
             labelsFont: Style.extraSmallFont
             labelFormat: {
-                if (root.stateType && root.stateType.type.toLowerCase() == "bool") {
+                if (root.stateType && root.stateType.type.toLowerCase() === "bool") {
                     return "x";
                 } else {
                     return "%d";

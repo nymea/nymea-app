@@ -172,17 +172,9 @@ Page {
                 var maxValue = stateDelegate.stateType.maxValue !== undefined
                         ? stateDelegate.stateType.maxValue
                         : 2000000000;
-                print("pushing delegate for", stateDelegate.stateType.name, "from:", minValue, "to:", maxValue, "possible:", stateDelegate.stateType.possibleValuesDisplayNames)
-                stateDelegateLoader.setSource("../delegates/statedelegates/" + sourceComp,
-                                              {
-                                                  value: root.thing.states.getState(stateType.id).value,
-                                                  possibleValues: stateDelegate.stateType.possibleValues,
-                                                  possibleValuesDisplayNames: stateDelegate.stateType.possibleValuesDisplayNames,
-                                                  from: minValue,
-                                                  to: maxValue,
-                                                  unit: stateDelegate.stateType.unit,
-                                                  writable: false,
-                                                  stateType: stateDelegate.stateType
+                console.log("pushing delegate for", stateDelegate.stateType.name, "from:", minValue, "to:", maxValue, "possible:", stateDelegate.stateType.possibleValuesDisplayNames)
+                stateDelegateLoader.setSource("../delegates/statedelegates/" + sourceComp, {
+                                                  value: root.thing.states.getState(stateType.id).value
                                               })
 
             }
@@ -230,6 +222,16 @@ Page {
                 target: stateDelegateLoader.item.hasOwnProperty("unit") ? stateDelegateLoader.item : null
                 property: "unit"
                 value: stateDelegate.stateType.unit
+            }
+            Binding {
+                target: stateDelegateLoader.item.hasOwnProperty("writable") ? stateDelegateLoader.item : null
+                property: "writable"
+                value: false
+            }
+            Binding {
+                target: stateDelegateLoader.item.hasOwnProperty("stateType") ? stateDelegateLoader.item : null
+                property: "stateType"
+                value: stateDelegate.stateType
             }
         }
     }

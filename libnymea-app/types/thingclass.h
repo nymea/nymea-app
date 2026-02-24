@@ -3,7 +3,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
 * Copyright (C) 2013 - 2024, nymea GmbH
-* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+* Copyright (C) 2024 - 2026, chargebyte austria GmbH
 *
 * This file is part of libnymea-app.
 *
@@ -25,15 +25,15 @@
 #ifndef THINGCLASS_H
 #define THINGCLASS_H
 
-#include <QObject>
-#include <QUuid>
 #include <QList>
+#include <QObject>
 #include <QString>
+#include <QUuid>
 
+#include "actiontypes.h"
+#include "eventtypes.h"
 #include "paramtypes.h"
 #include "statetypes.h"
-#include "eventtypes.h"
-#include "actiontypes.h"
 
 class ThingClass : public QObject
 {
@@ -134,6 +134,8 @@ public:
     void setBrowserItemActionTypes(ActionTypes *browserActionTypes);
 
     Q_INVOKABLE bool hasActionType(const QUuid &actionTypeId);
+
+    Q_INVOKABLE bool isAutoCreated() const;
 
 signals:
     void paramTypesChanged();

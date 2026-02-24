@@ -156,13 +156,12 @@ Page {
 
     Connections {
         target: engine.thingManager
-        onPairThingReply: {
+        function onPairThingReply(commandId, thingError, pairingTransactionId, setupMethod, displayMessage, oAuthUrl) {
             busyOverlay.shown = false
             if (thingError !== Thing.ThingErrorNoError) {
                 busyOverlay.shown = false;
                 internalPageStack.push(resultsPage, {thingError: thingError, message: displayMessage});
                 return;
-
             }
 
             d.pairingTransactionId = pairingTransactionId;
@@ -179,17 +178,21 @@ Page {
                 break;
             default:
                 print("Setup method reply not handled:", setupMethod);
+                break;
             }
         }
-        onConfirmPairingReply: {
+
+        function onConfirmPairingReply(commandId, thingError, thingId, displayMessage) {
             busyOverlay.shown = false
             internalPageStack.push(resultsPage, {thingError: thingError, thingId: thingId, message: displayMessage})
         }
-        onAddThingReply: {
+
+        function onAddThingReply(commandId, thingError, thingId, displayMessage) {
             busyOverlay.shown = false;
             internalPageStack.push(resultsPage, {thingError: thingError, thingId: thingId, message: displayMessage})
         }
-        onReconfigureThingReply: {
+
+        function onReconfigureThingReply(commandId, thingError, displayMessage) {
             busyOverlay.shown = false;
             internalPageStack.push(resultsPage, {thingError: thingError, thingId: root.thing.id, message: displayMessage})
         }
@@ -372,7 +375,7 @@ Page {
             Component.onCompleted: {
                 if (root.thingClass.id.toString().match(/\{?f0dd4c03-0aca-42cc-8f34-9902457b05de\}?/)) {
                     console.warn("checking Notification permission!")
-                    if (PlatformPermissions.notificationsPermission != PlatformPermissions.PermissionStatusGranted) {
+                    if (PlatformPermissions.notificationsPermission !== PlatformPermissions.PermissionStatusGranted) {
                         console.warn("Notification permission missing!")
                         PlatformPermissions.requestPermission(PlatformPermissions.PermissionNotifications)
                     }
@@ -460,12 +463,22 @@ Page {
                 wrapMode: Text.WordWrap
             }
 
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: Style.margins
+            }
+
             TextField {
                 id: usernameTextField
                 Layout.fillWidth: true
                 Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
                 placeholderText: qsTr("Username")
                 visible: pairingPage.setupMethod === "SetupMethodUserAndPassword"
+            }
+
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: Style.margins
             }
 
             PasswordTextField {
@@ -475,7 +488,6 @@ Page {
                 visible: pairingPage.setupMethod === "SetupMethodDisplayPin" || pairingPage.setupMethod === "SetupMethodEnterPin" || pairingPage.setupMethod === "SetupMethodUserAndPassword"
                 signup: false
             }
-
 
             Button {
                 Layout.fillWidth: true
@@ -549,8 +561,9 @@ Page {
 
                         WebView {
                             id: oAuthWebView
-                            anchors.fill: parent
+
                             url: oAuthPage.oAuthUrl
+                            anchors.fill: parent
 
                             function finishProcess(url) {
                                 print("Confirm pairing")
@@ -559,7 +572,7 @@ Page {
                                 oAuthWebView.visible = false
                             }
 
-                            onUrlChanged: {
+                            onUrlChanged: (url) => {
                                 print("OAUTH URL changed", url)
                                 if (url.toString().indexOf("https://127.0.0.1") == 0) {
                                     print("Redirect URL detected!")
