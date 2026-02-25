@@ -37,6 +37,13 @@ import "connection"
 Item {
     id: root
 
+    readonly property int safeAreaBottomMargin: {
+        if (Qt.platform.os !== "ios") {
+            return PlatformHelper.bottomPadding
+        }
+        return Math.round(PlatformHelper.bottomPadding * Math.max(0, Configuration.iosSafeAreaBottomMarginScale))
+    }
+
     function handleAndroidBackButton() {
         return swipeView.currentItem.handleAndroidBackButton()
     }
@@ -80,7 +87,7 @@ Item {
         anchors.fill: parent
 
         anchors.topMargin: PlatformHelper.topPadding
-        anchors.bottomMargin: PlatformHelper.bottomPadding
+        anchors.bottomMargin: root.safeAreaBottomMargin
         anchors.leftMargin: PlatformHelper.leftPadding
         anchors.rightMargin: PlatformHelper.rightPadding
 
