@@ -56,6 +56,42 @@ ColumnLayout {
     readonly property bool hasNumbers: passwordTextField.text.search(/[0-9]/) >= 0    
     readonly property bool hasSpecialChar: passwordTextField.text.search(/(?=.*?[$*.\[\]{}()?\-'"!@#%&/\\,><':;|_~`^])/) >= 0
     readonly property bool confirmationMatches: passwordTextField.text === confirmationPasswordTextField.text
+    readonly property var passwordRequirements: {
+        var requirements = []
+        requirements.push({
+            text: qsTr("Minimum %1 characters").arg(root.minPasswordLength),
+            fulfilled: root.isLongEnough
+        })
+
+        if (root.requireLowerCaseLetter) {
+            requirements.push({
+                text: qsTr("Lowercase letters"),
+                fulfilled: root.hasLower
+            })
+        }
+
+        if (root.requireUpperCaseLetter) {
+            requirements.push({
+                text: qsTr("Uppercase letters"),
+                fulfilled: root.hasUpper
+            })
+        }
+
+        if (root.requireNumber) {
+            requirements.push({
+                text: qsTr("Numbers"),
+                fulfilled: root.hasNumbers
+            })
+        }
+
+        if (root.requireSpecialChar) {
+            requirements.push({
+                text: qsTr("Special characters"),
+                fulfilled: root.hasSpecialChar
+            })
+        }
+        return requirements
+    }
 
     property bool hiddenPassword: true
 
@@ -73,39 +109,49 @@ ColumnLayout {
             placeholderText: root.signup ? qsTr("Pick a password") : qsTr("Password")
 
             error: root.showErrors && !root.isValidPassword
-//            palette.toolTipBase: Style.tooltipBackgroundColor
-            ToolTip.visible: root.signup && focus && !root.isValidPassword
-            ToolTip.delay: 1000
-            ToolTip.onVisibleChanged: print("Tooltip visible changed:", ToolTip.visible, focus, root.isValidPassword)
-            ToolTip.text: {
-                var texts = []
-                var checks = []
-                texts.push(qsTr("Minimum %1 characters").arg(root.minPasswordLength))
-                checks.push(root.isLongEnough)
-                if (root.requireLowerCaseLetter) {
-                    texts.push(qsTr("Lowercase letters"))
-                    checks.push(root.hasLower)
+
+            ToolTip {
+                id: passwordRequirementsToolTip
+                parent: passwordTextField
+                visible: root.signup && passwordTextField.focus && !root.isValidPassword
+                delay: 1000
+                timeout: -1
+                x: 0
+                y: passwordTextField.height + Style.smallMargins
+                leftPadding: Style.smallMargins
+                rightPadding: Style.smallMargins
+                topPadding: Style.smallMargins
+                bottomPadding: Style.smallMargins
+
+                background: Rectangle {
+                    color: Style.tooltipBackgroundColor
+                    radius: Style.smallCornerRadius
                 }
-                if (root.requireUpperCaseLetter) {
-                    texts.push(qsTr("Uppercase letters"))
-                    checks.push(root.hasUpper)
+
+                contentItem: Column {
+                    spacing: Style.extraSmallMargins
+
+                    Repeater {
+                        model: root.passwordRequirements
+
+                        delegate: Row {
+                            spacing: Style.extraSmallMargins
+
+                            CheckBox {
+                                anchors.verticalCenter: parent.verticalCenter
+                                checked: modelData.fulfilled
+                                checkable: false
+                                opacity: 1
+                            }
+
+                            Label {
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: modelData.text
+                                color: Style.foregroundColor
+                            }
+                        }
+                    }
                 }
-                if (root.requireNumber) {
-                    texts.push(qsTr("Numbers"))
-                    checks.push(root.hasNumbers)
-                }
-                if (root.requireSpecialChar) {
-                    texts.push(qsTr("Special characters"))
-                    checks.push(root.hasSpecialChar)
-                }
-                var ret = []
-                for (var i = 0; i < texts.length; i++) {
-                    var entry = "<font color=\"%1\">• ".arg(checks[i] ? "#ffffff" : Style.red)
-                    entry += texts[i]
-                    entry += "</font>"
-                    ret.push(entry)
-                }
-                return ret.join("<br>")
             }
 
             onAccepted: {
