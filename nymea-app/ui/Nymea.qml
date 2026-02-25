@@ -132,17 +132,15 @@ ApplicationWindow {
         onStartWirelessSetup: rootItem.startWirelessSetup();
     }
 
-        RootItem {
-            id: rootItem
-            anchors.fill: parent
-            anchors.bottomMargin: keyboardRect.height
-        }
+    RootItem {
+        id: rootItem
+        anchors.fill: parent
+        anchors.bottomMargin: keyboardRect.height
     }
-
 
     property NymeaDiscovery nymeaDiscovery: NymeaDiscovery {
         objectName: "discovery"
-        bluetoothDiscoveryEnabled: false// PlatformPermissions.bluetoothPermission === PlatformPermissions.PermissionStatusGranted
+        bluetoothDiscoveryEnabled: false // PlatformPermissions.bluetoothPermission === PlatformPermissions.PermissionStatusGranted
     }
 
     property var supportedInterfaces: [
