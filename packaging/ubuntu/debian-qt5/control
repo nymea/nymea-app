@@ -1,0 +1,82 @@
+Source: nymea-app
+Section: utils
+Priority: optional
+Maintainer: chargebyte austria GmbH <contact@nymea.io>
+Standards-Version: 3.9.7
+Homepage: https://nymea.io
+Vcs-Git: https://github.com/nymea/nymea-app.git
+Build-Depends: debhelper,
+               dpkg-dev,
+               libavahi-client-dev,
+               libavahi-common-dev,
+               libqt5charts5-dev,
+               libqt5svg5-dev,
+               libqt5websockets5-dev,
+               libqt5webview5-dev [!riscv64],
+               qtbase5-dev,
+               qttools5-dev-tools,
+               qtconnectivity5-dev,
+               qtdeclarative5-dev,
+               qtquickcontrols2-5-dev,
+
+Package: nymea-app
+Architecture: any
+Section: x11
+Multi-Arch: same
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         libqt5network5,
+         libqt5gui5,
+         libqt5websockets5,
+         libqt5bluetooth5,
+         qml-module-qt-labs-calendar,
+         qml-module-qt-labs-folderlistmodel,
+         qml-module-qt-labs-settings,
+         qml-module-qtcharts,
+         qml-module-qtgraphicaleffects,
+         qml-module-qtquick-controls2,
+         qml-module-qtquick-layouts,
+         qml-module-qtquick-window2,
+         qml-module-qtquick2,
+Recommends: qml-module-qtwebview,
+Suggests: nymea, 
+          network-manager
+Description: A client app for nymea
+ This package will install nymea:app, the client app 
+ and main user interface for nymea:core.
+
+Package: nymea-app-kiosk-x11
+Architecture: any
+Section: shells
+Multi-Arch: same
+Depends: nymea-app,
+         openbox,
+         lightdm,
+         qtvirtualkeyboard-plugin,
+         xinit,
+Provides: lightdm-greeter
+Conflicts: nymea-app-kiosk-wayland
+Description: Run nymea:app in kiosk mode
+ This package will install nymea:app in kiosk mode on your machine (using X11 and lightdm).
+
+Package: nymea-app-kiosk-wayland
+Architecture: any
+Section: shells
+Multi-Arch: same
+Depends: nymea-app,
+         qtvirtualkeyboard-plugin,
+Conflicts: nymea-app-kiosk-x11,
+           lightdm
+Replaces: nymea-app-kiosk
+Provides: nymea-app-kiosk
+Description: Run nymea:app in kiosk mode
+ This package will install nymea:app in kiosk mode on your machine (using wayland).
+
+
+Package: nymea-splashscreen
+Architecture: any
+Section: shells
+Multi-Arch: same
+Depends: fbi,
+Description: A nymea branded fbi splash theme
+ This package will install a nymea branded boot splash using fbi.

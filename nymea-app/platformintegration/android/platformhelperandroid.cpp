@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2025, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of nymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -32,10 +26,14 @@
 
 #include <QDebug>
 #include <QScreen>
-#include <QtAndroid>
-#include <QAndroidIntent>
+#include <QtCore/private/qandroidextras_p.h>
 #include <QApplication>
-#include <QAndroidJniObject>
+#include <QJniObject>
+#include <QTimer>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <QtAndroid>
+#endif
 
 // WindowManager.LayoutParams
 #define FLAG_TRANSLUCENT_STATUS 0x04000000
@@ -70,69 +68,93 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
     return JNI_VERSION_1_6;
 }
 
-static QAndroidJniObject getAndroidWindow()
-{
-    QAndroidJniObject window = QtAndroid::androidActivity().callObjectMethod("getWindow", "()Landroid/view/Window;");
-    return window;
-}
+// static QJniObject getAndroidWindow()
+// {
+//     QJniObject window;
+//     QJniObject activity = QNativeInterface::QAndroidApplication::context();
+//     if(activity.isValid()) {
+//         activity.callMethod<void>("setRequestedOrientation", "(I)V", 0);
+//         window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+//     }
+
+//     // QJniObject window = QNativeInterface::QAndroidApplication::context().callMethod<jobject>("getWindow", "()Landroid/view/Window;");
+//     return window;
+// }
 
 PlatformHelperAndroid::PlatformHelperAndroid(QObject *parent) : PlatformHelper(parent)
 {
     m_instance = this;
 
-    QString notificationData = QtAndroid::androidActivity().callObjectMethod("notificationData", "()Ljava/lang/String;").toString();
-    if (!notificationData.isNull()) {
-        notificationActionReceived(notificationData);
-    }
+    // QString notificationData = QNativeInterface::QAndroidApplication::context().callMethod<jstring>("notificationData", "()Ljava/lang/String;").toString();
+    // if (!notificationData.isNull()) {
+    //     notificationActionReceived(notificationData);
+    // }
 
     connect(qApp, &QApplication::applicationStateChanged, this, [this](Qt::ApplicationState state){
         qCritical() << "----> Application state changed" << state;
         if (state == Qt::ApplicationActive) {
             emit locationServicesEnabledChanged();
+            updateSafeAreaPadding();
         }
     });
+
+    if (QScreen *screen = qApp->primaryScreen()) {
+        connect(screen, &QScreen::orientationChanged, this, [this](Qt::ScreenOrientation){
+            updateSafeAreaPadding();
+        });
+        connect(screen, &QScreen::availableGeometryChanged, this, [this](const QRect &){
+            updateSafeAreaPadding();
+        });
+    }
+
+    QTimer::singleShot(0, this, &PlatformHelperAndroid::updateSafeAreaPadding);
 }
 
 void PlatformHelperAndroid::hideSplashScreen()
 {
     // Android's splash will flicker when fading out twice
     static bool alreadyHiding = false;
-    if (!alreadyHiding) {
-        QtAndroid::hideSplashScreen(250);
-        alreadyHiding = true;
+    if (alreadyHiding) {
+        return;
     }
+
+    alreadyHiding = true;
+    PlatformHelper::hideSplashScreen();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QtAndroid::hideSplashScreen(250);
+#endif
 }
 
 QString PlatformHelperAndroid::machineHostname() const
 {
     // QSysInfo::machineHostname always gives "localhost" on android... best we can do here is:
-    return deviceManufacturer() +  " " + deviceModel();
+    return deviceManufacturer() + " " + deviceModel();
 }
 
 QString PlatformHelperAndroid::deviceSerial() const
 {
-    QAndroidJniObject activity = QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");
+    QJniObject activity = QJniObject::callStaticObjectMethod("org/qtproject/qt/android/QtNative", "activity", "()Landroid/app/Activity;");
     return activity.callObjectMethod<jstring>("deviceSerial").toString();
 }
 
 QString PlatformHelperAndroid::device() const
 {
-    return QAndroidJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","device").toString();
+    return QJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity", "device").toString();
 }
 
 QString PlatformHelperAndroid::deviceModel() const
 {
-    return QAndroidJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","deviceModel").toString();
+    return QJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity", "deviceModel").toString();
 }
 
 QString PlatformHelperAndroid::deviceManufacturer() const
 {
-    return QAndroidJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity","deviceManufacturer").toString();
+    return QJniObject::callStaticObjectMethod<jstring>("io/guh/nymeaapp/NymeaAppActivity", "deviceManufacturer").toString();
 }
 
 void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType)
 {
-    int duration;
+    jlong duration;
     switch (feedbackType) {
     case HapticsFeedbackSelection:
         duration = 10;
@@ -145,7 +167,35 @@ void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType
         break;
     }
 
-    QtAndroid::androidActivity().callMethod<void>("vibrate","(I)V", duration);
+    QJniObject context = QNativeInterface::QAndroidApplication::context();
+    if (!context.isValid()) {
+        qDebug() << "Could not get Android context.";
+        return;
+    }
+
+    QJniObject vibrator = context.callObjectMethod("getSystemService", "(Ljava/lang/String;)Ljava/lang/Object;", QJniObject::fromString("vibrator").object());
+    if (!vibrator.isValid()) {
+        qDebug() << "Could not get vibrator service.";
+        return;
+    }
+
+    const jint sdkInt = QJniObject::getStaticField<jint>("android/os/Build$VERSION", "SDK_INT");
+    if (sdkInt >= 26) {
+        const jint defaultAmplitude = QJniObject::getStaticField<jint>("android/os/VibrationEffect", "DEFAULT_AMPLITUDE");
+        QJniObject vibrationEffect = QJniObject::callStaticObjectMethod("android/os/VibrationEffect",
+                                                                        "createOneShot",
+                                                                        "(JI)Landroid/os/VibrationEffect;",
+                                                                        duration,
+                                                                        defaultAmplitude);
+        if (vibrationEffect.isValid()) {
+            vibrator.callMethod<void>("vibrate", "(Landroid/os/VibrationEffect;)V", vibrationEffect.object());
+            return;
+        }
+        qDebug() << "Falling back to legacy vibrate API, vibration effect invalid.";
+    }
+
+    // Fallback for pre-API 26 or if creating the vibration effect failed
+    vibrator.callMethod<void>("vibrate", "(J)V", duration);
 }
 
 //void PlatformHelperAndroid::syncThings()
@@ -153,7 +203,7 @@ void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType
 
 //    QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
 //                                        "io/guh/nymeaapp/NymeaAppService");
-//    QAndroidJniObject result = QtAndroid::androidActivity().callObjectMethod(
+//    QJniObject result = QtAndroid::androidActivity().callObjectMethod(
 //                "startService",
 //                "(Landroid/content/Intent;)Landroid/content/ComponentName;",
 //                serviceIntent.handle().object());
@@ -169,7 +219,7 @@ void PlatformHelperAndroid::vibrate(PlatformHelper::HapticsFeedback feedbackType
 ////    m_serviceConnection->handle().callMethod<void>("syncThings", "(Ljava/lang/String;)V", "bla");
 
 
-////      QAndroidJniObject result = QtAndroid::androidActivity().callObjectMethod(
+////      QJniObject result = QtAndroid::androidActivity().callObjectMethod(
 ////                  "syncThings",
 ////                  "(Landroid/content/Intent;)Landroid/content/ComponentName;",
 ////                  m_serviceConnection->handle().object());
@@ -179,113 +229,145 @@ void PlatformHelperAndroid::setTopPanelColor(const QColor &color)
 {
     PlatformHelper::setTopPanelColor(color);
 
-    if (QtAndroid::androidSdkVersion() < 21)
-        return;
+    // if (QtAndroid::androidSdkVersion() < 21)
+    //     return;
 
-    QtAndroid::runOnAndroidThread([=]() {
-        QAndroidJniObject window = getAndroidWindow();
-        window.callMethod<void>("addFlags", "(I)V", FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_STATUS);
-        window.callMethod<void>("setStatusBarColor", "(I)V", color.rgba());
-    });
+    // QtAndroid::runOnAndroidThread([=]() {
+    //     QJniObject window = getAndroidWindow();
+    //     window.callMethod<void>("addFlags", "(I)V", FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+    //     window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_STATUS);
+    //     window.callMethod<void>("setStatusBarColor", "(I)V", color.rgba());
+    // });
 
-    if (((color.red() * 299 + color.green() * 587 + color.blue() * 114) / 1000) > 123) {
-        setTopPanelTheme(Light);
-    } else {
-        setTopPanelTheme(Dark);
-    }
+    // if (((color.red() * 299 + color.green() * 587 + color.blue() * 114) / 1000) > 123) {
+    //     setTopPanelTheme(Light);
+    // } else {
+    //     setTopPanelTheme(Dark);
+    // }
 }
 
 void PlatformHelperAndroid::setBottomPanelColor(const QColor &color)
 {
     PlatformHelper::setBottomPanelColor(color);
 
-    if (QtAndroid::androidSdkVersion() < 21)
-        return;
+    // if (QtAndroid::androidSdkVersion() < 21)
+    //     return;
 
-    QtAndroid::runOnAndroidThread([=]() {
-        QAndroidJniObject window = getAndroidWindow();
-        window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_NAVIGATION);
-        window.callMethod<void>("setNavigationBarColor", "(I)V", color.rgba());
+    // QtAndroid::runOnAndroidThread([=]() {
+    //     QJniObject window = getAndroidWindow();
+    //     window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_NAVIGATION);
+    //     window.callMethod<void>("setNavigationBarColor", "(I)V", color.rgba());
 
-        if (((color.red() * 299 + color.green() * 587 + color.blue() * 114) / 1000) > 123) {
-            setBottomPanelTheme(Light);
-        } else {
-            setBottomPanelTheme(Dark);
-        }
-    });
+    //     if (((color.red() * 299 + color.green() * 587 + color.blue() * 114) / 1000) > 123) {
+    //         setBottomPanelTheme(Light);
+    //     } else {
+    //         setBottomPanelTheme(Dark);
+    //     }
+    // });
 }
 
 void PlatformHelperAndroid::setTopPanelTheme(PlatformHelperAndroid::Theme theme)
 {
-    if (QtAndroid::androidSdkVersion() < 23)
-        return;
+    Q_UNUSED(theme)
+    // if (QtAndroid::androidSdkVersion() < 23)
+    //     return;
 
-    QtAndroid::runOnAndroidThread([=]() {
-        QAndroidJniObject window = getAndroidWindow();
-        QAndroidJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
-        int visibility = view.callMethod<int>("getSystemUiVisibility", "()I");
-        if (theme == Theme::Light)
-            visibility |= SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-        else
-            visibility &= ~SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-        view.callMethod<void>("setSystemUiVisibility", "(I)V", visibility);
-    });
+    // QtAndroid::runOnAndroidThread([=]() {
+    //     QJniObject window = getAndroidWindow();
+    //     QJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
+    //     int visibility = view.callMethod<int>("getSystemUiVisibility", "()I");
+    //     if (theme == Theme::Light)
+    //         visibility |= SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+    //     else
+    //         visibility &= ~SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+    //     view.callMethod<void>("setSystemUiVisibility", "(I)V", visibility);
+    // });
 }
 
 void PlatformHelperAndroid::setBottomPanelTheme(Theme theme)
 {
-    if (QtAndroid::androidSdkVersion() < 23)
-        return;
+    Q_UNUSED(theme)
 
-    QtAndroid::runOnAndroidThread([=]() {
-        QAndroidJniObject window = getAndroidWindow();
-        QAndroidJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
-        int visibility = view.callMethod<int>("getSystemUiVisibility", "()I");
-        if (theme == Theme::Light)
-            visibility |= SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-        else
-            visibility &= ~SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-        view.callMethod<void>("setSystemUiVisibility", "(I)V", visibility);
-    });
+    // if (QtAndroid::androidSdkVersion() < 23)
+    //     return;
+
+    // QtAndroid::runOnAndroidThread([=]() {
+    //     QJniObject window = getAndroidWindow();
+    //     QJniObject view = window.callObjectMethod("getDecorView", "()Landroid/view/View;");
+    //     int visibility = view.callMethod<int>("getSystemUiVisibility", "()I");
+    //     if (theme == Theme::Light)
+    //         visibility |= SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+    //     else
+    //         visibility &= ~SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+    //     view.callMethod<void>("setSystemUiVisibility", "(I)V", visibility);
+    // });
+}
+
+void PlatformHelperAndroid::updateSafeAreaPadding()
+{
+    int topPaddingPx = 0;
+    int bottomPaddingPx = 0;
+    int leftPaddingPx = 0;
+    int rightPaddingPx = 0;
+
+    QJniObject context = QNativeInterface::QAndroidApplication::context();
+    if (context.isValid()) {
+        topPaddingPx = context.callMethod<jint>("topPadding", "()I");
+        bottomPaddingPx = context.callMethod<jint>("bottomPadding", "()I");
+        leftPaddingPx = context.callMethod<jint>("leftPadding", "()I");
+        rightPaddingPx = context.callMethod<jint>("rightPadding", "()I");
+    }
+
+    QScreen *screen = qApp->primaryScreen();
+    qreal dpr = screen ? screen->devicePixelRatio() : 1.0;
+    if (dpr <= 0.0) {
+        dpr = 1.0;
+    }
+
+    setSafeAreaPadding(qRound(topPaddingPx / dpr),
+                       qRound(rightPaddingPx / dpr),
+                       qRound(bottomPaddingPx / dpr),
+                       qRound(leftPaddingPx / dpr));
 }
 
 int PlatformHelperAndroid::topPadding() const
 {
-    // Edge to edge has been forced since android SDK 35
-    // We don't want to handle it in earlied versions.
-    if (QtAndroid::androidSdkVersion() < 35)
-        return 0;
-
-    return QtAndroid::androidActivity().callMethod<jint>("topPadding") / QApplication::primaryScreen()->devicePixelRatio();
+    return PlatformHelper::topPadding();
 }
 
 int PlatformHelperAndroid::bottomPadding() const
 {
-    // Edge to edge has been forced since android SDK 35
-    // We don't want to handle it in earlied versions.
-    if (QtAndroid::androidSdkVersion() < 35)
-        return 0;
+    return PlatformHelper::bottomPadding();
+}
 
-    return QtAndroid::androidActivity().callMethod<jint>("bottomPadding") / QApplication::primaryScreen()->devicePixelRatio();
+int PlatformHelperAndroid::leftPadding() const
+{
+    return PlatformHelper::leftPadding();
+}
+
+int PlatformHelperAndroid::rightPadding() const
+{
+    return PlatformHelper::rightPadding();
 }
 
 bool PlatformHelperAndroid::darkModeEnabled() const
 {
-    return QtAndroid::androidActivity().callMethod<jboolean>("darkModeEnabled");
+    return QNativeInterface::QAndroidApplication::context().callMethod<jboolean>("darkModeEnabled");
 }
 
 bool PlatformHelperAndroid::locationServicesEnabled() const
 {
-    jboolean enabled = QtAndroid::androidActivity().callMethod<jboolean>("locationServicesEnabled", "()Z");
-    return enabled;
+    // jboolean enabled = QNativeInterface::QAndroidApplication::context().callMethod<jboolean>("locationServicesEnabled", "()Z");
+    // return enabled;
+    return true;
 }
 
 void PlatformHelperAndroid::shareFile(const QString &fileName)
 {
-    QtAndroid::androidActivity().callMethod<void>("shareFile", "(Ljava/lang/String;)V",
-                                                  QAndroidJniObject::fromString(fileName).object<jstring>()
-                                                  );
+    Q_UNUSED(fileName)
+    // QNativeInterface::QAndroidApplication::context().callMethod<void>("shareFile", "(Ljava/lang/String;)V",
+    //                                               QJniObject::fromString(fileName).object<jstring>()
+    //                                               );
 }
 
 void PlatformHelperAndroid::darkModeEnabledChangedJNI()

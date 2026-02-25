@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2025, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of nymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -38,7 +32,6 @@
 #include <QJsonDocument>
 
 #if defined Q_OS_ANDROID
-#include <QtAndroidExtras/QtAndroid>
 #include "platformintegration/android/platformhelperandroid.h"
 #elif defined Q_OS_IOS
 #include "platformintegration/ios/platformhelperios.h"
@@ -76,7 +69,7 @@ void PlatformHelper::notificationActionReceived(const QString &nymeaData)
     QUrlQuery query(map.value("data").toString());
     QVariantMap dataMap;
     for (int i = 0; i < query.queryItems().count(); i++) {
-        const QPair<QString, QString> &item = query.queryItems().at(i);
+        QPair<QString, QString> item = query.queryItems().at(i);
         dataMap.insert(item.first, item.second);
     }
     map.insert("dataMap", dataMap);
@@ -194,22 +187,22 @@ void PlatformHelper::setBottomPanelColor(const QColor &color)
 
 int PlatformHelper::topPadding() const
 {
-    return 0;
+    return m_topPadding;
 }
 
 int PlatformHelper::bottomPadding() const
 {
-    return 0;
+    return m_bottomPadding;
 }
 
 int PlatformHelper::leftPadding() const
 {
-    return 0;
+    return m_leftPadding;
 }
 
 int PlatformHelper::rightPadding() const
 {
-    return 0;
+    return m_rightPadding;
 }
 
 bool PlatformHelper::darkModeEnabled() const
@@ -244,6 +237,32 @@ void PlatformHelper::setSplashVisible(bool splashVisible)
 void PlatformHelper::vibrate(PlatformHelper::HapticsFeedback feedbackType)
 {
     Q_UNUSED(feedbackType)
+}
+
+void PlatformHelper::setSafeAreaPadding(int top, int right, int bottom, int left)
+{
+    bool changed = false;
+    if (m_topPadding != top) {
+        m_topPadding = top;
+        changed = true;
+        emit topPaddingChanged();
+    }
+    if (m_rightPadding != right) {
+        m_rightPadding = right;
+        changed = true;
+        emit rightPaddingChanged();
+    }
+    if (m_bottomPadding != bottom) {
+        m_bottomPadding = bottom;
+        changed = true;
+        emit bottomPaddingChanged();
+    }
+    if (m_leftPadding != left) {
+        m_leftPadding = left;
+        changed = true;
+        emit leftPaddingChanged();
+    }
+    Q_UNUSED(changed)
 }
 
 void PlatformHelper::toClipBoard(const QString &text)

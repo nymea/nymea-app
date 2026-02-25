@@ -1,0 +1,37 @@
+Source: nymea-app
+Section: utils
+Priority: optional
+Maintainer: nymea GmbH <developer@nymea.io>
+Standards-Version: 4.7.2
+Homepage: https://nymea.io
+Vcs-Git: https://github.com/nymea/nymea-app.git
+Build-Depends: debhelper,
+               dpkg-dev,
+               libavahi-client-dev,
+               libavahi-common-dev,
+               libxkbcommon-dev,
+               qt6-base-dev,
+               qt6-base-dev-tools,
+               qt6-base-private-dev,
+               qt6-connectivity-dev,
+               qt6-charts-dev,
+               qt6-svg-dev,
+               qt6-websockets-dev,
+               qt6-webview-dev[!riscv64],
+               qt6-declarative-dev,
+               qt6-tools-dev,
+               libqt6quickcontrols2-6
+
+
+Package: nymea-app
+Architecture: any
+Section: x11
+Multi-Arch: same
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+Recommends: qml6-module-qtwebview,
+Suggests: nymea,
+          network-manager
+Description: A client app for nymea
+ This package will install nymea:app, the client app 
+ and main user interface for nymea:core.

@@ -1,5 +1,30 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of libnymea-app.
+*
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
+*
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include "zwavenode.h"
 #include <QMetaEnum>
+#include <QRegularExpression>
 
 ZWaveNode::ZWaveNode(const QUuid &networkUuid, quint8 id, QObject *parent):
     QObject{parent},
@@ -35,7 +60,7 @@ void ZWaveNode::setNodeType(ZWaveNodeType nodeType)
 QString ZWaveNode::nodeTypeString() const
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<ZWaveNode::ZWaveNodeType>();
-    return QString(metaEnum.valueToKey(m_nodeType)).remove(QRegExp("^ZWaveNodeType"));
+    return QString(metaEnum.valueToKey(m_nodeType)).remove(QRegularExpression("^ZWaveNodeType"));
 }
 
 ZWaveNode::ZWaveNodeRole ZWaveNode::role() const
@@ -54,7 +79,7 @@ void ZWaveNode::setRole(ZWaveNodeRole role)
 QString ZWaveNode::roleString() const
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<ZWaveNode::ZWaveNodeRole>();
-    return QString(metaEnum.valueToKey(m_role)).remove(QRegExp("^ZWaveNodeRole"));
+    return QString(metaEnum.valueToKey(m_role)).remove(QRegularExpression("^ZWaveNodeRole"));
 }
 
 ZWaveNode::ZWaveDeviceType ZWaveNode::deviceType() const
@@ -70,7 +95,7 @@ void ZWaveNode::setDeviceType(ZWaveDeviceType deviceType)
 QString ZWaveNode::deviceTypeString() const
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<ZWaveNode::ZWaveDeviceType>();
-    return QString(metaEnum.valueToKey(m_deviceType)).remove(QRegExp("^ZWaveDeviceType"));
+    return QString(metaEnum.valueToKey(m_deviceType)).remove(QRegularExpression("^ZWaveDeviceType"));
 }
 
 quint16 ZWaveNode::manufacturerId() const
@@ -291,7 +316,7 @@ ZWaveNodes::ZWaveNodes(QObject *parent):
 int ZWaveNodes::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant ZWaveNodes::data(const QModelIndex &index, int role) const
@@ -309,7 +334,10 @@ QHash<int, QByteArray> ZWaveNodes::roleNames() const
 void ZWaveNodes::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (ZWaveNode *node, m_list)
+        node->deleteLater();
+
+    m_list.clear();
     endResetModel();
     emit countChanged();
 }
@@ -317,7 +345,7 @@ void ZWaveNodes::clear()
 void ZWaveNodes::addNode(ZWaveNode *node)
 {
     node->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(node);
     endInsertRows();
     emit countChanged();

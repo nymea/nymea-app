@@ -1,37 +1,32 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of nymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Nymea
+
 
 Item {
     id: root
@@ -39,7 +34,8 @@ Item {
 
     property alias title: titleLabel.text
     property url githubLink
-    property var additionalLicenses: null
+
+    property bool showOpensourceLicenses: true
 
     default property alias content: contentGrid.data
 
@@ -54,7 +50,7 @@ Item {
 
             Image {
                 id: logo
-                Layout.preferredHeight: Style.iconSize * 2
+                Layout.preferredHeight: Style.hugeIconSize
                 Layout.preferredWidth: height
                 fillMode: Image.PreserveAspectFit
                 source: "qrc:/styles/%1/logo.svg".arg(styleController.currentStyle)
@@ -80,6 +76,8 @@ Item {
 
             Label {
                 id: titleLabel
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: app.largeFont
             }
         }
@@ -101,7 +99,7 @@ Item {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             font.bold: true
-            text: "Copyright (C) %1 chargebyte GmbH".arg(new Date().getFullYear())
+            text: "Copyright (C) %1 chargebyte austria GmbH".arg(new Date().getFullYear())
         }
 
         Label {
@@ -109,7 +107,7 @@ Item {
             Layout.leftMargin: app.margins
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
-            text: qsTr("nymea is a registered trademark of chargebyte GmbH.")
+            text: qsTr("nymea is a registered trademark of chargebyte austria GmbH.")
         }
 
         Label {
@@ -118,7 +116,7 @@ Item {
             Layout.rightMargin: app.margins
             wrapMode: Text.WordWrap
             font.pixelSize: app.smallFont
-            text: Configuration.closedSource ? qsTr("Licensed under the terms of the nymea commercial license.") : qsTr("Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.")
+            text: qsTr("Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.")
         }
 
         ColumnLayout {
@@ -127,41 +125,35 @@ Item {
             Repeater {
                 visible: Configuration.additionalImrintLinks !== null && Configuration.additionalImrintLinks.count > 0
                 model: Configuration.additionalImrintLinks
-                delegate:NymeaSwipeDelegate {
+                delegate: NymeaSwipeDelegate {
                     Layout.fillWidth: true
                     iconName: "qrc:/icons/stock_website.svg"
                     text: model.text
                     subText: model.subText
                     prominentSubText: false
                     wrapTexts: false
-                    onClicked: {
-                        Qt.openUrlExternally(model.url)
-                    }
+                    onClicked: { Qt.openUrlExternally(model.url) }
                 }
             }
 
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 iconName: "qrc:/icons/stock_website.svg"
-                text: qsTr("Chargebyte")
+                text: qsTr("chargebyte GmbH")
                 subText: "https://chargebyte.com"
                 prominentSubText: false
                 wrapTexts: false
-                onClicked: {
-                    Qt.openUrlExternally("https://chargebyte.com")
-                }
+                onClicked: { Qt.openUrlExternally("https://chargebyte.com") }
             }
 
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 iconName: "qrc:/icons/stock_website.svg"
-                text: qsTr("Visit the nymea website")
+                text: qsTr("Visit the nymea project website")
                 subText: "https://nymea.io"
                 prominentSubText: false
                 wrapTexts: false
-                onClicked: {
-                    Qt.openUrlExternally("https://nymea.io")
-                }
+                onClicked: { Qt.openUrlExternally("https://nymea.io") }
             }
 
             NymeaSwipeDelegate {
@@ -171,9 +163,7 @@ Item {
                 subText: root.githubLink
                 prominentSubText: false
                 wrapTexts: false
-                onClicked: {
-                    Qt.openUrlExternally(root.githubLink)
-                }
+                onClicked: { Qt.openUrlExternally(root.githubLink) }
             }
 
             NymeaSwipeDelegate {
@@ -183,8 +173,7 @@ Item {
                 subText: Configuration.privacyPolicyUrl
                 prominentSubText: false
                 wrapTexts: false
-                onClicked:
-                    Qt.openUrlExternally(Configuration.privacyPolicyUrl)
+                onClicked: Qt.openUrlExternally(Configuration.privacyPolicyUrl)
             }
 
             NymeaSwipeDelegate {
@@ -194,56 +183,20 @@ Item {
                 subText: "The nymea sofware license"
                 prominentSubText: false
                 wrapTexts: false
-                onClicked: {
-                    Qt.openUrlExternally("https://nymea.io/license")
-                }
+                onClicked: { Qt.openUrlExternally("https://www.gnu.org/licenses/gpl-3.0-standalone.html") }
             }
 
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
-                text: qsTr("Additional software licenses")
+                text: qsTr("Open Source Licenses")
                 iconName: "qrc:/icons/logs.svg"
-                subText: "Additional used software licenses"
+                subText: "List of all open source components used in this app."
                 prominentSubText: false
                 wrapTexts: false
-                visible: root.additionalLicenses && root.additionalLicenses.count > 0
+                visible: root.showOpensourceLicenses
                 onClicked: {
                     pageStack.push(licensesPageComponent)
                 }
-            }
-        }
-
-        ThinDivider { }
-
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: app.margins
-            spacing: app.margins
-
-            Image {
-                Layout.preferredHeight: Style.iconSize * 2
-                Layout.preferredWidth: height
-                fillMode: Image.PreserveAspectFit
-                source: "qrc:/ui/images/Built_with_Qt_RGB_logo_vertical.svg"
-                sourceSize.width: Style.iconSize * 2
-                sourceSize.height: Style.iconSize * 2
-            }
-
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.")
-                wrapMode: Text.WordWrap
-            }
-        }
-        NymeaSwipeDelegate {
-            Layout.fillWidth: true
-            iconName: "qrc:/icons/stock_website.svg"
-            text: qsTr("Visit the Qt website")
-            subText: "https://www.qt.io"
-            prominentSubText: false
-            wrapTexts: false
-            onClicked: {
-                Qt.openUrlExternally("https://www.qt.io")
             }
         }
     }
@@ -258,22 +211,267 @@ Item {
                 onBackPressed: pageStack.pop()
             }
 
-            ColumnLayout {
-                anchors { left: parent.left; top: parent.top; right: parent.right }
+            Flickable {
+                anchors.fill: parent
+                contentHeight: licensesColumnLayout.implicitHeight + app.margins
+                clip: true
 
-                Repeater {
-                    model: root.additionalLicenses
+                ColumnLayout {
+                    id: licensesColumnLayout
+                    anchors { left: parent.left; top: parent.top; right: parent.right }
 
-                    delegate: NymeaSwipeDelegate {
+                    LicenseInformationItem {
                         Layout.fillWidth: true
-                        text: model.component
-                        subText: model.infoText
-                        prominentSubText: false
-                        visible: model.platforms === "*" ||  model.platforms.indexOf(Qt.platform.os) >= 0
-                        onClicked: {
-                            pageStack.push(licenseTextComponent, {license: model.license})
-                        }
+                        component: "QtCore"
+                        description: qsTr("Qt core module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtbase"
+                        platforms: "*"
                     }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtGui"
+                        description: qsTr("Qt gui module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtbase"
+                        platforms: "*"
+                    }
+
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtNetwork"
+                        description: qsTr("Qt network module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtbase"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtQML"
+                        description: qsTr("Qt QML module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtdeclarative"
+                        platforms: "*"
+                    }
+
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtQuick"
+                        description: qsTr("Qt Quick module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtdeclarative"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtQuickControls"
+                        description: qsTr("Qt Quick Controls module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtdeclarative"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtQuickDialogs"
+                        description: qsTr("Qt Quick Dialogs module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtdeclarative"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtQuickLayouts"
+                        description: qsTr("Qt Quick Layouts module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtdeclarative"
+                        platforms: "*"
+                    }
+
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "Qt5CoreComapitbility"
+                        description: qsTr("Qt 5 compatibility module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "Qt Image Formats"
+                        description: qsTr("Qt image formats module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtSvg"
+                        description: qsTr("Qt SVG module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtsvg"
+                        platforms: "*"
+                    }
+
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtCharts"
+                        description: qsTr("Qt charts module")
+                        license: "GPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtWebsockets"
+                        description: qsTr("Qt websockets module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtwebsockets"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtBluetooth"
+                        description: qsTr("Qt bluetooth module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtconnectivity"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtNfc"
+                        description: qsTr("Qt NFC module")
+                        license: "LGPLv3"
+                        version: qtBuildVersion
+                        url: "https://github.com/qt/qtconnectivity"
+                        platforms: "*"
+                    }
+
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "nymea-remoteproxy"
+                        description: qsTr("Client library for remote connections")
+                        license: "LGPLv3"
+                        version: "1.14.0"
+                        url: "https://github.com/nymea/nymea-remoteproxy"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "QtZeroConf"
+                        description: qsTr("QtZeroConf library by Jonathan Bagg")
+                        license: "LGPLv3"
+                        version: ""
+                        url: "https://github.com/jbagg/QtZeroConf"
+                        platforms: "android,ios,linux,osx"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "FirebaseSDK";
+                        description: qsTr("Firebase iOS SDK")
+                        license: "Apache 2.0"
+                        version: "18.1.0"
+                        url: "https://github.com/firebase/firebase-ios-sdk"
+                        platforms: "ios"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "FirebaseSDK";
+                        description: qsTr("Firebase Android SDK")
+                        license: "Apache 2.0"
+                        version: "18.1.0"
+                        url: "https://github.com/firebase/firebase-android-sdk"
+                        platforms: "android"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "OpenSSL"
+                        description: qsTr("OpenSSL libraries by Eric Young")
+                        license: "OpenSSL"
+                        version: sslLibraryVersion
+                        platforms: "android,windows,linux"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "Suru icons"
+                        description: qsTr("Suru icons by Ubuntu")
+                        license: "CC-BY-SA-3.0"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "Ubuntu font"
+                        description: qsTr("Ubuntu font by Ubuntu")
+                        license: "CC-BY-SA-3.0"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "Oswald font"
+                        description: qsTr("Oswald font by The Oswald Project")
+                        license: "OFL"
+                        platforms: "*"
+                    }
+
+                    LicenseInformationItem {
+                        Layout.fillWidth: true
+                        component: "Material Icons"
+                        description: qsTr("Google fonts and material icons")
+                        license: "Apache 2.0"
+                        url: "https://fonts.google.com/icons"
+                        platforms: "*"
+                    }
+
+
+                    // Repeater {
+                    //     model: root.additionalLicenses
+
+                    //     delegate: NymeaSwipeDelegate {
+                    //         Layout.fillWidth: true
+                    //         text: model.component
+                    //         subText: model.description
+                    //         prominentSubText: false
+                    //         visible: model.platforms === "*" ||  model.platforms.indexOf(Qt.platform.os) >= 0
+                    //         onClicked: {
+                    //             pageStack.push(licenseTextComponent, {license: model.license})
+                    //         }
+                    //     }
+                    // }
                 }
             }
         }
@@ -316,4 +514,3 @@ Item {
         }
     }
 }
-

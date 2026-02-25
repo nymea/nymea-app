@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of nymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -36,10 +30,25 @@
 #include <QSysInfo>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <QSslSocket>
 #include "utils/qhashqml.h"
+#include <QTranslator>
+#include <QLibraryInfo>
+#include <QIcon>
+#include <QQmlFileSelector>
+#include <QDir>
+#include <QSslSocket>
+#include <QFileInfo>
+#include <QOperatingSystemVersion>
+#include <QWindow>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QNetworkInformation>
+#endif
 
 #include "libnymea-app-core.h"
 #include "libnymea-app-airconditioning.h"
+#include "libnymea-app-evdash.h"
 
 #include "stylecontroller.h"
 #include "pushnotifications.h"
@@ -52,8 +61,9 @@
 #include "dashboard/dashboarditem.h"
 #include "mouseobserver.h"
 #include "configuredhostsmodel.h"
-#include "../config.h"
+#include "utils/qhashqml.h"
 #include "utils/privacypolicyhelper.h"
+#include "config.h"
 
 #include "logging.h"
 
@@ -70,10 +80,7 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_OSX
     qputenv("QT_WEBVIEW_PLUGIN", "native");
 #endif
-
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication application(argc, argv);
-
     application.setApplicationName(APPLICATION_NAME);
     application.setOrganizationName(ORGANISATION_NAME);
 
@@ -129,8 +136,21 @@ int main(int argc, char *argv[])
 
     qCInfo(dcApplication()) << "-->" << application.applicationName() << APP_VERSION << QDateTime::currentDateTime().toString();
     qCInfo(dcApplication()) << "Command line:" << application.arguments().join(" ");
-    qCInfo(dcApplication()) << "System:" << QSysInfo::machineHostName() << QSysInfo::prettyProductName() << QSysInfo::productType() << QSysInfo::productVersion() << PlatformHelper::instance()->deviceManufacturer() << PlatformHelper::instance()->deviceModel();
+    qCInfo(dcApplication()) << "System: Device model:" << PlatformHelper::instance()->deviceModel();
+    qCInfo(dcApplication()) << "  Hostname:" << QSysInfo::machineHostName();
+    qCInfo(dcApplication()) << "  Product name:" << QSysInfo::prettyProductName();
+    qCInfo(dcApplication()) << "  Product type:" << QSysInfo::productType();
+    qCInfo(dcApplication()) << "  Product version:" << QSysInfo::productVersion();
+    qCInfo(dcApplication()) << "  Kernel type:" << QSysInfo::kernelType();
+    qCInfo(dcApplication()) << "  Kernel version:" << QSysInfo::kernelVersion();
+    qCInfo(dcApplication()) << "  Machine uid:" << QSysInfo::machineUniqueId();
+    qCInfo(dcApplication()) << "  CPU architecture:" << QSysInfo::currentCpuArchitecture();
+    qCInfo(dcApplication()) << "  Platform: Device:" << PlatformHelper::instance()->device();
+    qCInfo(dcApplication()) << "  Platform: Device serial:" << PlatformHelper::instance()->deviceSerial();
+    qCInfo(dcApplication()) << "  Platform: Device manufacturer:" << PlatformHelper::instance()->deviceManufacturer();
+
     qCInfo(dcApplication()) << "Locale:" << QLocale() << QLocale().name() << QLocale().language();
+    qCInfo(dcApplication()) << "SSL version:" << QSslSocket::sslLibraryVersionString();
 
     QScreen *screen = application.primaryScreen();
     qCInfo(dcApplication()).noquote() << QString("Screen name: %1").arg(screen->name());
@@ -143,8 +163,11 @@ int main(int argc, char *argv[])
         }
     }
 
-    QTranslator qtTranslator;    
-    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    QTranslator qtTranslator;
+    if (!qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
+        qCWarning(dcApplication()) << "Unable to load translations from" << QLibraryInfo::path(QLibraryInfo::TranslationsPath);
+    }
+
     application.installTranslator(&qtTranslator);
 
     QStringList loadedTranslations;
@@ -166,6 +189,7 @@ int main(int argc, char *argv[])
 
     Nymea::Core::registerQmlTypes();
     Nymea::AirConditioning::registerQmlTypes();
+    Nymea::EvDash::registerQmlTypes();
 
     QQmlApplicationEngine *engine = new QQmlApplicationEngine();
 
@@ -174,8 +198,10 @@ int main(int argc, char *argv[])
     QString defaultStyle;
     if (parser.isSet(defaultStyleOption)) {
         defaultStyle = parser.value(defaultStyleOption);
+#ifndef DISABLE_DARK_MODE
     } else if (PlatformHelper::instance()->darkModeEnabled()) {
         defaultStyle = "dark";
+#endif
     } else {
         defaultStyle = "light";
     }
@@ -195,6 +221,21 @@ int main(int argc, char *argv[])
         qCDebug(dcApplication()) << "Adding style font:" << fi.absoluteFilePath();
         QFontDatabase::addApplicationFont(fi.absoluteFilePath());
     }
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    // Note: QNetworkInformation should always first be loaded in the same thread as the QCoreApplication object
+    qCInfo(dcApplication()) << "Available network information backends" << QNetworkInformation::instance()->availableBackends();
+
+    if (QNetworkInformation::instance()->loadDefaultBackend()) {
+        qCInfo(dcApplication()) << "Loaded default network information backend" << QNetworkInformation::instance()->backendName();
+        qCInfo(dcApplication()) << "Network infromation supported features:" << QNetworkInformation::instance()->supportedFeatures();
+        qCInfo(dcApplication()) << "Network reachability:" << QNetworkInformation::instance()->reachability();
+        qCInfo(dcApplication()) << "Network trasport medium changed:" << QNetworkInformation::instance()->transportMedium();
+
+    } else {
+        qCWarning(dcApplication()) << "Unable to load default network information backend." << QNetworkInformation::instance()->availableBackends();
+    }
+#endif
 
     qmlRegisterSingletonType(QUrl("qrc:///styles/" + styleController.currentStyle() + "/Style.qml"), "Nymea", 1, 0, "Style" );
     qmlRegisterType(QUrl("qrc:///styles/" + styleController.currentStyle() + "/Background.qml"), "Nymea", 1, 0, "Background" );
@@ -235,8 +276,10 @@ int main(int argc, char *argv[])
 #endif
 
     engine->rootContext()->setContextProperty("appVersion", APP_VERSION);
+    engine->rootContext()->setContextProperty("appRevision", APP_REVISION);
     engine->rootContext()->setContextProperty("qtBuildVersion", QT_VERSION_STR);
     engine->rootContext()->setContextProperty("qtVersion", qVersion());
+    engine->rootContext()->setContextProperty("sslLibraryVersion", QSslSocket::sslLibraryVersionString());
 
     engine->rootContext()->setContextProperty("defaultMainViewFilter", parser.value(defaultViewsOption));
     engine->rootContext()->setContextProperty("kioskMode", parser.isSet(kioskOption));
@@ -257,6 +300,17 @@ int main(int argc, char *argv[])
     application.setWindowIcon(QIcon(QString(":/styles/%1/logo.svg").arg(styleController.currentStyle())));
 
     engine->load(QUrl(QLatin1String("qrc:/ui/Nymea.qml")));
+
+#ifdef Q_OS_IOS
+    if (!engine->rootObjects().isEmpty()) {
+        if (QWindow *window = qobject_cast<QWindow*>(engine->rootObjects().constFirst())) {
+            const QRect screenRect = window->screen()->availableGeometry();
+            window->setPosition(screenRect.topLeft());
+            window->resize(screenRect.size());
+            window->showFullScreen();
+        }
+    }
+#endif
 
     return application.exec();
 }

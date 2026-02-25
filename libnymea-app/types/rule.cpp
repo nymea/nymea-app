@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -213,17 +207,17 @@ bool Rule::operator==(Rule *other) const
 
 QDebug operator <<(QDebug &dbg, Rule *rule)
 {
-    dbg << rule->name() << " (Enabled:" << rule->enabled() << "Active:" << rule->active() << ")" << endl;
+    dbg << rule->name() << " (Enabled:" << rule->enabled() << "Active:" << rule->active() << ")" << Qt::endl;
     if (rule->eventDescriptors()->rowCount() > 0) {
-        dbg << "Event descriptors:" << endl;
+        dbg << "Event descriptors:" << Qt::endl;
     }
     for (int i = 0; i < rule->eventDescriptors()->rowCount(); i++) {
         EventDescriptor *ed = rule->eventDescriptors()->get(i);
         dbg << " " << i << ":";
         if (!ed->thingId().isNull() && !ed->eventTypeId().isNull()) {
-            dbg << "Thing ID:" << ed->thingId() << "Event Type ID:" << ed->eventTypeId() << endl;
+            dbg << "Thing ID:" << ed->thingId() << "Event Type ID:" << ed->eventTypeId() << Qt::endl;
         } else {
-            dbg << "Interface Name:" << ed->interfaceName() << "Event Name:" << ed->interfaceEvent() << endl;
+            dbg << "Interface Name:" << ed->interfaceName() << "Event Name:" << ed->interfaceEvent() << Qt::endl;
         }
         for (int j = 0; j < ed->paramDescriptors()->rowCount(); j++) {
             ParamDescriptor *epd = ed->paramDescriptors()->get(j);
@@ -248,52 +242,52 @@ QDebug operator <<(QDebug &dbg, Rule *rule)
                 operatorString = ">=";
                 break;
             }
-            dbg << "    Param" << j << ": ID:" << epd->paramTypeId() << operatorString << " Value:" << epd->value() << endl;
+            dbg << "    Param" << j << ": ID:" << epd->paramTypeId() << operatorString << " Value:" << epd->value() << Qt::endl;
         }
     }
     if (rule->stateEvaluator()) {
-        dbg << "State Evaluator:" << endl;
+        dbg << "State Evaluator:" << Qt::endl;
         printStateEvaluator(dbg, rule->stateEvaluator());
     }
 
     if (rule->actions()->rowCount() > 0) {
-        dbg << "Actions:" << endl;
+        dbg << "Actions:" << Qt::endl;
     }
     for (int i = 0; i < rule->actions()->rowCount(); i++) {
         RuleAction *ra = rule->actions()->get(i);
         dbg << " " << i << ":";
         if (!ra->thingId().isNull() && !ra->actionTypeId().isNull()) {
-            dbg << "Thing ID:" << ra->thingId() << "Action Type ID:" << ra->actionTypeId() << endl;
+            dbg << "Thing ID:" << ra->thingId() << "Action Type ID:" << ra->actionTypeId() << Qt::endl;
         } else {
-            dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << endl;
+            dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << Qt::endl;
         }
         for (int j = 0; j < ra->ruleActionParams()->rowCount(); j++) {
             RuleActionParam *rap = ra->ruleActionParams()->get(j);
             if (rap->eventTypeId().isNull()) {
-                dbg << "    Param" << j << ": ID:" << rap->paramTypeId() << " Value:" << rap->value() << endl;
+                dbg << "    Param" << j << ": ID:" << rap->paramTypeId() << " Value:" << rap->value() << Qt::endl;
             } else {
-                dbg << "    Param" << j << ": ID:" << rap->paramTypeId() << " Source Event Type ID:" << rap->eventTypeId() << "Source Event Param ID:" << rap->eventParamTypeId() << endl;
+                dbg << "    Param" << j << ": ID:" << rap->paramTypeId() << " Source Event Type ID:" << rap->eventTypeId() << "Source Event Param ID:" << rap->eventParamTypeId() << Qt::endl;
             }
         }
     }
 
     if (rule->exitActions()->rowCount() > 0) {
-        dbg << "Exit Actions:" << endl;
+        dbg << "Exit Actions:" << Qt::endl;
     }
     for (int i = 0; i < rule->exitActions()->rowCount(); i++) {
         RuleAction *ra = rule->exitActions()->get(i);
         dbg << " " << i << ":";
         if (!ra->thingId().isNull() && !ra->actionTypeId().isNull()) {
-            dbg << "Thing ID:" << ra->thingId() << "Action Type ID:" << ra->actionTypeId() << endl;;
+            dbg << "Thing ID:" << ra->thingId() << "Action Type ID:" << ra->actionTypeId() << Qt::endl;;
         } else {
-            dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << endl;;
+            dbg << "Interface Name:" << ra->interfaceName() << "Action Name:" << ra->interfaceAction() << Qt::endl;;
         }
         for (int j = 0; j < ra->ruleActionParams()->rowCount(); j++) {
             RuleActionParam *rap = ra->ruleActionParams()->get(j);
             if (rap->eventTypeId().isNull()) {
-                dbg << "    Param" << j << ": ID:" << rap->paramTypeId() << " Value:" << rap->value() << endl;
+                dbg << "    Param" << j << ": ID:" << rap->paramTypeId() << " Value:" << rap->value() << Qt::endl;
             } else {
-                dbg << "    Param" << j << ": ID:" << rap->paramTypeId() << " Source Event Type ID:" << rap->eventTypeId() << "Source Event Param ID:" << rap->eventParamTypeId() << endl;
+                dbg << "    Param" << j << ": ID:" << rap->paramTypeId() << " Source Event Type ID:" << rap->eventTypeId() << "Source Event Param ID:" << rap->eventParamTypeId() << Qt::endl;
             }
         }
     }
@@ -330,11 +324,11 @@ QDebug printStateEvaluator(QDebug &dbg, StateEvaluator *stateEvaluator, int inde
             dbg << ">=";
             break;
         }
-        dbg << stateEvaluator->stateDescriptor()->value() << '/' << stateEvaluator->stateDescriptor()->valueThingId() << stateEvaluator->stateDescriptor()->valueStateTypeId() << endl;
+        dbg << stateEvaluator->stateDescriptor()->value() << '/' << stateEvaluator->stateDescriptor()->valueThingId() << stateEvaluator->stateDescriptor()->valueStateTypeId() << Qt::endl;
     }
     if (stateEvaluator->childEvaluators()->rowCount() > 0) {
         for (int i = 0; i < indentLevel; i++) { dbg << " "; }
-        dbg << (stateEvaluator->stateOperator() == StateEvaluator::StateOperatorAnd ? "AND" : "OR") << endl;
+        dbg << (stateEvaluator->stateOperator() == StateEvaluator::StateOperatorAnd ? "AND" : "OR") << Qt::endl;
     }
     for (int i = 0; i < stateEvaluator->childEvaluators()->rowCount(); i++) {
         printStateEvaluator(dbg, stateEvaluator->childEvaluators()->get(i), indentLevel+1);

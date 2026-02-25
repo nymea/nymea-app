@@ -112,34 +112,6 @@
         <source>App version:</source>
         <translation>App Version:</translation>
     </message>
-    <message>
-        <source>Qt version:</source>
-        <translation>Qt Version:</translation>
-    </message>
-    <message>
-        <source>Built with %1</source>
-        <translation>Erstellt mit %1</translation>
-    </message>
-    <message>
-        <source>Suru icons by Ubuntu</source>
-        <translation>Suru Icons von Ubuntu</translation>
-    </message>
-    <message>
-        <source>Ubuntu font by Ubuntu</source>
-        <translation>Ubuntu Schrift von Ubuntu</translation>
-    </message>
-    <message>
-        <source>QtZeroConf library by Jonathan Bagg</source>
-        <translation>QtZeroConf Bibliothek von Jonathan Bagg</translation>
-    </message>
-    <message>
-        <source>OpenSSL libraries by Eric Young</source>
-        <translation>OpenSSL Bibliothek von Eric Young</translation>
-    </message>
-    <message>
-        <source>Oswald font by The Oswald Project</source>
-        <translation>Oswald Schrift von &quot;The Oswald Project&quot;</translation>
-    </message>
 </context>
 <context>
     <name>ActionLogPage</name>
@@ -613,10 +585,6 @@
     <message>
         <source>Telegram</source>
         <translation>Telegram</translation>
-    </message>
-    <message>
-        <source>Discord</source>
-        <translation type="vanished">Discord</translation>
     </message>
 </context>
 <context>
@@ -2589,24 +2557,12 @@ Bitte versuche es erneut.</translation>
         <translation>Howdy cowboy!</translation>
     </message>
     <message>
-        <source>Visit the nymea website</source>
-        <translation>Besuchen Sie die nymea Webseite</translation>
-    </message>
-    <message>
         <source>Visit GitHub page</source>
         <translation>Besuchen Sie die GitHub Seite</translation>
     </message>
     <message>
         <source>View privacy policy</source>
         <translation>Datenschutzerklärung anzeigen</translation>
-    </message>
-    <message>
-        <source>Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.</source>
-        <translation>Qt ist ein eingetragenes Markenzeichen von The Qt Company Ltd.</translation>
-    </message>
-    <message>
-        <source>Visit the Qt website</source>
-        <translation>Besuchen Sie die Qt Webseite</translation>
     </message>
     <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
@@ -2621,16 +2577,116 @@ Bitte versuche es erneut.</translation>
         <translation>Zusätzliche Software-Lizenzen</translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of chargebyte GmbH.</source>
-        <translation>nymea ist ein eingetragenes Markenzeichen von chargebyte GmbH.</translation>
+        <source>nymea is a registered trademark of chargebyte austria GmbH.</source>
+        <translation>nymea ist eine eingetragene Marke der chargebyte austria GmbH.</translation>
     </message>
     <message>
-        <source>Licensed under the terms of the nymea commercial license.</source>
-        <translation>Lizensiert unter den Bedingungen der kommerzielle Lizenz von Nymea.</translation>
+        <source>chargebyte GmbH</source>
+        <translation>chargebyte GmbH</translation>
     </message>
     <message>
-        <source>Chargebyte</source>
-        <translation type="unfinished"></translation>
+        <source>Visit the nymea project website</source>
+        <translation>Besuchen Sie die nymea-Projektwebseite</translation>
+    </message>
+    <message>
+        <source>Open Source Licenses</source>
+        <translation>Open-Source-Lizenzen</translation>
+    </message>
+    <message>
+        <source>Qt core module</source>
+        <translation>Qt Core-Modul</translation>
+    </message>
+    <message>
+        <source>Qt gui module</source>
+        <translation>Qt GUI-Modul</translation>
+    </message>
+    <message>
+        <source>Qt network module</source>
+        <translation>Qt Netzwerkmodul</translation>
+    </message>
+    <message>
+        <source>Qt QML module</source>
+        <translation>Qt QML-Modul</translation>
+    </message>
+    <message>
+        <source>Qt Quick module</source>
+        <translation>Qt Quick-Modul</translation>
+    </message>
+    <message>
+        <source>Qt Quick Controls module</source>
+        <translation>Qt Quick Controls-Modul</translation>
+    </message>
+    <message>
+        <source>Qt Quick Dialogs module</source>
+        <translation>Qt Quick Dialogs-Modul</translation>
+    </message>
+    <message>
+        <source>Qt Quick Layouts module</source>
+        <translation>Qt Quick Layouts-Modul</translation>
+    </message>
+    <message>
+        <source>Qt 5 compatibility module</source>
+        <translation>Qt 5-Kompatibilitätsmodul</translation>
+    </message>
+    <message>
+        <source>Qt image formats module</source>
+        <translation>Qt Bildformate-Modul</translation>
+    </message>
+    <message>
+        <source>Qt SVG module</source>
+        <translation>Qt SVG-Modul</translation>
+    </message>
+    <message>
+        <source>Qt charts module</source>
+        <translation>Qt Charts-Modul</translation>
+    </message>
+    <message>
+        <source>Qt websockets module</source>
+        <translation>Qt WebSockets-Modul</translation>
+    </message>
+    <message>
+        <source>Qt bluetooth module</source>
+        <translation>Qt Bluetooth-Modul</translation>
+    </message>
+    <message>
+        <source>Qt NFC module</source>
+        <translation>Qt NFC-Modul</translation>
+    </message>
+    <message>
+        <source>Client library for remote connections</source>
+        <translation>Client-Bibliothek für Remote-Verbindungen</translation>
+    </message>
+    <message>
+        <source>QtZeroConf library by Jonathan Bagg</source>
+        <translation>QtZeroConf-Bibliothek von Jonathan Bagg</translation>
+    </message>
+    <message>
+        <source>Firebase iOS SDK</source>
+        <translation>Firebase iOS-SDK</translation>
+    </message>
+    <message>
+        <source>Firebase Android SDK</source>
+        <translation>Firebase Android-SDK</translation>
+    </message>
+    <message>
+        <source>OpenSSL libraries by Eric Young</source>
+        <translation>OpenSSL-Bibliotheken von Eric Young</translation>
+    </message>
+    <message>
+        <source>Suru icons by Ubuntu</source>
+        <translation>Suru-Icons von Ubuntu</translation>
+    </message>
+    <message>
+        <source>Ubuntu font by Ubuntu</source>
+        <translation>Ubuntu-Schrift von Ubuntu</translation>
+    </message>
+    <message>
+        <source>Oswald font by The Oswald Project</source>
+        <translation>Oswald-Schrift von &quot;The Oswald Project&quot;</translation>
+    </message>
+    <message>
+        <source>Google fonts and material icons</source>
+        <translation>Google Fonts und Material Icons</translation>
     </message>
 </context>
 <context>

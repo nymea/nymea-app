@@ -1,6 +1,10 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /****************************************************************************
 **
 ** Copyright (C) 2017 The Qt Company Ltd.
+** Copyright (C) 2013 - 2024, nymea GmbH
+** Copyright (C) 2024 - 2025, chargebyte austria GmbH
 ** Contact: http://www.qt.io/licensing/
 **
 ** This file is part of the Qt Quick Controls 2 module of the Qt Toolkit.
@@ -34,12 +38,12 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.9
-import QtQuick.Templates 2.2 as T
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
-import QtQuick.Controls.Material.impl 2.2
-import Nymea 1.0
+import QtQuick
+import QtQuick.Templates as T
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Controls.Material.impl
+import Nymea
 
 T.Dialog {
     id: control

@@ -1,3 +1,27 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of libnymea-app.
+*
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
+*
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include "boolseriesadapter.h"
 
 BoolSeriesAdapter::BoolSeriesAdapter(QObject *parent)
@@ -22,12 +46,12 @@ void BoolSeriesAdapter::setLogsModel(LogsModel *logsModel)
 
 }
 
-QtCharts::QXYSeries *BoolSeriesAdapter::xySeries() const
+QXYSeries *BoolSeriesAdapter::xySeries() const
 {
     return m_series;
 }
 
-void BoolSeriesAdapter::setXySeries(QtCharts::QXYSeries *series)
+void BoolSeriesAdapter::setXySeries(QXYSeries *series)
 {
     if (m_series != series) {
         m_series = series;
@@ -109,14 +133,14 @@ quint64 BoolSeriesAdapter::findIndex(qulonglong timestamp)
 
     // In 99.9% of the cases we'll be prepending (adding live entries) or appending (fetching history)
     if (timestamp < m_series->at(m_series->count() - 2).x()) {
-        return m_series->count() - 1;
+        return static_cast<quint64>(m_series->count() - 1);
     }
     if (timestamp > m_series->at(1).x()) {
         return 1;
     }
 
     // If for any reason a entry in the middle is added (can't think of one but hey), a binary search will probably do.
-    int idx = m_series->count() / 2;
+    int idx = static_cast<int>(m_series->count() / 2);
     int range = idx;
     int i = 0;
     while (true) {

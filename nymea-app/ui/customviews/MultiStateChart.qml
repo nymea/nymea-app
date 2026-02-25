@@ -1,12 +1,37 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
-import QtQuick.Layouts 1.1
-import Nymea 1.0
-import NymeaApp.Utils 1.0
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of nymea-app.
+*
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import QtCharts
+import Nymea
+import NymeaApp.Utils
+
 import "../components"
 import "../customviews"
-import QtCharts 2.2
 
 Item {
     id: root
@@ -216,7 +241,7 @@ Item {
                 property double minValue
                 property double maxValue
 
-                onBusyChanged: {
+                onBusyChanged: (busy) => {
                     if (busy) {
                         chartView.busyCounter++
                     } else {
@@ -224,7 +249,7 @@ Item {
                     }
                 }
 
-                onEntriesAddedIdx: {
+                onEntriesAddedIdx: (index, count) => {
                     print("**** entries added", index, count, "entries in series:", series.count, "in model", logsModel.count)
                     for (var i = 0; i < count; i++) {
                         var entry = logsModel.get(i)
@@ -277,7 +302,7 @@ Item {
                     print("added entries. now in series:", series.count)
 
                 }
-                onEntriesRemoved: {
+                onEntriesRemoved: (index, count) => {
                     print("removing:", index, count, series.count)
                     if (stateType.type.toLowerCase() == "bool") {
                         series.removePoints(index * 2, count * 2)
@@ -520,7 +545,7 @@ Item {
                     d.now = new Date(Math.min(new Date(), new Date(startDatetime.getTime() + timeDelta)))
                 }
 
-                onWheel: {
+                onWheel: (wheel) => {
                     startDatetime = d.now
                     var totalTime = d.endTime.getTime() - d.startTime.getTime()
                     // pixelDelta : timeDelta = width : totalTime

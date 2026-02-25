@@ -112,34 +112,6 @@
         <source>App version:</source>
         <translation>Uygulama versiyon:</translation>
     </message>
-    <message>
-        <source>Qt version:</source>
-        <translation>Qt versiyon:</translation>
-    </message>
-    <message>
-        <source>Built with %1</source>
-        <translation>% 1 ile oluşturuldu</translation>
-    </message>
-    <message>
-        <source>Suru icons by Ubuntu</source>
-        <translation>Ubuntu&apos;dan Suru simgeleri</translation>
-    </message>
-    <message>
-        <source>Ubuntu font by Ubuntu</source>
-        <translation>Ubuntu&apos;dan Ubuntu yazı tipi</translation>
-    </message>
-    <message>
-        <source>QtZeroConf library by Jonathan Bagg</source>
-        <translation>QtZeroConf kütüphanesi, Jonathan Bagg</translation>
-    </message>
-    <message>
-        <source>OpenSSL libraries by Eric Young</source>
-        <translation>Eric Young tarafından OpenSSL kütüphaneleri</translation>
-    </message>
-    <message>
-        <source>Oswald font by The Oswald Project</source>
-        <translation>Oswald yazı tipi by The Oswald Project</translation>
-    </message>
 </context>
 <context>
     <name>ActionLogPage</name>
@@ -2528,24 +2500,12 @@ Please try again.</source>
         <translation>Merhaba kovboy!</translation>
     </message>
     <message>
-        <source>Visit the nymea website</source>
-        <translation>nymea&apos;nin web sitesini ziyaret edin</translation>
-    </message>
-    <message>
         <source>Visit GitHub page</source>
         <translation>GitHub sayfasını ziyaret edin</translation>
     </message>
     <message>
         <source>View privacy policy</source>
         <translation>Gizlilik politikasını görüntüle</translation>
-    </message>
-    <message>
-        <source>Qt is a registered trademark of The Qt Company Ltd. and its subsidiaries.</source>
-        <translation>Qt, The Qt Company Ltd. ve yan kuruluşlarının tescilli ticari markasıdır.</translation>
-    </message>
-    <message>
-        <source>Visit the Qt website</source>
-        <translation>Qt&apos;nin web sitesini ziyaret edin</translation>
     </message>
     <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
@@ -2560,11 +2520,115 @@ Please try again.</source>
         <translation>Ek yazılım lisansları</translation>
     </message>
     <message>
-        <source>nymea is a registered trademark of chargebyte GmbH.</source>
-        <translation>nymea, chargebyte GmbH.nin tescilli ticari markasıdır.</translation>
+        <source>nymea is a registered trademark of chargebyte austria GmbH.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Licensed under the terms of the nymea commercial license.</source>
+        <source>chargebyte GmbH</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visit the nymea project website</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Source Licenses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt core module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt gui module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt network module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt QML module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Quick module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Quick Controls module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Quick Dialogs module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Quick Layouts module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt 5 compatibility module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt image formats module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt SVG module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt charts module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt websockets module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt bluetooth module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt NFC module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client library for remote connections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>QtZeroConf library by Jonathan Bagg</source>
+        <translation type="unfinished">QtZeroConf kütüphanesi, Jonathan Bagg</translation>
+    </message>
+    <message>
+        <source>Firebase iOS SDK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Firebase Android SDK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OpenSSL libraries by Eric Young</source>
+        <translation type="unfinished">Eric Young tarafından OpenSSL kütüphaneleri</translation>
+    </message>
+    <message>
+        <source>Suru icons by Ubuntu</source>
+        <translation type="unfinished">Ubuntu&apos;dan Suru simgeleri</translation>
+    </message>
+    <message>
+        <source>Ubuntu font by Ubuntu</source>
+        <translation type="unfinished">Ubuntu&apos;dan Ubuntu yazı tipi</translation>
+    </message>
+    <message>
+        <source>Oswald font by The Oswald Project</source>
+        <translation type="unfinished">Oswald yazı tipi by The Oswald Project</translation>
+    </message>
+    <message>
+        <source>Google fonts and material icons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

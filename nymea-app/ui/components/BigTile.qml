@@ -1,11 +1,39 @@
-import QtQuick 2.9
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import Nymea 1.0
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of nymea-app.
+*
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Controls.Material.impl
+import Qt5Compat.GraphicalEffects
+
+import Nymea
 
 Item {
     id: root
+
     implicitHeight: layout.implicitHeight + app.margins
 
     property alias header: headerContainer.children
@@ -60,21 +88,33 @@ Item {
         id: background
         anchors.fill: parent
         anchors.margins: app.margins / 2
+        color: Style.tileBackgroundColor
         radius: Style.cornerRadius
 
-        gradient: Gradient {
-            GradientStop {
-                position: (headerContainer.height + app.margins) / background.height
-                color: Style.tileBackgroundColor
-            }
-            GradientStop {
-                position: (headerContainer.height + app.margins) / background.height
-                color: headerContainer.visible ?
-                          Style.tileOverlayColor
-                        : Style.tileBackgroundColor
-            }
+        Ripple {
+            anchors.fill: parent
+            clip: true
+            clipRadius: background.radius
+            pressed: content.pressed
+            anchor: content
+            active: content.pressed || content.visualFocus || content.hovered
+            color: content.Material.rippleColor
         }
     }
+
+    Glow {
+        anchors.fill: background
+        source: background
+        radius: 8
+        samples: 17
+        spread: 0.4
+        color: Style.accentColor
+        opacity: (content.pressed || content.visualFocus || content.hovered) ? 1 : 0
+        Behavior on opacity {
+            SmoothedAnimation { duration: Style.slowAnimationDuration }
+        }
+    }
+
 
     ColumnLayout {
         id: layout
@@ -89,6 +129,13 @@ Item {
             height: childrenRect.height
         }
 
+        ThinDivider {
+            Layout.fillWidth: true
+            opacity: 0.1
+            visible: headerContainer.visible
+            color: Style.tileForegroundColor
+        }
+
         ItemDelegate {
             id: content
             Layout.fillWidth: true
@@ -99,6 +146,9 @@ Item {
                 if (root.interactive) {
                     root.pressAndHold()
                 }
+            }
+            background: Item {
+                implicitHeight: Style.delegateHeight
             }
         }
     }

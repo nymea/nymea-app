@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -34,6 +28,8 @@
 #include <QTimer>
 #include <QBluetoothLocalDevice>
 #include <QBluetoothUuid>
+#include <QBluetoothPermission>
+#include <QCoreApplication>
 #include <QLoggingCategory>
 
 Q_DECLARE_LOGGING_CATEGORY(dcBluetoothDiscovery);
@@ -70,8 +66,6 @@ BluetoothDiscovery::BluetoothDiscovery(QObject *parent) :
 #else
     // Note: on iOS there is no QBluetoothLocalDevice available, therefore we have to assume there is one and
     //       start the discovery agent with the default constructor.
-    // https://bugreports.qt.io/browse/QTBUG-65547
-
     m_bluetoothAvailable = true;
 
     // Always start with assuming BT is enabled
@@ -94,13 +88,16 @@ bool BluetoothDiscovery::bluetoothEnabled() const
 #ifdef Q_OS_IOS
     return m_bluetoothAvailable && m_bluetoothEnabled;
 #endif
+
     qCDebug(dcBluetoothDiscovery) << "bluetoothEnabled(): m_bluetoothAvailable:" << m_bluetoothAvailable;
     return m_bluetoothAvailable && m_localDevice->hostMode() != QBluetoothLocalDevice::HostPoweredOff;
 }
-void BluetoothDiscovery::setBluetoothEnabled(bool bluetoothEnabled) {
-    if (!m_bluetoothAvailable) {
+
+void BluetoothDiscovery::setBluetoothEnabled(bool bluetoothEnabled)
+{
+    if (!m_bluetoothAvailable)
         return;
-    }
+
     if (bluetoothEnabled) {
         if (m_localDevice->hostMode() == QBluetoothLocalDevice::HostPoweredOff) {
             m_localDevice->powerOn();
@@ -157,25 +154,32 @@ void BluetoothDiscovery::onBluetoothHostModeChanged(const QBluetoothLocalDevice:
 #endif
         emit bluetoothEnabledChanged(false);
         break;
+
     default:
         // Note: discovery works in all other modes
 #ifdef Q_OS_IOS
         m_bluetoothEnabled = true;
 #endif
         emit bluetoothEnabledChanged(hostMode != QBluetoothLocalDevice::HostPoweredOff);
+
         if (!m_discoveryAgent) {
 #ifdef Q_OS_ANDROID
             m_discoveryAgent = new QBluetoothDeviceDiscoveryAgent(m_localDevice->address(), this);
 #else
             m_discoveryAgent = new QBluetoothDeviceDiscoveryAgent(this);
 #endif
-            connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered, this, &BluetoothDiscovery::deviceDiscovered);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
             connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceUpdated, this, &BluetoothDiscovery::deviceDiscovered);
 #endif
+
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 2, 0))
+            connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::errorOccurred, this, &BluetoothDiscovery::onError);
+#else
+            connect(m_discoveryAgent, SIGNAL(error(QBluetoothDeviceDiscoveryAgent::Error)), this, SLOT(onError(QBluetoothDeviceDiscoveryAgent::Error)));
+#endif
+            connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered, this, &BluetoothDiscovery::deviceDiscovered);
             connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this, &BluetoothDiscovery::discoveryFinished);
             connect(m_discoveryAgent, &QBluetoothDeviceDiscoveryAgent::canceled, this, &BluetoothDiscovery::discoveryCancelled);
-            connect(m_discoveryAgent, SIGNAL(error(QBluetoothDeviceDiscoveryAgent::Error)), this, SLOT(onError(QBluetoothDeviceDiscoveryAgent::Error)));
         }
         if (m_discoveryEnabled && !m_discoveryAgent->isActive()) {
             start();
@@ -244,13 +248,11 @@ void BluetoothDiscovery::onError(const QBluetoothDeviceDiscoveryAgent::Error &er
 
 void BluetoothDiscovery::start()
 {
-    if (!m_discoveryAgent || !bluetoothEnabled()) {
+    if (!m_discoveryAgent || !bluetoothEnabled())
         return;
-    }
 
-    if (m_discoveryAgent->isActive()) {
+    if (m_discoveryAgent->isActive())
         m_discoveryAgent->stop();
-    }
 
     foreach (const QBluetoothDeviceInfo &info, m_discoveryAgent->discoveredDevices()) {
         qCDebug(dcBluetoothDiscovery()) << "Already discovered device:" << info.name();
@@ -258,7 +260,9 @@ void BluetoothDiscovery::start()
     }
 
     qCDebug(dcBluetoothDiscovery) << "Starting discovery.";
-    m_discoveryAgent->start();
+
+    // Since we are only interested in low energy results, this speed up the result significantly
+    m_discoveryAgent->start(QBluetoothDeviceDiscoveryAgent::LowEnergyMethod);
     emit discoveringChanged();
 }
 

@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2021, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -38,7 +32,7 @@ ZigbeeNodes::ZigbeeNodes(QObject *parent) : QAbstractListModel(parent)
 int ZigbeeNodes::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_nodes.count();
+    return static_cast<int>(m_nodes.count());
 }
 
 QVariant ZigbeeNodes::data(const QModelIndex &index, int role) const
@@ -94,56 +88,56 @@ QHash<int, QByteArray> ZigbeeNodes::roleNames() const
 void ZigbeeNodes::addNode(ZigbeeNode *node)
 {
     node->setParent(this);
-    beginInsertRows(QModelIndex(), m_nodes.count(), m_nodes.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_nodes.count()), static_cast<int>(m_nodes.count()));
     m_nodes.append(node);
 
     connect(node, &ZigbeeNode::networkAddressChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleNetworkAddress});
     });
 
     connect(node, &ZigbeeNode::typeChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleType});
     });
 
     connect(node, &ZigbeeNode::stateChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleState});
     });
 
     connect(node, &ZigbeeNode::manufacturerChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleManufacturer});
     });
 
     connect(node, &ZigbeeNode::modelChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleModel});
     });
 
     connect(node, &ZigbeeNode::versionChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleVersion});
     });
 
     connect(node, &ZigbeeNode::rxOnWhenIdleChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleRxOnWhenIdle});
     });
 
     connect(node, &ZigbeeNode::reachableChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleReachable});
     });
 
     connect(node, &ZigbeeNode::lqiChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleLqi});
     });
 
     connect(node, &ZigbeeNode::lastSeenChanged, this, [this, node]() {
-        QModelIndex idx = index(m_nodes.indexOf(node), 0);
+        QModelIndex idx = index(static_cast<int>(m_nodes.indexOf(node)), 0);
         emit dataChanged(idx, idx, {RoleLastSeen});
     });
 
@@ -170,7 +164,9 @@ void ZigbeeNodes::removeNode(const QString &ieeeAddress)
 void ZigbeeNodes::clear()
 {
     beginResetModel();
-    qDeleteAll(m_nodes);
+    foreach (ZigbeeNode *node, m_nodes)
+        node->deleteLater();
+
     m_nodes.clear();
     endResetModel();
     emit countChanged();

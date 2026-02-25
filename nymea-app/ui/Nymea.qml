@@ -1,48 +1,43 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of nymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.8
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.2
-import Qt.labs.settings 1.0
-import Qt.labs.folderlistmodel 2.2
-import QtQuick.Window 2.3
-import Nymea 1.0
-import NymeaApp.Utils 1.0
+import QtQuick.Controls.Material
+import QtQuick.Controls
+import QtQuick
+import QtQuick.Layouts
+import QtCore
+import Qt.labs.folderlistmodel
+import QtQuick.Window
+
+import Nymea
+import NymeaApp.Utils
 
 ApplicationWindow {
     id: app
     visible: true
-    width: 360
-    height: 580
+    width: Qt.platform.os === "ios" ? Screen.width : 360
+    height: Qt.platform.os === "ios" ? Screen.height : 580
     maximumWidth: 768
     minimumWidth: 360
     minimumHeight: 580
@@ -59,6 +54,18 @@ ApplicationWindow {
     font.weight: Font.Normal
     font.capitalization: Font.MixedCase
     font.family: Style.fontFamily
+
+    Binding {
+        target: PlatformHelper
+        property: "topPanelColor"
+        value: app.color
+    }
+
+    Binding {
+        target: PlatformHelper
+        property: "bottomPanelColor"
+        value: app.color
+    }
 
     property int margins: 16
     property int bigMargins: 20
@@ -91,8 +98,6 @@ ApplicationWindow {
 
     Component.onCompleted: {
         styleController.setSystemFont(app.font)
-        PlatformHelper.topPanelColor = Style.backgroundColor
-        PlatformHelper.bottomPanelColor = Style.backgroundColor
     }
 
     Binding {
@@ -112,32 +117,20 @@ ApplicationWindow {
     }
 
     property alias mainMenu: m
-    
-
-    Rectangle {
-        id: container
-        anchors.centerIn: parent
-        width: Math.min(app.width, 768)
+    MainMenu {
+        id: m
         height: app.height
-        color: "transparent"
-        clip: true
-
-        MainMenu {
-            property bool isMobile: app.width < 768
-            id: m
-            height: container.height
-            leftPadding: isMobile ? 0 : (app.width - 768) / 2
-            width: isMobile ? Math.min(300, app.width) : ((app.width - 768) / 2) + 300
-            configuredHosts: configuredHostsModel
-            onOpenThingSettings: rootItem.openThingSettings();
-            onOpenMagicSettings: rootItem.openMagicSettings();
-            onOpenAppSettings: rootItem.openAppSettings();
-            onOpenSystemSettings: rootItem.openSystemSettings();
-            onOpenCustomPage: rootItem.openCustomPage(page);
-            onConfigureMainView: rootItem.configureMainView();
-            onStartManualConnection: rootItem.startManualConnection();
-            onStartWirelessSetup: rootItem.startWirelessSetup();
-        }
+        width: Math.min(300, app.width)
+        configuredHosts: configuredHostsModel
+        onOpenThingSettings: rootItem.openThingSettings();
+        onOpenMagicSettings: rootItem.openMagicSettings();
+        onOpenAppSettings: rootItem.openAppSettings();
+        onOpenSystemSettings: rootItem.openSystemSettings();
+        onOpenCustomPage: (page) => rootItem.openCustomPage(page);
+        onConfigureMainView: rootItem.configureMainView();
+        onStartManualConnection: rootItem.startManualConnection();
+        onStartWirelessSetup: rootItem.startWirelessSetup();
+    }
 
         RootItem {
             id: rootItem
@@ -600,7 +593,7 @@ ApplicationWindow {
     // by checking if the app becomes inactive right after the event. If not, it's probably a back
     // button press and we close ourselves.
     onClosing: {
-        if (Qt.platform.os == "android") {
+        if (Qt.platform.os === "android") {
             var handled = rootItem.handleAndroidBackButton();
             if (!handled) {
                 closeTimer.start()
@@ -624,20 +617,20 @@ ApplicationWindow {
         showFiles: false
     }
 
-    // NOTE: If using a Dialog, make sure closePolicy does not contain Dialog.CloseOnPressOutside
-    // or the virtual keyboard will close when pressing it...
+    // // NOTE: If using a Dialog, make sure closePolicy does not contain Dialog.CloseOnPressOutside
+    // // or the virtual keyboard will close when pressing it...
 
-    // https://bugreports.qt.io/browse/QTBUG-56918
+    // // https://bugreports.qt.io/browse/QTBUG-56918
     KeyboardLoader {
         id: keyboardRect
-        parent: app.overlay
+        // parent: app.overlay
         z: 1
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
     }
 
     Image {
         id: splashScreen
-        parent: overlay
+        // parent: overlay
         source: "/ui/images/nymea-splash.svg"
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop

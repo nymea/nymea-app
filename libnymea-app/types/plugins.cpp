@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -45,7 +39,7 @@ QList<Plugin *> Plugins::plugins()
 
 int Plugins::count() const
 {
-    return m_plugins.count();
+    return static_cast<int>(m_plugins.count());
 }
 
 Plugin *Plugins::get(int index) const
@@ -69,7 +63,7 @@ Plugin *Plugins::getPlugin(const QUuid &pluginId) const
 int Plugins::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_plugins.count();
+    return static_cast<int>(m_plugins.count());
 }
 
 QVariant Plugins::data(const QModelIndex &index, int role) const
@@ -88,7 +82,7 @@ QVariant Plugins::data(const QModelIndex &index, int role) const
 
 void Plugins::addPlugin(Plugin *plugin)
 {
-    beginInsertRows(QModelIndex(), m_plugins.count(), m_plugins.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_plugins.count()), static_cast<int>(m_plugins.count()));
     //qDebug() << "Plugin: loaded plugin" << plugin->name();
     m_plugins.append(plugin);
     endInsertRows();
@@ -97,7 +91,9 @@ void Plugins::addPlugin(Plugin *plugin)
 void Plugins::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_plugins);
+    foreach (Plugin *plugin, m_plugins)
+        plugin->deleteLater();
+
     m_plugins.clear();
     endResetModel();
 }

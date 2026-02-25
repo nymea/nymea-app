@@ -1,8 +1,33 @@
-import QtQuick 2.0
-import QtCharts 2.2
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.2
-import Nymea 1.0
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of nymea-app.
+*
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+import QtQuick
+import QtCharts
+import QtQuick.Layouts
+import QtQuick.Controls
+import Nymea
+
 import "qrc:/ui/components"
 
 Item {
@@ -69,7 +94,7 @@ Item {
         }
 
         function selectSeries(series) {
-            if (d.selectedSeries == series) {
+            if (d.selectedSeries === series) {
                 d.selectedSeries = null
             } else {
                 d.selectedSeries = series
@@ -80,7 +105,7 @@ Item {
     Connections {
         target: powerBalanceLogs
 
-        onEntriesAddedIdx: {
+        onEntriesAddedIdx: (index, count) => {
 //            print("entries added", index, count)
             selfProductionConsumptionSeries.upperSeries = null
             selfProductionConsumptionSeries.lowerSeries = null
@@ -122,7 +147,7 @@ Item {
             acquisitionSeries.lowerSeries = fromStorageUpperSeries
         }
 
-        onEntriesRemoved: {
+        onEntriesRemoved: (index, count) => {
             // Note QtCharts crash when calling removePoints() for points that don't exist.
             // Additionally it may decide to ignore values we add, e.g. if we try to add an Inf or undefined value for whatever reason
             // So, even though in theory the series should always 1:1 reflect the model, it may not do so in practice and we'll have to make sure not crash here
@@ -221,7 +246,7 @@ Item {
                 id: chartView
                 anchors.fill: parent
                 backgroundColor: "transparent"
-                margins.left: 0
+                margins.left: Math.max(Style.smallMargins * 2, valueLabelMetrics.width + Style.smallMargins * 2)
                 margins.right: 0
                 margins.bottom: Style.smallIconSize + Style.margins
                 margins.top: 0
@@ -234,16 +259,22 @@ Item {
                 ActivityIndicator {
                     x: chartView.plotArea.x + (chartView.plotArea.width - width) / 2
                     y: chartView.plotArea.y + (chartView.plotArea.height - height) / 2 + (chartView.plotArea.height / 8)
-                    visible: powerBalanceLogs.fetchingData && (powerBalanceLogs.count == 0 || powerBalanceLogs.get(0).timestamp > d.startTime)
+                    visible: powerBalanceLogs.fetchingData && (powerBalanceLogs.count === 0 || powerBalanceLogs.get(0).timestamp > d.startTime)
                     opacity: .5
                 }
                 Label {
                     x: chartView.plotArea.x + (chartView.plotArea.width - width) / 2
                     y: chartView.plotArea.y + (chartView.plotArea.height - height) / 2 + (chartView.plotArea.height / 8)
                     text: qsTr("No data available")
-                    visible: !powerBalanceLogs.fetchingData && (powerBalanceLogs.count == 0 || powerBalanceLogs.get(0).timestamp > d.now)
+                    visible: !powerBalanceLogs.fetchingData && (powerBalanceLogs.count === 0 || powerBalanceLogs.get(0).timestamp > d.now)
                     font: Style.smallFont
                     opacity: .5
+                }
+
+                TextMetrics {
+                    id: valueLabelMetrics
+                    font: Style.extraSmallFont
+                    text: ((valueAxis.max) / 1000).toFixed(2) + "kW"
                 }
 
                 ValueAxis {
@@ -257,12 +288,13 @@ Item {
                     titleVisible: false
                     shadesVisible: false
                 }
+
                 Item {
                     id: labelsLayout
                     x: Style.smallMargins
                     y: chartView.plotArea.y
                     height: chartView.plotArea.height
-                    width: chartView.plotArea.x - x
+                    width: Math.max(0, chartView.margins.left - Style.smallMargins)
                     Repeater {
                         model: valueAxis.tickCount
                         delegate: Label {
@@ -328,9 +360,9 @@ Item {
                         XYPoint { x: dateTimeAxis.min.getTime(); y: 0 }
                         XYPoint { x: dateTimeAxis.max.getTime(); y: 0 }
                         function ensureValue(timestamp) {
-                            if (count == 0) {
+                            if (count === 0) {
                                 append(timestamp, 0)
-                            } else if (count == 1) {
+                            } else if (count === 1) {
                                 if (timestamp.getTime() < at(0).x) {
                                     insert(0, timestamp, 0)
                                 } else {
@@ -788,7 +820,7 @@ Item {
                     d.now = new Date(Math.min(new Date(), new Date(startDatetime.getTime() + timeDelta)))
                 }
 
-                onWheel: {
+                onWheel: (wheel) => {
                     startDatetime = d.now
                     var totalTime = d.endTime.getTime() - d.startTime.getTime()
                     // pixelDelta : timeDelta = width : totalTime
@@ -939,6 +971,5 @@ Item {
         }
     }
 }
-
 
 

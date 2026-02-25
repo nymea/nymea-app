@@ -1,3 +1,27 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of libnymea-app.
+*
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
+*
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include "xyseriesadapter.h"
 
 #include <QDebug>
@@ -25,12 +49,12 @@ void XYSeriesAdapter::setLogsModel(LogsModel *logsModel)
     }
 }
 
-QtCharts::QXYSeries *XYSeriesAdapter::xySeries() const
+QXYSeries *XYSeriesAdapter::xySeries() const
 {
     return m_series;
 }
 
-void XYSeriesAdapter::setXySeries(QtCharts::QXYSeries *series)
+void XYSeriesAdapter::setXySeries(QXYSeries *series)
 {
     if (m_series != series) {
         m_series = series;
@@ -40,18 +64,18 @@ void XYSeriesAdapter::setXySeries(QtCharts::QXYSeries *series)
     }
 }
 
-QtCharts::QXYSeries *XYSeriesAdapter::baseSeries() const
+QXYSeries *XYSeriesAdapter::baseSeries() const
 {
     return m_baseSeries;
 }
 
-void XYSeriesAdapter::setBaseSeries(QtCharts::QXYSeries *series)
+void XYSeriesAdapter::setBaseSeries(QXYSeries *series)
 {
     if (m_baseSeries != series) {
         m_baseSeries = series;
         emit baseSeriesChanged();
 
-        connect(m_baseSeries, &QtCharts::QXYSeries::pointAdded, this, [=](int index){
+        connect(m_baseSeries, &QXYSeries::pointAdded, this, [=](int index){
             if (m_series->count() > index) {
                 qreal value = calculateSampleValue(index);
                 m_series->replace(index, m_series->at(index).x(), value);
@@ -67,7 +91,7 @@ void XYSeriesAdapter::setBaseSeries(QtCharts::QXYSeries *series)
                 }
             }
         });
-        connect(m_baseSeries, &QtCharts::QXYSeries::pointReplaced, this, [=](int index){
+        connect(m_baseSeries, &QXYSeries::pointReplaced, this, [=](int index){
             if (m_series->count() > index) {
                 qreal value = calculateSampleValue(index);
                 m_series->replace(index, m_series->at(index).x(), value);

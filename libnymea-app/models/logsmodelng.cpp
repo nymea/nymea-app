@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -72,7 +66,7 @@ void LogsModelNg::setEngine(Engine *engine)
 int LogsModelNg::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant LogsModelNg::data(const QModelIndex &index, int role) const
@@ -167,7 +161,9 @@ void LogsModelNg::setTypeIds(const QStringList &typeIds)
         m_typeIds = fixedTypeIds;
         emit typeIdsChanged();
         beginResetModel();
-        qDeleteAll(m_list);
+        foreach (LogEntry *entry, m_list)
+            entry->deleteLater();
+
         m_list.clear();
         endResetModel();
         fetchMore();
@@ -200,12 +196,12 @@ void LogsModelNg::setEndTime(const QDateTime &endTime)
     }
 }
 
-QtCharts::QXYSeries *LogsModelNg::graphSeries() const
+QXYSeries *LogsModelNg::graphSeries() const
 {
     return m_graphSeries;
 }
 
-void LogsModelNg::setGraphSeries(QtCharts::QXYSeries *graphSeries)
+void LogsModelNg::setGraphSeries(QXYSeries *graphSeries)
 {
     m_graphSeries = graphSeries;
 }
@@ -258,7 +254,7 @@ LogEntry *LogsModelNg::findClosest(const QDateTime &dateTime) const
         return nullptr;
     }
     int newest = 0;
-    int oldest = m_list.count() - 1;
+    int oldest = static_cast<int>(m_list.count()) - 1;
     LogEntry *entry = nullptr;
     int step = 0;
 
@@ -321,8 +317,8 @@ void LogsModelNg::logsReply(int commandId, const QVariantMap &data)
     foreach (const QVariant &logEntryVariant, logEntries) {
         QVariantMap entryMap = logEntryVariant.toMap();
         QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
-        QString thingId = entryMap.value("thingId").toString();
-        QString typeId = entryMap.value("typeId").toString();
+        QUuid thingId = entryMap.value("thingId").toUuid();
+        QUuid typeId = entryMap.value("typeId").toUuid();
         QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
         LogEntry::LoggingSource loggingSource = static_cast<LogEntry::LoggingSource>(sourceEnum.keyToValue(entryMap.value("source").toByteArray()));
         QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
@@ -344,7 +340,7 @@ void LogsModelNg::logsReply(int commandId, const QVariantMap &data)
         return;
     }
 
-    beginInsertRows(QModelIndex(), offset, offset + newBlock.count() - 1);
+    beginInsertRows(QModelIndex(), offset, offset + static_cast<int>(newBlock.count()) - 1);
     QVariant newMin = m_minValue;
     QVariant newMax = m_maxValue;
     for (int i = 0; i < newBlock.count(); i++) {
@@ -388,10 +384,10 @@ void LogsModelNg::logsReply(int commandId, const QVariantMap &data)
                 }
 
                 // Adjust min/max
-                if (!newMin.isValid() || newMin > entry->value()) {
+                if (!newMin.isValid() || newMin.toDouble() > entry->value().toDouble()) {
                     newMin = 0;
                 }
-                if (!newMax.isValid() || newMax < entry->value()) {
+                if (!newMax.isValid() || newMax .toDouble() < entry->value().toDouble()) {
                     newMax = 1;
                 }
 
@@ -407,10 +403,10 @@ void LogsModelNg::logsReply(int commandId, const QVariantMap &data)
                 m_graphSeries->append(QPointF(entry->timestamp().toMSecsSinceEpoch(), value.toReal()));
 
                 // Adjust min/max
-                if (!newMin.isValid() || newMin > value) {
+                if (!newMin.isValid() || newMin.toDouble() > value.toDouble()) {
                     newMin = value.toReal();
                 }
-                if (!newMax.isValid() || newMax < value) {
+                if (!newMax.isValid() || newMax.toDouble() < value.toDouble()) {
                     newMax = value.toReal();
                 }
             }
@@ -572,11 +568,11 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
         }
 
 
-        if (m_minValue > entry->value().toReal()) {
+        if (m_minValue.toReal() > entry->value().toReal()) {
             m_minValue = entry->value().toReal();
             emit minValueChanged();
         }
-        if (m_maxValue < entry->value().toReal()) {
+        if (m_maxValue.toReal() < entry->value().toReal()) {
             m_maxValue = entry->value().toReal();
             emit maxValueChanged();
         }
@@ -585,5 +581,4 @@ void LogsModelNg::newLogEntryReceived(const QVariantMap &data)
     emit countChanged();
 
 }
-
 

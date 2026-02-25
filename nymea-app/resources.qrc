@@ -37,6 +37,7 @@
         <file>ui/components/ListFilterInput.qml</file>
         <file>ui/components/Led.qml</file>
         <file>ui/components/ProgressButton.qml</file>
+        <file>ui/components/SecondaryButton.qml</file>
         <file>ui/customviews/GenericTypeLogView.qml</file>
         <file>ui/customviews/WeatherView.qml</file>
         <file>ui/devicepages/MediaThingPage.qml</file>
@@ -289,8 +290,6 @@
         <file>ui/mainviews/energy/ConsumerStatsPage.qml</file>
         <file>ui/mainviews/energy/ConsumersPieChartPage.qml</file>
         <file>ui/connection/ManualConnectionEntry.qml</file>
-        <file>../LICENSE.APACHE2</file>
-        <file>../LICENSE.UFL</file>
         <file>ui/mainviews/AirConditioningView.qml</file>
         <file>ui/mainviews/airconditioning/ZoneView.qml</file>
         <file>ui/mainviews/airconditioning/TimeSchedulePage.qml</file>
@@ -323,6 +322,11 @@
         <file>ui/system/WirelessNetworksFilterSettingsPage.qml</file>
         <file>ui/system/ServerLoggingCategoriesPage.qml</file>
         <file>ui/components/BackgroundFocusHandler.qml</file>
-        <file>ui/components/SecondaryButton.qml</file>
+        <file>ui/components/LicenseInformationItem.qml</file>
+        <file>ui/shaders/coloricon.frag.qsb</file>
+        <file>ui/shaders/brightnesscircle.frag.qsb</file>
+        <file>ui/shaders/colorizedimage.frag.qsb</file>
+        <file>ui/system/EvDashSettingsPage.qml</file>
+        <file>ui/components/UsernameTextField.qml</file>
     </qresource>
 </RCC>

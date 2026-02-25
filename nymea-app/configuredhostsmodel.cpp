@@ -1,8 +1,33 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of nymea-app.
+*
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include "configuredhostsmodel.h"
 
 #include <QDir>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QRegularExpression>
 
 #include <QLoggingCategory>
 Q_DECLARE_LOGGING_CATEGORY(dcApplication)
@@ -30,14 +55,14 @@ ConfiguredHostsModel::ConfiguredHostsModel(QObject *parent) : QAbstractListModel
 
     // Make sure the currentIndex from the config isn't out of place
     if (m_currentIndex >= m_list.count()) {
-        m_currentIndex = m_list.count()-1;
+        m_currentIndex = static_cast<int>(m_list.count()) - 1;
     }
 }
 
 int ConfiguredHostsModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant ConfiguredHostsModel::data(const QModelIndex &index, int role) const
@@ -130,8 +155,8 @@ void ConfiguredHostsModel::removeHost(int index)
     settings.remove("");
     settings.endGroup();
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
-    QFile certFile(dir.absoluteFilePath(hostUuidString.remove(QRegExp("[{}]")) + ".pem"));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/sslcerts/");
+    QFile certFile(dir.absoluteFilePath(hostUuidString.remove(QRegularExpression("[{}]")) + ".pem"));
     if (certFile.exists()) {
         if (!certFile.remove()) {
             qCWarning(dcApplication()) << "Failed to remove certificate file" << certFile.fileName() << certFile.errorString();
@@ -155,7 +180,7 @@ void ConfiguredHostsModel::removeHost(int index)
     }
 
     if (m_currentIndex >= m_list.count()) {
-        m_currentIndex = m_list.count() - 1;
+        m_currentIndex = static_cast<int>(m_list.count()) - 1;
         emit currentIndexChanged();
     }
 }
@@ -176,13 +201,14 @@ void ConfiguredHostsModel::move(int from, int to)
 
 int ConfiguredHostsModel::indexOf(ConfiguredHost *host) const
 {
-    return m_list.indexOf(host);
+    return static_cast<int>(static_cast<int>(m_list.indexOf(host)));
 }
 
 void ConfiguredHostsModel::addHost(ConfiguredHost *host)
 {
     host->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    const int insertPos = static_cast<int>(m_list.count());
+    beginInsertRows(QModelIndex(), insertPos, insertPos);
     connect(host->engine()->jsonRpcClient(), &JsonRpcClient::currentHostChanged, this, [=]{
         if (host->engine()->jsonRpcClient()->currentHost()) {
             host->setUuid(host->engine()->jsonRpcClient()->currentHost()->uuid());
@@ -197,7 +223,7 @@ void ConfiguredHostsModel::addHost(ConfiguredHost *host)
         saveToDisk();
     });
     connect(host, &ConfiguredHost::nameChanged, this, [=](){
-        QModelIndex idx = index(m_list.indexOf(host));
+        QModelIndex idx = index(static_cast<int>(static_cast<int>(m_list.indexOf(host))));
         emit dataChanged(idx, idx, {RoleName});
     });
     connect(host, &ConfiguredHost::uuidChanged, this, [=](){

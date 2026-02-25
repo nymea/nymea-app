@@ -1,13 +1,38 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of nymea-app.
+*
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 pragma Singleton
-import QtQuick 2.9
-import Nymea 1.0
-import QtCharts 2.2
+
+import QtQuick
+import Nymea
+import QtCharts
 
 Item {
     id: root
 
     function pad(num, size, base) {
-        if (base == undefined) {
+        if (base === undefined) {
             base = 10
         }
 
@@ -141,12 +166,132 @@ Item {
         return namedIcons[name]
     }
 
+    property ListModel scopesModelPre8dot4: ListModel {
+        ListElement {
+            text: qsTr("Admin")
+            description: qsTr("Full access to the system.")
+            scope: UserInfo.PermissionScopeAdmin
+        }
+        ListElement {
+            text: qsTr("Control things")
+            description: qsTr("Execute actions and use things and services.")
+            scope: UserInfo.PermissionScopeControlThings
+        }
+        ListElement {
+            text: qsTr("Configure things")
+            description: qsTr("Add new things and change settings.")
+            scope: UserInfo.PermissionScopeConfigureThings
+        }
+        ListElement {
+            text: qsTr("Execute magic")
+            description: qsTr("Execute rules, scenes and scripts.")
+            scope: UserInfo.PermissionScopeExecuteRules
+        }
+        ListElement {
+            text: qsTr("Configure magic")
+            description: qsTr("Create new rules and scripts in the system.")
+            scope: UserInfo.PermissionScopeConfigureRules
+        }
+    }
+
+
     property ListModel scopesModel: ListModel {
-        ListElement { text: qsTr("Admin"); scope: UserInfo.PermissionScopeAdmin; resetOnUnset: UserInfo.PermissionScopeNone }
-        ListElement { text: qsTr("Control things"); scope: UserInfo.PermissionScopeControlThings; resetOnUnset: UserInfo.PermissionScopeNone }
-        ListElement { text: qsTr("Configure things"); scope: UserInfo.PermissionScopeConfigureThings; resetOnUnset: UserInfo.PermissionScopeControlThings }
-        ListElement { text: qsTr("Execute magic"); scope: UserInfo.PermissionScopeExecuteRules; resetOnUnset: UserInfo.PermissionScopeNone  }
-        ListElement { text: qsTr("Configure magic"); scope: UserInfo.PermissionScopeConfigureRules; resetOnUnset: UserInfo.PermissionScopeExecuteRules }
+        ListElement {
+            text: qsTr("Admin")
+            description: qsTr("Full access to the system.")
+            scope: UserInfo.PermissionScopeAdmin
+        }
+        ListElement {
+            text: qsTr("Control things")
+            description: qsTr("Execute actions and use things and services.")
+            scope: UserInfo.PermissionScopeControlThings
+        }
+        ListElement {
+            text: qsTr("Configure things")
+            description: qsTr("Add new things and change settings.")
+            scope: UserInfo.PermissionScopeConfigureThings
+        }
+        ListElement {
+            text: qsTr("Access all things")
+            description: qsTr("Allow to see and use all things of the system.")
+            scope: UserInfo.PermissionScopeAccessAllThings
+        }
+        ListElement {
+            text: qsTr("Execute magic")
+            description: qsTr("Execute rules, scenes and scripts.")
+            scope: UserInfo.PermissionScopeExecuteRules
+        }
+        ListElement {
+            text: qsTr("Configure magic")
+            description: qsTr("Create new rules and scripts in the system.")
+            scope: UserInfo.PermissionScopeConfigureRules
+        }
+    }
+
+    function getPermissionScopeAdjustments(scope, enabled, currentScopes) {
+
+        var adjustedScopes = currentScopes;
+
+        console.warn("Adjust permissions", scope, "->", enabled, currentScopes)
+
+        if (enabled) {
+
+            // Scope has been enabled
+            switch (scope) {
+            case UserInfo.PermissionScopeAdmin:
+                adjustedScopes = UserInfo.PermissionScopeAdmin
+                break;
+            case UserInfo.PermissionScopeControlThings:
+                break;
+            case UserInfo.PermissionScopeConfigureThings:
+                adjustedScopes |= UserInfo.PermissionScopeControlThings
+                adjustedScopes |= UserInfo.PermissionScopeAccessAllThings
+                break;
+            case UserInfo.PermissionScopeAccessAllThings:
+                adjustedScopes |= UserInfo.PermissionScopeControlThings
+                break;
+            case UserInfo.PermissionScopeExecuteRules:
+                adjustedScopes |= UserInfo.PermissionScopeAccessAllThings
+                break;
+            case UserInfo.PermissionScopeConfigureRules:
+                adjustedScopes |= UserInfo.PermissionScopeExecuteRules
+                adjustedScopes |= UserInfo.PermissionScopeAccessAllThings
+                break;
+            }
+
+        } else {
+
+            // Scope has been disabled
+            switch (scope) {
+            case UserInfo.PermissionScopeAdmin:
+                // Set the default permission for non admin
+                adjustedScopes = UserInfo.PermissionScopeAccessAllThings | UserInfo.PermissionScopeControlThings | UserInfo.PermissionScopeExecuteRules
+                break;
+            case UserInfo.PermissionScopeControlThings:
+                adjustedScopes &= ~UserInfo.PermissionScopeConfigureThings
+                break;
+            case UserInfo.PermissionScopeConfigureThings:
+                // Note: PermissionScopeConfigureThings is 3 and unsets therefore also the abbility to control things.
+                adjustedScopes |= UserInfo.PermissionScopeControlThings
+                break;
+            case UserInfo.PermissionScopeAccessAllThings:
+                adjustedScopes &= ~UserInfo.PermissionScopeConfigureThings
+                adjustedScopes &= ~UserInfo.PermissionScopeExecuteRules
+                adjustedScopes &= ~UserInfo.PermissionScopeConfigureRules
+                // Make sure we still can controll those things we added
+                adjustedScopes |= UserInfo.PermissionScopeControlThings
+                break;
+            case UserInfo.PermissionScopeExecuteRules:
+                adjustedScopes &= ~UserInfo.PermissionScopeConfigureRules
+                break;
+            case UserInfo.PermissionScopeConfigureRules:
+                // Note: PermissionScopeConfigureRules constand unsets therefore also the abbility to execute rules (screnes).
+                adjustedScopes |= UserInfo.PermissionScopeExecuteRules
+                break;
+            }
+        }
+
+        return adjustedScopes
     }
 
     function hasPermissionScope(permissions, requestedScope) {
@@ -176,9 +321,9 @@ Item {
     }
 
     function rgb2hsv(r,g,b) {
-      var v=Math.max(r,g,b), c=v-Math.min(r,g,b);
-      var h= c && ((v==r) ? (g-b)/c : ((v==g) ? 2+(b-r)/c : 4+(r-g)/c));
-      return [60*(h<0?h+6:h), v&&c/v, v];
+        var v=Math.max(r,g,b), c=v-Math.min(r,g,b);
+        var h= c && ((v===r) ? (g-b)/c : ((v===g) ? 2+(b-r)/c : 4+(r-g)/c));
+        return [60*(h<0?h+6:h), v&&c/v, v];
     }
 
     readonly property var sensorInterfaceStateMap: {

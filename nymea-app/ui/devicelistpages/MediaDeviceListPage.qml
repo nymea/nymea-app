@@ -1,39 +1,34 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of nymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.5
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.1
-import Nymea 1.0
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
+import Nymea
+
 import "../components"
 
 ThingsListPageBase {
@@ -146,43 +141,35 @@ ThingsListPageBase {
                                 }
                             }
 
-                            Rectangle {
-                                id: maskRect
-                                anchors.centerIn: parent
-                                height: parent.width
-                                width: parent.height
-                                radius: Style.cornerRadius
-                                gradient: Gradient {
-                                    GradientStop { position: 0; color: "#00FF0000" }
-                                    GradientStop { position: 0.2; color: "#15FF0000" }
-                                    GradientStop { position: 1; color: "#FFFF0000" }
-                                }
-                            }
+                            // Rectangle {
+                            //     id: maskRect
+                            //     anchors.centerIn: parent
+                            //     height: parent.width
+                            //     width: parent.height
+                            //     radius: Style.cornerRadius
+                            //     gradient: Gradient {
+                            //         orientation: Gradient.Horizontal
+                            //         GradientStop { position: 0; color: "#00FF0000" }
+                            //         GradientStop { position: 0.2; color: "#15FF0000" }
+                            //         GradientStop { position: 1; color: "#FFFF0000" }
+                            //     }
+                            // }
 
-                            ShaderEffect {
-                                anchors.fill: parent
-                                property variant source: ShaderEffectSource {
-                                    sourceItem: artworkContainer
-                                    hideSource: true
-                                }
-                                property variant mask: ShaderEffectSource {
-                                    sourceItem: maskRect
-                                    hideSource: true
-                                }
+                            // ShaderEffect {
+                            //     anchors.fill: parent
+                            //     property variant source: ShaderEffectSource {
+                            //         format: ShaderEffectSource.RGBA8
+                            //         sourceItem: artworkContainer
+                            //         hideSource: true
+                            //     }
+                            //     property variant mask: ShaderEffectSource {
+                            //         format: ShaderEffectSource.RGBA8
+                            //         sourceItem: maskRect
+                            //         hideSource: true
+                            //     }
 
-                                fragmentShader: "
-                                                                    varying highp vec2 qt_TexCoord0;
-                                                                    uniform sampler2D source;
-                                                                    uniform sampler2D mask;
-                                                                    void main(void)
-                                                                    {
-                                                                        highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
-                                                                        highp float alpha = texture2D(mask, vec2(qt_TexCoord0.y, qt_TexCoord0.x)).a;
-                                                                        sourceColor *= alpha;
-                                                                        gl_FragColor = sourceColor;
-                                                                    }
-                                                                    "
-                            }
+                            //     fragmentShader: "/ui/shaders/colorizedimage.frag.qsb"
+                            // }
                         }
                     }
                 }

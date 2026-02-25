@@ -1,9 +1,34 @@
-import QtQuick 2.3
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.2
-import QtCharts 2.3
-import Nymea 1.0
-import NymeaApp.Utils 1.0
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of nymea-app.
+*
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtCharts
+import Nymea
+import NymeaApp.Utils
+
 import "qrc:/ui/components/"
 
 StatsBase {
@@ -222,7 +247,7 @@ StatsBase {
                 anchors.fill: parent
 
                 backgroundColor: "transparent"
-                //    margins.left: 0
+                margins.left: Math.max(Style.smallMargins * 2, valueLabelMetrics.width + Style.smallMargins * 2)
                 margins.right: 0
                 margins.top: 0
                 margins.bottom: Style.smallIconSize + Style.margins
@@ -266,12 +291,18 @@ StatsBase {
                     Behavior on opacity { NumberAnimation {}}
                 }
 
+                TextMetrics {
+                    id: valueLabelMetrics
+                    font: Style.extraSmallFont
+                    text: (valueAxis.max).toFixed(1) + "kWh"
+                }
+
                 Item {
                     id: labelsLayout
                     x: Style.smallMargins
                     y: chartView.plotArea.y
                     height: chartView.plotArea.height
-                    width: chartView.plotArea.x - x
+                    width: Math.max(0, chartView.margins.left - Style.smallMargins)
                     Repeater {
                         model: valueAxis.tickCount
                         delegate: Label {
@@ -459,7 +490,7 @@ StatsBase {
                 }
 
                 property int wheelDelta: 0
-                onWheel: {
+                onWheel: (wheel) => {
                     wheelDelta += wheel.pixelDelta.x
                     var slotWidth = mouseArea.width / d.config.count
                     while (wheelDelta > slotWidth) {
@@ -532,9 +563,16 @@ StatsBase {
                                     for (var i = 0; i < consumersRepeater.count; i++) {
                                         var consumerDelegate = consumersRepeater.itemAt(i)
                                         var consumer = consumerDelegate.thing
+                                        if (!consumer) {
+                                            continue;
+                                        }
+                                        var barSet = consumerDelegate.barSet
+                                        if (!barSet || barSet.count <= toolTip.idx) {
+                                            continue;
+                                        }
                                         var entry = {
                                             consumer: consumer,
-                                            value: consumersRepeater.itemAt(i).barSet.at(toolTip.idx).toFixed(2),
+                                            value: barSet.at(toolTip.idx).toFixed(2),
                                             indexInModel: i
                                         }
                                         unsorted.push(entry)

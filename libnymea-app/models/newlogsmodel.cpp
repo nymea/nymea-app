@@ -1,3 +1,27 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of libnymea-app.
+*
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
+*
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include "newlogsmodel.h"
 
 #include "engine.h"
@@ -23,7 +47,7 @@ NewLogsModel::NewLogsModel(QObject *parent)
 int NewLogsModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant NewLogsModel::data(const QModelIndex &index, int role) const
@@ -255,8 +279,8 @@ NewLogEntry *NewLogsModel::find(const QDateTime &timestamp) const
     if (m_list.isEmpty()) {
         return nullptr;
     }
-    int idx = m_list.count() / 2;
-    int jump = m_list.count() / 4;
+    int idx = static_cast<int>(m_list.count() / 2);
+    int jump = static_cast<int>(m_list.count() / 4);
     int stopper = 10;
     while (stopper-- > 0) {
 //        qCDebug(dcLogEngine()) << "idx:" << idx << "cnt:" << m_list.count() << "jmp" << jump;
@@ -332,9 +356,11 @@ NewLogEntry *NewLogsModel::find(const QDateTime &timestamp) const
 
 void NewLogsModel::clear()
 {
-    int count = m_list.count();
+    int count = static_cast<int>(m_list.count());
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (NewLogEntry *entry, m_list)
+        entry->deleteLater();
+
     m_list.clear();
     m_currentNewest = QDateTime();
     m_lastOffset = 0;
@@ -423,10 +449,12 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
         m_list.clear();
         endResetModel();
         emit entriesRemoved(0, oldEntries.count());
-        qDeleteAll(oldEntries);
+
+        foreach (NewLogEntry *entry, oldEntries)
+            entry->deleteLater();
 
         if (!entries.isEmpty()) {
-            beginInsertRows(QModelIndex(), 0, entries.count() - 1);
+            beginInsertRows(QModelIndex(), 0, static_cast<int>(entries.count()) - 1);
             m_list = entries;
             endInsertRows();
         }
@@ -435,8 +463,8 @@ void NewLogsModel::logsReply(int commandId, const QVariantMap &data)
 
     } else {
         if (!entries.isEmpty()) {
-            beginInsertRows(QModelIndex(), m_list.count(), m_list.count() + entries.count() - 1);
-            qSort(entries.begin(), entries.end(), [](NewLogEntry *left, NewLogEntry *right){
+            beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()) + static_cast<int>(entries.count()) - 1);
+            std::sort(entries.begin(), entries.end(), [](NewLogEntry *left, NewLogEntry *right){
                 return left->timestamp() > right->timestamp();
             });
             m_list.append(entries);
@@ -464,7 +492,7 @@ void NewLogsModel::newLogEntryReceived(const QVariantMap &map)
             endInsertRows();
             emit entriesAdded(0, {entry});
         } else {
-            beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+            beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
             m_list.append(entry);
             endInsertRows();
             emit entriesAdded(m_list.count() - 1, {entry});

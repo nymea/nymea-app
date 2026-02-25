@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -39,7 +33,7 @@ Packages::Packages(QObject *parent) : QAbstractListModel(parent)
 int Packages::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant Packages::data(const QModelIndex &index, int role) const
@@ -82,30 +76,30 @@ QHash<int, QByteArray> Packages::roleNames() const
 void Packages::addPackage(Package *package)
 {
     package->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(package);
     connect(package, &Package::summaryChanged, this, [this, package](){
-        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleSummary});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(package))), index(static_cast<int>(m_list.indexOf(package))), {RoleSummary});
         emit countChanged();
     });
     connect(package, &Package::installedVersionChanged, this, [this, package](){
-        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleInstalledVersion});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(package))), index(static_cast<int>(m_list.indexOf(package))), {RoleInstalledVersion});
         emit countChanged();
     });
     connect(package, &Package::candidateVersionChanged, this, [this, package](){
-        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleCandidateVersion});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(package))), index(static_cast<int>(m_list.indexOf(package))), {RoleCandidateVersion});
         emit countChanged();
     });
     connect(package, &Package::changelogChanged, this, [this, package](){
-        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleChangelog});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(package))), index(static_cast<int>(m_list.indexOf(package))), {RoleChangelog});
         emit countChanged();
     });
     connect(package, &Package::updateAvailableChanged, this, [this, package](){
-        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleUpdateAvailable});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(package))), index(static_cast<int>(m_list.indexOf(package))), {RoleUpdateAvailable});
         emit countChanged();
     });
     connect(package, &Package::rollbackAvailableChanged, this, [this, package](){
-        emit dataChanged(index(m_list.indexOf(package)), index(m_list.indexOf(package)), {RoleRollbackAvailable});
+        emit dataChanged(index(static_cast<int>(m_list.indexOf(package))), index(static_cast<int>(m_list.indexOf(package))), {RoleRollbackAvailable});
         emit countChanged();
     });
     endInsertRows();
@@ -152,7 +146,9 @@ Package *Packages::getPackage(const QString &packageId)
 void Packages::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (Package *package, m_list)
+        package->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

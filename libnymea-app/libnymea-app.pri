@@ -11,7 +11,6 @@
 
 include(../nymea-remoteproxy/libnymea-remoteproxyclient/libnymea-remoteproxyclient.pri)
 
-
 QT -= gui
 QT += network websockets bluetooth charts quick
 
@@ -30,6 +29,7 @@ SOURCES += \
     $$PWD/models/boolseriesadapter.cpp \
     $$PWD/models/newlogentry.cpp \
     $$PWD/models/newlogsmodel.cpp \
+    $$PWD/models/nymeahostsfiltermodel.cpp \
     $$PWD/models/scriptsproxymodel.cpp \
     $$PWD/pluginconfigmanager.cpp \
     $$PWD/serverdebug/serverdebugmanager.cpp \
@@ -199,6 +199,7 @@ HEADERS += \
     $$PWD/models/boolseriesadapter.h \
     $$PWD/models/newlogentry.h \
     $$PWD/models/newlogsmodel.h \
+    $$PWD/models/nymeahostsfiltermodel.h \
     $$PWD/models/scriptsproxymodel.h \
     $$PWD/pluginconfigmanager.h \
     $$PWD/serverdebug/serverdebugmanager.h \

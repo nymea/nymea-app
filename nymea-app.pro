@@ -81,9 +81,6 @@ linux:!android: {
 
 android: {
     message("Android package source dir $${ANDROID_PACKAGE_SOURCE_DIR}")
-    SUBDIRS += androidservice
-    androidservice.depends = libnymea-app
-
     NYMEA_APP_ROOT_PROPERTY="nymeaAppRoot=$${top_srcdir}"
     no-firebase: FIREBASE_PROPERTY="useFirebase=false"
     else: FIREBASE_PROPERTY="useFirebase=true"
@@ -119,6 +116,10 @@ TRANSLATIONS += $$files($$absolute_path(nymea-app)/translations/*.ts, true)
     include($${OVERLAY_PATH}/translations.pri)
 }
 
-system("lrelease $$TRANSLATIONS")
-lrelease.commands = lrelease $$TRANSLATIONS
+message("Translation files: $$TRANSLATIONS")
+
+qtPrepareTool(LRELEASE, lrelease)
+
+system("$$LRELEASE $$TRANSLATIONS")
+lrelease.commands = $$LRELEASE $$TRANSLATIONS
 QMAKE_EXTRA_TARGETS += lrelease

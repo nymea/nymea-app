@@ -1,3 +1,27 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of libnymea-app.
+*
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
+*
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #ifndef ZWAVENETWORK_H
 #define ZWAVENETWORK_H
 
@@ -5,23 +29,22 @@
 #include <QUuid>
 #include <QAbstractListModel>
 
-class ZWaveNode;
-class ZWaveNodes;
+#include "zwavenode.h"
 
 class ZWaveNetwork : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QUuid networkUuid READ networkUuid CONSTANT)
-    Q_PROPERTY(QString serialPort READ serialPort CONSTANT)
-    Q_PROPERTY(quint32 homeId READ homeId NOTIFY homeIdChanged)
-    Q_PROPERTY(bool isZWavePlus READ isZWavePlus NOTIFY isZWavePlusChanged)
-    Q_PROPERTY(bool isPrimaryController READ isPrimaryController NOTIFY isPrimaryControllerChanged)
-    Q_PROPERTY(bool isStaticUpdateController READ isStaticUpdateController NOTIFY isStaticUpdateControllerChanged)
-    Q_PROPERTY(bool isBridgeController READ isBridgeController NOTIFY isBridgeControllerChanged)
-    Q_PROPERTY(bool waitingForNodeAddition READ waitingForNodeAddition NOTIFY waitingForNodeAdditionChanged)
-    Q_PROPERTY(bool waitingForNodeRemoval READ waitingForNodeRemoval NOTIFY waitingForNodeRemovalChanged)
-    Q_PROPERTY(ZWaveNetworkState networkState READ networkState NOTIFY networkStateChanged)
-    Q_PROPERTY(ZWaveNodes* nodes READ nodes CONSTANT)
+    Q_PROPERTY(QUuid networkUuid READ networkUuid CONSTANT FINAL)
+    Q_PROPERTY(QString serialPort READ serialPort CONSTANT FINAL)
+    Q_PROPERTY(quint32 homeId READ homeId NOTIFY homeIdChanged FINAL)
+    Q_PROPERTY(bool isZWavePlus READ isZWavePlus NOTIFY isZWavePlusChanged FINAL)
+    Q_PROPERTY(bool isPrimaryController READ isPrimaryController NOTIFY isPrimaryControllerChanged FINAL)
+    Q_PROPERTY(bool isStaticUpdateController READ isStaticUpdateController NOTIFY isStaticUpdateControllerChanged FINAL)
+    Q_PROPERTY(bool isBridgeController READ isBridgeController NOTIFY isBridgeControllerChanged FINAL)
+    Q_PROPERTY(bool waitingForNodeAddition READ waitingForNodeAddition NOTIFY waitingForNodeAdditionChanged FINAL)
+    Q_PROPERTY(bool waitingForNodeRemoval READ waitingForNodeRemoval NOTIFY waitingForNodeRemovalChanged FINAL)
+    Q_PROPERTY(ZWaveNetworkState networkState READ networkState NOTIFY networkStateChanged FINAL)
+    Q_PROPERTY(ZWaveNodes* nodes READ nodes CONSTANT FINAL)
 
 public:
     enum ZWaveNetworkState {
@@ -31,6 +54,7 @@ public:
         ZWaveNetworkStateError
     };
     Q_ENUM(ZWaveNetworkState)
+
     explicit ZWaveNetwork(const QUuid &networkUuid, const QString &serialPort, QObject *parent = nullptr);
 
     QUuid networkUuid() const;
@@ -95,6 +119,7 @@ class ZWaveNetworks: public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+
 public:
     enum Roles {
         RoleUuid,
@@ -117,14 +142,14 @@ public:
     void addNetwork(ZWaveNetwork *network);
     void removeNetwork(const QUuid &networkUuid);
 
-    Q_INVOKABLE ZWaveNetwork* get(int index) const;
-    Q_INVOKABLE ZWaveNetwork* getNetwork(const QUuid &networkUuid);
+    Q_INVOKABLE ZWaveNetwork *get(int index) const;
+    Q_INVOKABLE ZWaveNetwork *getNetwork(const QUuid &networkUuid);
 
 signals:
     void countChanged();
 
 private:
-    QList<ZWaveNetwork*> m_list;
+    QList<ZWaveNetwork *> m_list;
 };
 
 #endif // ZWAVENETWORK_H

@@ -1,37 +1,32 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of nymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.5
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.1
-import Nymea 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Nymea
+
 import "../components"
 
 SettingsPageBase {
@@ -43,7 +38,6 @@ SettingsPageBase {
         backButtonVisible: true
         onBackPressed: root.backPressed()
     }
-
 
     Connections {
         target: engine.jsonRpcClient
@@ -109,31 +103,19 @@ SettingsPageBase {
         }
 
 
-        GridLayout {
+        ColumnLayout {
             id: loginForm
             Layout.fillWidth: true
-            Layout.leftMargin: app.margins; Layout.rightMargin: app.margins
-            columns: app.width > 500 ? 2 : 1
-            columnSpacing: app.margins
+            Layout.leftMargin: app.margins
+            Layout.rightMargin: app.margins
+            spacing: app.margins
 
             property bool showErrors: false
 
-            Label {
-                text: (engine.jsonRpcClient.ensureServerVersion("6.0") ? qsTr("Username") : qsTr("Your e-mail address"))
-                Layout.fillWidth: true
-                Layout.minimumWidth: implicitWidth
-            }
-            NymeaTextField {
+            UsernameTextField {
                 id: usernameTextField
                 Layout.fillWidth: true
-                placeholderText: qsTr("Required")
-                inputMethodHints: engine.jsonRpcClient.ensureServerVersion("6.0")
-                                  ? Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-                                  : Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
                 error: loginForm.showErrors && !acceptableInput
-                validator: RegExpValidator {
-                    regExp: /[a-zA-Z0-9_\\.+-@]{3,}/
-                }
             }
             Label {
                 Layout.fillWidth: true
@@ -151,27 +133,17 @@ SettingsPageBase {
                 }
             }
 
-            Label {
-                text: qsTr("Your name")
-                Layout.fillWidth: true
-                visible: engine.jsonRpcClient.ensureServerVersion("6.0") && engine.jsonRpcClient.initialSetupRequired
-            }
             TextField {
                 id: displayNameTextField
                 Layout.fillWidth: true
-                placeholderText: qsTr("Optional")
+                placeholderText: qsTr("Your name") + " (" + qsTr("Optional") + ")"
                 visible: engine.jsonRpcClient.ensureServerVersion("6.0") && engine.jsonRpcClient.initialSetupRequired
             }
 
-            Label {
-                text: qsTr("Email")
-                Layout.fillWidth: true
-                visible: engine.jsonRpcClient.ensureServerVersion("6.0") && engine.jsonRpcClient.initialSetupRequired
-            }
             TextField {
                 id: emailTextField
                 Layout.fillWidth: true
-                placeholderText: qsTr("Optional")
+                placeholderText:  qsTr("Email") + " (" + qsTr("Optional") + ")"
                 visible: engine.jsonRpcClient.ensureServerVersion("6.0") && engine.jsonRpcClient.initialSetupRequired
             }
         }

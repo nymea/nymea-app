@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -46,7 +40,7 @@ QList<BluetoothDeviceInfo *> BluetoothDeviceInfos::deviceInfos()
 int BluetoothDeviceInfos::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_deviceInfos.count();
+    return static_cast<int>(m_deviceInfos.count());
 }
 
 QVariant BluetoothDeviceInfos::data(const QModelIndex &index, int role) const
@@ -70,7 +64,7 @@ QVariant BluetoothDeviceInfos::data(const QModelIndex &index, int role) const
 
 int BluetoothDeviceInfos::count() const
 {
-    return m_deviceInfos.count();
+    return static_cast<int>(m_deviceInfos.count());
 }
 
 BluetoothDeviceInfo *BluetoothDeviceInfos::get(int index) const
@@ -85,10 +79,10 @@ void BluetoothDeviceInfos::addBluetoothDeviceInfo(BluetoothDeviceInfo *deviceInf
 {
     qDebug() << "Adding device" << deviceInfo->name();
     deviceInfo->setParent(this);
-    beginInsertRows(QModelIndex(), m_deviceInfos.count(), m_deviceInfos.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_deviceInfos.count()), static_cast<int>(m_deviceInfos.count()));
     m_deviceInfos.append(deviceInfo);
     connect(deviceInfo, &BluetoothDeviceInfo::deviceChanged, this, [=]{
-        int idx = m_deviceInfos.indexOf(deviceInfo);
+        int idx = static_cast<int>(m_deviceInfos.indexOf(deviceInfo));
         QModelIndex index = this->index(idx);
         emit dataChanged(index, index);
     });
@@ -99,7 +93,9 @@ void BluetoothDeviceInfos::addBluetoothDeviceInfo(BluetoothDeviceInfo *deviceInf
 void BluetoothDeviceInfos::clearModel()
 {
     beginResetModel();
-    qDeleteAll(m_deviceInfos);
+    foreach (BluetoothDeviceInfo *deviceInfo, m_deviceInfos)
+        deviceInfo->deleteLater();
+
     m_deviceInfos.clear();
     endResetModel();
     emit countChanged();
@@ -182,8 +178,8 @@ QString BluetoothDeviceInfosProxy::filterForServiceUUID() const
 
 void BluetoothDeviceInfosProxy::setFilterForServiceUUID(const QString &filterForServiceUUID)
 {
-    if (m_filterForServiceUUID != filterForServiceUUID) {
-        m_filterForServiceUUID = filterForServiceUUID;
+    if (m_filterForServiceUUID != QBluetoothUuid(filterForServiceUUID)) {
+        m_filterForServiceUUID = QBluetoothUuid(filterForServiceUUID);
         emit filterForServiceUUIDChanged();
         invalidateFilter();
         emit countChanged();

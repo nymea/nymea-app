@@ -1,3 +1,27 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of nymea-app.
+*
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include "nfcthingactionwriter.h"
 #include "types/thingclass.h"
 #include "types/statetype.h"
@@ -22,7 +46,11 @@ NfcThingActionWriter::NfcThingActionWriter(QObject *parent):
 
     connect(m_actions, &RuleActions::countChanged, this, &NfcThingActionWriter::updateContent);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_manager->startTargetDetection();
+#else
+    m_manager->startTargetDetection(QNearFieldTarget::AnyAccess);
+#endif
 
 }
 
@@ -33,7 +61,11 @@ NfcThingActionWriter::~NfcThingActionWriter()
 
 bool NfcThingActionWriter::isAvailable() const
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     return m_manager->isAvailable();
+#else
+    return m_manager->isEnabled();
+#endif
 }
 
 Engine *NfcThingActionWriter::engine() const
@@ -71,7 +103,7 @@ RuleActions *NfcThingActionWriter::actions() const
 
 int NfcThingActionWriter::messageSize() const
 {
-    return m_currentMessage.toByteArray().size();
+    return static_cast<int>(m_currentMessage.toByteArray().size());
 }
 
 NfcThingActionWriter::TagStatus NfcThingActionWriter::status() const
@@ -102,11 +134,11 @@ void NfcThingActionWriter::updateContent()
     if (!m_engine || !m_thing) {
         return;
     }
-    url.setHost(m_engine->jsonRpcClient()->currentHost()->uuid().toString().remove(QRegExp("[{}]")));
+    url.setHost(m_engine->jsonRpcClient()->currentHost()->uuid().toString().remove(QRegularExpression("[{}]")));
 
     QUrlQuery query;
 
-    query.addQueryItem("t", m_thing->id().toString().remove(QRegExp("[{}]")));
+    query.addQueryItem("t", m_thing->id().toString().remove(QRegularExpression("[{}]")));
 
     for (int i = 0; i < m_actions->rowCount(); i++) {
         RuleAction *action = m_actions->get(i);
@@ -148,17 +180,6 @@ void NfcThingActionWriter::targetDetected(QNearFieldTarget *target)
 {
     QDateTime startTime = QDateTime::currentDateTime();
     qDebug() << "target detected";
-    connect(target, &QNearFieldTarget::error, this, [=](QNearFieldTarget::Error error, const QNearFieldTarget::RequestId &id){
-        Q_UNUSED(id)
-        qDebug() << "Tag error:" << error;
-        m_status = TagStatusFailed;
-        emit statusChanged();
-    });
-    connect(target, &QNearFieldTarget::ndefMessagesWritten, this, [=](){
-        qDebug() << "Tag written in" << startTime.msecsTo(QDateTime::currentDateTime());
-        m_status = TagStatusWritten;
-        emit statusChanged();
-    });
 
     QNearFieldTarget::RequestId m_request = target->writeNdefMessages(QList<QNdefMessage>() << m_currentMessage);
     if (!m_request.isValid()) {
@@ -166,6 +187,20 @@ void NfcThingActionWriter::targetDetected(QNearFieldTarget *target)
         m_status = TagStatusFailed;
         emit statusChanged();
     }
+
+    connect(target, &QNearFieldTarget::error, this, [=](QNearFieldTarget::Error error, const QNearFieldTarget::RequestId &id){
+        Q_UNUSED(id)
+        qDebug() << "Tag error:" << error;
+        m_status = TagStatusFailed;
+        emit statusChanged();
+    });
+    connect(target, &QNearFieldTarget::requestCompleted, this, [=](const QNearFieldTarget::RequestId &id){
+        if (id == m_request) {
+            qDebug() << "Tag written in" << startTime.msecsTo(QDateTime::currentDateTime());
+            m_status = TagStatusWritten;
+            emit statusChanged();
+        }
+    });
 
     m_status = TagStatusWriting;
     emit statusChanged();
@@ -177,4 +212,3 @@ void NfcThingActionWriter::targetLost(QNearFieldTarget *target)
     m_status = TagStatusWaiting;
     emit statusChanged();
 }
-

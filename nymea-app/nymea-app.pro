@@ -7,27 +7,39 @@ CONFIG += link_pkgconfig
 
 QT += network qml quick quickcontrols2 svg websockets bluetooth charts gui-private nfc
 
+greaterThan(QT_MAJOR_VERSION, 5) {
+    QT += qt5compat
+}
+
 qtHaveModule(webview) {
     QT += webview
     DEFINES += HAVE_WEBVIEW
 }
 
 INCLUDEPATH += $$top_srcdir/libnymea-app \
-               $$top_srcdir/experiences/airconditioning
+               $$top_srcdir/experiences/airconditioning \
+               $$top_srcdir/experiences/evdash
 
-LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app \
-        -L$$top_builddir/experiences/airconditioning -lnymea-app-airconditioning
+linux:!android:LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app \
+                       -L$$top_builddir/experiences/airconditioning -lnymea-app-airconditioning \
+                       -L$$top_builddir/experiences/evdash -lnymea-app-evdash
 
-win32:Debug:LIBS += -L$$top_builddir/libnymea-app/debug \
-                    -L$$top_builddir/experiences/airconditioning/debug
-win32:Release:LIBS += -L$$top_builddir/libnymea-app/release \
-                      -L$$top_builddir/experiences/airconditioning/release
+
+win32:Debug:LIBS += -L$$top_builddir/libnymea-app/debug -lnymea-app \
+                    -L$$top_builddir/experiences/airconditioning/debug -lnymea-app-airconditioning \
+                    -L$$top_builddir/experiences/evdash/debug -lnymea-app-evdash
+
+win32:Release:LIBS += -L$$top_builddir/libnymea-app/release -lnymea-app \
+                      -L$$top_builddir/experiences/airconditioning/release -lnymea-app-airconditioning \
+                      -L$$top_builddir/experiences/evdash/release -lnymea-app-evdash
+
 win32:CXX_FLAGS += /w
 
 linux:!android:!nozeroconf:LIBS += -lavahi-client -lavahi-common
 
 linux:!android:PRE_TARGETDEPS += $$top_builddir/libnymea-app/libnymea-app.a \
-                                 $$top_builddir/experiences/airconditioning/libnymea-app-airconditioning.a
+                                 $$top_builddir/experiences/airconditioning/libnymea-app-airconditioning.a \
+                                 $$top_builddir/experiences/evdash/libnymea-app-evdash.a
 
 HEADERS += \
     configuredhostsmodel.h \
@@ -90,21 +102,21 @@ android {
     include(../3rdParty/android/android_openssl/openssl.pri)
 
     ANDROID_MIN_SDK_VERSION = 21
-    ANDROID_TARGET_SDK_VERSION = 35
+    ANDROID_TARGET_SDK_VERSION = 36
 
-    QT += androidextras
     HEADERS += platformintegration/android/platformhelperandroid.h \
                platformintegration/android/platformpermissionsandroid.h \
 
     SOURCES += platformintegration/android/platformhelperandroid.cpp \
                platformintegration/android/platformpermissionsandroid.cpp \
 
-    # https://bugreports.qt.io/browse/QTBUG-83165
     CORE_LIBS += -L$${top_builddir}/libnymea-app/$${ANDROID_TARGET_ARCH}
     AIRCONDITIONING_LIBS += -L$${top_builddir}/experiences/airconditioning/$${ANDROID_TARGET_ARCH}
+    EVDASH_LIBS += -L$${top_builddir}/experiences/evdash/$${ANDROID_TARGET_ARCH}
 
-    LIBS += $${CORE_LIBS} $${AIRCONDITIONING_LIBS}
-    message("CORE_LIBS: $${CORE_LIBS}")
+    LIBS += $${CORE_LIBS} -lnymea-app_$${ANDROID_TARGET_ARCH} \
+            $${AIRCONDITIONING_LIBS} -lnymea-app-airconditioning_$${ANDROID_TARGET_ARCH} \
+            $${EVDASH_LIBS} -lnymea-app-evdash_$${ANDROID_TARGET_ARCH}
 
     versioninfo.files = ../version.txt
     versioninfo.path = /
@@ -113,9 +125,9 @@ android {
     DISTFILES += \
         $$ANDROID_PACKAGE_SOURCE_DIR/AndroidManifest.xml \
         $$ANDROID_PACKAGE_SOURCE_DIR/google-services.json \
-        $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.jar \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew \
         $$ANDROID_PACKAGE_SOURCE_DIR/res/values/libs.xml \
+        $$ANDROID_PACKAGE_SOURCE_DIR/res/values/styles.xml \
         $$ANDROID_PACKAGE_SOURCE_DIR/build.gradle \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradle/wrapper/gradle-wrapper.properties \
         $$ANDROID_PACKAGE_SOURCE_DIR/gradlew.bat \
@@ -168,14 +180,19 @@ ios: {
     OTHER_FILES += $${OBJECTIVE_SOURCES}
 
     LIBS += -framework CoreLocation \
+            -framework CoreBluetooth \
+            -framework CoreNFC
 
     # Add Firebase SDK
     QMAKE_LFLAGS += -ObjC $(inherited)
+    DEFINES += FIREBASE_ANALYTICS_SUPPRESS_WARNING
     firebase_files.files += $$files($${IOS_PACKAGE_DIR}/GoogleService-Info.plist)
     QMAKE_BUNDLE_DATA += firebase_files
     INCLUDEPATH += ../3rdParty/ios/
+
     LIBS += -F$$PWD/../3rdParty/ios/Firebase/FirebaseAnalytics/ \
             -F$$PWD/../3rdParty/ios/Firebase/FirebaseMessaging
+
     LIBS += -framework "FirebaseMessaging" \
             -framework "GoogleUtilities" \
             -framework "Protobuf" \
@@ -184,6 +201,13 @@ ios: {
             -framework "FirebaseInstallations" \
             -framework "PromisesObjC" \
 
+    LIBS += -L$$top_builddir/libnymea-app -lnymea-app \
+            -L$$top_builddir/experiences/airconditioning -lnymea-app-airconditioning \
+            -L$$top_builddir/experiences/evdash -lnymea-app-evdash
+
+    PRE_TARGETDEPS += $$top_builddir/libnymea-app/libnymea-app.a \
+        $$top_builddir/experiences/airconditioning/libnymea-app-airconditioning.a \
+        $$top_builddir/experiences/evdash/libnymea-app-evdash.a
 
     # Configure generated xcode project to have our bundle id
     QMAKE_TARGET_BUNDLE_PREFIX=$${IOS_BUNDLE_PREFIX}
@@ -200,6 +224,9 @@ ios: {
 
     ios_launch_images.files += $${IOS_PACKAGE_DIR}/NymeaLaunchScreen.storyboard
     QMAKE_BUNDLE_DATA += ios_launch_images
+
+    DEFINES += QT_STATICPLUGIN
+    QTPLUGIN += qdarwinbluetoothpermission
 
     IOS_DEVELOPMENT_TEAM.name = DEVELOPMENT_TEAM
     IOS_DEVELOPMENT_TEAM.value = $$IOS_TEAM_ID
@@ -238,4 +265,3 @@ target.path = /usr/bin
 INSTALLS += target
 
 DISTFILES +=
-

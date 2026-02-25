@@ -10,6 +10,8 @@ Thumbs.db
 
 *.pro.user*
 
+CMakeLists.txt.user
+
 packaging/android/nymeaapp.properties
 build
 

@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2021, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -43,7 +37,7 @@ QList<ModbusRtuMaster *> ModbusRtuMasters::modbusRtuMasters() const
 int ModbusRtuMasters::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_modbusRtuMasters.count();
+    return static_cast<int>(m_modbusRtuMasters.count());
 }
 
 QVariant ModbusRtuMasters::data(const QModelIndex &index, int role) const
@@ -92,54 +86,54 @@ void ModbusRtuMasters::addModbusRtuMaster(ModbusRtuMaster *modbusRtuMaster)
 
     connect(modbusRtuMaster, &ModbusRtuMaster::serialPortChanged, this, [=](const QString &serialPort) {
         Q_UNUSED(serialPort)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleSerialPort});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::baudrateChanged, this, [=](qint32 baudrate) {
         Q_UNUSED(baudrate)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleBaudrate});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::parityChanged, this, [=](SerialPort::SerialPortParity parity) {
         Q_UNUSED(parity)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleParity});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::dataBitsChanged, this, [=](SerialPort::SerialPortDataBits dataBits) {
         Q_UNUSED(dataBits)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleDataBits});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::stopBitsChanged, this, [=](SerialPort::SerialPortStopBits stopBites) {
         Q_UNUSED(stopBites)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleStopBits});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::numberOfRetriesChanged, this, [=](uint numberOfRetries) {
         Q_UNUSED(numberOfRetries)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleNumberOfRetries});
     });
 
 
     connect(modbusRtuMaster, &ModbusRtuMaster::timeoutChanged, this, [=](uint timeout) {
         Q_UNUSED(timeout)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleTimeout});
     });
 
     connect(modbusRtuMaster, &ModbusRtuMaster::connectedChanged, this, [=](bool connected) {
         Q_UNUSED(connected)
-        QModelIndex idx = index(m_modbusRtuMasters.indexOf(modbusRtuMaster), 0);
+        QModelIndex idx = index(static_cast<int>(m_modbusRtuMasters.indexOf(modbusRtuMaster)), 0);
         emit dataChanged(idx, idx, {RoleConnected});
     });
 
-    beginInsertRows(QModelIndex(), m_modbusRtuMasters.count(), m_modbusRtuMasters.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_modbusRtuMasters.count()), static_cast<int>(m_modbusRtuMasters.count()));
     m_modbusRtuMasters.append(modbusRtuMaster);
     endInsertRows();
 
@@ -162,7 +156,9 @@ void ModbusRtuMasters::removeModbusRtuMaster(const QUuid &modbusUuid)
 void ModbusRtuMasters::clear()
 {
     beginResetModel();
-    qDeleteAll(m_modbusRtuMasters);
+    foreach (ModbusRtuMaster *master, m_modbusRtuMasters)
+        master->deleteLater();
+
     m_modbusRtuMasters.clear();
     endResetModel();
     emit countChanged();

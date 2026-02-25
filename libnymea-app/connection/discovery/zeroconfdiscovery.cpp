@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -51,23 +45,23 @@ ZeroconfDiscovery::ZeroconfDiscovery(NymeaHosts *nymeaHosts, QObject *parent) :
     connect(m_zeroconfJsonRPC, &QZeroConf::serviceUpdated, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfJsonRPC, &QZeroConf::serviceRemoved, this, &ZeroconfDiscovery::serviceEntryRemoved);
 
-    if (m_zeroconfJsonRPC->isValid()) {
+    // if (m_zeroconfJsonRPC->isValid()) {
         m_zeroconfJsonRPC->startBrowser("_jsonrpc._tcp", QAbstractSocket::IPv4Protocol);
         qCInfo(dcZeroConf()) << "Created service browser for _jsonrpc._tcp:" << m_zeroconfJsonRPC->browserExists();
-    } else {
-        qCWarning(dcZeroConf()) << "Failed to initialize service broeser for _jsonprc._tcp";
-    }
+    // } else {
+    //     qCWarning(dcZeroConf()) << "Failed to initialize service broeser for _jsonprc._tcp";
+    // }
 
     m_zeroconfWebSocket = new QZeroConf(this);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceAdded, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceUpdated, this, &ZeroconfDiscovery::serviceEntryAdded);
     connect(m_zeroconfWebSocket, &QZeroConf::serviceRemoved, this, &ZeroconfDiscovery::serviceEntryRemoved);
-    if (m_zeroconfWebSocket->isValid()) {
+    // if (m_zeroconfWebSocket->isValid()) {
         m_zeroconfWebSocket->startBrowser("_ws._tcp", QAbstractSocket::IPv4Protocol);
         qCInfo(dcZeroConf()) << "Created service browser for _ws._tcp:" << m_zeroconfWebSocket->browserExists();
-    } else {
-        qCWarning(dcZeroConf()) << "Failed to initialize service browserr for _ws._tcp";
-    }
+    // } else {
+    //     qCWarning(dcZeroConf()) << "Failed to initialize service browserr for _ws._tcp";
+    // }
 
 #else
     qCInfo(dcZeroConf()) << "Zeroconf support not compiled in. Zeroconf will not be available.";
@@ -114,7 +108,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
 
     qCDebug(dcZeroConf()) << "Service discovered" << entry->type() << entry->name() << " IP:" << entry->ip().toString() << entry->txt();
 
-    QString uuid;
+    QUuid uuid;
     bool sslEnabled = false;
     QString serverName;
     QString version;
@@ -124,7 +118,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
             sslEnabled = (txtRecord.second == "true");
         }
         if (txtRecord.first == "uuid") {
-            uuid = txtRecord.second;
+            uuid = QUuid(txtRecord.second);
         }
         if (txtRecord.first == "name") {
             serverName = txtRecord.second;
@@ -173,7 +167,7 @@ void ZeroconfDiscovery::serviceEntryRemoved(const QZeroConfService &entry)
         return;
     }
 
-    QString uuid;
+    QUuid uuid;
     bool sslEnabled = false;
     QString serverName;
     QString version;
@@ -183,7 +177,7 @@ void ZeroconfDiscovery::serviceEntryRemoved(const QZeroConfService &entry)
             sslEnabled = (txtRecord.second == "true");
         }
         if (txtRecord.first == "uuid") {
-            uuid = txtRecord.second;
+            uuid = QUuid(txtRecord.second);
         }
         if (txtRecord.first == "name") {
             serverName = txtRecord.second;

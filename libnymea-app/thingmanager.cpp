@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -181,7 +175,7 @@ void ThingManager::notificationReceived(const QVariantMap &data)
         }
     } else if (notification == "Integrations.ThingSettingChanged") {
         QUuid thingId = data.value("params").toMap().value("thingId").toUuid();
-        QString paramTypeId = data.value("params").toMap().value("paramTypeId").toString();
+        QUuid paramTypeId = data.value("params").toMap().value("paramTypeId").toUuid();
         QVariant value = data.value("params").toMap().value("value");
 //        qDebug() << "Thing settings changed notification for thing" << thingId << data.value("params").toMap().value("settings").toList();
         Thing *thing = m_things->getThing(thingId);
@@ -208,7 +202,7 @@ void ThingManager::notificationReceived(const QVariantMap &data)
             return;
         }
         qCDebug(dcThingManager) << "Event received" << thingId.toString() << eventTypeId.toString() << qUtf8Printable(QJsonDocument::fromVariant(event).toJson());
-        thing->eventTriggered(eventTypeId.toString(), event.value("params").toList());
+        thing->eventTriggered(eventTypeId, event.value("params").toList());
     } else if (notification == "Integrations.IOConnectionAdded") {
         QVariantMap connectionMap = data.value("params").toMap().value("ioConnection").toMap();
         QUuid id = connectionMap.value("id").toUuid();
@@ -286,7 +280,7 @@ void ThingManager::getThingsResponse(int /*commandId*/, const QVariantMap &param
             // set initial state values
             QVariantList stateVariantList = thingVariant.toMap().value("states").toList();
             foreach (const QVariant &stateMap, stateVariantList) {
-                QString stateTypeId = stateMap.toMap().value("stateTypeId").toString();
+                QUuid stateTypeId = stateMap.toMap().value("stateTypeId").toUuid();
                 StateType *st = thing->thingClass()->stateTypes()->getStateType(stateTypeId);
                 if (!st) {
                     qWarning() << "Can't find a statetype for this state";
@@ -731,7 +725,7 @@ void ThingManager::setEventLoggingResponse(int commandId, const QVariantMap &par
 
 Vendor *ThingManager::unpackVendor(const QVariantMap &vendorMap)
 {
-    Vendor *v = new Vendor(vendorMap.value("id").toString(), vendorMap.value("name").toString());
+    Vendor *v = new Vendor(vendorMap.value("id").toUuid(), vendorMap.value("name").toString());
     v->setDisplayName(vendorMap.value("displayName").toString());
     return v;
 }
@@ -823,14 +817,14 @@ ThingClass *ThingManager::unpackThingClass(const QVariantMap &thingClassMap)
 
 void ThingManager::unpackParam(const QVariantMap &paramMap, Param *param)
 {
-    param->setParamTypeId(paramMap.value("paramTypeId").toString());
+    param->setParamTypeId(paramMap.value("paramTypeId").toUuid());
     param->setValue(paramMap.value("value"));
 }
 
 ParamType *ThingManager::unpackParamType(const QVariantMap &paramTypeMap, QObject *parent)
 {
     ParamType *paramType = new ParamType(parent);
-    paramType->setId(paramTypeMap.value("id").toString());
+    paramType->setId(paramTypeMap.value("id").toUuid());
     paramType->setName(paramTypeMap.value("name").toString());
     paramType->setDisplayName(paramTypeMap.value("displayName").toString());
     paramType->setType(paramTypeMap.value("type").toString());
@@ -838,6 +832,7 @@ ParamType *ThingManager::unpackParamType(const QVariantMap &paramTypeMap, QObjec
     paramType->setDefaultValue(paramTypeMap.value("defaultValue"));
     paramType->setMinValue(paramTypeMap.value("minValue"));
     paramType->setMaxValue(paramTypeMap.value("maxValue"));
+    paramType->setStepSize(paramTypeMap.value("stepSize").toDouble());
     paramType->setAllowedValues(paramTypeMap.value("allowedValues").toList());
     paramType->setInputType(stringToInputType(paramTypeMap.value("inputType").toString()));
     paramType->setReadOnly(paramTypeMap.value("readOnly").toBool());
@@ -848,7 +843,7 @@ ParamType *ThingManager::unpackParamType(const QVariantMap &paramTypeMap, QObjec
 StateType *ThingManager::unpackStateType(const QVariantMap &stateTypeMap, QObject *parent)
 {
     StateType *stateType = new StateType(parent);
-    stateType->setId(stateTypeMap.value("id").toString());
+    stateType->setId(stateTypeMap.value("id").toUuid());
     stateType->setName(stateTypeMap.value("name").toString());
     stateType->setDisplayName(stateTypeMap.value("displayName").toString());
     stateType->setIndex(stateTypeMap.value("index").toInt());
@@ -864,6 +859,7 @@ StateType *ThingManager::unpackStateType(const QVariantMap &stateTypeMap, QObjec
     stateType->setType(stateTypeMap.value("type").toString());
     stateType->setMinValue(stateTypeMap.value("minValue"));
     stateType->setMaxValue(stateTypeMap.value("maxValue"));
+    stateType->setStepSize(stateTypeMap.value("stepSize").toDouble());
     stateType->setUnit(stringToUnit(stateTypeMap.value("unit").toString()));
 
     QMetaEnum metaEnum = QMetaEnum::fromType<Types::IOType>();
@@ -876,7 +872,7 @@ StateType *ThingManager::unpackStateType(const QVariantMap &stateTypeMap, QObjec
 EventType *ThingManager::unpackEventType(const QVariantMap &eventTypeMap, QObject *parent)
 {
     EventType *eventType = new EventType(parent);
-    eventType->setId(eventTypeMap.value("id").toString());
+    eventType->setId(eventTypeMap.value("id").toUuid());
     eventType->setName(eventTypeMap.value("name").toString());
     eventType->setDisplayName(eventTypeMap.value("displayName").toString());
     eventType->setIndex(eventTypeMap.value("index").toInt());
@@ -891,7 +887,7 @@ EventType *ThingManager::unpackEventType(const QVariantMap &eventTypeMap, QObjec
 ActionType *ThingManager::unpackActionType(const QVariantMap &actionTypeMap, QObject *parent)
 {
     ActionType *actionType = new ActionType(parent);
-    actionType->setId(actionTypeMap.value("id").toString());
+    actionType->setId(actionTypeMap.value("id").toUuid());
     actionType->setName(actionTypeMap.value("name").toString());
     actionType->setDisplayName(actionTypeMap.value("displayName").toString());
     actionType->setIndex(actionTypeMap.value("index").toInt());
@@ -943,7 +939,7 @@ Thing* ThingManager::unpackThing(ThingManager *thingManager, const QVariantMap &
         params = new Params(thing);
     }
     foreach (QVariant param, thingMap.value("params").toList()) {
-        Param *p = params->getParam(param.toMap().value("paramTypeId").toString());
+        Param *p = params->getParam(param.toMap().value("paramTypeId").toUuid());
         if (!p) {
             p = new Param();
             params->addParam(p);
@@ -957,7 +953,7 @@ Thing* ThingManager::unpackThing(ThingManager *thingManager, const QVariantMap &
         settings = new Params(thing);
     }
     foreach (QVariant setting, thingMap.value("settings").toList()) {
-        Param *p = settings->getParam(setting.toMap().value("paramTypeId").toString());
+        Param *p = settings->getParam(setting.toMap().value("paramTypeId").toUuid());
         if (!p) {
             p = new Param();
             settings->addParam(p);

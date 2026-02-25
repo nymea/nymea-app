@@ -1,39 +1,34 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of nymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
-import QtQuick.Layouts 1.3
-import Nymea 1.0
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Controls.Material.impl
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
+import Nymea
 
 Item {
     id: root
@@ -42,6 +37,7 @@ Item {
     property alias fallbackIconName: fallbackIcon.name
     property alias iconColor: colorIcon.color
     property alias backgroundImage: backgroundImg.source
+
     property string text
     property bool disconnected: false
     property bool isWireless: false
@@ -60,18 +56,21 @@ Item {
         id: background
         anchors.fill: parent
         anchors.margins: app.margins / 2
-        gradient: Gradient {
-            GradientStop {
-                position: 1 - innerContent.height / background.height
-                color: Style.tileOverlayColor
-            }
-            GradientStop {
-                position: 1 - innerContent.height / background.height
-                color: Style.tileBackgroundColor
-            }
-        }
-
+        color: Style.tileBackgroundColor
         radius: Style.cornerRadius
+    }
+
+    Glow {
+        anchors.fill: background
+        source: background
+        radius: 8
+        samples: 17
+        spread: 0.4
+        color: Style.accentColor
+        opacity: (delegate.pressed || delegate.visualFocus || delegate.hovered) ? 1 : 0
+        Behavior on opacity {
+            SmoothedAnimation { duration: Style.slowAnimationDuration }
+        }
     }
 
     Image {
@@ -105,10 +104,20 @@ Item {
         anchors.margins: app.margins / 2
         source: backgroundImg
         maskSource: backgroundImgClipper
-//        visible: root.backgroundImage.length > 0
+    }
+
+    Ripple {
+        anchors.fill: background
+        clip: true
+        clipRadius: background.radius
+        pressed: delegate.pressed
+        anchor: delegate
+        active: delegate.pressed || delegate.visualFocus || delegate.hovered
+        color: delegate.Material.rippleColor
     }
 
     ItemDelegate {
+        id: delegate
         anchors {
             top: parent.top; left: parent.left; right: parent.right; bottom: innerContent.top
             topMargin: app.margins / 2; leftMargin: app.margins / 2; rightMargin: app.margins / 2
@@ -116,6 +125,7 @@ Item {
         padding: 0; topPadding: 0; bottomPadding: 0
         onClicked: root.clicked()
         onPressAndHold: root.pressAndHold()
+        background: null
 
         contentItem: ColumnLayout {
             spacing: 0
@@ -147,7 +157,7 @@ Item {
                 Item {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    visible: backgroundImg.status !== Image.Ready && label.text != ""
+                    visible: backgroundImg.status !== Image.Ready && label.text !== ""
 
                     Label {
                         id: label
@@ -182,6 +192,15 @@ Item {
         anchors.fill: innerContent
     }
 
+    ThinDivider {
+        anchors.left: innerContent.left
+        anchors.right: innerContent.right
+        anchors.bottom: innerContent.top
+        width: parent.width
+        opacity: 0.1
+        color: Style.tileForegroundColor
+    }
+
     Item {
         id: innerContent
         anchors { left: parent.left; bottom: parent.bottom; right: parent.right; margins: app.margins / 2 }
@@ -192,6 +211,7 @@ Item {
     RowLayout {
         id: quickAlertPane
         anchors { top: parent.top; right: parent.right; margins: app.margins }
+
         ColorIcon {
             height: Style.smallIconSize
             width: height
@@ -207,6 +227,7 @@ Item {
             color: root.disconnected ? Style.red : Style.orange
             visible: root.setupStatus == Thing.ThingSetupStatusComplete && (root.disconnected || (root.isWireless && root.signalStrength < 20 && root.signalStrength >= 0))
         }
+
         ColorIcon {
             height: Style.smallIconSize
             width: height
@@ -214,6 +235,7 @@ Item {
             color: root.setupStatus === Thing.ThingSetupStatusFailed ? Style.red : Style.tileForegroundColor
             visible: root.setupStatus === Thing.ThingSetupStatusFailed || root.setupStatus === Thing.ThingSetupStatusInProgress
         }
+
         ColorIcon {
             height: Style.smallIconSize
             width: height
@@ -222,5 +244,5 @@ Item {
             color: Style.tileForegroundColor
         }
     }
-}
 
+}

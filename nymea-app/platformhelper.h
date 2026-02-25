@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2025, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of nymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -58,10 +52,10 @@ class PlatformHelper : public QObject
     Q_PROPERTY(bool darkModeEnabled READ darkModeEnabled NOTIFY darkModeEnabledChanged)
     Q_PROPERTY(QVariantList pendingNotificationActions READ pendingNotificationActions NOTIFY pendingNotificationActionsChanged)
     Q_PROPERTY(bool locationServicesEnabled READ locationServicesEnabled NOTIFY locationServicesEnabledChanged)
-    Q_PROPERTY(int topPadding READ topPadding CONSTANT)
-    Q_PROPERTY(int bottomPadding READ bottomPadding CONSTANT)
-    Q_PROPERTY(int leftPadding READ leftPadding CONSTANT)
-    Q_PROPERTY(int rightPadding READ rightPadding CONSTANT)
+    Q_PROPERTY(int topPadding READ topPadding NOTIFY topPaddingChanged)
+    Q_PROPERTY(int bottomPadding READ bottomPadding NOTIFY bottomPaddingChanged)
+    Q_PROPERTY(int leftPadding READ leftPadding NOTIFY leftPaddingChanged)
+    Q_PROPERTY(int rightPadding READ rightPadding NOTIFY rightPaddingChanged)
 
 public:
     enum HapticsFeedback {
@@ -129,9 +123,14 @@ signals:
     void splashVisibleChanged();
     void pendingNotificationActionsChanged();
     void locationServicesEnabledChanged();
+    void topPaddingChanged();
+    void bottomPaddingChanged();
+    void leftPaddingChanged();
+    void rightPaddingChanged();
 
 protected:
     explicit PlatformHelper(QObject *parent = nullptr);
+    void setSafeAreaPadding(int top, int right, int bottom, int left);
 
 private:
     static PlatformHelper *s_instance;
@@ -142,6 +141,11 @@ private:
     bool m_splashVisible = true;
 
     QHash<QUuid, QVariant> m_pendingNotificationActions;
+
+    int m_topPadding = 0;
+    int m_bottomPadding = 0;
+    int m_leftPadding = 0;
+    int m_rightPadding = 0;
 };
 
 #endif // PLATFORMHELPER_H

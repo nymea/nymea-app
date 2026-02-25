@@ -1,9 +1,32 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of nymea-app.
+*
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #ifndef PLATFORMPERMISSIONSANDROID_H
 #define PLATFORMPERMISSIONSANDROID_H
 
 #include "../platformpermissions.h"
-
-#include <QtAndroidExtras/QtAndroid>
+#include <QtCore/private/qandroidextras_p.h>
 
 class PlatformPermissionsAndroid : public PlatformPermissions
 {
@@ -11,20 +34,14 @@ class PlatformPermissionsAndroid : public PlatformPermissions
 public:
     explicit PlatformPermissionsAndroid(QObject *parent = nullptr);
 
-    PermissionStatus checkPermission(Permission permission) const override;
-
-    void requestPermission(Permission permission) override;
-    void openPermissionSettings() override;
-
-signals:
+    PermissionStatus checkPermission(Permission platformPermission) const override;
+    void requestPermission(Permission platformPermission) override;
 
 private:
-    QHash<PlatformPermissions::Permission, QStringList> permissionMap() const;
-
-    QStringList m_requestedButDeniedPermissions;
-
     static PlatformPermissionsAndroid *s_instance;
-    static void permissionResultCallback(const QtAndroid::PermissionResultMap &results);
+
+    QList<PlatformPermissions::Permission> m_requestedButDeniedPermissions;
+    QList<PlatformPermissions::Permission> m_grantedPermission;
 
 };
 

@@ -1,3 +1,27 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of libnymea-app.
+*
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
+*
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include "usermanager.h"
 #include "types/tokeninfo.h"
 
@@ -43,6 +67,7 @@ void UserManager::setEngine(Engine *engine)
 
             m_loading = true;
             emit loadingChanged();
+
             m_engine->jsonRpcClient()->sendCommand("Users.GetUsers", QVariantMap(), this, "getUsersResponse");
             m_engine->jsonRpcClient()->sendCommand("Users.GetUserInfo", QVariantMap(), this, "getUserInfoResponse");
             m_engine->jsonRpcClient()->sendCommand("Users.GetTokens", QVariantMap(), this, "getTokensResponse");
@@ -70,8 +95,7 @@ Users *UserManager::users() const
     return m_users;
 }
 
-
-int UserManager::createUser(const QString &username, const QString &password, const QString &displayName, const QString &email, int permissionScopes)
+int UserManager::createUser(const QString &username, const QString &password, const QString &displayName, const QString &email, int permissionScopes, const QList<QUuid> &allowedThingIds)
 {
     QVariantMap params;
     params.insert("username", username);
@@ -79,9 +103,24 @@ int UserManager::createUser(const QString &username, const QString &password, co
     if (m_engine->jsonRpcClient()->ensureServerVersion("6.0")) {
         params.insert("displayName", displayName);
         params.insert("email", email);
-        params.insert("scopes", UserInfo::scopesToList((UserInfo::PermissionScopes)permissionScopes));
+
+        // Backports compatibility for pre 8.4
+        UserInfo::PermissionScopes scopes = static_cast<UserInfo::PermissionScopes>(permissionScopes);
+        if (!m_engine->jsonRpcClient()->ensureServerVersion("8.4"))
+            scopes.setFlag(UserInfo::PermissionScopeAccessAllThings, false);
+
+
+        params.insert("scopes", UserInfo::scopesToList(scopes));
     }
-    qCDebug(dcUserManager()) << "Creating user" << username << permissionScopes;
+
+    if (m_engine->jsonRpcClient()->ensureServerVersion("8.4") && !allowedThingIds.isEmpty()) {
+        QVariantList thingIds;
+        foreach (const QUuid &thingId, allowedThingIds)
+            thingIds.append(thingId.toString());
+
+        params.insert("allowedThingIds", thingIds);
+    }
+    qCDebug(dcUserManager()) << "Creating user" << username << permissionScopes << allowedThingIds;
     return m_engine->jsonRpcClient()->sendCommand("Users.CreateUser", params, this, "createUserResponse");
 }
 
@@ -109,12 +148,26 @@ int UserManager::removeUser(const QString &username)
     return m_engine->jsonRpcClient()->sendCommand("Users.RemoveUser", params, this, "removeUserResponse");
 }
 
-int UserManager::setUserScopes(const QString &username, int scopes)
+int UserManager::setUserScopes(const QString &username, int scopes, const QList<QUuid> &allowedThingIds)
 {
     QVariantMap params;
     params.insert("username", username);
-    params.insert("scopes", UserInfo::scopesToList((UserInfo::PermissionScopes)scopes));
-    qCDebug(dcUserManager()) << "Setting new permission scopes for user" << username << scopes << (int)scopes;
+
+    // Backports compatibility for pre 8.4
+    UserInfo::PermissionScopes finalScopes = static_cast<UserInfo::PermissionScopes>(scopes);
+    if (!m_engine->jsonRpcClient()->ensureServerVersion("8.4"))
+        finalScopes.setFlag(UserInfo::PermissionScopeAccessAllThings, false);
+
+    params.insert("scopes", UserInfo::scopesToList(finalScopes));
+
+    if (m_engine->jsonRpcClient()->ensureServerVersion("8.4")) {
+        QVariantList thingIds;
+        foreach (const QUuid &thingId, allowedThingIds)
+            thingIds.append(thingId.toString());
+
+        params.insert("allowedThingIds", thingIds);
+    }
+    qCDebug(dcUserManager()) << "Setting new permission scopes for user" << username << scopes << (int)scopes << allowedThingIds;
     return m_engine->jsonRpcClient()->sendCommand("Users.SetUserScopes", params, this, "setUserScopesResponse");
 }
 
@@ -138,6 +191,11 @@ void UserManager::notificationReceived(const QVariantMap &data)
         info->setDisplayName(userMap.value("displayName").toString());
         info->setEmail(userMap.value("email").toString());
         info->setScopes(UserInfo::listToScopes(userMap.value("scopes").toStringList()));
+        QList<QUuid> allowedThingIds;
+        foreach (const QString &thingIdString, userMap.value("allowedThingIds").toStringList())
+            allowedThingIds.append(QUuid(thingIdString));
+
+        info->setAllowedThingIds(allowedThingIds);
         m_users->insertUser(info);
     } else if (notification == "Users.UserRemoved") {
         m_users->removeUser(data.value("params").toMap().value("username").toString());
@@ -147,11 +205,19 @@ void UserManager::notificationReceived(const QVariantMap &data)
         QString displayName = userMap.value("displayName").toString();
         QString email = userMap.value("email").toString();
         UserInfo::PermissionScopes scopes = UserInfo::listToScopes(userMap.value("scopes").toStringList());
+
+        QList<QUuid> allowedThingIds;
+        foreach (const QString &thingIdString, userMap.value("allowedThingIds").toStringList())
+            allowedThingIds.append(QUuid(thingIdString));
+
+
         // Update current user info
         if (m_userInfo && m_userInfo->username() == username) {
             m_userInfo->setDisplayName(displayName);
             m_userInfo->setEmail(email);
             m_userInfo->setScopes(scopes);
+            m_userInfo->setAllowedThingIds(allowedThingIds);
+
         }
         // Update user info in the list of all users.
         UserInfo *info = m_users->getUserInfo(username);
@@ -162,6 +228,7 @@ void UserManager::notificationReceived(const QVariantMap &data)
         info->setDisplayName(displayName);
         info->setEmail(email);
         info->setScopes(scopes);
+        info->setAllowedThingIds(allowedThingIds);
     }
 }
 
@@ -171,10 +238,16 @@ void UserManager::getUsersResponse(int commandId, const QVariantMap &data)
 
     foreach (const QVariant &userVariant, data.value("users").toList()) {
         QVariantMap userMap = userVariant.toMap();
+
+        QList<QUuid> allowedThingIds;
+        foreach (const QString &thingIdString, userMap.value("allowedThingIds").toStringList())
+            allowedThingIds.append(QUuid(thingIdString));
+
         UserInfo *userInfo = new UserInfo(userMap.value("username").toString());
         userInfo->setDisplayName(userMap.value("displayName").toString());
         userInfo->setEmail(userMap.value("email").toString());
         userInfo->setScopes(UserInfo::listToScopes(userMap.value("scopes").toStringList()));
+        userInfo->setAllowedThingIds(allowedThingIds);
         m_users->insertUser(userInfo);
     }
 }
@@ -183,26 +256,30 @@ void UserManager::getUserInfoResponse(int commandId, const QVariantMap &data)
 {
     qCDebug(dcUserManager()) << "User info reply" << commandId << data;
     QVariantMap userMap = data.value("userInfo").toMap();
+    QList<QUuid> allowedThingIds;
+    foreach (const QString &thingIdString, userMap.value("allowedThingIds").toStringList())
+        allowedThingIds.append(QUuid(thingIdString));
+
     m_userInfo->setUsername(userMap.value("username").toString());
     m_userInfo->setEmail(userMap.value("email").toString());
     m_userInfo->setDisplayName(userMap.value("displayName").toString());
     m_userInfo->setScopes(UserInfo::listToScopes(userMap.value("scopes").toStringList()));
+    m_userInfo->setAllowedThingIds(allowedThingIds);
 }
 
-void UserManager::getTokensResponse(int /*commandId*/, const QVariantMap &data)
+void UserManager::getTokensResponse(int commandId, const QVariantMap &data)
 {
-
+    Q_UNUSED(commandId)
     foreach (const QVariant &tokenVariant, data.value("tokenInfoList").toList()) {
         //        qDebug() << "Token received" << tokenVariant.toMap();
         QVariantMap token = tokenVariant.toMap();
-        QUuid id = token.value("id").toString();
+        QUuid id = token.value("id").toUuid();
         QString username = token.value("username").toString();
         QString deviceName = token.value("deviceName").toString();
         QDateTime creationTime = QDateTime::fromSecsSinceEpoch(token.value("creationTime").toInt());
         TokenInfo *tokenInfo = new TokenInfo(id, username, deviceName, creationTime);
         m_tokenInfos->addToken(tokenInfo);
     }
-
 }
 
 void UserManager::removeTokenResponse(int commandId, const QVariantMap &params)
@@ -271,7 +348,7 @@ Users::Users(QObject *parent): QAbstractListModel(parent)
 int Users::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_users.count();
+    return static_cast<int>(m_users.count());
 }
 
 QVariant Users::data(const QModelIndex &index, int role) const
@@ -285,6 +362,13 @@ QVariant Users::data(const QModelIndex &index, int role) const
         return m_users.at(index.row())->email();
     case RoleScopes:
         return static_cast<int>(m_users.at(index.row())->scopes());
+    case RoleAllowedThingIds: {
+        QVariantList thingIds;
+        foreach (const QUuid &thingId, m_users.at(index.row())->allowedThingIds())
+            thingIds.append(thingId);
+
+        return thingIds;
+    }
     }
     return QVariant();
 }
@@ -296,6 +380,7 @@ QHash<int, QByteArray> Users::roleNames() const
     roles.insert(RoleDisplayName, "displayName");
     roles.insert(RoleEmail, "email");
     roles.insert(RoleScopes, "scopes");
+    roles.insert(RoleAllowedThingIds, "allowedThingIds");
     return roles;
 }
 
@@ -303,25 +388,31 @@ void Users::insertUser(UserInfo *userInfo)
 {
     userInfo->setParent(this);
     connect(userInfo, &UserInfo::displayNameChanged, this, [=](){
-        int idx = m_users.indexOf(userInfo);
+        int idx = static_cast<int>(m_users.indexOf(userInfo));
         if (idx >= 0) {
             emit dataChanged(index(idx), index(idx), {RoleDisplayName});
         }
     });
     connect(userInfo, &UserInfo::emailChanged, this, [=](){
-        int idx = m_users.indexOf(userInfo);
+        int idx = static_cast<int>(m_users.indexOf(userInfo));
         if (idx >= 0) {
             emit dataChanged(index(idx), index(idx), {RoleEmail});
         }
     });
     connect(userInfo, &UserInfo::scopesChanged, this, [=](){
-        int idx = m_users.indexOf(userInfo);
+        int idx = static_cast<int>(m_users.indexOf(userInfo));
         if (idx >= 0) {
             emit dataChanged(index(idx), index(idx), {RoleScopes});
         }
     });
+    connect(userInfo, &UserInfo::allowedThingIdsChanged, this, [=](){
+        int idx = m_users.indexOf(userInfo);
+        if (idx >= 0) {
+            emit dataChanged(index(idx), index(idx), {RoleAllowedThingIds});
+        }
+    });
 
-    beginInsertRows(QModelIndex(), m_users.count(), m_users.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_users.count()), static_cast<int>(m_users.count()));
     m_users.append(userInfo);
     endInsertRows();
     emit countChanged();

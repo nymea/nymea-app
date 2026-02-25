@@ -27,33 +27,6 @@
  * 
  */
 
-/* 
- * 
- * Purpose:       This is a direct implementation of the Secure Remote Password
- *                Protocol version 6a as described by 
- *                http://srp.stanford.edu/design.html
- * 
- * Author:        tom.cocagne@gmail.com (Tom Cocagne)
- * 
- * Dependencies:  OpenSSL (and Advapi32.lib on Windows)
- * 
- * Usage:         Refer to test_srp.c for a demonstration
- * 
- * Notes:
- *    This library allows multiple combinations of hashing algorithms and 
- *    prime number constants. For authentication to succeed, the hash and
- *    prime number constants must match between 
- *    srp_create_salted_verification_key(), srp_user_new(),
- *    and srp_verifier_new(). A recommended approach is to determine the
- *    desired level of security for an application and globally define the
- *    hash and prime number constants to the predetermined values.
- * 
- *    As one might suspect, more bits means more security. As one might also
- *    suspect, more bits also means more processing time. The test_srp.c 
- *    program can be easily modified to profile various combinations of 
- *    hash & prime number pairings.
- */
-
 #ifndef SRP_H
 #define SRP_H
 

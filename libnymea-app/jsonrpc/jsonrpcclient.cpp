@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -48,6 +42,7 @@
 #include <QLocale>
 #include <QDir>
 #include <QStandardPaths>
+#include <QRegularExpression>
 
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcJsonRpc, "JsonRpc")
@@ -82,6 +77,7 @@ void JsonRpcClient::registerNotificationHandler(QObject *handler, const QString 
     }
     m_notificationHandlers.insert(nameSpace, handler);
     m_notificationHandlerMethods.insert(handler, method);
+
     setNotificationsEnabled();
 }
 
@@ -159,7 +155,7 @@ void JsonRpcClient::disconnectFromHost()
     m_connection->disconnectFromHost();
 }
 
-void JsonRpcClient::acceptCertificate(const QString &serverUuid, const QByteArray &pem)
+void JsonRpcClient::acceptCertificate(const QUuid &serverUuid, const QByteArray &pem)
 {
     qDebug() << "Pinning new certificate for" << serverUuid << pem;
     storePem(serverUuid, pem);
@@ -205,7 +201,7 @@ void JsonRpcClient::notificationReceived(const QVariantMap &data)
             m_token = data.value("params").toMap().value("token").toByteArray();
             QSettings settings;
             settings.beginGroup("jsonTokens");
-            settings.setValue(m_connection->currentHost()->uuid().toString(), m_token);
+            settings.setValue(m_serverUuid.toString(), m_token);
             settings.endGroup();
 
             m_initialSetupRequired = false;
@@ -311,9 +307,9 @@ QString JsonRpcClient::jsonRpcVersion() const
     return m_jsonRpcVersion.toString();
 }
 
-QString JsonRpcClient::serverUuid() const
+QUuid JsonRpcClient::serverUuid() const
 {
-    return m_connection && m_connection->currentHost() ? m_connection->currentHost()->uuid().toString() : "";
+    return m_connection && m_connection->currentHost() ? m_connection->currentHost()->uuid() : QUuid();
 }
 
 QString JsonRpcClient::serverName() const
@@ -400,7 +396,7 @@ void JsonRpcClient::processAuthenticate(int /*commandId*/, const QVariantMap &da
         emit permissionsChanged();
         QSettings settings;
         settings.beginGroup("jsonTokens");
-        settings.setValue(m_connection->currentHost()->uuid().toString(), m_token);
+        settings.setValue(m_serverUuid.toString(), m_token);
         settings.endGroup();
         emit authenticationRequiredChanged();
 
@@ -487,8 +483,8 @@ void JsonRpcClient::sendRequest(const QVariantMap &request)
 
 bool JsonRpcClient::loadPem(const QUuid &serverUud, QByteArray &pem)
 {
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
-    QFile certFile(dir.absoluteFilePath(serverUud.toString().remove(QRegExp("[{}]")) + ".pem"));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sslcerts/");
+    QFile certFile(dir.absoluteFilePath(serverUud.toString().remove(QRegularExpression("[{}]")) + ".pem"));
     if (!certFile.open(QFile::ReadOnly)) {
         return false;
     }
@@ -499,11 +495,11 @@ bool JsonRpcClient::loadPem(const QUuid &serverUud, QByteArray &pem)
 
 bool JsonRpcClient::storePem(const QUuid &serverUuid, const QByteArray &pem)
 {
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sslcerts/");
     if (!dir.exists()) {
-        dir.mkpath(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/sslcerts/");
+        dir.mkpath(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/sslcerts/");
     }
-    QFile certFile(dir.absoluteFilePath(serverUuid.toString().remove(QRegExp("[{}]")) + ".pem"));
+    QFile certFile(dir.absoluteFilePath(serverUuid.toString().remove(QRegularExpression("[{}]")) + ".pem"));
     if (!certFile.open(QFile::WriteOnly | QFile::Truncate)) {
         return false;
     }
@@ -555,7 +551,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
     //    qDebug() << "JsonRpcClient: received data:" << qUtf8Printable(data);
     m_receiveBuffer.append(data);
 
-    int splitIndex = m_receiveBuffer.indexOf("}\n{") + 1;
+    int splitIndex = static_cast<int>(m_receiveBuffer.indexOf("}\n{")) + 1;
     if (splitIndex <= 0) {
         splitIndex = m_receiveBuffer.length();
     }
@@ -606,7 +602,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
             m_token.clear();
             QSettings settings;
             settings.beginGroup("jsonTokens");
-            settings.setValue(serverUuid(), m_token);
+            settings.setValue(m_serverUuid.toString(), m_token);
             settings.endGroup();
             emit authenticationRequiredChanged();
             m_authenticated = false;
@@ -657,12 +653,16 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     m_pushButtonAuthAvailable = params.value("pushButtonAuthAvailable").toBool();
     emit pushButtonAuthAvailableChanged();
 
+    m_serverUuid = params.value("uuid").toUuid();
     m_serverVersion = params.value("version").toString();
     QUuid serverUuid = params.value("uuid").toUuid();
     QString name = params.value("name").toString();
     m_experiences.clear();
     foreach (const QVariant &experience, params.value("experiences").toList()) {
-        m_experiences.insert(experience.toMap().value("name").toString(), experience.toMap().value("version").toString());
+        QString experienceName = experience.toMap().value("name").toString();
+        QString experienceVersion = experience.toMap().value("version").toString();
+        m_experiences.insert(experienceName, experienceVersion);
+        qCInfo(dcJsonRpc()) << "Experience available:" << experienceName << experienceVersion;
     }
 
     QString protoVersionString = params.value("protocol version").toString();
@@ -727,7 +727,7 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
                 // Reject the connection until the UI explicitly accepts this...
                 m_connection->disconnectFromHost();
 
-                emit verifyConnectionCertificate(serverUuid.toString(), issuerInfo, certificate.toPem());
+                emit verifyConnectionCertificate(m_serverUuid.toString(), issuerInfo, certificate.toPem());
                 return;
             }
             qCInfo(dcJsonRpc()) << "This connections certificate is trusted.";
@@ -775,7 +775,7 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
         // Reload the token, now that we're certain about the server uuid.
         QSettings settings;
         settings.beginGroup("jsonTokens");
-        m_token = settings.value(serverUuid.toString()).toByteArray();
+        m_token = settings.value(m_serverUuid.toString()).toByteArray();
         settings.endGroup();
         emit authenticationRequiredChanged();
 

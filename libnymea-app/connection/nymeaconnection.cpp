@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -322,18 +316,18 @@ void NymeaConnection::onConnected()
         newTransport->deleteLater();
 
 
-//        Connection *existingConnection = m_transportCandidates.value(m_currentTransport);
-//        Connection *alternativeConnection = m_transportCandidates.value(newTransport);
-//        if (alternativeConnection->priority() > existingConnection->priority()) {
-//            qDebug() << "New connection has higher priority! Roaming from" << existingConnection->url() << existingConnection->priority() << "to" << alternativeConnection->url() << alternativeConnection->priority();
-//            m_transportCandidates.remove(m_currentTransport);
-//            m_currentTransport->deleteLater();
-//            m_currentTransport = newTransport;
-//        } else {
-//            qDebug() << "Connection" << alternativeConnection->url() << alternativeConnection->priority() << "has lower priority than existing" << existingConnection->url() << existingConnection->priority();
-//            m_transportCandidates.remove(newTransport);
-//            newTransport->deleteLater();
-//        }
+        //        Connection *existingConnection = m_transportCandidates.value(m_currentTransport);
+        //        Connection *alternativeConnection = m_transportCandidates.value(newTransport);
+        //        if (alternativeConnection->priority() > existingConnection->priority()) {
+        //            qDebug() << "New connection has higher priority! Roaming from" << existingConnection->url() << existingConnection->priority() << "to" << alternativeConnection->url() << alternativeConnection->priority();
+        //            m_transportCandidates.remove(m_currentTransport);
+        //            m_currentTransport->deleteLater();
+        //            m_currentTransport = newTransport;
+        //        } else {
+        //            qDebug() << "Connection" << alternativeConnection->url() << alternativeConnection->priority() << "has lower priority than existing" << existingConnection->url() << existingConnection->priority();
+        //            m_transportCandidates.remove(newTransport);
+        //            newTransport->deleteLater();
+        //        }
         return;
     }
 }
@@ -395,7 +389,7 @@ void NymeaConnection::onDataAvailable(const QByteArray &data)
 {
     NymeaTransportInterface *t = static_cast<NymeaTransportInterface*>(sender());
     if (t == m_currentTransport) {
-//        qCDebug(dcNymeaConnection()) << "Data available";
+        //        qCDebug(dcNymeaConnection()) << "Data available";
         emit dataAvailable(data);
     } else {
         qCDebug(dcNymeaConnection()) << "Received data from a transport that is not the current one:" << t->url();
@@ -422,7 +416,7 @@ void NymeaConnection::onAvailableBearerTypesUpdated()
     if (!m_currentTransport) {
         // There's a host but no connection. Try connecting now...
         qCInfo(dcNymeaConnection()) << "There's a host but no connection. Trying to connect now...";
-        connectInternal(m_currentHost);
+        //connectInternal(m_currentHost);
     }
 }
 
@@ -469,7 +463,7 @@ void NymeaConnection::connectInternal(NymeaHost *host)
         connectInternal(loopbackConnection);
 
     } else if (m_networkReachabilityMonitor->availableBearerTypes().testFlag(NymeaConnection::BearerTypeWiFi)
-            || m_networkReachabilityMonitor->availableBearerTypes().testFlag(NymeaConnection::BearerTypeEthernet)) {
+               || m_networkReachabilityMonitor->availableBearerTypes().testFlag(NymeaConnection::BearerTypeEthernet)) {
         Connection* lanConnection = host->connections()->bestMatch(Connection::BearerTypeLan | Connection::BearerTypeWan);
         if (lanConnection) {
             qCDebug(dcNymeaConnection()) << "Best candidate LAN/WAN connection:" << lanConnection->url();
@@ -535,12 +529,12 @@ bool NymeaConnection::isConnectionBearerAvailable(Connection::BearerType connect
     switch (connectionBearerType) {
     case Connection::BearerTypeLan:
         return availableBearerTypes().testFlag(BearerTypeEthernet)
-                || availableBearerTypes().testFlag(BearerTypeWiFi);
+               || availableBearerTypes().testFlag(BearerTypeWiFi);
     case Connection::BearerTypeWan:
     case Connection::BearerTypeCloud:
         return availableBearerTypes().testFlag(BearerTypeEthernet)
-                || availableBearerTypes().testFlag(BearerTypeWiFi)
-                || availableBearerTypes().testFlag(BearerTypeMobileData);
+               || availableBearerTypes().testFlag(BearerTypeWiFi)
+               || availableBearerTypes().testFlag(BearerTypeMobileData);
     case Connection::BearerTypeBluetooth:
         return availableBearerTypes().testFlag(BearerTypeBluetooth);
     case Connection::BearerTypeUnknown:

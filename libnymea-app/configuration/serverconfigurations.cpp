@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -39,7 +33,7 @@ ServerConfigurations::ServerConfigurations(QObject *parent) : QAbstractListModel
 int ServerConfigurations::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant ServerConfigurations::data(const QModelIndex &index, int role) const
@@ -73,23 +67,23 @@ QHash<int, QByteArray> ServerConfigurations::roleNames() const
 void ServerConfigurations::addConfiguration(ServerConfiguration *configuration)
 {
     configuration->setParent(this);
-    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+    beginInsertRows(QModelIndex(), static_cast<int>(m_list.count()), static_cast<int>(m_list.count()));
     m_list.append(configuration);
 
     connect(configuration, &ServerConfiguration::addressChanged, this, [this, configuration]() {
-        QModelIndex idx = index(m_list.indexOf(configuration), 0);
+        QModelIndex idx = index(static_cast<int>(m_list.indexOf(configuration)), 0);
         emit dataChanged(idx, idx, {RoleAddress});
     });
     connect(configuration, &ServerConfiguration::portChanged, this, [this, configuration]() {
-        QModelIndex idx = index(m_list.indexOf(configuration), 0);
+        QModelIndex idx = index(static_cast<int>(m_list.indexOf(configuration)), 0);
         emit dataChanged(idx, idx, {RolePort});
     });
     connect(configuration, &ServerConfiguration::authenticationEnabledChanged, this, [this, configuration]() {
-        QModelIndex idx = index(m_list.indexOf(configuration), 0);
+        QModelIndex idx = index(static_cast<int>(m_list.indexOf(configuration)), 0);
         emit dataChanged(idx, idx, {RoleAuthenticationEnabled});
     });
     connect(configuration, &ServerConfiguration::sslEnabledChanged, this, [this, configuration]() {
-        QModelIndex idx = index(m_list.indexOf(configuration), 0);
+        QModelIndex idx = index(static_cast<int>(m_list.indexOf(configuration)), 0);
         emit dataChanged(idx, idx, {RoleSslEnabled});
     });
 
@@ -113,7 +107,9 @@ void ServerConfigurations::removeConfiguration(const QString &id)
 void ServerConfigurations::clear()
 {
     beginResetModel();
-    qDeleteAll(m_list);
+    foreach (ServerConfiguration *config, m_list)
+        config->deleteLater();
+
     m_list.clear();
     endResetModel();
     emit countChanged();

@@ -1,3 +1,27 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of libnymea-app.
+*
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
+*
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #ifndef XYSERIESADAPTER_H
 #define XYSERIESADAPTER_H
 
@@ -6,12 +30,16 @@
 #include <QObject>
 #include <QXYSeries>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0 ,0)
+using namespace QtCharts;
+#endif
+
 class XYSeriesAdapter : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(LogsModel* logsModel READ logsModel WRITE setLogsModel NOTIFY logsModelChanged)
-    Q_PROPERTY(QtCharts::QXYSeries* xySeries READ xySeries WRITE setXySeries NOTIFY xySeriesChanged)
-    Q_PROPERTY(QtCharts::QXYSeries* baseSeries READ baseSeries WRITE setBaseSeries NOTIFY baseSeriesChanged)
+    Q_PROPERTY(QXYSeries* xySeries READ xySeries WRITE setXySeries NOTIFY xySeriesChanged)
+    Q_PROPERTY(QXYSeries* baseSeries READ baseSeries WRITE setBaseSeries NOTIFY baseSeriesChanged)
 
     Q_PROPERTY(SampleRate sampleRate READ sampleRate WRITE setSampleRate NOTIFY sampleRateChanged)
     Q_PROPERTY(bool smooth READ smooth WRITE setSmooth NOTIFY smoothChanged)
@@ -35,11 +63,11 @@ public:
     LogsModel* logsModel() const;
     void setLogsModel(LogsModel *logsModel);
 
-    QtCharts::QXYSeries* xySeries() const;
-    void setXySeries(QtCharts::QXYSeries *series);
+    QXYSeries* xySeries() const;
+    void setXySeries(QXYSeries *series);
 
-    QtCharts::QXYSeries* baseSeries() const;
-    void setBaseSeries(QtCharts::QXYSeries *series);
+    QXYSeries* baseSeries() const;
+    void setBaseSeries(QXYSeries *series);
 
     SampleRate sampleRate() const;
     void setSampleRate(SampleRate sampleRate);
@@ -79,8 +107,8 @@ private:
         LogEntry *startingPoint = nullptr; // the starting point for the sample. Normally the last entry of the previous sample
     };
     LogsModel* m_model = nullptr;
-    QtCharts::QXYSeries* m_series = nullptr;
-    QtCharts::QXYSeries* m_baseSeries = nullptr;
+    QXYSeries* m_series = nullptr;
+    QXYSeries* m_baseSeries = nullptr;
     SampleRate m_sampleRate = SampleRateSecond;
     bool m_smooth = true;
     bool m_inverted = false;

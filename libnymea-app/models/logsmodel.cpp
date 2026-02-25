@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2020, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of libnymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* libnymea-app is free software: you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public License
+* as published by the Free Software Foundation, either version 3
+* of the License, or (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* libnymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU Lesser General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU Lesser General Public License
+* along with libnymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -68,7 +62,7 @@ void LogsModel::setEngine(Engine *engine)
 int LogsModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant LogsModel::data(const QModelIndex &index, int role) const
@@ -156,7 +150,9 @@ void LogsModel::setTypeIds(const QStringList &typeIds)
         emit typeIdsChanged();
         qCDebug(dcLogEngine()) << "Resetting model because type ids changed";
         beginResetModel();
-        qDeleteAll(m_list);
+        foreach (LogEntry *entry, m_list)
+            entry->deleteLater();
+
         m_list.clear();
         m_generatedEntries = 0;
         endResetModel();
@@ -253,7 +249,7 @@ LogEntry *LogsModel::findClosest(const QDateTime &dateTime)
         return nullptr;
     }
     int newest = 0;
-    int oldest = m_list.count() - 1;
+    int oldest = static_cast<int>(m_list.count()) - 1;
     LogEntry *entry = nullptr;
     int step = 0;
 
@@ -318,8 +314,8 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
     foreach (const QVariant &logEntryVariant, logEntries) {
         QVariantMap entryMap = logEntryVariant.toMap();
         QDateTime timeStamp = QDateTime::fromMSecsSinceEpoch(entryMap.value("timestamp").toLongLong());
-        QString thingId = entryMap.value("thingId").toString();
-        QString typeId = entryMap.value("typeId").toString();
+        QUuid thingId = entryMap.value("thingId").toUuid();
+        QUuid typeId = entryMap.value("typeId").toUuid();
         QMetaEnum sourceEnum = QMetaEnum::fromType<LogEntry::LoggingSource>();
         LogEntry::LoggingSource loggingSource = static_cast<LogEntry::LoggingSource>(sourceEnum.keyToValue(entryMap.value("source").toByteArray()));
         QMetaEnum loggingEventTypeEnum = QMetaEnum::fromType<LogEntry::LoggingEventType>();
@@ -354,7 +350,7 @@ void LogsModel::logsReply(int /*commandId*/, const QVariantMap &data)
         return;
     }
 
-    beginInsertRows(QModelIndex(), offset, offset + newBlock.count() - 1);
+    beginInsertRows(QModelIndex(), offset, offset + static_cast<int>(newBlock.count()) - 1);
     for (int i = 0; i < newBlock.count(); i++) {
 //        qCDebug(dcLogEngine()) << objectName() << "Inserting: list count" << m_list.count() << "blockSize" << newBlock.count() << "insterting at:" << offset + i;
         LogEntry *entry = newBlock.at(i);

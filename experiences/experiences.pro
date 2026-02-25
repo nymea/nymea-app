@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS += airconditioning
+SUBDIRS += airconditioning evdash

@@ -1,12 +1,37 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
-import QtQuick.Layouts 1.1
-import Nymea 1.0
-import NymeaApp.Utils 1.0
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of nymea-app.
+*
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import QtCharts
+import Nymea
+import NymeaApp.Utils
+
 import "../components"
 import "../customviews"
-import QtCharts 2.2
 
 Item {
     id: root
@@ -82,7 +107,7 @@ Item {
         property double minValue
         property double maxValue
 
-        onEntriesAddedIdx: {
+        onEntriesAddedIdx: (index, count) => {
 //            print("**** entries added", index, count, "entries in series:", valueSeries.count, "in model", logsModel.count)
             for (var i = 0; i < count; i++) {
                 var entry = logsModel.get(i)
@@ -133,7 +158,7 @@ Item {
 
             print("added entries. now in series:", valueSeries.count)
         }
-        onEntriesRemoved: {
+        onEntriesRemoved: (index, count) => {
             print("removing:", index, count, valueSeries.count)
             if (root.stateType.type.toLowerCase() == "bool") {
                 valueSeries.removePoints(index * 2, count * 2)
@@ -205,13 +230,24 @@ Item {
         }
 
         Item {
+            id: chartContainer
             Layout.fillWidth: true
             Layout.fillHeight: true
 
+            readonly property int yAxisLabelAreaWidth: labelsLayout.visible
+                                                       ? Math.max(Style.smallMargins * 2, Math.max(minValueLabelMetrics.width, maxValueLabelMetrics.width) + Style.smallMargins * 2)
+                                                       : 0
+
+            // Rectangle {
+            //     anchors.fill: parent
+            //     color: Style.tileBackgroundColor
+            //     radius: Style.cornerRadius
+            // }
 
             ChartView {
                 id: chartView
                 anchors.fill: parent
+                anchors.leftMargin: chartContainer.yAxisLabelAreaWidth
                 //                backgroundColor: "transparent"
                 margins.left: 0
                 margins.right: 0
@@ -234,15 +270,27 @@ Item {
 
                 Label {
                     anchors.centerIn: parent
-                    visible: !logsModel.busy && logsModel.count == 0
+                    visible: !logsModel.busy && logsModel.count === 0
                     text: qsTr("No data")
                     font: Style.smallFont
                     opacity: .5
                 }
 
+                TextMetrics {
+                    id: minValueLabelMetrics
+                    font: Style.extraSmallFont
+                    text: root.stateType ? Types.toUiValue(valueAxis.min, root.stateType.unit).toFixed(labelsLayout.precision) + " " + Types.toUiUnit(root.stateType.unit) : ""
+                }
+
+                TextMetrics {
+                    id: maxValueLabelMetrics
+                    font: Style.extraSmallFont
+                    text: root.stateType ? Types.toUiValue(valueAxis.max, root.stateType.unit).toFixed(labelsLayout.precision) + " " + Types.toUiUnit(root.stateType.unit) : ""
+                }
+
                 Label {
-                    x: chartView.x + chartView.plotArea.x + (chartView.plotArea.width - width) / 2
-                    y: chartView.y + chartView.plotArea.y + Style.smallMargins
+                    x: chartView.plotArea.x + (chartView.plotArea.width - width) / 2
+                    y: chartView.plotArea.y + Style.smallMargins
                     text: {
                         switch (d.sampleRate) {
                         case NewLogsModel.SampleRate1Min:
@@ -261,6 +309,7 @@ Item {
                     opacity: ((new Date().getTime() - d.now.getTime()) / d.sampleRate / 60000) > d.visibleValues ? .5 : 0
                     Behavior on opacity { NumberAnimation {} }
                 }
+
                 ValueAxis {
                     id: valueAxis
                     min: logsModel.minValue == undefined || logsModel.minValue == 0
@@ -279,32 +328,6 @@ Item {
                     labelsFont: Style.extraSmallFont
                     labelsColor: Style.foregroundColor
 
-                }
-                // Overriding the labels with our own as printf struggles with special chars
-                Item {
-                    id: labelsLayout
-                    x: Style.smallMargins
-                    y: chartView.plotArea.y
-                    height: chartView.plotArea.height
-                    width: chartView.plotArea.x - x
-                    visible: root.stateType.type.toLowerCase() != "bool" && logsModel.minValue != logsModel.maxValue
-                    property double range: Math.abs(valueAxis.max - valueAxis.min)
-                    property double stepSize: range / (valueAxis.tickCount - 1)
-                    property int precision: valueAxis.max - valueAxis.min < 5 ? 2 : 0
-
-                    Repeater {
-                        model: valueAxis.tickCount
-                        delegate: Label {
-                            y: parent.height / (valueAxis.tickCount - 1) * index - font.pixelSize / 2
-                            width: parent.width - Style.smallMargins
-                            horizontalAlignment: Text.AlignRight
-                            property double offset: (valueAxis.tickCount - index - 1) * labelsLayout.stepSize
-                            property double value: valueAxis.min + offset
-                            text: root.stateType ? Types.toUiValue(value, root.stateType.unit).toFixed(labelsLayout.precision) + " " + Types.toUiUnit(root.stateType.unit) : ""
-                            verticalAlignment: Text.AlignTop
-                            font: Style.extraSmallFont
-                        }
-                    }
                 }
 
                 DateTimeAxis {
@@ -389,13 +412,40 @@ Item {
                 }
             }
 
+            // Overriding the labels with our own as printf struggles with special chars
+            Item {
+                id: labelsLayout
+                x: Style.smallMargins
+                y: chartView.y + chartView.plotArea.y
+                height: chartView.plotArea.height
+                width: Math.max(0, chartContainer.yAxisLabelAreaWidth - Style.smallMargins)
+                visible: root.stateType && root.stateType.type.toLowerCase() != "bool" && logsModel.minValue != logsModel.maxValue
+                property double range: Math.abs(valueAxis.max - valueAxis.min)
+                property double stepSize: range / (valueAxis.tickCount - 1)
+                property int precision: valueAxis.max - valueAxis.min < 5 ? 2 : 0
+
+                Repeater {
+                    model: valueAxis.tickCount
+                    delegate: Label {
+                        y: parent.height / (valueAxis.tickCount - 1) * index - font.pixelSize / 2
+                        width: parent.width - Style.smallMargins
+                        horizontalAlignment: Text.AlignRight
+                        property double offset: (valueAxis.tickCount - index - 1) * labelsLayout.stepSize
+                        property double value: valueAxis.min + offset
+                        text: root.stateType ? Types.toUiValue(value, root.stateType.unit).toFixed(labelsLayout.precision) + " " + Types.toUiUnit(root.stateType.unit) : ""
+                        verticalAlignment: Text.AlignTop
+                        font: Style.extraSmallFont
+                    }
+                }
+            }
+
             MouseArea {
                 id: mouseArea
                 anchors.fill: parent
-                anchors.leftMargin: chartView.plotArea.x
-                anchors.topMargin: chartView.plotArea.y
-                anchors.rightMargin: chartView.width - chartView.plotArea.width - chartView.plotArea.x
-                anchors.bottomMargin: chartView.height - chartView.plotArea.height - chartView.plotArea.y
+                anchors.leftMargin: chartView.x + chartView.plotArea.x
+                anchors.topMargin: chartView.y + chartView.plotArea.y
+                anchors.rightMargin: chartContainer.width - (chartView.x + chartView.plotArea.x + chartView.plotArea.width)
+                anchors.bottomMargin: chartContainer.height - (chartView.y + chartView.plotArea.y + chartView.plotArea.height)
 
                 hoverEnabled: true
                 preventStealing: tooltipping || dragging
@@ -459,7 +509,7 @@ Item {
                     d.now = new Date(Math.min(new Date(), new Date(startDatetime.getTime() + timeDelta)))
                 }
 
-                onWheel: {
+                onWheel: (wheel) => {
                     startDatetime = d.now
                     var totalTime = d.endTime.getTime() - d.startTime.getTime()
                     // pixelDelta : timeDelta = width : totalTime

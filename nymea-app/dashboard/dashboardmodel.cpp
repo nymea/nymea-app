@@ -1,3 +1,27 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+*
+* This file is part of nymea-app.
+*
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
+*
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include "dashboardmodel.h"
 #include "dashboarditem.h"
 
@@ -12,7 +36,7 @@ DashboardModel::DashboardModel(QObject *parent) : QAbstractListModel(parent)
 int DashboardModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_list.count();
+    return static_cast<int>(m_list.count());
 }
 
 QVariant DashboardModel::data(const QModelIndex &index, int role) const
@@ -40,7 +64,7 @@ QHash<int, QByteArray> DashboardModel::roleNames() const
 
 DashboardItem *DashboardModel::get(int index) const
 {
-    if (index < 0 || index >= m_list.count()) {
+    if (index < 0 || index >= m_list.size()) {
         return nullptr;
     }
     return m_list.at(index);
@@ -127,7 +151,9 @@ void DashboardModel::loadFromJson(const QByteArray &json)
     }
     beginResetModel();
 
-    qDeleteAll(m_list);
+    foreach (DashboardItem *item, m_list)
+        item->deleteLater();
+
     m_list.clear();
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(json);
@@ -222,17 +248,17 @@ QByteArray DashboardModel::toJson() const
 
 void DashboardModel::addItem(DashboardItem *item, int index)
 {
-    if (index < 0 || index > m_list.count()) {
-        index = m_list.count();
+    if (index < 0 || index > m_list.size()) {
+        index = static_cast<int>(m_list.size());
     }
     connect(item, &DashboardItem::rowSpanChanged, this, [this, item](){
-        int idx = m_list.indexOf(item);
+        int idx = static_cast<int>(static_cast<int>(m_list.indexOf(item)));
         if (idx >= 0) {
             emit dataChanged(this->index(idx), this->index(idx), {RoleRowSpan});
         }
     });
     connect(item, &DashboardItem::columnSpanChanged, this, [this, item](){
-        int idx = m_list.indexOf(item);
+        int idx = static_cast<int>(static_cast<int>(m_list.indexOf(item)));
         if (idx >= 0) {
             emit dataChanged(this->index(idx), this->index(idx), {RoleColumnSpan});
         }
