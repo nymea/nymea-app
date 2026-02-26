@@ -43,6 +43,8 @@ Page {
     // a deepter layer as we need to include it in the blurring of the header and footer.
     // We don't want to paint the background on the entire screen twice (overdraw is costly)
     background: null
+    readonly property bool applyRootItemBottomMarginCompaction: true
+    readonly property int bottomMargin: footer.shown ? contentContainer.footerSize : 0
 
     function configureViews() {
         if (Configuration.hasOwnProperty("mainViewsFilter")) {
