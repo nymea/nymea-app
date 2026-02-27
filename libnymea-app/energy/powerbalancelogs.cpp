@@ -24,6 +24,7 @@
 
 #include "powerbalancelogs.h"
 
+#include <QMap>
 #include <QMetaEnum>
 
 PowerBalanceLogEntry::PowerBalanceLogEntry(QObject *parent): EnergyLogEntry(parent)
@@ -98,8 +99,15 @@ QString PowerBalanceLogs::logsName() const
 QList<EnergyLogEntry *> PowerBalanceLogs::unpackEntries(const QVariantMap &params, double *minValue, double *maxValue)
 {
     QList<EnergyLogEntry*> ret;
+    QMap<qint64, QVariantMap> deduplicatedEntries;
     foreach (const QVariant &variant, params.value("powerBalanceLogEntries").toList()) {
         QVariantMap map = variant.toMap();
+        // Keep the last row for a timestamp if the backend returned duplicates.
+        deduplicatedEntries.insert(map.value("timestamp").toLongLong(), map);
+    }
+
+    for (auto it = deduplicatedEntries.constBegin(); it != deduplicatedEntries.constEnd(); ++it) {
+        const QVariantMap &map = it.value();
         QDateTime timestamp = QDateTime::fromSecsSinceEpoch(map.value("timestamp").toLongLong());
         double consumption = map.value("consumption").toDouble();
         double production = map.value("production").toDouble();

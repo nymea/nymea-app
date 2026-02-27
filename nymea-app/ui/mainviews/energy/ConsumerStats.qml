@@ -80,6 +80,14 @@ StatsBase {
                 d.selectedThing = thing
             }
         }
+
+        function sampleMatches(entry, expectedTimestamp) {
+            if (!entry) {
+                return false
+            }
+            var maxDistance = d.config.sampleRate * 60 * 1000 / 2
+            return Math.abs(entry.timestamp.getTime() - expectedTimestamp.getTime()) <= maxDistance
+        }
     }
 
     ThingPowerLogsLoader {
@@ -133,22 +141,18 @@ StatsBase {
 //                    print("timestamp:", timestamp, "previous:", previousTimestamp)
                     var entry = thingPowerLogs.find(timestamp)
                     var previousEntry = thingPowerLogs.find(previousTimestamp);
-                    if (timestamp < upcomingTimestamp && entry && (previousEntry || !d.loading)) {
+                    var hasEntry = d.sampleMatches(entry, timestamp)
+                    var hasPreviousEntry = d.sampleMatches(previousEntry, previousTimestamp)
+                    if (timestamp < upcomingTimestamp && hasEntry && hasPreviousEntry) {
 //                        print("found entry:", entry.timestamp, previousEntry)
-                        var consumption = entry.totalConsumption
-                        if (previousEntry) {
-                            consumption -= previousEntry.totalConsumption
-                        }
+                        var consumption = entry.totalConsumption - previousEntry.totalConsumption
                         barSet.replace(i, consumption)
                         valueAxis.adjustMax(consumption)
 
-                    } else if (timestamp.getTime() == upcomingTimestamp.getTime() && (previousEntry || !d.loading) && thingPowerLogs.liveEntry()) {
+                    } else if (timestamp.getTime() == upcomingTimestamp.getTime() && hasPreviousEntry && thingPowerLogs.liveEntry()) {
                         var consumption = thingPowerLogs.liveEntry().totalConsumption
 //                        print("it's today for thing", thing.name, consumption, previousEntry)
-                        if (previousEntry) {
-//                            print("previous timestamp", previousEntry.timestamp, previousEntry.totalConsumption)
-                            consumption -= previousEntry.totalConsumption
-                        }
+                        consumption -= previousEntry.totalConsumption
                         barSet.replace(i, consumption)
                         valueAxis.adjustMax(consumption)
                     } else {

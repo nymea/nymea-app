@@ -79,6 +79,14 @@ StatsBase {
             }
         }
 
+        function sampleMatches(entry, expectedTimestamp) {
+            if (!entry) {
+                return false
+            }
+            var maxDistance = d.config.sampleRate * 60 * 1000 / 2
+            return Math.abs(entry.timestamp.getTime() - expectedTimestamp.getTime()) <= maxDistance
+        }
+
         function refresh() {
             if (powerBalanceLogs.loadingInhibited) {
                 return;
@@ -90,25 +98,19 @@ StatsBase {
             for (var i = 0; i < d.config.count; i++) {
                 var timestamp = root.calculateTimestamp(d.config.startTime(), d.config.sampleRate, d.startOffset + i + 1)
                 var previousTimestamp = root.calculateTimestamp(timestamp, d.config.sampleRate, -1)
-                var idx = powerBalanceLogs.indexOf(timestamp);
-                var entry = powerBalanceLogs.get(idx)
-//                print("timestamp:", timestamp, "previousTimestamp:", previousTimestamp)
+                var entry = powerBalanceLogs.find(timestamp)
                 var previousEntry = powerBalanceLogs.find(previousTimestamp);
-                if (timestamp < upcomingTimestamp && entry && (previousEntry || !d.loading)) {
-//                    print("found entry:", entry.timestamp, entry.totalConsumption)
-//                    if (previousEntry) {
-//                        print("found previous:", previousEntry.timestamp, previousEntry.totalConsumption)
-//                    }
+                var hasEntry = sampleMatches(entry, timestamp)
+                var hasPreviousEntry = sampleMatches(previousEntry, previousTimestamp)
+                if (timestamp < upcomingTimestamp && hasEntry && hasPreviousEntry) {
                     var consumption = entry.totalConsumption
                     var production = entry.totalProduction
                     var acquisition = entry.totalAcquisition
                     var returned = entry.totalReturn
-                    if (previousEntry) {
-                        consumption -= previousEntry.totalConsumption
-                        production -= previousEntry.totalProduction
-                        acquisition -= previousEntry.totalAcquisition
-                        returned -= previousEntry.totalReturn
-                    }
+                    consumption -= previousEntry.totalConsumption
+                    production -= previousEntry.totalProduction
+                    acquisition -= previousEntry.totalAcquisition
+                    returned -= previousEntry.totalReturn
                     consumptionSet.replace(i, consumption)
                     productionSet.replace(i, production)
                     acquisitionSet.replace(i, acquisition)
@@ -117,18 +119,16 @@ StatsBase {
                     valueAxis.adjustMax(production)
                     valueAxis.adjustMax(acquisition)
                     valueAxis.adjustMax(returned)
-                } else if (timestamp.getTime() == upcomingTimestamp.getTime() && (previousEntry || !d.loading)) {
+                } else if (timestamp.getTime() == upcomingTimestamp.getTime() && hasPreviousEntry) {
 //                    print("it's today!")
                     var consumption = energyManager.totalConsumption
                     var production = energyManager.totalProduction
                     var acquisition = energyManager.totalAcquisition
                     var returned = energyManager.totalReturn
-                    if (previousEntry) {
-                        consumption -= previousEntry.totalConsumption
-                        production -= previousEntry.totalProduction
-                        acquisition -= previousEntry.totalAcquisition
-                        returned -= previousEntry.totalReturn
-                    }
+                    consumption -= previousEntry.totalConsumption
+                    production -= previousEntry.totalProduction
+                    acquisition -= previousEntry.totalAcquisition
+                    returned -= previousEntry.totalReturn
                     consumptionSet.replace(i, consumption)
                     productionSet.replace(i, production)
                     acquisitionSet.replace(i, acquisition)

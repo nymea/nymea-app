@@ -24,6 +24,8 @@
 
 #include "thingpowerlogs.h"
 
+#include <limits>
+#include <QMap>
 #include <QMetaEnum>
 
 #include <QLoggingCategory>
@@ -142,25 +144,37 @@ QVariantMap ThingPowerLogs::fetchParams() const
 
 QList<EnergyLogEntry *> ThingPowerLogs::unpackEntries(const QVariantMap &params, double *minValue, double *maxValue)
 {
+    qint64 newestCurrentTimestamp = std::numeric_limits<qint64>::min();
     foreach (const QVariant &variant, params.value("currentEntries").toList()) {
         QVariantMap map = variant.toMap();
         if (map.value("thingId").toUuid() != m_thingId) {
             continue;
         }
+        const qint64 timestamp = map.value("timestamp").toLongLong();
+        if (timestamp < newestCurrentTimestamp) {
+            continue;
+        }
+        newestCurrentTimestamp = timestamp;
         if (m_liveEntry) {
             m_liveEntry->deleteLater();
         }
         m_liveEntry = unpack(map);
         emit liveEntryChanged(m_liveEntry);
-        break;
     }
 
     QList<EnergyLogEntry*> ret;
+    QMap<qint64, QVariantMap> deduplicatedEntries;
     foreach (const QVariant &variant, params.value("thingPowerLogEntries").toList()) {
         QVariantMap map = variant.toMap();
         if (map.value("thingId").toUuid() != m_thingId) {
             continue;
         }
+        // Keep the last row for a timestamp if the backend returned duplicates.
+        deduplicatedEntries.insert(map.value("timestamp").toLongLong(), map);
+    }
+
+    for (auto it = deduplicatedEntries.constBegin(); it != deduplicatedEntries.constEnd(); ++it) {
+        const QVariantMap &map = it.value();
         QDateTime timestamp = QDateTime::fromSecsSinceEpoch(map.value("timestamp").toLongLong());
         QUuid thingId = map.value("thingId").toUuid();
         double currentPower = map.value("currentPower").toDouble();
