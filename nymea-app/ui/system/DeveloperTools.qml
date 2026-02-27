@@ -33,26 +33,109 @@ SettingsPageBase {
     id: root
     title: qsTr("Developer tools")
 
-    property WebServerConfiguration usedConfig: {
-        var config = null
-        for (var i = 0; i < engine.nymeaConfiguration.webServerConfigurations.count; i++) {
-            var tmp = engine.nymeaConfiguration.webServerConfigurations.get(i)
-            print("checking config:", tmp.id, tmp.address, tmp.port, tmp.sslEnabled)
-            if (tmp.address === engine.jsonRpcClient.currentConnection.hostAddress || tmp.address === "0.0.0.0") {
+    readonly property string serverIpAddress: resolveServerIpAddress()
+    readonly property var webServerConfiguration: resolveWebServerConfiguration()
 
-                // This one prefers https over http...
-                //                if (config === null || (!config.sslEnabled && tmp.sslEnabled)) {
-
-                // ...but for now, prefer http because self signed certs cause trouble and this is meant for local debugging only anyways...
-                if (config === null || (config.sslEnabled && !tmp.sslEnabled)) {
-                    config = tmp;
-                }
-                continue;
-            }
+    readonly property string dashboardUrl: {
+        if (root.serverIpAddress === "" || root.webServerConfiguration === null) {
+            return ""
         }
-        return config;
+
+        var protocol = root.webServerConfiguration.sslEnabled ? "https" : "http"
+        return protocol + "://" + root.serverIpAddress + ":" + root.webServerConfiguration.port + "/debug"
     }
 
+    function normalizeAddress(address) {
+        if (!address) {
+            return ""
+        }
+
+        var normalizedAddress = address.toString().trim()
+        var slashIndex = normalizedAddress.indexOf("/")
+        if (slashIndex >= 0) {
+            normalizedAddress = normalizedAddress.slice(0, slashIndex)
+        }
+
+        return normalizedAddress
+    }
+
+    NetworkManager {
+        id: networkManager
+        engine: _engine
+    }
+
+    function getActiveIpv4Address(networkDevices) {
+        if (!networkDevices)
+            return ""
+
+        for (var i = 0; i < networkDevices.count; i++) {
+            var networkDevice = networkDevices.get(i)
+            if (!networkDevice || networkDevice.state !== NetworkDevice.NetworkDeviceStateActivated)
+                continue
+
+            for (var j = 0; j < networkDevice.ipv4Addresses.length; j++) {
+                var address = root.normalizeAddress(networkDevice.ipv4Addresses[j])
+                if (address !== "") {
+                    return address
+                }
+            }
+        }
+
+        return ""
+    }
+
+    function resolveServerIpAddress() {
+        var address = root.getActiveIpv4Address(networkManager.wiredNetworkDevices)
+        if (address !== "") {
+            console.log("--> server IP (LAN):", address)
+            return address
+        }
+
+        address = root.getActiveIpv4Address(networkManager.wirelessNetworkDevices)
+        if (address !== "")
+            console.log("--> server IP (WLAN):", address)
+
+        return address
+    }
+
+    function preferredConfiguration(currentConfiguration, candidateConfiguration) {
+        if (currentConfiguration === null) {
+            return candidateConfiguration
+        }
+
+        // Prefer http over https to avoid local self-signed certificate issues.
+        if (currentConfiguration.sslEnabled && !candidateConfiguration.sslEnabled) {
+            return candidateConfiguration
+        }
+
+        return currentConfiguration
+    }
+
+    function resolveWebServerConfiguration() {
+        if (!engine || !engine.nymeaConfiguration)
+            return null
+
+        var exactMatchConfiguration = null
+        var wildcardConfiguration = null
+
+        for (var i = 0; i < engine.nymeaConfiguration.webServerConfigurations.count; i++) {
+            var configuration = engine.nymeaConfiguration.webServerConfigurations.get(i)
+            console.log("--->", (configuration.sslEnabled ? "https" : "http"), configuration.address, configuration.port)
+            if (!configuration || configuration.address === "127.0.0.1")
+                continue
+
+            if (configuration.address === root.serverIpAddress) {
+                exactMatchConfiguration = root.preferredConfiguration(exactMatchConfiguration, configuration)
+                continue
+            }
+
+            if (configuration.address === "0.0.0.0") {
+                wildcardConfiguration = root.preferredConfiguration(wildcardConfiguration, configuration)
+            }
+        }
+
+        return exactMatchConfiguration !== null ? exactMatchConfiguration : wildcardConfiguration
+    }
 
     SettingsPageSectionHeader {
         text: qsTr("Debug server")
@@ -79,42 +162,45 @@ SettingsPageBase {
 
     Label {
         Layout.fillWidth: true
-        Layout.leftMargin: app.margins
-        Layout.rightMargin: app.margins
-        text: qsTr("The web server cannot be reached on %1.").arg(engine.jsonRpcClient.currentConnection.hostAddress)
+        Layout.margins: Style.margins
         wrapMode: Text.WordWrap
-        font.pixelSize: app.smallFont
+        visible: engine.nymeaConfiguration.debugServerEnabled && root.serverIpAddress === ""
         color: "red"
-        visible: engine.nymeaConfiguration.webServerConfigurations.count > 0 && root.usedConfig === null
-    }
-
-    Label {
-        Layout.fillWidth: true
-        Layout.leftMargin: app.margins
-        Layout.rightMargin: app.margins
-        text: qsTr("Please enable the web server to be accessed on this address.")
-        wrapMode: Text.WordWrap
-        font.pixelSize: app.smallFont
-        visible: engine.nymeaConfiguration.webServerConfigurations.count > 0 && root.usedConfig == null
+        text: qsTr("No active LAN IPv4 address was found in the network settings.")
     }
 
     Label {
         Layout.fillWidth: true
         Layout.margins: Style.margins
         wrapMode: Text.WordWrap
-        visible: debugServerEnabledSwitch.checked && root.usedConfig != null
-        text: {
-            var proto = "http" + (root.usedConfig.sslEnabled ? "s" : "") + "://"
-            var path = engine.jsonRpcClient.currentConnection.hostAddress + ":" + root.usedConfig.port + "/debug"
-            return qsTr("Debug interface active at %1.").arg('<a href="' + proto + path + '">' + proto + path + '</a>')
-        }
-        onLinkActivated: (link) => Qt.openUrlExternally(link)
+        visible: engine.nymeaConfiguration.debugServerEnabled && root.serverIpAddress !== "" && root.webServerConfiguration === null
+        color: "red"
+        text: qsTr("No reachable web server configuration was found for %1. Please enable the web server on this address or on 0.0.0.0.").arg(root.serverIpAddress)
+    }
+
+    Label {
+        Layout.fillWidth: true
+        Layout.margins: Style.margins
+        wrapMode: Text.WordWrap
+        visible: engine.nymeaConfiguration.debugServerEnabled && root.dashboardUrl !== ""
+        text: qsTr("The debug interface can only be reached from the LAN. If you are using the remote connection, the following link might not work.")
+    }
+
+    NymeaSwipeDelegate {
+        Layout.fillWidth: true
+        iconName: "qrc:/icons/stock_website.svg"
+        text: qsTr("Open debug interface")
+        subText: root.dashboardUrl
+        prominentSubText: true
+        wrapTexts: false
+        visible: engine.nymeaConfiguration.debugServerEnabled && root.dashboardUrl !== ""
+        progressive: true
+        onClicked: { Qt.openUrlExternally(root.dashboardUrl) }
     }
 
     SettingsPageSectionHeader {
         text: qsTr("Server logging")
     }
-
 
     NymeaSwipeDelegate {
         Layout.fillWidth: true
@@ -122,12 +208,4 @@ SettingsPageBase {
         progressive: true
         onClicked: pageStack.push(Qt.resolvedUrl("ServerLoggingCategoriesPage.qml"))
     }
-
-    // NymeaSwipeDelegate {
-    //     Layout.fillWidth: true
-    //     text: qsTr("Server live logs")
-    //     progressive: true
-    //     //onClicked: pageStack.push(Qt.resolvedUrl("PluginParamsPage.qml"), {plugin: plugin})
-    // }
-
 }
