@@ -34,7 +34,7 @@ class WirelessAccessPointsProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(WirelessAccessPoints* accessPoints READ accessPoints WRITE setAccessPoints)
+    Q_PROPERTY(WirelessAccessPoints *accessPoints READ accessPoints WRITE setAccessPoints)
     Q_PROPERTY(bool showDuplicates READ showDuplicates WRITE setShowDuplicates NOTIFY showDuplicatesChanged FINAL)
 
 public:
@@ -43,7 +43,7 @@ public:
     WirelessAccessPoints *accessPoints() const;
     void setAccessPoints(WirelessAccessPoints *accessPoints);
 
-    Q_INVOKABLE WirelessAccessPoint* get(int index) const;
+    Q_INVOKABLE WirelessAccessPoint *get(int index) const;
 
     bool showDuplicates() const;
     void setShowDuplicates(bool showDuplicates);

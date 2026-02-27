@@ -51,6 +51,8 @@ public:
 
     void createFromVariantList(const QVariantList &loggingCategories);
 
+    ServerLoggingCategory *get(int index) const;
+
 private:
     QList<ServerLoggingCategory *> m_list;
 

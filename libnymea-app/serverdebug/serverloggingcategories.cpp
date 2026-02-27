@@ -24,6 +24,8 @@
 
 #include "serverloggingcategories.h"
 
+#include <QDebug>
+
 ServerLoggingCategories::ServerLoggingCategories(QObject *parent)
     : QAbstractListModel{parent}
 {}
@@ -68,6 +70,19 @@ void ServerLoggingCategories::createFromVariantList(const QVariantList &loggingC
 
     foreach(const QVariant &categoryVariant, loggingCategories) {
         QVariantMap categoryMap = categoryVariant.toMap();
+
+        // Make sure we don't add duplicated categories
+        bool duplicated = false;
+        foreach(ServerLoggingCategory *c, m_list) {
+            if (c->name() == categoryMap.value("name").toString()) {
+                qWarning() << "Duplicated server logging category" << categoryMap;
+                duplicated = true;
+            }
+        }
+
+        if (duplicated)
+            continue;
+
         ServerLoggingCategory *category = new ServerLoggingCategory(categoryMap, this);
 
         connect(category, &ServerLoggingCategory::levelChanged, this, [this, category](ServerLoggingCategory::Level level) {
@@ -80,4 +95,13 @@ void ServerLoggingCategories::createFromVariantList(const QVariantList &loggingC
     }
 
     endResetModel();
+}
+
+ServerLoggingCategory *ServerLoggingCategories::get(int index) const
+{
+    if (index < 0 || index >= m_list.count()) {
+        return nullptr;
+    }
+
+    return m_list.at(index);
 }
