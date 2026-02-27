@@ -1,30 +1,24 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright 2013 - 2025, nymea GmbH
-* Contact: contact@nymea.io
+* Copyright (C) 2013 - 2024, nymea GmbH
+* Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
-* This file is part of nymea.
-* This project including source code and documentation is protected by
-* copyright law, and remains the property of nymea GmbH. All rights, including
-* reproduction, publication, editing and translation, are reserved. The use of
-* this project is subject to the terms of a license agreement to be concluded
-* with nymea GmbH in accordance with the terms of use of nymea GmbH, available
-* under https://nymea.io/license
+* This file is part of nymea-app.
 *
-* GNU General Public License Usage
-* Alternatively, this project may be redistributed and/or modified under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation, GNU version 3. This project is distributed in the hope that it
-* will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
-* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-* Public License for more details.
+* nymea-app is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
-* You should have received a copy of the GNU General Public License along with
-* this project. If not, see <https://www.gnu.org/licenses/>.
+* nymea-app is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+* General Public License for more details.
 *
-* For any further details and any questions please contact us under
-* contact@nymea.io or see our FAQ/Licensing Information on
-* https://nymea.io/license/faq
+* You should have received a copy of the GNU General Public License
+* along with nymea-app. If not, see <https://www.gnu.org/licenses/>.
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -37,10 +31,106 @@ import NymeaApp.Utils
 
 import Nymea.EvDash
 
-import "../components"
+import "qrc:/ui/components"
 
 SettingsPageBase {
     id: root
+
+    readonly property string serverIpAddress: resolveServerIpAddress()
+    readonly property var webServerConfiguration: resolveWebServerConfiguration()
+    readonly property string dashboardUrl: {
+        if (root.serverIpAddress === "" || root.webServerConfiguration === null) {
+            return ""
+        }
+
+        var protocol = root.webServerConfiguration.sslEnabled ? "https" : "http"
+        return protocol + "://" + root.serverIpAddress + ":" + root.webServerConfiguration.port + "/evdash"
+    }
+
+    function normalizeAddress(address) {
+        if (!address)
+            return ""
+
+        var normalizedAddress = address.toString().trim()
+        var slashIndex = normalizedAddress.indexOf("/")
+        if (slashIndex >= 0)
+            normalizedAddress = normalizedAddress.slice(0, slashIndex)
+
+        return normalizedAddress
+    }
+
+    function getActiveIpv4Address(networkDevices) {
+        if (!networkDevices) {
+            return ""
+        }
+
+        for (var i = 0; i < networkDevices.count; i++) {
+            var networkDevice = networkDevices.get(i)
+            if (!networkDevice || networkDevice.state !== NetworkDevice.NetworkDeviceStateActivated)
+                continue
+
+            for (var j = 0; j < networkDevice.ipv4Addresses.length; j++) {
+                var address = root.normalizeAddress(networkDevice.ipv4Addresses[j])
+                if (address !== "") {
+                    return address
+                }
+            }
+        }
+
+        return ""
+    }
+
+    function resolveServerIpAddress() {
+        var address = root.getActiveIpv4Address(networkManager.wiredNetworkDevices)
+        if (address !== "") {
+            console.log("--> server IP (LAN):", address)
+            return address
+        }
+
+        address = root.getActiveIpv4Address(networkManager.wirelessNetworkDevices)
+        if (address !== "")
+            console.log("--> server IP (WLAN):", address)
+
+        return address
+    }
+
+    function preferredConfiguration(currentConfiguration, candidateConfiguration) {
+        if (currentConfiguration === null)
+            return candidateConfiguration
+
+        // Prefer non-SSL to avoid local self-signed certificate issues.
+        if (currentConfiguration.sslEnabled && !candidateConfiguration.sslEnabled)
+            return candidateConfiguration
+
+        return currentConfiguration
+    }
+
+    function resolveWebServerConfiguration() {
+        if (!evDashManager.engine || !evDashManager.engine.nymeaConfiguration)
+            return null
+
+        var exactMatchConfiguration = null
+        var wildcardConfiguration = null
+
+        for (var i = 0; i < evDashManager.engine.nymeaConfiguration.webServerConfigurations.count; i++) {
+            var configuration = evDashManager.engine.nymeaConfiguration.webServerConfigurations.get(i)
+            console.log("--->", (configuration.sslEnabled ? "https" : "http"), configuration.address, configuration.port)
+
+            if (!configuration || configuration.address === "127.0.0.1")
+                continue
+
+            if (configuration.address === root.serverIpAddress) {
+                exactMatchConfiguration = root.preferredConfiguration(exactMatchConfiguration, configuration)
+                continue
+            }
+
+            if (configuration.address === "0.0.0.0") {
+                wildcardConfiguration = root.preferredConfiguration(wildcardConfiguration, configuration)
+            }
+        }
+
+        return exactMatchConfiguration !== null ? exactMatchConfiguration : wildcardConfiguration
+    }
 
     header: NymeaHeader {
         text: qsTr("EV Dash")
@@ -60,11 +150,15 @@ SettingsPageBase {
         engine: _engine
     }
 
-    Component {
-        id: errorDialog
-        ErrorDialog {}
+    NetworkManager {
+        id: networkManager
+        engine: _engine
     }
 
+    Component {
+        id: errorDialog
+        ErrorDialog { }
+    }
 
     Component {
         id: removeUserPopup
@@ -131,6 +225,77 @@ SettingsPageBase {
         }
     }
 
+    SwitchDelegate {
+        text: qsTr("Dashboard enabled")
+        checked: evDashManager.enabled
+        onCheckedChanged: evDashManager.enabled = checked
+        Layout.fillWidth: true
+    }
+
+    Label {
+        Layout.fillWidth: true
+        Layout.margins: Style.margins
+        wrapMode: Text.WordWrap
+        visible: evDashManager.enabled
+        text: qsTr("The dashboard can only be reached from the LAN. If you are using the remote connection, the following link might not work.")
+    }
+
+    Label {
+        Layout.fillWidth: true
+        Layout.margins: Style.margins
+        wrapMode: Text.WordWrap
+        visible: evDashManager.enabled && root.serverIpAddress === ""
+        color: "red"
+        text: qsTr("No active LAN IPv4 address was found in the network settings.")
+    }
+
+    Label {
+        Layout.fillWidth: true
+        Layout.margins: Style.margins
+        wrapMode: Text.WordWrap
+        visible: evDashManager.enabled && root.serverIpAddress !== "" && root.webServerConfiguration === null
+        color: "red"
+        text: qsTr("No reachable web server configuration was found for %1. Please enable the web server on this address or on 0.0.0.0.").arg(root.serverIpAddress)
+    }
+
+    NymeaSwipeDelegate {
+        Layout.fillWidth: true
+        iconName: "qrc:/icons/stock_website.svg"
+        text: qsTr("Open EVDash")
+        subText: root.dashboardUrl
+        prominentSubText: true
+        wrapTexts: false
+        visible: evDashManager.enabled && root.dashboardUrl !== ""
+        progressive: true
+        onClicked: { Qt.openUrlExternally(root.dashboardUrl) }
+    }
+
+    SettingsPageSectionHeader {
+        text: qsTr("Manage users")
+    }
+
+    Repeater {
+        id: usersList
+
+        model: evDashManager.users
+        delegate: NymeaItemDelegate {
+            Layout.fillWidth: true
+            text: model.name
+            iconName: "account"
+            progressive: false
+            additionalItem: ColorIcon {
+                name: "delete"
+                color: Style.foregroundColor
+                anchors.verticalCenter:  parent.verticalCenter
+            }
+
+            onClicked: {
+                var popup = removeUserPopup.createObject(app, {username: model.name});
+                popup.open()
+            }
+        }
+    }
+
     Component {
         id: addUserPopup
 
@@ -177,40 +342,6 @@ SettingsPageBase {
                 onClicked: {
                     addUserDialog.close()
                 }
-            }
-        }
-    }
-
-
-    SwitchDelegate {
-        text: qsTr("Dashboard enabled")
-        checked: evDashManager.enabled
-        onCheckedChanged: evDashManager.enabled = checked
-        Layout.fillWidth: true
-    }
-
-    SettingsPageSectionHeader {
-        text: qsTr("Manage users")
-    }
-
-    Repeater {
-        id: usersList
-        model: evDashManager.users
-
-        delegate: NymeaItemDelegate {
-            Layout.fillWidth: true
-            text: model.name
-            iconName: "account"
-            progressive: false
-            additionalItem: ColorIcon {
-                name: "delete"
-                color: Style.foregroundColor
-                anchors.verticalCenter:  parent.verticalCenter
-            }
-
-            onClicked: {
-                var popup = removeUserPopup.createObject(app, {username: model.name});
-                popup.open()
             }
         }
     }
