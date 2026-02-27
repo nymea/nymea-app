@@ -1,3 +1,12 @@
+nymea-app (1.11.6) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add and improve dashboard links in the settings
+  * Fix energy stats lookup and deduplicate fetched log samples
+  * Introduce system based updates and add progress and changelog
+
+ -- jenkins <developer@nymea.io>  Fri, 27 Feb 2026 20:07:59 +0100
+
 nymea-app (1.11.3) bionic; urgency=medium
 
   [ Simon Stürz ]
