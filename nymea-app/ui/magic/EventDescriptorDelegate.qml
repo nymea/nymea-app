@@ -61,7 +61,7 @@ NymeaSwipeDelegate {
                 operatorString = " = ";
                 break;
             case ParamDescriptor.ValueOperatorNotEquals:
-                operatorString = " != ";
+                operatorString = " !== ";
                 break;
             case ParamDescriptor.ValueOperatorGreater:
                 operatorString = " > ";

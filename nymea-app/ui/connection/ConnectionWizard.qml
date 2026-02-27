@@ -153,7 +153,7 @@ WizardPageBase {
                     Layout.fillWidth: true
 
                     onClicked: {
-                        if (PlatformPermissions.bluetoothPermission != PlatformPermissions.PermissionStatusGranted) {
+                        if (PlatformPermissions.bluetoothPermission !== PlatformPermissions.PermissionStatusGranted) {
                             PlatformPermissions.requestPermission(PlatformPermissions.PermissionBluetooth)
                         }
                         pageStack.push(wirelessInstructionsComponent)
@@ -219,7 +219,7 @@ WizardPageBase {
                     ColumnLayout {
                         anchors.centerIn: parent
                         width: parent.width
-                        visible: hostsProxy.count == 0
+                        visible: hostsProxy.count === 0
                         spacing: Style.margins
                         BusyIndicator {
                             Layout.alignment: Qt.AlignHCenter

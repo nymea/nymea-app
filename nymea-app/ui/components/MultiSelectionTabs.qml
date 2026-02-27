@@ -37,6 +37,7 @@ Rectangle {
     property color selectionColor: Style.tileOverlayColor
     property alias model: repeater.model
     property var selectedItems: []
+    property int tabHeight: 0
 
     Rectangle {
         id: clipMask
@@ -56,7 +57,7 @@ Rectangle {
 
             delegate: Item {
                 Layout.fillWidth: true
-                height: label.implicitHeight + Style.smallMargins
+                height: root.tabHeight > 0 ? root.tabHeight : label.implicitHeight + Style.smallMargins
                 Rectangle {
                     anchors.fill: parent
                     color: root.selectionColor
@@ -98,5 +99,4 @@ Rectangle {
         }
     }
 }
-
 

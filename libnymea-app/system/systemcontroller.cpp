@@ -25,20 +25,23 @@
 #include "systemcontroller.h"
 
 #include "types/package.h"
-#include "types/repository.h"
 #include "types/packages.h"
 #include "types/repositories.h"
+#include "types/repository.h"
 
-#include <QTimeZone>
 #include <QJsonDocument>
+#include <QMetaEnum>
+#include <QTimeZone>
+
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcSystemController, "SystemController")
 
-SystemController::SystemController(JsonRpcClient *jsonRpcClient, QObject *parent):
-    QObject(parent),
-    m_jsonRpcClient(jsonRpcClient)
+SystemController::SystemController(JsonRpcClient *jsonRpcClient, QObject *parent)
+    : QObject(parent)
+    , m_jsonRpcClient(jsonRpcClient)
 {
     m_jsonRpcClient->registerNotificationHandler(this, "System", "notificationReceived");
+
     m_packages = new Packages(this);
     m_repositories = new Repositories(this);
 
@@ -73,6 +76,11 @@ bool SystemController::updateManagementAvailable() const
     return m_updateManagementAvailable;
 }
 
+SystemController::UpdateType SystemController::updateManagementType() const
+{
+    return m_updateManagementType;
+}
+
 int SystemController::restart()
 {
     return m_jsonRpcClient->sendCommand("System.Restart", this, "restartResponse");
@@ -96,6 +104,11 @@ bool SystemController::updateManagementBusy() const
 bool SystemController::updateRunning() const
 {
     return m_updateRunning;
+}
+
+int SystemController::updateProgress() const
+{
+    return m_updateProgress;
 }
 
 void SystemController::checkForUpdates()
@@ -172,7 +185,7 @@ QString SystemController::serverTimeZone() const
     // NOTE: Ideally we'd just set the TimeZone of our serverTime prooperly, however, there's a bug on Android
     // Which doesn't allow to create QTimeZone objects by IANA id.... So, let's keep that separated in a string
     // https://bugreports.qt.io/browse/QTBUG-83438
-//    return m_serverTime.timeZone().id();
+    //    return m_serverTime.timeZone().id();
     return m_serverTimeZone;
 }
 
@@ -207,11 +220,25 @@ QString SystemController::deviceSerialNumber() const
 
 void SystemController::getCapabilitiesResponse(int /*commandId*/, const QVariantMap &data)
 {
+    qCDebug(dcSystemController()) << data;
     m_powerManagementAvailable = data.value("powerManagement").toBool();
     emit powerManagementAvailableChanged();
 
     m_updateManagementAvailable = data.value("updateManagement").toBool();
     emit updateManagementAvailableChanged();
+
+    // Since API version 8.5
+    if (data.contains("updateManagementType")) {
+        QMetaEnum updateTypeEnum = QMetaEnum::fromType<SystemController::UpdateType>();
+        m_updateManagementType = static_cast<SystemController::UpdateType>(updateTypeEnum.keyToValue(data.value("updateManagementType").toByteArray()));
+    } else {
+        // Property exists since API 8.5, if there is an update management available, default to UpdateTypePackageManager
+        if (m_updateManagementAvailable) {
+            m_updateManagementType = UpdateTypePackageManager;
+        } else {
+            m_updateManagementType = UpdateTypeNone;
+        }
+    }
 
     m_timeManagementAvailable = data.value("timeManagement").toBool();
     emit timeManagementAvailableChanged();
@@ -226,7 +253,15 @@ void SystemController::getCapabilitiesResponse(int /*commandId*/, const QVariant
         m_jsonRpcClient->sendCommand("System.GetTime", this, "getServerTimeResponse");
     }
 
-    qCDebug(dcSystemController) << "nymea:core capabilities: Power management:" << m_powerManagementAvailable << "Update management:" << m_updateManagementAvailable << "Time management:" << m_timeManagementAvailable;
+    qCDebug(dcSystemController())
+        << "nymea:core capabilities: Power management:"
+        << m_powerManagementAvailable
+        << "Update management:"
+        << m_updateManagementAvailable
+        << "Update management type:"
+        << m_updateManagementType
+        << "Time management:"
+        << m_timeManagementAvailable;
 }
 
 void SystemController::getUpdateStatusResponse(int /*commandId*/, const QVariantMap &data)
@@ -234,13 +269,17 @@ void SystemController::getUpdateStatusResponse(int /*commandId*/, const QVariant
     qCDebug(dcSystemController()) << "Update status:" << qUtf8Printable(QJsonDocument::fromVariant(data).toJson(QJsonDocument::Indented));
     m_updateManagementBusy = data.value("busy").toBool();
     m_updateRunning = data.value("updateRunning").toBool();
+    m_updateProgress = data.value("updateProgress", -1).toInt(); // Since API 8.5, optional
+
     emit updateRunningChanged();
+    emit updateManagementBusyChanged();
+    emit updateProgressChanged();
 }
 
 void SystemController::getPackagesResponse(int commandId, const QVariantMap &data)
 {
     Q_UNUSED(commandId)
-    qCDebug(dcSystemController) << "Packages:" << qUtf8Printable(QJsonDocument::fromVariant(data).toJson(QJsonDocument::Indented));
+    qCDebug(dcSystemController()) << "Packages:" << qUtf8Printable(QJsonDocument::fromVariant(data).toJson(QJsonDocument::Indented));
     foreach (const QVariant &packageVariant, data.value("packages").toList()) {
         QString id = packageVariant.toMap().value("id").toString();
         QString displayName = packageVariant.toMap().value("displayName").toString();
@@ -269,12 +308,12 @@ void SystemController::getRepositoriesResponse(int /*commandId*/, const QVariant
 
 void SystemController::removePackageResponse(int commandId, const QVariantMap &params)
 {
-    qCDebug(dcSystemController) << "Remove result" << commandId << params;
+    qCDebug(dcSystemController()) << "Remove result" << commandId << params;
 }
 
 void SystemController::enableRepositoryResponse(int commandId, const QVariantMap &params)
 {
-    qCDebug(dcSystemController) << "Enable repo response" << params;
+    qCDebug(dcSystemController()) << "Enable repo response" << params;
     emit enableRepositoryFinished(commandId, params.value("success").toBool());
 }
 
@@ -286,7 +325,7 @@ void SystemController::getServerTimeResponse(int commandId, const QVariantMap &p
     // Which doesn't allow to create QTimeZone objects by IANA id.... So, let's keep that separated in a string
     // https://bugreports.qt.io/browse/QTBUG-83438
 
-//    m_serverTime.setTimeZone(QTimeZone(params.value("timeZone").toString().toUtf8()));
+    //    m_serverTime.setTimeZone(QTimeZone(params.value("timeZone").toString().toUtf8()));
     m_serverTimeZone = params.value("timeZone").toString();
     emit serverTimeZoneChanged();
 
@@ -302,12 +341,12 @@ void SystemController::getServerTimeResponse(int commandId, const QVariantMap &p
     emit automaticTimeAvailableChanged();
     m_automaticTime = params.value("automaticTime").toBool();
     emit automaticTimeChanged();
-    qCDebug(dcSystemController) << "Server time:" << m_serverTime << "Automatic Time available:" << m_automaticTimeAvailable << "Automatic time:" << m_automaticTime;
+    qCDebug(dcSystemController()) << "Server time:" << m_serverTime << "Automatic Time available:" << m_automaticTimeAvailable << "Automatic time:" << m_automaticTime;
 }
 
 void SystemController::setTimeResponse(int commandId, const QVariantMap &params)
 {
-    qCDebug(dcSystemController) << "set time response" << commandId << params;
+    qCDebug(dcSystemController()) << "set time response" << commandId << params;
 }
 
 void SystemController::restartResponse(int commandId, const QVariantMap &params)
@@ -338,18 +377,26 @@ void SystemController::getSystemInfoResponse(int commandId, const QVariantMap &p
 void SystemController::notificationReceived(const QVariantMap &data)
 {
     QString notification = data.value("notification").toString();
+    const QVariantMap paramsMap = data.value("params").toMap();
     if (notification == "System.UpdateStatusChanged") {
-        qCDebug(dcSystemController) << "System.UpdateStatusChanged:" << data.value("params").toMap();
-        if (m_updateManagementBusy != data.value("params").toMap().value("busy").toBool()) {
-            m_updateManagementBusy = data.value("params").toMap().value("busy").toBool();
+        qCDebug(dcSystemController()) << "System.UpdateStatusChanged:" << paramsMap;
+        if (m_updateManagementBusy != paramsMap.value("busy").toBool()) {
+            m_updateManagementBusy = paramsMap.value("busy").toBool();
             emit updateManagementBusyChanged();
         }
-        if (m_updateRunning != data.value("params").toMap().value("updateRunning").toBool()) {
-            m_updateRunning = data.value("params").toMap().value("updateRunning").toBool();
+        if (m_updateRunning != paramsMap.value("updateRunning").toBool()) {
+            m_updateRunning = paramsMap.value("updateRunning").toBool();
             emit updateRunningChanged();
         }
+
+        // Since API 8.5, optional, not supported or not running = -1
+        if (m_updateProgress != paramsMap.value("updateProgress", -1).toInt()) {
+            m_updateProgress = paramsMap.value("updateProgress").toInt();
+            emit updateProgressChanged();
+        }
+
     } else if (notification == "System.PackageAdded") {
-        QVariantMap packageMap = data.value("params").toMap().value("package").toMap();
+        QVariantMap packageMap = paramsMap.value("package").toMap();
         QString id = packageMap.value("id").toString();
         QString displayName = packageMap.value("displayName").toString();
         Package *p = new Package(id, displayName);
@@ -362,7 +409,7 @@ void SystemController::notificationReceived(const QVariantMap &data)
         p->setCanRemove(packageMap.value("canRemove").toBool());
         m_packages->addPackage(p);
     } else if (notification == "System.PackageChanged") {
-        QVariantMap packageMap = data.value("params").toMap().value("package").toMap();
+        QVariantMap packageMap = paramsMap.value("package").toMap();
         QString id = packageMap.value("id").toString();
         Package *p = m_packages->getPackage(id);
         if (!p) {
@@ -377,17 +424,17 @@ void SystemController::notificationReceived(const QVariantMap &data)
         p->setRollbackAvailable(packageMap.value("rollbackAvailable").toBool());
         p->setCanRemove(packageMap.value("canRemove").toBool());
     } else if (notification == "System.PackageRemoved") {
-        QString packageId = data.value("params").toMap().value("packageId").toString();
+        QString packageId = paramsMap.value("packageId").toString();
         m_packages->removePackage(packageId);
     } else if (notification == "System.RepositoryAdded") {
-        QVariantMap repoMap = data.value("params").toMap().value("repository").toMap();
+        QVariantMap repoMap = paramsMap.value("repository").toMap();
         QString id = repoMap.value("id").toString();
         QString displayName = repoMap.value("displayName").toString();
         Repository *repo = new Repository(id, displayName);
         repo->setEnabled(repoMap.value("enabled").toBool());
         m_repositories->addRepository(repo);
     } else if (notification == "System.RepositoryChanged") {
-        QVariantMap repoMap = data.value("params").toMap().value("repository").toMap();
+        QVariantMap repoMap = paramsMap.value("repository").toMap();
         QString id = repoMap.value("id").toString();
         Repository *repo = m_repositories->getRepository(id);
         if (!repo) {
@@ -396,16 +443,36 @@ void SystemController::notificationReceived(const QVariantMap &data)
         }
         repo->setEnabled(repoMap.value("enabled").toBool());
     } else if (notification == "System.RepositoryRemoved") {
-        QString repositoryId = data.value("params").toMap().value("repositoryId").toString();
+        QString repositoryId = paramsMap.value("repositoryId").toString();
         m_repositories->removeRepository(repositoryId);
     } else if (notification == "System.CapabilitiesChanged") {
-        m_powerManagementAvailable = data.value("params").toMap().value("powerManagement").toBool();
-        m_updateManagementAvailable = data.value("params").toMap().value("updateManagement").toBool();
-        qWarning() << "System capabilites changed: power management:" << m_powerManagementAvailable << "update management:" << m_updateManagementAvailable;
+        m_powerManagementAvailable = paramsMap.value("powerManagement").toBool();
+        m_updateManagementAvailable = paramsMap.value("updateManagement").toBool();
+        if (paramsMap.contains("updateManagementType")) {
+            QMetaEnum updateTypeEnum = QMetaEnum::fromType<SystemController::UpdateType>();
+            m_updateManagementType = static_cast<SystemController::UpdateType>(updateTypeEnum.keyToValue(paramsMap.value("updateManagementType").toByteArray()));
+        } else {
+            // Property exists since API 8.5, if there is an update management available, default to UpdateTypePackageManager
+            if (m_updateManagementAvailable) {
+                m_updateManagementType = UpdateTypePackageManager;
+            } else {
+                m_updateManagementType = UpdateTypeNone;
+            }
+        }
+
+        qCDebug(dcSystemController())
+            << "System capabilites changed: power management:"
+            << m_powerManagementAvailable
+            << "update management:"
+            << m_updateManagementAvailable
+            << "update management type:"
+            << m_updateManagementType;
         emit powerManagementAvailableChanged();
         emit updateManagementAvailableChanged();
+        emit updateManagementTypeChanged();
+
     } else if (notification == "System.TimeConfigurationChanged") {
-        qCDebug(dcSystemController) << "System time configuration changed" << data.value("params").toMap().value("timeZone").toByteArray();
+        qCDebug(dcSystemController()) << "System time configuration changed" << data.value("params").toMap().value("timeZone").toByteArray();
 
         // NOTE: Ideally we'd just set the TimeZone of our serverTime prooperly, however, there's a bug on Android
         // Which doesn't allow to create QTimeZone objects by IANA id.... So, let's keep that separated in a string

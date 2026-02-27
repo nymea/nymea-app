@@ -53,6 +53,9 @@ Item {
 
     property string alternativeMainPage: ""
 
+    // iOS only: scales the safe area bottom inset before applying it as bottom margin.
+    property real iosSafeAreaBottomMarginScale: 1.0
+
     property var mainMenuLinks: null
     property bool closedSource: false
 

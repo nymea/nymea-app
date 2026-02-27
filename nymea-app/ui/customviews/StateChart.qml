@@ -56,7 +56,7 @@ Item {
         property date now: new Date()
 
         readonly property int range: selectionTabs.currentValue.range
-        readonly property int sampleRate: root.stateType == null || root.stateType.type.toLowerCase() == "bool" ? NewLogsModel.SampleRateAny : selectionTabs.currentValue.sampleRate
+        readonly property int sampleRate: root.stateType == null || root.stateType.type.toLowerCase() === "bool" ? NewLogsModel.SampleRateAny : selectionTabs.currentValue.sampleRate
 
         readonly property int visibleValues: range / sampleRate
 
@@ -114,7 +114,7 @@ Item {
 //                                print("entry", entry.timestamp, entry.source, JSON.stringify(entry.values))
                 zeroSeries.ensureValue(entry.timestamp)
 
-                if (root.stateType.type.toLowerCase() == "bool") {
+                if (root.stateType.type.toLowerCase() === "bool") {
                     var value = entry.values[root.stateType.name]
                     if (value == null) {
                         value = false;
@@ -148,7 +148,7 @@ Item {
                 }
             }
 
-            if (root.stateType.type.toLowerCase() == "bool") {
+            if (root.stateType.type.toLowerCase() === "bool") {
                 var last = valueSeries.at(valueSeries.count-1);
                 if (last.x < d.endTime) {
                     valueSeries.append(d.endTime, last.y)
@@ -160,7 +160,7 @@ Item {
         }
         onEntriesRemoved: (index, count) => {
             print("removing:", index, count, valueSeries.count)
-            if (root.stateType.type.toLowerCase() == "bool") {
+            if (root.stateType.type.toLowerCase() === "bool") {
                 valueSeries.removePoints(index * 2, count * 2)
                 if (valueSeries.count == 1) {
                     valueSeries.removePoints(0, 1);
@@ -419,7 +419,7 @@ Item {
                 y: chartView.y + chartView.plotArea.y
                 height: chartView.plotArea.height
                 width: Math.max(0, chartContainer.yAxisLabelAreaWidth - Style.smallMargins)
-                visible: root.stateType && root.stateType.type.toLowerCase() != "bool" && logsModel.minValue != logsModel.maxValue
+                visible: root.stateType && root.stateType.type.toLowerCase() !== "bool" && logsModel.minValue != logsModel.maxValue
                 property double range: Math.abs(valueAxis.max - valueAxis.min)
                 property double stepSize: range / (valueAxis.tickCount - 1)
                 property int precision: valueAxis.max - valueAxis.min < 5 ? 2 : 0
@@ -589,7 +589,7 @@ Item {
                                 elide: Text.ElideRight
                                 text: toolTip.value === null
                                       ? qsTr("No data")
-                                      : root.stateType.type.toLowerCase() == "bool"
+                                      : root.stateType.type.toLowerCase() === "bool"
                                         ? root.stateType.displayName + ": " + (toolTip.value ? qsTr("Yes") : qsTr("No"))
                                         : Types.toUiValue(toolTip.value, root.stateType.unit).toFixed(root.roundTo) + Types.toUiUnit(root.stateType.unit)
                                 font: Style.extraSmallFont

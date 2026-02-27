@@ -32,6 +32,7 @@ ConfigurationBase {
     company: "chargebyte GmbH"
 
     connectionWizard: "/ui/connection/ConnectionWizard.qml"
+    iosSafeAreaBottomMarginScale: 1.0
 
     magicEnabled: true
     networkSettingsEnabled: true

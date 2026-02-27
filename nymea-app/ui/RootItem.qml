@@ -37,6 +37,27 @@ import "connection"
 Item {
     id: root
 
+    readonly property var currentPage: swipeView.currentItem ? swipeView.currentItem.pageStack.currentItem : null
+    readonly property bool currentPageCompactsBottomMargin: currentPage
+                                                          && currentPage.hasOwnProperty("applyRootItemBottomMarginCompaction")
+                                                          && currentPage.applyRootItemBottomMarginCompaction
+    readonly property bool currentPageDefinesBottomMargin: currentPage && currentPage.hasOwnProperty("bottomMargin")
+    readonly property int currentPageBottomMargin: currentPageDefinesBottomMargin ? currentPage.bottomMargin : 0
+
+    readonly property int safeAreaBottomMargin: {
+        var margin = PlatformHelper.bottomPadding
+
+        if (Qt.platform.os === "ios") {
+            margin = Math.round(PlatformHelper.bottomPadding * Math.max(0, Configuration.iosSafeAreaBottomMarginScale))
+
+            if (currentPageCompactsBottomMargin && !app.landscape && currentPageBottomMargin > 0 && margin > 0) {
+                margin = Math.floor(margin * 0.5)
+            }
+        }
+
+        return margin
+    }
+
     function handleAndroidBackButton() {
         return swipeView.currentItem.handleAndroidBackButton()
     }
@@ -80,7 +101,7 @@ Item {
         anchors.fill: parent
 
         anchors.topMargin: PlatformHelper.topPadding
-        anchors.bottomMargin: PlatformHelper.bottomPadding
+        anchors.bottomMargin: root.safeAreaBottomMargin
         anchors.leftMargin: PlatformHelper.leftPadding
         anchors.rightMargin: PlatformHelper.rightPadding
 

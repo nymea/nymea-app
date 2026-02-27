@@ -59,20 +59,27 @@ SettingsPageBase {
         width: implicitWidth + app.margins
         x: parent.width - width
 
-        Component.onCompleted: {
-            deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Rename"), iconSource: "qrc:/icons/edit.svg", functionName: "renameThing"}))
-            // FIXME: This isn't entirely correct... we should have a way to know if a particular thing is in fact autocreated
-            // This check might be wrong for thingClasses with multiple create methods...
-            if (!root.thing.isChild || root.thing.thingClass.createMethods.indexOf("CreateMethodAuto") < 0) {
-                deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Delete"), iconSource: "qrc:/icons/delete.svg", functionName: "deleteThing"}))
-            }
-            // FIXME: This isn't entirely correct... we should have a way to know if a particular thing is in fact autocreated
-            // This check might be wrong for thingClasses with multiple create methods...
-            if (!root.thing.isChild || root.thingClass.createMethods.indexOf("CreateMethodAuto") < 0) {
-                deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Reconfigure"), iconSource: "qrc:/icons/configure.svg", functionName: "reconfigureThing"}))
+        function addMenuEntry(properties) {
+            var item = menuEntryComponent.createObject(null, properties)
+            if (!item) {
+                console.warn("Failed to create menu entry", properties && properties.text)
+                return
             }
 
-            deviceMenu.addItem(menuEntryComponent.createObject(deviceMenu, {text: qsTr("Details"), iconSource: "qrc:/icons/info.svg", functionName: "thingDetails"}))
+            deviceMenu.addItem(item)
+        }
+
+        Component.onCompleted: {
+            addMenuEntry({text: qsTr("Rename"), iconSource: "qrc:/icons/edit.svg", functionName: "renameThing"})
+
+            // FIXME: This isn't entirely correct... we should have a way to know if a particular thing is in fact autocreated
+            // This check might be wrong for thingClasses with multiple create methods...
+            if (!root.thing.isChild && !root.thing.thingClass.isAutoCreated()) {
+                addMenuEntry({text: qsTr("Delete"), iconSource: "qrc:/icons/delete.svg", functionName: "deleteThing"})
+                addMenuEntry({text: qsTr("Reconfigure"), iconSource: "qrc:/icons/configure.svg", functionName: "reconfigureThing"})
+            }
+
+            addMenuEntry({text: qsTr("Details"), iconSource: "qrc:/icons/info.svg", functionName: "thingDetails"})
         }
 
         function renameThing() {
@@ -106,8 +113,8 @@ SettingsPageBase {
 
     Connections {
         target: engine.thingManager
-        onRemoveThingReply: {
-            if (d.pendingCommand != commandId) {
+        function onRemoveThingReply(commandId, thingError, ruleIds) {
+            if (d.pendingCommand !== commandId) {
                 return;
             }
 
@@ -140,6 +147,7 @@ SettingsPageBase {
         prominentSubText: false
         progressive: false
     }
+
     NymeaItemDelegate {
         Layout.fillWidth: true
         text: root.thing.thingClass.displayName
@@ -191,6 +199,7 @@ SettingsPageBase {
 
     StateTypesProxy {
         id: ioModel
+
         stateTypes: root.thing.thingClass.stateTypes
         digitalInputs: true
         digitalOutputs: true
@@ -200,13 +209,14 @@ SettingsPageBase {
 
     Repeater {
         model: ioModel
+
         delegate: NymeaSwipeDelegate {
             Layout.fillWidth: true
 
             iconName: "qrc:/icons/io-connections.svg"
             text: model.displayName
             subText: {
-                if (ioStateType.ioType == Types.IOTypeDigitalInput || ioStateType.ioType == Types.IOTypeAnalogInput) {
+                if (ioStateType.ioType === Types.IOTypeDigitalInput || ioStateType.ioType === Types.IOTypeAnalogInput) {
                     if (inputConnectionWatcher.ioConnection) {
                         return "%1: %2".arg(inputConnectionWatcher.outputThing.name).arg(inputConnectionWatcher.outputStateType.displayName)
                     }
@@ -223,14 +233,17 @@ SettingsPageBase {
 
             IOInputConnectionWatcher {
                 id: inputConnectionWatcher
+
                 ioConnections: engine.thingManager.ioConnections
                 inputThingId: root.thing.id
                 inputStateTypeId: ioStateType.id
                 property Thing outputThing: ioConnection ? engine.thingManager.things.getThing(ioConnection.outputThingId) : null
                 property StateType outputStateType: ioConnection ? outputThing.thingClass.stateTypes.getStateType(ioConnection.outputStateTypeId) : null
             }
+
             IOOutputConnectionWatcher {
                 id: outputConnectionWatcher
+
                 ioConnections: engine.thingManager.ioConnections
                 outputThingId: root.thing.id
                 outputStateTypeId: ioStateType.id
@@ -253,6 +266,7 @@ SettingsPageBase {
 
     Repeater {
         id: settingsRepeater
+
         model: root.thing.settings
         delegate: ParamDelegate {
             Layout.fillWidth: true
@@ -360,7 +374,7 @@ SettingsPageBase {
             property IOInputConnectionWatcher inputWatcher: null
             property IOOutputConnectionWatcher outputWatcher: null
 
-            readonly property bool isInput: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput
+            readonly property bool isInput: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType === Types.IOTypeAnalogInput
 
             Label {
                 Layout.fillWidth: true
@@ -377,16 +391,16 @@ SettingsPageBase {
                     model: ThingsProxy {
                         id: connectableIODevices
                         engine: _engine
-                        showDigitalInputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalOutput
-                        showDigitalOutputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
-                        showAnalogInputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogOutput
-                        showAnalogOutputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput
+                        showDigitalInputs: ioConnectionDialog.ioStateType.ioType === Types.IOTypeDigitalOutput
+                        showDigitalOutputs: ioConnectionDialog.ioStateType.ioType === Types.IOTypeDigitalInput
+                        showAnalogInputs: ioConnectionDialog.ioStateType.ioType === Types.IOTypeAnalogOutput
+                        showAnalogOutputs: ioConnectionDialog.ioStateType.ioType === Types.IOTypeAnalogInput
                     }
                     textRole: "name"
                     Layout.fillWidth: true
                     Component.onCompleted: {
                         for (var i = 0; i < connectableIODevices.count; i++) {
-                            if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                            if (ioConnectionDialog.ioStateType.ioType === Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType === Types.IOTypeAnalogInput) {
                                 if (connectableIODevices.get(i).id === ioConnectionDialog.inputWatcher.ioConnection.outputThingId) {
                                     ioThingComboBox.currentIndex = i;
                                     break;
@@ -407,10 +421,10 @@ SettingsPageBase {
                     model: StateTypesProxy {
                         id: connectableStateTypes
                         stateTypes: connectableIODevices.get(ioThingComboBox.currentIndex).thingClass.stateTypes
-                        digitalInputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalOutput
-                        digitalOutputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
-                        analogInputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogOutput
-                        analogOutputs: ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput
+                        digitalInputs: ioConnectionDialog.ioStateType.ioType === Types.IOTypeDigitalOutput
+                        digitalOutputs: ioConnectionDialog.ioStateType.ioType === Types.IOTypeDigitalInput
+                        analogInputs: ioConnectionDialog.ioStateType.ioType === Types.IOTypeAnalogOutput
+                        analogOutputs: ioConnectionDialog.ioStateType.ioType === Types.IOTypeAnalogInput
                     }
                     textRole: "displayName"
                     Layout.fillWidth: true
@@ -418,7 +432,7 @@ SettingsPageBase {
                         //                        print("loading for:", ioConnectionDialog.inputWatcher.ioConnection.outputStateTypeId)
                         for (var i = 0; i < connectableStateTypes.count; i++) {
                             print("checking:", connectableStateTypes.get(i).id)
-                            if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                            if (ioConnectionDialog.ioStateType.ioType === Types.IOTypeDigitalInput || ioConnectionDialog.ioStateType.ioType === Types.IOTypeAnalogInput) {
                                 if (connectableStateTypes.get(i).id === ioConnectionDialog.inputWatcher.ioConnection.outputStateTypeId) {
                                     ioStateComboBox.currentIndex = i;
                                     break;
@@ -442,6 +456,7 @@ SettingsPageBase {
 
                     CheckBox {
                         id: invertCheckBox
+
                         checked: ioConnectionDialog.isInput ? ioConnectionDialog.inputWatcher.ioConnection.inverted : ioConnectionDialog.outputWatcher.ioConnection.inverted
                     }
                 }
@@ -453,7 +468,7 @@ SettingsPageBase {
 
                 columns: width > (cancelButton.implicitWidth + disconnectButton.implicitWidth + connectButton.implicitWidth)
                          ? 4 : 1
-                layoutDirection: columns == 1 ? Qt.RightToLeft : Qt.LeftToRight
+                layoutDirection: columns === 1 ? Qt.RightToLeft : Qt.LeftToRight
 
                 Item {
                     Layout.fillWidth: true
@@ -473,8 +488,8 @@ SettingsPageBase {
                     Layout.fillWidth: buttonGrid.columns === 1
 
                     onClicked: {
-                        if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
-                                || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                        if (ioConnectionDialog.ioStateType.ioType === Types.IOTypeDigitalInput
+                                || ioConnectionDialog.ioStateType.ioType === Types.IOTypeAnalogInput) {
                             engine.thingManager.disconnectIO(ioConnectionDialog.inputWatcher.ioConnection.id);
                         } else {
                             engine.thingManager.disconnectIO(ioConnectionDialog.outputWatcher.ioConnection.id);
@@ -495,8 +510,8 @@ SettingsPageBase {
                         var inputStateTypeId;
                         var outputThingId;
                         var outputStateTypeId;
-                        if (ioConnectionDialog.ioStateType.ioType == Types.IOTypeDigitalInput
-                                || ioConnectionDialog.ioStateType.ioType == Types.IOTypeAnalogInput) {
+                        if (ioConnectionDialog.ioStateType.ioType === Types.IOTypeDigitalInput
+                                || ioConnectionDialog.ioStateType.ioType === Types.IOTypeAnalogInput) {
                             inputThingId = root.thing.id;
                             inputStateTypeId = ioConnectionDialog.ioStateType.id;
                             outputThingId = connectableIODevices.get(ioThingComboBox.currentIndex).id;

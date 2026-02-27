@@ -36,7 +36,7 @@ SpinBox {
     stepSize: Math.min(10, (to - from) / 10)
     property var unit: Types.UnitNone
     editable: true
-    onValueModified: {
+    onValueModified: (value) => {
         changed(value)
     }
     textFromValue: function(value) {

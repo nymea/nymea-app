@@ -3,7 +3,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
 * Copyright (C) 2013 - 2024, nymea GmbH
-* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+* Copyright (C) 2024 - 2026, chargebyte austria GmbH
 *
 * This file is part of libnymea-app.
 *
@@ -26,10 +26,9 @@
 
 #include <QDebug>
 
-ThingClass::ThingClass(QObject *parent) :
-    QObject(parent)
-{
-}
+ThingClass::ThingClass(QObject *parent)
+    : QObject(parent)
+{}
 
 QUuid ThingClass::id() const
 {
@@ -329,4 +328,9 @@ bool ThingClass::hasActionType(const QUuid &actionTypeId)
         }
     }
     return false;
+}
+
+bool ThingClass::isAutoCreated() const
+{
+    return m_createMethods.contains("CreateMethodAuto");
 }

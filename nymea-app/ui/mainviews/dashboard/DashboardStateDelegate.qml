@@ -84,7 +84,7 @@ DashboardDelegateBase {
 
             Label {
                 Layout.fillWidth: true
-                visible: root.stateType && root.stateType.type.toLowerCase() != "bool"
+                visible: root.stateType && root.stateType.type.toLowerCase() !== "bool"
                 horizontalAlignment: Text.AlignHCenter
                 font: Style.largeFont
                 elide: Text.ElideRight

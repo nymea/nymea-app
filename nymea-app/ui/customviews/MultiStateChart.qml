@@ -147,7 +147,7 @@ Item {
                     //                    y: chartView.plotArea.y
                     //                    height: chartView.plotArea.height
                     //                    width: chartView.plotArea.x - x
-                    //                    visible: root.stateType.type.toLowerCase() != "bool" && logsModel.minValue != logsModel.maxValue
+                    //                    visible: root.stateType.type.toLowerCase() !== "bool" && logsModel.minValue != logsModel.maxValue
                     //                    property double range: Math.abs(valueAxis.max - valueAxis.min)
                     //                    property double stepSize: range / (valueAxis.tickCount - 1)
                     //                    property int precision: valueAxis.max - valueAxis.min < 5 ? 2 : 0
@@ -256,7 +256,7 @@ Item {
                         print("entry", entry.timestamp, entry.source, JSON.stringify(entry.values))
                         d.ensureValue(zeroSeries, entry.timestamp)
 
-                        if (stateType.type.toLowerCase() == "bool") {
+                        if (stateType.type.toLowerCase() === "bool") {
                             var value = entry.values[stateType.name]
                             if (value == null) {
                                 value = false;
@@ -290,7 +290,7 @@ Item {
                         }
                     }
 
-                    if (stateType.type.toLowerCase() == "bool") {
+                    if (stateType.type.toLowerCase() === "bool") {
 
                         var last = series.at(series.count-1);
                         if (last.x < d.endTime) {
@@ -304,7 +304,7 @@ Item {
                 }
                 onEntriesRemoved: (index, count) => {
                     print("removing:", index, count, series.count)
-                    if (stateType.type.toLowerCase() == "bool") {
+                    if (stateType.type.toLowerCase() === "bool") {
                         series.removePoints(index * 2, count * 2)
                         if (series.count == 1) {
                             series.removePoints(0, 1);
