@@ -5,7 +5,7 @@ nymea-app (1.11.6) bionic; urgency=medium
   * Fix energy stats lookup and deduplicate fetched log samples
   * Introduce system based updates and add progress and changelog
 
- -- jenkins <developer@nymea.io>  Fri, 27 Feb 2026 20:07:59 +0100
+ -- jenkins <developer@nymea.io>  Mon, 02 Mar 2026 11:36:43 +0100
 
 nymea-app (1.11.3) bionic; urgency=medium
 
