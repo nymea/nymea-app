@@ -104,6 +104,10 @@
         <source>App version:</source>
         <translation>App verze:</translation>
     </message>
+    <message>
+        <source>Revision:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ActionLogPage</name>
@@ -1367,20 +1371,8 @@
         <translation>Chcete-li zobrazit ladicí rozhraní, povolte webový server.</translation>
     </message>
     <message>
-        <source>The web server cannot be reached on %1.</source>
-        <translation>Webový server není dostupný na %1.</translation>
-    </message>
-    <message>
-        <source>Please enable the web server to be accessed on this address.</source>
-        <translation>Aktivujte prosím webový server pro tuto adresu.</translation>
-    </message>
-    <message>
         <source>Debug server</source>
         <translation>Debug Server</translation>
-    </message>
-    <message>
-        <source>Debug interface active at %1.</source>
-        <translation>Rozhraní pro vývojáře je aktivní v %1.</translation>
     </message>
     <message>
         <source>Server logging</source>
@@ -1388,6 +1380,22 @@
     </message>
     <message>
         <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No active LAN IPv4 address was found in the network settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No reachable web server configuration was found for %1. Please enable the web server on this address or on 0.0.0.0.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The debug interface can only be reached from the LAN. If you are using the remote connection, the following link might not work.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open debug interface</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2074,6 +2082,73 @@
     <message>
         <source>Currently charging at %1.</source>
         <translation>Aktuálně se nabíjí %1.</translation>
+    </message>
+</context>
+<context>
+    <name>EvDashSettingsPage</name>
+    <message>
+        <source>EV Dash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove user</source>
+        <translation type="unfinished">Odebrat uživatele</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove &quot;%1&quot;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The given username is already in use. Please choose a different username.</source>
+        <translation type="unfinished">Dané uživatelské jméno se již používá. Vyberte prosím jiné uživatelské jméno.</translation>
+    </message>
+    <message>
+        <source>The given password is not valid.</source>
+        <translation type="unfinished">Zadané heslo není platné.</translation>
+    </message>
+    <message>
+        <source>Un unexpected error happened when creating the user. We&apos;re sorry for this. (Error code: %1)</source>
+        <translation type="unfinished">Při vytváření uživatele došlo k neočekávané chybě. Je nám to líto. (Kód chyby: %1)</translation>
+    </message>
+    <message>
+        <source>Create a new user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished">Uživatelské jméno</translation>
+    </message>
+    <message>
+        <source>Add user</source>
+        <translation type="unfinished">Přidat uživatele</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dashboard enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The dashboard can only be reached from the LAN. If you are using the remote connection, the following link might not work.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No active LAN IPv4 address was found in the network settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No reachable web server configuration was found for %1. Please enable the web server on this address or on 0.0.0.0.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open EVDash</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3889,22 +3964,6 @@ Prosím zkuste to znovu.</translation>
         <translation>Abyste mohli používat svůj systém %1, vytvořte si účet.</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation>Uživatelské jméno</translation>
-    </message>
-    <message>
-        <source>Your e-mail address</source>
-        <translation>Vaše e-mailová adresa</translation>
-    </message>
-    <message>
-        <source>Required</source>
-        <translation>Povinné</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Heslo</translation>
-    </message>
-    <message>
         <source>Your name</source>
         <translation>Vaše jméno</translation>
     </message>
@@ -5421,6 +5480,34 @@ Použijte hodnotu časového limitu větší nebo rovnou 10 ms.</translation>
         <source>Configure magic</source>
         <translation>Nastavení &quot;kouzla&quot;</translation>
     </message>
+    <message>
+        <source>Full access to the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Execute actions and use things and services.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add new things and change settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Execute rules, scenes and scripts.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new rules and scripts in the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access all things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow to see and use all things of the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PackageDetailsPage</name>
@@ -6512,6 +6599,14 @@ Chcete pokračovat?</translation>
         <source>Configure Z-Wave networks</source>
         <translation>Nastavení sítí Z-Wave</translation>
     </message>
+    <message>
+        <source>EV Dash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dashboard settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SetupWizard</name>
@@ -6908,6 +7003,34 @@ Toto prosím používejte pouze v případě, že jste si jisti tím co děláte
     <message>
         <source>Update sources</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation type="unfinished">Verze:</translation>
+    </message>
+    <message>
+        <source>Version copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 update available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installed version:</source>
+        <translation type="unfinished">Instalovaná verze:</translation>
+    </message>
+    <message>
+        <source>Candidate version:</source>
+        <translation type="unfinished">Kandidátská verze:</translation>
+    </message>
+    <message>
+        <source>Update changelog:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">Aktualizace</translation>
     </message>
 </context>
 <context>
@@ -7361,6 +7484,17 @@ Toto prosím používejte pouze v případě, že jste si jisti tím co děláte
     </message>
 </context>
 <context>
+    <name>UsernameTextField</name>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished">Uživatelské jméno</translation>
+    </message>
+    <message>
+        <source>Your e-mail address</source>
+        <translation type="unfinished">Vaše e-mailová adresa</translation>
+    </message>
+</context>
+<context>
     <name>UsersSettingsPage</name>
     <message>
         <source>User settings</source>
@@ -7487,20 +7621,8 @@ Toto prosím používejte pouze v případě, že jste si jisti tím co děláte
         <translation>Přidat uživatele</translation>
     </message>
     <message>
-        <source>Username:</source>
-        <translation>Uživatelské jméno:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation>Heslo:</translation>
-    </message>
-    <message>
         <source>Full name:</source>
         <translation>Celé jméno:</translation>
-    </message>
-    <message>
-        <source>e-mail:</source>
-        <translation>E-Mail:</translation>
     </message>
     <message>
         <source>Create new user</source>
@@ -7517,6 +7639,26 @@ Toto prosím používejte pouze v případě, že jste si jisti tím co děláte
     <message>
         <source>User information</source>
         <translation>Uživatelské informace</translation>
+    </message>
+    <message>
+        <source>Accessable things for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Acessable things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allowed things for this user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>things accessable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Optional</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

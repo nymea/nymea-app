@@ -104,6 +104,10 @@
         <source>App version:</source>
         <translation>Uygulama versiyon:</translation>
     </message>
+    <message>
+        <source>Revision:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ActionLogPage</name>
@@ -1365,20 +1369,8 @@
         <translation>Hata ayıklama arabirimine erişmek için lütfen web sunucusunu etkinleştirin.</translation>
     </message>
     <message>
-        <source>The web server cannot be reached on %1.</source>
-        <translation>Web sunucusuna %1 üzerinden ulaşılamıyor.</translation>
-    </message>
-    <message>
-        <source>Please enable the web server to be accessed on this address.</source>
-        <translation>Lütfen bu adresten erişilebilecek web sunucusunu etkinleştirin.</translation>
-    </message>
-    <message>
         <source>Debug server</source>
         <translation>Hata ayıklama sunucusu</translation>
-    </message>
-    <message>
-        <source>Debug interface active at %1.</source>
-        <translation>%1 konumunda hata ayıklama arayüzü etkin.</translation>
     </message>
     <message>
         <source>Server logging</source>
@@ -1386,6 +1378,22 @@
     </message>
     <message>
         <source>Server logging categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No active LAN IPv4 address was found in the network settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No reachable web server configuration was found for %1. Please enable the web server on this address or on 0.0.0.0.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The debug interface can only be reached from the LAN. If you are using the remote connection, the following link might not work.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open debug interface</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2068,6 +2076,73 @@
     </message>
     <message>
         <source>Currently charging at %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EvDashSettingsPage</name>
+    <message>
+        <source>EV Dash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove user</source>
+        <translation type="unfinished">Kullanıcıyı kaldır</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove &quot;%1&quot;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The given username is already in use. Please choose a different username.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The given password is not valid.</source>
+        <translation type="unfinished">Verilen şifre geçerli değil.</translation>
+    </message>
+    <message>
+        <source>Un unexpected error happened when creating the user. We&apos;re sorry for this. (Error code: %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create a new user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished">Kullanıcı adı</translation>
+    </message>
+    <message>
+        <source>Add user</source>
+        <translation type="unfinished">Kullanıcı Ekle</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">İptal</translation>
+    </message>
+    <message>
+        <source>Dashboard enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage users</source>
+        <translation type="unfinished">Kullanıcıları Yönet</translation>
+    </message>
+    <message>
+        <source>The dashboard can only be reached from the LAN. If you are using the remote connection, the following link might not work.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No active LAN IPv4 address was found in the network settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No reachable web server configuration was found for %1. Please enable the web server on this address or on 0.0.0.0.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open EVDash</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3849,22 +3924,6 @@ Please try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation>Kullanıcı adı</translation>
-    </message>
-    <message>
-        <source>Your e-mail address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Required</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Şifre</translation>
-    </message>
-    <message>
         <source>Your name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5377,6 +5436,34 @@ Use a timeout value greater or equal to 10 ms.</source>
         <source>Configure magic</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Full access to the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Execute actions and use things and services.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add new things and change settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Execute rules, scenes and scripts.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new rules and scripts in the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access all things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow to see and use all things of the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PackageDetailsPage</name>
@@ -6466,6 +6553,14 @@ Do you want to proceed?</source>
         <source>Configure Z-Wave networks</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>EV Dash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dashboard settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SetupWizard</name>
@@ -6859,6 +6954,34 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>Update sources</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 update available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installed version:</source>
+        <translation type="unfinished">Yüklü sürüm:</translation>
+    </message>
+    <message>
+        <source>Candidate version:</source>
+        <translation type="unfinished">Aday versiyonu:</translation>
+    </message>
+    <message>
+        <source>Update changelog:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">Güncelleme</translation>
     </message>
 </context>
 <context>
@@ -7312,6 +7435,17 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
 </context>
 <context>
+    <name>UsernameTextField</name>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished">Kullanıcı adı</translation>
+    </message>
+    <message>
+        <source>Your e-mail address</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>UsersSettingsPage</name>
     <message>
         <source>User settings</source>
@@ -7438,19 +7572,7 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Username:</source>
-        <translation>Kullanıcı adı:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation>Şifre:</translation>
-    </message>
-    <message>
         <source>Full name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>e-mail:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7468,6 +7590,26 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     <message>
         <source>User information</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accessable things for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Acessable things</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allowed things for this user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>things accessable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Optional</source>
+        <translation type="unfinished">İsteğe bağlı</translation>
     </message>
 </context>
 <context>

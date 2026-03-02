@@ -104,6 +104,10 @@
         <source>App version:</source>
         <translation>App Version:</translation>
     </message>
+    <message>
+        <source>Revision:</source>
+        <translation>Revision:</translation>
+    </message>
 </context>
 <context>
     <name>ActionLogPage</name>
@@ -1366,20 +1370,8 @@
         <translation>Um die Debug-Schnittstelle anzuzeigen, aktiviere bitte den Web Server.</translation>
     </message>
     <message>
-        <source>The web server cannot be reached on %1.</source>
-        <translation>Der Web Server kann nicht unter %1 erreicht werden.</translation>
-    </message>
-    <message>
-        <source>Please enable the web server to be accessed on this address.</source>
-        <translation>Bitte aktiviere den WebServer für diese Adresse.</translation>
-    </message>
-    <message>
         <source>Debug server</source>
         <translation>Debug Server</translation>
-    </message>
-    <message>
-        <source>Debug interface active at %1.</source>
-        <translation>Entwicklerschnittstelle aktiv unter %1.</translation>
     </message>
     <message>
         <source>Server logging</source>
@@ -1388,6 +1380,22 @@
     <message>
         <source>Server logging categories</source>
         <translation>Server Log-Kategorien</translation>
+    </message>
+    <message>
+        <source>No active LAN IPv4 address was found in the network settings.</source>
+        <translation>Es konnte keine aktive LAN IPv4 Adresse in den Netzwerkeinstellungen gefunden werden.</translation>
+    </message>
+    <message>
+        <source>No reachable web server configuration was found for %1. Please enable the web server on this address or on 0.0.0.0.</source>
+        <translation>Es wurde keine erreichbare Webserver Einstellung fefunden für %1. Bitte richte einen Webserver der auf 0.0.0.0 hört ein.</translation>
+    </message>
+    <message>
+        <source>The debug interface can only be reached from the LAN. If you are using the remote connection, the following link might not work.</source>
+        <translation>Die Debug Schnittstelle kan nur innerhalb des LANs erreicht werden. Wenn Du über die Fernverbindung verbunden bist, könnte der folgende Link eventuell nicht funktionieren.</translation>
+    </message>
+    <message>
+        <source>Open debug interface</source>
+        <translation>Öffne Debug Schnittstelle</translation>
     </message>
 </context>
 <context>
@@ -2073,6 +2081,73 @@
     <message>
         <source>Currently charging at %1.</source>
         <translation>Aktuell wird mit %1 geladen.</translation>
+    </message>
+</context>
+<context>
+    <name>EvDashSettingsPage</name>
+    <message>
+        <source>EV Dash</source>
+        <translation>EV Dash</translation>
+    </message>
+    <message>
+        <source>Remove user</source>
+        <translation>Benutzer entfernen</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove &quot;%1&quot;?</source>
+        <translation>Bist du sicher, dass Du &quot;%1&quot; entfernen möchtest?</translation>
+    </message>
+    <message>
+        <source>The given username is already in use. Please choose a different username.</source>
+        <translation>Der gewählte Benutzername wird bereits verwendet. Bitte wähle einen anderen Benutzernamen.</translation>
+    </message>
+    <message>
+        <source>The given password is not valid.</source>
+        <translation>Das eingegebene Passwort ist nicht gültig.</translation>
+    </message>
+    <message>
+        <source>Un unexpected error happened when creating the user. We&apos;re sorry for this. (Error code: %1)</source>
+        <translation>Beim Erstellen des Benutzers ist ein unerwarteter Fehler aufgetreten. Wir bitten dies zu entschuldigen. (Fehler-Code: %1)</translation>
+    </message>
+    <message>
+        <source>Create a new user</source>
+        <translation>Erstelle einen neuen Benutzer</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Benutzername</translation>
+    </message>
+    <message>
+        <source>Add user</source>
+        <translation>Benutzer hinzufügen</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Dashboard enabled</source>
+        <translation>Dasboard aktivieren</translation>
+    </message>
+    <message>
+        <source>Manage users</source>
+        <translation>Benutzer verwalten</translation>
+    </message>
+    <message>
+        <source>The dashboard can only be reached from the LAN. If you are using the remote connection, the following link might not work.</source>
+        <translation>Das Dashboard kan nur innerhalb des LANs erreicht werden. Wenn Du über die Fernverbindung verbunden bist, könnte der folgende Link eventuell nicht funktionieren.</translation>
+    </message>
+    <message>
+        <source>No active LAN IPv4 address was found in the network settings.</source>
+        <translation>Es konnte keine aktive LAN IPv4 Adresse in den Netzwerkeinstellungen gefunden werden.</translation>
+    </message>
+    <message>
+        <source>No reachable web server configuration was found for %1. Please enable the web server on this address or on 0.0.0.0.</source>
+        <translation>Es wurde keine erreichbare Webserver Einstellung fefunden für %1. Bitte richte einen Webserver der auf 0.0.0.0 hört ein.</translation>
+    </message>
+    <message>
+        <source>Open EVDash</source>
+        <translation>Öffne EVDash</translation>
     </message>
 </context>
 <context>
@@ -3871,22 +3946,6 @@ Bitte versuche es erneut.</translation>
         <translation>Erstelle ein Benutzerkonto, um dieses %1 System zu benutzen.</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation>Benutzername</translation>
-    </message>
-    <message>
-        <source>Your e-mail address</source>
-        <translation>Deine E-Mail Adresse</translation>
-    </message>
-    <message>
-        <source>Required</source>
-        <translation>Erforderlich</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Passwort</translation>
-    </message>
-    <message>
         <source>Your name</source>
         <translation>Dein Name</translation>
     </message>
@@ -5403,6 +5462,34 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <source>Configure magic</source>
         <translation>Magie einrichten</translation>
     </message>
+    <message>
+        <source>Full access to the system.</source>
+        <translation>Uneingeschränkte System Berechtigung.</translation>
+    </message>
+    <message>
+        <source>Execute actions and use things and services.</source>
+        <translation>Führe Aktionaus und nutze Geräte und Services.</translation>
+    </message>
+    <message>
+        <source>Add new things and change settings.</source>
+        <translation>Neues Gerät hinzufügen und Einstellungen vornehmen.</translation>
+    </message>
+    <message>
+        <source>Execute rules, scenes and scripts.</source>
+        <translation>Regeln, Szenen und Skripte ausführen.</translation>
+    </message>
+    <message>
+        <source>Create new rules and scripts in the system.</source>
+        <translation>Neue Regeln und Skripte erstellen.</translation>
+    </message>
+    <message>
+        <source>Access all things</source>
+        <translation>Auf alle Geräte zugreifen</translation>
+    </message>
+    <message>
+        <source>Allow to see and use all things of the system.</source>
+        <translation>Erlaube Geräte des Systems zu sehen und zu benutzen.</translation>
+    </message>
 </context>
 <context>
     <name>PackageDetailsPage</name>
@@ -6493,6 +6580,14 @@ Möchtest Du fortfahren?</translation>
         <source>Configure Z-Wave networks</source>
         <translation>Z-Wave Netzwerke einrichten</translation>
     </message>
+    <message>
+        <source>EV Dash</source>
+        <translation>EV Dash</translation>
+    </message>
+    <message>
+        <source>Dashboard settings</source>
+        <translation>Dashboard Einstellungen</translation>
+    </message>
 </context>
 <context>
     <name>SetupWizard</name>
@@ -6888,6 +6983,34 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Update sources</source>
         <translation>Quellen für die Aktualisierung</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation>Version:</translation>
+    </message>
+    <message>
+        <source>Version copied to clipboard</source>
+        <translation>Version in Zwischenablage kopiert</translation>
+    </message>
+    <message>
+        <source>%1 update available</source>
+        <translation>%1 Update verfügbar</translation>
+    </message>
+    <message>
+        <source>Installed version:</source>
+        <translation>Installierte Version:</translation>
+    </message>
+    <message>
+        <source>Candidate version:</source>
+        <translation>Versionskandidat:</translation>
+    </message>
+    <message>
+        <source>Update changelog:</source>
+        <translation>Update Änderungsprotokoll</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Aktualisierung</translation>
     </message>
 </context>
 <context>
@@ -7341,6 +7464,17 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
 </context>
 <context>
+    <name>UsernameTextField</name>
+    <message>
+        <source>Username</source>
+        <translation>Benutzername</translation>
+    </message>
+    <message>
+        <source>Your e-mail address</source>
+        <translation>Deine E-Mail Adresse</translation>
+    </message>
+</context>
+<context>
     <name>UsersSettingsPage</name>
     <message>
         <source>User settings</source>
@@ -7467,20 +7601,8 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
         <translation>Benutzer hinzufügen</translation>
     </message>
     <message>
-        <source>Username:</source>
-        <translation>Benutzername:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation>Passwort:</translation>
-    </message>
-    <message>
         <source>Full name:</source>
         <translation>Vollständiger Name:</translation>
-    </message>
-    <message>
-        <source>e-mail:</source>
-        <translation>E-Mail:</translation>
     </message>
     <message>
         <source>Create new user</source>
@@ -7497,6 +7619,26 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>User information</source>
         <translation>Benutzerinformationen</translation>
+    </message>
+    <message>
+        <source>Accessable things for</source>
+        <translation>Erlaubte Geräte für</translation>
+    </message>
+    <message>
+        <source>Acessable things</source>
+        <translation>Erlaubte Geräte</translation>
+    </message>
+    <message>
+        <source>Allowed things for this user</source>
+        <translation>Erlaubte Geräte für diesen Benutzer</translation>
+    </message>
+    <message>
+        <source>things accessable</source>
+        <translation>Geräte verwendbar</translation>
+    </message>
+    <message>
+        <source>Optional</source>
+        <translation>Optional</translation>
     </message>
 </context>
 <context>
