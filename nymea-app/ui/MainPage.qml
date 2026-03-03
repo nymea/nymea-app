@@ -127,7 +127,7 @@ Page {
 
     Connections {
         target: engine.ruleManager
-        onAddRuleReply: (commandId, ruleError, ruleId) => {
+        function onAddRuleReply(commandId, ruleError, ruleId) {
             d.editRulePage.busy = false
             if (d.editRulePage) {
                 pageStack.pop();

@@ -45,7 +45,7 @@ SettingsPageBase {
 
     Connections {
         target: root.zwaveManager
-        onAddNetworkReply: {
+        function onAddNetworkReply(commandId, error, networkUuid) {
             if (commandId == d.pendingCallId) {
                 d.pendingCallId = -1
                 var props = {};

@@ -48,7 +48,7 @@ ChartView {
 
     Connections {
         target: meters
-        onCountChanged: root.refresh()
+        function onCountChanged() { root.refresh(); }
     }
 
     Component.onCompleted: {

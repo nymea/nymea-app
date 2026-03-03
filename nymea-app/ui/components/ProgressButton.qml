@@ -145,7 +145,7 @@ Item {
         onProgressChanged: requestPaint()
         Connections {
             target: buttonDelegate
-            onPressedChanged: {
+            function onPressedChanged() {
                 if (!buttonDelegate.pressed) {
                     canvas.progress = 0;
                     canvas.requestPaint()

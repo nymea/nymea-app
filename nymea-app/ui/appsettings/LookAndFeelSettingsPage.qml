@@ -58,7 +58,7 @@ SettingsPageBase {
 
         Connections {
             target: styleController
-            onCurrentStyleChanged: {
+            function onCurrentStyleChanged() {
                 var popup = styleChangedDialog.createObject(root)
                 popup.open()
             }

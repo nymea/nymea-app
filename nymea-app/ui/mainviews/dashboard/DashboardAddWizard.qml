@@ -375,7 +375,7 @@ NymeaDialog {
 
                 Connections {
                     target: okButton
-                    onClicked: {
+                    function onClicked() {
                         root.dashboardModel.addFolderItem(folderNameTextField.text, iconsGrid.currentIcon, root.index)
                         root.close();
                     }
@@ -558,7 +558,7 @@ NymeaDialog {
 
                     Connections {
                         target: okButton
-                        onClicked: {
+                        function onClicked() {
                             root.dashboardModel.addWebViewItem(urlTextField.text, columnsTabs.currentValue, rowsTabs.currentValue, interactiveSwitch.checked, root.index)
                             root.close();
                         }

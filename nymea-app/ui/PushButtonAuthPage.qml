@@ -47,7 +47,7 @@ Page {
 
     Connections {
         target: engine.jsonRpcClient
-        onPushButtonAuthFailed: {
+        function onPushButtonAuthFailed() {
             var popup = errorDialog.createObject(root)
             popup.text = qsTr("Sorry, something went wrong during the setup. Try again please.")
             popup.open();

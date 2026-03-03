@@ -125,7 +125,7 @@ ThingPageBase {
 
                     Connections {
                         target: root.robotState
-                        onValueChanged: robot.evaluateState()
+                        function onValueChanged() { robot.evaluateState(); }
                     }
 
                     function travel(toHome) {
@@ -341,7 +341,7 @@ ThingPageBase {
                             property BrowserItems boundaries: engine.thingManager.browseThing(root.thing.id, map.id)
                             Connections {
                                 target: boundaries
-                                onCountChanged: {
+                                function onCountChanged() {
                                     canvas.requestPaint();
                                 }
                             }

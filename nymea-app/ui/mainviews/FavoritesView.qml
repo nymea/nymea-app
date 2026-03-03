@@ -207,7 +207,7 @@ MainViewBase {
             property int pendingCommand: -1
             Connections {
                 target: engine.tagsManager
-                onAddTagReply: {
+                function onAddTagReply(commandId, error) {
                     if (commandId == dropArea.pendingCommand) {
                         dropArea.pendingCommand = -1
                     }

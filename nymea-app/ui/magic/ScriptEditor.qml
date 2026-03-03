@@ -143,14 +143,14 @@ Page {
 
     Connections {
         target: engine.scriptManager
-        onAddScriptReply: {
+        function onAddScriptReply(id, status, scriptId, errors) {
             print("Add reply", status)
             deployReply(id, status, errors)
             if (status == ScriptManager.ScriptErrorNoError) {
                 d.scriptId = scriptId;
             }
         }
-        onEditScriptReply: {
+        function onEditScriptReply(id, status, errors) {
             print("Edit reply", status)
             deployReply(id, status, errors)
         }
@@ -168,7 +168,7 @@ Page {
             }
         }
 
-        onFetchScriptReply: (id, status, content) => {
+        function onFetchScriptReply(id, status, content) {
             if (id === d.callId && status === ScriptManager.ScriptErrorNoError) {
                 d.callId = -1;
                 d.oldContent = content;
@@ -183,13 +183,13 @@ Page {
                 autoSaver.active = true;
             }
         }
-        onRenameScriptReply: {
+        function onRenameScriptReply(id, status) {
             if (id == d.callId) {
                 d.callId = -1;
             }
         }
 
-        onScriptMessage: {
+        function onScriptMessage(scriptId, type, message) {
             print("scriptMessage:", scriptId, d.scriptId)
             if (scriptId !== d.scriptId) {
                 return;

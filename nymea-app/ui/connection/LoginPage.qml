@@ -41,16 +41,16 @@ SettingsPageBase {
 
     Connections {
         target: engine.jsonRpcClient
-        onAuthenticationFailed: {
+        function onAuthenticationFailed() {
             var popup = errorDialog.createObject(root)
             popup.text = qsTr("Sorry, that wasn't right. Try again please.")
             popup.open();
         }
-        onCreateUserSucceeded: {
+        function onCreateUserSucceeded() {
             engine.jsonRpcClient.authenticate(usernameTextField.text, passwordTextField.password, "nymea-app (" + PlatformHelper.deviceModel + ")");
         }
 
-        onCreateUserFailed: {
+        function onCreateUserFailed(error) {
             print("createUser failed")
             var message;
             switch (error) {

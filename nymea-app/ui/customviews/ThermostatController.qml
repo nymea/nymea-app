@@ -46,11 +46,11 @@ Item {
 
     Connections {
         target: targetTemperatureState
-        onValueChanged: canvas.requestPaint()
+        function onValueChanged() { canvas.requestPaint(); }
     }
     Connections {
         target: temperatureState
-        onValueChanged: canvas.requestPaint()
+        function onValueChanged() { canvas.requestPaint(); }
     }
     ActionQueue {
         id: actionQueue

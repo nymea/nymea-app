@@ -73,8 +73,8 @@ Page {
 
     Connections {
         target: engine.thingManager.things
-        onThingRemoved:{
-            if (thing == root.thing) {
+        function onThingRemoved(thing) {
+            if (thing === root.thing) {
                 print("Thing destroyed")
                 pageStack.pop()
             }

@@ -75,7 +75,7 @@ SettingsPageBase {
 
     Connections {
         target: root.zigbeeManager
-        onRemoveNodeReply: {
+        function onRemoveNodeReply(commandId, error) {
             if (commandId == d.pendingCommandId) {
                 d.pendingCommandId = -1
                 var props = {};
@@ -331,7 +331,7 @@ SettingsPageBase {
 
             Connections {
                 target: node
-                onLastSeenChanged: communicationIndicatorLedTimer.start()
+                function onLastSeenChanged(lastSeen) { communicationIndicatorLedTimer.start(); }
             }
 
             Timer {

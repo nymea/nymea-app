@@ -40,13 +40,13 @@ SettingsPageBase {
 
     Connections {
         target: AWSClient
-        onLoginResult: {
+        function onLoginResult(error) {
             root.busy = false;
             if (error === AWSClient.LoginErrorNoError) {
                 AWSClient.fetchDevices();
             }
         }
-        onDeleteAccountResult: {
+        function onDeleteAccountResult(error) {
             root.busy = false;
             if (error !== AWSClient.LoginErrorNoError) {
                 var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
@@ -199,7 +199,7 @@ SettingsPageBase {
 
         Connections {
             target: AWSClient
-            onLoginResult: {
+            function onLoginResult(error) {
                 switch (error) {
                 case AWSClient.LoginErrorInvalidUserOrPass:
                     errorLabel.text = qsTr("Failed to log in. Please try again. Do you perhaps have <a href=\"#\">forgotten your password?</a>")
@@ -256,7 +256,7 @@ SettingsPageBase {
 
             Connections {
                 target: AWSClient
-                onSignupResult: {
+                function onSignupResult(error) {
                     signupPage.busy = false;
                     var text;
                     switch (error) {
@@ -385,7 +385,7 @@ SettingsPageBase {
 
                 Connections {
                     target: AWSClient
-                    onConfirmationResult: {
+                    function onConfirmationResult(error) {
                         root.busy = false;
                         var text
                         switch (error) {
@@ -423,7 +423,7 @@ SettingsPageBase {
 
             Connections {
                 target: AWSClient
-                onForgotPasswordResult: {
+                function onForgotPasswordResult(error) {
                     resetPasswordPage.busy = false
                     if (error !== AWSClient.LoginErrorNoError) {
                         var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));
@@ -476,7 +476,7 @@ SettingsPageBase {
 
             Connections {
                 target: AWSClient
-                onConfirmForgotPasswordResult: {
+                function onConfirmForgotPasswordResult(error) {
                     confirmResetPasswordPage.busy = false
                     if (error !== AWSClient.LoginErrorNoError) {
                         var errorDialog = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"));

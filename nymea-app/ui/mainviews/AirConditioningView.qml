@@ -112,7 +112,7 @@ MainViewBase {
 
         Connections {
             target: acManager
-            onAddZoneReply: {
+            function onAddZoneReply(commandId, error, zoneId) {
                 if (commandId == noZonePlaceHolder.pendingAddCall) {
                     print("zone added", zoneId)
                     var zone = acManager.zoneInfos.getZoneInfo(zoneId)

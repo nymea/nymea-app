@@ -62,7 +62,7 @@ Item {
 
     Connections {
         target: engine.thingManager
-        onExecuteBrowserItemReply: {
+        function onExecuteBrowserItemReply(commandId, thingError, displayMessage) {
             if (commandId == d.pendingItemExecutionId) {
                 if (thingError === Thing.ThingErrorNoError) {
                     root.itemLaunched();

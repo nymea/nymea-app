@@ -38,7 +38,7 @@ SettingsPageBase {
 
         Connections {
             target: engine.jsonRpcClient
-            onCloudConnectionStateChanged: {
+            function onCloudConnectionStateChanged() {
                 print("cloud connection state changed", engine.jsonRpcClient.cloudConnectionState)
                 if (engine.jsonRpcClient.cloudConnectionState === JsonRpcClient.CloudConnectionStateConnected) {
                     d.deploymentStarted = false;

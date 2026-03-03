@@ -72,7 +72,7 @@ Page {
 
     Connections {
         target: root.network.nodes
-        onNodeAdded: {
+        function onNodeAdded(node) {
             root.reload()
             node.neighborsChanged.connect(root.reloadDelayed);
         }

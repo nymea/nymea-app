@@ -43,7 +43,7 @@ Item {
     }
     Connections {
         target: currentPowerState
-        onValueChanged: {
+        function onValueChanged() {
             if (currentPowerState.value >= 0) {
                 consumerSlice.value = currentPowerState.value
                 producerSlice.value = 0

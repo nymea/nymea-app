@@ -83,7 +83,7 @@ Item {
                         }
                         Connections {
                             target: contentContainer.data[index]
-                            onRaise: {
+                            function onRaise() {
                                 panelTabs.currentIndex = index
                                 d.autoWouldShow = true;
                             }

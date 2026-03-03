@@ -73,8 +73,8 @@ protected:
 
 signals:
     void countChanged();
-    void thingAdded(Thing *device);
-    void thingRemoved(Thing *device);
+    void thingAdded(Thing *thing);
+    void thingRemoved(Thing *thing);
 
 private:
     QList<Thing *> m_things;

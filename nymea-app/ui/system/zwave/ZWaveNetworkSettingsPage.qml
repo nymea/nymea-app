@@ -54,7 +54,7 @@ SettingsPageBase {
 
     Connections {
         target: root.zwaveManager
-        onRemoveNetworkReply: {
+        function onRemoveNetworkReply(commandId, error) {
             if (commandId === d.pendingCommandId) {
                 d.pendingCommandId = -1;
                 if (!processError(error)) {
@@ -63,7 +63,7 @@ SettingsPageBase {
             }
         }
 
-        onFactoryResetNetworkReply: {
+        function onFactoryResetNetworkReply(commandId, error) {
             if (commandId === d.pendingCommandId) {
                 d.pendingCommandId = -1;
                 if (!processError(error)) {
@@ -71,7 +71,7 @@ SettingsPageBase {
                 }
             }
         }
-        onSoftResetControllerReply: {
+        function onSoftResetControllerReply(commandId, error) {
             if (commandId === d.pendingCommandId) {
                 d.pendingCommandId = -1;
                 processError(error)

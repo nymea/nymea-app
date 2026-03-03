@@ -97,7 +97,6 @@ Page {
             }
 
             busyOverlay.shown = true;
-
         }
     }
 

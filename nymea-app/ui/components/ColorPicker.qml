@@ -38,7 +38,7 @@ Item {
 
     Connections {
         target: colorState
-        onValueChanged: {
+        function onValueChanged() {
             if (actionQueue.pendingValue === null) {
                 actionQueue.useStoredPoint = false
             }

@@ -62,8 +62,8 @@ Page {
 
     Connections {
         target: engine.thingManager
-        onExecuteBrowserItemReply: actionExecuted(commandId, thingError, displayMessage)
-        onExecuteBrowserItemActionReply: actionExecuted(commandId, thingError, displayMessage)
+        function onExecuteBrowserItemReply(commandId, thingError, displayMessage) { actionExecuted(commandId, thingError, displayMessage); }
+        function onExecuteBrowserItemActionReply(commandId, thingError, displayMessage) { actionExecuted(commandId, thingError, displayMessage); }
     }
     function actionExecuted(commandId, thingError, displayMessage) {
         if (commandId === d.pendingBrowserItemId) {

@@ -51,7 +51,7 @@ SettingsPageBase {
 
     Connections {
         target: acManager
-        onSetZoneNameReply: {
+        function onSetZoneNameReply(commandId, error) {
             if (commandId == d.pendingCommandId) {
                 d.pendingCommandId = -1
             }
@@ -276,7 +276,7 @@ SettingsPageBase {
 
             Connections {
                 target: acManager
-                onSetZoneThingsReply: {
+                function onSetZoneThingsReply(commandId, error) {
                     if (commandId == d.pendingCommandId) {
                         d.pendingCommandId = -1
                     }

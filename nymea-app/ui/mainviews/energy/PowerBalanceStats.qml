@@ -185,7 +185,7 @@ StatsBase {
 
         Connections {
             target: energyManager
-            onPowerBalanceChanged: {
+            function onPowerBalanceChanged() {
 //                print("updating because of power balance change. fetchingData", powerBalanceLogs.fetchingData, "fetchPending", d.fetchPending)
                 d.refresh();
             }

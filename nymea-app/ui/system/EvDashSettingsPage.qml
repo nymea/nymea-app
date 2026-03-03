@@ -182,7 +182,7 @@ SettingsPageBase {
 
     Connections {
         target: evDashManager
-        onAddUserReply: (commandId, error) => {
+        function onAddUserReply(commandId, error) {
             if (error === EvDashManager.EvDashErrorNoError)
                 return
 
@@ -203,7 +203,7 @@ SettingsPageBase {
             popup.open()
         }
 
-        onRemoveUserReply: (commandId, error) => {
+        function onRemoveUserReply(commandId, error) {
             if (error === EvDashManager.EvDashErrorNoError)
                 return
 

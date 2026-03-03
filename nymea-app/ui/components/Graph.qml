@@ -37,7 +37,7 @@ Item {
 
     Connections {
         target: model
-        onCountChanged: canvas.requestPaint()
+        function onCountChanged() { canvas.requestPaint(); }
     }
     onModelChanged: canvas.requestPaint()
 

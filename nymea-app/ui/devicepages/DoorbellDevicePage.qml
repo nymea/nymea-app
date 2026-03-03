@@ -67,7 +67,7 @@ ThingPageBase {
 
                 Connections {
                     target: root.thing
-                    onEventTriggered: {
+                    function onEventTriggered(eventTypeId, params) {
                         print("evenEmitted", params)
                         if (eventTypeId == root.doorbellPressedType.id) {
                             ringAnimation.start();

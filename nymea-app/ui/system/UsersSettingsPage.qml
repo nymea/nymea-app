@@ -174,7 +174,7 @@ SettingsPageBase {
 
             Connections {
                 target: userManager
-                onSetUserInfoReply: (id, error) => {
+                function onSetUserInfoReply(id, error) {
                     editUserInfoPage.busy = false
                     if (error !== UserManager.UserErrorNoError) {
                         var component = Qt.createComponent("../components/ErrorDialog.qml")
@@ -513,7 +513,7 @@ SettingsPageBase {
 
             Connections {
                 target: userManager
-                onRemoveUserReply: (id, error) => {
+                function onRemoveUserReply(id, error) {
                     userDetailsPage.busy = false
                     if (error !== UserManager.UserErrorNoError) {
                         var component = Qt.createComponent("../components/ErrorDialog.qml")
@@ -646,7 +646,7 @@ SettingsPageBase {
             }
             Connections {
                 target: userManager
-                onCreateUserReply: (id, error) => {
+                function onCreateUserReply(id, error) {
                     createUserPage.busy = false
                     if (error !== UserManager.UserErrorNoError) {
                         var component = Qt.createComponent("../components/ErrorDialog.qml")

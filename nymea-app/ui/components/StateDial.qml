@@ -68,7 +68,7 @@ Item {
 
     Connections {
         target: root.progressState
-        onValueChanged: {
+        function onValueChanged() {
             canvas.requestPaint()
         }
     }

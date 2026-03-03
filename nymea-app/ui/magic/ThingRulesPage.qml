@@ -99,7 +99,7 @@ Page {
 
     Connections {
         target: engine.ruleManager
-        onAddRuleReply: {
+        function onAddRuleReply(commandId, ruleError, ruleId) {
             if (ruleError == RuleManager.RuleErrorNoError) {
                 pageStack.pop(root);
             } else {
@@ -110,7 +110,7 @@ Page {
             d.editRulePage.busy = false;
         }
 
-        onEditRuleReply: {
+        function onEditRuleReply(commandId, ruleError) {
             if (ruleError == RuleManager.RuleErrorNoError) {
                 pageStack.pop(root);
             } else {

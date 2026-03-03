@@ -35,12 +35,12 @@ NymeaSwipeDelegate {
     iconName: thing && thing.thingClass ? app.interfacesToIcon(thing.thingClass.interfaces) : ""
     text: thing ? thing.name : ""
     progressive: true
-    secondaryIconName: thing.setupStatus == Thing.ThingSetupStatusComplete && batteryCritical ? "qrc:/icons/battery/battery-010.svg" : ""
+    secondaryIconName: thing.setupStatus === Thing.ThingSetupStatusComplete && batteryCritical ? "qrc:/icons/battery/battery-010.svg" : ""
     tertiaryIconName: {
-        if (thing.setupStatus == Thing.ThingSetupStatusFailed) {
+        if (thing.setupStatus === Thing.ThingSetupStatusFailed) {
             return "qrc:/icons/dialog-warning-symbolic.svg";
         }
-        if (thing.setupStatus == Thing.ThingSetupStatusInProgress) {
+        if (thing.setupStatus === Thing.ThingSetupStatusInProgress) {
             return "qrc:/icons/settings.svg"
         }
         if (connectedState && connectedState.value === false) {
@@ -53,10 +53,10 @@ NymeaSwipeDelegate {
     }
 
     tertiaryIconColor: {
-        if (thing.setupStatus == Thing.ThingSetupStatusFailed) {
+        if (thing.setupStatus === Thing.ThingSetupStatusFailed) {
             return Style.red
         }
-        if (thing.setupStatus == Thing.ThingSetupStatusInProgress) {
+        if (thing.setupStatus === Thing.ThingSetupStatusInProgress) {
             return Style.iconColor
         }
         if (connectedState && connectedState.value === false) {

@@ -93,7 +93,7 @@ Item {
     Connections {
         target: powerBalanceLogs
 
-        onEntriesAdded: {
+        function onEntriesAdded(index, entries) {
 //            print("entries added", index, entries.length)
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i]
@@ -111,7 +111,7 @@ Item {
             }
         }
 
-        onEntriesRemoved: (index, count) => {
+        function onEntriesRemoved(index, count) {
             acquisitionUpperSeries.removePoints(index, count)
             storageUpperSeries.removePoints(index, count)
             selfConsumptionUpperSeries.removePoints(index, count)

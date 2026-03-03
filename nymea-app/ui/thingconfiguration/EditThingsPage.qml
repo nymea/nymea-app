@@ -56,8 +56,8 @@ Page {
 
     Connections {
         target: engine.thingManager
-        onRemoveThingReply: {
-            if (commandId != d.pendingCommandId) {
+        function onRemoveThingReply(commandId, thingError, ruleIds) {
+            if (commandId !== d.pendingCommandId) {
                 return;
             }
 
@@ -121,7 +121,7 @@ Page {
             property Thing thing: null
 
             onAccepted: {
-                d.pendingCommand = engine.thingManager.removeThing(thing.id)
+                d.pendingCommandId = engine.thingManager.removeThing(thing.id)
             }
         }
     }

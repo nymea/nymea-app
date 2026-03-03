@@ -103,7 +103,7 @@ ThingPageBase {
 
     Connections {
         target: engine.ruleManager
-        onAddRuleReply: {
+        function onAddRuleReply(commandId, ruleError, ruleId) {
             if (commandId == d.pendingRuleCreationId) {
                 d.pendingRuleCreationId = -1
                 if (ruleError != RuleManager.RuleErrorNoError) {
@@ -125,7 +125,7 @@ ThingPageBase {
 
     Connections {
         target: root.powerState
-        onValueChanged: cleanupRules()
+        function onValueChanged() { cleanupRules(); }
     }
 
     LogsModelNg {

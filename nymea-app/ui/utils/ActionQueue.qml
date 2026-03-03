@@ -68,7 +68,7 @@ Item {
 
     Connections {
         target: root.thing
-        onExecuteActionReply: (commandId, thingError, displayMessage) => {
+        function onExecuteActionReply(commandId, thingError, displayMessage) {
             if (d.pendingCommand === commandId) {
 //                print("command finished")
                 d.pendingCommand = -1;

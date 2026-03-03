@@ -39,7 +39,7 @@ BigThingTile {
 
         Connections {
             target: itemDelegate
-            onThingChanged: stateModel.update()
+            function onThingChanged() { stateModel.update(); }
         }
 
         ListModel {

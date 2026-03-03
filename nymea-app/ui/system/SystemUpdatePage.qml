@@ -49,7 +49,7 @@ Page {
 
     Connections {
         target: engine.systemController
-        onEnableRepositoryFinished: (id, success) => {
+        function onEnableRepositoryFinished(id, success) {
                                         if (!success) {
                                             var popup = errorDialogComponent.createObject(app, {errorCode: qsTr("Failure adding repository.") })
                                             popup.open();

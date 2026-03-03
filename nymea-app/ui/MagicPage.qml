@@ -100,7 +100,7 @@ Page {
 
     Connections {
         target: engine.ruleManager
-        onAddRuleReply: (commandId, ruleError, ruleId) => {
+        function onAddRuleReply(commandId, ruleError, ruleId) {
             if (ruleError === RuleManager.RuleErrorNoError) {
 //                print("should tag rule now:", d.editRulePage.rule.id, d.editRulePage.ruleIcon, d.editRulePage.ruleColor)
 //                engine.tagsManager.tagRule(ruleId, "color", d.editRulePage.ruleColor)
@@ -113,7 +113,7 @@ Page {
             d.editRulePage.busy = false;
         }
 
-        onEditRuleReply: (commandId, ruleError) => {
+        function onEditRuleReply(commandId, ruleError) {
             if (ruleError === RuleManager.RuleErrorNoError) {
 //                print("should tag rule now:", d.editRulePage.ruleIcon, d.editRulePage.ruleColor)
                 engine.tagsManager.tagRule(d.editRulePage.rule.id, "color", d.editRulePage.ruleColor)
@@ -147,7 +147,7 @@ Page {
             property var iconTag: model.executable ? engine.tagsManager.tags.findRuleTag(model.id, "icon") : null
             Connections {
                 target: engine.tagsManager.tags
-                onCountChanged: {
+                function onCountChanged() {
                     colorTag = engine.tagsManager.tags.findRuleTag(model.id, "color")
                     iconTag = engine.tagsManager.tags.findRuleTag(model.id, "icon")
                 }

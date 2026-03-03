@@ -48,7 +48,7 @@ Rectangle {
 
     Connections {
         target: root.model
-        onCountChanged: {
+        function onCountChanged() {
             d.hidden = false;
             d.currentIndex = 0;
             if (root.model.count == 0) {

@@ -46,7 +46,7 @@ ThingPageBase {
 
     Connections {
         target: logsModelNg
-        onCountChanged: {
+        function onCountChanged() {
             codeLabel.text = logsModelNg.get(0).value
             timestampLabel.text = Qt.formatDateTime(logsModelNg.get(0).timestamp)
         }

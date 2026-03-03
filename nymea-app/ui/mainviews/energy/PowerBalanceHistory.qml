@@ -105,7 +105,7 @@ Item {
     Connections {
         target: powerBalanceLogs
 
-        onEntriesAddedIdx: (index, count) => {
+        function onEntriesAddedIdx(index, count) {
 //            print("entries added", index, count)
             selfProductionConsumptionSeries.upperSeries = null
             selfProductionConsumptionSeries.lowerSeries = null
@@ -147,7 +147,7 @@ Item {
             acquisitionSeries.lowerSeries = fromStorageUpperSeries
         }
 
-        onEntriesRemoved: (index, count) => {
+        function onEntriesRemoved(index, count) {
             // Note QtCharts crash when calling removePoints() for points that don't exist.
             // Additionally it may decide to ignore values we add, e.g. if we try to add an Inf or undefined value for whatever reason
             // So, even though in theory the series should always 1:1 reflect the model, it may not do so in practice and we'll have to make sure not crash here

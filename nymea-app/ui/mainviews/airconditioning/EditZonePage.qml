@@ -48,13 +48,13 @@ SettingsPageBase {
 
     Connections {
         target: acManager
-        onSetZoneNameReply: {
+        function onSetZoneNameReply(commandId, error) {
             if (commandId == d.pendingCommandId) {
                 d.pendingCommandId = -1
             }
         }
 
-        onRemoveZoneReply: {
+        function onRemoveZoneReply(commandId, error) {
             if (commandId == d.pendingCommandId) {
                 d.pendingCommandId = -1
                 pageStack.pop()

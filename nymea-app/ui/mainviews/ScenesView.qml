@@ -67,7 +67,7 @@ MainViewBase {
 
             Connections {
                 target: engine.tagsManager.tags
-                onCountChanged: {
+                function onCountChanged() {
                     colorTag = engine.tagsManager.tags.findRuleTag(model.id, "color")
                     iconTag = engine.tagsManager.tags.findRuleTag(model.id, "icon")
                 }

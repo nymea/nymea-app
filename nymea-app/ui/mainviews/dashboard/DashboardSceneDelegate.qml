@@ -54,7 +54,7 @@ DashboardDelegateBase {
 
         Connections {
             target: engine.tagsManager.tags
-            onCountChanged: {
+            function onCountChanged() {
                 colorTag = engine.tagsManager.tags.findRuleTag(root.item.ruleId, "color")
                 iconTag = engine.tagsManager.tags.findRuleTag(root.item.ruleId, "icon")
             }

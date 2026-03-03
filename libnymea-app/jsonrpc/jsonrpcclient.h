@@ -26,8 +26,8 @@
 #define NYMEAJSONRPCCLIENT_H
 
 #include <QObject>
-#include <QVariantMap>
 #include <QPointer>
+#include <QVariantMap>
 #include <QVersionNumber>
 
 #include "connection/nymeaconnection.h"
@@ -43,8 +43,8 @@ class JsonRpcClient : public QObject
     Q_PROPERTY(NymeaConnection::BearerTypes availableBearerTypes READ availableBearerTypes NOTIFY availableBearerTypesChanged)
     Q_PROPERTY(NymeaConnection::ConnectionStatus connectionStatus READ connectionStatus NOTIFY connectionStatusChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
-    Q_PROPERTY(NymeaHost* currentHost READ currentHost NOTIFY currentHostChanged)
-    Q_PROPERTY(Connection* currentConnection READ currentConnection NOTIFY currentConnectionChanged)
+    Q_PROPERTY(NymeaHost *currentHost READ currentHost NOTIFY currentHostChanged)
+    Q_PROPERTY(Connection *currentConnection READ currentConnection NOTIFY currentConnectionChanged)
     Q_PROPERTY(bool initialSetupRequired READ initialSetupRequired NOTIFY initialSetupRequiredChanged)
     Q_PROPERTY(bool authenticationRequired READ authenticationRequired NOTIFY authenticationRequiredChanged)
     Q_PROPERTY(bool pushButtonAuthAvailable READ pushButtonAuthAvailable NOTIFY pushButtonAuthAvailableChanged)
@@ -103,7 +103,6 @@ public:
     Q_INVOKABLE int createUser(const QString &username, const QString &password, const QString &displayName, const QString &email);
     Q_INVOKABLE int authenticate(const QString &username, const QString &password, const QString &deviceName);
     Q_INVOKABLE int requestPushButtonAuth(const QString &deviceName);
-
 
 signals:
     void availableBearerTypesChanged();
@@ -181,15 +180,14 @@ private:
 
     bool loadPem(const QUuid &serverUud, QByteArray &pem);
     bool storePem(const QUuid &serverUuid, const QByteArray &pem);
-
 };
-
 
 class JsonRpcReply : public QObject
 {
     Q_OBJECT
 public:
-    explicit JsonRpcReply(int commandId, QString nameSpace, QString method, QVariantMap params = QVariantMap(), QPointer<QObject> caller = QPointer<QObject>(), const QString &callback = QString());
+    explicit JsonRpcReply(
+        int commandId, QString nameSpace, QString method, QVariantMap params = QVariantMap(), QPointer<QObject> caller = QPointer<QObject>(), const QString &callback = QString());
     ~JsonRpcReply();
 
     int commandId() const;
@@ -210,6 +208,5 @@ private:
     QPointer<QObject> m_caller;
     QString m_callback;
 };
-
 
 #endif // NYMEAJSONRPCCLIENT_H

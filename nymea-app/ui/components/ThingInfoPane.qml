@@ -106,7 +106,7 @@ InfoPaneBase {
             }
             Connections {
                 target: engine.thingManager
-                onExecuteActionReply: (commandId, thingError, displayMessage) => {
+                function onExecuteActionReply(commandId, thingError, displayMessage) {
                     if (commandId === childLockIcon.pendingAction) {
                         childLockIcon.pendingAction = -1
                     }

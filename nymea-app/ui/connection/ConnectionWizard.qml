@@ -775,7 +775,7 @@ WizardPageBase {
 
             Connections {
                 target: nymeaDiscovery.nymeaHosts
-                onCountChanged: updateNextButton();
+                function onCountChanged() { updateNextButton(); }
             }
 
             function updateNextButton() {

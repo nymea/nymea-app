@@ -144,7 +144,7 @@ MainViewBase {
                     }
                     Connections {
                         target: loader.item
-                        onOpenDialog: {
+                        function onOpenDialog(dialogComponent) {
                             dialogComponent.createObject(root).open()
                         }
                     }

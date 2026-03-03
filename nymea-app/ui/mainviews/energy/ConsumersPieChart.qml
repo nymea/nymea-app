@@ -46,7 +46,7 @@ Item {
 
     Connections {
         target: engine.thingManager
-        onFetchingDataChanged: {
+        function onFetchingDataChanged() {
             if (!engine.thingManager.fetchingData) {
                 updateConsumers()
             }
@@ -55,7 +55,7 @@ Item {
 
     Connections {
         target: root.consumers
-        onCountChanged: {
+        function onCountChanged() {
             if (!engine.thingManager.fetchingData) {
                 updateConsumers()
             }
@@ -64,7 +64,7 @@ Item {
 
     Connections {
         target: energyManager
-        onPowerBalanceChanged: {
+        function onPowerBalanceChanged() {
             var consumersSummation = 0
             for (var i = 0; i < consumers.count; i++) {
                 consumersSummation += consumers.get(i).stateByName("currentPower").value

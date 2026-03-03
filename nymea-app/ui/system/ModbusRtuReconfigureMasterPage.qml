@@ -102,7 +102,7 @@ SettingsPageBase {
 
             Connections {
                 target: root.modbusRtuManager
-                onReconfigureModbusRtuMasterReply: {
+                function onReconfigureModbusRtuMasterReply(commandId, error) {
                     if (commandId === d.pendingCommandId) {
                         d.pendingCommandId = -1
                         if (modbusRtuManager.handleModbusError(error)) {

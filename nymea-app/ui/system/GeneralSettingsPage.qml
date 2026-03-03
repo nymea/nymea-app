@@ -42,9 +42,9 @@ SettingsPageBase {
 
     Connections {
         target: engine.systemController
-        onRestartReply: handleReply(id, success)
-        onRebootReply: handleReply(id, success)
-        onShutdownReply: handleReply(id, success)
+        function onRestartReply(id, success) { handleReply(id, success); }
+        function onRebootReply(id, success) { handleReply(id, success); }
+        function onShutdownReply(id, success) { handleReply(id, success); }
 
         function handleReply(id, success) {
             if (id === d.pendingCommand) {

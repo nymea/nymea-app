@@ -205,7 +205,7 @@ Item {
 
             Connections {
                 target: selectionTabs
-                onTabSelected: {
+                function onTabSelected(index) {
                     logsModel.clear()
                     logsModel.fetchLogs()
                 }

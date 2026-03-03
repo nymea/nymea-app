@@ -593,7 +593,7 @@ ApplicationWindow {
     }
     Connections {
         target: Qt.application
-        onStateChanged: closeTimer.stop()
+        function onStateChanged(state) { closeTimer.stop(); }
     }
 
     FolderListModel {

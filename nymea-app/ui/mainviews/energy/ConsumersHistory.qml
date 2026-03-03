@@ -137,7 +137,7 @@ Item {
 
     Connections {
         target: engine.tagsManager
-        onBusyChanged: d.update()
+        function onBusyChanged() { d.update(); }
     }
 
     Component {

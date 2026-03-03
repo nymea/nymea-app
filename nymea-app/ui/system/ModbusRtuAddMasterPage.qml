@@ -95,7 +95,7 @@ SettingsPageBase {
 
             Connections {
                 target: root.modbusRtuManager
-                onAddModbusRtuMasterReply: {
+                function onAddModbusRtuMasterReply(commandId, error, modbusUuid) {
                     if (commandId === d.pendingCommandId) {
                         d.pendingCommandId = -1
                         if (modbusRtuManager.handleModbusError(error)) {
