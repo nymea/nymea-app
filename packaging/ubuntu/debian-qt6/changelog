@@ -1,3 +1,10 @@
+nymea-app (1.11.8) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update singal connection handlers to the new syntax
+
+ -- jenkins <developer@nymea.io>  Wed, 04 Mar 2026 10:27:42 +0100
+
 nymea-app (1.11.6) bionic; urgency=medium
 
   [ Simon Stürz ]
