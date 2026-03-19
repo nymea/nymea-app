@@ -27,6 +27,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts
+
 import Nymea
 
 import "../components"
@@ -34,20 +35,23 @@ import "../components"
 SettingsPageBase {
     id: root
     title: qsTr("Backup settings")
+
+    header: NymeaHeader {
+        text: qsTr("Backup settings")
+        onBackPressed: pageStack.pop()
+
+        HeaderButton {
+            imageSource: Qt.resolvedUrl("qrc:/icons/settings.svg")
+            onClicked: pageStack.push(backupSettingsComponent)
+        }
+    }
+
     busy: engine.transfersManager.busy
     busyText: engine.transfersManager.statusText.length > 0 ? engine.transfersManager.statusText : qsTr("Transferring backup...")
 
     property string pendingDownloadId: ""
     property string pendingFileName: ""
     property string statusMessage: ""
-
-    function defaultDownloadFolder() {
-        var folder = StandardPaths.writableLocation(StandardPaths.DownloadLocation)
-        if (!folder || folder.length === 0) {
-            folder = StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-        }
-        return folder
-    }
 
     function openErrorDialog(message) {
         var component = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
@@ -63,21 +67,26 @@ SettingsPageBase {
     function clearPendingDownload() {
         pendingDownloadId = ""
         pendingFileName = ""
+        saveBackupDialog.selectedFileName = ""
     }
 
-    Label {
-        Layout.fillWidth: true
-        Layout.margins: Style.margins
-        wrapMode: Text.WordWrap
-        text: qsTr("Backup directory: %1").arg(engine.nymeaConfiguration.backupDestinationDirectory)
+    SettingsPageSectionHeader {
+        text: qsTr("Backup files")
     }
 
-    Label {
-        Layout.fillWidth: true
-        Layout.margins: Style.margins
-        wrapMode: Text.WordWrap
-        text: qsTr("Number of backups to keep: %1").arg(engine.nymeaConfiguration.backupMaxCount)
+    Repeater {
+        id: backupFilesRepeater
+        model: engine.nymeaConfiguration.backupFiles
+        NymeaSwipeDelegate {
+            Layout.fillWidth: true
+            iconName: "qrc:/icons/browser/BrowserIconFile.svg"
+            text: model.fileName
+            subText: Qt.formatDateTime(model.timestamp, "dd.MM.yyyy hh:mm:ss")
+            onClicked: pageStack.push(backupFileDetailsComponent, { backupFile: engine.nymeaConfiguration.backupFiles.get(index) })
+        }
     }
+
+
 
     Label {
         Layout.fillWidth: true
@@ -114,8 +123,34 @@ SettingsPageBase {
         id: saveBackupDialog
         title: qsTr("Save backup")
         fileMode: FileDialog.SaveFile
-        nameFilters: [qsTr("All files (*)")]
-        currentFolder: root.defaultDownloadFolder()
+        defaultSuffix: "tar.gz"
+        nameFilters: [qsTr("Backup archives (*.tar.gz)")]
+        property string selectedFileName: ""
+
+        currentFolder: {
+            var folder = StandardPaths.writableLocation(StandardPaths.DownloadLocation)
+            if (!folder || folder.length === 0) {
+                folder = StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+            }
+            return folder
+        }
+
+        onCurrentFolderChanged: {
+            if (selectedFileName.length > 0) {
+                selectedFile = currentFolder + "/" + selectedFileName
+            }
+        }
+
+        onSelectedFileChanged: {
+            if (!selectedFile || selectedFile.toString().length === 0) {
+                return
+            }
+
+            var fileName = selectedFile.toString().split("/").pop()
+            if (fileName.length > 0) {
+                selectedFileName = fileName
+            }
+        }
 
         onAccepted: {
             if (!root.pendingDownloadId || root.pendingDownloadId.length === 0) {
@@ -154,8 +189,8 @@ SettingsPageBase {
 
             root.pendingDownloadId = downloadId
             root.pendingFileName = fileName
-            saveBackupDialog.currentFolder = root.defaultDownloadFolder()
-            saveBackupDialog.selectedFile = root.defaultDownloadFolder() + "/" + fileName
+            saveBackupDialog.selectedFileName = fileName
+            saveBackupDialog.selectedFile = saveBackupDialog.currentFolder + "/" + fileName
             saveBackupDialog.open()
         }
     }
@@ -178,6 +213,184 @@ SettingsPageBase {
             }
 
             root.openErrorDialog(errorString)
+        }
+    }
+
+    Component {
+        id:  backupSettingsComponent
+
+        SettingsPageBase {
+            id: backupSettingsPage
+            title: qsTr("Backup settings")
+            busy: saving
+            busyText: qsTr("Saving backup settings...")
+
+            property bool saving: false
+            property string statusMessage: ""
+
+            function syncFromConfiguration() {
+                if (saving || backupDestinationDirectoryTextField.activeFocus || backupMaxCountTextField.activeFocus) {
+                    return
+                }
+
+                backupDestinationDirectoryTextField.text = engine.nymeaConfiguration.backupDestinationDirectory
+                backupMaxCountTextField.text = String(engine.nymeaConfiguration.backupMaxCount)
+            }
+
+            function currentBackupMaxCount() {
+                var value = parseInt(backupMaxCountTextField.text)
+                if (isNaN(value)) {
+                    return 0
+                }
+
+                return value
+            }
+
+            function backupSettingsDirty() {
+                return backupDestinationDirectoryTextField.text.trim() !== engine.nymeaConfiguration.backupDestinationDirectory
+                        || currentBackupMaxCount() !== engine.nymeaConfiguration.backupMaxCount
+            }
+
+            Component.onCompleted: syncFromConfiguration()
+
+            SettingsPageSectionHeader {
+                text: qsTr("Backup configuration")
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("Backup destination directory")
+            }
+
+            TextField {
+                id: backupDestinationDirectoryTextField
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                placeholderText: qsTr("Destination directory")
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("Number of backups to keep")
+            }
+
+            TextField {
+                id: backupMaxCountTextField
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                inputMethodHints: Qt.ImhDigitsOnly
+                validator: IntValidator {
+                    bottom: 0
+                    top: 2147483647
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("0 means no max count. All backups will be kept.")
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                wrapMode: Text.WordWrap
+                visible: statusMessage.length > 0
+                text: statusMessage
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                enabled: !saving
+                         && backupDestinationDirectoryTextField.text.trim().length > 0
+                         && backupMaxCountTextField.acceptableInput
+                         && backupSettingsPage.backupSettingsDirty()
+                text: qsTr("Apply backup settings")
+                onClicked: {
+                    statusMessage = ""
+                    saving = true
+                    engine.nymeaConfiguration.setBackupConfiguration(backupDestinationDirectoryTextField.text.trim(),
+                                                                     backupSettingsPage.currentBackupMaxCount())
+                }
+            }
+
+            Connections {
+                target: engine.nymeaConfiguration
+
+                function onBackupDestinationDirectoryChanged() {
+                    backupSettingsPage.syncFromConfiguration()
+                }
+
+                function onBackupMaxCountChanged() {
+                    backupSettingsPage.syncFromConfiguration()
+                }
+
+                function onSetBackupConfigurationFinished(commandId, configurationError) {
+                    backupSettingsPage.saving = false
+
+                    if (configurationError !== "ConfigurationErrorNoError") {
+                        root.openErrorDialog(qsTr("Failed to update the backup settings: %1").arg(configurationError))
+                        return
+                    }
+
+                    backupSettingsPage.statusMessage = qsTr("Backup settings updated successfully.")
+                    backupSettingsPage.syncFromConfiguration()
+                }
+            }
+        }
+    }
+
+    Component {
+        id:  backupFileDetailsComponent
+
+        SettingsPageBase {
+            id: backupFileDetailsPage
+
+            property BackupFile backupFile
+
+            header: NymeaHeader {
+                text: qsTr("Backup file")
+                backButtonVisible: true
+                onBackPressed: pageStack.pop()
+            }
+
+            NymeaSwipeDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Name")
+                subText: backupFile.fileName
+                progressive: false
+                prominentSubText: false
+            }
+
+            NymeaSwipeDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Size")
+                subText: backupFile.size
+                progressive: false
+                prominentSubText: false
+            }
+
+            NymeaSwipeDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Server version")
+                subText: backupFile.serverVersion
+                progressive: false
+                prominentSubText: false
+            }
+
+            NymeaSwipeDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Created")
+                subText: Qt.formatDateTime(backupFile.timestamp, "dd.MM.yyyy hh:mm:ss")
+                progressive: false
+                prominentSubText: false
+            }
         }
     }
 }
