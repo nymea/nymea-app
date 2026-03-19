@@ -53,6 +53,23 @@ SettingsPageBase {
     property string pendingFileName: ""
     property string statusMessage: ""
 
+    function formatFileSize(size) {
+        var units = ["B", "kB", "MB", "GB", "TB"]
+        var value = size
+        var unitIndex = 0
+
+        while (value >= 1024 && unitIndex < units.length - 1) {
+            value /= 1024
+            unitIndex += 1
+        }
+
+        if (unitIndex === 0) {
+            return Math.round(value) + " " + units[unitIndex]
+        }
+
+        return value.toFixed(1) + " " + units[unitIndex]
+    }
+
     function openErrorDialog(message) {
         var component = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
         if (component.status !== Component.Ready) {
@@ -81,7 +98,7 @@ SettingsPageBase {
             Layout.fillWidth: true
             iconName: "qrc:/icons/browser/BrowserIconFile.svg"
             text: model.fileName
-            subText: Qt.formatDateTime(model.timestamp, "dd.MM.yyyy hh:mm:ss")
+            subText: Qt.formatDateTime(model.timestamp, "dd.MM.yyyy hh:mm:ss") + " | " + root.formatFileSize(model.size)
             onClicked: pageStack.push(backupFileDetailsComponent, { backupFile: engine.nymeaConfiguration.backupFiles.get(index) })
         }
     }
@@ -371,7 +388,7 @@ SettingsPageBase {
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Size")
-                subText: backupFile.size
+                subText: root.formatFileSize(backupFile.size)
                 progressive: false
                 prominentSubText: false
             }
@@ -390,6 +407,13 @@ SettingsPageBase {
                 subText: Qt.formatDateTime(backupFile.timestamp, "dd.MM.yyyy hh:mm:ss")
                 progressive: false
                 prominentSubText: false
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                text: qsTr("Download")
+                onClicked: root.openErrorDialog(qsTr("Downloading existing backup files is not supported by the server API yet."))
             }
         }
     }
