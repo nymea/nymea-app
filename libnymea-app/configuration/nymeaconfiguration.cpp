@@ -24,6 +24,7 @@
 
 #include "nymeaconfiguration.h"
 
+#include "models/backupfiles.h"
 #include "mqttpolicies.h"
 #include "mqttpolicy.h"
 #include "serverconfiguration.h"
@@ -40,6 +41,7 @@ NYMEA_LOGGING_CATEGORY(dcNymeaConfiguration, "NymeaConfiguration")
 NymeaConfiguration::NymeaConfiguration(JsonRpcClient *client, QObject *parent)
     : QObject(parent)
     , m_client(client)
+    , m_backupFiles(new BackupFiles(this))
     , m_tcpServerConfigurations(new ServerConfigurations(this))
     , m_webSocketServerConfigurations(new ServerConfigurations(this))
     , m_webServerConfigurations(new WebServerConfigurations(this))
@@ -64,9 +66,13 @@ void NymeaConfiguration::init()
     m_webSocketServerConfigurations->clear();
     m_mqttServerConfigurations->clear();
     m_tunnelProxyServerConfigurations->clear();
+    m_backupFiles->clear();
     m_client->sendCommand("Configuration.GetConfigurations", this, "getConfigurationsResponse");
     m_client->sendCommand("Configuration.GetMqttServerConfigurations", this, "getMqttServerConfigsReply");
     m_client->sendCommand("Configuration.GetMqttPolicies", this, "getMqttPoliciesReply");
+    if (m_client->ensureServerVersion("9.0")) {
+        m_client->sendCommand("Configuration.GetBackupFiles", this, "getBackupFilesReply");
+    }
 }
 
 QString NymeaConfiguration::serverName() const
@@ -107,8 +113,11 @@ QString NymeaConfiguration::backupDestinationDirectory() const
 
 void NymeaConfiguration::setBackupDestinationDirectory(const QString &backupDestinationDirectory)
 {
-    m_backupDestinationDirectory = backupDestinationDirectory;
-    emit backupDestinationDirectoryChanged();
+    QVariantMap params;
+    params.insert("destinationDirectory", backupDestinationDirectory);
+    params.insert("maxCount", m_backupMaxCount);
+
+    m_client->sendCommand("Configuration.SetBackupConfiguration", params, this, "setBackupConfigurationResponse");
 }
 
 int NymeaConfiguration::backupMaxCount() const
@@ -118,8 +127,16 @@ int NymeaConfiguration::backupMaxCount() const
 
 void NymeaConfiguration::setBackupMaxCount(int backupMaxCount)
 {
-    m_backupMaxCount = backupMaxCount;
-    emit backupMaxCountChanged();
+    QVariantMap params;
+    params.insert("destinationDirectory", m_backupDestinationDirectory);
+    params.insert("maxCount", backupMaxCount);
+
+    m_client->sendCommand("Configuration.SetBackupConfiguration", params, this, "setBackupConfigurationResponse");
+}
+
+BackupFiles *NymeaConfiguration::backupFiles() const
+{
+    return m_backupFiles;
 }
 
 ServerConfigurations *NymeaConfiguration::tcpServerConfigurations() const
@@ -296,6 +313,21 @@ void NymeaConfiguration::deleteMqttPolicy(const QString &clientId)
     m_client->sendCommand("Configuration.DeleteMqttPolicy", params, this, "deleteMqttPolicyReply");
 }
 
+void NymeaConfiguration::getBackupFiles()
+{
+    m_client->sendCommand("Configuration.GetBackupFiles", this, "getBackupFilesReply");
+}
+
+void NymeaConfiguration::createBackup()
+{
+    m_client->sendCommand("Configuration.CreateBackup", this, "createBackupReply");
+}
+
+void NymeaConfiguration::createAndDownloadBackup()
+{
+    m_client->sendCommand("Configuration.CreateAndDownloadBackup", this, "createAndDownloadBackupReply");
+}
+
 void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariantMap &params)
 {
     Q_UNUSED(commandId)
@@ -305,11 +337,9 @@ void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariant
     emit debugServerEnabledChanged();
     m_serverName = basicConfig.value("serverName").toString();
     emit serverNameChanged();
-    QVariantMap cloudConfig = params.value("cloud").toMap();
 
-    QVariantMap backupConifgurations = params.value("backupConfigurations").toMap();
-    setBackupDestinationDirectory(backupConifgurations.value("destinationDirectory").toString());
-    setBackupMaxCount(backupConifgurations.value("maxCount").toInt());
+    const QVariantMap backupConfigurations = params.value("backupConfigurations").toMap();
+    updateBackupConfiguration(backupConfigurations.value("destinationDirectory").toString(), backupConfigurations.value("maxCount").toInt());
 
     tcpServerConfigurations()->clear();
     foreach (const QVariant &tcpServerVariant, params.value("tcpServerConfigurations").toList()) {
@@ -375,6 +405,34 @@ void NymeaConfiguration::setServerNameResponse(int commandId, const QVariantMap 
 void NymeaConfiguration::setTimezoneResponse(int commandId, const QVariantMap &params)
 {
     qCDebug(dcNymeaConfiguration) << "Set timezone response" << commandId << params;
+}
+
+void NymeaConfiguration::getBackupFilesReply(int commandId, const QVariantMap &params)
+{
+    Q_UNUSED(commandId)
+    qCDebug(dcNymeaConfiguration) << "Get backup files response" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    updateBackupFiles(params.value("backupFiles").toList());
+}
+
+void NymeaConfiguration::setBackupConfigurationResponse(int commandId, const QVariantMap &params)
+{
+    qCDebug(dcNymeaConfiguration) << "Set backup configuration response" << commandId << params;
+}
+
+void NymeaConfiguration::createBackupReply(int commandId, const QVariantMap &params)
+{
+    qCDebug(dcNymeaConfiguration) << "Create backup reply" << commandId << params;
+    emit createBackupFinished(commandId, params.value("configurationError").toString());
+}
+
+void NymeaConfiguration::createAndDownloadBackupReply(int commandId, const QVariantMap &params)
+{
+    qCDebug(dcNymeaConfiguration) << "Create and download backup reply" << commandId << params;
+    emit createAndDownloadBackupFinished(commandId,
+                                         params.value("configurationError").toString(),
+                                         params.value("downloadId").toString(),
+                                         params.value("fileName").toString(),
+                                         params.value("size").toInt());
 }
 
 void NymeaConfiguration::getCloudConfigurationResponse(const QVariantMap &params)
@@ -492,16 +550,11 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
 
         m_serverName = configMap.value("serverName").toString();
         emit serverNameChanged();
-
-        QVariantMap backupConfigMap = params.value("backupConfiguration").toMap();
-
-        m_backupDestinationDirectory = backupConfigMap.value("destinationDirectory").toString();
-        emit backupDestinationDirectoryChanged();
-
-        m_backupMaxCount = backupConfigMap.value("maxCount").toInt();
-        emit backupMaxCountChanged();
-
         qCDebug(dcNymeaConfiguration()) << "Basic configuration changed. Server name:" << m_serverName << "Debug server enabled:" << m_debugServerEnabled;
+    } else if (notif == "Configuration.BackupConfigurationChanged") {
+        updateBackupConfiguration(params.value("destinationDirectory").toString(), params.value("maxCount").toInt());
+    } else if (notif == "Configuration.BackupFilesChanged") {
+        updateBackupFiles(params.value("backupFiles").toList());
     } else if (notif == "Configuration.TcpServerConfigurationChanged") {
         QVariantMap configMap = params.value("tcpServerConfiguration").toMap();
         QString id = configMap.value("id").toString();
@@ -604,7 +657,7 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
         bool existing = true;
         if (!config) {
             existing = false;
-            config = new WebServerConfiguration(id);
+            config = new ServerConfiguration(id);
         }
         config->setAddress(address);
         config->setPort(port);
@@ -652,4 +705,22 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
     } else {
         qCWarning(dcNymeaConfiguration) << "Unhandled Configuration notification" << qUtf8Printable(QJsonDocument::fromVariant(notification).toJson());
     }
+}
+
+void NymeaConfiguration::updateBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount)
+{
+    if (m_backupDestinationDirectory != backupDestinationDirectory) {
+        m_backupDestinationDirectory = backupDestinationDirectory;
+        emit backupDestinationDirectoryChanged();
+    }
+
+    if (m_backupMaxCount != backupMaxCount) {
+        m_backupMaxCount = backupMaxCount;
+        emit backupMaxCountChanged();
+    }
+}
+
+void NymeaConfiguration::updateBackupFiles(const QVariantList &backupFiles)
+{
+    m_backupFiles->setBackupFiles(backupFiles);
 }

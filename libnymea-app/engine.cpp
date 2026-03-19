@@ -31,6 +31,7 @@
 #include "configuration/nymeaconfiguration.h"
 #include "system/systemcontroller.h"
 #include "configuration/networkmanager.h"
+#include "transfersmanager.h"
 
 Engine::Engine(QObject *parent) :
     QObject(parent),
@@ -41,7 +42,8 @@ Engine::Engine(QObject *parent) :
     m_logManager(new LogManager(m_jsonRpcClient, this)),
     m_tagsManager(new TagsManager(m_jsonRpcClient, this)),
     m_nymeaConfiguration(new NymeaConfiguration(m_jsonRpcClient, this)),
-    m_systemController(new SystemController(m_jsonRpcClient, this))
+    m_systemController(new SystemController(m_jsonRpcClient, this)),
+    m_transfersManager(new TransfersManager(m_jsonRpcClient, this))
 {
 
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
@@ -88,6 +90,11 @@ NymeaConfiguration *Engine::nymeaConfiguration() const
 SystemController *Engine::systemController() const
 {
     return m_systemController;
+}
+
+TransfersManager *Engine::transfersManager() const
+{
+    return m_transfersManager;
 }
 
 void Engine::onConnectedChanged()

@@ -190,6 +190,15 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
+                iconSource: "qrc:/icons/backup.svg"
+                text: qsTr("Backup")
+                subText: qsTr("Manage system configuration backup")
+                visible: engine.jsonRpcClient.ensureServerVersion("9.0") && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
+                onClicked:pageStack.push(Qt.resolvedUrl("system/BackupSettingsPage.qml"))
+            }
+
+            SettingsTile {
+                Layout.fillWidth: true
                 iconSource: "qrc:/icons/info.svg"
                 text: qsTr("About %1").arg(Configuration.systemName)
                 subText: qsTr("Find server UUID and versions")
