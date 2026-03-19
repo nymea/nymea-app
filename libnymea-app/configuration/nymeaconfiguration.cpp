@@ -113,11 +113,7 @@ QString NymeaConfiguration::backupDestinationDirectory() const
 
 void NymeaConfiguration::setBackupDestinationDirectory(const QString &backupDestinationDirectory)
 {
-    QVariantMap params;
-    params.insert("destinationDirectory", backupDestinationDirectory);
-    params.insert("maxCount", m_backupMaxCount);
-
-    m_client->sendCommand("Configuration.SetBackupConfiguration", params, this, "setBackupConfigurationResponse");
+    setBackupConfiguration(backupDestinationDirectory, m_backupMaxCount);
 }
 
 int NymeaConfiguration::backupMaxCount() const
@@ -127,8 +123,13 @@ int NymeaConfiguration::backupMaxCount() const
 
 void NymeaConfiguration::setBackupMaxCount(int backupMaxCount)
 {
+    setBackupConfiguration(m_backupDestinationDirectory, backupMaxCount);
+}
+
+void NymeaConfiguration::setBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount)
+{
     QVariantMap params;
-    params.insert("destinationDirectory", m_backupDestinationDirectory);
+    params.insert("destinationDirectory", backupDestinationDirectory);
     params.insert("maxCount", backupMaxCount);
 
     m_client->sendCommand("Configuration.SetBackupConfiguration", params, this, "setBackupConfigurationResponse");
@@ -417,6 +418,7 @@ void NymeaConfiguration::getBackupFilesReply(int commandId, const QVariantMap &p
 void NymeaConfiguration::setBackupConfigurationResponse(int commandId, const QVariantMap &params)
 {
     qCDebug(dcNymeaConfiguration) << "Set backup configuration response" << commandId << params;
+    emit setBackupConfigurationFinished(commandId, params.value("configurationError").toString());
 }
 
 void NymeaConfiguration::createBackupReply(int commandId, const QVariantMap &params)

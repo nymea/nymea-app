@@ -93,9 +93,12 @@ void BackupFiles::clear()
     }
 
     beginResetModel();
-    qDeleteAll(m_backupFiles);
+    foreach (BackupFile *file, m_backupFiles)
+        file->deleteLater();
+
     m_backupFiles.clear();
     endResetModel();
+
     emit countChanged();
 }
 
@@ -113,7 +116,9 @@ void BackupFiles::setBackupFiles(const QVariantList &backupFiles)
     }
 
     beginResetModel();
-    qDeleteAll(m_backupFiles);
+    foreach (BackupFile *file, m_backupFiles)
+        file->deleteLater();
+
     m_backupFiles = newBackupFiles;
     endResetModel();
     emit countChanged();

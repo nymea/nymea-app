@@ -86,6 +86,7 @@ public:
 
     int backupMaxCount() const;
     void setBackupMaxCount(int backupMaxCount);
+    Q_INVOKABLE void setBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount);
     BackupFiles *backupFiles() const;
 
     ServerConfigurations *tcpServerConfigurations() const;
@@ -156,6 +157,7 @@ signals:
     void serverNameChanged();
     void backupDestinationDirectoryChanged();
     void backupMaxCountChanged();
+    void setBackupConfigurationFinished(int commandId, const QString &configurationError);
     void createBackupFinished(int commandId, const QString &configurationError);
     void createAndDownloadBackupFinished(int commandId, const QString &configurationError, const QString &downloadId, const QString &fileName, int size);
 
