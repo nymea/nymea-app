@@ -111,7 +111,7 @@ void BackupFiles::setBackupFiles(const QVariantList &backupFiles)
         const QVariantMap backupFileMap = backupFileVariant.toMap();
         newBackupFiles.append(new BackupFile(backupFileMap.value("fileName").toString(),
                                              backupFileMap.value("serverVersion").toString(),
-                                             backupFileMap.value("timestamp").toDateTime(),
+                                             QDateTime::fromSecsSinceEpoch(backupFileMap.value("timestamp").toLongLong()),
                                              backupFileMap.value("size").toDouble()));
     }
 
