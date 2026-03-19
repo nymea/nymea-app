@@ -3,7 +3,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
 * Copyright (C) 2013 - 2024, nymea GmbH
-* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+* Copyright (C) 2024 - 2026, chargebyte austria GmbH
 *
 * This file is part of libnymea-app.
 *
@@ -27,6 +27,7 @@
 
 #include <QObject>
 
+#include "models/backupfiles.h"
 #include "mqttpolicies.h"
 #include "serverconfigurations.h"
 
@@ -51,6 +52,7 @@ class NymeaConfiguration : public QObject
 
     Q_PROPERTY(QString backupDestinationDirectory READ backupDestinationDirectory WRITE setBackupDestinationDirectory NOTIFY backupDestinationDirectoryChanged FINAL)
     Q_PROPERTY(int backupMaxCount READ backupMaxCount NOTIFY backupMaxCountChanged FINAL)
+    Q_PROPERTY(BackupFiles *backupFiles READ backupFiles CONSTANT FINAL)
 
     Q_PROPERTY(ServerConfigurations *tcpServerConfigurations READ tcpServerConfigurations CONSTANT)
     Q_PROPERTY(ServerConfigurations *webSocketServerConfigurations READ webSocketServerConfigurations CONSTANT)
@@ -84,6 +86,7 @@ public:
 
     int backupMaxCount() const;
     void setBackupMaxCount(int backupMaxCount);
+    BackupFiles *backupFiles() const;
 
     ServerConfigurations *tcpServerConfigurations() const;
     ServerConfigurations *webSocketServerConfigurations() const;
@@ -113,6 +116,11 @@ public:
 
     Q_INVOKABLE void updateMqttPolicy(MqttPolicy *policy);
     Q_INVOKABLE void deleteMqttPolicy(const QString &clientId);
+
+    Q_INVOKABLE void getBackupFiles();
+    Q_INVOKABLE void createBackup();
+    Q_INVOKABLE void createAndDownloadBackup();
+
     void init();
 
 private:
@@ -121,6 +129,10 @@ private:
     Q_INVOKABLE void setDebugServerEnabledResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setServerNameResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setTimezoneResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void getBackupFilesReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setBackupConfigurationResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void createBackupReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void createAndDownloadBackupReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setTcpConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void deleteTcpConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setWebSocketConfigReply(int commandId, const QVariantMap &params);
@@ -144,8 +156,13 @@ signals:
     void serverNameChanged();
     void backupDestinationDirectoryChanged();
     void backupMaxCountChanged();
+    void createBackupFinished(int commandId, const QString &configurationError);
+    void createAndDownloadBackupFinished(int commandId, const QString &configurationError, const QString &downloadId, const QString &fileName, int size);
 
 private:
+    void updateBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount);
+    void updateBackupFiles(const QVariantList &backupFiles);
+
     JsonRpcClient *m_client = nullptr;
 
     bool m_fetchingData = false;
@@ -154,6 +171,7 @@ private:
 
     QString m_backupDestinationDirectory;
     int m_backupMaxCount = 1;
+    BackupFiles *m_backupFiles = nullptr;
 
     ServerConfigurations *m_tcpServerConfigurations = nullptr;
     ServerConfigurations *m_webSocketServerConfigurations = nullptr;

@@ -26,6 +26,10 @@ SOURCES += \
     $$PWD/energy/powerbalancelogs.cpp \
     $$PWD/energy/thingpowerlogs.cpp \
     $$PWD/connection/tunnelproxytransport.cpp \
+    $$PWD/transfersmanager.cpp \
+    $$PWD/models/backupfile.cpp \
+    $$PWD/models/backupfiles.cpp \
+    $$PWD/models/backupfilesproxymodel.cpp \
     $$PWD/models/boolseriesadapter.cpp \
     $$PWD/models/newlogentry.cpp \
     $$PWD/models/newlogsmodel.cpp \
@@ -196,6 +200,10 @@ HEADERS += \
     $$PWD/energy/powerbalancelogs.h \
     $$PWD/energy/thingpowerlogs.h \
     $$PWD/connection/tunnelproxytransport.h \
+    $$PWD/transfersmanager.h \
+    $$PWD/models/backupfile.h \
+    $$PWD/models/backupfiles.h \
+    $$PWD/models/backupfilesproxymodel.h \
     $$PWD/models/boolseriesadapter.h \
     $$PWD/models/newlogentry.h \
     $$PWD/models/newlogsmodel.h \
