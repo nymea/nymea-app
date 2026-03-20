@@ -123,6 +123,7 @@ public:
     Q_INVOKABLE void createAndDownloadBackup();
     Q_INVOKABLE void downloadBackupFile(const QString &fileName);
     Q_INVOKABLE void deleteBackupFile(const QString &fileName);
+    Q_INVOKABLE void restoreBackupFile(const QString &fileName);
 
     void init();
 
@@ -138,6 +139,7 @@ private:
     Q_INVOKABLE void createAndDownloadBackupReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void downloadBackupFileReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void deleteBackupFileReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void restoreBackupFileReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setTcpConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void deleteTcpConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setWebSocketConfigReply(int commandId, const QVariantMap &params);
@@ -166,6 +168,7 @@ signals:
     void createAndDownloadBackupFinished(int commandId, const QString &configurationError, const QString &downloadId, const QString &fileName, int size);
     void downloadBackupFileFinished(int commandId, const QString &configurationError, const QString &downloadId, const QString &fileName, int size);
     void deleteBackupFileFinished(int commandId, const QString &configurationError, const QString &fileName);
+    void restoreBackupFileFinished(int commandId, const QString &configurationError, const QString &fileName);
 
 private:
     void updateBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount);
