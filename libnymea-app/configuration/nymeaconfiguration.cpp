@@ -329,6 +329,13 @@ void NymeaConfiguration::createAndDownloadBackup()
     m_client->sendCommand("Configuration.CreateAndDownloadBackup", this, "createAndDownloadBackupReply");
 }
 
+void NymeaConfiguration::downloadBackupFile(const QString &fileName)
+{
+    QVariantMap params;
+    params.insert("fileName", fileName);
+    m_client->sendCommand("Configuration.DownloadBackupFile", params, this, "downloadBackupFileReply");
+}
+
 void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariantMap &params)
 {
     Q_UNUSED(commandId)
@@ -435,6 +442,16 @@ void NymeaConfiguration::createAndDownloadBackupReply(int commandId, const QVari
                                          params.value("downloadId").toString(),
                                          params.value("fileName").toString(),
                                          params.value("size").toInt());
+}
+
+void NymeaConfiguration::downloadBackupFileReply(int commandId, const QVariantMap &params)
+{
+    qCDebug(dcNymeaConfiguration) << "Download backup file reply" << commandId << params;
+    emit downloadBackupFileFinished(commandId,
+                                    params.value("configurationError").toString(),
+                                    params.value("downloadId").toString(),
+                                    params.value("fileName").toString(),
+                                    params.value("size").toInt());
 }
 
 void NymeaConfiguration::getCloudConfigurationResponse(const QVariantMap &params)

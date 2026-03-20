@@ -87,6 +87,19 @@ SettingsPageBase {
         saveBackupDialog.selectedFileName = ""
     }
 
+    function prepareBackupDownload(downloadId, fileName, errorMessage) {
+        if (!downloadId || downloadId.length === 0) {
+            root.openErrorDialog(errorMessage)
+            return
+        }
+
+        root.pendingDownloadId = downloadId
+        root.pendingFileName = fileName
+        saveBackupDialog.selectedFileName = fileName
+        saveBackupDialog.selectedFile = saveBackupDialog.currentFolder + "/" + fileName
+        saveBackupDialog.open()
+    }
+
     SettingsPageSectionHeader {
         text: qsTr("Backup files")
     }
@@ -199,16 +212,16 @@ SettingsPageBase {
                 return
             }
 
-            if (!downloadId || downloadId.length === 0) {
-                root.openErrorDialog(qsTr("The server did not provide a download for the requested backup."))
+            root.prepareBackupDownload(downloadId, fileName, qsTr("The server did not provide a download for the requested backup."))
+        }
+
+        function onDownloadBackupFileFinished(commandId, configurationError, downloadId, fileName, size) {
+            if (configurationError !== "ConfigurationErrorNoError") {
+                root.openErrorDialog(qsTr("Failed to prepare the backup file download: %1").arg(configurationError))
                 return
             }
 
-            root.pendingDownloadId = downloadId
-            root.pendingFileName = fileName
-            saveBackupDialog.selectedFileName = fileName
-            saveBackupDialog.selectedFile = saveBackupDialog.currentFolder + "/" + fileName
-            saveBackupDialog.open()
+            root.prepareBackupDownload(downloadId, fileName, qsTr("The server did not provide a download for the selected backup file."))
         }
     }
 
@@ -413,7 +426,12 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
                 text: qsTr("Download")
-                onClicked: root.openErrorDialog(qsTr("Downloading existing backup files is not supported by the server API yet."))
+                enabled: !engine.transfersManager.busy
+                onClicked: {
+                    root.statusMessage = ""
+                    root.clearPendingDownload()
+                    engine.nymeaConfiguration.downloadBackupFile(backupFile.fileName)
+                }
             }
         }
     }
