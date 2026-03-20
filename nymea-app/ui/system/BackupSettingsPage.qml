@@ -381,8 +381,13 @@ SettingsPageBase {
 
         SettingsPageBase {
             id: backupFileDetailsPage
+            objectName: "backupFileDetailsPage"
 
             property BackupFile backupFile
+            property bool deleting: false
+
+            busy: deleting
+            busyText: qsTr("Deleting backup file...")
 
             header: NymeaHeader {
                 text: qsTr("Backup file")
@@ -426,12 +431,67 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
                 text: qsTr("Download")
-                enabled: !engine.transfersManager.busy
+                enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting
                 onClicked: {
                     root.statusMessage = ""
                     root.clearPendingDownload()
                     engine.nymeaConfiguration.downloadBackupFile(backupFile.fileName)
                 }
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                text: qsTr("Delete backup")
+                enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting
+                onClicked: {
+                    var dialog = deleteBackupDialogComponent.createObject(root, { backupFile: backupFile })
+                    dialog.open()
+                }
+            }
+
+            Connections {
+                target: engine.nymeaConfiguration
+
+                function onDeleteBackupFileFinished(commandId, configurationError, fileName) {
+                    if (!backupFileDetailsPage.deleting) {
+                        return
+                    }
+
+                    backupFileDetailsPage.deleting = false
+
+                    if (configurationError !== "ConfigurationErrorNoError") {
+                        root.openErrorDialog(qsTr("Failed to delete the backup file: %1").arg(configurationError))
+                        return
+                    }
+
+                    root.statusMessage = qsTr("Backup file deleted.")
+                    pageStack.pop()
+                }
+            }
+        }
+    }
+
+    Component {
+        id: deleteBackupDialogComponent
+
+        NymeaDialog {
+            title: qsTr("Delete backup file?")
+            text: qsTr("Do you really want to delete the backup file %1?").arg(backupFile ? backupFile.fileName : "")
+            standardButtons: Dialog.Yes | Dialog.No
+
+            property BackupFile backupFile
+
+            onAccepted: {
+                if (!backupFile) {
+                    return
+                }
+
+                var page = pageStack.currentItem
+                if (page && page.objectName === "backupFileDetailsPage") {
+                    page.deleting = true
+                }
+                engine.nymeaConfiguration.deleteBackupFile(backupFile.fileName)
             }
         }
     }
