@@ -385,9 +385,10 @@ SettingsPageBase {
 
             property BackupFile backupFile
             property bool deleting: false
+            property bool restoring: false
 
-            busy: deleting
-            busyText: qsTr("Deleting backup file...")
+            busy: deleting || restoring
+            busyText: deleting ? qsTr("Deleting backup file...") : qsTr("Restoring backup file...")
 
             header: NymeaHeader {
                 text: qsTr("Backup file")
@@ -431,7 +432,7 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
                 text: qsTr("Download")
-                enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting
+                enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting && !backupFileDetailsPage.restoring
                 onClicked: {
                     root.statusMessage = ""
                     root.clearPendingDownload()
@@ -443,9 +444,20 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
                 text: qsTr("Delete backup")
-                enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting
+                enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting && !backupFileDetailsPage.restoring
                 onClicked: {
                     var dialog = deleteBackupDialogComponent.createObject(root, { backupFile: backupFile })
+                    dialog.open()
+                }
+            }
+
+            Button {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                text: qsTr("Restore backup")
+                enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting && !backupFileDetailsPage.restoring
+                onClicked: {
+                    var dialog = restoreBackupDialogComponent.createObject(root, { backupFile: backupFile })
                     dialog.open()
                 }
             }
@@ -466,6 +478,22 @@ SettingsPageBase {
                     }
 
                     root.statusMessage = qsTr("Backup file deleted.")
+                    pageStack.pop()
+                }
+
+                function onRestoreBackupFileFinished(commandId, configurationError, fileName) {
+                    if (!backupFileDetailsPage.restoring) {
+                        return
+                    }
+
+                    backupFileDetailsPage.restoring = false
+
+                    if (configurationError !== "ConfigurationErrorNoError") {
+                        root.openErrorDialog(qsTr("Failed to restore the backup file: %1").arg(configurationError))
+                        return
+                    }
+
+                    root.statusMessage = qsTr("Backup restore started. The server will reboot once finished.")
                     pageStack.pop()
                 }
             }
@@ -492,6 +520,30 @@ SettingsPageBase {
                     page.deleting = true
                 }
                 engine.nymeaConfiguration.deleteBackupFile(backupFile.fileName)
+            }
+        }
+    }
+
+    Component {
+        id: restoreBackupDialogComponent
+
+        NymeaDialog {
+            title: qsTr("Restore backup file?")
+            text: qsTr("Do you really want to restore the backup file %1? All current settings will be removed and the server will reboot once finished.").arg(backupFile ? backupFile.fileName : "")
+            standardButtons: Dialog.Yes | Dialog.No
+
+            property BackupFile backupFile
+
+            onAccepted: {
+                if (!backupFile) {
+                    return
+                }
+
+                var page = pageStack.currentItem
+                if (page && page.objectName === "backupFileDetailsPage") {
+                    page.restoring = true
+                }
+                engine.nymeaConfiguration.restoreBackupFile(backupFile.fileName)
             }
         }
     }
