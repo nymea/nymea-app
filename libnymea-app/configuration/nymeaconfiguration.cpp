@@ -113,7 +113,7 @@ QString NymeaConfiguration::backupDestinationDirectory() const
 
 void NymeaConfiguration::setBackupDestinationDirectory(const QString &backupDestinationDirectory)
 {
-    setBackupConfiguration(backupDestinationDirectory, m_backupMaxCount);
+    setBackupConfiguration(backupDestinationDirectory, m_backupMaxCount, m_autoBackupEnabled, m_autoBackupInterval);
 }
 
 int NymeaConfiguration::backupMaxCount() const
@@ -123,14 +123,26 @@ int NymeaConfiguration::backupMaxCount() const
 
 void NymeaConfiguration::setBackupMaxCount(int backupMaxCount)
 {
-    setBackupConfiguration(m_backupDestinationDirectory, backupMaxCount);
+    setBackupConfiguration(m_backupDestinationDirectory, backupMaxCount, m_autoBackupEnabled, m_autoBackupInterval);
 }
 
-void NymeaConfiguration::setBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount)
+bool NymeaConfiguration::autoBackupEnabled() const
+{
+    return m_autoBackupEnabled;
+}
+
+int NymeaConfiguration::autoBackupInterval() const
+{
+    return m_autoBackupInterval;
+}
+
+void NymeaConfiguration::setBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount, bool autoBackupEnabled, int autoBackupInterval)
 {
     QVariantMap params;
     params.insert("destinationDirectory", backupDestinationDirectory);
     params.insert("maxCount", backupMaxCount);
+    params.insert("autoBackupEnabled", autoBackupEnabled);
+    params.insert("autoBackupInterval", autoBackupInterval);
 
     m_client->sendCommand("Configuration.SetBackupConfiguration", params, this, "setBackupConfigurationResponse");
 }
@@ -361,7 +373,10 @@ void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariant
     emit serverNameChanged();
 
     const QVariantMap backupConfigurations = params.value("backupConfigurations").toMap();
-    updateBackupConfiguration(backupConfigurations.value("destinationDirectory").toString(), backupConfigurations.value("maxCount").toInt());
+    updateBackupConfiguration(backupConfigurations.value("destinationDirectory").toString(),
+                              backupConfigurations.value("maxCount").toInt(),
+                              backupConfigurations.value("autoBackupEnabled").toBool(),
+                              backupConfigurations.value("autoBackupInterval").toInt());
 
     tcpServerConfigurations()->clear();
     foreach (const QVariant &tcpServerVariant, params.value("tcpServerConfigurations").toList()) {
@@ -601,7 +616,10 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
         emit serverNameChanged();
         qCDebug(dcNymeaConfiguration()) << "Basic configuration changed. Server name:" << m_serverName << "Debug server enabled:" << m_debugServerEnabled;
     } else if (notif == "Configuration.BackupConfigurationChanged") {
-        updateBackupConfiguration(params.value("destinationDirectory").toString(), params.value("maxCount").toInt());
+        updateBackupConfiguration(params.value("destinationDirectory").toString(),
+                                  params.value("maxCount").toInt(),
+                                  params.value("autoBackupEnabled").toBool(),
+                                  params.value("autoBackupInterval").toInt());
     } else if (notif == "Configuration.BackupFilesChanged") {
         updateBackupFiles(params.value("backupFiles").toList());
     } else if (notif == "Configuration.TcpServerConfigurationChanged") {
@@ -756,7 +774,7 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
     }
 }
 
-void NymeaConfiguration::updateBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount)
+void NymeaConfiguration::updateBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount, bool autoBackupEnabled, int autoBackupInterval)
 {
     if (m_backupDestinationDirectory != backupDestinationDirectory) {
         m_backupDestinationDirectory = backupDestinationDirectory;
@@ -766,6 +784,16 @@ void NymeaConfiguration::updateBackupConfiguration(const QString &backupDestinat
     if (m_backupMaxCount != backupMaxCount) {
         m_backupMaxCount = backupMaxCount;
         emit backupMaxCountChanged();
+    }
+
+    if (m_autoBackupEnabled != autoBackupEnabled) {
+        m_autoBackupEnabled = autoBackupEnabled;
+        emit autoBackupEnabledChanged();
+    }
+
+    if (m_autoBackupInterval != autoBackupInterval) {
+        m_autoBackupInterval = autoBackupInterval;
+        emit autoBackupIntervalChanged();
     }
 }
 

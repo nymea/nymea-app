@@ -52,6 +52,8 @@ class NymeaConfiguration : public QObject
 
     Q_PROPERTY(QString backupDestinationDirectory READ backupDestinationDirectory WRITE setBackupDestinationDirectory NOTIFY backupDestinationDirectoryChanged FINAL)
     Q_PROPERTY(int backupMaxCount READ backupMaxCount NOTIFY backupMaxCountChanged FINAL)
+    Q_PROPERTY(bool autoBackupEnabled READ autoBackupEnabled NOTIFY autoBackupEnabledChanged FINAL)
+    Q_PROPERTY(int autoBackupInterval READ autoBackupInterval NOTIFY autoBackupIntervalChanged FINAL)
     Q_PROPERTY(BackupFiles *backupFiles READ backupFiles CONSTANT FINAL)
 
     Q_PROPERTY(ServerConfigurations *tcpServerConfigurations READ tcpServerConfigurations CONSTANT)
@@ -86,7 +88,9 @@ public:
 
     int backupMaxCount() const;
     void setBackupMaxCount(int backupMaxCount);
-    Q_INVOKABLE void setBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount);
+    bool autoBackupEnabled() const;
+    int autoBackupInterval() const;
+    Q_INVOKABLE void setBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount, bool autoBackupEnabled, int autoBackupInterval);
     BackupFiles *backupFiles() const;
 
     ServerConfigurations *tcpServerConfigurations() const;
@@ -163,6 +167,8 @@ signals:
     void serverNameChanged();
     void backupDestinationDirectoryChanged();
     void backupMaxCountChanged();
+    void autoBackupEnabledChanged();
+    void autoBackupIntervalChanged();
     void setBackupConfigurationFinished(int commandId, const QString &configurationError);
     void createBackupFinished(int commandId, const QString &configurationError);
     void createAndDownloadBackupFinished(int commandId, const QString &configurationError, const QString &downloadId, const QString &fileName, int size);
@@ -171,7 +177,7 @@ signals:
     void restoreBackupFileFinished(int commandId, const QString &configurationError, const QString &fileName);
 
 private:
-    void updateBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount);
+    void updateBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount, bool autoBackupEnabled, int autoBackupInterval);
     void updateBackupFiles(const QVariantList &backupFiles);
 
     JsonRpcClient *m_client = nullptr;
@@ -182,6 +188,8 @@ private:
 
     QString m_backupDestinationDirectory;
     int m_backupMaxCount = 1;
+    bool m_autoBackupEnabled = false;
+    int m_autoBackupInterval = 24;
     BackupFiles *m_backupFiles = nullptr;
 
     ServerConfigurations *m_tcpServerConfigurations = nullptr;

@@ -116,8 +116,6 @@ SettingsPageBase {
         }
     }
 
-
-
     Label {
         Layout.fillWidth: true
         Layout.margins: Style.margins
@@ -257,14 +255,37 @@ SettingsPageBase {
 
             property bool saving: false
             property string statusMessage: ""
+            property var autoBackupIntervalValues: [24, 48, 168, 720, -1]
+            property var autoBackupIntervalLabels: [
+                qsTr("1 Day"),
+                qsTr("2 Days"),
+                qsTr("Weekly"),
+                qsTr("Once a month"),
+                qsTr("Custom")
+            ]
+
+            function customAutoBackupIntervalIndex() {
+                return autoBackupIntervalValues.length - 1
+            }
 
             function syncFromConfiguration() {
-                if (saving || backupDestinationDirectoryTextField.activeFocus || backupMaxCountTextField.activeFocus) {
+                if (saving || backupDestinationDirectoryTextField.activeFocus || backupMaxCountTextField.activeFocus || customAutoBackupIntervalTextField.activeFocus) {
                     return
                 }
 
                 backupDestinationDirectoryTextField.text = engine.nymeaConfiguration.backupDestinationDirectory
                 backupMaxCountTextField.text = String(engine.nymeaConfiguration.backupMaxCount)
+                autoBackupEnabledSwitch.checked = engine.nymeaConfiguration.autoBackupEnabled
+
+                var interval = engine.nymeaConfiguration.autoBackupInterval
+                var intervalIndex = autoBackupIntervalValues.indexOf(interval)
+                if (intervalIndex >= 0) {
+                    autoBackupIntervalComboBox.currentIndex = intervalIndex
+                    customAutoBackupIntervalTextField.text = ""
+                } else {
+                    autoBackupIntervalComboBox.currentIndex = customAutoBackupIntervalIndex()
+                    customAutoBackupIntervalTextField.text = String(interval)
+                }
             }
 
             function currentBackupMaxCount() {
@@ -276,9 +297,28 @@ SettingsPageBase {
                 return value
             }
 
+            function autoBackupIntervalIsCustom() {
+                return autoBackupIntervalComboBox.currentIndex === customAutoBackupIntervalIndex()
+            }
+
+            function currentAutoBackupInterval() {
+                if (!autoBackupIntervalIsCustom()) {
+                    return autoBackupIntervalValues[autoBackupIntervalComboBox.currentIndex]
+                }
+
+                var value = parseInt(customAutoBackupIntervalTextField.text)
+                if (isNaN(value)) {
+                    return 0
+                }
+
+                return value
+            }
+
             function backupSettingsDirty() {
                 return backupDestinationDirectoryTextField.text.trim() !== engine.nymeaConfiguration.backupDestinationDirectory
                         || currentBackupMaxCount() !== engine.nymeaConfiguration.backupMaxCount
+                        || autoBackupEnabledSwitch.checked !== engine.nymeaConfiguration.autoBackupEnabled
+                        || currentAutoBackupInterval() !== engine.nymeaConfiguration.autoBackupInterval
             }
 
             Component.onCompleted: syncFromConfiguration()
@@ -291,7 +331,7 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
                 wrapMode: Text.WordWrap
-                text: qsTr("Backup destination directory")
+                text: qsTr("Backup destination directory on the server")
             }
 
             TextField {
@@ -305,7 +345,7 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
                 wrapMode: Text.WordWrap
-                text: qsTr("Number of backups to keep")
+                text: qsTr("Number of backups to keep (Select 0 to keep all backups)")
             }
 
             TextField {
@@ -319,11 +359,47 @@ SettingsPageBase {
                 }
             }
 
+            SwitchDelegate {
+                id: autoBackupEnabledSwitch
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                text: qsTr("Automatic backups")
+            }
+
             Label {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
+                visible: autoBackupEnabledSwitch.checked
                 wrapMode: Text.WordWrap
-                text: qsTr("0 means no max count. All backups will be kept.")
+                text: qsTr("Automatic backup interval")
+            }
+
+            ComboBox {
+                id: autoBackupIntervalComboBox
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                visible: autoBackupEnabledSwitch.checked
+                model: backupSettingsPage.autoBackupIntervalLabels
+            }
+
+            // Label {
+            //     Layout.fillWidth: true
+            //     Layout.margins: Style.margins
+            //     visible: autoBackupEnabledSwitch.checked && backupSettingsPage.autoBackupIntervalIsCustom()
+            //     wrapMode: Text.WordWrap
+            //     text: qsTr("Custom interval in hours")
+            // }
+
+            TextField {
+                id: customAutoBackupIntervalTextField
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                visible: autoBackupEnabledSwitch.checked && backupSettingsPage.autoBackupIntervalIsCustom()
+                inputMethodHints: Qt.ImhDigitsOnly
+                validator: IntValidator {
+                    bottom: 1
+                    top: 2147483647
+                }
             }
 
             Label {
@@ -337,16 +413,21 @@ SettingsPageBase {
             Button {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
+                text: qsTr("Apply backup settings")
+
                 enabled: !saving
                          && backupDestinationDirectoryTextField.text.trim().length > 0
                          && backupMaxCountTextField.acceptableInput
+                         && (!backupSettingsPage.autoBackupIntervalIsCustom() || customAutoBackupIntervalTextField.acceptableInput)
                          && backupSettingsPage.backupSettingsDirty()
-                text: qsTr("Apply backup settings")
+
                 onClicked: {
                     statusMessage = ""
                     saving = true
                     engine.nymeaConfiguration.setBackupConfiguration(backupDestinationDirectoryTextField.text.trim(),
-                                                                     backupSettingsPage.currentBackupMaxCount())
+                                                                     backupSettingsPage.currentBackupMaxCount(),
+                                                                     autoBackupEnabledSwitch.checked,
+                                                                     backupSettingsPage.currentAutoBackupInterval())
                 }
             }
 
@@ -358,6 +439,14 @@ SettingsPageBase {
                 }
 
                 function onBackupMaxCountChanged() {
+                    backupSettingsPage.syncFromConfiguration()
+                }
+
+                function onAutoBackupEnabledChanged() {
+                    backupSettingsPage.syncFromConfiguration()
+                }
+
+                function onAutoBackupIntervalChanged() {
                     backupSettingsPage.syncFromConfiguration()
                 }
 
@@ -401,7 +490,7 @@ SettingsPageBase {
                 text: qsTr("Name")
                 subText: backupFile.fileName
                 progressive: false
-                prominentSubText: false
+                prominentSubText: true
             }
 
             NymeaSwipeDelegate {
@@ -409,7 +498,7 @@ SettingsPageBase {
                 text: qsTr("Size")
                 subText: root.formatFileSize(backupFile.size)
                 progressive: false
-                prominentSubText: false
+                prominentSubText: true
             }
 
             NymeaSwipeDelegate {
@@ -417,7 +506,7 @@ SettingsPageBase {
                 text: qsTr("Server version")
                 subText: backupFile.serverVersion
                 progressive: false
-                prominentSubText: false
+                prominentSubText: true
             }
 
             NymeaSwipeDelegate {
@@ -425,7 +514,7 @@ SettingsPageBase {
                 text: qsTr("Created")
                 subText: Qt.formatDateTime(backupFile.timestamp, "dd.MM.yyyy hh:mm:ss")
                 progressive: false
-                prominentSubText: false
+                prominentSubText: true
             }
 
             Button {
@@ -505,15 +594,14 @@ SettingsPageBase {
 
         NymeaDialog {
             title: qsTr("Delete backup file?")
-            text: qsTr("Do you really want to delete the backup file %1?").arg(backupFile ? backupFile.fileName : "")
+            text: qsTr("Do you really want to delete the backup file \n%1?").arg(backupFile ? backupFile.fileName : "")
             standardButtons: Dialog.Yes | Dialog.No
 
             property BackupFile backupFile
 
             onAccepted: {
-                if (!backupFile) {
+                if (!backupFile)
                     return
-                }
 
                 var page = pageStack.currentItem
                 if (page && page.objectName === "backupFileDetailsPage") {
@@ -535,14 +623,14 @@ SettingsPageBase {
             property BackupFile backupFile
 
             onAccepted: {
-                if (!backupFile) {
+                if (!backupFile)
                     return
-                }
 
                 var page = pageStack.currentItem
                 if (page && page.objectName === "backupFileDetailsPage") {
                     page.restoring = true
                 }
+
                 engine.nymeaConfiguration.restoreBackupFile(backupFile.fileName)
             }
         }
