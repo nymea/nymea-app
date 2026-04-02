@@ -1,7 +1,7 @@
 [submodule "QtZeroConf"]
 	path = QtZeroConf
 	url = https://github.com/nymea/QtZeroConf.git
-	branch = main
+	branch = master
 [submodule "nymea-remoteproxy"]
 	path = nymea-remoteproxy
 	url = https://github.com/nymea/nymea-remoteproxy.git

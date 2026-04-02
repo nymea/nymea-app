@@ -74,6 +74,8 @@ public:
     Q_INVOKABLE int reboot();
     Q_INVOKABLE int shutdown();
 
+    Q_INVOKABLE int factoryReset();
+
     bool updateManagementAvailable() const;
     UpdateType updateManagementType() const;
 
@@ -117,6 +119,7 @@ signals:
     void restartReply(int id, bool success);
     void rebootReply(int id, bool success);
     void shutdownReply(int id, bool success);
+    void factoryResetReply(int id, bool success);
 
 private slots:
     void getCapabilitiesResponse(int commandId, const QVariantMap &data);
@@ -130,6 +133,7 @@ private slots:
     void restartResponse(int commandId, const QVariantMap &params);
     void rebootResponse(int commandId, const QVariantMap &params);
     void shutdownResponse(int commandId, const QVariantMap &params);
+    void factoryResetResponse(int commandId, const QVariantMap &params);
     void getSystemInfoResponse(int commandId, const QVariantMap &params);
 
     void notificationReceived(const QVariantMap &data);
