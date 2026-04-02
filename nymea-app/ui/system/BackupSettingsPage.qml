@@ -52,6 +52,9 @@ SettingsPageBase {
 
     property string pendingDownloadId: ""
     property string pendingFileName: ""
+    property url pendingRestoreSourceUrl: ""
+    property string pendingRestoreFileName: ""
+    property bool restoringUploadedBackup: false
     property string statusMessage: ""
 
     function openErrorDialog(message) {
@@ -69,6 +72,11 @@ SettingsPageBase {
         pendingDownloadId = ""
         pendingFileName = ""
         saveBackupDialog.selectedFileName = ""
+    }
+
+    function clearPendingRestoreUpload() {
+        pendingRestoreSourceUrl = ""
+        pendingRestoreFileName = ""
     }
 
     function prepareBackupDownload(downloadId, fileName, errorMessage) {
@@ -131,6 +139,18 @@ SettingsPageBase {
         }
     }
 
+    Button {
+        Layout.fillWidth: true
+        Layout.margins: Style.margins
+        enabled: !engine.transfersManager.busy
+        text: qsTr("Upload and restore backup")
+        onClicked: {
+            statusMessage = ""
+            clearPendingRestoreUpload()
+            selectRestoreBackupDialog.open()
+        }
+    }
+
     FileDialog {
         id: saveBackupDialog
         title: qsTr("Save backup")
@@ -176,6 +196,35 @@ SettingsPageBase {
         onRejected: root.clearPendingDownload()
     }
 
+    FileDialog {
+        id: selectRestoreBackupDialog
+        title: qsTr("Select backup file")
+        fileMode: FileDialog.OpenFile
+        nameFilters: [qsTr("Backup archives (*.tar.gz)")]
+
+        currentFolder: {
+            var folder = StandardPaths.writableLocation(StandardPaths.DownloadLocation)
+            if (!folder || folder.length === 0) {
+                folder = StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+            }
+            return folder
+        }
+
+        onAccepted: {
+            if (!selectedFile || selectedFile.toString().length === 0) {
+                return
+            }
+
+            root.pendingRestoreSourceUrl = selectedFile
+            root.pendingRestoreFileName = selectedFile.toString().split("/").pop()
+
+            var dialog = uploadRestoreBackupDialogComponent.createObject(root, { fileName: root.pendingRestoreFileName })
+            dialog.open()
+        }
+
+        onRejected: root.clearPendingRestoreUpload()
+    }
+
     Connections {
         target: engine.nymeaConfiguration
 
@@ -217,6 +266,25 @@ SettingsPageBase {
 
         function onDownloadFailed(downloadId, errorString) {
             root.clearPendingDownload()
+        }
+
+        function onUploadFinished(downloadId, fileName, size) {
+            if (!root.restoringUploadedBackup) {
+                return
+            }
+
+            root.restoringUploadedBackup = false
+            root.clearPendingRestoreUpload()
+            root.statusMessage = qsTr("Backup uploaded. The server is restoring it and will reboot once finished.")
+        }
+
+        function onUploadFailed(fileName, errorString) {
+            if (!root.restoringUploadedBackup) {
+                return
+            }
+
+            root.restoringUploadedBackup = false
+            root.clearPendingRestoreUpload()
         }
 
         function onErrorOccurred(errorString) {
@@ -617,6 +685,30 @@ SettingsPageBase {
 
                 engine.nymeaConfiguration.restoreBackupFile(backupFile.fileName)
             }
+        }
+    }
+
+    Component {
+        id: uploadRestoreBackupDialogComponent
+
+        NymeaDialog {
+            title: qsTr("Upload and restore backup?")
+            text: qsTr("Do you really want to upload and restore the backup file %1? All current settings will be removed and the server will reboot once finished.").arg(fileName)
+            standardButtons: Dialog.Yes | Dialog.No
+
+            property string fileName: ""
+
+            onAccepted: {
+                if (!root.pendingRestoreSourceUrl || root.pendingRestoreSourceUrl.toString().length === 0) {
+                    return
+                }
+
+                root.statusMessage = ""
+                root.restoringUploadedBackup = true
+                engine.nymeaConfiguration.uploadAndRestoreBackup(root.pendingRestoreSourceUrl)
+            }
+
+            onRejected: root.clearPendingRestoreUpload()
         }
     }
 }

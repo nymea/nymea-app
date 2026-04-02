@@ -59,6 +59,7 @@ public:
 
     Q_INVOKABLE void downloadFile(const QString &downloadId, const QUrl &targetUrl);
     Q_INVOKABLE void uploadFile(const QUrl &sourceUrl);
+    void uploadFileWithMethod(const QUrl &sourceUrl, const QString &createUploadMethod);
 
 signals:
     void busyChanged();
@@ -136,6 +137,7 @@ private:
     QString m_downloadId;
     QUrl m_targetUrl;
     QUrl m_sourceUrl;
+    QString m_createUploadMethod = QStringLiteral("Transfers.CreateUpload");
     QString m_transferId;
     QString m_transferToken;
     QByteArray m_receiveBuffer;

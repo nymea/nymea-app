@@ -29,6 +29,7 @@
 #include "mqttpolicy.h"
 #include "serverconfiguration.h"
 #include "serverconfigurations.h"
+#include "../transfersmanager.h"
 
 #include "jsonrpc/jsonrpcclient.h"
 
@@ -55,6 +56,11 @@ NymeaConfiguration::NymeaConfiguration(JsonRpcClient *client, QObject *parent)
 bool NymeaConfiguration::fetchingData() const
 {
     return m_fetchingData;
+}
+
+void NymeaConfiguration::setTransfersManager(TransfersManager *transfersManager)
+{
+    m_transfersManager = transfersManager;
 }
 
 void NymeaConfiguration::init()
@@ -360,6 +366,16 @@ void NymeaConfiguration::restoreBackupFile(const QString &fileName)
     QVariantMap params;
     params.insert("fileName", fileName);
     m_client->sendCommand("Configuration.RestoreBackupFile", params, this, "restoreBackupFileReply");
+}
+
+void NymeaConfiguration::uploadAndRestoreBackup(const QUrl &sourceUrl)
+{
+    if (!m_transfersManager) {
+        qCWarning(dcNymeaConfiguration()) << "Transfers manager not available for backup restore upload";
+        return;
+    }
+
+    m_transfersManager->uploadFileWithMethod(sourceUrl, "Configuration.UploadAndRestoreBackup");
 }
 
 void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariantMap &params)
