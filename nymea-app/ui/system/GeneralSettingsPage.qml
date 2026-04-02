@@ -211,7 +211,7 @@ SettingsPageBase {
 
     SettingsPageSectionHeader {
         text: qsTr("System")
-        visible: engine.systemController.powerManagementAvailable
+        visible: engine.jsonRpcClient.ensureServerVersion("9.0") || engine.systemController.powerManagementAvailable
     }
 
     Button {
@@ -259,6 +259,7 @@ SettingsPageBase {
             })
         }
     }
+
     Button {
         Layout.fillWidth: true
         Layout.leftMargin: app.margins
@@ -278,6 +279,29 @@ SettingsPageBase {
             popup.open();
             popup.accepted.connect(function() {
                 d.pendingCommand = engine.systemController.shutdown()
+            })
+        }
+    }
+
+    Button {
+        Layout.fillWidth: true
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        text: qsTr("Factory reset").arg(Configuration.systemName)
+        visible: engine.jsonRpcClient.ensureServerVersion("9.0")
+        onClicked: {
+            var dialog = Qt.createComponent(Qt.resolvedUrl("../components/NymeaDialog.qml"));
+            var text = qsTr("Are you sure you want to delete all settings and configurations?\nPlease make sure you have a backup of your configurations. The system will perform a restart into the factory defaults once the reset has been done.")
+            var popup = dialog.createObject(app,
+                                            {
+                                                headerIcon: "qrc:/icons/dialog-warning-symbolic.svg",
+                                                title: qsTr("Factory reset"),
+                                                text: text,
+                                                standardButtons: Dialog.Ok | Dialog.Cancel
+                                            });
+            popup.open();
+            popup.accepted.connect(function() {
+                d.pendingCommand = engine.systemController.factoryReset()
             })
         }
     }

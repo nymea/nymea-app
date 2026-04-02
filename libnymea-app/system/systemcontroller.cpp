@@ -96,6 +96,11 @@ int SystemController::shutdown()
     return m_jsonRpcClient->sendCommand("System.Shutdown", this, "shutdownResponse");
 }
 
+int SystemController::factoryReset()
+{
+    return m_jsonRpcClient->sendCommand("System.FactoryReset", this, "factoryResetResponse");
+}
+
 bool SystemController::updateManagementBusy() const
 {
     return m_updateManagementBusy;
@@ -365,6 +370,13 @@ void SystemController::shutdownResponse(int commandId, const QVariantMap &params
 {
     bool success = params.value("success").toBool();
     emit shutdownReply(commandId, success);
+}
+
+void SystemController::factoryResetResponse(int commandId, const QVariantMap &params)
+{
+    Q_UNUSED(commandId)
+    bool success = params.value("success").toBool();
+    emit factoryResetReply(commandId, success);
 }
 
 void SystemController::getSystemInfoResponse(int commandId, const QVariantMap &params)

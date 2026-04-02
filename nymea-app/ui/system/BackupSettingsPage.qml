@@ -29,6 +29,7 @@ import QtQuick.Dialogs
 import QtQuick.Layouts
 
 import Nymea
+import NymeaApp.Utils
 
 import "../components"
 
@@ -52,23 +53,6 @@ SettingsPageBase {
     property string pendingDownloadId: ""
     property string pendingFileName: ""
     property string statusMessage: ""
-
-    function formatFileSize(size) {
-        var units = ["B", "kB", "MB", "GB", "TB"]
-        var value = size
-        var unitIndex = 0
-
-        while (value >= 1024 && unitIndex < units.length - 1) {
-            value /= 1024
-            unitIndex += 1
-        }
-
-        if (unitIndex === 0) {
-            return Math.round(value) + " " + units[unitIndex]
-        }
-
-        return value.toFixed(1) + " " + units[unitIndex]
-    }
 
     function openErrorDialog(message) {
         var component = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
@@ -111,7 +95,7 @@ SettingsPageBase {
             Layout.fillWidth: true
             iconName: "qrc:/icons/browser/BrowserIconFile.svg"
             text: model.fileName
-            subText: Qt.formatDateTime(model.timestamp, "dd.MM.yyyy hh:mm:ss") + " | " + root.formatFileSize(model.size)
+            subText: Qt.formatDateTime(model.timestamp, "dd.MM.yyyy hh:mm:ss") + " | " + NymeaUtils.formatFileSize(model.size)
             onClicked: pageStack.push(backupFileDetailsComponent, { backupFile: engine.nymeaConfiguration.backupFiles.get(index) })
         }
     }
@@ -496,7 +480,7 @@ SettingsPageBase {
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Size")
-                subText: root.formatFileSize(backupFile.size)
+                subText: NymeaUtils.formatFileSize(backupFile.size)
                 progressive: false
                 prominentSubText: true
             }
