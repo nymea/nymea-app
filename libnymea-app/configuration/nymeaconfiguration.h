@@ -26,6 +26,7 @@
 #define NYMEACONFIGURATION_H
 
 #include <QObject>
+#include <QUrl>
 
 #include "models/backupfiles.h"
 #include "mqttpolicies.h"
@@ -39,6 +40,7 @@ class WebServerConfigurations;
 class TunnelProxyServerConfiguration;
 class TunnelProxyServerConfigurations;
 class MqttPolicy;
+class TransfersManager;
 
 class NymeaConfiguration : public QObject
 {
@@ -68,6 +70,7 @@ public:
     explicit NymeaConfiguration(JsonRpcClient *client, QObject *parent = nullptr);
 
     bool fetchingData() const;
+    void setTransfersManager(TransfersManager *transfersManager);
 
     QString serverName() const;
     void setServerName(const QString &serverName);
@@ -128,6 +131,7 @@ public:
     Q_INVOKABLE void downloadBackupFile(const QString &fileName);
     Q_INVOKABLE void deleteBackupFile(const QString &fileName);
     Q_INVOKABLE void restoreBackupFile(const QString &fileName);
+    Q_INVOKABLE void uploadAndRestoreBackup(const QUrl &sourceUrl);
 
     void init();
 
@@ -191,6 +195,7 @@ private:
     bool m_autoBackupEnabled = false;
     int m_autoBackupInterval = 24;
     BackupFiles *m_backupFiles = nullptr;
+    TransfersManager *m_transfersManager = nullptr;
 
     ServerConfigurations *m_tcpServerConfigurations = nullptr;
     ServerConfigurations *m_webSocketServerConfigurations = nullptr;

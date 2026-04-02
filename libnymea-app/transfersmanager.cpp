@@ -41,6 +41,7 @@ NYMEA_LOGGING_CATEGORY(dcTransfersManager, "TransfersManager")
 namespace {
 
 static const qint64 chunkSize = 64 * 1024;
+static const char defaultCreateUploadMethod[] = "Transfers.CreateUpload";
 
 }
 
@@ -126,6 +127,11 @@ void TransfersManager::downloadFile(const QString &downloadId, const QUrl &targe
 
 void TransfersManager::uploadFile(const QUrl &sourceUrl)
 {
+    uploadFileWithMethod(sourceUrl, QString::fromLatin1(defaultCreateUploadMethod));
+}
+
+void TransfersManager::uploadFileWithMethod(const QUrl &sourceUrl, const QString &createUploadMethod)
+{
     if (m_busy) {
         emit errorOccurred(tr("Another transfer is already running."));
         return;
@@ -156,6 +162,7 @@ void TransfersManager::uploadFile(const QUrl &sourceUrl)
     resetTransferState();
     m_transferType = TransferTypeUpload;
     m_sourceUrl = sourceUrl;
+    m_createUploadMethod = createUploadMethod;
     m_inputFile.reset(inputFile.take());
     setActiveFileName(fileName);
     setBusy(true);
@@ -165,7 +172,7 @@ void TransfersManager::uploadFile(const QUrl &sourceUrl)
     QVariantMap params;
     params.insert("fileName", fileName);
     params.insert("size", m_inputFile->size());
-    m_client->sendCommand("Transfers.CreateUpload", params, this, "createUploadReply");
+    m_client->sendCommand(m_createUploadMethod, params, this, "createUploadReply");
 }
 
 void TransfersManager::setBusy(bool busy)
@@ -316,6 +323,7 @@ void TransfersManager::resetTransferState()
     m_downloadId.clear();
     m_targetUrl = QUrl();
     m_sourceUrl = QUrl();
+    m_createUploadMethod = QString::fromLatin1(defaultCreateUploadMethod);
     m_transferId.clear();
     m_transferToken.clear();
     setActiveFileName(QString());
@@ -469,6 +477,12 @@ void TransfersManager::createUploadReply(int commandId, const QVariantMap &param
     Q_UNUSED(commandId)
 
     if (m_transferType != TransferTypeUpload) {
+        return;
+    }
+
+    const QString configurationError = params.value("configurationError").toString();
+    if (!configurationError.isEmpty() && configurationError != "ConfigurationErrorNoError") {
+        failTransfer(tr("Failed to prepare the backup restore upload: %1").arg(configurationError));
         return;
     }
 

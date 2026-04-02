@@ -45,6 +45,7 @@ Engine::Engine(QObject *parent) :
     m_systemController(new SystemController(m_jsonRpcClient, this)),
     m_transfersManager(new TransfersManager(m_jsonRpcClient, this))
 {
+    m_nymeaConfiguration->setTransfersManager(m_transfersManager);
 
     connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, &Engine::onConnectedChanged);
 
