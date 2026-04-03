@@ -319,6 +319,230 @@
     </message>
 </context>
 <context>
+    <name>BackupSettingsPage</name>
+    <message>
+        <source>Backup settings</source>
+        <translation>Backup Einstellungen</translation>
+    </message>
+    <message>
+        <source>Creating backup...</source>
+        <translation>Erstelle Backup...</translation>
+    </message>
+    <message>
+        <source>Transferring backup...</source>
+        <translation>Übertrage Backup...</translation>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation>%1 von %2</translation>
+    </message>
+    <message>
+        <source>Backup files</source>
+        <translation>Backup Dateien</translation>
+    </message>
+    <message>
+        <source>Create backup</source>
+        <translation>Erstelle Backup</translation>
+    </message>
+    <message>
+        <source>Create and download backup</source>
+        <translation>Backup erstellen und herunterladen</translation>
+    </message>
+    <message>
+        <source>Upload and restore backup</source>
+        <translation>Hochladen und wiederherstellen von Backup</translation>
+    </message>
+    <message>
+        <source>Save backup</source>
+        <translation>Backup speichern</translation>
+    </message>
+    <message>
+        <source>Backup archives (*.tar.gz)</source>
+        <translation>Backup Archive (*.tar.gz)</translation>
+    </message>
+    <message>
+        <source>Select backup file</source>
+        <translation>Wähle Backup Datei</translation>
+    </message>
+    <message>
+        <source>Failed to create the backup: %1</source>
+        <translation>Das Backup konnte nicht erstellt werden: %1</translation>
+    </message>
+    <message>
+        <source>Backup created successfully.</source>
+        <translation>Backup erfolgreich erstellt.</translation>
+    </message>
+    <message>
+        <source>Failed to prepare the backup download: %1</source>
+        <translation>Fehler bei der Vorbereitung des Downloads: %1</translation>
+    </message>
+    <message>
+        <source>The server did not provide a download for the requested backup.</source>
+        <translation>Der Server konnte keinen Download für das angefragte Backup zur Verfügung stellen.</translation>
+    </message>
+    <message>
+        <source>Failed to prepare the backup file download: %1</source>
+        <translation>Fehler bei der Vorbereitung des Backup Downloads: %1</translation>
+    </message>
+    <message>
+        <source>The server did not provide a download for the selected backup file.</source>
+        <translation>Der Server konnte keinen Download für das angefragte Backup zur Verfügung stellen.</translation>
+    </message>
+    <message>
+        <source>Backup saved to %1</source>
+        <translation>Backup gespeichert unter %1</translation>
+    </message>
+    <message>
+        <source>Backup uploaded. The server is restoring it and will reboot once finished.</source>
+        <translation>Backup hochgeladen. Der Server wird es wieder herstellen und anschließend neu starten.</translation>
+    </message>
+    <message>
+        <source>Saving backup settings...</source>
+        <translation>Speichere Backup Einstellungen</translation>
+    </message>
+    <message>
+        <source>1 Day</source>
+        <translation>1 Tag</translation>
+    </message>
+    <message>
+        <source>2 Days</source>
+        <translation>2 Tage</translation>
+    </message>
+    <message>
+        <source>Weekly</source>
+        <translation>Wöchentlich</translation>
+    </message>
+    <message>
+        <source>Once a month</source>
+        <translation>Einmal im Monat</translation>
+    </message>
+    <message>
+        <source>Custom</source>
+        <translation>Benutzerdefiniert</translation>
+    </message>
+    <message>
+        <source>Backup configuration</source>
+        <translation>Backup Konfiguration</translation>
+    </message>
+    <message>
+        <source>Backup destination directory on the server</source>
+        <translation>Backup Zielordner auf dem Server</translation>
+    </message>
+    <message>
+        <source>Destination directory</source>
+        <translation>Zielordner</translation>
+    </message>
+    <message>
+        <source>Number of backups to keep (Select 0 to keep all backups)</source>
+        <translation>Anzahl der Backup die behalten werden sollen (Stelle 0 ein um alle zu behalten)</translation>
+    </message>
+    <message>
+        <source>Automatic backups</source>
+        <translation>Automatische Backups</translation>
+    </message>
+    <message>
+        <source>Automatic backup interval</source>
+        <translation>Interval für automatische Backups</translation>
+    </message>
+    <message>
+        <source>Custom interval in hours</source>
+        <translation>Benutzerdefiniertes Intervall in Stunden</translation>
+    </message>
+    <message>
+        <source>Apply backup settings</source>
+        <translation>Backup Einstellungen übernehmen</translation>
+    </message>
+    <message>
+        <source>Failed to update the backup settings: %1</source>
+        <translation>Fehler beim Updaten der Backup Einstellungen: %1</translation>
+    </message>
+    <message>
+        <source>Backup settings updated successfully.</source>
+        <translation>Backup Einstellungen übernommen.</translation>
+    </message>
+    <message>
+        <source>Deleting backup file...</source>
+        <translation>Lösche Backup Datei...</translation>
+    </message>
+    <message>
+        <source>Restoring backup file...</source>
+        <translation>Stelle Backup wieder her...</translation>
+    </message>
+    <message>
+        <source>Backup file</source>
+        <translation>Backup Datei</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Größe</translation>
+    </message>
+    <message>
+        <source>Server version</source>
+        <translation>Server Version</translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation>Erstellt</translation>
+    </message>
+    <message>
+        <source>Download</source>
+        <translation>Herunterladen</translation>
+    </message>
+    <message>
+        <source>Delete backup</source>
+        <translation>Lösche Backup</translation>
+    </message>
+    <message>
+        <source>Restore backup</source>
+        <translation>Backup wiederherstellen</translation>
+    </message>
+    <message>
+        <source>Failed to delete the backup file: %1</source>
+        <translation>Fehler beim Löschen der Backup Datei: %1</translation>
+    </message>
+    <message>
+        <source>Backup file deleted.</source>
+        <translation>Backup Datei wurder gelöscht.</translation>
+    </message>
+    <message>
+        <source>Failed to restore the backup file: %1</source>
+        <translation>Fehler beim Wiederherstellen der Backup Dateil: %1</translation>
+    </message>
+    <message>
+        <source>Backup restore started. The server will reboot once finished.</source>
+        <translation>Backup Wiederherstellung gestartet. Der Server wird anschließend neu starten.</translation>
+    </message>
+    <message>
+        <source>Delete backup file?</source>
+        <translation>Backup Datei löschen?</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete the backup file 
+%1?</source>
+        <translation>Möchtest du die Backup Datei %1 wirklich löschen?</translation>
+    </message>
+    <message>
+        <source>Restore backup file?</source>
+        <translation>Backup Datei wiederherstellen?</translation>
+    </message>
+    <message>
+        <source>Do you really want to restore the backup file %1? All current settings will be removed and the server will reboot once finished.</source>
+        <translation>Möchten Sie die Sicherungsdatei %1 wirklich wiederherstellen? Alle aktuellen Einstellungen werden entfernt und der Server wird nach Abschluss des Vorgangs neu gestartet.</translation>
+    </message>
+    <message>
+        <source>Upload and restore backup?</source>
+        <translation>Backup hochladen und wiederherstellen?</translation>
+    </message>
+    <message>
+        <source>Do you really want to upload and restore the backup file %1? All current settings will be removed and the server will reboot once finished.</source>
+        <translation>Möchten Sie die Sicherungsdatei %1 wirklich hochladen und wiederherstellen? Alle aktuellen Einstellungen werden gelöscht und der Server wird nach Abschluss des Vorgangs neu gestartet.</translation>
+    </message>
+</context>
+<context>
     <name>BarcodeScannerThingPage</name>
     <message>
         <source>No codes have been scanned yet.</source>
@@ -2439,6 +2663,16 @@ Bitte versuche es erneut.</translation>
     <message>
         <source>Are you sure you want to shut down your %1 sytem now?</source>
         <translation>Bist Du sicher, dass Du dein %1 System jetzt herunterfahren möchtest?</translation>
+    </message>
+    <message>
+        <source>Factory reset</source>
+        <translation>Wekseinstellungen zurücksetzen</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete all settings and configurations?
+Please make sure you have a backup of your configurations. The system will perform a restart into the factory defaults once the reset has been done.</source>
+        <translation>Sind Sie sicher, dass Sie alle Einstellungen und Konfigurationen löschen möchten?
+Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen haben. Das System wird nach dem Zurücksetzen auf die Werkseinstellungen zurückgesetzt.</translation>
     </message>
 </context>
 <context>
@@ -6588,6 +6822,14 @@ Möchtest Du fortfahren?</translation>
         <source>Dashboard settings</source>
         <translation>Dashboard Einstellungen</translation>
     </message>
+    <message>
+        <source>Backup</source>
+        <translation>Backup</translation>
+    </message>
+    <message>
+        <source>Manage system configuration backup</source>
+        <translation>Systemkonfigurationssicherung verwalten</translation>
+    </message>
 </context>
 <context>
     <name>SetupWizard</name>
@@ -7415,6 +7657,145 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <message>
         <source>Sunday</source>
         <translation>Sonntag</translation>
+    </message>
+</context>
+<context>
+    <name>TransfersManager</name>
+    <message>
+        <source>Another transfer is already running.</source>
+        <translation>Eine andere Übertragung läuft bereits.</translation>
+    </message>
+    <message>
+        <source>Not connected to a nymea server.</source>
+        <translation>Keine Verbindung zum nymea Server.</translation>
+    </message>
+    <message>
+        <source>Invalid download target.</source>
+        <translation>Ungültiges Downloadziel.</translation>
+    </message>
+    <message>
+        <source>Could not create the selected download directory.</source>
+        <translation>Das ausgewählte Downloadverzeichnis konnte nicht erstellt werden.</translation>
+    </message>
+    <message>
+        <source>Preparing download...</source>
+        <translation>Download wird vorbereitet...</translation>
+    </message>
+    <message>
+        <source>Invalid upload source.</source>
+        <translation>Ungültige Uploadquelle.</translation>
+    </message>
+    <message>
+        <source>The selected upload file could not be opened.</source>
+        <translation>Die ausgewählte Upload Datei konnte nicht geöffnet werden.</translation>
+    </message>
+    <message>
+        <source>Preparing upload...</source>
+        <translation>Bereite Upload vor...</translation>
+    </message>
+    <message>
+        <source>Downloading %1 (%2%)</source>
+        <translation>Lade herunter %1 (%2%)</translation>
+    </message>
+    <message>
+        <source>Downloading %1</source>
+        <translation>Lade herunter %1</translation>
+    </message>
+    <message>
+        <source>Uploading %1 (%2%)</source>
+        <translation>Lade hoch %1 (%2%)</translation>
+    </message>
+    <message>
+        <source>Uploading %1</source>
+        <translation>Lade hoch %1</translation>
+    </message>
+    <message>
+        <source>The current connection does not support file transfers.</source>
+        <translation>Die aktuelle Verbindung unterstützt keine Dateiübertragungen.</translation>
+    </message>
+    <message>
+        <source>Could not open the transfer connection.</source>
+        <translation>Die Übertragungsverbindung konnte nicht hergestellt werden.</translation>
+    </message>
+    <message>
+        <source>Transfer connection is not available.</source>
+        <translation>Es besteht keine Übertragungsverbindung.</translation>
+    </message>
+    <message>
+        <source>Upload source is not available.</source>
+        <translation>Die Uploadquelle ist nicht verfügbar.</translation>
+    </message>
+    <message>
+        <source>Failed to read the upload file.</source>
+        <translation>Die hochgeladene Datei konnte nicht gelesen werden.</translation>
+    </message>
+    <message>
+        <source>Download target is not available.</source>
+        <translation>Das Downloadziel ist nicht verfügbar.</translation>
+    </message>
+    <message>
+        <source>The server rejected the download request.</source>
+        <translation>Der Server hat die Downloadanfrage abgelehnt.</translation>
+    </message>
+    <message>
+        <source>Failed to prepare the backup restore upload: %1</source>
+        <translation>Fehler beim Vorbereiten des Backup-Wiederherstellungs-Uploads: %1</translation>
+    </message>
+    <message>
+        <source>The server rejected the upload request.</source>
+        <translation>Der Server hat die Upload-Anfrage abgelehnt.</translation>
+    </message>
+    <message>
+        <source>Could not open the selected upload file.</source>
+        <translation>Die ausgewählte Upload-Datei konnte nicht geöffnet werden.</translation>
+    </message>
+    <message>
+        <source>The server connection was lost.</source>
+        <translation>Die Serververbindung wurde unterbrochen.</translation>
+    </message>
+    <message>
+        <source>Connecting transfer...</source>
+        <translation>Verbindung für die Übertragung wird hergestellt...</translation>
+    </message>
+    <message>
+        <source>The transfer connection was closed unexpectedly.</source>
+        <translation>Die Übertragungsverbindung wurde unerwartet unterbrochen.</translation>
+    </message>
+    <message>
+        <source>The transfer connection reported an error.</source>
+        <translation>Bei der Übertragungsverbindung wurde ein Fehler gemeldet.</translation>
+    </message>
+    <message>
+        <source>The transfer connection could not be secured.</source>
+        <translation>Die Übertragungsverbindung konnte nicht hergestellt werden.</translation>
+    </message>
+    <message>
+        <source>The transfer failed.</source>
+        <translation>Die Übertragung ist fehlgeschlagen.</translation>
+    </message>
+    <message>
+        <source>The server returned an unexpected transfer direction.</source>
+        <translation>Der Server hat eine unerwartete Übertragungsrichtung zurückgegeben.</translation>
+    </message>
+    <message>
+        <source>Resuming downloads is not supported yet.</source>
+        <translation>Das Fortsetzen von Downloads wird derzeit nicht unterstützt.</translation>
+    </message>
+    <message>
+        <source>Could not open the selected download target.</source>
+        <translation>Das ausgewählte Downloadziel konnte nicht geöffnet werden.</translation>
+    </message>
+    <message>
+        <source>Could not resume the upload file.</source>
+        <translation>Der Upload der Datei konnte nicht fortgesetzt werden.</translation>
+    </message>
+    <message>
+        <source>Could not write the downloaded data.</source>
+        <translation>Die heruntergeladenen Daten konnten nicht geschrieben werden.</translation>
+    </message>
+    <message>
+        <source>The server returned an empty download chunk.</source>
+        <translation>Der Server hat einen leeren Download-Chunk zurückgegeben.</translation>
     </message>
 </context>
 <context>
