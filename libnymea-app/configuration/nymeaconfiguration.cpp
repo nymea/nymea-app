@@ -337,14 +337,14 @@ void NymeaConfiguration::getBackupFiles()
     m_client->sendCommand("Configuration.GetBackupFiles", this, "getBackupFilesReply");
 }
 
-void NymeaConfiguration::createBackup()
+int NymeaConfiguration::createBackup()
 {
-    m_client->sendCommand("Configuration.CreateBackup", this, "createBackupReply");
+    return m_client->sendCommand("Configuration.CreateBackup", this, "createBackupReply");
 }
 
-void NymeaConfiguration::createAndDownloadBackup()
+int NymeaConfiguration::createAndDownloadBackup()
 {
-    m_client->sendCommand("Configuration.CreateAndDownloadBackup", this, "createAndDownloadBackupReply");
+    return m_client->sendCommand("Configuration.CreateAndDownloadBackup", this, "createAndDownloadBackupReply");
 }
 
 void NymeaConfiguration::downloadBackupFile(const QString &fileName)
