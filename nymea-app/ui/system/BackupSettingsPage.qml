@@ -47,8 +47,10 @@ SettingsPageBase {
         }
     }
 
-    busy: engine.transfersManager.busy
-    busyText: engine.transfersManager.statusText.length > 0 ? engine.transfersManager.statusText : qsTr("Transferring backup...")
+    busy: engine.transfersManager.busy || d.pendingCommandId !== -1
+    busyText: d.pendingCommandId !== -1
+              ? qsTr("Creating backup...")
+              : engine.transfersManager.statusText.length > 0 ? engine.transfersManager.statusText : qsTr("Transferring backup...")
 
     property string pendingDownloadId: ""
     property string pendingFileName: ""
@@ -57,11 +59,15 @@ SettingsPageBase {
     property bool restoringUploadedBackup: false
     property string statusMessage: ""
 
+    QtObject {
+        id: d
+        property int pendingCommandId: -1
+    }
+
     function openErrorDialog(message) {
         var component = Qt.createComponent(Qt.resolvedUrl("../components/ErrorDialog.qml"))
-        if (component.status !== Component.Ready) {
+        if (component.status !== Component.Ready)
             return
-        }
 
         var dialog = component.createObject(root)
         dialog.text = message
@@ -92,6 +98,42 @@ SettingsPageBase {
         saveBackupDialog.open()
     }
 
+    function transferProgressText() {
+        if (!engine.transfersManager.busy || engine.transfersManager.totalBytes <= 0) {
+            return ""
+        }
+
+        return qsTr("%1 of %2").arg(NymeaUtils.formatFileSize(engine.transfersManager.bytesTransferred))
+                              .arg(NymeaUtils.formatFileSize(engine.transfersManager.totalBytes))
+    }
+
+    Label {
+        Layout.fillWidth: true
+        Layout.margins: Style.margins
+        wrapMode: Text.WordWrap
+        visible: engine.transfersManager.busy
+        text: engine.transfersManager.statusText
+    }
+
+    ProgressBar {
+        Layout.fillWidth: true
+        Layout.leftMargin: Style.margins
+        Layout.rightMargin: Style.margins
+        visible: engine.transfersManager.busy
+        from: 0
+        to: 1
+        value: engine.transfersManager.progress
+    }
+
+    Label {
+        Layout.fillWidth: true
+        Layout.leftMargin: Style.margins
+        Layout.rightMargin: Style.margins
+        wrapMode: Text.WordWrap
+        visible: engine.transfersManager.busy && text.length > 0
+        text: root.transferProgressText()
+    }
+
     SettingsPageSectionHeader {
         text: qsTr("Backup files")
     }
@@ -119,31 +161,34 @@ SettingsPageBase {
     Button {
         Layout.fillWidth: true
         Layout.margins: Style.margins
-        enabled: !engine.transfersManager.busy
+        enabled: !engine.transfersManager.busy && d.pendingCommandId === -1
         text: qsTr("Create backup")
+        icon.source: "qrc:/icons/backup.svg"
         onClicked: {
             statusMessage = ""
-            engine.nymeaConfiguration.createBackup()
+            d.pendingCommandId = engine.nymeaConfiguration.createBackup()
         }
     }
 
     Button {
         Layout.fillWidth: true
         Layout.margins: Style.margins
-        enabled: !engine.transfersManager.busy
+        enabled: !engine.transfersManager.busy && d.pendingCommandId === -1
         text: qsTr("Create and download backup")
+        icon.source: "qrc:/icons/download.svg"
         onClicked: {
             statusMessage = ""
             clearPendingDownload()
-            engine.nymeaConfiguration.createAndDownloadBackup()
+            d.pendingCommandId = engine.nymeaConfiguration.createAndDownloadBackup()
         }
     }
 
     Button {
         Layout.fillWidth: true
         Layout.margins: Style.margins
-        enabled: !engine.transfersManager.busy
+        enabled: !engine.transfersManager.busy && d.pendingCommandId === -1
         text: qsTr("Upload and restore backup")
+        icon.source: "qrc:/icons/upload.svg"
         onClicked: {
             statusMessage = ""
             clearPendingRestoreUpload()
@@ -161,9 +206,9 @@ SettingsPageBase {
 
         currentFolder: {
             var folder = StandardPaths.writableLocation(StandardPaths.DownloadLocation)
-            if (!folder || folder.length === 0) {
+            if (!folder || folder.length === 0)
                 folder = StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-            }
+
             return folder
         }
 
@@ -174,20 +219,18 @@ SettingsPageBase {
         }
 
         onSelectedFileChanged: {
-            if (!selectedFile || selectedFile.toString().length === 0) {
+            if (!selectedFile || selectedFile.toString().length === 0)
                 return
-            }
 
             var fileName = selectedFile.toString().split("/").pop()
-            if (fileName.length > 0) {
+            if (fileName.length > 0)
                 selectedFileName = fileName
-            }
+
         }
 
         onAccepted: {
-            if (!root.pendingDownloadId || root.pendingDownloadId.length === 0) {
+            if (!root.pendingDownloadId || root.pendingDownloadId.length === 0)
                 return
-            }
 
             statusMessage = ""
             engine.transfersManager.downloadFile(root.pendingDownloadId, selectedFile)
@@ -229,6 +272,12 @@ SettingsPageBase {
         target: engine.nymeaConfiguration
 
         function onCreateBackupFinished(commandId, configurationError) {
+            if (commandId !== d.pendingCommandId) {
+                return
+            }
+
+            d.pendingCommandId = -1
+
             if (configurationError !== "ConfigurationErrorNoError") {
                 root.openErrorDialog(qsTr("Failed to create the backup: %1").arg(configurationError))
                 return
@@ -238,6 +287,12 @@ SettingsPageBase {
         }
 
         function onCreateAndDownloadBackupFinished(commandId, configurationError, downloadId, fileName, size) {
+            if (commandId !== d.pendingCommandId) {
+                return
+            }
+
+            d.pendingCommandId = -1
+
             if (configurationError !== "ConfigurationErrorNoError") {
                 root.openErrorDialog(qsTr("Failed to prepare the backup download: %1").arg(configurationError))
                 return
@@ -466,6 +521,7 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
                 text: qsTr("Apply backup settings")
+                icon.source: "qrc:/icons/save.svg"
 
                 enabled: !saving
                          && backupDestinationDirectoryTextField.text.trim().length > 0
@@ -537,6 +593,33 @@ SettingsPageBase {
                 onBackPressed: pageStack.pop()
             }
 
+            Label {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                wrapMode: Text.WordWrap
+                visible: engine.transfersManager.busy
+                text: engine.transfersManager.statusText
+            }
+
+            ProgressBar {
+                Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
+                visible: engine.transfersManager.busy
+                from: 0
+                to: 1
+                value: engine.transfersManager.progress
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
+                wrapMode: Text.WordWrap
+                visible: engine.transfersManager.busy && text.length > 0
+                text: root.transferProgressText()
+            }
+
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Name")
@@ -564,6 +647,7 @@ SettingsPageBase {
             NymeaSwipeDelegate {
                 Layout.fillWidth: true
                 text: qsTr("Created")
+                icon.source: "qrc:/icons/backup.svg"
                 subText: Qt.formatDateTime(backupFile.timestamp, "dd.MM.yyyy hh:mm:ss")
                 progressive: false
                 prominentSubText: true
@@ -573,6 +657,7 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
                 text: qsTr("Download")
+                icon.source: "qrc:/icons/download.svg"
                 enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting && !backupFileDetailsPage.restoring
                 onClicked: {
                     root.statusMessage = ""
@@ -585,6 +670,7 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
                 text: qsTr("Delete backup")
+                icon.source: "qrc:/icons/delete.svg"
                 enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting && !backupFileDetailsPage.restoring
                 onClicked: {
                     var dialog = deleteBackupDialogComponent.createObject(root, { backupFile: backupFile })
@@ -596,6 +682,7 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
                 text: qsTr("Restore backup")
+                icon.source: "qrc:/icons/refresh.svg"
                 enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting && !backupFileDetailsPage.restoring
                 onClicked: {
                     var dialog = restoreBackupDialogComponent.createObject(root, { backupFile: backupFile })

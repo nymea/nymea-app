@@ -126,8 +126,8 @@ public:
     Q_INVOKABLE void deleteMqttPolicy(const QString &clientId);
 
     Q_INVOKABLE void getBackupFiles();
-    Q_INVOKABLE void createBackup();
-    Q_INVOKABLE void createAndDownloadBackup();
+    Q_INVOKABLE int createBackup();
+    Q_INVOKABLE int createAndDownloadBackup();
     Q_INVOKABLE void downloadBackupFile(const QString &fileName);
     Q_INVOKABLE void deleteBackupFile(const QString &fileName);
     Q_INVOKABLE void restoreBackupFile(const QString &fileName);
