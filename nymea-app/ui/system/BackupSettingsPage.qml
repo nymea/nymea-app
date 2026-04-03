@@ -489,13 +489,13 @@ SettingsPageBase {
                 model: backupSettingsPage.autoBackupIntervalLabels
             }
 
-            // Label {
-            //     Layout.fillWidth: true
-            //     Layout.margins: Style.margins
-            //     visible: autoBackupEnabledSwitch.checked && backupSettingsPage.autoBackupIntervalIsCustom()
-            //     wrapMode: Text.WordWrap
-            //     text: qsTr("Custom interval in hours")
-            // }
+            Label {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                visible: autoBackupEnabledSwitch.checked && backupSettingsPage.autoBackupIntervalIsCustom()
+                wrapMode: Text.WordWrap
+                text: qsTr("Custom interval in hours")
+            }
 
             TextField {
                 id: customAutoBackupIntervalTextField
