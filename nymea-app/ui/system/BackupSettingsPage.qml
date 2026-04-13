@@ -138,6 +138,16 @@ SettingsPageBase {
         text: qsTr("Backup files")
     }
 
+
+    Label {
+        Layout.fillWidth: true
+        Layout.margins: Style.margins
+        wrapMode: Text.WordWrap
+        visible: engine.nymeaConfiguration.backupFiles.count === 0
+        text: qsTr("There is no backup file in the backup directory %1 yet.").arg(engine.nymeaConfiguration.backupDestinationDirectory)
+    }
+
+
     Repeater {
         id: backupFilesRepeater
         model: engine.nymeaConfiguration.backupFiles
