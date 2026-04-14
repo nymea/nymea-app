@@ -1,3 +1,11 @@
+nymea-app (1.12.1) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add backup settings
+  * Improve server logging categories settings page
+
+ -- jenkins <developer@nymea.io>  Tue, 14 Apr 2026 16:50:35 +0200
+
 nymea-app (1.11.8) bionic; urgency=medium
 
   [ Simon Stürz ]
