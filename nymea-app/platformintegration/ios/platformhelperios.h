@@ -26,6 +26,7 @@
 #define PLATFORMHELPERIOS_H
 
 #include <QObject>
+#include <QUrl>
 
 #include "platformhelper.h"
 
@@ -51,6 +52,9 @@ public:
     bool darkModeEnabled() const override;
 
     void shareFile(const QString &fileName) override;
+    void shareTemporaryFile(const QString &fileName) override;
+    void removeFile(const QUrl &fileUrl) override;
+    Q_INVOKABLE void pickFile() override;
 
 private:
     // defined in platformhelperios.mm

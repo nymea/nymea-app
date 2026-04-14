@@ -3,9 +3,18 @@
 #import <Security/Security.h>
 #import <UIKit/UIKit.h>
 
+#include <QFileInfo>
+#include <QUrl>
+
 #include <QtDebug>
 #include <QtGlobal>
 #include "platformintegration/ios/platformhelperios.h"
+
+@interface NymeaDocumentPickerDelegate : NSObject <UIDocumentPickerDelegate>
+@property(nonatomic, assign) PlatformHelperIOS *helper;
+@end
+
+static NymeaDocumentPickerDelegate *s_documentPickerDelegate = nil;
 
 static UIWindow *activeWindow()
 {
@@ -22,6 +31,16 @@ static UIWindow *activeWindow()
     }
 
     return application.windows.firstObject;
+}
+
+static UIViewController *activeViewController()
+{
+    UIWindow *window = activeWindow();
+    UIViewController *controller = window.rootViewController;
+    while (controller.presentedViewController) {
+        controller = controller.presentedViewController;
+    }
+    return controller;
 }
 
 static CGRect statusBarFrameForWindow(UIWindow *window)
@@ -44,6 +63,96 @@ static CGRect statusBarFrameForWindow(UIWindow *window)
 
     return [UIApplication sharedApplication].statusBarFrame;
 }
+
+static bool removeSandboxFileAtPath(NSString *path)
+{
+    if (!path) {
+        return false;
+    }
+
+    NSString *homePath = NSHomeDirectory();
+    if (!path || !homePath || ![path hasPrefix:[homePath stringByAppendingString:@"/"]]) {
+        return false;
+    }
+
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isDirectory = NO;
+    if (![fileManager fileExistsAtPath:path isDirectory:&isDirectory] || isDirectory) {
+        return false;
+    }
+
+    return [fileManager removeItemAtPath:path error:nil];
+}
+
+static bool removeSandboxFileAtPath(const QString &localPath)
+{
+    if (localPath.isEmpty()) {
+        return false;
+    }
+
+    return removeSandboxFileAtPath(localPath.toNSString());
+}
+
+static QString localPathFromFileArgument(const QString &fileName)
+{
+    const QUrl url(fileName);
+    return url.isLocalFile() ? url.toLocalFile() : fileName;
+}
+
+static void emitPickedFileUrl(PlatformHelperIOS *helper, NSURL *url)
+{
+    if (!helper) {
+        return;
+    }
+
+    if (!url || !url.isFileURL) {
+        emit helper->filePickError(QObject::tr("The selected file could not be accessed."));
+        return;
+    }
+
+    const QString filePath = QString::fromNSString(url.path);
+    if (filePath.isEmpty()) {
+        emit helper->filePickError(QObject::tr("The selected file could not be accessed."));
+        return;
+    }
+
+    emit helper->filePicked(QUrl::fromLocalFile(filePath), QFileInfo(filePath).fileName());
+}
+
+@implementation NymeaDocumentPickerDelegate
+
+- (void)documentPickerWasCancelled:(UIDocumentPickerViewController *)controller
+{
+    Q_UNUSED(controller)
+
+    if (self.helper) {
+        emit self.helper->filePickCanceled();
+    }
+
+    s_documentPickerDelegate = nil;
+}
+
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls
+{
+    Q_UNUSED(controller)
+
+    PlatformHelperIOS *helper = self.helper;
+    s_documentPickerDelegate = nil;
+
+    emitPickedFileUrl(helper, urls.firstObject);
+}
+
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentAtURL:(NSURL *)url
+{
+    Q_UNUSED(controller)
+
+    PlatformHelperIOS *helper = self.helper;
+    s_documentPickerDelegate = nil;
+
+    emitPickedFileUrl(helper, url);
+}
+
+@end
 
 QString PlatformHelperIOS::deviceName() const
 {
@@ -201,11 +310,92 @@ bool PlatformHelperIOS::darkModeEnabled() const
     return false;
 }
 
+static void shareFileInternal(const QString &fileName, bool removeAfterSharing)
+{
+    const QString localPath = localPathFromFileArgument(fileName);
+    if (localPath.isEmpty()) {
+        return;
+    }
+
+    UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:localPath.toNSString()]] applicationActivities:nil];
+    UIViewController *qtController = activeViewController();
+    if (!qtController) {
+        if (removeAfterSharing) {
+            removeSandboxFileAtPath(localPath);
+        }
+        return;
+    }
+
+    if (removeAfterSharing) {
+        NSString *pathToRemove = [localPath.toNSString() copy];
+        activityController.completionWithItemsHandler = ^(UIActivityType activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+            Q_UNUSED(activityType)
+            Q_UNUSED(completed)
+            Q_UNUSED(returnedItems)
+            Q_UNUSED(activityError)
+            removeSandboxFileAtPath(pathToRemove);
+        };
+    }
+
+    UIPopoverPresentationController *popover = activityController.popoverPresentationController;
+    if (popover) {
+        UIView *sourceView = qtController.view ?: activeWindow();
+        popover.sourceView = sourceView;
+        popover.sourceRect = sourceView.bounds;
+    }
+
+    [qtController presentViewController:activityController animated:YES completion:nil];
+}
+
 void PlatformHelperIOS::shareFile(const QString &fileName)
 {
-    UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:fileName.toNSString()]] applicationActivities:nil];
-    UIViewController *qtController = [[UIApplication sharedApplication].keyWindow rootViewController];
-    [qtController presentViewController:activityController animated:YES completion:nil];
+    shareFileInternal(fileName, false);
+}
+
+void PlatformHelperIOS::shareTemporaryFile(const QString &fileName)
+{
+    shareFileInternal(fileName, true);
+}
+
+void PlatformHelperIOS::removeFile(const QUrl &fileUrl)
+{
+    const QString localPath = fileUrl.isLocalFile() ? fileUrl.toLocalFile() : fileUrl.toString();
+    removeSandboxFileAtPath(localPath);
+}
+
+void PlatformHelperIOS::pickFile()
+{
+    UIViewController *qtController = activeViewController();
+    if (!qtController) {
+        emit filePickError(tr("The file picker is not available right now."));
+        return;
+    }
+
+    if (s_documentPickerDelegate) {
+        emit filePickError(tr("Another file picker is already open."));
+        return;
+    }
+
+    UIDocumentPickerViewController *picker = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    picker = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:@[@"public.data"] inMode:UIDocumentPickerModeImport];
+#pragma clang diagnostic pop
+    picker.allowsMultipleSelection = NO;
+
+    NymeaDocumentPickerDelegate *delegate = [[NymeaDocumentPickerDelegate alloc] init];
+    delegate.helper = this;
+    picker.delegate = delegate;
+    s_documentPickerDelegate = delegate;
+
+    UIPopoverPresentationController *popover = picker.popoverPresentationController;
+    if (popover) {
+        UIView *sourceView = qtController.view ?: activeWindow();
+        popover.sourceView = sourceView;
+        popover.sourceRect = sourceView.bounds;
+    }
+
+    [qtController presentViewController:picker animated:YES completion:nil];
 }
 
 void PlatformHelperIOS::updateSafeAreaPadding()

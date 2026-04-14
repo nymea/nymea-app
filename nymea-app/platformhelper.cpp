@@ -27,6 +27,8 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDesktopServices>
+#include <QFile>
+#include <QFileInfo>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QJsonDocument>
@@ -277,7 +279,36 @@ QString PlatformHelper::fromClipBoard()
 
 void PlatformHelper::shareFile(const QString &fileName)
 {
-    QDesktopServices::openUrl(QUrl(fileName));
+    const QUrl url(fileName);
+    if (url.isLocalFile()) {
+        QDesktopServices::openUrl(url);
+        return;
+    }
+
+    QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
+}
+
+void PlatformHelper::shareTemporaryFile(const QString &fileName)
+{
+    shareFile(fileName);
+}
+
+void PlatformHelper::removeFile(const QUrl &fileUrl)
+{
+    if (!fileUrl.isLocalFile()) {
+        return;
+    }
+
+    const QFileInfo fileInfo(fileUrl.toLocalFile());
+    if (!fileInfo.exists() || !fileInfo.isFile()) {
+        return;
+    }
+
+    QFile::remove(fileInfo.absoluteFilePath());
+}
+
+void PlatformHelper::pickFile()
+{
 }
 
 bool PlatformHelper::locationServicesEnabled() const
