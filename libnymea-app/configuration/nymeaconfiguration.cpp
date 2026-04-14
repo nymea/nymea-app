@@ -347,11 +347,11 @@ int NymeaConfiguration::createAndDownloadBackup()
     return m_client->sendCommand("Configuration.CreateAndDownloadBackup", this, "createAndDownloadBackupReply");
 }
 
-void NymeaConfiguration::downloadBackupFile(const QString &fileName)
+int NymeaConfiguration::downloadBackupFile(const QString &fileName)
 {
     QVariantMap params;
     params.insert("fileName", fileName);
-    m_client->sendCommand("Configuration.DownloadBackupFile", params, this, "downloadBackupFileReply");
+    return m_client->sendCommand("Configuration.DownloadBackupFile", params, this, "downloadBackupFileReply");
 }
 
 void NymeaConfiguration::deleteBackupFile(const QString &fileName)

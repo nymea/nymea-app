@@ -107,6 +107,7 @@ public:
     Q_INVOKABLE virtual QString fromClipBoard();
 
     Q_INVOKABLE virtual void shareFile(const QString &fileName);
+    Q_INVOKABLE virtual void pickFile();
 
     static QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
 
@@ -127,6 +128,9 @@ signals:
     void bottomPaddingChanged();
     void leftPaddingChanged();
     void rightPaddingChanged();
+    void filePicked(const QUrl &fileUrl, const QString &fileName);
+    void filePickCanceled();
+    void filePickError(const QString &errorString);
 
 protected:
     explicit PlatformHelper(QObject *parent = nullptr);

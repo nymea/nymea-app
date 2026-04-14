@@ -31,7 +31,7 @@ import QtQuick.Layouts
 import Nymea
 import NymeaApp.Utils
 
-import "../components"
+import "qrc:/ui/components"
 
 SettingsPageBase {
     id: root
@@ -47,21 +47,25 @@ SettingsPageBase {
         }
     }
 
-    busy: engine.transfersManager.busy || d.pendingCommandId !== -1
+    busy: engine.transfersManager.busy || d.pendingCommandId !== -1 || d.pendingDownloadPreparationCommandId !== -1
     busyText: d.pendingCommandId !== -1
               ? qsTr("Creating backup...")
-              : engine.transfersManager.statusText.length > 0 ? engine.transfersManager.statusText : qsTr("Transferring backup...")
+              : d.pendingDownloadPreparationCommandId !== -1
+                ? qsTr("Preparing backup download...")
+                : engine.transfersManager.statusText.length > 0 ? engine.transfersManager.statusText : qsTr("Transferring backup...")
 
     property string pendingDownloadId: ""
     property string pendingFileName: ""
     property url pendingRestoreSourceUrl: ""
     property string pendingRestoreFileName: ""
     property bool restoringUploadedBackup: false
+    property bool waitingForNativeRestoreSelection: false
     property string statusMessage: ""
 
     QtObject {
         id: d
         property int pendingCommandId: -1
+        property int pendingDownloadPreparationCommandId: -1
     }
 
     function openErrorDialog(message) {
@@ -69,7 +73,7 @@ SettingsPageBase {
         if (component.status !== Component.Ready)
             return
 
-        var dialog = component.createObject(root)
+        var dialog = component.createObject(app)
         dialog.text = message
         dialog.open()
     }
@@ -83,6 +87,7 @@ SettingsPageBase {
     function clearPendingRestoreUpload() {
         pendingRestoreSourceUrl = ""
         pendingRestoreFileName = ""
+        waitingForNativeRestoreSelection = false
     }
 
     function prepareBackupDownload(downloadId, fileName, errorMessage) {
@@ -93,6 +98,20 @@ SettingsPageBase {
 
         root.pendingDownloadId = downloadId
         root.pendingFileName = fileName
+
+        if (Qt.platform.os === "ios") {
+            var targetUrl = root.iosBackupDownloadTargetUrl(fileName)
+            if (!targetUrl || targetUrl.length === 0) {
+                root.clearPendingDownload()
+                root.openErrorDialog(qsTr("Could not prepare a local backup file for export."))
+                return
+            }
+
+            statusMessage = ""
+            engine.transfersManager.downloadFile(downloadId, targetUrl)
+            return
+        }
+
         saveBackupDialog.selectedFileName = fileName
         saveBackupDialog.selectedFile = saveBackupDialog.currentFolder + "/" + fileName
         saveBackupDialog.open()
@@ -107,9 +126,43 @@ SettingsPageBase {
                               .arg(NymeaUtils.formatFileSize(engine.transfersManager.totalBytes))
     }
 
+    function iosBackupDownloadTargetUrl(fileName) {
+        var folder = StandardPaths.writableLocation(StandardPaths.TempLocation)
+        if (!folder || folder.length === 0)
+            folder = StandardPaths.writableLocation(StandardPaths.CacheLocation)
+        if (!folder || folder.length === 0)
+            folder = StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+        if (!folder || folder.length === 0)
+            return ""
+
+        if (folder.endsWith("/"))
+            return folder + fileName
+
+        return folder + "/" + fileName
+    }
+
+    function promptRestoreBackupUpload(fileUrl, fileName) {
+        if (!fileUrl || fileUrl.toString().length === 0)
+            return
+
+        var resolvedFileName = fileName && fileName.length > 0 ? fileName : fileUrl.toString().split("/").pop()
+        if (!resolvedFileName.toLowerCase().endsWith(".tar.gz")) {
+            root.clearPendingRestoreUpload()
+            root.openErrorDialog(qsTr("Please select a backup archive (*.tar.gz)."))
+            return
+        }
+
+        root.pendingRestoreSourceUrl = fileUrl
+        root.pendingRestoreFileName = resolvedFileName
+
+        var dialog = uploadRestoreBackupDialogComponent.createObject(app, { fileName: resolvedFileName })
+        dialog.open()
+    }
+
     Label {
         Layout.fillWidth: true
-        Layout.margins: Style.margins
+        Layout.leftMargin: Style.margins
+        Layout.rightMargin: Style.margins
         wrapMode: Text.WordWrap
         visible: engine.transfersManager.busy
         text: engine.transfersManager.statusText
@@ -189,6 +242,7 @@ SettingsPageBase {
         onClicked: {
             statusMessage = ""
             clearPendingDownload()
+            d.pendingDownloadPreparationCommandId = -1
             d.pendingCommandId = engine.nymeaConfiguration.createAndDownloadBackup()
         }
     }
@@ -202,6 +256,12 @@ SettingsPageBase {
         onClicked: {
             statusMessage = ""
             clearPendingRestoreUpload()
+            if (Qt.platform.os === "ios") {
+                waitingForNativeRestoreSelection = true
+                PlatformHelper.pickFile()
+                return
+            }
+
             selectRestoreBackupDialog.open()
         }
     }
@@ -264,18 +324,40 @@ SettingsPageBase {
         }
 
         onAccepted: {
-            if (!selectedFile || selectedFile.toString().length === 0) {
-                return
-            }
-
-            root.pendingRestoreSourceUrl = selectedFile
-            root.pendingRestoreFileName = selectedFile.toString().split("/").pop()
-
-            var dialog = uploadRestoreBackupDialogComponent.createObject(root, { fileName: root.pendingRestoreFileName })
-            dialog.open()
+            root.promptRestoreBackupUpload(selectedFile, selectedFile.toString().split("/").pop())
         }
 
         onRejected: root.clearPendingRestoreUpload()
+    }
+
+    Connections {
+        target: PlatformHelper
+
+        function onFilePicked(fileUrl, fileName) {
+            if (!root.waitingForNativeRestoreSelection) {
+                return
+            }
+
+            root.waitingForNativeRestoreSelection = false
+            root.promptRestoreBackupUpload(fileUrl, fileName)
+        }
+
+        function onFilePickCanceled() {
+            if (!root.waitingForNativeRestoreSelection) {
+                return
+            }
+
+            root.clearPendingRestoreUpload()
+        }
+
+        function onFilePickError(errorString) {
+            if (!root.waitingForNativeRestoreSelection) {
+                return
+            }
+
+            root.clearPendingRestoreUpload()
+            root.openErrorDialog(errorString)
+        }
     }
 
     Connections {
@@ -325,7 +407,13 @@ SettingsPageBase {
         target: engine.transfersManager
 
         function onDownloadFinished(downloadId, targetUrl) {
-            root.statusMessage = qsTr("Backup saved to %1").arg(targetUrl.toString())
+            if (Qt.platform.os === "ios") {
+                PlatformHelper.shareFile(targetUrl.toString())
+                root.statusMessage = qsTr("Backup downloaded. Choose Save to Files to store it in Downloads.")
+            } else {
+                root.statusMessage = qsTr("Backup saved to %1").arg(targetUrl.toString())
+            }
+
             root.clearPendingDownload()
         }
 
@@ -668,11 +756,15 @@ SettingsPageBase {
                 Layout.margins: Style.margins
                 text: qsTr("Download")
                 icon.source: "qrc:/icons/download.svg"
-                enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting && !backupFileDetailsPage.restoring
+                enabled: !engine.transfersManager.busy
+                         && d.pendingCommandId === -1
+                         && d.pendingDownloadPreparationCommandId === -1
+                         && !backupFileDetailsPage.deleting
+                         && !backupFileDetailsPage.restoring
                 onClicked: {
                     root.statusMessage = ""
                     root.clearPendingDownload()
-                    engine.nymeaConfiguration.downloadBackupFile(backupFile.fileName)
+                    d.pendingDownloadPreparationCommandId = engine.nymeaConfiguration.downloadBackupFile(backupFile.fileName)
                 }
             }
 
@@ -683,7 +775,7 @@ SettingsPageBase {
                 icon.source: "qrc:/icons/delete.svg"
                 enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting && !backupFileDetailsPage.restoring
                 onClicked: {
-                    var dialog = deleteBackupDialogComponent.createObject(root, { backupFile: backupFile })
+                    var dialog = deleteBackupDialogComponent.createObject(app, { backupFile: backupFile })
                     dialog.open()
                 }
             }
@@ -695,7 +787,7 @@ SettingsPageBase {
                 icon.source: "qrc:/icons/refresh.svg"
                 enabled: !engine.transfersManager.busy && !backupFileDetailsPage.deleting && !backupFileDetailsPage.restoring
                 onClicked: {
-                    var dialog = restoreBackupDialogComponent.createObject(root, { backupFile: backupFile })
+                    var dialog = restoreBackupDialogComponent.createObject(app, { backupFile: backupFile })
                     dialog.open()
                 }
             }

@@ -277,7 +277,17 @@ QString PlatformHelper::fromClipBoard()
 
 void PlatformHelper::shareFile(const QString &fileName)
 {
-    QDesktopServices::openUrl(QUrl(fileName));
+    const QUrl url(fileName);
+    if (url.isLocalFile()) {
+        QDesktopServices::openUrl(url);
+        return;
+    }
+
+    QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
+}
+
+void PlatformHelper::pickFile()
+{
 }
 
 bool PlatformHelper::locationServicesEnabled() const
