@@ -327,5 +327,6 @@
         <file>ui/shaders/colorizedimage.frag.qsb</file>
         <file>ui/system/EvDashSettingsPage.qml</file>
         <file>ui/components/UsernameTextField.qml</file>
+        <file>ui/system/BackupSettingsPage.qml</file>
     </qresource>
 </RCC>

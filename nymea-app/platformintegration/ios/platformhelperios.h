@@ -51,6 +51,7 @@ public:
     bool darkModeEnabled() const override;
 
     void shareFile(const QString &fileName) override;
+    Q_INVOKABLE void pickFile() override;
 
 private:
     // defined in platformhelperios.mm

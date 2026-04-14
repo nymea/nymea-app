@@ -319,6 +319,230 @@
     </message>
 </context>
 <context>
+    <name>BackupSettingsPage</name>
+    <message>
+        <source>Backup settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Creating backup...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transferring backup...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 of %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create backup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create and download backup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload and restore backup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save backup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup archives (*.tar.gz)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select backup file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to create the backup: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup created successfully.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to prepare the backup download: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The server did not provide a download for the requested backup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to prepare the backup file download: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The server did not provide a download for the selected backup file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup saved to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup uploaded. The server is restoring it and will reboot once finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Saving backup settings...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 Day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2 Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Weekly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once a month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup destination directory on the server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of backups to keep (Select 0 to keep all backups)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automatic backups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automatic backup interval</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom interval in hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply backup settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to update the backup settings: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup settings updated successfully.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deleting backup file...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restoring backup file...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete backup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restore backup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to delete the backup file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup file deleted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to restore the backup file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup restore started. The server will reboot once finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete backup file?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you really want to delete the backup file 
+%1?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restore backup file?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you really want to restore the backup file %1? All current settings will be removed and the server will reboot once finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload and restore backup?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you really want to upload and restore the backup file %1? All current settings will be removed and the server will reboot once finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BarcodeScannerThingPage</name>
     <message>
         <source>No codes have been scanned yet.</source>
@@ -2431,6 +2655,15 @@ Please try again.</source>
     </message>
     <message>
         <source>Are you sure you want to shut down your %1 sytem now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Factory reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete all settings and configurations?
+Please make sure you have a backup of your configurations. The system will perform a restart into the factory defaults once the reset has been done.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6575,6 +6808,14 @@ Do you want to proceed?</source>
         <source>Dashboard settings</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Backup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage system configuration backup</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SetupWizard</name>
@@ -7398,6 +7639,145 @@ Please only use this if you are sure you want this and consider reporting the is
     </message>
     <message>
         <source>Sunday</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TransfersManager</name>
+    <message>
+        <source>Another transfer is already running.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not connected to a nymea server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid download target.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not create the selected download directory.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preparing download...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid upload source.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected upload file could not be opened.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preparing upload...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading %1 (%2%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uploading %1 (%2%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uploading %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The current connection does not support file transfers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open the transfer connection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transfer connection is not available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload source is not available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to read the upload file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download target is not available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The server rejected the download request.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to prepare the backup restore upload: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The server rejected the upload request.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open the selected upload file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The server connection was lost.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connecting transfer...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The transfer connection was closed unexpectedly.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The transfer connection reported an error.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The transfer connection could not be secured.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The transfer failed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The server returned an unexpected transfer direction.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resuming downloads is not supported yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not open the selected download target.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not resume the upload file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write the downloaded data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The server returned an empty download chunk.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -3,7 +3,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
 * Copyright (C) 2013 - 2024, nymea GmbH
-* Copyright (C) 2024 - 2025, chargebyte austria GmbH
+* Copyright (C) 2024 - 2026, chargebyte austria GmbH
 *
 * This file is part of libnymea-app.
 *
@@ -26,9 +26,11 @@
 #define NYMEACONFIGURATION_H
 
 #include <QObject>
+#include <QUrl>
 
-#include "serverconfigurations.h"
+#include "models/backupfiles.h"
 #include "mqttpolicies.h"
+#include "serverconfigurations.h"
 
 class JsonRpcClient;
 class ServerConfiguration;
@@ -38,6 +40,7 @@ class WebServerConfigurations;
 class TunnelProxyServerConfiguration;
 class TunnelProxyServerConfigurations;
 class MqttPolicy;
+class TransfersManager;
 
 class NymeaConfiguration : public QObject
 {
@@ -49,18 +52,25 @@ class NymeaConfiguration : public QObject
 
     Q_PROPERTY(bool debugServerEnabled READ debugServerEnabled WRITE setDebugServerEnabled NOTIFY debugServerEnabledChanged)
 
-    Q_PROPERTY(ServerConfigurations* tcpServerConfigurations READ tcpServerConfigurations CONSTANT)
-    Q_PROPERTY(ServerConfigurations* webSocketServerConfigurations READ webSocketServerConfigurations CONSTANT)
-    Q_PROPERTY(WebServerConfigurations* webServerConfigurations READ webServerConfigurations CONSTANT)
-    Q_PROPERTY(TunnelProxyServerConfigurations* tunnelProxyServerConfigurations READ tunnelProxyServerConfigurations CONSTANT)
-    Q_PROPERTY(ServerConfigurations* mqttServerConfigurations READ mqttServerConfigurations CONSTANT)
+    Q_PROPERTY(QString backupDestinationDirectory READ backupDestinationDirectory WRITE setBackupDestinationDirectory NOTIFY backupDestinationDirectoryChanged FINAL)
+    Q_PROPERTY(int backupMaxCount READ backupMaxCount NOTIFY backupMaxCountChanged FINAL)
+    Q_PROPERTY(bool autoBackupEnabled READ autoBackupEnabled NOTIFY autoBackupEnabledChanged FINAL)
+    Q_PROPERTY(int autoBackupInterval READ autoBackupInterval NOTIFY autoBackupIntervalChanged FINAL)
+    Q_PROPERTY(BackupFiles *backupFiles READ backupFiles CONSTANT FINAL)
 
-    Q_PROPERTY(MqttPolicies* mqttPolicies READ mqttPolicies CONSTANT)
+    Q_PROPERTY(ServerConfigurations *tcpServerConfigurations READ tcpServerConfigurations CONSTANT)
+    Q_PROPERTY(ServerConfigurations *webSocketServerConfigurations READ webSocketServerConfigurations CONSTANT)
+    Q_PROPERTY(WebServerConfigurations *webServerConfigurations READ webServerConfigurations CONSTANT)
+    Q_PROPERTY(TunnelProxyServerConfigurations *tunnelProxyServerConfigurations READ tunnelProxyServerConfigurations CONSTANT)
+    Q_PROPERTY(ServerConfigurations *mqttServerConfigurations READ mqttServerConfigurations CONSTANT)
+
+    Q_PROPERTY(MqttPolicies *mqttPolicies READ mqttPolicies CONSTANT)
 
 public:
-    explicit NymeaConfiguration(JsonRpcClient* client, QObject *parent = nullptr);
+    explicit NymeaConfiguration(JsonRpcClient *client, QObject *parent = nullptr);
 
     bool fetchingData() const;
+    void setTransfersManager(TransfersManager *transfersManager);
 
     QString serverName() const;
     void setServerName(const QString &serverName);
@@ -76,6 +86,16 @@ public:
     bool debugServerEnabled() const;
     void setDebugServerEnabled(bool debugServerEnabled);
 
+    QString backupDestinationDirectory() const;
+    void setBackupDestinationDirectory(const QString &backupDestinationDirectory);
+
+    int backupMaxCount() const;
+    void setBackupMaxCount(int backupMaxCount);
+    bool autoBackupEnabled() const;
+    int autoBackupInterval() const;
+    Q_INVOKABLE void setBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount, bool autoBackupEnabled, int autoBackupInterval);
+    BackupFiles *backupFiles() const;
+
     ServerConfigurations *tcpServerConfigurations() const;
     ServerConfigurations *webSocketServerConfigurations() const;
     WebServerConfigurations *webServerConfigurations() const;
@@ -83,10 +103,12 @@ public:
     ServerConfigurations *mqttServerConfigurations() const;
     MqttPolicies *mqttPolicies() const;
 
-    Q_INVOKABLE ServerConfiguration* createServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false);
-    Q_INVOKABLE WebServerConfiguration* createWebServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false, const QString &publicFolder = QString());
-    Q_INVOKABLE TunnelProxyServerConfiguration* createTunnelProxyServerConfiguration(const QString &address, int port, bool authEnabled = true, bool sslEnabled = true, bool ignoreSslErrors = false);
-    Q_INVOKABLE MqttPolicy* createMqttPolicy() const;
+    Q_INVOKABLE ServerConfiguration *createServerConfiguration(const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false);
+    Q_INVOKABLE WebServerConfiguration *createWebServerConfiguration(
+        const QString &address = "0.0.0.0", int port = 0, bool authEnabled = false, bool sslEnabled = false, const QString &publicFolder = QString());
+    Q_INVOKABLE TunnelProxyServerConfiguration *createTunnelProxyServerConfiguration(
+        const QString &address, int port, bool authEnabled = true, bool sslEnabled = true, bool ignoreSslErrors = false);
+    Q_INVOKABLE MqttPolicy *createMqttPolicy() const;
 
     Q_INVOKABLE void setTcpServerConfiguration(ServerConfiguration *configuration);
     Q_INVOKABLE void setWebSocketServerConfiguration(ServerConfiguration *configuration);
@@ -100,8 +122,17 @@ public:
     Q_INVOKABLE void deleteTunnelProxyServerConfiguration(const QString &id);
     Q_INVOKABLE void deleteMqttServerConfiguration(const QString &id);
 
-    Q_INVOKABLE void updateMqttPolicy(MqttPolicy* policy);
+    Q_INVOKABLE void updateMqttPolicy(MqttPolicy *policy);
     Q_INVOKABLE void deleteMqttPolicy(const QString &clientId);
+
+    Q_INVOKABLE void getBackupFiles();
+    Q_INVOKABLE int createBackup();
+    Q_INVOKABLE int createAndDownloadBackup();
+    Q_INVOKABLE int downloadBackupFile(const QString &fileName);
+    Q_INVOKABLE void deleteBackupFile(const QString &fileName);
+    Q_INVOKABLE void restoreBackupFile(const QString &fileName);
+    Q_INVOKABLE void uploadAndRestoreBackup(const QUrl &sourceUrl);
+
     void init();
 
 private:
@@ -110,6 +141,13 @@ private:
     Q_INVOKABLE void setDebugServerEnabledResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setServerNameResponse(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setTimezoneResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void getBackupFilesReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void setBackupConfigurationResponse(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void createBackupReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void createAndDownloadBackupReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void downloadBackupFileReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void deleteBackupFileReply(int commandId, const QVariantMap &params);
+    Q_INVOKABLE void restoreBackupFileReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setTcpConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void deleteTcpConfigReply(int commandId, const QVariantMap &params);
     Q_INVOKABLE void setWebSocketConfigReply(int commandId, const QVariantMap &params);
@@ -131,21 +169,40 @@ signals:
     void fetchingDataChanged();
     void debugServerEnabledChanged();
     void serverNameChanged();
+    void backupDestinationDirectoryChanged();
+    void backupMaxCountChanged();
+    void autoBackupEnabledChanged();
+    void autoBackupIntervalChanged();
+    void setBackupConfigurationFinished(int commandId, const QString &configurationError);
+    void createBackupFinished(int commandId, const QString &configurationError);
+    void createAndDownloadBackupFinished(int commandId, const QString &configurationError, const QString &downloadId, const QString &fileName, int size);
+    void downloadBackupFileFinished(int commandId, const QString &configurationError, const QString &downloadId, const QString &fileName, int size);
+    void deleteBackupFileFinished(int commandId, const QString &configurationError, const QString &fileName);
+    void restoreBackupFileFinished(int commandId, const QString &configurationError, const QString &fileName);
 
 private:
+    void updateBackupConfiguration(const QString &backupDestinationDirectory, int backupMaxCount, bool autoBackupEnabled, int autoBackupInterval);
+    void updateBackupFiles(const QVariantList &backupFiles);
+
     JsonRpcClient *m_client = nullptr;
 
     bool m_fetchingData = false;
     bool m_debugServerEnabled = false;
     QString m_serverName;
 
+    QString m_backupDestinationDirectory;
+    int m_backupMaxCount = 1;
+    bool m_autoBackupEnabled = false;
+    int m_autoBackupInterval = 24;
+    BackupFiles *m_backupFiles = nullptr;
+    TransfersManager *m_transfersManager = nullptr;
+
     ServerConfigurations *m_tcpServerConfigurations = nullptr;
     ServerConfigurations *m_webSocketServerConfigurations = nullptr;
-    WebServerConfigurations* m_webServerConfigurations = nullptr;
+    WebServerConfigurations *m_webServerConfigurations = nullptr;
     TunnelProxyServerConfigurations *m_tunnelProxyServerConfigurations = nullptr;
     ServerConfigurations *m_mqttServerConfigurations = nullptr;
     MqttPolicies *m_mqttPolicies = nullptr;
-
 };
 
 #endif // NYMEACONFIGURATION_H

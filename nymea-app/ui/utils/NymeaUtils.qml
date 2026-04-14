@@ -47,6 +47,23 @@ Item {
         return str;
     }
 
+    function formatFileSize(size) {
+        var units = ["B", "kB", "MB", "GB", "TB"]
+        var value = size
+        var unitIndex = 0
+
+        while (value >= 1024 && unitIndex < units.length - 1) {
+            value /= 1024
+            unitIndex += 1
+        }
+
+        if (unitIndex === 0) {
+            return Math.round(value) + " " + units[unitIndex]
+        }
+
+        return value.toFixed(1) + " " + units[unitIndex]
+    }
+
     function interfaceListToDevicePage(interfaceList) {
         print("**** getting page for interfaces", interfaceList)
         var page;

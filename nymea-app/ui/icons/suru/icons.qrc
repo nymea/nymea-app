@@ -296,5 +296,8 @@
         <file>icons/list-move.svg</file>
         <file>icons/system-log-out.svg</file>
         <file>icons/system-restart.svg</file>
+        <file>icons/backup.svg</file>
+        <file>icons/download.svg</file>
+        <file>icons/upload.svg</file>
     </qresource>
 </RCC>
