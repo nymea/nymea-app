@@ -30,6 +30,8 @@ import Nymea
 import "../components"
 
 SettingsPageBase {
+    id: root
+
     header: NymeaHeader {
         text: qsTr("Server logging categories")
         backButtonVisible: true
@@ -39,6 +41,43 @@ SettingsPageBase {
     ServerDebugManager {
         id: serverDebugManager
         engine: _engine
+    }
+
+    ServerLoggingCategoriesProxy {
+        id: loggingCategoriesModel
+        categories: serverDebugManager.categories
+        filterRegularExpression: filterTextField.displayText
+    }
+
+    ColumnLayout {
+        Layout.fillWidth: true
+        visible: !serverDebugManager.fetchingData
+
+        RowLayout {
+            Layout.margins: Style.margins
+            spacing: Style.margins
+
+            ColorIcon {
+                name: "find"
+            }
+
+            TextField {
+                id: filterTextField
+                Layout.fillWidth: true
+            }
+
+            ColorIcon {
+                name: "close"
+                visible: filterTextField.text.length > 0
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: filterTextField.text = ""
+                }
+            }
+        }
+
+        ThinDivider {}
     }
 
     Item {
@@ -91,7 +130,7 @@ SettingsPageBase {
     ThinDivider {}
 
     Repeater {
-        model: serverDebugManager.categories
+        model: loggingCategoriesModel
         delegate: ItemDelegate {
             Layout.fillWidth: true
             Layout.preferredHeight: Style.smallDelegateHeight
