@@ -25,12 +25,12 @@
 #ifndef THINGPOWERLOGS_H
 #define THINGPOWERLOGS_H
 
-#include <QObject>
 #include <QAbstractListModel>
+#include <QObject>
 
 #include "energylogs.h"
 
-class ThingPowerLogEntry: public EnergyLogEntry
+class ThingPowerLogEntry : public EnergyLogEntry
 {
     Q_OBJECT
     Q_PROPERTY(QUuid thingId READ thingId CONSTANT)
@@ -59,7 +59,7 @@ class ThingPowerLogs : public EnergyLogs
 {
     Q_OBJECT
     Q_PROPERTY(QUuid thingId READ thingId WRITE setThingId NOTIFY thingIdChanged)
-    Q_PROPERTY(ThingPowerLogsLoader* loader READ loader WRITE setLoader NOTIFY loaderChanged)
+    Q_PROPERTY(ThingPowerLogsLoader *loader READ loader WRITE setLoader NOTIFY loaderChanged)
 public:
     explicit ThingPowerLogs(QObject *parent = nullptr);
 
@@ -79,7 +79,7 @@ signals:
 protected:
     QString logsName() const override;
     QVariantMap fetchParams() const override;
-    QList<EnergyLogEntry*> unpackEntries(const QVariantMap &params, double *minValue, double *maxValue) override;
+    QList<EnergyLogEntry *> unpackEntries(const QVariantMap &params, double *minValue, double *maxValue) override;
     void notificationReceived(const QVariantMap &data) override;
 
 private:
@@ -88,11 +88,11 @@ private:
     ThingPowerLogEntry *unpack(const QVariantMap &map);
 
     QUuid m_thingId;
-    ThingPowerLogEntry* m_liveEntry = nullptr;
-    ThingPowerLogsLoader* m_loader = nullptr;
+    ThingPowerLogEntry *m_liveEntry = nullptr;
+    ThingPowerLogsLoader *m_loader = nullptr;
 };
 
-class ThingPowerLogsLoader: public QObject
+class ThingPowerLogsLoader : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Engine *engine READ engine WRITE setEngine NOTIFY engineChanged)
@@ -135,16 +135,20 @@ private slots:
     void getLogsResponse(int commandId, const QVariantMap &params);
 
 private:
+    void queueFetch();
+    void resetCachedRange();
+
     Engine *m_engine = nullptr;
+
     EnergyLogs::SampleRate m_sampleRate = EnergyLogs::SampleRate15Mins;
     QDateTime m_startTime;
     QDateTime m_endTime;
     QList<QUuid> m_thingIds;
     bool m_fetchingData = false;
     bool m_fetchAgain = false;
+    bool m_fetchQueued = false;
     QDateTime m_lastStartTime;
     QDateTime m_lastEndTime;
-
 };
 
 #endif // THINGPOWERLOGS_H
