@@ -26,6 +26,7 @@
 #define BACKUPFILES_H
 
 #include <QAbstractListModel>
+#include <QPointer>
 
 #include "backupfile.h"
 
@@ -60,7 +61,7 @@ signals:
     void countChanged();
 
 private:
-    QList<BackupFile *> m_backupFiles;
+    QList<QPointer<BackupFile>> m_backupFiles;
 };
 
 #endif // BACKUPFILES_H

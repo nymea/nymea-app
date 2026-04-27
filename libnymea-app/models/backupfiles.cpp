@@ -31,7 +31,9 @@ BackupFiles::BackupFiles(QObject *parent)
 
 BackupFiles::~BackupFiles()
 {
-    qDeleteAll(m_backupFiles);
+    foreach (const QPointer<BackupFile> &file, m_backupFiles) {
+        delete file;
+    }
 }
 
 int BackupFiles::rowCount(const QModelIndex &parent) const
@@ -88,13 +90,15 @@ BackupFile *BackupFiles::get(int index) const
 
 void BackupFiles::clear()
 {
-    if (m_backupFiles.isEmpty()) {
+    if (m_backupFiles.isEmpty())
         return;
-    }
 
     beginResetModel();
-    foreach (BackupFile *file, m_backupFiles)
-        file->deleteLater();
+    foreach (const QPointer<BackupFile> &file, m_backupFiles) {
+        if (file) {
+            file->deleteLater();
+        }
+    }
 
     m_backupFiles.clear();
     endResetModel();
@@ -104,7 +108,7 @@ void BackupFiles::clear()
 
 void BackupFiles::setBackupFiles(const QVariantList &backupFiles)
 {
-    QList<BackupFile *> newBackupFiles;
+    QList<QPointer<BackupFile>> newBackupFiles;
     newBackupFiles.reserve(backupFiles.count());
 
     for (const QVariant &backupFileVariant: backupFiles) {
@@ -112,12 +116,16 @@ void BackupFiles::setBackupFiles(const QVariantList &backupFiles)
         newBackupFiles.append(new BackupFile(backupFileMap.value("fileName").toString(),
                                              backupFileMap.value("serverVersion").toString(),
                                              QDateTime::fromSecsSinceEpoch(backupFileMap.value("timestamp").toLongLong()),
-                                             backupFileMap.value("size").toDouble()));
+                                             backupFileMap.value("size").toDouble(),
+                                             this));
     }
 
     beginResetModel();
-    foreach (BackupFile *file, m_backupFiles)
-        file->deleteLater();
+    foreach (const QPointer<BackupFile> &file, m_backupFiles) {
+        if (file) {
+            file->deleteLater();
+        }
+    }
 
     m_backupFiles = newBackupFiles;
     endResetModel();
