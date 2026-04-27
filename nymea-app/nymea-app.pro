@@ -3,8 +3,6 @@ include(../shared.pri)
 
 TARGET=$${APPLICATION_NAME}
 
-CONFIG += link_pkgconfig
-
 QT += network qml quick quickcontrols2 svg websockets bluetooth charts gui-private nfc
 
 qtHaveModule(webview) {

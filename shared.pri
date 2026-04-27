@@ -66,8 +66,17 @@ android: {
 }
 
 ios: {
+    CONFIG += sdk_no_version_check
+
     !no-firebase:DEFINES+=WITH_FIREBASE
     IOS_PACKAGE_DIR = $${PACKAGE_BASE_DIR}/ios/
+
+    # Xcode 26/iOS 26 SDK exposes warnings in Qt 6.8.x headers. Keep -Werror
+    # for project code but do not fail the build on those SDK/Qt diagnostics.
+    contains(QMAKE_COMPILER, clang) {
+        QMAKE_CXXFLAGS += -Wno-error=implicit-function-declaration
+        QMAKE_CXXFLAGS += -Wno-error=unnecessary-virtual-specifier
+    }
 }
 
 macx: {
