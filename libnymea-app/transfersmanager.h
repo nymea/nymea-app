@@ -59,7 +59,7 @@ public:
 
     Q_INVOKABLE void downloadFile(const QString &downloadId, const QUrl &targetUrl);
     Q_INVOKABLE void uploadFile(const QUrl &sourceUrl);
-    void uploadFileWithMethod(const QUrl &sourceUrl, const QString &createUploadMethod);
+    void uploadFileWithMethod(const QUrl &sourceUrl, const QString &createUploadMethod, const QString &fileName = QString());
 
 signals:
     void busyChanged();

@@ -368,14 +368,14 @@ void NymeaConfiguration::restoreBackupFile(const QString &fileName)
     m_client->sendCommand("Configuration.RestoreBackupFile", params, this, "restoreBackupFileReply");
 }
 
-void NymeaConfiguration::uploadAndRestoreBackup(const QUrl &sourceUrl)
+void NymeaConfiguration::uploadAndRestoreBackup(const QUrl &sourceUrl, const QString &fileName)
 {
     if (!m_transfersManager) {
         qCWarning(dcNymeaConfiguration()) << "Transfers manager not available for backup restore upload";
         return;
     }
 
-    m_transfersManager->uploadFileWithMethod(sourceUrl, "Configuration.UploadAndRestoreBackup");
+    m_transfersManager->uploadFileWithMethod(sourceUrl, "Configuration.UploadAndRestoreBackup", fileName);
 }
 
 void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariantMap &params)

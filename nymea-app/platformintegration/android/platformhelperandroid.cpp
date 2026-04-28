@@ -30,6 +30,7 @@
 #include <QApplication>
 #include <QJniObject>
 #include <QTimer>
+#include <QUrl>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QtAndroid>
@@ -368,6 +369,57 @@ void PlatformHelperAndroid::shareFile(const QString &fileName)
     // QNativeInterface::QAndroidApplication::context().callMethod<void>("shareFile", "(Ljava/lang/String;)V",
     //                                               QJniObject::fromString(fileName).object<jstring>()
     //                                               );
+}
+
+QString PlatformHelperAndroid::fileNameForUrl(const QUrl &fileUrl) const
+{
+    if (fileUrl.scheme() != QStringLiteral("content")) {
+        return PlatformHelper::fileNameForUrl(fileUrl);
+    }
+
+    QJniObject context = QNativeInterface::QAndroidApplication::context();
+    if (!context.isValid()) {
+        return PlatformHelper::fileNameForUrl(fileUrl);
+    }
+
+    QJniObject resolver = context.callObjectMethod("getContentResolver", "()Landroid/content/ContentResolver;");
+    QJniObject uri = QJniObject::callStaticObjectMethod("android/net/Uri",
+                                                       "parse",
+                                                       "(Ljava/lang/String;)Landroid/net/Uri;",
+                                                       QJniObject::fromString(fileUrl.toString()).object<jstring>());
+    if (!resolver.isValid() || !uri.isValid()) {
+        return PlatformHelper::fileNameForUrl(fileUrl);
+    }
+
+    QJniObject displayNameColumn = QJniObject::getStaticObjectField("android/provider/OpenableColumns",
+                                                                    "DISPLAY_NAME",
+                                                                    "Ljava/lang/String;");
+    QJniEnvironment env;
+    jobjectArray projection = env->NewObjectArray(1,
+                                                  env->FindClass("java/lang/String"),
+                                                  displayNameColumn.object<jstring>());
+    QJniObject cursor = resolver.callObjectMethod("query",
+                                                  "(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;",
+                                                  uri.object<jobject>(),
+                                                  projection,
+                                                  nullptr,
+                                                  nullptr,
+                                                  nullptr);
+
+    if (!cursor.isValid()) {
+        return PlatformHelper::fileNameForUrl(fileUrl);
+    }
+
+    QString displayName;
+    if (cursor.callMethod<jboolean>("moveToFirst", "()Z")) {
+        const jint displayNameIndex = cursor.callMethod<jint>("getColumnIndex", "(Ljava/lang/String;)I", displayNameColumn.object<jstring>());
+        if (displayNameIndex >= 0) {
+            displayName = cursor.callObjectMethod("getString", "(I)Ljava/lang/String;", displayNameIndex).toString();
+        }
+    }
+    cursor.callMethod<void>("close", "()V");
+
+    return displayName.isEmpty() ? PlatformHelper::fileNameForUrl(fileUrl) : displayName;
 }
 
 void PlatformHelperAndroid::darkModeEnabledChangedJNI()

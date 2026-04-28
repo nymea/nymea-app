@@ -65,6 +65,7 @@ public:
     bool locationServicesEnabled() const override;
 
     void shareFile(const QString &fileName) override;
+    QString fileNameForUrl(const QUrl &fileUrl) const override;
 
     static void darkModeEnabledChangedJNI();
     static void notificationActionReceivedJNI(JNIEnv *env, jobject /*thiz*/, jstring data);

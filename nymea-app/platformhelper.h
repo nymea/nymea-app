@@ -110,6 +110,7 @@ public:
     Q_INVOKABLE virtual void shareFile(const QString &fileName);
     Q_INVOKABLE virtual void shareTemporaryFile(const QString &fileName);
     Q_INVOKABLE virtual void removeFile(const QUrl &fileUrl);
+    Q_INVOKABLE virtual QString fileNameForUrl(const QUrl &fileUrl) const;
     Q_INVOKABLE virtual void pickFile();
 
     static QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine);

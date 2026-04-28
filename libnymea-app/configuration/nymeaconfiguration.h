@@ -131,7 +131,7 @@ public:
     Q_INVOKABLE int downloadBackupFile(const QString &fileName);
     Q_INVOKABLE void deleteBackupFile(const QString &fileName);
     Q_INVOKABLE void restoreBackupFile(const QString &fileName);
-    Q_INVOKABLE void uploadAndRestoreBackup(const QUrl &sourceUrl);
+    Q_INVOKABLE void uploadAndRestoreBackup(const QUrl &sourceUrl, const QString &fileName = QString());
 
     void init();
 

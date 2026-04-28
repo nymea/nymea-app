@@ -307,6 +307,15 @@ void PlatformHelper::removeFile(const QUrl &fileUrl)
     QFile::remove(fileInfo.absoluteFilePath());
 }
 
+QString PlatformHelper::fileNameForUrl(const QUrl &fileUrl) const
+{
+    if (fileUrl.isLocalFile()) {
+        return QFileInfo(fileUrl.toLocalFile()).fileName();
+    }
+
+    return fileUrl.fileName();
+}
+
 void PlatformHelper::pickFile()
 {
 }

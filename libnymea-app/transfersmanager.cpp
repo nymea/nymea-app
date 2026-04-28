@@ -130,7 +130,7 @@ void TransfersManager::uploadFile(const QUrl &sourceUrl)
     uploadFileWithMethod(sourceUrl, QString::fromLatin1(defaultCreateUploadMethod));
 }
 
-void TransfersManager::uploadFileWithMethod(const QUrl &sourceUrl, const QString &createUploadMethod)
+void TransfersManager::uploadFileWithMethod(const QUrl &sourceUrl, const QString &createUploadMethod, const QString &fileName)
 {
     if (m_busy) {
         emit errorOccurred(tr("Another transfer is already running."));
@@ -154,9 +154,12 @@ void TransfersManager::uploadFileWithMethod(const QUrl &sourceUrl, const QString
         return;
     }
 
-    QString fileName = sourceUrl.fileName();
-    if (fileName.isEmpty()) {
-        fileName = QFileInfo(localPath).fileName();
+    QString uploadFileName = fileName;
+    if (uploadFileName.isEmpty()) {
+        uploadFileName = sourceUrl.fileName();
+    }
+    if (uploadFileName.isEmpty()) {
+        uploadFileName = QFileInfo(localPath).fileName();
     }
 
     resetTransferState();
@@ -164,13 +167,13 @@ void TransfersManager::uploadFileWithMethod(const QUrl &sourceUrl, const QString
     m_sourceUrl = sourceUrl;
     m_createUploadMethod = createUploadMethod;
     m_inputFile.reset(inputFile.take());
-    setActiveFileName(fileName);
+    setActiveFileName(uploadFileName);
     setBusy(true);
     setProgress(0, m_inputFile->size());
     setStatusText(tr("Preparing upload..."));
 
     QVariantMap params;
-    params.insert("fileName", fileName);
+    params.insert("fileName", uploadFileName);
     params.insert("size", m_inputFile->size());
     m_client->sendCommand(m_createUploadMethod, params, this, "createUploadReply");
 }

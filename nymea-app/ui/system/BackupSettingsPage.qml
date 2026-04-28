@@ -355,7 +355,8 @@ SettingsPageBase {
         }
 
         onAccepted: {
-            root.promptRestoreBackupUpload(selectedFile, selectedFile.toString().split("/").pop())
+            var fileName = PlatformHelper.fileNameForUrl(selectedFile)
+            root.promptRestoreBackupUpload(selectedFile, fileName)
         }
 
         onRejected: root.clearPendingRestoreUpload()
@@ -934,7 +935,7 @@ SettingsPageBase {
 
                 root.statusMessage = ""
                 root.restoringUploadedBackup = true
-                engine.nymeaConfiguration.uploadAndRestoreBackup(root.pendingRestoreSourceUrl)
+                engine.nymeaConfiguration.uploadAndRestoreBackup(root.pendingRestoreSourceUrl, root.pendingRestoreFileName)
             }
 
             onRejected: root.clearPendingRestoreUpload()
