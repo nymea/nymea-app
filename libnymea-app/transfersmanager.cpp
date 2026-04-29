@@ -162,6 +162,7 @@ void TransfersManager::uploadFileWithMethod(const QUrl &sourceUrl, const QString
         uploadFileName = QFileInfo(localPath).fileName();
     }
 
+
     resetTransferState();
     m_transferType = TransferTypeUpload;
     m_sourceUrl = sourceUrl;
@@ -170,6 +171,10 @@ void TransfersManager::uploadFileWithMethod(const QUrl &sourceUrl, const QString
     setActiveFileName(uploadFileName);
     setBusy(true);
     setProgress(0, m_inputFile->size());
+
+
+    qCDebug(dcTransfersManager()) << "Create upload of" << uploadFileName << m_sourceUrl.toString() << m_inputFile->size();
+
     setStatusText(tr("Preparing upload..."));
 
     QVariantMap params;
@@ -190,12 +195,12 @@ void TransfersManager::setBusy(bool busy)
 
 void TransfersManager::setActiveFileName(const QString &activeFileName)
 {
-    if (m_activeFileName == activeFileName) {
+    if (m_activeFileName == activeFileName)
         return;
-    }
 
     m_activeFileName = activeFileName;
     emit activeFileNameChanged();
+    qCDebug(dcTransfersManager()) << "Active file name changed" << activeFileName;
     updateStatusText();
 }
 
@@ -207,6 +212,9 @@ void TransfersManager::setStatusText(const QString &statusText)
 
     m_statusText = statusText;
     emit statusTextChanged();
+
+    qCDebug(dcTransfersManager()) << "Status text:" << m_statusText;
+
 }
 
 void TransfersManager::setProgress(qint64 bytesTransferred, qint64 totalBytes)

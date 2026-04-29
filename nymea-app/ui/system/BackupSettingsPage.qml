@@ -52,7 +52,7 @@ SettingsPageBase {
               ? qsTr("Creating backup...")
               : d.pendingDownloadPreparationCommandId !== -1
                 ? qsTr("Preparing backup download...")
-                : engine.transfersManager.statusText.length > 0 ? engine.transfersManager.statusText : qsTr("Transferring backup...")
+                 : qsTr("Transferring backup...")
 
     property string pendingDownloadId: ""
     property string pendingFileName: ""
@@ -194,7 +194,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.leftMargin: Style.margins
         Layout.rightMargin: Style.margins
-        wrapMode: Text.WordWrap
+        wrapMode: Text.Wrap
         visible: engine.transfersManager.busy
         text: engine.transfersManager.statusText
     }
@@ -735,7 +735,7 @@ SettingsPageBase {
             Label {
                 Layout.fillWidth: true
                 Layout.margins: Style.margins
-                wrapMode: Text.WordWrap
+                wrapMode: Text.Wrap
                 visible: engine.transfersManager.busy
                 text: engine.transfersManager.statusText
             }
