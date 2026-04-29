@@ -155,6 +155,12 @@ SettingsPageBase {
                               .arg(NymeaUtils.formatFileSize(engine.transfersManager.totalBytes))
     }
 
+    function restoreUploadTransferCompleted() {
+        return root.restoringUploadedBackup
+                && engine.transfersManager.totalBytes > 0
+                && engine.transfersManager.bytesTransferred >= engine.transfersManager.totalBytes
+    }
+
     function promptRestoreBackupUpload(fileUrl, fileName, sourceIsTemporary) {
         if (!fileUrl || fileUrl.toString().length === 0)
             return
@@ -460,12 +466,23 @@ SettingsPageBase {
                 return
             }
 
+            if (root.restoreUploadTransferCompleted()) {
+                root.restoringUploadedBackup = false
+                root.clearPendingRestoreUpload()
+                root.statusMessage = qsTr("Backup uploaded. The server is restoring it and will reboot once finished.")
+                return
+            }
+
             root.restoringUploadedBackup = false
             root.clearPendingRestoreUpload()
         }
 
         function onErrorOccurred(errorString) {
             if (!errorString || errorString.length === 0) {
+                return
+            }
+
+            if (root.restoreUploadTransferCompleted()) {
                 return
             }
 
