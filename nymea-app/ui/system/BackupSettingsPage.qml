@@ -57,8 +57,10 @@ SettingsPageBase {
     property string pendingDownloadId: ""
     property string pendingFileName: ""
     property url pendingDownloadTargetUrl: ""
+    property bool pendingDownloadTargetIsTemporary: false
     property url pendingRestoreSourceUrl: ""
     property string pendingRestoreFileName: ""
+    property bool pendingRestoreSourceIsTemporary: false
     property bool restoringUploadedBackup: false
     property bool waitingForNativeRestoreSelection: false
     property string statusMessage: ""
@@ -80,7 +82,7 @@ SettingsPageBase {
     }
 
     function clearPendingDownload(removeTemporaryFile) {
-        if (removeTemporaryFile === true && Qt.platform.os === "ios"
+        if (removeTemporaryFile === true && pendingDownloadTargetIsTemporary
                 && pendingDownloadTargetUrl && pendingDownloadTargetUrl.toString().length > 0) {
             PlatformHelper.removeFile(pendingDownloadTargetUrl)
         }
@@ -88,6 +90,7 @@ SettingsPageBase {
         pendingDownloadId = ""
         pendingFileName = ""
         pendingDownloadTargetUrl = ""
+        pendingDownloadTargetIsTemporary = false
         saveBackupDialog.selectedFileName = ""
     }
 
@@ -101,13 +104,14 @@ SettingsPageBase {
     }
 
     function clearPendingRestoreUpload(removeSourceFile) {
-        if (removeSourceFile !== false && Qt.platform.os === "ios"
+        if (removeSourceFile !== false && pendingRestoreSourceIsTemporary
                 && pendingRestoreSourceUrl && pendingRestoreSourceUrl.toString().length > 0) {
             PlatformHelper.removeFile(pendingRestoreSourceUrl)
         }
 
         pendingRestoreSourceUrl = ""
         pendingRestoreFileName = ""
+        pendingRestoreSourceIsTemporary = false
         waitingForNativeRestoreSelection = false
     }
 
@@ -120,10 +124,11 @@ SettingsPageBase {
         root.pendingDownloadId = downloadId
         root.pendingFileName = fileName
         root.pendingDownloadTargetUrl = ""
+        root.pendingDownloadTargetIsTemporary = false
 
-        if (Qt.platform.os === "ios") {
-            var targetUrl = root.iosBackupDownloadTargetUrl(fileName)
-            if (!targetUrl || targetUrl.length === 0) {
+        if (PlatformHelper.usesTemporaryExportFile()) {
+            var targetUrl = PlatformHelper.prepareTemporaryExportFile(fileName)
+            if (!targetUrl || targetUrl.toString().length === 0) {
                 root.clearPendingDownload()
                 root.openErrorDialog(qsTr("Could not prepare a local backup file for export."))
                 return
@@ -131,6 +136,7 @@ SettingsPageBase {
 
             statusMessage = ""
             root.pendingDownloadTargetUrl = targetUrl
+            root.pendingDownloadTargetIsTemporary = true
             engine.transfersManager.downloadFile(downloadId, targetUrl)
             return
         }
@@ -149,34 +155,14 @@ SettingsPageBase {
                               .arg(NymeaUtils.formatFileSize(engine.transfersManager.totalBytes))
     }
 
-    function iosBackupDownloadTargetUrl(fileName) {
-        var folder = StandardPaths.writableLocation(StandardPaths.TempLocation).toString()
-        if (!folder || folder.length === 0)
-            folder = StandardPaths.writableLocation(StandardPaths.CacheLocation).toString()
-        if (!folder || folder.length === 0)
-            return ""
-
-        var safeFileName = fileName && fileName.length > 0 ? fileName.toString() : "backup.tar.gz"
-        safeFileName = safeFileName.split("/").pop().split("\\").pop()
-        if (safeFileName.length === 0)
-            safeFileName = "backup.tar.gz"
-
-        safeFileName = Date.now().toString() + "-" + safeFileName
-
-        if (folder.endsWith("/"))
-            return folder + safeFileName
-
-        return folder + "/" + safeFileName
-    }
-
-    function promptRestoreBackupUpload(fileUrl, fileName) {
+    function promptRestoreBackupUpload(fileUrl, fileName, sourceIsTemporary) {
         if (!fileUrl || fileUrl.toString().length === 0)
             return
 
         var resolvedFileName = fileName && fileName.length > 0 ? fileName : fileUrl.toString().split("/").pop()
         if (!resolvedFileName.toLowerCase().endsWith(".tar.gz")) {
             root.clearPendingRestoreUpload()
-            if (Qt.platform.os === "ios") {
+            if (sourceIsTemporary === true) {
                 PlatformHelper.removeFile(fileUrl)
             }
             root.openErrorDialog(qsTr("Please select a backup archive (*.tar.gz)."))
@@ -185,6 +171,7 @@ SettingsPageBase {
 
         root.pendingRestoreSourceUrl = fileUrl
         root.pendingRestoreFileName = resolvedFileName
+        root.pendingRestoreSourceIsTemporary = sourceIsTemporary === true
 
         var dialog = uploadRestoreBackupDialogComponent.createObject(app, { fileName: resolvedFileName })
         dialog.open()
@@ -287,7 +274,7 @@ SettingsPageBase {
         onClicked: {
             statusMessage = ""
             clearPendingRestoreUpload()
-            if (Qt.platform.os === "ios") {
+            if (PlatformHelper.usesNativeFilePicker()) {
                 waitingForNativeRestoreSelection = true
                 PlatformHelper.pickFile()
                 return
@@ -334,6 +321,7 @@ SettingsPageBase {
                 return
 
             statusMessage = ""
+            root.pendingDownloadTargetIsTemporary = false
             engine.transfersManager.downloadFile(root.pendingDownloadId, selectedFile)
         }
 
@@ -356,7 +344,7 @@ SettingsPageBase {
 
         onAccepted: {
             var fileName = PlatformHelper.fileNameForUrl(selectedFile)
-            root.promptRestoreBackupUpload(selectedFile, fileName)
+            root.promptRestoreBackupUpload(selectedFile, fileName, false)
         }
 
         onRejected: root.clearPendingRestoreUpload()
@@ -371,7 +359,7 @@ SettingsPageBase {
             }
 
             root.waitingForNativeRestoreSelection = false
-            root.promptRestoreBackupUpload(fileUrl, fileName)
+            root.promptRestoreBackupUpload(fileUrl, fileName, true)
         }
 
         function onFilePickCanceled() {
@@ -443,8 +431,8 @@ SettingsPageBase {
         target: engine.transfersManager
 
         function onDownloadFinished(downloadId, targetUrl) {
-            if (Qt.platform.os === "ios") {
-                PlatformHelper.shareTemporaryFile(targetUrl.toString())
+            if (root.pendingDownloadTargetIsTemporary) {
+                PlatformHelper.exportTemporaryFile(targetUrl)
                 root.statusMessage = qsTr("Backup downloaded. Choose Save to Files to store it in Downloads.")
             } else {
                 root.statusMessage = qsTr("Backup saved to %1").arg(targetUrl.toString())

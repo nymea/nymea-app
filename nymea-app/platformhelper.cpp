@@ -277,6 +277,22 @@ QString PlatformHelper::fromClipBoard()
     return QApplication::clipboard()->text();
 }
 
+bool PlatformHelper::usesTemporaryExportFile() const
+{
+    return false;
+}
+
+QUrl PlatformHelper::prepareTemporaryExportFile(const QString &fileName) const
+{
+    Q_UNUSED(fileName)
+    return QUrl();
+}
+
+void PlatformHelper::exportTemporaryFile(const QUrl &fileUrl)
+{
+    Q_UNUSED(fileUrl)
+}
+
 void PlatformHelper::shareFile(const QString &fileName)
 {
     const QUrl url(fileName);
@@ -314,6 +330,11 @@ QString PlatformHelper::fileNameForUrl(const QUrl &fileUrl) const
     }
 
     return fileUrl.fileName();
+}
+
+bool PlatformHelper::usesNativeFilePicker() const
+{
+    return false;
 }
 
 void PlatformHelper::pickFile()

@@ -107,10 +107,14 @@ public:
     Q_INVOKABLE virtual void toClipBoard(const QString &text);
     Q_INVOKABLE virtual QString fromClipBoard();
 
+    Q_INVOKABLE virtual bool usesTemporaryExportFile() const;
+    Q_INVOKABLE virtual QUrl prepareTemporaryExportFile(const QString &fileName) const;
+    Q_INVOKABLE virtual void exportTemporaryFile(const QUrl &fileUrl);
     Q_INVOKABLE virtual void shareFile(const QString &fileName);
     Q_INVOKABLE virtual void shareTemporaryFile(const QString &fileName);
     Q_INVOKABLE virtual void removeFile(const QUrl &fileUrl);
     Q_INVOKABLE virtual QString fileNameForUrl(const QUrl &fileUrl) const;
+    Q_INVOKABLE virtual bool usesNativeFilePicker() const;
     Q_INVOKABLE virtual void pickFile();
 
     static QObject *platformHelperProvider(QQmlEngine *engine, QJSEngine *scriptEngine);

@@ -3,7 +3,9 @@
 #import <Security/Security.h>
 #import <UIKit/UIKit.h>
 
+#include <QDateTime>
 #include <QFileInfo>
+#include <QStandardPaths>
 #include <QUrl>
 
 #include <QtDebug>
@@ -352,6 +354,36 @@ void PlatformHelperIOS::shareFile(const QString &fileName)
     shareFileInternal(fileName, false);
 }
 
+bool PlatformHelperIOS::usesTemporaryExportFile() const
+{
+    return true;
+}
+
+QUrl PlatformHelperIOS::prepareTemporaryExportFile(const QString &fileName) const
+{
+    QString folder = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    if (folder.isEmpty()) {
+        folder = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    }
+    if (folder.isEmpty()) {
+        return QUrl();
+    }
+
+    QString safeFileName = fileName.isEmpty() ? QStringLiteral("backup.tar.gz") : fileName;
+    safeFileName = safeFileName.section(QLatin1Char('/'), -1).section(QLatin1Char('\\'), -1);
+    if (safeFileName.isEmpty()) {
+        safeFileName = QStringLiteral("backup.tar.gz");
+    }
+
+    safeFileName.prepend(QString::number(QDateTime::currentMSecsSinceEpoch()) + QLatin1Char('-'));
+    return QUrl::fromLocalFile(folder + QLatin1Char('/') + safeFileName);
+}
+
+void PlatformHelperIOS::exportTemporaryFile(const QUrl &fileUrl)
+{
+    shareTemporaryFile(fileUrl.toString());
+}
+
 void PlatformHelperIOS::shareTemporaryFile(const QString &fileName)
 {
     shareFileInternal(fileName, true);
@@ -361,6 +393,11 @@ void PlatformHelperIOS::removeFile(const QUrl &fileUrl)
 {
     const QString localPath = fileUrl.isLocalFile() ? fileUrl.toLocalFile() : fileUrl.toString();
     removeSandboxFileAtPath(localPath);
+}
+
+bool PlatformHelperIOS::usesNativeFilePicker() const
+{
+    return true;
 }
 
 void PlatformHelperIOS::pickFile()
