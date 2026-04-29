@@ -63,6 +63,7 @@ Page {
                 text: qsTr("Developer options")
                 subText: qsTr("Access tools for debugging and error reporting")
                 iconSource: "qrc:/icons/sdk.svg"
+                visible: settings.showHiddenOptions
                 onClicked: pageStack.push(Qt.resolvedUrl("DeveloperOptionsPage.qml"))
             }
             SettingsTile {

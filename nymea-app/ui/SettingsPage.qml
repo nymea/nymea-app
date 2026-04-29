@@ -159,7 +159,7 @@ Page {
                 iconSource: "qrc:/icons/sdk.svg"
                 text: qsTr("Developer tools")
                 subText: qsTr("Access tools for debugging and error reporting")
-                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
+                visible: settings.showHiddenOptions && NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin)
                 onClicked: pageStack.push(Qt.resolvedUrl("system/DeveloperTools.qml"))
             }
 
