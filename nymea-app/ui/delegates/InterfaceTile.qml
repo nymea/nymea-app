@@ -33,7 +33,7 @@ import "../components"
 
 MainPageTile {
     id: root
-    text: iface ? iface.displayName.toUpperCase() : qsTr("uncategorized").toUpperCase()
+    text: iface ? app.interfaceToString(iface.name).toUpperCase() : qsTr("uncategorized").toUpperCase()
     iconName: iface ? interfaceToIcon(iface.name) : interfaceToIcon("uncategorized")
     iconColor: Style.accentColor
     disconnected: devicesSubProxyConnectables.count > 0
@@ -54,7 +54,7 @@ MainPageTile {
             if (!iface) {
                 page = "GenericThingPage.qml";
             } else {
-                page = NymeaUtils.interfaceListToDevicePage([iface.name]);
+                page = NymeaUtils.thingToDevicePage(thingsProxy.get(0));
             }
             pageStack.push(Qt.resolvedUrl("../devicepages/" + page), {thing: thingsProxy.get(0)})
             return;
@@ -63,7 +63,7 @@ MainPageTile {
         // No (supported by app) interfaces at all? Open generic list
         if (!iface) {
             page = "GenericThingsListPage.qml"
-            pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {hiddenInterfaces: app.supportedInterfaces, filterTagId: root.filterTagId})
+            pageStack.push(Qt.resolvedUrl("../devicelistpages/" + page), {hiddenInterfaces: _engine.interfaces.supportedInterfaces, filterTagId: root.filterTagId})
             return;
         }
 
@@ -117,7 +117,7 @@ MainPageTile {
         id: thingsProxy
         engine: _engine
         shownInterfaces: iface ? [iface.name] : []
-        hiddenInterfaces: iface ? [] : app.supportedInterfaces
+        hiddenInterfaces: iface ? [] : _engine.interfaces.supportedInterfaces
     }
     readonly property ThingsProxy _thingsProxy: thingsProxy
 
@@ -191,6 +191,9 @@ MainPageTile {
             case "irrigation":
             case "ventilation":
             case "cleaningrobot":
+            case "chargers":
+            case "evchargeac":
+            case "evchargerdc":
             case "evcharger":
                 return buttonComponent
             case "media":
@@ -206,7 +209,7 @@ MainPageTile {
             onClicked: {
                 switch (iface.name) {
                 case "light":
-                    var group = engine.thingManager.createGroup(Interfaces.findByName("colorlight"), thingsProxy);
+                    var group = engine.thingManager.createGroup(_engine.interfaces.findByName("colorlight"), thingsProxy);
                     print("opening lights page for group", group)
                     pageStack.push("../devicepages/LightThingPage.qml", {thing: group})
                 }

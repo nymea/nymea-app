@@ -38,7 +38,7 @@ SwipeDelegate {
     property bool showChilds: false
 
     readonly property Thing thing: stateEvaluator ? engine.thingManager.things.getThing(stateEvaluator.stateDescriptor.thingId) : null
-    readonly property Interface iface: stateEvaluator ? Interfaces.findByName(stateEvaluator.stateDescriptor.interfaceName) : null
+    readonly property Interface iface: stateEvaluator ? _engine.interfaces.findByName(stateEvaluator.stateDescriptor.interfaceName) : null
     readonly property StateType stateType: thing ? thing.thingClass.stateTypes.getStateType(stateEvaluator.stateDescriptor.stateTypeId)
                                                  : iface ? iface.stateTypes.findByName(stateEvaluator.stateDescriptor.interfaceState) : null
 
@@ -127,7 +127,7 @@ SwipeDelegate {
                 property var stateEvaluator: root.stateEvaluator.childEvaluators.get(index)
                 property var stateDescriptor: stateEvaluator.stateDescriptor
                 readonly property Thing thing: engine.thingManager.things.getThing(stateDescriptor.thingId)
-                readonly property var iface: Interfaces.findByName(stateEvaluator.stateDescriptor.interfaceName)
+                readonly property var iface: _engine.interfaces.findByName(stateEvaluator.stateDescriptor.interfaceName)
                 readonly property var stateType: thing ? thing.thingClass.stateTypes.getStateType(stateDescriptor.stateTypeId)
                                                         : iface ? iface.stateTypes.findByName(stateEvaluator.stateDescriptor.interfaceState)
                                                                 : null

@@ -50,6 +50,7 @@ Page {
 
     InterfacesProxy {
         id: interfacesInGroup
+        engine: _engine
         thingsProxyFilter: devicesInGroup
         showStates: true
     }
@@ -125,7 +126,7 @@ Page {
 
                 device: devicesInGroup.get(index)
 
-                onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces)), {device: device})
+                onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + NymeaUtils.thingToDevicePage(thing)), {device: device})
             }
         }
     }

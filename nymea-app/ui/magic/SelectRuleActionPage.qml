@@ -70,9 +70,9 @@ Page {
         if (header.interfacesMode) {
             if (root.thing) {
                 generatedModel.clear();
-                for (var i = 0; i < Interfaces.count; i++) {
-                    var iface = Interfaces.get(i);
-                    if (root.thing.thingClass.interfaces.indexOf(iface.name) >= 0) {
+                for (var i = 0; i < _engine.interfaces.count; i++) {
+                    var iface = _engine.interfaces.get(i);
+                    if (_engine.interfaces.thingClassSupportsInterface(root.thing.thingClass, iface.name)) {
                         for (var j = 0; j < iface.actionTypes.count; j++) {
                             var ifaceAt = iface.actionTypes.get(j);
                             var dcAt = root.thing.thingClass.actionTypes.findByName(ifaceAt.name)
@@ -83,7 +83,7 @@ Page {
                 listView.model = generatedModel
             } else if (root.ruleAction.interfaceName !== "") {
                 print("showing actions for interface", root.ruleAction.interfaceName)
-                listView.model = Interfaces.findByName(root.ruleAction.interfaceName).actionTypes
+                listView.model = _engine.interfaces.findByName(root.ruleAction.interfaceName).actionTypes
             } else {
                 console.warn("You need to set thing or interfaceName");
             }

@@ -14,7 +14,7 @@
             },
             "ruleActionTemplates": [
                 {
-                    "interfaceName": "evcharger",
+                    "interfaceName": "chargers",
                     "interfaceAction": "power",
                     "selectionId": 1,
                     "params": [
@@ -27,7 +27,7 @@
             ],
             "ruleExitActionTemplates": [
                 {
-                    "interfaceName": "evcharger",
+                    "interfaceName": "chargers",
                     "interfaceAction": "power",
                     "selectionId": 1,
                     "params": [

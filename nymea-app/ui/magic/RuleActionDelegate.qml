@@ -38,7 +38,7 @@ NymeaSwipeDelegate {
     property RuleAction ruleAction: null
 
     readonly property Thing thing: ruleAction.thingId ? engine.thingManager.things.getThing(ruleAction.thingId) : null
-    readonly property Interface iface: ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
+    readonly property Interface iface: ruleAction.interfaceName ? _engine.interfaces.findByName(ruleAction.interfaceName) : null
     readonly property ActionType actionType: thing ? thing.thingClass.actionTypes.getActionType(ruleAction.actionTypeId)
                                          : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
     readonly property string browserItemId: ruleAction.browserItemId

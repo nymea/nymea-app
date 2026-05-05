@@ -3,7 +3,7 @@ TARGET = meatestrunner
 
 include(../../config.pri)
 
-QT += core gui testlib bluetooth websockets
+QT += core gui testlib bluetooth websockets charts qml quick quicktest network dbus
 CONFIG += qmltestcase
 
 INCLUDEPATH += ../../nymea-app/ \
@@ -17,4 +17,4 @@ win32:Release:LIBS += -L$$top_builddir/libnymea-app/release
 SOURCES += testrunner.cpp
 
 RESOURCES += \
-    $$top_srcdir/nymea-app/resources.qrc
+    ../../nymea-app/resources.qrc

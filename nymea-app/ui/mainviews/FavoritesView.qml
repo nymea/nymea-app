@@ -74,7 +74,7 @@ MainViewBase {
                 anchors.fill: parent
                 thing: delegateRoot.thing
                 enabled: !root.editMode
-                onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces)), {thing: thing})
+                onClicked: pageStack.push(Qt.resolvedUrl("../devicepages/" + NymeaUtils.thingToDevicePage(thing)), {thing: thing})
                 onPressAndHold: root.editMode = true
                 opacity: dragArea.fakeDragItem !== null && delegateRoot.thing === dragArea.fakeDragItem.thing ? .3 : 1
             }

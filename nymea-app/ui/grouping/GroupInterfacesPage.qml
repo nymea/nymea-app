@@ -56,7 +56,7 @@ Page {
             interfacesModel: InterfacesModel {
                 engine: _engine
                 things: thingsInGroup
-                shownInterfaces: app.supportedInterfaces
+                shownInterfaces: _engine.interfaces.supportedInterfaces
                 showUncategorized: true
             }
         }
@@ -74,7 +74,7 @@ Page {
         delegate: InterfaceTile {
             width: interfacesGridView.cellWidth
             height: interfacesGridView.cellHeight
-            iface: Interfaces.findByName(model.name)
+            iface: _engine.interfaces.findByName(model.name)
             filterTagId: root.groupTag
         }
     }

@@ -38,7 +38,7 @@ NymeaSwipeDelegate {
     property EventDescriptor eventDescriptor: null
     readonly property Thing thing: eventDescriptor ? engine.thingManager.things.getThing(eventDescriptor.thingId) : null
     readonly property ThingClass thingClass: thing ? engine.thingManager.thingClasses.getThingClass(thing.thingClassId) : null
-    readonly property Interface iface: eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null
+    readonly property Interface iface: eventDescriptor.interfaceName ? _engine.interfaces.findByName(eventDescriptor.interfaceName) : null
     readonly property EventType eventType: thingClass ? thingClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
                                                  : iface ? iface.eventTypes.findByName(eventDescriptor.interfaceEvent) : null
     readonly property StateType stateType: thingClass ? thingClass.stateTypes.getStateType(eventDescriptor.eventTypeId)

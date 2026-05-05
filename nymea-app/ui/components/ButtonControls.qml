@@ -49,7 +49,7 @@ RowLayout {
     Label {
         id: label
         Layout.fillWidth: true
-        visible: text != ""
+        visible: text !== ""
         text: {
             switch (root.iface) {
             case "media":
@@ -58,6 +58,8 @@ RowLayout {
             case "irrigation":
             case "ventilation":
             case "powersocket":
+            case "evchargeac":
+            case "evchargerdc":
             case "evcharger":
                 if (root.thing) {
                     return root.thing.stateByName("power").value === true ? qsTr("On") : qsTr("Off")
@@ -233,6 +235,9 @@ RowLayout {
             case "media":
             case "irrigation":
             case "ventilation":
+            case "chargers":
+            case "evchargeac":
+            case "evchargerdc":
             case "evcharger":
                 break;
             case "garagedoor":
@@ -304,6 +309,9 @@ RowLayout {
             case "powersocket":
             case "irrigation":
             case "ventilation":
+            case "chargers":
+            case "evchargeac":
+            case "evchargerdc":
             case "evcharger":
                 return "qrc:/icons/system-shutdown.svg"
             case "garagedoor":
@@ -336,6 +344,9 @@ RowLayout {
             case "powersocket":
             case "irrigation":
             case "ventilation":
+            case "chargers":
+            case "evchargeac":
+            case "evchargerdc":
             case "evcharger":
                 if (root.thing) {
                     var actionType = root.thing.thingClass.actionTypes.findByName("power");

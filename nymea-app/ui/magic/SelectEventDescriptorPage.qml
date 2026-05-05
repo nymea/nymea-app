@@ -67,9 +67,9 @@ Page {
         if (header.interfacesMode) {
             if (root.thing) {
                 generatedModel.clear();
-                for (var i = 0; i < Interfaces.count; i++) {
-                    var iface = Interfaces.get(i);
-                    if (root.thing.thingClass.interfaces.indexOf(iface.name) >= 0) {
+                for (var i = 0; i < _engine.interfaces.count; i++) {
+                    var iface = _engine.interfaces.get(i);
+                    if (_engine.interfaces.thingClassSupportsInterface(root.thing.thingClass, iface.name)) {
                         for (var j = 0; j < iface.eventTypes.count; j++) {
                             var ifaceEt = iface.eventTypes.get(j);
                             var dcEt = root.thing.thingClass.eventTypes.findByName(ifaceEt.name)
@@ -83,7 +83,7 @@ Page {
                 }
                 listView.model = generatedModel
             } else if (root.eventDescriptor.interfaceName !== "") {
-                listView.model = Interfaces.findByName(root.eventDescriptor.interfaceName).eventTypes
+                listView.model = _engine.interfaces.findByName(root.eventDescriptor.interfaceName).eventTypes
             } else {
                 console.warn("You need to set thing or interfaceName");
             }
