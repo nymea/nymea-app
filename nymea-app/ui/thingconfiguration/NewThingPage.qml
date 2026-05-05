@@ -105,7 +105,7 @@ Page {
                     id: interfacesSortModel
                     interfacesModel: InterfacesModel {
                         engine: _engine
-                        shownInterfaces: app.supportedInterfaces
+                        shownInterfaces: _engine.interfaces.supportedInterfaces
                         showUncategorized: false
                     }
                 }

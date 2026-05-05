@@ -38,7 +38,7 @@ ThingPageBase {
     readonly property bool isConsumer: root.thing && root.thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0
     readonly property bool isProducer: root.thing && root.thing.thingClass.interfaces.indexOf("smartmeterproducer") >= 0
     readonly property bool isBattery: root.thing && root.thing.thingClass.interfaces.indexOf("energystorage") >= 0
-    readonly property bool isEvCharger: root.thing && root.thing.thingClass.interfaces.indexOf("evcharger") >= 0
+    readonly property bool isEvCharger: root.thing && _engine.interfaces.thingClassSupportsInterface(root.thing.thingClass, "chargers")
 
 
     readonly property State currentPowerState: root.thing.stateByName("currentPower")
@@ -246,4 +246,3 @@ ThingPageBase {
         }
     }
 }
-

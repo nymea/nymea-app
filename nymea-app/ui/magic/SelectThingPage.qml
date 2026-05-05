@@ -65,6 +65,7 @@ Page {
 
     InterfacesProxy {
         id: interfacesProxy
+        engine: _engine
         thingsFilter: engine.thingManager.things
     }
 

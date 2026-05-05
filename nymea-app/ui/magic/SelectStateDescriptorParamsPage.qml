@@ -36,7 +36,7 @@ Page {
     property StateDescriptor stateDescriptor: null
 
     readonly property Thing thing: stateDescriptor && stateDescriptor.thingId ? engine.thingManager.things.getThing(stateDescriptor.thingId) : null
-    readonly property Interface iface: stateDescriptor && stateDescriptor.interfaceName ? Interfaces.findByName(stateDescriptor.interfaceName) : null
+    readonly property Interface iface: stateDescriptor && stateDescriptor.interfaceName ? _engine.interfaces.findByName(stateDescriptor.interfaceName) : null
     readonly property StateType stateType: thing ? thing.thingClass.stateTypes.getStateType(stateDescriptor.stateTypeId)
                                               : iface ? iface.stateTypes.findByName(stateDescriptor.interfaceState) : null
 

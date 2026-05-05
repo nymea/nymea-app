@@ -33,8 +33,19 @@
 
 InterfacesProxy::InterfacesProxy(QObject *parent): QSortFilterProxyModel(parent)
 {
-    m_interfaces = new Interfaces(this);
+}
+
+void InterfacesProxy::setEngine(Engine *engine)
+{
+    if (m_engine == engine) {
+        return;
+    }
+
+    m_engine = engine;
+    m_interfaces = m_engine ? m_engine->interfaces() : nullptr;
     setSourceModel(m_interfaces);
+    emit engineChanged();
+    invalidateFilter();
 }
 
 bool InterfacesProxy::showEvents() const
@@ -101,7 +112,7 @@ bool InterfacesProxy::filterAcceptsRow(int source_row, const QModelIndex &source
                 qWarning() << "Cannot find ThingClass for thing:" << d->id() << d->name();
                 return false;
             }
-            if (d->thingClass()->interfaces().contains(interfaceName)) {
+            if (m_interfaces && m_interfaces->thingClassSupportsInterface(d->thingClass(), interfaceName)) {
                 found = true;
                 break;
             }
@@ -119,7 +130,7 @@ bool InterfacesProxy::filterAcceptsRow(int source_row, const QModelIndex &source
                 qWarning() << "Cannot find ThingClass for thing:" << d->id() << d->name();
                 return false;
             }
-            if (d->thingClass()->interfaces().contains(interfaceName)) {
+            if (m_interfaces && m_interfaces->thingClassSupportsInterface(d->thingClass(), interfaceName)) {
                 found = true;
                 break;
             }

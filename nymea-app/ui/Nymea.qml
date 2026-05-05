@@ -142,36 +142,6 @@ ApplicationWindow {
         bluetoothDiscoveryEnabled: false// PlatformPermissions.bluetoothPermission === PlatformPermissions.PermissionStatusGranted
     }
 
-    property var supportedInterfaces: [
-        "light",
-        "media",
-        "awning",
-        "shutter",
-        "blind",
-        "cleaningrobot",
-        "garagedoor",
-        "powersocket",
-        "thermostat",
-        "heating",
-        "cooling",
-        "smartlock",
-        "doorbell",
-        "irrigation",
-        "ventilation",
-        "sensor",
-        "weather",
-        "evcharger",
-        "smartmeter",
-        "fingerprintreader",
-        "notifications",
-        "barcodescanner",
-        "button",
-        "inputtrigger",
-        "outputtrigger",
-        "gateway",
-        "account"
-    ]
-
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -238,8 +208,11 @@ ApplicationWindow {
             return qsTr("Cooling");
         case "thermostat":
             return qsTr("Thermostats");
+        case "chargers":
+        case "evchargeac":
+        case "evchargerdc":
         case "evcharger":
-            return qsTr("EV-chargers");
+            return qsTr("EV chargers");
         case "powersocket":
             return qsTr("Power sockets")
         case "doorbell":
@@ -404,6 +377,10 @@ ApplicationWindow {
             return Qt.resolvedUrl("qrc:/icons/thermostat/cooling.svg")
         case "thermostat":
             return Qt.resolvedUrl("qrc:/icons/dial.svg")
+        case "chargers":
+        case "evchargeac":
+        case "evchargerdc":
+            return Qt.resolvedUrl("qrc:/icons/ev-charger.svg")
         case "evcharger":
             return Qt.resolvedUrl("qrc:/icons/ev-charger.svg")
         case "doorbell":
@@ -559,6 +536,12 @@ ApplicationWindow {
         case "smartlock":
             //: Select ...
             return qsTr("smartlock");
+        case "chargers":
+        case "evchargeac":
+        case "evcharger":
+        case "evchargerdc":
+            //: Select ...
+            return qsTr("EV charger");
         default:
             console.warn("Unhandled interfaceToDisplayName:", name)
         }

@@ -466,7 +466,7 @@ Item {
                                 var thing = engine.thingManager.things.getThing(target)
                                 if (thing) {
                                     print("opening thing:", thing.name)
-                                    pageStack.push("/ui/devicepages/" + NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces), {thing: thing})
+                                    pageStack.push("/ui/devicepages/" + NymeaUtils.thingToDevicePage(thing), {thing: thing})
                                 } else {
                                     // or a view name
                                     console.log("going to main view:", target)

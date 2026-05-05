@@ -659,7 +659,7 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
     if (!m_shownInterfaces.isEmpty()) {
         bool foundMatch = false;
         foreach (const QString &filterInterface, m_shownInterfaces) {
-            if (thingClass->interfaces().contains(filterInterface)) {
+            if (m_engine && m_engine->interfaces()->thingClassSupportsInterface(thingClass, filterInterface)) {
                 foundMatch = true;
                 break;
             }
@@ -671,7 +671,7 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
 
     if (!m_hiddenInterfaces.isEmpty()) {
         foreach (const QString &filterInterface, m_hiddenInterfaces) {
-            if (thingClass->interfaces().contains(filterInterface)) {
+            if (m_engine && m_engine->interfaces()->thingClassSupportsInterface(thingClass, filterInterface)) {
                 return false;
             }
         }

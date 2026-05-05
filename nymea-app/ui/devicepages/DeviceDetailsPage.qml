@@ -36,6 +36,10 @@ Page {
 
     property Thing thing: null
 
+    function executeAction(actionTypeId, params) {
+        return engine.thingManager.executeAction(root.thing.id, actionTypeId, params)
+    }
+
     header: NymeaHeader {
         text: thing ? thing.name : ""
         backButtonVisible: true
@@ -111,6 +115,10 @@ Page {
             id: stateDelegate
             property StateType stateType: null
             readonly property State thingState: stateType ? root.thing.states.getState(stateType.id) : null
+            readonly property bool writable: root.thing.thingClass.actionTypes.getActionType(stateType.id) !== null
+            property int pendingActionId: -1
+            property var valueCache: 0
+            property bool valueCacheDirty: false
 
             Label {
                 Layout.fillWidth: true
@@ -138,19 +146,35 @@ Page {
                 var sourceComp;
                 switch (stateDelegate.stateType.type.toLowerCase()) {
                 case "string":
-                    sourceComp = "LabelDelegate.qml";
+                    if (stateDelegate.writable) {
+                        if (stateDelegate.stateType.possibleValues.length > 0) {
+                            sourceComp = "ComboBoxDelegate.qml";
+                        } else {
+                            sourceComp = "TextFieldDelegate.qml";
+                        }
+                    } else {
+                        sourceComp = "LabelDelegate.qml";
+                    }
                     break;
                 case "stringlist":
                     sourceComp = "ListDelegate.qml";
                     break;
                 case "bool":
-                    sourceComp = "LedDelegate.qml";
+                    sourceComp = stateDelegate.writable ? "SwitchDelegate.qml" : "LedDelegate.qml";
                     break;
                 case "int":
                 case "uint":
                 case "double":
                     if (stateDelegate.stateType.unit === Types.UnitUnixTime) {
                         sourceComp = "DateTimeDelegate.qml";
+                    } else if (stateDelegate.writable) {
+                        if (stateDelegate.stateType.allowedValues.length > 0) {
+                            sourceComp = "ComboBoxDelegate.qml";
+                        } else if (stateDelegate.stateType.minValue !== undefined && stateDelegate.stateType.maxValue !== undefined) {
+                            sourceComp = "SliderDelegate.qml";
+                        } else {
+                            sourceComp = "SpinBoxDelegate.qml";
+                        }
                     } else {
                         sourceComp = "NumberLabelDelegate.qml";
                     }
@@ -179,10 +203,30 @@ Page {
 
             }
 
+            function enqueueSetValue(value) {
+                if (pendingActionId === -1) {
+                    executeSetValue(value);
+                    return;
+                }
+
+                valueCache = value
+                valueCacheDirty = true
+            }
+
+            function executeSetValue(value) {
+                var params = []
+                var param = {}
+                param["paramTypeId"] = stateDelegate.stateType.id
+                param["value"] = value
+                params.push(param)
+                pendingActionId = root.executeAction(stateDelegate.stateType.id, params)
+            }
+
             Binding {
                 target: stateDelegateLoader.item
                 property: "value"
                 value: stateDelegate.thingState.value
+                when: !stateDelegate.valueCacheDirty && stateDelegate.pendingActionId === -1
             }
             Binding {
                 target: stateDelegateLoader.item.hasOwnProperty("from") ? stateDelegateLoader.item : null
@@ -226,12 +270,32 @@ Page {
             Binding {
                 target: stateDelegateLoader.item.hasOwnProperty("writable") ? stateDelegateLoader.item : null
                 property: "writable"
-                value: false
+                value: stateDelegate.writable
             }
             Binding {
                 target: stateDelegateLoader.item.hasOwnProperty("stateType") ? stateDelegateLoader.item : null
                 property: "stateType"
                 value: stateDelegate.stateType
+            }
+
+            Connections {
+                target: stateDelegateLoader.item && stateDelegateLoader.item.hasOwnProperty("changed") ? stateDelegateLoader.item : null
+                function onChanged(value) {
+                    stateDelegate.enqueueSetValue(value)
+                }
+            }
+
+            Connections {
+                target: engine.thingManager
+                function onExecuteActionReply(commandId, thingError, displayMessage) {
+                    if (stateDelegate.pendingActionId === commandId) {
+                        stateDelegate.pendingActionId = -1
+                        if (stateDelegate.valueCacheDirty) {
+                            stateDelegate.executeSetValue(stateDelegate.valueCache)
+                            stateDelegate.valueCacheDirty = false
+                        }
+                    }
+                }
             }
         }
     }

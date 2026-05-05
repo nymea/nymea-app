@@ -67,9 +67,9 @@ Page {
         if (header.interfacesMode) {
             if (root.thing) {
                 generatedModel.clear();
-                for (var i = 0; i < Interfaces.count; i++) {
-                    var iface = Interfaces.get(i);
-                    if (root.thing.thingClass.interfaces.indexOf(iface.name) >= 0) {
+                for (var i = 0; i < _engine.interfaces.count; i++) {
+                    var iface = _engine.interfaces.get(i);
+                    if (_engine.interfaces.thingClassSupportsInterface(root.thing.thingClass, iface.name)) {
                         print("root has thing class:", iface.name, iface.stateTypes.count)
                         for (var j = 0; j < iface.stateTypes.count; j++) {
                             var ifaceSt = iface.stateTypes.get(j);
@@ -82,7 +82,7 @@ Page {
                 }
                 listView.model = generatedModel
             } else if (root.stateDescriptor.interfaceName !== "") {
-                listView.model = Interfaces.findByName(root.stateDescriptor.interfaceName).stateTypes
+                listView.model = _engine.interfaces.findByName(root.stateDescriptor.interfaceName).stateTypes
             } else {
                 console.warn("You need to set thing or interfaceName");
             }

@@ -36,8 +36,155 @@
 
 #include "paramtypes.h"
 
-Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
+namespace {
+
+const QStringList kSupportedInterfaces = {
+    "light",
+    "media",
+    "awning",
+    "shutter",
+    "blind",
+    "cleaningrobot",
+    "garagedoor",
+    "powersocket",
+    "thermostat",
+    "heating",
+    "cooling",
+    "smartlock",
+    "doorbell",
+    "irrigation",
+    "ventilation",
+    "sensor",
+    "weather",
+    "smartmeter",
+    "fingerprintreader",
+    "notifications",
+    "barcodescanner",
+    "button",
+    "inputtrigger",
+    "outputtrigger",
+    "gateway",
+    "account"
+};
+
+}
+
+Interfaces::Interfaces(JsonRpcClient *jsonRpcClient, QObject *parent) : QAbstractListModel(parent)
 {
+    if (jsonRpcClient) {
+        setJsonRpcClient(jsonRpcClient);
+    } else {
+        rebuild();
+    }
+}
+
+JsonRpcClient *Interfaces::jsonRpcClient() const
+{
+    return m_jsonRpcClient;
+}
+
+void Interfaces::setJsonRpcClient(JsonRpcClient *jsonRpcClient)
+{
+    if (m_jsonRpcClient == jsonRpcClient) {
+        return;
+    }
+
+    if (m_jsonRpcClient) {
+        disconnect(m_connectedChangedConnection);
+        disconnect(m_handshakeReceivedConnection);
+    }
+
+    m_jsonRpcClient = jsonRpcClient;
+
+    if (m_jsonRpcClient) {
+        m_connectedChangedConnection = connect(m_jsonRpcClient, &JsonRpcClient::connectedChanged, this, [this]() {
+            rebuild();
+        });
+        m_handshakeReceivedConnection = connect(m_jsonRpcClient, &JsonRpcClient::handshakeReceived, this, [this]() {
+            rebuild();
+        });
+    }
+
+    emit jsonRpcClientChanged();
+    rebuild();
+}
+
+QStringList Interfaces::supportedInterfaces() const
+{
+    QStringList interfaces = kSupportedInterfaces;
+    interfaces.insert(17, preferredInterfaceName("chargers"));
+    return interfaces;
+}
+
+QString Interfaces::preferredInterfaceName(const QString &interfaceName) const
+{
+    if (interfaceName == "chargers") {
+        return supportsChargerBaseInterface() ? "chargers" : "evcharger";
+    }
+
+    return interfaceName;
+}
+
+QString Interfaces::mainInterfaceName(const QString &interfaceName) const
+{
+    if (interfaceName == "evcharger" || interfaceName == "evchargeac" || interfaceName == "evchargerdc" || interfaceName == "chargers") {
+        return supportsChargerBaseInterface() ? "chargers" : "evcharger";
+    }
+
+    return interfaceName;
+}
+
+QStringList Interfaces::equivalentInterfaceNames(const QString &interfaceName) const
+{
+    if (interfaceName == "evcharger" || interfaceName == "evchargeac" || interfaceName == "evchargerdc" || interfaceName == "chargers") {
+        return supportsChargerBaseInterface() ? QStringList{"chargers", "evcharger", "evchargeac", "evchargerdc"} : QStringList{"evcharger", "evchargeac"};
+    }
+
+    return {interfaceName};
+}
+
+bool Interfaces::interfaceNamesMatch(const QString &left, const QString &right) const
+{
+    const QStringList leftNames = equivalentInterfaceNames(left);
+    const QStringList rightNames = equivalentInterfaceNames(right);
+
+    for (const QString &name : leftNames) {
+        if (rightNames.contains(name)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Interfaces::interfaceListContains(const QStringList &interfaceList, const QString &interfaceName) const
+{
+    for (const QString &candidate : equivalentInterfaceNames(interfaceName)) {
+        if (interfaceList.contains(candidate)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Interfaces::thingClassSupportsInterface(ThingClass *thingClass, const QString &interfaceName) const
+{
+    if (!thingClass) {
+        return false;
+    }
+
+    return interfaceListContains(thingClass->interfaces(), interfaceName)
+            || interfaceListContains(thingClass->providedInterfaces(), interfaceName);
+}
+
+void Interfaces::rebuild()
+{
+    beginResetModel();
+    qDeleteAll(m_list);
+    m_list.clear();
+    m_hash.clear();
+
     ParamTypes *pts = nullptr;
 
     addInterface("accesscontrol", tr("Access control systems"));
@@ -125,9 +272,20 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
     addInterface("doorbell", tr("Doorbells"));
     addEventType("doorbell", "doorbellPressed", tr("Doorbell pressed"), new ParamTypes());
 
-    addInterface("evcharger", tr("EV charger"));
-    addStateType("evcharger", "power", QVariant::Bool, true, tr("Charging"), tr("Charging changed"), tr("Enable charging"));
-    addStateType("evcharger", "maxChargingCurrent", QVariant::UInt, true, tr("Maximum charging current"), tr("Maximum charging current changed"), tr("Set maximum charging current"));
+    if (supportsChargerBaseInterface()) {
+        addInterface("chargers", tr("EV chargers"));
+
+        addInterface("evcharger", tr("EV charger"), {"chargers"});
+        addStateType("evcharger", "power", QVariant::Bool, true, tr("Charging"), tr("Charging changed"), tr("Enable charging"));
+        //addStateType("evcharger", "maxChargingCurrent", QVariant::Double, true, tr("Maximum charging current"), tr("Maximum charging current changed"), tr("Set maximum charging current"));
+
+        addInterface("evchargeac", tr("EV charger"), {"chargers", "evcharger"});
+        addInterface("evchargerdc", tr("EV charger"), {"chargers", "evcharger"});
+    } else {
+        addInterface("evcharger", tr("EV charger"));
+        addStateType("evcharger", "power", QVariant::Bool, true, tr("Charging"), tr("Charging changed"), tr("Enable charging"));
+        //addStateType("evcharger", "maxChargingCurrent", QVariant::Double, true, tr("Maximum charging current"), tr("Maximum charging current changed"), tr("Set maximum charging current"));
+    }
 
     addInterface("extendedclosable", tr("Closable things"), {"closable"});
     addStateType("extendedclosable", "moving", QVariant::Bool, false, tr("Moving"), tr("Moving changed"));
@@ -316,6 +474,13 @@ Interfaces::Interfaces(QObject *parent) : QAbstractListModel(parent)
 
     addInterface("firesensor", tr("Fire sensors"), {"sensor"});
     addStateType("firesensor", "fireDetected", QVariant::Double, false, tr("Fire detected"), tr("Fire detected changed"));
+    endResetModel();
+    emit interfacesChanged();
+}
+
+bool Interfaces::supportsChargerBaseInterface() const
+{
+    return m_jsonRpcClient && m_jsonRpcClient->ensureServerVersion("10.0");
 }
 
 int Interfaces::rowCount(const QModelIndex &parent) const

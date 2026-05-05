@@ -39,7 +39,7 @@ Page {
     property Rule rule: null
 
     readonly property Thing thing: ruleAction && ruleAction.thingId ? engine.thingManager.things.getThing(ruleAction.thingId) : null
-    readonly property var iface: ruleAction && ruleAction.interfaceName ? Interfaces.findByName(ruleAction.interfaceName) : null
+    readonly property var iface: ruleAction && ruleAction.interfaceName ? _engine.interfaces.findByName(ruleAction.interfaceName) : null
     readonly property ActionType actionType: thing ? thing.thingClass.actionTypes.getActionType(ruleAction.actionTypeId)
                                             : iface ? iface.actionTypes.findByName(ruleAction.interfaceAction) : null
 

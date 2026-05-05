@@ -29,6 +29,7 @@
 
 #include "things.h"
 #include "thingsproxy.h"
+#include "engine.h"
 class Interface;
 class Interfaces;
 
@@ -37,6 +38,7 @@ class InterfacesProxy: public QSortFilterProxyModel
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
+    Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
     Q_PROPERTY(QStringList shownInterfaces READ shownInterfaces WRITE setShownInterfaces NOTIFY shownInterfacesChanged)
     Q_PROPERTY(Things* thingsFilter READ thingsFilter WRITE setThingsFilter NOTIFY thingsFilterChanged)
     Q_PROPERTY(ThingsProxy* thingsProxyFilter READ thingsProxyFilter WRITE setThingsProxyFilter NOTIFY thingsProxyFilterChanged)
@@ -46,6 +48,9 @@ class InterfacesProxy: public QSortFilterProxyModel
 
 public:
     InterfacesProxy(QObject *parent = nullptr);
+
+    Engine *engine() const { return m_engine; }
+    void setEngine(Engine *engine);
 
     QStringList shownInterfaces() const { return m_shownInterfaces; }
     void setShownInterfaces(const QStringList &shownInterfaces) { m_shownInterfaces = shownInterfaces; emit shownInterfacesChanged(); invalidateFilter(); }
@@ -71,6 +76,7 @@ public:
     Q_INVOKABLE Interface* getInterface(const QString &name) const;
 
 signals:
+    void engineChanged();
     void shownInterfacesChanged();
     void thingsFilterChanged();
     void thingsProxyFilterChanged();
@@ -81,6 +87,7 @@ signals:
     void countChanged();
 
 private:
+    Engine *m_engine = nullptr;
     Interfaces *m_interfaces = nullptr;
     QStringList m_shownInterfaces;
     Things* m_thingsFilter = nullptr;

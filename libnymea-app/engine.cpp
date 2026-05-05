@@ -36,6 +36,7 @@
 Engine::Engine(QObject *parent) :
     QObject(parent),
     m_jsonRpcClient(new JsonRpcClient(this)),
+    m_interfaces(new Interfaces(m_jsonRpcClient, this)),
     m_thingManager(new ThingManager(m_jsonRpcClient, this)),
     m_ruleManager(new RuleManager(m_jsonRpcClient, this)),
     m_scriptManager(new ScriptManager(m_jsonRpcClient, this)),
@@ -76,6 +77,11 @@ TagsManager *Engine::tagsManager() const
 JsonRpcClient *Engine::jsonRpcClient() const
 {
     return m_jsonRpcClient;
+}
+
+Interfaces *Engine::interfaces() const
+{
+    return m_interfaces;
 }
 
 LogManager *Engine::logManager() const

@@ -86,7 +86,7 @@ Page {
         })
         page.onInterfaceSelected.connect(function(interfaceName) {
             var eventDescriptor = root.rule.eventDescriptors.createNewEventDescriptor();
-            eventDescriptor.interfaceName = interfaceName;
+            eventDescriptor.interfaceName = _engine.interfaces.preferredInterfaceName(interfaceName);
             selectEventDescriptorData(eventDescriptor);
         })
     }
@@ -157,7 +157,7 @@ Page {
         });
         page.interfaceSelected.connect(function(interfaceName) {
             var stateEvaluator = root.rule.createStateEvaluator();
-            stateEvaluator.stateDescriptor.interfaceName = interfaceName;
+            stateEvaluator.stateDescriptor.interfaceName = _engine.interfaces.preferredInterfaceName(interfaceName);
             selectStateDescriptorData(stateEvaluator)
         });
         page.thingSelected.connect(function(thing) {
@@ -207,7 +207,7 @@ Page {
         })
         page.onInterfaceSelected.connect(function(interfaceName) {
             var ruleAction = root.rule.actions.createNewRuleAction();
-            ruleAction.interfaceName = interfaceName;
+            ruleAction.interfaceName = _engine.interfaces.preferredInterfaceName(interfaceName);
             selectRuleActionData(root.rule.actions, ruleAction)
         })
     }
@@ -231,7 +231,7 @@ Page {
         })
         page.onInterfaceSelected.connect(function(interfaceName) {
             var ruleAction = root.rule.exitActions.createNewRuleAction();
-            ruleAction.interfaceName = interfaceName;
+            ruleAction.interfaceName = _engine.interfaces.preferredInterfaceName(interfaceName);
             selectRuleActionData(root.rule.exitActions, ruleAction)
         })
     }

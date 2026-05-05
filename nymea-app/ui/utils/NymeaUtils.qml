@@ -99,7 +99,11 @@ Item {
             page = "NotificationsThingPage.qml";
         } else if (interfaceList.indexOf("fingerprintreader") >= 0) {
             page = "FingerprintReaderDevicePage.qml";
-        } else if (interfaceList.indexOf("evcharger") >= 0) {
+        } else if (interfaceList.indexOf("evchargerdc") >= 0) {
+            page = "EvChargerDcThingPage.qml"
+        } else if (interfaceList.indexOf("evchargeac") >= 0) {
+            page = "EvChargerThingPage.qml"
+        } else if (interfaceList.indexOf("evcharger") >= 0 || interfaceList.indexOf("chargers") >= 0) {
             page = "EvChargerThingPage.qml"
         } else if (interfaceList.indexOf("smartmeter") >= 0) {
             page = "SmartMeterDevicePage.qml"
@@ -120,6 +124,14 @@ Item {
         }
         print("Selecting page", page, "for interface list:", interfaceList)
         return page;
+    }
+
+    function thingToDevicePage(thing) {
+        if (!thing || !thing.thingClass) {
+            return "GenericThingPage.qml"
+        }
+
+        return interfaceListToDevicePage(thing.thingClass.interfaces.concat(thing.thingClass.providedInterfaces))
     }
 
     function isDark(color) {

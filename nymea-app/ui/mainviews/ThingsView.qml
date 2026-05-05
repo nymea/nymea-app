@@ -42,7 +42,7 @@ MainViewBase {
             things: ThingsProxy {
                 engine: _engine
             }
-            shownInterfaces: app.supportedInterfaces
+            shownInterfaces: _engine.interfaces.supportedInterfaces
             showUncategorized: true
         }
     }
@@ -63,7 +63,7 @@ MainViewBase {
         delegate: InterfaceTile {
             width: interfacesGridView.cellWidth
             height: interfacesGridView.cellHeight
-            iface: Interfaces.findByName(model.name)
+            iface: _engine.interfaces.findByName(model.name)
         }
     }
 

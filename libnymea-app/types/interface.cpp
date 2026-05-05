@@ -24,11 +24,6 @@
 
 #include "interface.h"
 
-#include "eventtypes.h"
-#include "statetypes.h"
-#include "actiontypes.h"
-#include "thingclass.h"
-
 Interface::Interface(const QString &name, const QString &displayName, QObject *parent) :
     QObject(parent),
     m_name(name),
