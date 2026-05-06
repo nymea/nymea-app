@@ -47,7 +47,7 @@ Item {
     property int startAngle: 135
     property int maxAngle: 270
     readonly property int steps: canvas.roundToPrecision(root.progressState.maxValue - root.progressState.minValue) / root.precision + 1
-    readonly property int lineSteps: canvas.roundToPrecision(root.progressState.maxValue - root.progressState.minValue, root.linePrecision) / root.linePrecision + 1
+        readonly property int lineSteps: canvas.roundToPrecision(root.progressState.maxValue - root.progressState.minValue, root.linePrecision) / root.linePrecision + 1
     readonly property double stepSize: (root.progressState.maxValue - root.progressState.minValue) / steps
     readonly property double anglePerStep: maxAngle / steps
     readonly property double lineAnglePerStep: maxAngle / lineSteps
