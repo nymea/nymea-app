@@ -195,6 +195,7 @@
         <file>ui/devicepages/BarcodeScannerThingPage.qml</file>
         <file>ui/mainviews/GaragesView.qml</file>
         <file>ui/mainviews/EnergyView.qml</file>
+        <file>ui/mainviews/ElectricVehiclesView.qml</file>
         <file>ui/components/MainViewBase.qml</file>
         <file>ui/components/SmartMeterChart.qml</file>
         <file>ui/mainviews/MediaView.qml</file>
