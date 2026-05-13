@@ -1,3 +1,10 @@
+nymea-app (1.12.3) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update to 1.12.3
+
+ -- jenkins <developer@nymea.io>  Wed, 13 May 2026 12:35:00 +0200
+
 nymea-app (1.12.2) bionic; urgency=medium
 
   [ Simon Stürz ]
