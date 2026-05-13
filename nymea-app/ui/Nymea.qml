@@ -209,7 +209,7 @@ ApplicationWindow {
         case "thermostat":
             return qsTr("Thermostats");
         case "chargers":
-        case "evchargeac":
+        case "evchargerac":
         case "evchargerdc":
         case "evcharger":
             return qsTr("EV chargers");
@@ -378,7 +378,7 @@ ApplicationWindow {
         case "thermostat":
             return Qt.resolvedUrl("qrc:/icons/dial.svg")
         case "chargers":
-        case "evchargeac":
+        case "evchargerac":
         case "evchargerdc":
             return Qt.resolvedUrl("qrc:/icons/ev-charger.svg")
         case "evcharger":
@@ -537,8 +537,8 @@ ApplicationWindow {
             //: Select ...
             return qsTr("smartlock");
         case "chargers":
-        case "evchargeac":
         case "evcharger":
+        case "evchargerac":
         case "evchargerdc":
             //: Select ...
             return qsTr("EV charger");

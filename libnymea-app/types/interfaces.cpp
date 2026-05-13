@@ -128,7 +128,7 @@ QString Interfaces::preferredInterfaceName(const QString &interfaceName) const
 
 QString Interfaces::mainInterfaceName(const QString &interfaceName) const
 {
-    if (interfaceName == "evcharger" || interfaceName == "evchargeac" || interfaceName == "evchargerdc" || interfaceName == "chargers") {
+    if (interfaceName == "evcharger" || interfaceName == "evchargerac" || interfaceName == "evchargerdc" || interfaceName == "chargers") {
         return supportsChargerBaseInterface() ? "chargers" : "evcharger";
     }
 
@@ -137,8 +137,8 @@ QString Interfaces::mainInterfaceName(const QString &interfaceName) const
 
 QStringList Interfaces::equivalentInterfaceNames(const QString &interfaceName) const
 {
-    if (interfaceName == "evcharger" || interfaceName == "evchargeac" || interfaceName == "evchargerdc" || interfaceName == "chargers") {
-        return supportsChargerBaseInterface() ? QStringList{"chargers", "evcharger", "evchargeac", "evchargerdc"} : QStringList{"evcharger", "evchargeac"};
+    if (interfaceName == "evcharger" || interfaceName == "evchargerac" || interfaceName == "evchargerdc" || interfaceName == "chargers") {
+        return supportsChargerBaseInterface() ? QStringList{"chargers", "evcharger", "evchargerac", "evchargerdc"} : QStringList{"evcharger"};
     }
 
     return {interfaceName};
@@ -280,7 +280,7 @@ void Interfaces::rebuild()
         addStateType("evcharger", "power", QVariant::Bool, true, tr("Charging"), tr("Charging changed"), tr("Enable charging"));
         //addStateType("evcharger", "maxChargingCurrent", QVariant::Double, true, tr("Maximum charging current"), tr("Maximum charging current changed"), tr("Set maximum charging current"));
 
-        addInterface("evchargeac", tr("EV charger"), {"chargers", "evcharger"});
+        addInterface("evchargerac", tr("EV charger"), {"chargers", "evcharger"});
         addInterface("evchargerdc", tr("EV charger"), {"chargers", "evcharger"});
     } else {
         addInterface("evcharger", tr("EV charger"));

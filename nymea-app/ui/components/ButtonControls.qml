@@ -58,9 +58,9 @@ RowLayout {
             case "irrigation":
             case "ventilation":
             case "powersocket":
-            case "evchargeac":
-            case "evchargerdc":
             case "evcharger":
+            case "evchargerac":
+            case "evchargerdc":
                 if (root.thing) {
                     return root.thing.stateByName("power").value === true ? qsTr("On") : qsTr("Off")
                 }
@@ -236,9 +236,9 @@ RowLayout {
             case "irrigation":
             case "ventilation":
             case "chargers":
-            case "evchargeac":
-            case "evchargerdc":
             case "evcharger":
+            case "evchargerac":
+            case "evchargerdc":
                 break;
             case "garagedoor":
                 if (root.thing) {
@@ -310,9 +310,9 @@ RowLayout {
             case "irrigation":
             case "ventilation":
             case "chargers":
-            case "evchargeac":
-            case "evchargerdc":
             case "evcharger":
+            case "evchargerac":
+            case "evchargerdc":
                 return "qrc:/icons/system-shutdown.svg"
             case "garagedoor":
                 var dev = root.thing ? root.thing : thingsProxy.get(0)
@@ -345,9 +345,9 @@ RowLayout {
             case "irrigation":
             case "ventilation":
             case "chargers":
-            case "evchargeac":
-            case "evchargerdc":
             case "evcharger":
+            case "evchargerac":
+            case "evchargerdc":
                 if (root.thing) {
                     var actionType = root.thing.thingClass.actionTypes.findByName("power");
                     var params = [];

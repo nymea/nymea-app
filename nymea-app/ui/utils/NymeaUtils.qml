@@ -101,7 +101,7 @@ Item {
             page = "FingerprintReaderDevicePage.qml";
         } else if (interfaceList.indexOf("evchargerdc") >= 0) {
             page = "EvChargerDcThingPage.qml"
-        } else if (interfaceList.indexOf("evchargeac") >= 0) {
+        } else if (interfaceList.indexOf("evchargerac") >= 0) {
             page = "EvChargerThingPage.qml"
         } else if (interfaceList.indexOf("evcharger") >= 0 || interfaceList.indexOf("chargers") >= 0) {
             page = "EvChargerThingPage.qml"

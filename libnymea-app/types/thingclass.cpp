@@ -181,7 +181,7 @@ QString ThingClass::baseInterface() const
         if (interface == "heating") {
             return "heating";
         }
-        if (interface == "chargers" || interface == "evcharger" || interface == "evchargeac" || interface == "evchargerdc") {
+        if (interface == "chargers" || interface == "evcharger" || interface == "evchargerac" || interface == "evchargerdc") {
             return "chargers";
         }
         if (interface == "irrigation") {

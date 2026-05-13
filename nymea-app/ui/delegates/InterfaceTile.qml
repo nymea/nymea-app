@@ -192,9 +192,9 @@ MainPageTile {
             case "ventilation":
             case "cleaningrobot":
             case "chargers":
-            case "evchargeac":
-            case "evchargerdc":
             case "evcharger":
+            case "evchargerac":
+            case "evchargerdc":
                 return buttonComponent
             case "media":
                 return mediaControlComponent

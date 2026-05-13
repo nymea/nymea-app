@@ -156,7 +156,7 @@ Item {
         "powersocket": lime,
         "chargers": lime,
         "evcharger": lime,
-        "evchargeac": lime,
+        "evchargerac": lime,
         "evchargerdc": lime,
         "energystorage": lime,
         "vocsensor": green,
