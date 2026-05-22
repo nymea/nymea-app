@@ -92,6 +92,10 @@ macx: {
 
     MACX_PACKAGE_DIR = $${PACKAGE_BASE_DIR}/osx/
 
+    # macOS 26.4 SDK no longer ships the legacy AGL framework. Override qmake's
+    # default OpenGL framework list so QtOpenGL links against OpenGL only.
+    QMAKE_LIBS_OPENGL = -framework OpenGL
+
     # Xcode 26/iOS 26 SDK exposes warnings in Qt 6.8.x headers. Keep -Werror
     # for project code but do not fail the build on those SDK/Qt diagnostics.
     contains(QMAKE_COMPILER, clang) {
