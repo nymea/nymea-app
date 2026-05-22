@@ -77,7 +77,7 @@ NYMEA_LOGGING_CATEGORY(qml, "qml")
 int main(int argc, char *argv[])
 {
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     qputenv("QT_WEBVIEW_PLUGIN", "native");
 #endif
     QApplication application(argc, argv);
