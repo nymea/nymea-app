@@ -39,13 +39,21 @@ VERSION_INFO=$$cat(version.txt)
 APP_VERSION=$$member(VERSION_INFO, 0)
 APP_REVISION=$$member(VERSION_INFO, 1)
 
-equals(OVERLAY_PATH, "") {
-    include(config.pri)
-    PACKAGE_BASE_DIR = $$shell_path($$PWD/packaging)
-} else {
+include(config.pri)
+PACKAGE_BASE_DIR = $$shell_path($$PWD/packaging)
+
+!equals(OVERLAY_PATH, "") {
     message("Overlay enabled. Using overlay from $${OVERLAY_PATH}")
-    include($${OVERLAY_PATH}/overlay-config.pri)
-    PACKAGE_BASE_DIR = $$shell_path($${OVERLAY_PACKAGE_DIR})
+
+    exists($${OVERLAY_PATH}/overlay-config.pri) {
+        include($${OVERLAY_PATH}/overlay-config.pri)
+    } else {
+        warning("Overlay config not found: $${OVERLAY_PATH}/overlay-config.pri. Using defaults from config.pri.")
+    }
+
+    !equals(OVERLAY_PACKAGE_DIR, "") {
+        PACKAGE_BASE_DIR = $$shell_path($${OVERLAY_PACKAGE_DIR})
+    }
 }
 
 QMAKE_SUBSTITUTES += $${top_srcdir}/config.h.in

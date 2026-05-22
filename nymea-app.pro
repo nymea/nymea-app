@@ -113,7 +113,11 @@ ubports: {
 # Translations support
 TRANSLATIONS += $$files($$absolute_path(nymea-app)/translations/*.ts, true)
 !equals(OVERLAY_PATH, "") {
-    include($${OVERLAY_PATH}/translations.pri)
+    exists($${OVERLAY_PATH}/translations.pri) {
+        include($${OVERLAY_PATH}/translations.pri)
+    } else {
+        warning("Overlay translations not found: $${OVERLAY_PATH}/translations.pri. Using default translations only.")
+    }
 }
 
 message("Translation files: $$TRANSLATIONS")

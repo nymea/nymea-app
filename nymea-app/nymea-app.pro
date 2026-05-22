@@ -77,7 +77,12 @@ linux:!android:!ubports: {
 }
 
 !equals(OVERLAY_PATH, "") {
-    include($${OVERLAY_PATH}/overlay.pri)
+    exists($${OVERLAY_PATH}/overlay.pri) {
+        include($${OVERLAY_PATH}/overlay.pri)
+    } else {
+        warning("Overlay project file not found: $${OVERLAY_PATH}/overlay.pri. Using default styles.")
+        RESOURCES += styles.qrc
+    }
     DEFINES += OVERLAY_PATH=\\\"$${OVERLAY_PATH}\\\"
 } else {
     RESOURCES += styles.qrc
