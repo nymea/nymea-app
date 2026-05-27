@@ -46,11 +46,49 @@ ChartView {
 
     property bool animationsEnabled: true
     property EnergyManager energyManager: null
+    property bool showEvChargers: false
 
     ThingsProxy {
         id: batteries
         engine: _engine
         shownInterfaces: ["energystorage"]
+    }
+    ThingsProxy {
+        id: evChargers
+        engine: _engine
+        shownInterfaces: ["evcharger"]
+    }
+    Repeater {
+        id: evChargerPowerRepeater
+        model: evChargers
+
+        property int currentPowerCount: {
+            var count = 0
+            for (var i = 0; i < evChargerPowerRepeater.count; i++) {
+                var item = evChargerPowerRepeater.itemAt(i)
+                if (item && item.hasCurrentPower) {
+                    count++
+                }
+            }
+            return count
+        }
+        property double currentPower: {
+            var power = 0
+            for (var i = 0; i < evChargerPowerRepeater.count; i++) {
+                var item = evChargerPowerRepeater.itemAt(i)
+                if (item && item.hasCurrentPower) {
+                    power += item.currentPower
+                }
+            }
+            return power
+        }
+
+        delegate: Item {
+            property Thing thing: evChargers.get(index)
+            property State currentPowerState: thing ? thing.stateByName("currentPower") : null
+            property bool hasCurrentPower: currentPowerState !== null
+            property double currentPower: currentPowerState ? currentPowerState.value : 0
+        }
     }
     PieSeries {
         id: productionBalanceSeries
@@ -59,7 +97,8 @@ ChartView {
 
         property double toGrid: Math.abs(Math.min(0, energyManager.currentPowerAcquisition))
         property double toStorage: Math.max(0, energyManager.currentPowerStorage)
-        property double toConsumers: -energyManager.currentPowerProduction - toGrid - toStorage
+        property double toCar: productionPieChart.showEvChargers ? Math.max(0, evChargerPowerRepeater.currentPower) : 0
+        property double toConsumers: -energyManager.currentPowerProduction - toGrid - toStorage - toCar
 
         PieSlice {
             color: Style.red
@@ -80,10 +119,16 @@ ChartView {
             value: productionBalanceSeries.toStorage
         }
         PieSlice {
+            color: app.interfaceToColor("electricvehicle")
+            borderColor: color
+            borderWidth: 0
+            value: productionBalanceSeries.toCar
+        }
+        PieSlice {
             color: Style.tooltipBackgroundColor
             borderColor: color
             borderWidth: 0
-            value: productionBalanceSeries.toConsumers == 0 && productionBalanceSeries.toGrid == 0 && productionBalanceSeries.toStorage == 0 ? 1 : 0
+            value: productionBalanceSeries.toConsumers == 0 && productionBalanceSeries.toGrid == 0 && productionBalanceSeries.toStorage == 0 && productionBalanceSeries.toCar == 0 ? 1 : 0
         }
     }
 
@@ -174,6 +219,26 @@ ChartView {
             Label {
                 color: Style.orange
                 property double absValue: productionBalanceSeries.toStorage
+                text: "%1 %2".arg((absValue / (absValue > 1000 ? 1000 : 1)).toFixed(1))
+                .arg(absValue > 1000 ? "kW" : "W")
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+                font: Style.smallFont
+            }
+        }
+        ColumnLayout {
+            spacing: 0
+            width: parent.width
+            visible: productionPieChart.showEvChargers && evChargerPowerRepeater.currentPowerCount > 0
+            Label {
+                text: qsTr("To car")
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+                font: Style.extraSmallFont
+            }
+            Label {
+                color: app.interfaceToColor("electricvehicle")
+                property double absValue: productionBalanceSeries.toCar
                 text: "%1 %2".arg((absValue / (absValue > 1000 ? 1000 : 1)).toFixed(1))
                 .arg(absValue > 1000 ? "kW" : "W")
                 Layout.fillWidth: true

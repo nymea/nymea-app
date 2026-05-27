@@ -111,6 +111,7 @@ MainViewBase {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
                     energyManager: energyManager
+                    consumers: consumers
                     visible: rootMeter != null || producers.count > 0
                     animationsEnabled: Qt.application.active && root.isCurrentItem && flickable.contentY < height
 //                    onAnimationsEnabledChanged: print("animations for power balance chart", animationsEnabled ? "enabled" : "disabled")

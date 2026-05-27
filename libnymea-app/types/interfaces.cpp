@@ -278,6 +278,7 @@ void Interfaces::rebuild()
 
         addInterface("evcharger", tr("EV charger"), {"chargers"});
         addStateType("evcharger", "power", QVariant::Bool, true, tr("Charging"), tr("Charging changed"), tr("Enable charging"));
+        addStateType("evcharger", "currentPower", QVariant::Double, false, tr("Current power"), tr("Current power changed"));
         //addStateType("evcharger", "maxChargingCurrent", QVariant::Double, true, tr("Maximum charging current"), tr("Maximum charging current changed"), tr("Set maximum charging current"));
 
         addInterface("evchargerac", tr("EV charger"), {"chargers", "evcharger"});
@@ -285,6 +286,7 @@ void Interfaces::rebuild()
     } else {
         addInterface("evcharger", tr("EV charger"));
         addStateType("evcharger", "power", QVariant::Bool, true, tr("Charging"), tr("Charging changed"), tr("Enable charging"));
+        addStateType("evcharger", "currentPower", QVariant::Double, false, tr("Current power"), tr("Current power changed"));
         //addStateType("evcharger", "maxChargingCurrent", QVariant::Double, true, tr("Maximum charging current"), tr("Maximum charging current changed"), tr("Set maximum charging current"));
     }
 
