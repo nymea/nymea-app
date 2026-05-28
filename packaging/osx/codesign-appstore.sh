@@ -39,5 +39,16 @@ sign_found_code "${app_bundle}/Contents" "*.so" f
 sign_found_code "${app_bundle}/Contents/Frameworks" "*.framework" d
 sign_found_code "${app_bundle}/Contents" "*.app" d
 
-codesign --force -s "${identity}" --verbose --entitlements "${entitlements}" "${app_bundle}"
+if codesign --verify --strict --deep "${app_bundle}" >/dev/null 2>&1; then
+    echo "Keeping existing valid app signature: ${app_bundle}"
+else
+    if ! codesign --force -s "${identity}" --verbose --entitlements "${entitlements}" "${app_bundle}"; then
+        echo "Failed to sign ${app_bundle} with identity: ${identity}" >&2
+        echo "If this happens on CI, verify that the keychain is unlocked and the private key allows codesign access." >&2
+        echo "Typical CI fix:" >&2
+        echo "  security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k <keychain-password> <keychain>" >&2
+        exit 1
+    fi
+fi
+
 codesign --verify --strict --deep --verbose=2 "${app_bundle}"
