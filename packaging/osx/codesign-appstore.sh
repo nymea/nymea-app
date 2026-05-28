@@ -9,7 +9,13 @@ entitlements="$3"
 sign_code() {
     local path="$1"
 
-    if [ -e "${path}" ]; then
+    if [ ! -e "${path}" ]; then
+        return
+    fi
+
+    if codesign --verify --strict "${path}" >/dev/null 2>&1; then
+        echo "Keeping existing valid signature: ${path}"
+    else
         codesign --force -s "${identity}" --verbose "${path}"
     fi
 }
