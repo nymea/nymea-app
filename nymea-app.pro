@@ -39,31 +39,39 @@ win32: {
 # OS X installer bundle
 # Install XCode and Qt clang64, add qmake directory to PATH
 # run "make osxbundle"
-# By default
+# Apple Development is useful for local development DMGs. App Store/TestFlight
+# packages should pass a Mac App Store application/distribution identity.
 # Note: We're dropping the QtWebEngineCore framework manually, as that's not app store compliant
 # and we're using the WebView instead anyways. (IMHO a bug that macdeployqt -appstore-compliant even adds it)
 equals(CODESIGN_IDENTITY, "") {
     CODESIGN_IDENTITY="Apple Development"
 }
-osxbundle.depends = nymea-app
-osxbundle.commands += cd nymea-app && rm -f ../*.dmg ../*pkg *.dmg || true &&
-osxbundle.commands += hdiutil eject /Volumes/$${APPLICATION_NAME} || true &&
-osxbundle.commands += bash $${MACX_PACKAGE_DIR}/macdeployqt-appstore.sh $${APPLICATION_NAME}.app $$top_srcdir/nymea-app/ui $$[QT_INSTALL_PLUGINS] &&
-osxbundle.commands += bash $${MACX_PACKAGE_DIR}/codesign-appstore.sh $${APPLICATION_NAME}.app \"$$CODESIGN_IDENTITY\" $${MACX_PACKAGE_DIR}/$${APPLICATION_NAME}.entitlements &&
-osxbundle.commands += hdiutil convert $${APPLICATION_NAME}.dmg -format UDRW -o $${APPLICATION_NAME}_writable.dmg &&
+osxpackageapp.depends = nymea-app
+osxpackageapp.commands += cd nymea-app && rm -f ../*.dmg ../*.pkg *.dmg &&
+osxpackageapp.commands += bash $${MACX_PACKAGE_DIR}/macdeployqt-appstore.sh $${APPLICATION_NAME}.app $$top_srcdir/nymea-app/ui $$[QT_INSTALL_PLUGINS] &&
+osxpackageapp.commands += bash $${MACX_PACKAGE_DIR}/codesign-appstore.sh $${APPLICATION_NAME}.app \"$$CODESIGN_IDENTITY\" $${MACX_PACKAGE_DIR}/$${APPLICATION_NAME}.entitlements
+QMAKE_EXTRA_TARGETS += osxpackageapp
+
+osxbundle.depends = osxpackageapp
+osxbundle.commands += cd nymea-app && ( hdiutil eject /Volumes/$${APPLICATION_NAME} || true ) &&
+osxbundle.commands += rm -f $${APPLICATION_NAME}_writable.dmg ../$${APPLICATION_NAME}-osx-bundle-$${APP_VERSION}.dmg &&
+osxbundle.commands += hdiutil create $${APPLICATION_NAME}_writable.dmg -volname $${APPLICATION_NAME} -srcfolder $${APPLICATION_NAME}.app -format UDRW -ov &&
 osxbundle.commands += hdiutil attach -readwrite -noverify $${APPLICATION_NAME}_writable.dmg && sleep 2 &&
 osxbundle.commands += tar -xpf $${MACX_PACKAGE_DIR}/template.tar -C /Volumes/$${APPLICATION_NAME}/ &&
 osxbundle.commands += hdiutil eject /Volumes/$${APPLICATION_NAME} &&
 osxbundle.commands += hdiutil convert $${APPLICATION_NAME}_writable.dmg -format UDRO -o ../$${APPLICATION_NAME}-osx-bundle-$${APP_VERSION}.dmg &&
-osxbundle.commands += rm $${APPLICATION_NAME}.dmg $${APPLICATION_NAME}_writable.dmg
+osxbundle.commands += rm $${APPLICATION_NAME}_writable.dmg
 QMAKE_EXTRA_TARGETS += osxbundle
 
 # Create a .pkg osx installer.
+# App Store/TestFlight packages should pass the matching 3rd Party Mac Developer
+# Installer identity. Developer ID distribution should use Developer ID
+# Application/Installer identities instead.
 equals(PRODUCTSIGN_IDENTITY, "") {
     PRODUCTSIGN_IDENTITY="3rd Party Mac Developer Installer"
 }
 
-osxinstaller.depends = osxbundle
+osxinstaller.depends = osxpackageapp
 osxinstaller.commands += cd nymea-app &&
 osxinstaller.commands += productbuild --component $${APPLICATION_NAME}.app /Applications ../$${APPLICATION_NAME}-$${APP_VERSION}.pkg && cd .. &&
 osxinstaller.commands += productsign -s \"$$PRODUCTSIGN_IDENTITY\" $${APPLICATION_NAME}-$${APP_VERSION}.pkg $${APPLICATION_NAME}-signed-$${APP_VERSION}.pkg
