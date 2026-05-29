@@ -74,7 +74,7 @@ equals(PRODUCTSIGN_IDENTITY, "") {
 osxinstaller.depends = osxpackageapp
 osxinstaller.commands += cd nymea-app &&
 osxinstaller.commands += productbuild --component $${APPLICATION_NAME}.app /Applications ../$${APPLICATION_NAME}-$${APP_VERSION}.pkg && cd .. &&
-osxinstaller.commands += productsign -s \"$$PRODUCTSIGN_IDENTITY\" $${APPLICATION_NAME}-$${APP_VERSION}.pkg $${APPLICATION_NAME}-signed-$${APP_VERSION}.pkg
+osxinstaller.commands += bash $${MACX_PACKAGE_DIR}/productsign-appstore.sh \"$$PRODUCTSIGN_IDENTITY\" $${APPLICATION_NAME}-$${APP_VERSION}.pkg $${APPLICATION_NAME}-signed-$${APP_VERSION}.pkg
 QMAKE_EXTRA_TARGETS += osxinstaller
 
 # Generic linux desktop
