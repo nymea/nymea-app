@@ -330,5 +330,6 @@
         <file>ui/components/UsernameTextField.qml</file>
         <file>ui/system/BackupSettingsPage.qml</file>
         <file>ui/devicepages/EvChargerDcThingPage.qml</file>
+        <file>ui/particles/trace_05_rotated.png</file>
     </qresource>
 </RCC>

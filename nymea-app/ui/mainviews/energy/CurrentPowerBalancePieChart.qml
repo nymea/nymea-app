@@ -39,24 +39,140 @@ Item {
     property bool animationsEnabled: false
     property EnergyManager energyManager: null
     property ThingsProxy consumers: null
-    property bool showEvChargers: false
+    property bool showEvChargers: true
 
     property string gridIcon
     property string pvIcon
     property string homeIcon
+    readonly property bool rootMeterConfigured: energyManager && energyManager.rootMeterId.toString() !== "{00000000-0000-0000-0000-000000000000}"
 
-    onConsumersChanged: Qt.callLater(evChargerChart.updateSliceValues)
+    onConsumersChanged: {
+        Qt.callLater(evChargerChart.updateSliceValues)
+        Qt.callLater(updateConsumerSlices)
+    }
 
-    readonly property double fromGrid: Math.max(0, energyManager.currentPowerAcquisition)
-    readonly property double fromStorage: -Math.min(0, energyManager.currentPowerStorage)
-    readonly property double toStorage: -Math.min(0, -energyManager.currentPowerStorage)
-    readonly property double fromCar: showEvChargers ? -Math.min(0, evChargerPowerRepeater.currentPower) : 0
-    readonly property double toCar: showEvChargers ? Math.max(0, evChargerPowerRepeater.currentPower) : 0
-    readonly property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption - toCar)
-    readonly property double fromGridToConsumption: Math.min(fromGrid, Math.max(0, householdConsumption - fromStorage - fromCar))
-    readonly property double fromProduction: Math.max(0, householdConsumption - fromGridToConsumption - fromStorage - fromCar)
-    readonly property double toGrid: Math.max(0, - energyManager.currentPowerAcquisition)
+    readonly property double gridIn: Math.max(0, energyManager.currentPowerAcquisition)
+    readonly property double gridOut: Math.max(0, -energyManager.currentPowerAcquisition)
+    readonly property double productionOut: Math.max(0, -energyManager.currentPowerProduction)
+    readonly property double storageIn: Math.max(0, energyManager.currentPowerStorage)
+    readonly property double storageOut: Math.max(0, -energyManager.currentPowerStorage)
+    readonly property double evIn: showEvChargers ? Math.max(0, evChargerPowerRepeater.currentPower) : 0
+    readonly property double evOut: showEvChargers ? Math.max(0, -evChargerPowerRepeater.currentPower) : 0
+    readonly property double homeIn: showEvChargers ? Math.max(0, energyManager.currentPowerConsumption - evIn) : energyManager.currentPowerConsumption
+    readonly property double consumptionToCar: showEvChargers ? Math.max(0, evChargerPowerRepeater.currentPower) : 0
+    readonly property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption - consumptionToCar)
+    readonly property double visiblePowerThreshold: 0.05
 
+    function updateConsumerUnknownSlice() {
+        var consumersSummation = 0
+        if (root.consumers) {
+            for (var i = 0; i < root.consumers.count; i++) {
+                let consumer = root.consumers.get(i)
+                let currentPowerState = consumer ? consumer.stateByName("currentPower") : null
+                if (currentPowerState) {
+                    consumersSummation += Math.max(0, currentPowerState.value)
+                }
+            }
+        }
+
+        d.consumersSummation = consumersSummation
+
+        if (d.unknownConsumerSlice) {
+            d.unknownConsumerSlice.value = Math.max(0, root.householdConsumption - consumersSummation)
+        }
+    }
+
+    function updateProductionSlices() {
+        if (!productionSeries) {
+            return
+        }
+
+        productionChart.animationOptions = ChartView.NoAnimation
+        productionSeries.clear()
+
+        var slices = []
+        for (var i = 0; i < producers.count; i++) {
+            let producer = producers.get(i)
+            let currentPowerState = producer ? producer.stateByName("currentPower") : null
+            var value = currentPowerState ? Math.abs(currentPowerState.value) : 0.00001
+            let slice = productionSeries.append(producer ? producer.name : "", Math.max(0.00001, value))
+            slice.color = NymeaUtils.generateColor(Style.generationBaseColor, i)
+            slice.borderColor = slice.color
+            slice.borderWidth = 0
+            if (currentPowerState) {
+                currentPowerState.valueChanged.connect(function() {
+                    slice.value = Math.max(0.00001, Math.abs(currentPowerState.value))
+                })
+            }
+            slices.push(slice)
+        }
+
+        if (slices.length === 0) {
+            var idleSlice = productionSeries.append("", 1)
+            idleSlice.color = Style.tooltipBackgroundColor
+            idleSlice.borderColor = idleSlice.color
+            idleSlice.borderWidth = 0
+        }
+
+        productionChart.animationOptions = Qt.binding(function() {
+            return root.animationsEnabled ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
+        })
+    }
+
+    function updateConsumerSlices() {
+        if (!consumptionSeries || !root.consumers) {
+            return
+        }
+
+        consumptionChart.animationOptions = ChartView.NoAnimation
+        consumptionSeries.clear()
+        d.unknownConsumerSlice = null
+        d.idleConsumerSlice = null
+
+        var consumersSummation = 0
+        for (var i = 0; i < root.consumers.count; i++) {
+            let consumer = root.consumers.get(i)
+            let currentPowerState = consumer ? consumer.stateByName("currentPower") : null
+            if (!consumer || !currentPowerState) {
+                continue
+            }
+
+            let slice = consumptionSeries.append(consumer.name, Math.max(0, currentPowerState.value))
+            slice.color = NymeaUtils.generateColor(Style.generationBaseColor, i)
+            slice.borderColor = slice.color
+            slice.borderWidth = 0
+            currentPowerState.valueChanged.connect(function() {
+                slice.value = Math.max(0, currentPowerState.value)
+                root.updateConsumerUnknownSlice()
+            })
+            consumersSummation += Math.max(0, currentPowerState.value)
+        }
+
+        d.consumersSummation = consumersSummation
+
+        if (root.rootMeterConfigured) {
+            d.unknownConsumerSlice = consumptionSeries.append(qsTr("Unknown"), Math.max(0, root.householdConsumption - consumersSummation))
+            d.unknownConsumerSlice.color = Style.gray
+            d.unknownConsumerSlice.borderColor = Style.gray
+            d.unknownConsumerSlice.borderWidth = 0
+        } else {
+            d.idleConsumerSlice = consumptionSeries.append("", 0.00001)
+            d.idleConsumerSlice.color = Style.tooltipBackgroundColor
+            d.idleConsumerSlice.borderColor = d.idleConsumerSlice.color
+            d.idleConsumerSlice.borderWidth = 0
+        }
+
+        consumptionChart.animationOptions = Qt.binding(function() {
+            return root.animationsEnabled ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
+        })
+    }
+
+
+    // Rectangle {
+    //     anchors.fill: parent
+    //     color: "steelblue"
+    //     opacity: 0.5
+    // }
 
     Label {
         id: titleLabel
@@ -73,6 +189,10 @@ Item {
 
     QtObject {
         id: d
+        property PieSlice unknownConsumerSlice: null
+        property PieSlice idleConsumerSlice: null
+        property double consumersSummation: 0
+
         function formatValue(value) {
             var ret
             if (Math.abs(value) >= 1000) {
@@ -82,28 +202,23 @@ Item {
             }
             return ret
         }
-        function thingColor(thing, fallbackIndex) {
-            if (root.consumers && thing) {
-                for (var i = 0; i < root.consumers.count; i++) {
-                    var consumer = root.consumers.get(i)
-                    if (consumer && consumer.id.toString() === thing.id.toString()) {
-                        return NymeaUtils.generateColor(Style.generationBaseColor, i)
-                    }
-                }
-            }
-            return NymeaUtils.generateColor(Style.generationBaseColor, fallbackIndex)
-        }
-
         property double progress: 0
         onProgressChanged: canvas.requestPaint()
 
-        property int chartSize: evChargerVisible ? Math.min(contentContainer.width / 2.7, contentContainer.height / 3) : width / 2.5
+        property int chartSize: Math.min(contentContainer.width / 2.7, contentContainer.height / 3)
 
-        property bool acquisitionVisible: true
-        property bool productionVisible: producers.count > 0 || energyManager.currentPowerAcquisition < 0
+        property bool acquisitionVisible: root.rootMeterConfigured
+        property bool productionVisible: producers.count > 0
         property bool storageVisible: batteries.count > 0
-        property bool evChargerVisible: root.showEvChargers && evChargerPowerRepeater.currentPowerCount > 0
+        property bool evChargerVisible: root.showEvChargers && evChargers.count > 0
         property bool consumptionVisible: true
+        property color gridImportFlowColor: Style.powerAcquisitionColor
+        property color gridExportFlowColor: Style.powerReturnColor
+        property color productionFlowColor: Style.powerReturnColor
+        property color storageChargingFlowColor: Style.powerBatteryChargingColor
+        property color storageDischargingFlowColor: Style.powerBatteryDischargingColor
+        property color evChargerFlowColor: app.interfaceToColor("electricvehicle")
+        property color householdFlowColor: Style.powerSelfProductionConsumptionColor
 
         property point circleCenter: Qt.point(contentContainer.width / 2, contentContainer.height / 2)
         property double circleRadius: Math.max(0, Math.min(contentContainer.width / 2 - chartSize / 2 - Style.margins,
@@ -115,25 +230,35 @@ Item {
                             circleCenter.y + circleRadius * Math.sin(angle * Math.PI / 180))
         }
 
-        property int circleCount: 3 + (storageVisible ? 1 : 0) + (productionVisible ? 1 : 0)
-        property point acquisitionPos: evChargerVisible
-                                       ? circlePos(0, circleCount)
-                                       : Qt.point(chartSize/2 + Style.margins, chartSize/2 + Style.margins)
-        property point productionPos: evChargerVisible
-                                      ? circlePos(1, circleCount)
-                                      : Qt.point(contentContainer.width - (chartSize/2 + Style.margins), chartSize/2 + Style.margins)
-        property point evChargerPos: evChargerVisible
-                                     ? circlePos(productionVisible ? 2 : 1, circleCount)
-                                     : storageVisible ? Qt.point(contentContainer.width / 2, contentContainer.height - (chartSize/2 + Style.margins))
-                                                      : Qt.point(chartSize/2 + Style.margins, contentContainer.height - (chartSize/2 + Style.margins))
-        property point consumptionPos: evChargerVisible
-                                       ? circlePos((productionVisible ? 3 : 2), circleCount)
-                                       : storageVisible || evChargerVisible || !productionVisible
-                                       ? Qt.point(contentContainer.width - (chartSize/2 + Style.margins), contentContainer.height - (chartSize/2 + Style.margins))
-                                       : Qt.point(contentContainer.width / 2, contentContainer.height - (chartSize/2 + Style.margins))
-        property point storagePos: evChargerVisible
-                                   ? circlePos((productionVisible ? 4 : 3), circleCount)
-                                   : Qt.point(chartSize/2 + Style.margins, contentContainer.height - (chartSize/2 + Style.margins))
+        property int circleCount: (acquisitionVisible ? 1 : 0) + (productionVisible ? 1 : 0) + (consumptionVisible ? 1 : 0)
+                                  + (evChargerVisible ? 1 : 0) + (storageVisible ? 1 : 0)
+
+        function visibleIndex(node) {
+            var index = 0
+            if (node === "acquisition")
+                return index
+            if (acquisitionVisible)
+                index++
+            if (node === "production")
+                return index
+            if (productionVisible)
+                index++
+            if (node === "consumption")
+                return index
+            if (consumptionVisible)
+                index++
+            if (node === "evCharger")
+                return index
+            if (evChargerVisible)
+                index++
+            return index
+        }
+
+        property point acquisitionPos: circlePos(visibleIndex("acquisition"), circleCount)
+        property point productionPos: circlePos(visibleIndex("production"), circleCount)
+        property point evChargerPos: circlePos(visibleIndex("evCharger"), circleCount)
+        property point consumptionPos: circlePos(visibleIndex("consumption"), circleCount)
+        property point storagePos: circlePos(visibleIndex("storage"), circleCount)
     }
 
     ThingsProxy {
@@ -144,7 +269,7 @@ Item {
     ThingsProxy {
         id: producers
         engine: _engine
-        shownInterfaces: ["smartmeterproducer"]
+        shownInterfaces: ["smartmeterproducer", "solarinverter"]
     }
     ThingsProxy {
         id: evChargers
@@ -161,16 +286,6 @@ Item {
         id: evChargerPowerRepeater
         model: evChargers
 
-        property int currentPowerCount: {
-            var count = 0
-            for (var i = 0; i < evChargerPowerRepeater.count; i++) {
-                var item = evChargerPowerRepeater.itemAt(i)
-                if (item && item.hasCurrentPower) {
-                    count++
-                }
-            }
-            return count
-        }
         property double currentPower: {
             var power = 0
             for (var i = 0; i < evChargerPowerRepeater.count; i++) {
@@ -256,13 +371,14 @@ Item {
                 var ctx = getContext("2d");
 
                 var solarPos = Qt.point(d.productionPos.x - width / 2, d.productionPos.y - height / 2)
-                var storagePos = Qt.point(d.storagePos.x - width / 2, d.storagePos.y - width / 2)
+                var storagePos = Qt.point(d.storagePos.x - width / 2, d.storagePos.y - height / 2)
                 var consumptionPos = Qt.point(d.consumptionPos.x - width / 2, d.consumptionPos.y - height / 2)
                 var gridPos = Qt.point(d.acquisitionPos.x - width / 2, d.acquisitionPos.y - height / 2)
                 var evChargerPos = Qt.point(d.evChargerPos.x - width / 2, d.evChargerPos.y - height / 2)
 
                 ctx.save();
                 ctx.reset()
+                ctx.clearRect(0, 0, width, height)
 
                 ctx.translate(width / 2, height / 2);
 
@@ -270,63 +386,114 @@ Item {
                 ctx.fillStyle = Style.foregroundColor
                 ctx.lineWidth = 2
 
-                var biggest = Math.max(
-                            Math.abs(energyManager.currentPowerAcquisition),
-                            Math.abs(energyManager.currentPowerConsumption),
-                            Math.abs(energyManager.currentPowerProduction),
-                            Math.abs(energyManager.currentPowerStorage),
-                            Math.abs(evChargerPowerRepeater.currentPower)
-                            )
+                var biggest = Math.max(d.acquisitionVisible ? root.gridIn : 0,
+                                       d.acquisitionVisible ? root.gridOut : 0,
+                                       d.productionVisible ? root.productionOut : 0,
+                                       d.storageVisible ? root.storageIn : 0,
+                                       d.storageVisible ? root.storageOut : 0,
+                                       d.evChargerVisible ? root.evIn : 0,
+                                       d.evChargerVisible ? root.evOut : 0,
+                                       Math.max(0, root.homeIn))
                 var size
 
 
-                if (root.toGrid > 0) {
-                    size = root.toGrid / biggest
-                    drawDottedCurve(ctx, solarPos, gridPos, size, Style.powerReturnColor)
+                var busPos = Qt.point(0, 0)
+
+                if (biggest <= 0) {
+                    ctx.restore();
+                    return;
                 }
 
-                if (energyManager.currentPowerProduction < 0 && root.fromProduction) {
-                    size = root.fromProduction / biggest
-                    drawDottedCurve(ctx, solarPos, consumptionPos, size, Style.powerSelfProductionConsumptionColor)
+                if (d.acquisitionVisible && root.gridIn > root.visiblePowerThreshold) {
+                    size = root.gridIn / biggest
+                    drawDottedCurve(ctx, gridPos, busPos, size, d.gridImportFlowColor)
                 }
 
-                if (batteries.count > 0) {
-                    if (energyManager.currentPowerStorage > 0) {
-                        if (energyManager.currentPowerProduction < 0) {
-                            size = Math.abs(energyManager.currentPowerStorage) / biggest
-                            drawDottedCurve(ctx, solarPos, storagePos, size, Style.powerBatteryChargingColor)
-                        } else {
-                            size = Math.abs(energyManager.currentPowerStorage) / biggest
-                            drawDottedCurve(ctx, gridPos, storagePos, size, Style.powerBatteryChargingColor)
-                        }
-                    }
+                if (d.acquisitionVisible && root.gridOut > root.visiblePowerThreshold) {
+                    size = root.gridOut / biggest
+                    drawDottedCurve(ctx, busPos, gridPos, size, d.gridExportFlowColor)
+                }
 
-                    if (energyManager.currentPowerStorage < 0) {
-                        size = Math.abs(energyManager.currentPowerStorage) / biggest
-                        drawDottedCurve(ctx, storagePos, consumptionPos, size, Style.powerBatteryDischargingColor)
-                    }
+                if (d.productionVisible && root.productionOut > root.visiblePowerThreshold) {
+                    size = root.productionOut / biggest
+                    drawDottedCurve(ctx, solarPos, busPos, size, d.productionFlowColor)
+                }
+
+                if (d.storageVisible && root.storageIn > root.visiblePowerThreshold) {
+                    size = root.storageIn / biggest
+                    drawDottedCurve(ctx, busPos, storagePos, size, d.storageChargingFlowColor)
+                }
+
+                if (d.storageVisible && root.storageOut > root.visiblePowerThreshold) {
+                    size = root.storageOut / biggest
+                    drawDottedCurve(ctx, storagePos, busPos, size, d.storageDischargingFlowColor)
                 }
 
                 if (d.evChargerVisible) {
-                    if (evChargerPowerRepeater.currentPower > 0) {
-                        size = Math.abs(evChargerPowerRepeater.currentPower) / biggest
-                        if (energyManager.currentPowerProduction < 0) {
-                            drawDottedCurve(ctx, solarPos, evChargerPos, size, app.interfaceToColor("electricvehicle"))
-                        } else {
-                            drawDottedCurve(ctx, gridPos, evChargerPos, size, app.interfaceToColor("electricvehicle"))
-                        }
-                    } else if (evChargerPowerRepeater.currentPower < 0) {
-                        size = Math.abs(evChargerPowerRepeater.currentPower) / biggest
-                        drawDottedCurve(ctx, evChargerPos, consumptionPos, size, app.interfaceToColor("electricvehicle"))
+                    if (root.evIn > root.visiblePowerThreshold) {
+                        size = root.evIn / biggest
+                        drawDottedCurve(ctx, busPos, evChargerPos, size, d.evChargerFlowColor)
+                    } else if (root.evOut > root.visiblePowerThreshold) {
+                        size = root.evOut / biggest
+                        drawDottedCurve(ctx, evChargerPos, busPos, size, d.evChargerFlowColor)
                     }
                 }
 
-                if (root.fromGridToConsumption > 0) {
-                    size = root.fromGridToConsumption / biggest
-                    drawDottedCurve(ctx, gridPos, consumptionPos, size, Style.powerAcquisitionColor)
+                if (root.homeIn > root.visiblePowerThreshold) {
+                    size = root.homeIn / biggest
+                    drawDottedCurve(ctx, busPos, consumptionPos, size, d.householdFlowColor)
                 }
 
                 ctx.restore();
+            }
+
+        Connections {
+            target: root.energyManager
+            enabled: root.energyManager !== null
+            function onPowerBalanceChanged() {
+                canvas.requestPaint()
+                root.updateConsumerUnknownSlice()
+            }
+        }
+
+        Connections {
+            target: root.consumers
+            enabled: root.consumers !== null
+            function onCountChanged() {
+                root.updateConsumerSlices()
+            }
+            function onRowsInserted() {
+                root.updateConsumerSlices()
+            }
+            function onRowsRemoved() {
+                root.updateConsumerSlices()
+            }
+            function onModelReset() {
+                root.updateConsumerSlices()
+            }
+        }
+
+        Connections {
+            target: producers
+            function onCountChanged() {
+                root.updateProductionSlices()
+            }
+            function onRowsInserted() {
+                root.updateProductionSlices()
+            }
+            function onRowsRemoved() {
+                root.updateProductionSlices()
+            }
+            function onModelReset() {
+                root.updateProductionSlices()
+            }
+        }
+
+            Connections {
+                target: evChargerPowerRepeater
+                function onCurrentPowerChanged() {
+                    canvas.requestPaint()
+                }
             }
 
             function bezierCurvePoint(p0x, p0y, p1x, p1y, p2x, p2y, p3x, p3y, t) {
@@ -376,6 +543,7 @@ Item {
             y: d.acquisitionPos.y - height / 2
             width: d.chartSize
             height: d.chartSize
+            visible: d.acquisitionVisible
 
             Rectangle {
                 anchors.centerIn: parent
@@ -420,13 +588,13 @@ Item {
                         color: Style.powerAcquisitionColor
                         borderColor: color
                         borderWidth: 0
-                        value: root.fromGrid
+                        value: root.gridIn
                     }
                     PieSlice {
                         color: Style.powerReturnColor
                         borderColor: color
                         borderWidth: 0
-                        value: root.toGrid
+                        value: root.gridOut
                     }
                     PieSlice {
                         color: Style.tooltipBackgroundColor
@@ -484,39 +652,10 @@ Item {
                 rotation: -130
 
                 PieSeries {
+                    id: productionSeries
                     size: 1
                     holeSize: 0.8
-
-                    PieSlice {
-                        color: Style.powerReturnColor
-                        borderColor: color
-                        borderWidth: 0
-                        value: root.toGrid
-                    }
-                    PieSlice {
-                        color: Style.powerBatteryChargingColor
-                        borderColor: color
-                        borderWidth: 0
-                        value: root.toStorage
-                    }
-                    PieSlice {
-                        color: app.interfaceToColor("electricvehicle")
-                        borderColor: color
-                        borderWidth: 0
-                        value: root.toCar
-                    }
-                    PieSlice {
-                        color: Style.powerSelfProductionConsumptionColor
-                        borderColor: color
-                        borderWidth: 0
-                        value: root.fromProduction
-                    }
-                    PieSlice {
-                        color: Style.tooltipBackgroundColor
-                        borderColor: color
-                        borderWidth: 0
-                        value: energyManager.currentPowerProduction == 0 ? 1 : 0
-                    }
+                    Component.onCompleted: root.updateProductionSlices()
                 }
             }
         }
@@ -564,33 +703,10 @@ Item {
                 rotation: !d.productionVisible || d.storageVisible ? -50 : 0
 
                 PieSeries {
+                    id: consumptionSeries
                     size: 1
                     holeSize: 0.8
-
-                    PieSlice {
-                        color: Style.powerSelfProductionConsumptionColor
-                        borderColor: color
-                        borderWidth: 0
-                        value: root.fromProduction
-                    }
-                    PieSlice {
-                        color: Style.powerBatteryDischargingColor
-                        borderColor: color
-                        borderWidth: 0
-                        value: root.fromStorage
-                    }
-                    PieSlice {
-                        color: app.interfaceToColor("electricvehicle")
-                        borderColor: color
-                        borderWidth: 0
-                        value: root.fromCar
-                    }
-                    PieSlice {
-                        color: Style.powerAcquisitionColor
-                        borderColor: color
-                        borderWidth: 0
-                        value: root.fromGridToConsumption
-                    }
+                    Component.onCompleted: root.updateConsumerSlices()
                 }
             }
         }
@@ -685,7 +801,7 @@ Item {
                     PieSlice {
                         color: energyManager.currentPowerStorage == 0
                                ? Style.powerBatteryIdleColor
-                               : root.toStorage > 0
+                               : root.storageIn > 0
                                  ? Style.powerBatteryChargingColor
                                  : Style.powerBatteryDischargingColor
                         borderColor: color
@@ -765,13 +881,11 @@ Item {
                     var slices = []
                     for (var i = 0; i < evChargerPowerRepeater.count; i++) {
                         var item = evChargerPowerRepeater.itemAt(i)
-                        if (item && item.hasCurrentPower) {
-                            var slice = evChargerSeries.append(item.thing ? item.thing.name : "", Math.max(0.00001, Math.abs(item.currentPower)))
-                            slice.color = d.thingColor(item.thing, i)
-                            slice.borderColor = slice.color
-                            slice.borderWidth = 0
-                            slices.push(slice)
-                        }
+                        var slice = evChargerSeries.append(item && item.thing ? item.thing.name : "", Math.max(0.00001, Math.abs(item ? item.currentPower : 0)))
+                        slice.color = NymeaUtils.generateColor(Style.generationBaseColor, i)
+                        slice.borderColor = slice.color
+                        slice.borderWidth = 0
+                        slices.push(slice)
                     }
 
                     if (slices.length === 0) {
@@ -790,29 +904,22 @@ Item {
                         return
                     }
 
-                    if (chargerSlices.length !== Math.max(1, evChargerPowerRepeater.currentPowerCount)) {
+                    if (chargerSlices.length !== Math.max(1, evChargerPowerRepeater.count)) {
                         rebuildSlices()
                         return
                     }
 
-                    var sliceIndex = 0
                     for (var i = 0; i < evChargerPowerRepeater.count; i++) {
                         var item = evChargerPowerRepeater.itemAt(i)
-                        if (item && item.hasCurrentPower) {
-                            chargerSlices[sliceIndex].value = Math.max(0.00001, Math.abs(item.currentPower))
-                            chargerSlices[sliceIndex].color = d.thingColor(item.thing, i)
-                            chargerSlices[sliceIndex].borderColor = chargerSlices[sliceIndex].color
-                            sliceIndex++
-                        }
+                        chargerSlices[i].value = Math.max(0.00001, Math.abs(item ? item.currentPower : 0))
+                        chargerSlices[i].color = NymeaUtils.generateColor(Style.generationBaseColor, i)
+                        chargerSlices[i].borderColor = chargerSlices[i].color
                     }
                 }
 
                 Connections {
                     target: evChargerPowerRepeater
                     function onCountChanged() {
-                        evChargerChart.rebuildSlices()
-                    }
-                    function onCurrentPowerCountChanged() {
                         evChargerChart.rebuildSlices()
                     }
                     function onCurrentPowerChanged() {
