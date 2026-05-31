@@ -331,5 +331,7 @@
         <file>ui/system/BackupSettingsPage.qml</file>
         <file>ui/devicepages/EvChargerDcThingPage.qml</file>
         <file>ui/particles/trace_05_rotated.png</file>
+        <file>ui/particles/circle_05.png</file>
+        <file>ui/particles/trace_06.png</file>
     </qresource>
 </RCC>

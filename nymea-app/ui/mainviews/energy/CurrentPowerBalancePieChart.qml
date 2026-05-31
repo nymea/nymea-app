@@ -23,6 +23,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import QtQuick
+import QtQuick.Particles
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
@@ -37,6 +38,7 @@ Item {
     id: root
 
     property bool animationsEnabled: false
+    property bool pauseParticleEmittersOnWindowFocusChanged: false
     property EnergyManager energyManager: null
     property ThingsProxy consumers: null
     property bool showEvChargers: true
@@ -62,6 +64,7 @@ Item {
     readonly property double consumptionToCar: showEvChargers ? Math.max(0, evChargerPowerRepeater.currentPower) : 0
     readonly property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption - consumptionToCar)
     readonly property double visiblePowerThreshold: 0.05
+    readonly property bool particleEmittersEnabled: animationsEnabled && (!pauseParticleEmittersOnWindowFocusChanged || Qt.application.active)
 
     function updateConsumerUnknownSlice() {
         var consumersSummation = 0
@@ -167,13 +170,6 @@ Item {
         })
     }
 
-
-    // Rectangle {
-    //     anchors.fill: parent
-    //     color: "steelblue"
-    //     opacity: 0.5
-    // }
-
     Label {
         id: titleLabel
         anchors { left: parent.left; top: parent.top; right: parent.right; margins: Style.smallMargins }
@@ -202,9 +198,6 @@ Item {
             }
             return ret
         }
-        property double progress: 0
-        onProgressChanged: canvas.requestPaint()
-
         property int chartSize: Math.min(contentContainer.width / 2.7, contentContainer.height / 3)
 
         property bool acquisitionVisible: root.rootMeterConfigured
@@ -219,6 +212,15 @@ Item {
         property color storageDischargingFlowColor: Style.powerBatteryDischargingColor
         property color evChargerFlowColor: app.interfaceToColor("electricvehicle")
         property color householdFlowColor: Style.powerSelfProductionConsumptionColor
+        property int minimumParticleSpeed: 20
+        property int maximumParticleSpeed: 120
+        property int particleSize: Math.max(10, chartSize * 0.12)
+        property double minimumParticleRate: 14 * 8
+        property double maximumParticleRate: 50 * 8
+        property int minimumEmitterSize: particleSize / 2
+        property int maximumEmitterSize: Math.max(minimumEmitterSize, chartSize * 0.225 / 3)
+        property double minimumEmitterPower: 100
+        property double maximumEmitterPower: 5000
 
         property point circleCenter: Qt.point(contentContainer.width / 2, contentContainer.height / 2)
         property double circleRadius: Math.max(0, Math.min(contentContainer.width / 2 - chartSize / 2 - Style.margins,
@@ -259,6 +261,52 @@ Item {
         property point evChargerPos: circlePos(visibleIndex("evCharger"), circleCount)
         property point consumptionPos: circlePos(visibleIndex("consumption"), circleCount)
         property point storagePos: circlePos(visibleIndex("storage"), circleCount)
+
+        function flowEnabled(power) {
+            return root.particleEmittersEnabled && power > root.visiblePowerThreshold
+        }
+
+        function flowEmitRate(power) {
+            var biggest = Math.max(root.gridIn, root.gridOut, root.productionOut, root.storageIn, root.storageOut,
+                                   root.evIn, root.evOut, Math.max(0, root.homeIn))
+            if (biggest <= root.visiblePowerThreshold || power <= root.visiblePowerThreshold) {
+                return 0
+            }
+
+            return minimumParticleRate + (maximumParticleRate - minimumParticleRate) * Math.min(1, power / biggest)
+        }
+
+        function flowEmitterSize(power) {
+            if (power <= root.visiblePowerThreshold) {
+                return minimumEmitterSize
+            }
+
+            var ratio = flowPowerRatio(power)
+            return minimumEmitterSize + (maximumEmitterSize - minimumEmitterSize) * ratio
+        }
+
+        function flowLifeSpan(start, end) {
+            return Math.max(400, distance(start, end) / maximumParticleSpeed * 1000) * 4
+        }
+
+        function flowAngle(start, end) {
+            return Math.atan2(end.y - start.y, end.x - start.x) * 180 / Math.PI
+        }
+
+        function distance(start, end) {
+            var dx = end.x - start.x
+            var dy = end.y - start.y
+            return Math.sqrt(dx * dx + dy * dy)
+        }
+
+        function flowPowerRatio(power) {
+            var clampedPower = Math.max(minimumEmitterPower, Math.min(maximumEmitterPower, power))
+            return (clampedPower - minimumEmitterPower) / (maximumEmitterPower - minimumEmitterPower)
+        }
+
+        function flowSpeed(power) {
+            return minimumParticleSpeed + (maximumParticleSpeed - minimumParticleSpeed) * flowPowerRatio(power)
+        }
     }
 
     ThingsProxy {
@@ -344,114 +392,201 @@ Item {
         }
     }
 
-    NumberAnimation {
-        id: progressAnimation
-        target: d
-        property: "progress"
-        from: 0
-        to: 1
-        running: root.animationsEnabled
-        loops: Animation.Infinite
-        duration: 5000
-    }
-
     Item {
         id: contentContainer
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom; top: titleLabel.bottom}
 
-        Canvas {
-            id: canvas
+        ParticleSystem {
+            id: flowParticleSystem
             anchors.fill: parent
 
-            // Breaks scaling on iOS
-            // renderTarget: Canvas.FramebufferObject
-            renderStrategy: Canvas.Cooperative
+            readonly property real alpha: 0.6
+            property real colorVariation: 0.02
 
-            onPaint: {
-                var ctx = getContext("2d");
-
-                var solarPos = Qt.point(d.productionPos.x - width / 2, d.productionPos.y - height / 2)
-                var storagePos = Qt.point(d.storagePos.x - width / 2, d.storagePos.y - height / 2)
-                var consumptionPos = Qt.point(d.consumptionPos.x - width / 2, d.consumptionPos.y - height / 2)
-                var gridPos = Qt.point(d.acquisitionPos.x - width / 2, d.acquisitionPos.y - height / 2)
-                var evChargerPos = Qt.point(d.evChargerPos.x - width / 2, d.evChargerPos.y - height / 2)
-
-                ctx.save();
-                ctx.reset()
-                ctx.clearRect(0, 0, width, height)
-
-                ctx.translate(width / 2, height / 2);
-
-                ctx.strokeStyle = Style.foregroundColor
-                ctx.fillStyle = Style.foregroundColor
-                ctx.lineWidth = 2
-
-                var biggest = Math.max(d.acquisitionVisible ? root.gridIn : 0,
-                                       d.acquisitionVisible ? root.gridOut : 0,
-                                       d.productionVisible ? root.productionOut : 0,
-                                       d.storageVisible ? root.storageIn : 0,
-                                       d.storageVisible ? root.storageOut : 0,
-                                       d.evChargerVisible ? root.evIn : 0,
-                                       d.evChargerVisible ? root.evOut : 0,
-                                       Math.max(0, root.homeIn))
-                var size
-
-
-                var busPos = Qt.point(0, 0)
-
-                if (biggest <= 0) {
-                    ctx.restore();
-                    return;
-                }
-
-                if (d.acquisitionVisible && root.gridIn > root.visiblePowerThreshold) {
-                    size = root.gridIn / biggest
-                    drawDottedCurve(ctx, gridPos, busPos, size, d.gridImportFlowColor)
-                }
-
-                if (d.acquisitionVisible && root.gridOut > root.visiblePowerThreshold) {
-                    size = root.gridOut / biggest
-                    drawDottedCurve(ctx, busPos, gridPos, size, d.gridExportFlowColor)
-                }
-
-                if (d.productionVisible && root.productionOut > root.visiblePowerThreshold) {
-                    size = root.productionOut / biggest
-                    drawDottedCurve(ctx, solarPos, busPos, size, d.productionFlowColor)
-                }
-
-                if (d.storageVisible && root.storageIn > root.visiblePowerThreshold) {
-                    size = root.storageIn / biggest
-                    drawDottedCurve(ctx, busPos, storagePos, size, d.storageChargingFlowColor)
-                }
-
-                if (d.storageVisible && root.storageOut > root.visiblePowerThreshold) {
-                    size = root.storageOut / biggest
-                    drawDottedCurve(ctx, storagePos, busPos, size, d.storageDischargingFlowColor)
-                }
-
-                if (d.evChargerVisible) {
-                    if (root.evIn > root.visiblePowerThreshold) {
-                        size = root.evIn / biggest
-                        drawDottedCurve(ctx, busPos, evChargerPos, size, d.evChargerFlowColor)
-                    } else if (root.evOut > root.visiblePowerThreshold) {
-                        size = root.evOut / biggest
-                        drawDottedCurve(ctx, evChargerPos, busPos, size, d.evChargerFlowColor)
-                    }
-                }
-
-                if (root.homeIn > root.visiblePowerThreshold) {
-                    size = root.homeIn / biggest
-                    drawDottedCurve(ctx, busPos, consumptionPos, size, d.householdFlowColor)
-                }
-
-                ctx.restore();
+            ImageParticle {
+                groups: ["gridImport"]
+                source: "qrc:/ui/particles/circle_05.png"
+                color: d.gridImportFlowColor
+                colorVariation: flowParticleSystem.colorVariation
+                alpha: flowParticleSystem.alpha
+                rotation: d.flowAngle(d.acquisitionPos, d.circleCenter)
             }
+            ImageParticle {
+                groups: ["gridExport"]
+                source: "qrc:/ui/particles/circle_05.png"
+                color: d.gridExportFlowColor
+                colorVariation: flowParticleSystem.colorVariation
+                alpha: flowParticleSystem.alpha
+                rotation: d.flowAngle(d.circleCenter, d.acquisitionPos)
+            }
+            ImageParticle {
+                groups: ["production"]
+                source: "qrc:/ui/particles/circle_05.png"
+                color: d.productionFlowColor
+                colorVariation: flowParticleSystem.colorVariation
+                alpha: flowParticleSystem.alpha
+                rotation: d.flowAngle(d.productionPos, d.circleCenter)
+            }
+            ImageParticle {
+                groups: ["storageCharging"]
+                source: "qrc:/ui/particles/circle_05.png"
+                color: Style.powerBatteryChargingColor
+                colorVariation: flowParticleSystem.colorVariation
+                alpha: flowParticleSystem.alpha
+                rotation: d.flowAngle(d.circleCenter, d.storagePos)
+            }
+            ImageParticle {
+                groups: ["storageDischarging"]
+                source: "qrc:/ui/particles/circle_05.png"
+                color: d.storageDischargingFlowColor
+                colorVariation: flowParticleSystem.colorVariation
+                alpha: flowParticleSystem.alpha
+                rotation: d.flowAngle(d.storagePos, d.circleCenter)
+            }
+            ImageParticle {
+                groups: ["evCharger"]
+                source: "qrc:/ui/particles/circle_05.png"
+                color: d.evChargerFlowColor
+                colorVariation: flowParticleSystem.colorVariation
+                alpha: flowParticleSystem.alpha
+                rotation: root.evIn > root.visiblePowerThreshold
+                          ? d.flowAngle(d.circleCenter, d.evChargerPos)
+                          : d.flowAngle(d.evChargerPos, d.circleCenter)
+            }
+            ImageParticle {
+                groups: ["household"]
+                source: "qrc:/ui/particles/circle_05.png"
+                color: d.householdFlowColor
+                colorVariation: flowParticleSystem.colorVariation
+                alpha: flowParticleSystem.alpha
+                rotation: d.flowAngle(d.circleCenter, d.consumptionPos)
+            }
+        }
+
+        Emitter {
+            system: flowParticleSystem
+            group: "gridImport"
+            enabled: d.acquisitionVisible && d.flowEnabled(root.gridIn)
+            x: d.acquisitionPos.x - width / 2
+            y: d.acquisitionPos.y - height / 2
+            width: d.flowEmitterSize(root.gridIn)
+            height: width
+            emitRate: d.flowEmitRate(root.gridIn)
+            lifeSpan: d.flowLifeSpan(d.acquisitionPos, d.circleCenter)
+            size: d.particleSize
+            endSize: d.particleSize
+            velocity: AngleDirection { angle: d.flowAngle(d.acquisitionPos, d.circleCenter); magnitude: d.flowSpeed(root.gridIn) }
+        }
+
+        Emitter {
+            system: flowParticleSystem
+            group: "gridExport"
+            enabled: d.acquisitionVisible && d.flowEnabled(root.gridOut)
+            x: d.circleCenter.x - width / 2
+            y: d.circleCenter.y - height / 2
+            width: d.flowEmitterSize(root.gridOut)
+            height: width
+            emitRate: d.flowEmitRate(root.gridOut)
+            lifeSpan: d.flowLifeSpan(d.circleCenter, d.acquisitionPos)
+            size: d.particleSize
+            endSize: d.particleSize
+            velocity: AngleDirection { angle: d.flowAngle(d.circleCenter, d.acquisitionPos); magnitude: d.flowSpeed(root.gridOut) }
+        }
+
+        Emitter {
+            system: flowParticleSystem
+            group: "production"
+            enabled: d.productionVisible && d.flowEnabled(root.productionOut)
+            x: d.productionPos.x - width / 2
+            y: d.productionPos.y - height / 2
+            width: d.flowEmitterSize(root.productionOut)
+            height: width
+            emitRate: d.flowEmitRate(root.productionOut)
+            lifeSpan: d.flowLifeSpan(d.productionPos, d.circleCenter)
+            size: d.particleSize
+            endSize: d.particleSize
+            velocity: AngleDirection { angle: d.flowAngle(d.productionPos, d.circleCenter); magnitude: d.flowSpeed(root.productionOut) }
+        }
+
+        Emitter {
+            system: flowParticleSystem
+            group: "storageCharging"
+            enabled: d.storageVisible && d.flowEnabled(root.storageIn)
+            x: d.circleCenter.x - width / 2
+            y: d.circleCenter.y - height / 2
+            width: d.flowEmitterSize(root.storageIn)
+            height: width
+            emitRate: d.flowEmitRate(root.storageIn)
+            lifeSpan: d.flowLifeSpan(d.circleCenter, d.storagePos)
+            size: d.particleSize
+            endSize: d.particleSize
+            velocity: AngleDirection { angle: d.flowAngle(d.circleCenter, d.storagePos); magnitude: d.flowSpeed(root.storageIn) }
+        }
+
+        Emitter {
+            system: flowParticleSystem
+            group: "storageDischarging"
+            enabled: d.storageVisible && d.flowEnabled(root.storageOut)
+            x: d.storagePos.x - width / 2
+            y: d.storagePos.y - height / 2
+            width: d.flowEmitterSize(root.storageOut)
+            height: width
+            emitRate: d.flowEmitRate(root.storageOut)
+            lifeSpan: d.flowLifeSpan(d.storagePos, d.circleCenter)
+            size: d.particleSize
+            endSize: d.particleSize
+            velocity: AngleDirection { angle: d.flowAngle(d.storagePos, d.circleCenter); magnitude: d.flowSpeed(root.storageOut) }
+        }
+
+        Emitter {
+            system: flowParticleSystem
+            group: "evCharger"
+            enabled: d.evChargerVisible && d.flowEnabled(root.evIn)
+            x: d.circleCenter.x - width / 2
+            y: d.circleCenter.y - height / 2
+            width: d.flowEmitterSize(root.evIn)
+            height: width
+            emitRate: d.flowEmitRate(root.evIn)
+            lifeSpan: d.flowLifeSpan(d.circleCenter, d.evChargerPos)
+            size: d.particleSize
+            endSize: d.particleSize
+            velocity: AngleDirection { angle: d.flowAngle(d.circleCenter, d.evChargerPos); magnitude: d.flowSpeed(root.evIn) }
+        }
+
+        Emitter {
+            system: flowParticleSystem
+            group: "evCharger"
+            enabled: d.evChargerVisible && d.flowEnabled(root.evOut)
+            x: d.evChargerPos.x - width / 2
+            y: d.evChargerPos.y - height / 2
+            width: d.flowEmitterSize(root.evOut)
+            height: width
+            emitRate: d.flowEmitRate(root.evOut)
+            lifeSpan: d.flowLifeSpan(d.evChargerPos, d.circleCenter)
+            size: d.particleSize
+            endSize: d.particleSize
+            velocity: AngleDirection { angle: d.flowAngle(d.evChargerPos, d.circleCenter); magnitude: d.flowSpeed(root.evOut) }
+        }
+
+        Emitter {
+            system: flowParticleSystem
+            group: "household"
+            enabled: d.flowEnabled(root.homeIn)
+            x: d.circleCenter.x - width / 2
+            y: d.circleCenter.y - height / 2
+            width: d.flowEmitterSize(root.homeIn)
+            height: width
+            emitRate: d.flowEmitRate(root.homeIn)
+            lifeSpan: d.flowLifeSpan(d.circleCenter, d.consumptionPos)
+            size: d.particleSize
+            endSize: d.particleSize
+            velocity: AngleDirection { angle: d.flowAngle(d.circleCenter, d.consumptionPos); magnitude: d.flowSpeed(root.homeIn) }
+        }
 
         Connections {
             target: root.energyManager
             enabled: root.energyManager !== null
             function onPowerBalanceChanged() {
-                canvas.requestPaint()
                 root.updateConsumerUnknownSlice()
             }
         }
@@ -487,54 +622,6 @@ Item {
             function onModelReset() {
                 root.updateProductionSlices()
             }
-        }
-
-            Connections {
-                target: evChargerPowerRepeater
-                function onCurrentPowerChanged() {
-                    canvas.requestPaint()
-                }
-            }
-
-            function bezierCurvePoint(p0x, p0y, p1x, p1y, p2x, p2y, p3x, p3y, t) {
-                var x = Math.pow(1-t, 3)*p0x + 3*Math.pow(1-t, 2)*t*p1x + 3*(1-t)*Math.pow(t, 2)*p2x + Math.pow(t, 3)*p3x;
-                var y = Math.pow(1-t, 3)*p0y + 3*Math.pow(1-t, 2)*t*p1y + 3*(1-t)*Math.pow(t, 2)*p2y + Math.pow(t, 3)*p3y;
-                return Qt.point(x, y)
-            }
-
-            function circlePoint(center, radius, angle) {
-                var x = center.x + radius * Math.cos(angle * 2 * Math.PI / 360)
-                var y = center.y + radius * Math.sin(angle * 2 * Math.PI / 360)
-                return Qt.point(x, y)
-            }
-
-            function drawDottedCurve(ctx, start, end, size, color) {
-                var c1 = getControlPoint(start)
-                var c2 = getControlPoint(end)
-                ctx.fillStyle = color
-                ctx.strokeStyle = color
-                var count = 10;
-                for (var i = 1; i <= count; i++) {
-                    var offset = 1 / count;
-                    var progress = d.progress + i * offset
-                    if (progress > 1)
-                        progress -= 1
-                    var point = bezierCurvePoint(start.x, start.y, c1.x, c1.y, c2.x, c2.y, end.x, end.y, progress)
-    //                print("painting", d.progress, point.x, point.y)
-                    ctx.beginPath();
-                    ctx.arc(point.x, point.y, Math.max(1, size * 5), 0, 2 *Math.PI)
-                    ctx.stroke();
-                    ctx.fill();
-                    ctx.closePath();
-
-                }
-
-            }
-
-            function getControlPoint(point) {
-                return Qt.point(point.x * .1, point.y * .1)
-            }
-
         }
 
         Item {
