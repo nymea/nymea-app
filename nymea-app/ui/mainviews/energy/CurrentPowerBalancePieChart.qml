@@ -23,10 +23,10 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import QtQuick
-import QtQuick.Particles
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import QtQuick.Shapes
 import Qt5Compat.GraphicalEffects
 import QtCharts
 import Nymea
@@ -36,6 +36,8 @@ import "qrc:/ui/components"
 
 Item {
     id: root
+
+    implicitHeight: titleLabel.implicitHeight + d.preferredContentHeight + Style.smallMargins * 2
 
     property bool animationsEnabled: false
     property bool pauseParticleEmittersOnWindowFocusChanged: false
@@ -60,11 +62,10 @@ Item {
     readonly property double storageOut: Math.max(0, -energyManager.currentPowerStorage)
     readonly property double evIn: showEvChargers ? Math.max(0, evChargerPowerRepeater.currentPower) : 0
     readonly property double evOut: showEvChargers ? Math.max(0, -evChargerPowerRepeater.currentPower) : 0
-    readonly property double homeIn: showEvChargers ? Math.max(0, energyManager.currentPowerConsumption - evIn) : energyManager.currentPowerConsumption
-    readonly property double consumptionToCar: showEvChargers ? Math.max(0, evChargerPowerRepeater.currentPower) : 0
-    readonly property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption - consumptionToCar)
+    readonly property double homeIn: Math.max(0, energyManager.currentPowerConsumption)
+    readonly property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption)
     readonly property double visiblePowerThreshold: 0.05
-    readonly property bool particleEmittersEnabled: animationsEnabled && (!pauseParticleEmittersOnWindowFocusChanged || Qt.application.active)
+    readonly property bool flowAnimationsEnabled: animationsEnabled && (!pauseParticleEmittersOnWindowFocusChanged || Qt.application.active)
 
     function updateConsumerUnknownSlice() {
         var consumersSummation = 0
@@ -132,6 +133,7 @@ Item {
         d.unknownConsumerSlice = null
         d.idleConsumerSlice = null
 
+        var colorMap = {}
         var consumersSummation = 0
         for (var i = 0; i < root.consumers.count; i++) {
             let consumer = root.consumers.get(i)
@@ -144,6 +146,7 @@ Item {
             slice.color = NymeaUtils.generateColor(Style.generationBaseColor, i)
             slice.borderColor = slice.color
             slice.borderWidth = 0
+            colorMap[consumer] = slice.color
             currentPowerState.valueChanged.connect(function() {
                 slice.value = Math.max(0, currentPowerState.value)
                 root.updateConsumerUnknownSlice()
@@ -152,6 +155,7 @@ Item {
         }
 
         d.consumersSummation = consumersSummation
+        d.consumersColorMap = colorMap
 
         if (root.rootMeterConfigured) {
             d.unknownConsumerSlice = consumptionSeries.append(qsTr("Unknown"), Math.max(0, root.householdConsumption - consumersSummation))
@@ -187,6 +191,7 @@ Item {
         id: d
         property PieSlice unknownConsumerSlice: null
         property PieSlice idleConsumerSlice: null
+        property var consumersColorMap: ({})
         property double consumersSummation: 0
 
         function formatValue(value) {
@@ -198,13 +203,17 @@ Item {
             }
             return ret
         }
-        property int chartSize: Math.min(contentContainer.width / 2.7, contentContainer.height / 3)
-
         property bool acquisitionVisible: root.rootMeterConfigured
-        property bool productionVisible: producers.count > 0
-        property bool storageVisible: batteries.count > 0
-        property bool evChargerVisible: root.showEvChargers && evChargers.count > 0
+        property bool productionVisible: root.rootMeterConfigured && producers.count > 0
+        property bool storageVisible: root.rootMeterConfigured && batteries.count > 0
+        property bool evChargerVisible: root.rootMeterConfigured && root.showEvChargers && evChargers.count > 0
         property bool consumptionVisible: true
+
+        // The normal layout is square. EV chargers add a lower row and need extra height.
+        property real layoutHeightFactor: evChargerVisible ? 4 : 3.2
+        property int chartSize: Math.min(contentContainer.width / 3.2, contentContainer.height / layoutHeightFactor)
+        property real preferredContentHeight: contentContainer.width / 3.2 * layoutHeightFactor
+
         property color gridImportFlowColor: Style.powerAcquisitionColor
         property color gridExportFlowColor: Style.powerReturnColor
         property color productionFlowColor: Style.powerReturnColor
@@ -212,100 +221,45 @@ Item {
         property color storageDischargingFlowColor: Style.powerBatteryDischargingColor
         property color evChargerFlowColor: app.interfaceToColor("electricvehicle")
         property color householdFlowColor: Style.powerSelfProductionConsumptionColor
-        property int minimumParticleSpeed: 20
-        property int maximumParticleSpeed: 120
-        property int particleSize: Math.max(10, chartSize * 0.12)
-        property double minimumParticleRate: 14 * 8
-        property double maximumParticleRate: 50 * 8
-        property int minimumEmitterSize: particleSize / 2
-        property int maximumEmitterSize: Math.max(minimumEmitterSize, chartSize * 0.225 / 3)
-        property double minimumEmitterPower: 100
-        property double maximumEmitterPower: 5000
+        property double minimumFlowPower: 100
+        property double maximumFlowPower: 5000
+        property double minimumFlowWidth: Math.max(5, chartSize * 0.04)
+        property double maximumFlowWidth: Math.max(minimumFlowWidth * 2, chartSize * 0.08)
+        property double flowBackgroundExtraWidth: Math.max(3, chartSize * 0.035)
+        property double flowDashMargin: Math.max(0.5, chartSize * 0.004)
+        property int minimumDashDuration: 800
+        property int maximumDashDuration: 10000
+        property int dashLength: 32
+        property int dashGap: 16
 
-        property point circleCenter: Qt.point(contentContainer.width / 2, contentContainer.height / 2)
-        property double circleRadius: Math.max(0, Math.min(contentContainer.width / 2 - chartSize / 2 - Style.margins,
-                                                          contentContainer.height / 2 - chartSize / 2 - Style.margins))
-
-        function circlePos(index, count) {
-            var angle = -90 + index * 360 / count
-            return Qt.point(circleCenter.x + circleRadius * Math.cos(angle * Math.PI / 180),
-                            circleCenter.y + circleRadius * Math.sin(angle * Math.PI / 180))
-        }
-
-        property int circleCount: (acquisitionVisible ? 1 : 0) + (productionVisible ? 1 : 0) + (consumptionVisible ? 1 : 0)
-                                  + (evChargerVisible ? 1 : 0) + (storageVisible ? 1 : 0)
-
-        function visibleIndex(node) {
-            var index = 0
-            if (node === "acquisition")
-                return index
-            if (acquisitionVisible)
-                index++
-            if (node === "production")
-                return index
-            if (productionVisible)
-                index++
-            if (node === "consumption")
-                return index
-            if (consumptionVisible)
-                index++
-            if (node === "evCharger")
-                return index
-            if (evChargerVisible)
-                index++
-            return index
-        }
-
-        property point acquisitionPos: circlePos(visibleIndex("acquisition"), circleCount)
-        property point productionPos: circlePos(visibleIndex("production"), circleCount)
-        property point evChargerPos: circlePos(visibleIndex("evCharger"), circleCount)
-        property point consumptionPos: circlePos(visibleIndex("consumption"), circleCount)
-        property point storagePos: circlePos(visibleIndex("storage"), circleCount)
+        property point consumptionPos: Qt.point(contentContainer.width / 2, contentContainer.height / 2)
+        property point acquisitionPos: Qt.point(contentContainer.width / 2, chartSize / 2)
+        property point productionPos: Qt.point(contentContainer.width - chartSize / 2, chartSize)
+        property point storagePos: Qt.point(chartSize / 2, chartSize)
+        property point evChargerPos: Qt.point(consumptionPos.x, consumptionPos.y + chartSize * 1.5)
+        property point consumptionLeftPos: Qt.point(consumptionPos.x, consumptionPos.y)
+        property point consumptionRightPos: Qt.point(consumptionPos.x, consumptionPos.y)
 
         function flowEnabled(power) {
-            return root.particleEmittersEnabled && power > root.visiblePowerThreshold
-        }
-
-        function flowEmitRate(power) {
-            var biggest = Math.max(root.gridIn, root.gridOut, root.productionOut, root.storageIn, root.storageOut,
-                                   root.evIn, root.evOut, Math.max(0, root.homeIn))
-            if (biggest <= root.visiblePowerThreshold || power <= root.visiblePowerThreshold) {
-                return 0
-            }
-
-            return minimumParticleRate + (maximumParticleRate - minimumParticleRate) * Math.min(1, power / biggest)
-        }
-
-        function flowEmitterSize(power) {
-            if (power <= root.visiblePowerThreshold) {
-                return minimumEmitterSize
-            }
-
-            var ratio = flowPowerRatio(power)
-            return minimumEmitterSize + (maximumEmitterSize - minimumEmitterSize) * ratio
-        }
-
-        function flowLifeSpan(start, end) {
-            return Math.max(400, distance(start, end) / maximumParticleSpeed * 1000) * 4
-        }
-
-        function flowAngle(start, end) {
-            return Math.atan2(end.y - start.y, end.x - start.x) * 180 / Math.PI
-        }
-
-        function distance(start, end) {
-            var dx = end.x - start.x
-            var dy = end.y - start.y
-            return Math.sqrt(dx * dx + dy * dy)
+            return power > root.visiblePowerThreshold
         }
 
         function flowPowerRatio(power) {
-            var clampedPower = Math.max(minimumEmitterPower, Math.min(maximumEmitterPower, power))
-            return (clampedPower - minimumEmitterPower) / (maximumEmitterPower - minimumEmitterPower)
+            var clampedPower = Math.max(minimumFlowPower, Math.min(maximumFlowPower, power))
+            return (clampedPower - minimumFlowPower) / (maximumFlowPower - minimumFlowPower)
         }
 
-        function flowSpeed(power) {
-            return minimumParticleSpeed + (maximumParticleSpeed - minimumParticleSpeed) * flowPowerRatio(power)
+        function flowWidth(power) {
+            return minimumFlowWidth + (maximumFlowWidth - minimumFlowWidth) * Math.sqrt(flowPowerRatio(power))
+        }
+
+        function flowBackgroundWidth(power) {
+            return flowWidth(power) + flowBackgroundExtraWidth
+        }
+
+        function flowDuration(power) {
+            var ratio = flowPowerRatio(power)
+            return maximumDashDuration - (maximumDashDuration - minimumDashDuration) * Math.sqrt(ratio)
         }
     }
 
@@ -392,195 +346,218 @@ Item {
         }
     }
 
+    component FlowCurve: Item {
+        id: flowCurve
+
+        property bool flowVisible: false
+        property bool animationsEnabled: false
+        property point startPoint: Qt.point(0, 0)
+        property point endPoint: Qt.point(0, 0)
+        property color flowColor: Style.accentColor
+        property real lineWidth: 2
+        property real backgroundLineWidth: 6
+        property real dashMargin: 1
+        // Curve strength relative to the available chart width.
+        // Positive values bend to one side of the path, negative values to the other.
+        property real bendRatio: 0
+        property int dashLength: 2
+        property int dashGap: 1
+        property int animationDuration: 1200
+        property real dashOffset: 0
+        readonly property real dx: endPoint.x - startPoint.x
+        readonly property real dy: endPoint.y - startPoint.y
+        readonly property real length: Math.max(1, Math.sqrt(dx * dx + dy * dy))
+        readonly property real normalX: -dy / length
+        readonly property real normalY: dx / length
+        readonly property real bend: width * bendRatio
+        readonly property real controlX: (startPoint.x + endPoint.x) / 2 + normalX * bend
+        readonly property real controlY: (startPoint.y + endPoint.y) / 2 + normalY * bend
+
+        anchors.fill: parent
+        visible: flowVisible
+        opacity: 0.9
+
+        NumberAnimation on dashOffset {
+            from: 0
+            to: flowCurve.dashLength + flowCurve.dashGap
+            duration: flowCurve.animationDuration
+            loops: Animation.Infinite
+            running: flowCurve.flowVisible && flowCurve.animationsEnabled
+        }
+
+        Shape {
+            anchors.fill: parent
+
+            ShapePath {
+                id: flowBackgroundPath
+                fillColor: "transparent"
+                strokeColor: Qt.rgba(flowCurve.flowColor.r, flowCurve.flowColor.g, flowCurve.flowColor.b, 0.12)
+                strokeWidth: flowCurve.backgroundLineWidth
+                capStyle: ShapePath.FlatCap
+                joinStyle: ShapePath.RoundJoin
+                startX: flowCurve.startPoint.x
+                startY: flowCurve.startPoint.y
+
+                PathCubic {
+                    control1X: flowCurve.controlX
+                    control1Y: flowCurve.controlY
+                    control2X: flowCurve.controlX
+                    control2Y: flowCurve.controlY
+                    x: flowCurve.endPoint.x
+                    y: flowCurve.endPoint.y
+                }
+            }
+        }
+
+        Shape {
+            anchors.fill: parent
+
+            ShapePath {
+                id: flowPath
+
+                readonly property real effectiveStrokeWidth: Math.max(1, flowCurve.lineWidth - flowCurve.dashMargin * 2)
+
+                fillColor: "transparent"
+                strokeColor: flowCurve.flowColor
+                strokeWidth: effectiveStrokeWidth
+                strokeStyle: ShapePath.DashLine
+                capStyle: ShapePath.FlatCap
+                joinStyle: ShapePath.RoundJoin
+                // Qt Shapes define dash lengths as multiples of the stroke width.
+                dashPattern: [
+                    flowCurve.dashLength / effectiveStrokeWidth,
+                    flowCurve.dashGap / effectiveStrokeWidth
+                ]
+                dashOffset: -flowCurve.dashOffset / effectiveStrokeWidth
+                startX: flowCurve.startPoint.x
+                startY: flowCurve.startPoint.y
+
+                PathCubic {
+                    control1X: flowCurve.controlX
+                    control1Y: flowCurve.controlY
+                    control2X: flowCurve.controlX
+                    control2Y: flowCurve.controlY
+                    x: flowCurve.endPoint.x
+                    y: flowCurve.endPoint.y
+                }
+            }
+        }
+    }
+
     Item {
         id: contentContainer
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom; top: titleLabel.bottom}
 
-        ParticleSystem {
-            id: flowParticleSystem
-            anchors.fill: parent
-
-            readonly property real alpha: 0.6
-            property real colorVariation: 0.02
-
-            ImageParticle {
-                groups: ["gridImport"]
-                source: "qrc:/ui/particles/circle_05.png"
-                color: d.gridImportFlowColor
-                colorVariation: flowParticleSystem.colorVariation
-                alpha: flowParticleSystem.alpha
-                rotation: d.flowAngle(d.acquisitionPos, d.circleCenter)
-            }
-            ImageParticle {
-                groups: ["gridExport"]
-                source: "qrc:/ui/particles/circle_05.png"
-                color: d.gridExportFlowColor
-                colorVariation: flowParticleSystem.colorVariation
-                alpha: flowParticleSystem.alpha
-                rotation: d.flowAngle(d.circleCenter, d.acquisitionPos)
-            }
-            ImageParticle {
-                groups: ["production"]
-                source: "qrc:/ui/particles/circle_05.png"
-                color: d.productionFlowColor
-                colorVariation: flowParticleSystem.colorVariation
-                alpha: flowParticleSystem.alpha
-                rotation: d.flowAngle(d.productionPos, d.circleCenter)
-            }
-            ImageParticle {
-                groups: ["storageCharging"]
-                source: "qrc:/ui/particles/circle_05.png"
-                color: Style.powerBatteryChargingColor
-                colorVariation: flowParticleSystem.colorVariation
-                alpha: flowParticleSystem.alpha
-                rotation: d.flowAngle(d.circleCenter, d.storagePos)
-            }
-            ImageParticle {
-                groups: ["storageDischarging"]
-                source: "qrc:/ui/particles/circle_05.png"
-                color: d.storageDischargingFlowColor
-                colorVariation: flowParticleSystem.colorVariation
-                alpha: flowParticleSystem.alpha
-                rotation: d.flowAngle(d.storagePos, d.circleCenter)
-            }
-            ImageParticle {
-                groups: ["evCharger"]
-                source: "qrc:/ui/particles/circle_05.png"
-                color: d.evChargerFlowColor
-                colorVariation: flowParticleSystem.colorVariation
-                alpha: flowParticleSystem.alpha
-                rotation: root.evIn > root.visiblePowerThreshold
-                          ? d.flowAngle(d.circleCenter, d.evChargerPos)
-                          : d.flowAngle(d.evChargerPos, d.circleCenter)
-            }
-            ImageParticle {
-                groups: ["household"]
-                source: "qrc:/ui/particles/circle_05.png"
-                color: d.householdFlowColor
-                colorVariation: flowParticleSystem.colorVariation
-                alpha: flowParticleSystem.alpha
-                rotation: d.flowAngle(d.circleCenter, d.consumptionPos)
-            }
+        FlowCurve {
+            id: gridImportFlowCurve
+            flowVisible: d.acquisitionVisible && d.flowEnabled(root.gridIn)
+            animationsEnabled: root.flowAnimationsEnabled
+            startPoint: d.acquisitionPos
+            endPoint: d.consumptionRightPos
+            flowColor: d.gridImportFlowColor
+            lineWidth: d.flowWidth(root.gridIn)
+            backgroundLineWidth: d.flowBackgroundWidth(root.gridIn)
+            dashMargin: d.flowDashMargin
+            bendRatio: 0
+            dashLength: d.dashLength
+            dashGap: d.dashGap
+            animationDuration: d.flowDuration(root.gridIn)
         }
 
-        Emitter {
-            system: flowParticleSystem
-            group: "gridImport"
-            enabled: d.acquisitionVisible && d.flowEnabled(root.gridIn)
-            x: d.acquisitionPos.x - width / 2
-            y: d.acquisitionPos.y - height / 2
-            width: d.flowEmitterSize(root.gridIn)
-            height: width
-            emitRate: d.flowEmitRate(root.gridIn)
-            lifeSpan: d.flowLifeSpan(d.acquisitionPos, d.circleCenter)
-            size: d.particleSize
-            endSize: d.particleSize
-            velocity: AngleDirection { angle: d.flowAngle(d.acquisitionPos, d.circleCenter); magnitude: d.flowSpeed(root.gridIn) }
+        FlowCurve {
+            id: gridExportFlowCurve
+            flowVisible: d.acquisitionVisible && d.flowEnabled(root.gridOut)
+            animationsEnabled: root.flowAnimationsEnabled
+            startPoint: d.consumptionLeftPos
+            endPoint: d.acquisitionPos
+            flowColor: d.gridExportFlowColor
+            lineWidth: d.flowWidth(root.gridOut)
+            backgroundLineWidth: d.flowBackgroundWidth(root.gridOut)
+            dashMargin: d.flowDashMargin
+            bendRatio: 0
+            dashLength: d.dashLength
+            dashGap: d.dashGap
+            animationDuration: d.flowDuration(root.gridOut)
         }
 
-        Emitter {
-            system: flowParticleSystem
-            group: "gridExport"
-            enabled: d.acquisitionVisible && d.flowEnabled(root.gridOut)
-            x: d.circleCenter.x - width / 2
-            y: d.circleCenter.y - height / 2
-            width: d.flowEmitterSize(root.gridOut)
-            height: width
-            emitRate: d.flowEmitRate(root.gridOut)
-            lifeSpan: d.flowLifeSpan(d.circleCenter, d.acquisitionPos)
-            size: d.particleSize
-            endSize: d.particleSize
-            velocity: AngleDirection { angle: d.flowAngle(d.circleCenter, d.acquisitionPos); magnitude: d.flowSpeed(root.gridOut) }
+        FlowCurve {
+            id: pvProductionFlowCurve
+            flowVisible: d.productionVisible && d.flowEnabled(root.productionOut)
+            animationsEnabled: root.flowAnimationsEnabled
+            startPoint: d.productionPos
+            endPoint: d.consumptionRightPos
+            flowColor: d.productionFlowColor
+            lineWidth: d.flowWidth(root.productionOut)
+            backgroundLineWidth: d.flowBackgroundWidth(root.productionOut)
+            dashMargin: d.flowDashMargin
+            bendRatio: -0.12
+            dashLength: d.dashLength
+            dashGap: d.dashGap
+            animationDuration: d.flowDuration(root.productionOut)
         }
 
-        Emitter {
-            system: flowParticleSystem
-            group: "production"
-            enabled: d.productionVisible && d.flowEnabled(root.productionOut)
-            x: d.productionPos.x - width / 2
-            y: d.productionPos.y - height / 2
-            width: d.flowEmitterSize(root.productionOut)
-            height: width
-            emitRate: d.flowEmitRate(root.productionOut)
-            lifeSpan: d.flowLifeSpan(d.productionPos, d.circleCenter)
-            size: d.particleSize
-            endSize: d.particleSize
-            velocity: AngleDirection { angle: d.flowAngle(d.productionPos, d.circleCenter); magnitude: d.flowSpeed(root.productionOut) }
+        FlowCurve {
+            id: batteryChargingFlowCurve
+            flowVisible: d.storageVisible && d.flowEnabled(root.storageIn)
+            animationsEnabled: root.flowAnimationsEnabled
+            startPoint: d.consumptionLeftPos
+            endPoint: d.storagePos
+            flowColor: d.storageChargingFlowColor
+            lineWidth: d.flowWidth(root.storageIn)
+            backgroundLineWidth: d.flowBackgroundWidth(root.storageIn)
+            dashMargin: d.flowDashMargin
+            bendRatio: -0.12
+            dashLength: d.dashLength
+            dashGap: d.dashGap
+            animationDuration: d.flowDuration(root.storageIn)
         }
 
-        Emitter {
-            system: flowParticleSystem
-            group: "storageCharging"
-            enabled: d.storageVisible && d.flowEnabled(root.storageIn)
-            x: d.circleCenter.x - width / 2
-            y: d.circleCenter.y - height / 2
-            width: d.flowEmitterSize(root.storageIn)
-            height: width
-            emitRate: d.flowEmitRate(root.storageIn)
-            lifeSpan: d.flowLifeSpan(d.circleCenter, d.storagePos)
-            size: d.particleSize
-            endSize: d.particleSize
-            velocity: AngleDirection { angle: d.flowAngle(d.circleCenter, d.storagePos); magnitude: d.flowSpeed(root.storageIn) }
+        FlowCurve {
+            id: batteryDischargingFlowCurve
+            flowVisible: d.storageVisible && d.flowEnabled(root.storageOut)
+            animationsEnabled: root.flowAnimationsEnabled
+            startPoint: d.storagePos
+            endPoint: d.consumptionLeftPos
+            flowColor: d.storageDischargingFlowColor
+            lineWidth: d.flowWidth(root.storageOut)
+            backgroundLineWidth: d.flowBackgroundWidth(root.storageOut)
+            dashMargin: d.flowDashMargin
+            bendRatio: 0.12
+            dashLength: d.dashLength
+            dashGap: d.dashGap
+            animationDuration: d.flowDuration(root.storageOut)
         }
 
-        Emitter {
-            system: flowParticleSystem
-            group: "storageDischarging"
-            enabled: d.storageVisible && d.flowEnabled(root.storageOut)
-            x: d.storagePos.x - width / 2
-            y: d.storagePos.y - height / 2
-            width: d.flowEmitterSize(root.storageOut)
-            height: width
-            emitRate: d.flowEmitRate(root.storageOut)
-            lifeSpan: d.flowLifeSpan(d.storagePos, d.circleCenter)
-            size: d.particleSize
-            endSize: d.particleSize
-            velocity: AngleDirection { angle: d.flowAngle(d.storagePos, d.circleCenter); magnitude: d.flowSpeed(root.storageOut) }
+        FlowCurve {
+            id: evChargerChargingFlowCurve
+            flowVisible: d.evChargerVisible && d.flowEnabled(root.evIn)
+            animationsEnabled: root.flowAnimationsEnabled
+            startPoint: d.consumptionPos
+            endPoint: d.evChargerPos
+            flowColor: d.evChargerFlowColor
+            lineWidth: d.flowWidth(root.evIn)
+            backgroundLineWidth: d.flowBackgroundWidth(root.evIn)
+            dashMargin: d.flowDashMargin
+            bendRatio: 0
+            dashLength: d.dashLength
+            dashGap: d.dashGap
+            animationDuration: d.flowDuration(root.evIn)
         }
 
-        Emitter {
-            system: flowParticleSystem
-            group: "evCharger"
-            enabled: d.evChargerVisible && d.flowEnabled(root.evIn)
-            x: d.circleCenter.x - width / 2
-            y: d.circleCenter.y - height / 2
-            width: d.flowEmitterSize(root.evIn)
-            height: width
-            emitRate: d.flowEmitRate(root.evIn)
-            lifeSpan: d.flowLifeSpan(d.circleCenter, d.evChargerPos)
-            size: d.particleSize
-            endSize: d.particleSize
-            velocity: AngleDirection { angle: d.flowAngle(d.circleCenter, d.evChargerPos); magnitude: d.flowSpeed(root.evIn) }
-        }
-
-        Emitter {
-            system: flowParticleSystem
-            group: "evCharger"
-            enabled: d.evChargerVisible && d.flowEnabled(root.evOut)
-            x: d.evChargerPos.x - width / 2
-            y: d.evChargerPos.y - height / 2
-            width: d.flowEmitterSize(root.evOut)
-            height: width
-            emitRate: d.flowEmitRate(root.evOut)
-            lifeSpan: d.flowLifeSpan(d.evChargerPos, d.circleCenter)
-            size: d.particleSize
-            endSize: d.particleSize
-            velocity: AngleDirection { angle: d.flowAngle(d.evChargerPos, d.circleCenter); magnitude: d.flowSpeed(root.evOut) }
-        }
-
-        Emitter {
-            system: flowParticleSystem
-            group: "household"
-            enabled: d.flowEnabled(root.homeIn)
-            x: d.circleCenter.x - width / 2
-            y: d.circleCenter.y - height / 2
-            width: d.flowEmitterSize(root.homeIn)
-            height: width
-            emitRate: d.flowEmitRate(root.homeIn)
-            lifeSpan: d.flowLifeSpan(d.circleCenter, d.consumptionPos)
-            size: d.particleSize
-            endSize: d.particleSize
-            velocity: AngleDirection { angle: d.flowAngle(d.circleCenter, d.consumptionPos); magnitude: d.flowSpeed(root.homeIn) }
+        FlowCurve {
+            id: evChargerDischargingFlowCurve
+            flowVisible: d.evChargerVisible && d.flowEnabled(root.evOut)
+            animationsEnabled: root.flowAnimationsEnabled
+            startPoint: d.evChargerPos
+            endPoint: d.consumptionPos
+            flowColor: d.evChargerFlowColor
+            lineWidth: d.flowWidth(root.evOut)
+            backgroundLineWidth: d.flowBackgroundWidth(root.evOut)
+            dashMargin: d.flowDashMargin
+            bendRatio: 0
+            dashLength: d.dashLength
+            dashGap: d.dashGap
+            animationDuration: d.flowDuration(root.evOut)
         }
 
         Connections {
@@ -765,6 +742,7 @@ Item {
             ColumnLayout {
                 anchors.centerIn: parent
                 width: consumptionChart.plotArea.width * 0.8
+                visible: root.rootMeterConfigured
                 ColorIcon {
                     Layout.alignment: Qt.AlignHCenter
                     size: Style.bigIconSize
@@ -775,8 +753,60 @@ Item {
                 Label {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
-                    text: energyManager.currentPowerConsumption < 0 ? "?" : d.formatValue(root.householdConsumption)
+                    text: root.rootMeterConfigured
+                          ? (energyManager.currentPowerConsumption < 0 ? "?" : d.formatValue(root.householdConsumption))
+                          : d.formatValue(d.consumersSummation)
         //            color: energyManager.currentPowerAcquisition >= 0 ? Style.red : Style.green
+                }
+            }
+
+            Flickable {
+                id: noRootConsumersLayout
+                anchors.centerIn: parent
+                width: consumptionChart.plotArea.width * 0.7
+                height: Math.min(noRootConsumersColumn.implicitHeight, width)
+                contentHeight: noRootConsumersColumn.implicitHeight
+                clip: true
+                visible: !root.rootMeterConfigured
+
+                ColumnLayout {
+                    id: noRootConsumersColumn
+                    width: parent.width
+                    spacing: Style.smallMargins
+
+                    Repeater {
+                        model: ThingsProxy {
+                            engine: _engine
+                            parentProxy: root.consumers
+                            sortStateName: "currentPower"
+                            sortOrder: Qt.DescendingOrder
+                        }
+
+                        delegate: ColumnLayout {
+                            width: parent ? parent.width : 0
+                            spacing: 0
+                            property Thing consumer: root.consumers ? root.consumers.getThing(model.id) : null
+                            property State currentPowerState: consumer ? consumer.stateByName("currentPower") : null
+                            property double value: currentPowerState ? currentPowerState.value : 0
+
+                            Label {
+                                text: model.name
+                                Layout.fillWidth: true
+                                horizontalAlignment: Text.AlignHCenter
+                                font: Style.extraSmallFont
+                            }
+                            Label {
+                                property double absValue: Math.max(0, parent.value)
+                                color: d.consumersColorMap.hasOwnProperty(parent.consumer) ? d.consumersColorMap[parent.consumer] : "transparent"
+                                text: "%1 %2"
+                                .arg((absValue / (absValue > 1000 ? 1000 : 1)).toFixed(1))
+                                .arg(absValue > 1000 ? "kW" : "W")
+                                Layout.fillWidth: true
+                                horizontalAlignment: Text.AlignHCenter
+                                font: Style.smallFont
+                            }
+                        }
+                    }
                 }
             }
 
@@ -787,7 +817,7 @@ Item {
                 legend.visible: false
                 backgroundColor: "transparent"
                 animationOptions: root.animationsEnabled ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
-                rotation: !d.productionVisible || d.storageVisible ? -50 : 0
+                rotation: root.rootMeterConfigured ? (!d.productionVisible || d.storageVisible ? -50 : 0) : 0
 
                 PieSeries {
                     id: consumptionSeries

@@ -109,7 +109,7 @@ MainViewBase {
 
                 CurrentPowerBalancePieChart {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: width
+                    Layout.preferredHeight: implicitHeight
                     energyManager: energyManager
                     consumers: consumers
                     visible: rootMeter != null || producers.count > 0
