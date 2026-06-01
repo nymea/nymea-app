@@ -218,7 +218,7 @@ Item {
         property color productionFlowColor: Style.powerReturnColor
         property color storageChargingFlowColor: Style.powerBatteryChargingColor
         property color storageDischargingFlowColor: Style.powerBatteryDischargingColor
-        property color evChargerFlowColor: app.interfaceToColor("electricvehicle")
+        property color evChargerFlowColor: app.interfaceToColor("evcharger")
         property color householdFlowColor: Style.powerSelfProductionConsumptionColor
         property double minimumFlowPower: 100
         property double maximumFlowPower: 5000
@@ -227,9 +227,9 @@ Item {
         property double flowBackgroundExtraWidth: Math.max(3, chartSize * 0.035)
         property double flowDashMargin: Math.max(0.5, chartSize * 0.004)
         property int minimumDashDuration: 800
-        property int maximumDashDuration: 10000
+        property int maximumDashDuration: 8000
         property int dashLength: 32
-        property int dashGap: 16
+        property int dashGap: 24
         property int directionChangePauseDuration: 120
 
         property point consumptionPos: Qt.point(contentContainer.width / 2, chartSize * 1.9)
@@ -432,7 +432,7 @@ Item {
             startPoint: d.consumptionPos
             endPoint: d.evChargerPos
             reverse: evChargerPowerRepeater.currentPower < 0
-            flowColor: d.evChargerFlowColor
+            flowColor: reverse ? d.storageDischargingFlowColor : d.evChargerFlowColor
             backgroundColor: Qt.rgba(flowColor.r, flowColor.g, flowColor.b, 0.12)
             lineWidth: d.signedFlowWidth(evChargerPowerRepeater.currentPower)
             backgroundLineWidth: d.signedFlowBackgroundWidth(evChargerPowerRepeater.currentPower)
