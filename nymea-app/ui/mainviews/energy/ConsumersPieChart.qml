@@ -40,8 +40,10 @@ Item {
     property ThingsProxy consumers: null
     property bool animationsEnabled: true
     property bool titleVisible: true
+    property bool showEvChargers: true
 
     readonly property Thing rootMeter: engine.thingManager.fetchingData ? null : engine.thingManager.things.getThing(energyManager.rootMeterId)
+    readonly property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption - (showEvChargers ? evChargerPowerRepeater.currentPower : 0))
     onRootMeterChanged: updateConsumers()
 
     Connections {
@@ -71,8 +73,37 @@ Item {
             }
             d.consumersSummation = consumersSummation;
             if (d.unknownSlice) {
-                d.unknownSlice.value = Math.max(0, energyManager.currentPowerConsumption - consumersSummation)
+                d.unknownSlice.value = Math.max(0, root.householdConsumption - consumersSummation)
             }
+        }
+    }
+
+    ThingsProxy {
+        id: evChargers
+        engine: _engine
+        shownInterfaces: ["evcharger"]
+    }
+
+    Repeater {
+        id: evChargerPowerRepeater
+        model: evChargers
+
+        property double currentPower: {
+            var power = 0
+            for (var i = 0; i < evChargerPowerRepeater.count; i++) {
+                var item = evChargerPowerRepeater.itemAt(i)
+                if (item && item.hasCurrentPower) {
+                    power += item.currentPower
+                }
+            }
+            return power
+        }
+
+        delegate: Item {
+            property Thing thing: evChargers.get(index)
+            property State currentPowerState: thing ? thing.stateByName("currentPower") : null
+            property bool hasCurrentPower: currentPowerState !== null
+            property double currentPower: currentPowerState ? currentPowerState.value : 0
         }
     }
 
@@ -117,7 +148,7 @@ Item {
         d.consumersSummation = consumersSummation
 
         if (root.rootMeter) {
-            var unknownConsumption = Math.max(0, energyManager.currentPowerConsumption - consumersSummation)
+            var unknownConsumption = Math.max(0, root.householdConsumption - consumersSummation)
             d.unknownSlice = consumersBalanceSeries.append(qsTr("Unknown"), unknownConsumption)
             d.unknownSlice.color = Style.gray
             d.unknownSlice.borderColor = Style.gray
@@ -142,10 +173,10 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         text: qsTr("Consumers balance")
         visible: root.titleVisible
-        MouseArea {
+            MouseArea {
             anchors.fill: parent
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("ConsumersPieChartPage.qml"), {energyManager: root.energyManager, consumers: root.consumers})
+                pageStack.push(Qt.resolvedUrl("ConsumersPieChartPage.qml"), {energyManager: root.energyManager, consumers: root.consumers, showEvChargers: root.showEvChargers})
             }
         }
     }
@@ -208,7 +239,7 @@ Item {
                         // * in a standard setup, the energy manager would know everything and the consumption will always be greater than the sum of all individual consumers
                         // * if there is a producer which is unknown to nymea though, it will decrease the consumption on the root meter so it may be smaller than the
                         //   summation of all consumers. In this particular chart that would be nonsense so in the end we'll only lose the "unknown" power consumption in such a setup
-                        property double finalTotal: Math.max(energyManager.currentPowerConsumption, d.consumersSummation)
+                        property double finalTotal: Math.max(root.householdConsumption, d.consumersSummation)
                         text: "%1 %2"
                         .arg((finalTotal / (finalTotal > 1000 ? 1000 : 1)).toFixed(1))
                         .arg(finalTotal > 1000 ? "kW" : "W")

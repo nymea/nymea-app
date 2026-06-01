@@ -631,7 +631,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter
                     size: Style.bigIconSize
                     //            color: Style.blue
-                    name: root.homeIcon === "" ? "qrc:/icons/powersocket.svg": root.homeIcon
+                    name: root.homeIcon === "" ? "qrc:/icons/home.svg": root.homeIcon
 
                 }
                 Label {
