@@ -198,7 +198,7 @@ Item {
             if (Math.abs(value) >= 1000) {
                 ret = (value / 1000).toFixed(1) + "kW"
             } else {
-                ret = value.toFixed(1) +  "W"
+                ret = value.toFixed(0) +  "W"
             }
             return ret
         }
