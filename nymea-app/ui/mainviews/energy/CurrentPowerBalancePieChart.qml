@@ -61,8 +61,8 @@ Item {
     readonly property double storageOut: Math.max(0, -energyManager.currentPowerStorage)
     readonly property double evIn: showEvChargers ? Math.max(0, evChargerPowerRepeater.currentPower) : 0
     readonly property double evOut: showEvChargers ? Math.max(0, -evChargerPowerRepeater.currentPower) : 0
-    readonly property double homeIn: Math.max(0, energyManager.currentPowerConsumption)
-    readonly property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption)
+    readonly property double homeIn: Math.max(0, householdConsumption)
+    readonly property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption - (showEvChargers ? evChargerPowerRepeater.currentPower : 0))
     readonly property double visiblePowerThreshold: 0.05
     readonly property bool flowAnimationsEnabled: animationsEnabled && (!pauseParticleEmittersOnWindowFocusChanged || Qt.application.active)
 
@@ -99,7 +99,7 @@ Item {
             let currentPowerState = producer ? producer.stateByName("currentPower") : null
             var value = currentPowerState ? Math.abs(currentPowerState.value) : 0.00001
             let slice = productionSeries.append(producer ? producer.name : "", Math.max(0.00001, value))
-            slice.color = NymeaUtils.generateColor(Style.generationBaseColor, i)
+            slice.color = NymeaUtils.generateColor(Style.powerReturnColor, i)
             slice.borderColor = slice.color
             slice.borderWidth = 0
             if (currentPowerState) {
@@ -208,10 +208,10 @@ Item {
         property bool evChargerVisible: root.rootMeterConfigured && root.showEvChargers && evChargers.count > 0
         property bool consumptionVisible: true
 
-        // The normal layout is square. EV chargers add a lower row and need extra height.
-        property real layoutHeightFactor: evChargerVisible ? 4 : 3.2
-        property int chartSize: Math.min(contentContainer.width / 3.2, contentContainer.height / layoutHeightFactor)
-        property real preferredContentHeight: contentContainer.width / 3.2 * layoutHeightFactor
+        property real layoutWidthFactor: 3.2
+        property real layoutHeightFactor: evChargerVisible ? 4 : 2.9
+        property int chartSize: contentContainer.width / layoutWidthFactor
+        property real preferredContentHeight: chartSize * layoutHeightFactor
 
         property color gridImportFlowColor: Style.powerAcquisitionColor
         property color gridExportFlowColor: Style.powerReturnColor
@@ -232,7 +232,7 @@ Item {
         property int dashGap: 16
         property int directionChangePauseDuration: 120
 
-        property point consumptionPos: Qt.point(contentContainer.width / 2, contentContainer.height / 2)
+        property point consumptionPos: Qt.point(contentContainer.width / 2, chartSize * 1.9)
         property point acquisitionPos: Qt.point(contentContainer.width / 2, chartSize / 2)
         property point productionPos: Qt.point(contentContainer.width - chartSize / 2, chartSize)
         property point storagePos: Qt.point(chartSize / 2, chartSize)
@@ -283,7 +283,7 @@ Item {
     ThingsProxy {
         id: producers
         engine: _engine
-        shownInterfaces: ["smartmeterproducer", "solarinverter"]
+        shownInterfaces: ["solarinverter"]
     }
     ThingsProxy {
         id: evChargers
@@ -637,9 +637,7 @@ Item {
                 Label {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
-                    text: root.rootMeterConfigured
-                          ? (energyManager.currentPowerConsumption < 0 ? "?" : d.formatValue(root.householdConsumption))
-                          : d.formatValue(d.consumersSummation)
+                    text: root.rootMeterConfigured ? d.formatValue(root.householdConsumption) : d.formatValue(d.consumersSummation)
         //            color: energyManager.currentPowerAcquisition >= 0 ? Style.red : Style.green
                 }
             }
@@ -671,7 +669,8 @@ Item {
                             spacing: 0
                             property Thing consumer: root.consumers ? root.consumers.getThing(model.id) : null
                             property State currentPowerState: consumer ? consumer.stateByName("currentPower") : null
-                            property double value: currentPowerState ? currentPowerState.value : 0
+                            property double value: currentPowerState ? Math.max(0, currentPowerState.value) : 0
+                            visible: value > 0
 
                             Label {
                                 text: model.name
@@ -680,11 +679,10 @@ Item {
                                 font: Style.extraSmallFont
                             }
                             Label {
-                                property double absValue: Math.max(0, parent.value)
                                 color: d.consumersColorMap.hasOwnProperty(parent.consumer) ? d.consumersColorMap[parent.consumer] : "transparent"
                                 text: "%1 %2"
-                                .arg((absValue / (absValue > 1000 ? 1000 : 1)).toFixed(1))
-                                .arg(absValue > 1000 ? "kW" : "W")
+                                .arg((parent.value / (parent.value > 1000 ? 1000 : 1)).toFixed(1))
+                                .arg(parent.value > 1000 ? "kW" : "W")
                                 Layout.fillWidth: true
                                 horizontalAlignment: Text.AlignHCenter
                                 font: Style.smallFont

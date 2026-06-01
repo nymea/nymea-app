@@ -67,7 +67,7 @@ Item {
         function onPowerBalanceChanged() {
             var consumersSummation = 0
             for (var i = 0; i < consumers.count; i++) {
-                consumersSummation += consumers.get(i).stateByName("currentPower").value
+                consumersSummation += Math.max(0, consumers.get(i).stateByName("currentPower").value)
             }
             d.consumersSummation = consumersSummation;
             if (d.unknownSlice) {
@@ -104,15 +104,15 @@ Item {
         for (var i = 0; i < consumers.count; i++) {
             var consumer = consumers.get(i)
             let currentPowerState = consumer.stateByName("currentPower")
-            let slice = consumersBalanceSeries.append(consumer.name, currentPowerState.value)
+            let slice = consumersBalanceSeries.append(consumer.name, Math.max(0, currentPowerState.value))
             slice.color = NymeaUtils.generateColor(Style.generationBaseColor, i)
             slice.borderWidth = 0
             slice.borderColor = slice.color
             colorMap[consumer] = slice.color
             currentPowerState.valueChanged.connect(function() {
-                slice.value = currentPowerState.value
+                slice.value = Math.max(0, currentPowerState.value)
             })
-            consumersSummation += currentPowerState.value
+            consumersSummation += Math.max(0, currentPowerState.value)
         }
         d.consumersSummation = consumersSummation
 
@@ -233,7 +233,8 @@ Item {
                         spacing: 0
                         property Thing consumer: consumers.getThing(model.id)
                         property State currentPowerState: consumer ? consumer.stateByName("currentPower") : null
-                        property double value: currentPowerState ? currentPowerState.value : 0
+                        property double value: currentPowerState ? Math.max(0, currentPowerState.value) : 0
+                        visible: value > 0
 
                         Label {
                             text: model.name
@@ -291,4 +292,3 @@ Item {
         }
     }
 }
-
