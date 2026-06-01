@@ -26,7 +26,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import QtQuick.Shapes
 import Qt5Compat.GraphicalEffects
 import QtCharts
 import Nymea
@@ -231,6 +230,7 @@ Item {
         property int maximumDashDuration: 10000
         property int dashLength: 32
         property int dashGap: 16
+        property int directionChangePauseDuration: 120
 
         property point consumptionPos: Qt.point(contentContainer.width / 2, contentContainer.height / 2)
         property point acquisitionPos: Qt.point(contentContainer.width / 2, chartSize / 2)
@@ -260,6 +260,18 @@ Item {
         function flowDuration(power) {
             var ratio = flowPowerRatio(power)
             return maximumDashDuration - (maximumDashDuration - minimumDashDuration) * Math.sqrt(ratio)
+        }
+
+        function signedFlowWidth(power) {
+            return flowWidth(Math.abs(power))
+        }
+
+        function signedFlowBackgroundWidth(power) {
+            return flowBackgroundWidth(Math.abs(power))
+        }
+
+        function signedFlowDuration(power) {
+            return flowDuration(Math.abs(power))
         }
     }
 
@@ -346,147 +358,41 @@ Item {
         }
     }
 
-    component FlowCurve: Item {
-        id: flowCurve
-
-        property bool flowVisible: false
-        property bool animationsEnabled: false
-        property point startPoint: Qt.point(0, 0)
-        property point endPoint: Qt.point(0, 0)
-        property color flowColor: Style.accentColor
-        property real lineWidth: 2
-        property real backgroundLineWidth: 6
-        property real dashMargin: 1
-        // Curve strength relative to the available chart width.
-        // Positive values bend to one side of the path, negative values to the other.
-        property real bendRatio: 0
-        property int dashLength: 2
-        property int dashGap: 1
-        property int animationDuration: 1200
-        property real dashOffset: 0
-        readonly property real dx: endPoint.x - startPoint.x
-        readonly property real dy: endPoint.y - startPoint.y
-        readonly property real length: Math.max(1, Math.sqrt(dx * dx + dy * dy))
-        readonly property real normalX: -dy / length
-        readonly property real normalY: dx / length
-        readonly property real bend: width * bendRatio
-        readonly property real controlX: (startPoint.x + endPoint.x) / 2 + normalX * bend
-        readonly property real controlY: (startPoint.y + endPoint.y) / 2 + normalY * bend
-
-        anchors.fill: parent
-        visible: flowVisible
-        opacity: 0.9
-
-        NumberAnimation on dashOffset {
-            from: 0
-            to: flowCurve.dashLength + flowCurve.dashGap
-            duration: flowCurve.animationDuration
-            loops: Animation.Infinite
-            running: flowCurve.flowVisible && flowCurve.animationsEnabled
-        }
-
-        Shape {
-            anchors.fill: parent
-
-            ShapePath {
-                id: flowBackgroundPath
-                fillColor: "transparent"
-                strokeColor: Qt.rgba(flowCurve.flowColor.r, flowCurve.flowColor.g, flowCurve.flowColor.b, 0.12)
-                strokeWidth: flowCurve.backgroundLineWidth
-                capStyle: ShapePath.FlatCap
-                joinStyle: ShapePath.RoundJoin
-                startX: flowCurve.startPoint.x
-                startY: flowCurve.startPoint.y
-
-                PathCubic {
-                    control1X: flowCurve.controlX
-                    control1Y: flowCurve.controlY
-                    control2X: flowCurve.controlX
-                    control2Y: flowCurve.controlY
-                    x: flowCurve.endPoint.x
-                    y: flowCurve.endPoint.y
-                }
-            }
-        }
-
-        Shape {
-            anchors.fill: parent
-
-            ShapePath {
-                id: flowPath
-
-                readonly property real effectiveStrokeWidth: Math.max(1, flowCurve.lineWidth - flowCurve.dashMargin * 2)
-
-                fillColor: "transparent"
-                strokeColor: flowCurve.flowColor
-                strokeWidth: effectiveStrokeWidth
-                strokeStyle: ShapePath.DashLine
-                capStyle: ShapePath.FlatCap
-                joinStyle: ShapePath.RoundJoin
-                // Qt Shapes define dash lengths as multiples of the stroke width.
-                dashPattern: [
-                    flowCurve.dashLength / effectiveStrokeWidth,
-                    flowCurve.dashGap / effectiveStrokeWidth
-                ]
-                dashOffset: -flowCurve.dashOffset / effectiveStrokeWidth
-                startX: flowCurve.startPoint.x
-                startY: flowCurve.startPoint.y
-
-                PathCubic {
-                    control1X: flowCurve.controlX
-                    control1Y: flowCurve.controlY
-                    control2X: flowCurve.controlX
-                    control2Y: flowCurve.controlY
-                    x: flowCurve.endPoint.x
-                    y: flowCurve.endPoint.y
-                }
-            }
-        }
-    }
-
     Item {
         id: contentContainer
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom; top: titleLabel.bottom}
 
         FlowCurve {
-            id: gridImportFlowCurve
-            flowVisible: d.acquisitionVisible && d.flowEnabled(root.gridIn)
+            id: gridFlowCurve
+            anchors.fill: parent
+            routeVisible: d.acquisitionVisible
+            flowVisible: d.acquisitionVisible && d.flowEnabled(Math.abs(root.energyManager.currentPowerAcquisition))
             animationsEnabled: root.flowAnimationsEnabled
             startPoint: d.acquisitionPos
             endPoint: d.consumptionRightPos
-            flowColor: d.gridImportFlowColor
-            lineWidth: d.flowWidth(root.gridIn)
-            backgroundLineWidth: d.flowBackgroundWidth(root.gridIn)
+            reverse: root.energyManager.currentPowerAcquisition < 0
+            flowColor: reverse ? d.gridExportFlowColor : d.gridImportFlowColor
+            backgroundColor: Qt.rgba(flowColor.r, flowColor.g, flowColor.b, 0.12)
+            lineWidth: d.signedFlowWidth(root.energyManager.currentPowerAcquisition)
+            backgroundLineWidth: d.signedFlowBackgroundWidth(root.energyManager.currentPowerAcquisition)
             dashMargin: d.flowDashMargin
             bendRatio: 0
             dashLength: d.dashLength
             dashGap: d.dashGap
-            animationDuration: d.flowDuration(root.gridIn)
-        }
-
-        FlowCurve {
-            id: gridExportFlowCurve
-            flowVisible: d.acquisitionVisible && d.flowEnabled(root.gridOut)
-            animationsEnabled: root.flowAnimationsEnabled
-            startPoint: d.consumptionLeftPos
-            endPoint: d.acquisitionPos
-            flowColor: d.gridExportFlowColor
-            lineWidth: d.flowWidth(root.gridOut)
-            backgroundLineWidth: d.flowBackgroundWidth(root.gridOut)
-            dashMargin: d.flowDashMargin
-            bendRatio: 0
-            dashLength: d.dashLength
-            dashGap: d.dashGap
-            animationDuration: d.flowDuration(root.gridOut)
+            animationDuration: d.signedFlowDuration(root.energyManager.currentPowerAcquisition)
+            directionChangePauseDuration: d.directionChangePauseDuration
         }
 
         FlowCurve {
             id: pvProductionFlowCurve
+            anchors.fill: parent
+            routeVisible: d.productionVisible
             flowVisible: d.productionVisible && d.flowEnabled(root.productionOut)
             animationsEnabled: root.flowAnimationsEnabled
             startPoint: d.productionPos
             endPoint: d.consumptionRightPos
             flowColor: d.productionFlowColor
+            backgroundColor: Qt.rgba(flowColor.r, flowColor.g, flowColor.b, 0.12)
             lineWidth: d.flowWidth(root.productionOut)
             backgroundLineWidth: d.flowBackgroundWidth(root.productionOut)
             dashMargin: d.flowDashMargin
@@ -497,67 +403,45 @@ Item {
         }
 
         FlowCurve {
-            id: batteryChargingFlowCurve
-            flowVisible: d.storageVisible && d.flowEnabled(root.storageIn)
+            id: batteryFlowCurve
+            anchors.fill: parent
+            routeVisible: d.storageVisible
+            flowVisible: d.storageVisible && d.flowEnabled(Math.abs(root.energyManager.currentPowerStorage))
             animationsEnabled: root.flowAnimationsEnabled
             startPoint: d.consumptionLeftPos
             endPoint: d.storagePos
-            flowColor: d.storageChargingFlowColor
-            lineWidth: d.flowWidth(root.storageIn)
-            backgroundLineWidth: d.flowBackgroundWidth(root.storageIn)
+            reverse: root.energyManager.currentPowerStorage < 0
+            flowColor: reverse ? d.storageDischargingFlowColor : d.storageChargingFlowColor
+            backgroundColor: Qt.rgba(flowColor.r, flowColor.g, flowColor.b, 0.12)
+            lineWidth: d.signedFlowWidth(root.energyManager.currentPowerStorage)
+            backgroundLineWidth: d.signedFlowBackgroundWidth(root.energyManager.currentPowerStorage)
             dashMargin: d.flowDashMargin
             bendRatio: -0.12
             dashLength: d.dashLength
             dashGap: d.dashGap
-            animationDuration: d.flowDuration(root.storageIn)
+            animationDuration: d.signedFlowDuration(root.energyManager.currentPowerStorage)
+            directionChangePauseDuration: d.directionChangePauseDuration
         }
 
         FlowCurve {
-            id: batteryDischargingFlowCurve
-            flowVisible: d.storageVisible && d.flowEnabled(root.storageOut)
-            animationsEnabled: root.flowAnimationsEnabled
-            startPoint: d.storagePos
-            endPoint: d.consumptionLeftPos
-            flowColor: d.storageDischargingFlowColor
-            lineWidth: d.flowWidth(root.storageOut)
-            backgroundLineWidth: d.flowBackgroundWidth(root.storageOut)
-            dashMargin: d.flowDashMargin
-            bendRatio: 0.12
-            dashLength: d.dashLength
-            dashGap: d.dashGap
-            animationDuration: d.flowDuration(root.storageOut)
-        }
-
-        FlowCurve {
-            id: evChargerChargingFlowCurve
-            flowVisible: d.evChargerVisible && d.flowEnabled(root.evIn)
+            id: evChargerFlowCurve
+            anchors.fill: parent
+            routeVisible: d.evChargerVisible
+            flowVisible: d.evChargerVisible && d.flowEnabled(Math.abs(evChargerPowerRepeater.currentPower))
             animationsEnabled: root.flowAnimationsEnabled
             startPoint: d.consumptionPos
             endPoint: d.evChargerPos
+            reverse: evChargerPowerRepeater.currentPower < 0
             flowColor: d.evChargerFlowColor
-            lineWidth: d.flowWidth(root.evIn)
-            backgroundLineWidth: d.flowBackgroundWidth(root.evIn)
+            backgroundColor: Qt.rgba(flowColor.r, flowColor.g, flowColor.b, 0.12)
+            lineWidth: d.signedFlowWidth(evChargerPowerRepeater.currentPower)
+            backgroundLineWidth: d.signedFlowBackgroundWidth(evChargerPowerRepeater.currentPower)
             dashMargin: d.flowDashMargin
             bendRatio: 0
             dashLength: d.dashLength
             dashGap: d.dashGap
-            animationDuration: d.flowDuration(root.evIn)
-        }
-
-        FlowCurve {
-            id: evChargerDischargingFlowCurve
-            flowVisible: d.evChargerVisible && d.flowEnabled(root.evOut)
-            animationsEnabled: root.flowAnimationsEnabled
-            startPoint: d.evChargerPos
-            endPoint: d.consumptionPos
-            flowColor: d.evChargerFlowColor
-            lineWidth: d.flowWidth(root.evOut)
-            backgroundLineWidth: d.flowBackgroundWidth(root.evOut)
-            dashMargin: d.flowDashMargin
-            bendRatio: 0
-            dashLength: d.dashLength
-            dashGap: d.dashGap
-            animationDuration: d.flowDuration(root.evOut)
+            animationDuration: d.signedFlowDuration(evChargerPowerRepeater.currentPower)
+            directionChangePauseDuration: d.directionChangePauseDuration
         }
 
         Connections {

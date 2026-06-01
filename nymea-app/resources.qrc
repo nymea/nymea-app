@@ -18,6 +18,7 @@
         <file>ui/components/ColorIcon.qml</file>
         <file>ui/components/ThinDivider.qml</file>
         <file>ui/components/ThrottledSlider.qml</file>
+        <file>ui/components/FlowCurve.qml</file>
         <file>ui/components/ColorPickerCt.qml</file>
         <file>ui/components/IconMenuItem.qml</file>
         <file>ui/components/Graph.qml</file>
