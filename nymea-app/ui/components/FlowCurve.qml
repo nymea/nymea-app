@@ -40,6 +40,7 @@ Item {
     property int colorAnimationDuration: Style.animationDuration
     property real lineWidth: 2
     property real backgroundLineWidth: 6
+    property bool roundedDashCaps: true
     property real dashMargin: 1
     // Curve strength relative to the available item width.
     // Positive values bend to one side of the path, negative values to the other.
@@ -171,7 +172,7 @@ Item {
             strokeColor: root.flowColor
             strokeWidth: effectiveStrokeWidth
             strokeStyle: ShapePath.DashLine
-            capStyle: ShapePath.FlatCap
+            capStyle: root.roundedDashCaps ? ShapePath.RoundCap : ShapePath.FlatCap
             joinStyle: ShapePath.RoundJoin
             // Qt Shapes define dash lengths as multiples of the stroke width.
             dashPattern: [
