@@ -42,6 +42,7 @@ WizardPageBase {
     QtObject {
         id: d
         property var thermostats: []
+        property var valves: []
         property var windowSensors: []
         property var indoorSensors: []
         property var outdoorSensors: []
@@ -50,7 +51,7 @@ WizardPageBase {
     onBack: pageStack.pop();
 
     onNext: {
-        acManager.addZone(nameTextField.text, d.thermostats, d.windowSensors, d.indoorSensors, d.outdoorSensors)
+        acManager.addZone(nameTextField.text, d.thermostats, d.valves, d.windowSensors, d.indoorSensors, d.outdoorSensors)
         pageStack.pop();
     }
 
@@ -62,7 +63,13 @@ WizardPageBase {
     ThingsProxy {
         id: windowSensorsProxy
         engine: _engine
-        shownInterfaces: ["closablesensors"]
+        shownInterfaces: ["closablesensor"]
+    }
+
+    ThingsProxy {
+        id: valvesProxy
+        engine: root.acManager && root.acManager.valvesSupported ? _engine : null
+        shownInterfaces: ["valve"]
     }
 
     ThingsProxy {
@@ -130,6 +137,39 @@ WizardPageBase {
                 }
 
                 Label {
+                    visible: root.acManager && root.acManager.valvesSupported
+                    Layout.fillWidth: true
+                    Layout.margins: Style.margins
+                    text: qsTr("Select the valves that should be part of this zone.")
+                    wrapMode: Text.WordWrap
+                }
+
+                Repeater {
+                    visible: root.acManager && root.acManager.valvesSupported
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    clip: true
+
+                    model: valvesProxy
+
+                    delegate: CheckDelegate {
+                        Layout.fillWidth: true
+                        text: model.name
+                        checked: d.valves.indexOf(model.id) >= 0
+                        onClicked: {
+                            var tmp = d.valves
+                            if (checked) {
+                                tmp.push(model.id)
+                            } else {
+                                var idx = tmp.indexOf(model.id);
+                                tmp.splice(idx, 1)
+                            }
+                            d.valves = tmp;
+                        }
+                    }
+                }
+
+                Label {
                     Layout.fillWidth: true
                     Layout.margins: Style.margins
                     text: qsTr("Select the sensors that should be part of this zone.")
@@ -146,16 +186,16 @@ WizardPageBase {
                     delegate: CheckDelegate {
                         Layout.fillWidth: true
                         text: model.name
-                        checked: d.things.indexOf(model.id) >= 0
+                        checked: d.indoorSensors.indexOf(model.id) >= 0
                         onClicked: {
-                            var tmp = d.sensors
+                            var tmp = d.indoorSensors
                             if (checked) {
                                 tmp.push(model.id)
                             } else {
                                 var idx = tmp.indexOf(model.id);
                                 tmp.splice(idx, 1)
                             }
-                            d.sensors = tmp;
+                            d.indoorSensors = tmp;
                         }
                     }
                 }

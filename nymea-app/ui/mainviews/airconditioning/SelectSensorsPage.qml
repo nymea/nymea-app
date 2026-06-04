@@ -35,10 +35,8 @@ Page {
     property AirConditioningManager acManager: null
     property ZoneInfo zoneInfo: null
 
-    readonly property Thing thermostat: engine.thingManager.things.getThing(root.zoneInfo.thermostatId)    
-
     header: NymeaHeader {
-        text: root.thermostat.name
+        text: root.zoneInfo.name
 
         onBackPressed: {
             pageStack.pop()
@@ -47,19 +45,43 @@ Page {
         HeaderButton {
             imageSource: "tick"
             onClicked: {
-                var sensorIds = []
-                acManager.setZoneThings(root.zoneInfo.id, d.checkedThings)
+                var thermostats = []
+                var valves = []
+                var windowSensors = []
+                var indoorSensors = []
+                for (var i = 0; i < d.checkedThings.length; i++) {
+                    var thing = _engine.thingManager.things.getThing(d.checkedThings[i])
+                    if (!thing) {
+                        continue;
+                    }
+                    if (d.hasInterface(thing, "thermostat")) {
+                        thermostats.push(thing.id)
+                    } else if (d.hasInterface(thing, "valve")) {
+                        valves.push(thing.id)
+                    } else if (d.hasInterface(thing, "closablesensor")) {
+                        windowSensors.push(thing.id)
+                    } else {
+                        indoorSensors.push(thing.id)
+                    }
+                }
+                acManager.setZoneThings(root.zoneInfo.id, thermostats, valves, windowSensors, indoorSensors, root.zoneInfo.outdoorSensors, root.zoneInfo.notifications)
             }
         }
     }
 
     QtObject {
         id: d
-        property var checkedThings: root.zoneInfo.thingIds
+        property var checkedThings: root.zoneInfo.thermostats
+                                   .concat(root.zoneInfo.valves)
+                                   .concat(root.zoneInfo.windowSensors)
+                                   .concat(root.zoneInfo.indoorSensors)
 
+        function hasInterface(thing, interfaceName) {
+            return thing.thingClass.interfaces.indexOf(interfaceName) >= 0
+        }
     }
 
-    Component.onCompleted: print("***** sensors", root.zoneInfo.thingIds, d.checkedThings)
+    Component.onCompleted: print("***** sensors", d.checkedThings)
 
     GroupedListView {
         id: sensorsListView
@@ -69,7 +91,9 @@ Page {
         model: ThingsProxy {
             id: sensorsProxy
             engine: _engine
-            shownInterfaces: ["thermostat", "closablesensor", "temperaturesensor", "humiditysensor", "vocsensor", "pm25sensor"]
+            shownInterfaces: root.acManager && root.acManager.valvesSupported
+                             ? ["thermostat", "valve", "closablesensor", "temperaturesensor", "humiditysensor", "vocsensor", "pm25sensor"]
+                             : ["thermostat", "closablesensor", "temperaturesensor", "humiditysensor", "vocsensor", "pm25sensor"]
 //            hiddenInterfaces: ["thermostat"]
             groupByInterface: true
         }

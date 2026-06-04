@@ -144,6 +144,7 @@ Item {
         "heating" : red,
         "cooling": blue,
         "thermostat": blue,
+        "valve": purple,
         "irrigation": blue,
         "windspeedsensor": blue,
         "ventilation": lightBlue,

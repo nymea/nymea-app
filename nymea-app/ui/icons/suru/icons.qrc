@@ -299,5 +299,6 @@
         <file>icons/backup.svg</file>
         <file>icons/download.svg</file>
         <file>icons/upload.svg</file>
+        <file>icons/valve.svg</file>
     </qresource>
 </RCC>

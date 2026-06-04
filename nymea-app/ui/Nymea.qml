@@ -142,6 +142,37 @@ ApplicationWindow {
         bluetoothDiscoveryEnabled: false// PlatformPermissions.bluetoothPermission === PlatformPermissions.PermissionStatusGranted
     }
 
+    property var supportedInterfaces: [
+        "light",
+        "media",
+        "awning",
+        "shutter",
+        "blind",
+        "cleaningrobot",
+        "garagedoor",
+        "powersocket",
+        "thermostat",
+        "valve",
+        "heating",
+        "cooling",
+        "smartlock",
+        "doorbell",
+        "irrigation",
+        "ventilation",
+        "sensor",
+        "weather",
+        "evcharger",
+        "smartmeter",
+        "fingerprintreader",
+        "notifications",
+        "barcodescanner",
+        "button",
+        "inputtrigger",
+        "outputtrigger",
+        "gateway",
+        "account"
+    ]
+
     function interfaceToString(name) {
         switch(name) {
         case "light":
@@ -213,6 +244,8 @@ ApplicationWindow {
         case "evchargerdc":
         case "evcharger":
             return qsTr("EV chargers");
+        case "valve":
+            return qsTr("Valves");
         case "powersocket":
             return qsTr("Power sockets")
         case "doorbell":
@@ -380,9 +413,10 @@ ApplicationWindow {
         case "chargers":
         case "evchargerac":
         case "evchargerdc":
-            return Qt.resolvedUrl("qrc:/icons/ev-charger.svg")
         case "evcharger":
             return Qt.resolvedUrl("qrc:/icons/ev-charger.svg")
+        case "valve":
+            return Qt.resolvedUrl("qrc:/icons/valve.svg")
         case "doorbell":
             return Qt.resolvedUrl("qrc:/icons/notification.svg")
         case "irrigation":
@@ -483,6 +517,9 @@ ApplicationWindow {
         case "connectable":
             //: Select ...
             return qsTr("connectable thing")
+        case "valve":
+            //: Select ...
+            return qsTr("valve")
         case "irrigation":
             //: Select ...
             return qsTr("irrigation");
