@@ -278,7 +278,7 @@ Page {
 
             SettingsPageSectionHeader {
                 text: qsTr("Nymea found the following things")
-                visible: !discovery.busy && discoveryProxy.count > 0
+                visible: discoveryProxy.count > 0
             }
 
             Repeater {
@@ -291,10 +291,14 @@ Page {
                 }
                 delegate: NymeaItemDelegate {
                     Layout.fillWidth: true
+                    enabled: !discovery.busy
                     text: model.name
                     subText: model.description
                     iconName: app.interfacesToIcon(discoveryView.thingClass.interfaces)
                     onClicked: {
+                        if (discovery.busy) {
+                            return;
+                        }
                         d.thingDescriptor = discoveryProxy.get(index);
                         d.thingName = model.name;
                         internalPageStack.push(paramsPage)
@@ -302,7 +306,7 @@ Page {
                 }
             }
 
-            busy: discovery.busy
+            busy: discovery.busy && discoveryProxy.count === 0
             busyText: qsTr("Searching for things...")
 
             ColumnLayout {

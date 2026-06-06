@@ -37,6 +37,11 @@ ThingDiscovery::ThingDiscovery(QObject *parent) :
 {
 }
 
+ThingDiscovery::~ThingDiscovery()
+{
+    unregisterNotifications();
+}
+
 int ThingDiscovery::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
@@ -144,6 +149,7 @@ Engine *ThingDiscovery::engine() const
 void ThingDiscovery::setEngine(Engine *engine)
 {
     if (m_engine != engine) {
+        unregisterNotifications();
         m_engine = engine;
         emit engineChanged();
     }
@@ -162,6 +168,10 @@ QString ThingDiscovery::displayMessage() const
 int ThingDiscovery::discoverThingsInternal(const QUuid &thingClassId, const QVariantList &discoveryParams)
 {
     qCInfo(dcThingManager()) << "Starting thing discovery for thing class" << m_engine->thingManager()->thingClasses()->getThingClass(thingClassId)->name() << thingClassId;
+    if (m_engine->jsonRpcClient()->ensureServerVersion("10.0")) {
+        registerNotifications();
+    }
+
     QVariantMap params;
     params.insert("thingClassId", thingClassId.toString());
     if (!discoveryParams.isEmpty()) {
@@ -176,32 +186,19 @@ void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &pa
 {
     qCInfo(dcThingManager) << "Discovery response received for command" << commandId;
     qCDebug(dcThingManager()) << "Discovery response data:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+
+    if (m_engine->jsonRpcClient()->ensureServerVersion("10.0") && params.contains("discoveryId")) {
+        QUuid discoveryId = params.value("discoveryId").toUuid();
+        if (!discoveryId.isNull()) {
+            m_pendingDiscoveryIdsByCommandId.insert(commandId, discoveryId);
+            m_pendingCommandIdsByDiscoveryId.insert(discoveryId, commandId);
+            return;
+        }
+    }
+
     QVariantList descriptors = params.value("thingDescriptors").toList();
     foreach (const QVariant &descriptorVariant, descriptors) {
-        if (!contains(descriptorVariant.toMap().value("id").toUuid())) {
-            beginInsertRows(QModelIndex(), static_cast<int>(m_foundThings.count()), static_cast<int>(m_foundThings.count()));
-            ThingDescriptor *descriptor = new ThingDescriptor(descriptorVariant.toMap().value("id").toUuid(),
-                                                              descriptorVariant.toMap().value("thingClassId").toUuid(), // Note: This will only be provided as of nymea 0.28!
-                                                   descriptorVariant.toMap().value("thingId").toUuid(),
-                                                   descriptorVariant.toMap().value("title").toString(),
-                                                   descriptorVariant.toMap().value("description").toString(), this);
-            // Work around a bug in nymea:core which didn't properly update deviceParams in the device->things transition
-            QVariantList paramList;
-            if (descriptorVariant.toMap().contains("params")) {
-                paramList = descriptorVariant.toMap().value("params").toList();
-            } else {
-                paramList = descriptorVariant.toMap().value("deviceParams").toList();
-            }
-            foreach (const QVariant &paramVariant, paramList) {
-                qDebug() << "Adding param:" << paramVariant.toMap().value("paramTypeId").toString() << paramVariant.toMap().value("value");
-                Param* p = new Param(paramVariant.toMap().value("paramTypeId").toUuid(), paramVariant.toMap().value("value"));
-                descriptor->params()->addParam(p);
-            }
-            qCInfo(dcThingManager()) << "Found thing. Descriptor:" << descriptor->name() << descriptor->id();
-            m_foundThings.append(descriptor);
-            endInsertRows();
-            emit countChanged();
-        }
+        addThingDescriptor(descriptorVariant.toMap());
     }
 
     // Note: in case of multiple discoveries we'll just overwrite the message... Not ideal but multiple error messages from different plugins
@@ -218,6 +215,37 @@ void ThingDiscovery::discoverThingsResponse(int commandId, const QVariantMap &pa
     }
 }
 
+void ThingDiscovery::notificationReceived(const QVariantMap &data)
+{
+    QString notification = data.value("notification").toString();
+    QVariantMap params = data.value("params").toMap();
+    QUuid discoveryId = params.value("discoveryId").toUuid();
+    if (!m_pendingCommandIdsByDiscoveryId.contains(discoveryId)) {
+        return;
+    }
+
+    if (notification == "Integrations.ThingDiscovered") {
+        addThingDescriptor(params.value("thingDescriptor").toMap());
+        return;
+    }
+
+    if (notification == "Integrations.DiscoveryFinished") {
+        int commandId = m_pendingCommandIdsByDiscoveryId.take(discoveryId);
+        m_pendingDiscoveryIdsByCommandId.remove(commandId);
+
+        m_displayMessage = params.value("displayMessage").toString();
+
+        QMetaEnum metaEnum = QMetaEnum::fromType<Thing::ThingError>();
+        Thing::ThingError thingError = static_cast<Thing::ThingError>(metaEnum.keyToValue(params.value("thingError").toByteArray()));
+        emit discoverThingsReply(commandId, thingError, m_displayMessage);
+
+        m_pendingRequests.removeAll(commandId);
+        if (m_pendingRequests.isEmpty()) {
+            emit busyChanged();
+        }
+    }
+}
+
 bool ThingDiscovery::contains(const QUuid &deviceDescriptorId) const
 {
     foreach (ThingDescriptor *descriptor, m_foundThings) {
@@ -226,6 +254,56 @@ bool ThingDiscovery::contains(const QUuid &deviceDescriptorId) const
         }
     }
     return false;
+}
+
+void ThingDiscovery::addThingDescriptor(const QVariantMap &descriptorMap)
+{
+    if (contains(descriptorMap.value("id").toUuid())) {
+        return;
+    }
+
+    beginInsertRows(QModelIndex(), static_cast<int>(m_foundThings.count()), static_cast<int>(m_foundThings.count()));
+    ThingDescriptor *descriptor = new ThingDescriptor(descriptorMap.value("id").toUuid(),
+                                                      descriptorMap.value("thingClassId").toUuid(), // Note: This will only be provided as of nymea 0.28!
+                                                      descriptorMap.value("thingId").toUuid(),
+                                                      descriptorMap.value("title").toString(),
+                                                      descriptorMap.value("description").toString(), this);
+    // Work around a bug in nymea:core which didn't properly update deviceParams in the device->things transition
+    QVariantList paramList;
+    if (descriptorMap.contains("params")) {
+        paramList = descriptorMap.value("params").toList();
+    } else {
+        paramList = descriptorMap.value("deviceParams").toList();
+    }
+    foreach (const QVariant &paramVariant, paramList) {
+        qDebug() << "Adding param:" << paramVariant.toMap().value("paramTypeId").toString() << paramVariant.toMap().value("value");
+        Param* p = new Param(paramVariant.toMap().value("paramTypeId").toUuid(), paramVariant.toMap().value("value"));
+        descriptor->params()->addParam(p);
+    }
+    qCInfo(dcThingManager()) << "Found thing. Descriptor:" << descriptor->name() << descriptor->id();
+    m_foundThings.append(descriptor);
+    endInsertRows();
+    emit countChanged();
+}
+
+void ThingDiscovery::registerNotifications()
+{
+    if (!m_engine || m_notificationsRegistered) {
+        return;
+    }
+
+    m_engine->jsonRpcClient()->registerNotificationHandler(this, "Integrations", "notificationReceived");
+    m_notificationsRegistered = true;
+}
+
+void ThingDiscovery::unregisterNotifications()
+{
+    if (!m_engine || !m_notificationsRegistered) {
+        return;
+    }
+
+    m_engine->jsonRpcClient()->unregisterNotificationHandler(this);
+    m_notificationsRegistered = false;
 }
 
 ThingDescriptor::ThingDescriptor(const QUuid &id, const QUuid &thingClassId, const QUuid &thingId, const QString &name, const QString &description, QObject *parent):

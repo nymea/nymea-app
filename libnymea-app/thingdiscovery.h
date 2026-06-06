@@ -26,6 +26,7 @@
 #define THINGDISCOVERY_H
 
 #include <QAbstractListModel>
+#include <QHash>
 #include <QUuid>
 
 #include "engine.h"
@@ -73,6 +74,7 @@ public:
     };
 
     ThingDiscovery(QObject *parent = nullptr);
+    ~ThingDiscovery() override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -99,13 +101,20 @@ signals:
 private slots:
     int discoverThingsInternal(const QUuid &thingClassId, const QVariantList &discoveryParams = {});
     void discoverThingsResponse(int commandId, const QVariantMap &params);
+    void notificationReceived(const QVariantMap &data);
 
 private:
     Engine *m_engine = nullptr;
     QString m_displayMessage;
     QList<int> m_pendingRequests;
+    QHash<int, QUuid> m_pendingDiscoveryIdsByCommandId;
+    QHash<QUuid, int> m_pendingCommandIdsByDiscoveryId;
+    bool m_notificationsRegistered = false;
 
     bool contains(const QUuid &deviceDescriptorId) const;
+    void addThingDescriptor(const QVariantMap &descriptorMap);
+    void registerNotifications();
+    void unregisterNotifications();
     QList<ThingDescriptor*> m_foundThings;
 };
 
