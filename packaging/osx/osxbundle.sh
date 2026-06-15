@@ -42,9 +42,11 @@ trap - EXIT HUP INT TERM
 rm -rf "${application_name}.app/Contents/Frameworks/QtWebEngineCore.framework"
 codesign --force -s "${codesign_identity}" --verbose --entitlements "${package_dir}/${application_name}.entitlements" --deep "${application_name}.app"
 hdiutil convert "${application_name}.dmg" -format UDRW -o "${application_name}_writable.dmg"
-hdiutil attach -readwrite -noverify "${application_name}_writable.dmg"
+hdiutil attach -readwrite -noverify -nobrowse -noautoopen "${application_name}_writable.dmg"
 sleep 2
+rm -f "/Volumes/${application_name}/.DS_Store"
 tar -xpf "${package_dir}/template.tar" -C "/Volumes/${application_name}/"
+sync
 hdiutil eject "/Volumes/${application_name}"
 hdiutil convert "${application_name}_writable.dmg" -format UDRO -o "../${application_name}-osx-bundle-${app_version}.dmg"
 rm "${application_name}.dmg" "${application_name}_writable.dmg"
