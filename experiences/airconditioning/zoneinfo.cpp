@@ -131,6 +131,19 @@ void ZoneInfo::setThermostats(const QList<QUuid> &thermostats)
     }
 }
 
+QList<QUuid> ZoneInfo::valves() const
+{
+    return m_valves;
+}
+
+void ZoneInfo::setValves(const QList<QUuid> &valves)
+{
+    if (m_valves != valves) {
+        m_valves = valves;
+        emit valvesChanged();
+    }
+}
+
 QList<QUuid> ZoneInfo::windowSensors() const
 {
     return m_windowSensors;

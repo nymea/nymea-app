@@ -35,6 +35,7 @@ class AirConditioningManager : public QObject
     Q_OBJECT
     Q_PROPERTY(Engine* engine READ engine WRITE setEngine NOTIFY engineChanged)
     Q_PROPERTY(ZoneInfos* zoneInfos READ zoneInfos CONSTANT)
+    Q_PROPERTY(bool valvesSupported READ valvesSupported NOTIFY valvesSupportedChanged)
 
 public:
     enum AirConditioningError {
@@ -53,17 +54,20 @@ public:
     void setEngine(Engine *engine);
 
     ZoneInfos *zoneInfos() const;
+    bool valvesSupported() const;
 
-    Q_INVOKABLE int addZone(const QString &name, const QList<QUuid> &thermostats, const QList<QUuid> &windowSensors, const QList<QUuid> &indoorSensors, const QList<QUuid> &outdoorSensors);
+    Q_INVOKABLE int addZone(const QString &name, const QList<QUuid> &thermostats, const QList<QUuid> &valves, const QList<QUuid> &windowSensors, const QList<QUuid> &indoorSensors, const QList<QUuid> &outdoorSensors);
     Q_INVOKABLE int removeZone(const QUuid &zoneId);
     Q_INVOKABLE int setZoneName(const QUuid &zoneId, const QString &name);
     Q_INVOKABLE int setZoneStandbySetpoint(const QUuid &zoneId, double standbySetpoint);
     Q_INVOKABLE int setZoneSetpointOverride(const QUuid &zoneId, double setpointOverride, ZoneInfo::SetpointOverrideMode mode, uint minutes);
     Q_INVOKABLE int setZoneWeekSchedule(const QUuid &zoneId, TemperatureWeekSchedule *weekSchedule);
-    Q_INVOKABLE int setZoneThings(const QUuid &zoneId, const QList<QUuid> &thermostats, const QList<QUuid> &windowSensors, const QList<QUuid> &indoorSensors, const QList<QUuid> &outdoorSensors, const QList<QUuid> &notificationIds);
+    Q_INVOKABLE int setZoneThings(const QUuid &zoneId, const QList<QUuid> &thermostats, const QList<QUuid> &valves, const QList<QUuid> &windowSensors, const QList<QUuid> &indoorSensors, const QList<QUuid> &outdoorSensors, const QList<QUuid> &notificationIds);
 
     Q_INVOKABLE int addZoneThermostat(const QUuid &zoneId, const QUuid &thermostat);
     Q_INVOKABLE int removeZoneThermostat(const QUuid &zoneId, const QUuid &thermostat);
+    Q_INVOKABLE int addZoneValve(const QUuid &zoneId, const QUuid &valve);
+    Q_INVOKABLE int removeZoneValve(const QUuid &zoneId, const QUuid &valve);
     Q_INVOKABLE int addZoneWindowSensor(const QUuid &zoneId, const QUuid &windowSensor);
     Q_INVOKABLE int removeZoneWindowSensor(const QUuid &zoneId, const QUuid &windowSensor);
     Q_INVOKABLE int addZoneIndoorSensor(const QUuid &zoneId, const QUuid &indoorSensor);
@@ -75,6 +79,7 @@ public:
 
 signals:
     void engineChanged();
+    void valvesSupportedChanged();
     void addZoneReply(int commandId, AirConditioningError error, const QUuid &zoneId);
     void removeZoneReply(int commandId, AirConditioningError error);
     void setZoneNameReply(int commandId, AirConditioningError error);

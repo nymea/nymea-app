@@ -52,7 +52,7 @@ SettingsPageBase {
     }
 
     function createZone() {
-        pendingAddCall = acManager.addZone(qsTr("Zone %1").arg(acManager.zoneInfos.count + 1), [], [], [], [])
+        pendingAddCall = acManager.addZone(qsTr("Zone %1").arg(acManager.zoneInfos.count + 1), [], [], [], [], [])
     }
     property int pendingAddCall: -1
     Connections {
