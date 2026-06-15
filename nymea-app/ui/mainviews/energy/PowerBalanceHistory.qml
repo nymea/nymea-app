@@ -121,16 +121,23 @@ Item {
             for (var i = 0; i < count; i++) {
                 var entry = powerBalanceLogs.get(index + i)
 //                print("got entry", entry.timestamp)
+                var timestamp = entry.timestamp.getTime()
+                var productionValue = Math.abs(Math.min(0, entry.production))
+                var selfProductionConsumptionValue = Math.max(0, productionValue - Math.max(0, -entry.acquisition) - Math.max(0, entry.storage))
+                var toStorageValue = selfProductionConsumptionValue + Math.max(0, entry.storage)
+                var fromStorageValue = selfProductionConsumptionValue + Math.abs(Math.min(0, entry.storage))
+                var returnValue = toStorageValue + Math.max(0, -entry.acquisition)
+                var acquisitionValue = fromStorageValue + Math.max(0, entry.acquisition)
 
                 zeroSeries.ensureValue(entry.timestamp)
-                productionSeries.insertEntry(index + i, entry)
+                productionSeries.insert(index + i, timestamp, productionValue)
                 // For debugging, to see if the other maths line up with the plain production graph
 //                consumptionSeries.insertEntry(index + i, entry)
-                selfProductionConsumptionSeries.insertEntry(index + i, entry)
-                toStorageSeries.insertEntry(index + i, entry)
-                fromStorageSeries.insertEntry(index + i, entry)
-                returnSeries.insertEntry(index + i, entry)
-                acquisitionSeries.insertEntry(index + i, entry)
+                selfProductionConsumptionUpperSeries.insert(index + i, timestamp, selfProductionConsumptionValue)
+                toStorageUpperSeries.insert(index + i, timestamp, toStorageValue)
+                fromStorageUpperSeries.insert(index + i, timestamp, fromStorageValue)
+                returnUpperSeries.insert(index + i, timestamp, returnValue)
+                acquisitionUpperSeries.insert(index + i, timestamp, acquisitionValue)
                 if (entry.timestamp > d.now && new Date().getTime() - d.now.getTime() < 120000) {
                     d.now = entry.timestamp
                 }
@@ -971,5 +978,3 @@ Item {
         }
     }
 }
-
-
