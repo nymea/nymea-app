@@ -18,6 +18,10 @@ linux:!android:LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app \
                        -L$$top_builddir/experiences/airconditioning -lnymea-app-airconditioning \
                        -L$$top_builddir/experiences/evdash -lnymea-app-evdash
 
+macx:LIBS += -L$$top_builddir/libnymea-app/ -lnymea-app \
+             -L$$top_builddir/experiences/airconditioning -lnymea-app-airconditioning \
+             -L$$top_builddir/experiences/evdash -lnymea-app-evdash
+
 
 win32:Debug:LIBS += -L$$top_builddir/libnymea-app/debug -lnymea-app \
                     -L$$top_builddir/experiences/airconditioning/debug -lnymea-app-airconditioning \
@@ -34,6 +38,10 @@ linux:!android:!nozeroconf:LIBS += -lavahi-client -lavahi-common
 linux:!android:PRE_TARGETDEPS += $$top_builddir/libnymea-app/libnymea-app.a \
                                  $$top_builddir/experiences/airconditioning/libnymea-app-airconditioning.a \
                                  $$top_builddir/experiences/evdash/libnymea-app-evdash.a
+
+macx:PRE_TARGETDEPS += $$top_builddir/libnymea-app/libnymea-app.a \
+                       $$top_builddir/experiences/airconditioning/libnymea-app-airconditioning.a \
+                       $$top_builddir/experiences/evdash/libnymea-app-evdash.a
 
 HEADERS += \
     configuredhostsmodel.h \
