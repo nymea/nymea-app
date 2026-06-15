@@ -45,11 +45,50 @@ ChartView {
 
     property bool animationsEnabled: true
     property EnergyManager energyManager: null
+    property bool showEvChargers: false
 
     ThingsProxy {
         id: batteries
         engine: _engine
         shownInterfaces: ["energystorage"]
+    }
+    ThingsProxy {
+        id: evChargers
+        engine: _engine
+        shownInterfaces: ["evcharger"]
+    }
+
+    Repeater {
+        id: evChargerPowerRepeater
+        model: evChargers
+
+        property int currentPowerCount: {
+            var count = 0
+            for (var i = 0; i < evChargerPowerRepeater.count; i++) {
+                var item = evChargerPowerRepeater.itemAt(i)
+                if (item && item.hasCurrentPower) {
+                    count++
+                }
+            }
+            return count
+        }
+        property double currentPower: {
+            var power = 0
+            for (var i = 0; i < evChargerPowerRepeater.count; i++) {
+                var item = evChargerPowerRepeater.itemAt(i)
+                if (item && item.hasCurrentPower) {
+                    power += item.currentPower
+                }
+            }
+            return power
+        }
+
+        delegate: Item {
+            property Thing thing: evChargers.get(index)
+            property State currentPowerState: thing ? thing.stateByName("currentPower") : null
+            property bool hasCurrentPower: currentPowerState !== null
+            property double currentPower: currentPowerState ? currentPowerState.value : 0
+        }
     }
 
     PieSeries {
@@ -59,13 +98,17 @@ ChartView {
 
         property double fromGrid: Math.max(0, energyManager.currentPowerAcquisition)
         property double fromStorage: -Math.min(0, energyManager.currentPowerStorage)
-        property double fromProduction: energyManager.currentPowerConsumption - fromGrid - fromStorage
+        property double fromCar: consumptionPieChart.showEvChargers ? -Math.min(0, evChargerPowerRepeater.currentPower) : 0
+        property double toCar: consumptionPieChart.showEvChargers ? Math.max(0, evChargerPowerRepeater.currentPower) : 0
+        property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption - toCar)
+        property double fromGridToConsumption: Math.min(fromGrid, Math.max(0, householdConsumption - fromStorage - fromCar))
+        property double fromProduction: Math.max(0, householdConsumption - fromGridToConsumption - fromStorage - fromCar)
 
         PieSlice {
             color: Style.red
             borderColor: color
             borderWidth: 0
-            value: consumptionBalanceSeries.fromGrid
+            value: consumptionBalanceSeries.fromGridToConsumption
         }
         PieSlice {
             color: Style.green
@@ -80,10 +123,16 @@ ChartView {
             value: consumptionBalanceSeries.fromStorage
         }
         PieSlice {
+            color: app.interfaceToColor("electricvehicle")
+            borderColor: color
+            borderWidth: 0
+            value: consumptionBalanceSeries.fromCar
+        }
+        PieSlice {
             color: Style.tooltipBackgroundColor
             borderColor: color
             borderWidth: 0
-            value: consumptionBalanceSeries.fromGrid == 0 && consumptionBalanceSeries.fromProduction == 0 && consumptionBalanceSeries.fromStorage == 0 ? 1 : 0
+            value: consumptionBalanceSeries.fromGrid == 0 && consumptionBalanceSeries.fromProduction == 0 && consumptionBalanceSeries.fromStorage == 0 && consumptionBalanceSeries.fromCar == 0 ? 1 : 0
         }
     }
 
@@ -109,8 +158,8 @@ ChartView {
 
             Label {
                 text: "%1 %2"
-                .arg((energyManager.currentPowerConsumption / (energyManager.currentPowerConsumption > 1000 ? 1000 : 1)).toFixed(1))
-                .arg(energyManager.currentPowerConsumption > 1000 ? "kW" : "W")
+                .arg((consumptionBalanceSeries.householdConsumption / (consumptionBalanceSeries.householdConsumption > 1000 ? 1000 : 1)).toFixed(1))
+                .arg(consumptionBalanceSeries.householdConsumption > 1000 ? "kW" : "W")
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignHCenter
                 font: Style.bigFont
@@ -129,7 +178,7 @@ ChartView {
                 font: Style.extraSmallFont
             }
             Label {
-                property double absValue: consumptionBalanceSeries.fromGrid
+                property double absValue: consumptionBalanceSeries.fromGridToConsumption
                 color: Style.red
                 text: "%1 %2"
                 .arg((absValue / (absValue > 1000 ? 1000 : 1)).toFixed(1))
@@ -173,6 +222,26 @@ ChartView {
             Label {
                 color: Style.orange
                 property double absValue: consumptionBalanceSeries.fromStorage
+                text: "%1 %2".arg((absValue / (absValue > 1000 ? 1000 : 1)).toFixed(1))
+                .arg(absValue > 1000 ? "kW" : "W")
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+                font: Style.smallFont
+            }
+        }
+        ColumnLayout {
+            width: parent.width
+            spacing: 0
+            visible: consumptionPieChart.showEvChargers && evChargerPowerRepeater.currentPowerCount > 0
+            Label {
+                text: qsTr("From car")
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+                font: Style.extraSmallFont
+            }
+            Label {
+                color: app.interfaceToColor("electricvehicle")
+                property double absValue: consumptionBalanceSeries.fromCar
                 text: "%1 %2".arg((absValue / (absValue > 1000 ? 1000 : 1)).toFixed(1))
                 .arg(absValue > 1000 ? "kW" : "W")
                 Layout.fillWidth: true
