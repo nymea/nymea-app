@@ -1,3 +1,13 @@
+nymea-app (1.13.2) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update macos building to Qt 6.11.1 and iOS SDK 26.5
+  * AirConditioning: Add optional valve assignment to a zone
+  * Rework the energy flow graph
+  * Update EC charger interfaces and add DC charger support
+
+ -- jenkins <developer@nymea.io>  Tue, 16 Jun 2026 10:48:20 +0200
+
 nymea-app (1.12.3) bionic; urgency=medium
 
   [ Simon Stürz ]
