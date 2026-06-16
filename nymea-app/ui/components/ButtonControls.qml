@@ -49,7 +49,7 @@ RowLayout {
     Label {
         id: label
         Layout.fillWidth: true
-        visible: text != ""
+        visible: text !== ""
         text: {
             switch (root.iface) {
             case "media":
@@ -59,6 +59,8 @@ RowLayout {
             case "ventilation":
             case "powersocket":
             case "evcharger":
+            case "evchargerac":
+            case "evchargerdc":
                 if (root.thing) {
                     return root.thing.stateByName("power").value === true ? qsTr("On") : qsTr("Off")
                 }
@@ -233,7 +235,10 @@ RowLayout {
             case "media":
             case "irrigation":
             case "ventilation":
+            case "chargers":
             case "evcharger":
+            case "evchargerac":
+            case "evchargerdc":
                 break;
             case "garagedoor":
                 if (root.thing) {
@@ -304,7 +309,10 @@ RowLayout {
             case "powersocket":
             case "irrigation":
             case "ventilation":
+            case "chargers":
             case "evcharger":
+            case "evchargerac":
+            case "evchargerdc":
                 return "qrc:/icons/system-shutdown.svg"
             case "garagedoor":
                 var dev = root.thing ? root.thing : thingsProxy.get(0)
@@ -336,7 +344,10 @@ RowLayout {
             case "powersocket":
             case "irrigation":
             case "ventilation":
+            case "chargers":
             case "evcharger":
+            case "evchargerac":
+            case "evchargerdc":
                 if (root.thing) {
                     var actionType = root.thing.thingClass.actionTypes.findByName("power");
                     var params = [];

@@ -44,6 +44,7 @@ class ZoneInfo : public QObject
     Q_PROPERTY(QDateTime setpointOverrideEnd READ setpointOverrideEnd NOTIFY setpointOverrideChanged)
     Q_PROPERTY(TemperatureWeekSchedule* weekSchedule READ weekSchedule CONSTANT)
     Q_PROPERTY(QList<QUuid> thermostats READ thermostats NOTIFY thermostatsChanged)
+    Q_PROPERTY(QList<QUuid> valves READ valves NOTIFY valvesChanged)
     Q_PROPERTY(QList<QUuid> windowSensors READ windowSensors NOTIFY windowSensorsChanged)
     Q_PROPERTY(QList<QUuid> indoorSensors READ indoorSensors NOTIFY indoorSensorsChanged)
     Q_PROPERTY(QList<QUuid> outdoorSensors READ outdoorSensors NOTIFY outdoorSensorsChanged)
@@ -100,6 +101,9 @@ public:
     QList<QUuid> thermostats() const;
     void setThermostats(const QList<QUuid> &thermostats);
 
+    QList<QUuid> valves() const;
+    void setValves(const QList<QUuid> &valves);
+
     QList<QUuid> windowSensors() const;
     void setWindowSensors(const QList<QUuid> &windowSensors);
 
@@ -131,6 +135,7 @@ signals:
     void standbySetpointChanged();
     void setpointOverrideChanged();
     void thermostatsChanged();
+    void valvesChanged();
     void windowSensorsChanged();
     void indoorSensorsChanged();
     void outdoorSensorsChanged();
@@ -152,6 +157,7 @@ private:
     QDateTime m_setpointOverrideEnd;
     TemperatureWeekSchedule *m_weekSchedule = nullptr;
     QList<QUuid> m_thermostats;
+    QList<QUuid> m_valves;
     QList<QUuid> m_windowSensors;
     QList<QUuid> m_indoorSensors;
     QList<QUuid> m_outdoorSensors;

@@ -43,6 +43,10 @@ Item {
         engine: zone.thermostats.length > 0 ? _engine : null
         shownThingIds: zone.thermostats
     }
+    readonly property ThingsProxy valves: ThingsProxy {
+        engine: zone.valves.length > 0 ? _engine : null
+        shownThingIds: zone.valves
+    }
     readonly property ThingsProxy heatingThermostats: ThingsProxy {
         engine: _engine
         parentProxy: thermostats

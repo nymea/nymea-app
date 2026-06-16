@@ -31,13 +31,14 @@ import Nymea
 import "../../components"
 
 SpinBox {
+    id: root
     width: 150
     signal changed(var value)
     stepSize: Math.min(10, (to - from) / 10)
     property var unit: Types.UnitNone
     editable: true
-    onValueModified: (value) => {
-        changed(value)
+    onValueModified: {
+        changed(root.value)
     }
     textFromValue: function(value) {
         return Types.toUiValue(value, unit)

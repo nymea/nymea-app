@@ -117,4 +117,18 @@ SettingsPageBase {
             }
         }
     }
+
+
+    // SettingsPageSectionHeader {
+    //     text: qsTr("View settings")
+    // }
+
+    // SwitchDelegate {
+    //     Layout.fillWidth: true
+    //     text: qsTr("Show EV Charger")
+    //     checked:
+    //     onClicked: {
+    //     }
+    // }
+
 }

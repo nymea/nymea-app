@@ -69,7 +69,7 @@ ThingsListPageBase {
                         property State currentPowerState: itemDelegate.thing.stateByName("currentPower")
                         property bool isEnergyMeter: itemDelegate.thing.thingClass.interfaces.indexOf("energymeter") >= 0
                         property bool isBattery: itemDelegate.thing.thingClass.interfaces.indexOf("energystorage") >= 0
-                        property bool isEvCharger: itemDelegate.thing.thingClass.interfaces.indexOf("evcharger") >= 0
+                        property bool isEvCharger: _engine.interfaces.thingClassSupportsInterface(itemDelegate.thing.thingClass, "chargers")
                         property bool isProducer: itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterproducer") >= 0
                         property bool isConsumer: itemDelegate.thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0
                         property bool isProduction: currentPowerState.value < 0

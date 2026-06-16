@@ -43,6 +43,6 @@ DashboardDelegateBase {
         height: root.height
         thing: engine.thingManager.fetchingData ? null : engine.thingManager.things.getThing(root.item.thingId)
 
-        onClicked: pageStack.push(Qt.resolvedUrl("../../devicepages/" + NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces)), {thing: thing})
+        onClicked: pageStack.push(Qt.resolvedUrl("../../devicepages/" + NymeaUtils.thingToDevicePage(thing)), {thing: thing})
     }
 }

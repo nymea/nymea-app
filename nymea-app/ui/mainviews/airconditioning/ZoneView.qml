@@ -184,7 +184,7 @@ Item {
                         Layout.fillWidth: true
                         thing: zoneWrapper.thermostats.get(index)
                         onClicked: {
-                            var page = NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces);
+                            var page = NymeaUtils.thingToDevicePage(thing);
                             pageStack.push(Qt.resolvedUrl("/ui/devicepages/" + page), {thing: thing})
                         }
                     }
@@ -195,7 +195,7 @@ Item {
                         Layout.fillWidth: true
                         thing: zoneWrapper.indoorSensors.get(index)
                         onClicked: {
-                            var page = NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces);
+                            var page = NymeaUtils.thingToDevicePage(thing);
                             pageStack.push(Qt.resolvedUrl("/ui/devicepages/" + page), {thing: thing})
                         }
                     }
@@ -206,7 +206,7 @@ Item {
                         Layout.fillWidth: true
                         thing: zoneWrapper.windowSensors.get(index)
                         onClicked: {
-                            var page = NymeaUtils.interfaceListToDevicePage(thing.thingClass.interfaces);
+                            var page = NymeaUtils.thingToDevicePage(thing);
                             pageStack.push(Qt.resolvedUrl("/ui/devicepages/" + page), {thing: thing})
                         }
                     }

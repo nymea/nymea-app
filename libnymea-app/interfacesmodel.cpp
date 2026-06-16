@@ -158,15 +158,22 @@ void InterfacesModel::syncInterfaces()
     QStringList interfacesInSource;
     foreach (ThingClass *dc, thingClasses) {
         // qWarning() << "thing" <<dc->name() << "has interfaces" << dc->interfaces();
+        QStringList availableInterfaces = dc->interfaces();
+        for (const QString &providedInterface : dc->providedInterfaces()) {
+            if (!availableInterfaces.contains(providedInterface)) {
+                availableInterfaces.append(providedInterface);
+            }
+        }
 
         bool isInShownIfaces = false;
-        foreach (const QString &interface, dc->interfaces()) {
-            if (!m_shownInterfaces.isEmpty() && !m_shownInterfaces.contains(interface)) {
+        foreach (const QString &interface, availableInterfaces) {
+            if (!m_shownInterfaces.isEmpty() && !m_engine->interfaces()->interfaceListContains(m_shownInterfaces, interface)) {
                 continue;
             }
 
-            if (!interfacesInSource.contains(interface)) {
-                interfacesInSource.append(interface);
+            const QString canonicalName = m_engine->interfaces()->mainInterfaceName(interface);
+            if (!interfacesInSource.contains(canonicalName)) {
+                interfacesInSource.append(canonicalName);
             }
             // qWarning() << "yes" << interface;
             isInShownIfaces = true;

@@ -36,7 +36,7 @@ Page {
     property var eventDescriptor: null
 
     readonly property Thing thing: eventDescriptor && eventDescriptor.thingId ? engine.thingManager.things.getThing(eventDescriptor.thingId) : null
-    readonly property var iface: eventDescriptor && eventDescriptor.interfaceName ? Interfaces.findByName(eventDescriptor.interfaceName) : null
+    readonly property var iface: eventDescriptor && eventDescriptor.interfaceName ? _engine.interfaces.findByName(eventDescriptor.interfaceName) : null
     readonly property EventType eventType: thing ? thing.thingClass.eventTypes.getEventType(eventDescriptor.eventTypeId)
                                             : iface ? iface.eventTypes.findByName(eventDescriptor.interfaceEvent) : null
     readonly property StateType stateType: thing ? thing.thingClass.stateTypes.getStateType(eventDescriptor.eventTypeId)

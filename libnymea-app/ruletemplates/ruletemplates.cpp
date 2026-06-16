@@ -314,9 +314,16 @@ bool RuleTemplatesFilterModel::filterAcceptsRow(int source_row, const QModelInde
 
     if (!m_filterInterfaceNames.isEmpty()) {
         bool found = false;
+        Interfaces *interfaces = m_filterThingsProxy && m_filterThingsProxy->engine() ? m_filterThingsProxy->engine()->interfaces() : nullptr;
         foreach (const QString toBeFound, m_filterInterfaceNames) {
-            if (t->interfaces().contains(toBeFound)) {
-                found = true;
+            foreach (const QString &interfaceName, t->interfaces()) {
+                if ((interfaces && interfaces->interfaceNamesMatch(interfaceName, toBeFound))
+                        || (!interfaces && interfaceName == toBeFound)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
                 break;
             }
         }
@@ -329,8 +336,14 @@ bool RuleTemplatesFilterModel::filterAcceptsRow(int source_row, const QModelInde
 
 bool RuleTemplatesFilterModel::stateEvaluatorTemplateContainsInterface(StateEvaluatorTemplate *stateEvaluatorTemplate, const QStringList &interfaceNames) const
 {
-    if (interfaceNames.contains(stateEvaluatorTemplate->stateDescriptorTemplate()->interfaceName())) {
-        return true;
+    if (stateEvaluatorTemplate->stateDescriptorTemplate()) {
+        Interfaces *interfaces = m_filterThingsProxy && m_filterThingsProxy->engine() ? m_filterThingsProxy->engine()->interfaces() : nullptr;
+        for (const QString &interfaceName : interfaceNames) {
+            if ((interfaces && interfaces->interfaceNamesMatch(interfaceName, stateEvaluatorTemplate->stateDescriptorTemplate()->interfaceName()))
+                    || (!interfaces && interfaceName == stateEvaluatorTemplate->stateDescriptorTemplate()->interfaceName())) {
+                return true;
+            }
+        }
     }
     for (int i = 0; i < stateEvaluatorTemplate->childEvaluatorTemplates()->rowCount(); i++) {
         if (stateEvaluatorTemplateContainsInterface(stateEvaluatorTemplate->childEvaluatorTemplates()->get(i), interfaceNames)) {
@@ -345,13 +358,16 @@ bool RuleTemplatesFilterModel::thingsSatisfyRuleTemplate(RuleTemplate *ruleTempl
     // For improved performance it would be better to just cycle things once and flag satisfied states/events/actions
     // instead of looping over all things for every entry, but for the amount of templates we have right now
     // this is good enough. If needed, here's low hanging fruit to collect...
+    Interfaces *interfaces = things->engine() ? things->engine()->interfaces() : nullptr;
 
     // First check if all interfaces are around
     foreach (const QString &interfaceName, ruleTemplate->interfaces()) {
         bool haveThing = false;
         for (int i = 0; i < things->rowCount(); i++) {
             Thing *thing = things->get(i);
-            if (thing->thingClass()->interfaces().contains(interfaceName)) {
+            if ((interfaces && interfaces->thingClassSupportsInterface(thing->thingClass(), interfaceName))
+                    || (!interfaces && (thing->thingClass()->interfaces().contains(interfaceName)
+                                        || thing->thingClass()->providedInterfaces().contains(interfaceName)))) {
                 haveThing = true;
                 break;
             }

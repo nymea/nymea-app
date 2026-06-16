@@ -30,6 +30,7 @@
 #include "thingmanager.h"
 #include "connection/nymeatransportinterface.h"
 #include "jsonrpc/jsonrpcclient.h"
+#include "types/interfaces.h"
 
 #include "rulemanager.h"
 #include "scriptmanager.h"
@@ -47,6 +48,7 @@ class Engine : public QObject
     Q_PROPERTY(ScriptManager* scriptManager READ scriptManager CONSTANT)
     Q_PROPERTY(TagsManager* tagsManager READ tagsManager CONSTANT)
     Q_PROPERTY(JsonRpcClient* jsonRpcClient READ jsonRpcClient CONSTANT)
+    Q_PROPERTY(Interfaces* interfaces READ interfaces CONSTANT)
     Q_PROPERTY(NymeaConfiguration* nymeaConfiguration READ nymeaConfiguration CONSTANT)
     Q_PROPERTY(SystemController* systemController READ systemController CONSTANT)
     Q_PROPERTY(TransfersManager* transfersManager READ transfersManager CONSTANT)
@@ -59,6 +61,7 @@ public:
     ScriptManager *scriptManager() const;
     TagsManager *tagsManager() const;
     JsonRpcClient *jsonRpcClient() const;
+    Interfaces *interfaces() const;
     LogManager *logManager() const;
     NymeaConfiguration *nymeaConfiguration() const;
     SystemController *systemController() const;
@@ -66,6 +69,7 @@ public:
 
 private:
     JsonRpcClient *m_jsonRpcClient;
+    Interfaces *m_interfaces;
     ThingManager *m_thingManager;
     RuleManager *m_ruleManager;
     ScriptManager *m_scriptManager;

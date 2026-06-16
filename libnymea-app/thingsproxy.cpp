@@ -27,6 +27,19 @@
 #include "tagsmanager.h"
 #include "types/tag.h"
 
+namespace {
+
+bool thingClassHasInterface(Interfaces *interfaces, ThingClass *thingClass, const QString &interfaceName)
+{
+    if (!interfaces || !thingClass) {
+        return false;
+    }
+
+    return interfaces->interfaceListContains(thingClass->interfaces(), interfaceName);
+}
+
+}
+
 ThingsProxy::ThingsProxy(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
@@ -659,7 +672,7 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
     if (!m_shownInterfaces.isEmpty()) {
         bool foundMatch = false;
         foreach (const QString &filterInterface, m_shownInterfaces) {
-            if (thingClass->interfaces().contains(filterInterface)) {
+            if (m_engine && thingClassHasInterface(m_engine->interfaces(), thingClass, filterInterface)) {
                 foundMatch = true;
                 break;
             }
@@ -671,7 +684,7 @@ bool ThingsProxy::filterAcceptsRow(int source_row, const QModelIndex &source_par
 
     if (!m_hiddenInterfaces.isEmpty()) {
         foreach (const QString &filterInterface, m_hiddenInterfaces) {
-            if (thingClass->interfaces().contains(filterInterface)) {
+            if (m_engine && thingClassHasInterface(m_engine->interfaces(), thingClass, filterInterface)) {
                 return false;
             }
         }

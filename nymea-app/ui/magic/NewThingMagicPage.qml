@@ -67,7 +67,7 @@ Page {
                     return;
                 }
                 // Ok, we didn't pick a thing for this selectionId before. Did we already use the one we opened this page from?
-                if (root.thing && !thingIsUsed(root.thing.id) && root.thingClass.interfaces.indexOf(eventDescriptorTemplate.interfaceName) >= 0) {
+                if (root.thing && !thingIsUsed(root.thing.id) && _engine.interfaces.thingClassSupportsInterface(root.thingClass, eventDescriptorTemplate.interfaceName)) {
                     print("Root thing is matching and not used. Using for selectionId", eventDescriptorTemplate.selectionId, ":", root.thing.name)
                     selectedThings[eventDescriptorTemplate.selectionId] = root.thing.id;
                     selectedThingNames[eventDescriptorTemplate.selectionId] = root.thing.name;
@@ -77,7 +77,7 @@ Page {
 
                 // We need to pick a thing
                 print("We need to pick a new thing for selectionId", eventDescriptorTemplate.selectionId)
-                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [eventDescriptorTemplate.interfaceName], requiredEventName: eventDescriptorTemplate.eventName});
+                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: _engine.interfaces.equivalentInterfaceNames(eventDescriptorTemplate.interfaceName), requiredEventName: eventDescriptorTemplate.eventName});
                 page.thingSelected.connect(function(thing) {
                     selectedThings[eventDescriptorTemplate.selectionId] = thing.id;
                     selectedThingNames[eventDescriptorTemplate.selectionId] = thing.name;
@@ -152,7 +152,7 @@ Page {
                 if (ruleActionTemplate.selectionMode === RuleActionTemplate.SelectionModeInterface) {
                     // TODO: Implement blacklist for interface based actions
                     var ruleAction = rule.actions.createNewRuleAction();
-                    ruleAction.interfaceName = ruleActionTemplate.interfaceName;
+                    ruleAction.interfaceName = _engine.interfaces.preferredInterfaceName(ruleActionTemplate.interfaceName);
                     ruleAction.interfaceAction = ruleActionTemplate.actionName;
                     for (var j = 0; j < ruleActionTemplate.ruleActionParamTemplates.count; j++) {
                         var ruleActionParam = ruleActionTemplate.ruleActionParamTemplates.get(j)
@@ -173,7 +173,7 @@ Page {
                 }
 
                 // Did we already use the thing we opened this page from?
-                if (root.thing && !thingIsUsed(root.thing.id) && root.thingClass.interfaces.indexOf(ruleActionTemplate.interfaceName) >= 0) {
+                if (root.thing && !thingIsUsed(root.thing.id) && _engine.interfaces.thingClassSupportsInterface(root.thingClass, ruleActionTemplate.interfaceName)) {
                     print("Root thing is matching and not used. Using for selectionId", ruleActionTemplate.selectionId, ":", root.thing.name)
                     selectedThings[ruleActionTemplate.selectionId] = root.thing.id;
                     selectedThingNames[ruleActionTemplate.selectionId] = root.thing.name;
@@ -183,7 +183,7 @@ Page {
 
                 // Ok, we need to pick a thing
                 var multipleSelection = ruleActionTemplate.selectionMode === RuleActionTemplate.SelectionModeDevices;
-                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [ruleActionTemplate.interfaceName], requiredActionName: ruleActionTemplate.actionName, multipleSelection: multipleSelection});
+                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: _engine.interfaces.equivalentInterfaceNames(ruleActionTemplate.interfaceName), requiredActionName: ruleActionTemplate.actionName, multipleSelection: multipleSelection});
                 page.thingSelected.connect(function(thing) {
                     selectedThings[ruleActionTemplate.selectionId] = thing.id;
                     selectedThingNames[ruleActionTemplate.selectionId] = thing.name;
@@ -210,7 +210,7 @@ Page {
                 if (ruleExitActionTemplate.selectionMode === RuleActionTemplate.SelectionModeInterface) {
                     // TODO: Implement blacklist for interface based actions
                     var ruleExitAction = rule.exitActions.createNewRuleAction();
-                    ruleExitAction.interfaceName = ruleExitActionTemplate.interfaceName;
+                    ruleExitAction.interfaceName = _engine.interfaces.preferredInterfaceName(ruleExitActionTemplate.interfaceName);
                     ruleExitAction.interfaceAction = ruleExitActionTemplate.actionName;
                     for (var j = 0; j < ruleExitActionTemplate.ruleActionParamTemplates.count; j++) {
                         var ruleActionParam = ruleExitActionTemplate.ruleActionParamTemplates.get(j)
@@ -230,7 +230,7 @@ Page {
                 }
 
                 // Did we already use the thing we opened this page from?
-                if (root.thing && !thingIsUsed(root.thing.id) && root.thingClass.interfaces.indexOf(ruleExitActionTemplate.interfaceName) >= 0) {
+                if (root.thing && !thingIsUsed(root.thing.id) && _engine.interfaces.thingClassSupportsInterface(root.thingClass, ruleExitActionTemplate.interfaceName)) {
                     selectedThings[ruleExitActionTemplate.selectionId] = root.thing.id;
                     selectedThingNames[ruleExitActionTemplate.selectionId] = root.thing.name;
                     createRuleAction(rule, ruleTemplate, rule.exitActions, [root.thing], ruleExitActionTemplate);
@@ -239,7 +239,7 @@ Page {
 
                 // Ok, we need to pick a thing
                 var multipleSelection = ruleActionTemplate.selectionMode === RuleActionTemplate.SelectionModeDevices;
-                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [ruleExitActionTemplate.interfaceName], requiredActionName: ruleExitActionTemplate.actionName, multipleSelection: multipleSelection});
+                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: _engine.interfaces.equivalentInterfaceNames(ruleExitActionTemplate.interfaceName), requiredActionName: ruleExitActionTemplate.actionName, multipleSelection: multipleSelection});
                 page.thingSelected.connect(function(thing) {
                     selectedThings[ruleExitActionTemplate.selectionId] = thing.id;
                     selectedThingNames[ruleExitActionTemplate.selectionId] = thing.name;
@@ -324,7 +324,7 @@ Page {
 
                 print("filling in state evaluator for selection mode:", stateEvaluatorTemplate.stateDescriptorTemplate.selectionMode)
                 if (stateEvaluatorTemplate.stateDescriptorTemplate.selectionMode === StateDescriptor.SelectionModeInterface) {
-                    stateEvaluator.stateDescriptor.interfaceName = stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName;
+                    stateEvaluator.stateDescriptor.interfaceName = _engine.interfaces.preferredInterfaceName(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName);
                     stateEvaluator.stateDescriptor.interfaceState = stateEvaluatorTemplate.stateDescriptorTemplate.stateName;
                     stateEvaluator.stateDescriptor.valueOperator = stateEvaluatorTemplate.stateDescriptorTemplate.valueOperator;
                     stateEvaluator.stateDescriptor.value = stateEvaluatorTemplate.stateDescriptorTemplate.value;
@@ -344,7 +344,7 @@ Page {
                     fillRuleFromTemplate(rule, ruleTemplate);
                     return true;
                 }
-                if (root.thing && !thingIsUsed(root.thing.id) && root.thingClass.interfaces.indexOf(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName) >= 0) {
+                if (root.thing && !thingIsUsed(root.thing.id) && _engine.interfaces.thingClassSupportsInterface(root.thingClass, stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName)) {
                     stateEvaluator.stateDescriptor.thingId = root.thing.id;
                     stateEvaluator.stateDescriptor.stateTypeId = root.thingClass.stateTypes.findByName(stateEvaluatorTemplate.stateDescriptorTemplate.stateName).id
                     stateEvaluator.stateDescriptor.valueOperator = stateEvaluatorTemplate.stateDescriptorTemplate.valueOperator;
@@ -356,7 +356,7 @@ Page {
                 }
                 print("opening SelectThingPage for shownInterfaces:")
                 print("..", stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName)
-                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: [stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName], requiredStateName: stateEvaluatorTemplate.stateDescriptorTemplate.stateName, allowSelectAny: stateEvaluatorTemplate.stateDescriptorTemplate.selectionMode === StateDescriptorTemplate.SelectionModeAny});
+                var page = pageStack.push(Qt.resolvedUrl("SelectThingPage.qml"), {shownInterfaces: _engine.interfaces.equivalentInterfaceNames(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName), requiredStateName: stateEvaluatorTemplate.stateDescriptorTemplate.stateName, allowSelectAny: stateEvaluatorTemplate.stateDescriptorTemplate.selectionMode === StateDescriptorTemplate.SelectionModeAny});
                 page.thingSelected.connect(function(thing) {
                     stateEvaluator.stateDescriptor.thingId = thing.id;
                     stateEvaluator.stateDescriptor.stateTypeId = thing.thingClass.stateTypes.findByName(stateEvaluatorTemplate.stateDescriptorTemplate.stateName).id;
@@ -367,7 +367,7 @@ Page {
                     fillRuleFromTemplate(rule, ruleTemplate)
                 })
                 page.onAnySelected.connect(function() {
-                    stateEvaluator.stateDescriptor.interfaceName = stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName;
+                    stateEvaluator.stateDescriptor.interfaceName = _engine.interfaces.preferredInterfaceName(stateEvaluatorTemplate.stateDescriptorTemplate.interfaceName);
                     stateEvaluator.stateDescriptor.interfaceState = stateEvaluatorTemplate.stateDescriptorTemplate.stateName;
                     stateEvaluator.stateDescriptor.valueOperator = stateEvaluatorTemplate.stateDescriptorTemplate.valueOperator;
                     stateEvaluator.stateDescriptor.value = stateEvaluatorTemplate.stateDescriptorTemplate.value;

@@ -86,6 +86,9 @@ Page {
             for (var i = 0; i < vocRepeater.count; i++) {
                 vocRepeater.itemAt(i).logsModel.fetchLogs()
             }
+            for (var i = 0; i < valvesRepeater.count; i++) {
+                valvesRepeater.itemAt(i).logsModel.fetchLogs()
+            }
 
             for (var i = 0; i < windowOpenRepeater.count; i++) {
                 windowOpenRepeater.itemAt(i).logsModel.fetchLogs()
@@ -233,6 +236,19 @@ Page {
                 }
 
                 ValueAxis {
+                    id: percentageAxis
+                    min: 0
+                    max: 100
+                    labelFormat: ""
+                    gridLineColor: Style.tileOverlayColor
+                    labelsVisible: false
+                    lineVisible: false
+                    titleVisible: false
+                    shadesVisible: false
+                    visible: false
+                }
+
+                ValueAxis {
                     id: boolAxis
                     min: 0
                     max: 1
@@ -285,6 +301,15 @@ Page {
                                 font: Style.extraSmallFont
                                 visible: vocRepeater.count > 0
                                 color: app.interfaceToColor("vocsensor")
+                            }
+                            Label {
+                                width: parent.width - Style.smallMargins
+                                horizontalAlignment: Text.AlignRight
+                                text: (percentageAxis.max - (index * percentageAxis.max / (percentageAxis.tickCount - 1))).toFixed(0) + "%"
+                                verticalAlignment: Text.AlignTop
+                                font: Style.extraSmallFont
+                                visible: root.acManager && root.acManager.valvesSupported && valvesRepeater.count > 0
+                                color: app.interfaceToColor("valve")
                             }
                         }
                     }
@@ -546,6 +571,56 @@ Page {
                             chartView.removeSeries(series)
                         }
 
+                    }
+                }
+
+                Repeater {
+                    id: valvesRepeater
+                    model: root.acManager && root.acManager.valvesSupported ? zoneWrapper.valves : null
+                    delegate: Item {
+                        id: valveDelegate
+                        readonly property Thing thing: zoneWrapper.valves.get(index)
+                        property XYSeries series: null
+                        readonly property NewLogsModel logsModel: NewLogsModel {
+                            objectName: "valve: " + thing.name
+                            engine: _engine
+                            source: "state-" + thing.id + "-percentage"
+                            startTime: new Date(d.startTime.getTime() - d.range * 60000)
+                            endTime: new Date(d.endTime.getTime() + d.range * 60000)
+                            sampleRate: d.sampleRate
+                            onBusyChanged: (busy) => {
+                                if (busy) {
+                                    chartView.busyCounter++
+                                } else {
+                                    chartView.busyCounter--
+                                }
+                            }
+                            onEntriesAddedIdx: (index, count) => {
+                                for (var i = 0; i < count; i++) {
+                                    var entry = logsModel.get(i)
+                                    var value = entry.values["percentage"]
+                                    if (value == null) {
+                                        value = 0;
+                                    }
+                                    series.insert(index + i, entry.timestamp, value)
+                                }
+                            }
+                            onEntriesRemoved: (index, count) => {
+                                series.removePoints(index, count)
+                            }
+                            Component.onCompleted: fetchLogs()
+                        }
+
+                        Component.onCompleted: {
+                            series = chartView.createSeries(ChartView.SeriesTypeLine, thing.name, dateTimeAxis, percentageAxis)
+                            series.color = app.interfaceToColor("valve")
+                            series.width = 1
+                            series.borderWidth = 0;
+                            series.borderColor = series.color
+                        }
+                        Component.onDestruction: {
+                            chartView.removeSeries(series)
+                        }
                     }
                 }
 
@@ -887,6 +962,7 @@ Page {
                         insert(tempTooltipRepeater, ordered);
                         insert(humidityTooltipRepeater, ordered);
                         insert(vocTooltipRepeater, ordered);
+                        insert(valveTooltipRepeater, ordered);
 
                         for (var i = ordered.length - 1; i >= 0; i--) {
                             var item = ordered[i]
@@ -993,6 +1069,26 @@ Page {
                         unit: Types.UnitPartsPerMillion
                     }
                 }
+
+                Repeater {
+                    id: valveTooltipRepeater
+                    model: valvesRepeater.count
+
+                    delegate: TooltipDelegate {
+                        visible: (mouseArea.containsMouse || mouseArea.tooltipping) && !mouseArea.dragging
+                        thing: valvesRepeater.itemAt(index).thing
+                        entry: valvesRepeater.itemAt(index).logsModel.find(tooltips.timestamp)
+                        valueName: "percentage"
+                        color: app.interfaceToColor("valve")
+                        iconSource: app.interfaceToIcon("valve")
+                        axis: percentageAxis
+                        x: tooltips.tooltipX
+                        width: tooltips.tooltipWidth
+                        backgroundItem: chartView
+                        backgroundRect: Qt.rect(mouseArea.x + x, mouseArea.y + y, width, height)
+                        unit: Types.UnitPercentage
+                    }
+                }
             }
         }
 
@@ -1007,6 +1103,7 @@ Page {
                               + tempRepeater.count
                               + humidityRepeater.count
                               + vocRepeater.count
+                              + valvesRepeater.count
                               + (windowOpenRepeater.count > 0 ? 1 : 0)
                               + (heatingRepeater.count > 0 ? 1 : 0))
 
@@ -1046,6 +1143,15 @@ Page {
                     color: app.interfaceToColor("vocsensor")
                 }
             }
+            Repeater {
+                model: valvesRepeater.count
+                delegate: LegendDelegate {
+                    Layout.fillWidth: true
+                    text: valvesRepeater.itemAt(index).thing.name
+                    iconName: app.interfaceToIcon("valve")
+                    color: app.interfaceToColor("valve")
+                }
+            }
             LegendDelegate {
                 Layout.fillWidth: true
                 color: Qt.rgba(Style.green.r, Style.green.g, Style.green.b, 0.2)
@@ -1060,4 +1166,3 @@ Page {
     }
 
 }
-
