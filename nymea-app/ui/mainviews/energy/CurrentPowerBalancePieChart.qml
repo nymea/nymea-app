@@ -208,7 +208,7 @@ Item {
         property bool evChargerVisible: root.rootMeterConfigured && root.showEvChargers && evChargers.count > 0
         property bool consumptionVisible: true
 
-        property real layoutWidthFactor: 3.2
+        property real layoutWidthFactor: 3.0
         property real layoutHeightFactor: evChargerVisible ? 4 : 2.9
         property int chartSize: contentContainer.width / layoutWidthFactor
         property real preferredContentHeight: chartSize * layoutHeightFactor
@@ -361,6 +361,8 @@ Item {
     Item {
         id: contentContainer
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom; top: titleLabel.bottom}
+
+        readonly property real percentageOffset: 0.25
 
         FlowCurve {
             id: gridFlowCurve
@@ -548,7 +550,7 @@ Item {
                         color: Style.tooltipBackgroundColor
                         borderColor: color
                         borderWidth: 0
-                        value: energyManager.currentPowerAcquisition == 0 ? 1 : 0
+                        value: energyManager.currentPowerAcquisition === 0 ? 1 : 0
                     }
                 }
             }
@@ -584,7 +586,7 @@ Item {
                 Label {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
-                    text: producers.count == 0 ? "?" : d.formatValue(Math.abs(energyManager.currentPowerProduction))
+                    text: producers.count === 0 ? "?" : d.formatValue(Math.abs(energyManager.currentPowerProduction))
                     //            color: energyManager.currentPowerAcquisition >= 0 ? Style.red : Style.green
                 }
             }
@@ -746,7 +748,7 @@ Item {
 
             Label {
                 anchors.horizontalCenter: parent.horizontalCenter
-                y: batteryChart.y + batteryChart.plotArea.height * .2
+                y: batteryChart.y + batteryChart.plotArea.height * contentContainer.percentageOffset
                 horizontalAlignment: Text.AlignHCenter
                 font: Style.smallFont
                 text: batteryChart.averageLevel + "%"
@@ -770,7 +772,7 @@ Item {
                     return totalCapacity;
                 }
                 property double averageLevel: {
-                    if (batteriesRepeater.count == 0) {
+                    if (batteriesRepeater.count === 0) {
                         return 0;
                     }
 
@@ -798,7 +800,7 @@ Item {
                     holeSize: 0.8
 
                     PieSlice {
-                        color: energyManager.currentPowerStorage == 0
+                        color: energyManager.currentPowerStorage === 0
                                ? Style.powerBatteryIdleColor
                                : root.storageIn > 0
                                  ? Style.powerBatteryChargingColor
@@ -850,7 +852,7 @@ Item {
 
             Label {
                 anchors.horizontalCenter: parent.horizontalCenter
-                y: evChargerChart.y + evChargerChart.plotArea.height * .2
+                y: evChargerChart.y + evChargerChart.plotArea.height * contentContainer.percentageOffset
                 horizontalAlignment: Text.AlignHCenter
                 font: Style.smallFont
                 visible: evChargerPowerRepeater.singleBatteryLevel >= 0
