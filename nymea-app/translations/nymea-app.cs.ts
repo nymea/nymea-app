@@ -541,6 +541,26 @@
         <source>Do you really want to upload and restore the backup file %1? All current settings will be removed and the server will reboot once finished.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Preparing backup download...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not prepare a local backup file for export.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select a backup archive (*.tar.gz).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is no backup file in the backup directory %1 yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup downloaded. Choose Save to Files to store it in Downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>BarcodeScannerThingPage</name>
@@ -1296,6 +1316,10 @@
         <source>My energy consumption</source>
         <translation>Moje spotřeba energie</translation>
     </message>
+    <message>
+        <source>From car</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CurrentPowerBalancePage</name>
@@ -1309,6 +1333,10 @@
     <message>
         <source>My energy mix</source>
         <translation>Můj energetický mix</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1332,6 +1360,10 @@
     <message>
         <source>To battery</source>
         <translation>Do batterie</translation>
+    </message>
+    <message>
+        <source>To car</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2223,6 +2255,49 @@
         <source>Add things</source>
         <translation>Přidat &quot;věci&quot;</translation>
     </message>
+    <message>
+        <source>Valves</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add valve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add valves</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No valves installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Before a valve can be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup valves</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ElectricVehiclesView</name>
+    <message>
+        <source>Electric vehicles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no electric vehicles set up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect your cars and chargers in order to access them from here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EnergySettingsPage</name>
@@ -2291,6 +2366,21 @@
     <message>
         <source>An unexpected error happened. Sorry about that.</source>
         <translation>Vyskytla se neočekávaná chyba.</translation>
+    </message>
+</context>
+<context>
+    <name>EvChargerDcThingPage</name>
+    <message>
+        <source>Charging power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The car is not plugged in.</source>
+        <translation type="unfinished">Vozidlo není připojeno.</translation>
+    </message>
+    <message>
+        <source>Currently charging at %1.</source>
+        <translation type="unfinished">Aktuálně se nabíjí %1.</translation>
     </message>
 </context>
 <context>
@@ -3374,18 +3464,6 @@ Please make sure you have a backup of your configurations. The system will perfo
         <translation>Změna pohybu</translation>
     </message>
     <message>
-        <source>Maximum charging current</source>
-        <translation>Maximální nabíjecí proud</translation>
-    </message>
-    <message>
-        <source>Maximum charging current changed</source>
-        <translation>Maximální nabíjecí proud se změnil</translation>
-    </message>
-    <message>
-        <source>Set maximum charging current</source>
-        <translation>Nastavte maximální nabíjecí proud</translation>
-    </message>
-    <message>
         <source>Percentage</source>
         <translation>Procento</translation>
     </message>
@@ -3908,6 +3986,14 @@ Please make sure you have a backup of your configurations. The system will perfo
     <message>
         <source>Vibration detected</source>
         <translation>Zjištěny vibrace</translation>
+    </message>
+    <message>
+        <source>EV chargers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Electric cars</source>
+        <translation type="unfinished">Elektromobily</translation>
     </message>
 </context>
 <context>
@@ -4454,6 +4540,10 @@ Please make sure you have a backup of your configurations. The system will perfo
     <message>
         <source>AC</source>
         <translation>AC</translation>
+    </message>
+    <message>
+        <source>EVs</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5518,10 +5608,6 @@ Použijte hodnotu časového limitu větší nebo rovnou 10 ms.</translation>
         <translation>Elektroměry</translation>
     </message>
     <message>
-        <source>EV-chargers</source>
-        <translation>EV-nabíječky</translation>
-    </message>
-    <message>
         <source>Power sockets</source>
         <translation>Zásuvky</translation>
     </message>
@@ -5675,6 +5761,24 @@ Použijte hodnotu časového limitu větší nebo rovnou 10 ms.</translation>
     <message>
         <source>Ozone sensors</source>
         <translation>Ozonové senzory</translation>
+    </message>
+    <message>
+        <source>EV chargers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Valves</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>valve</source>
+        <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EV charger</source>
+        <extracomment>Select ...</extracomment>
+        <translation type="unfinished">EV nabíječka</translation>
     </message>
 </context>
 <context>

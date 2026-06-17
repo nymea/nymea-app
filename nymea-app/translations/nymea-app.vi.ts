@@ -541,6 +541,26 @@
         <source>Do you really want to upload and restore the backup file %1? All current settings will be removed and the server will reboot once finished.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Preparing backup download...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not prepare a local backup file for export.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select a backup archive (*.tar.gz).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is no backup file in the backup directory %1 yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backup downloaded. Choose Save to Files to store it in Downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>BarcodeScannerThingPage</name>
@@ -1294,6 +1314,10 @@
         <source>My energy consumption</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>From car</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CurrentPowerBalancePage</name>
@@ -1306,6 +1330,10 @@
     <name>CurrentPowerBalancePieChart</name>
     <message>
         <source>My energy mix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1329,6 +1357,10 @@
     </message>
     <message>
         <source>To battery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To car</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2215,6 +2247,49 @@
         <source>Add things</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Valves</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add valve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add valves</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No valves installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Before a valve can be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup valves</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ElectricVehiclesView</name>
+    <message>
+        <source>Electric vehicles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no electric vehicles set up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect your cars and chargers in order to access them from here.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EnergySettingsPage</name>
@@ -2282,6 +2357,21 @@
     </message>
     <message>
         <source>An unexpected error happened. Sorry about that.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EvChargerDcThingPage</name>
+    <message>
+        <source>Charging power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The car is not plugged in.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Currently charging at %1.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3349,18 +3439,6 @@ Please make sure you have a backup of your configurations. The system will perfo
         <translation></translation>
     </message>
     <message>
-        <source>Maximum charging current</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Maximum charging current changed</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Set maximum charging current</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Percentage</source>
         <translation></translation>
     </message>
@@ -3882,6 +3960,14 @@ Please make sure you have a backup of your configurations. The system will perfo
     </message>
     <message>
         <source>Vibration detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EV chargers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Electric cars</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4410,6 +4496,10 @@ Please make sure you have a backup of your configurations. The system will perfo
     </message>
     <message>
         <source>AC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EVs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5447,10 +5537,6 @@ Use a timeout value greater or equal to 10 ms.</source>
         <translation></translation>
     </message>
     <message>
-        <source>EV-chargers</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Power sockets</source>
         <translation></translation>
     </message>
@@ -5627,6 +5713,24 @@ Use a timeout value greater or equal to 10 ms.</source>
     </message>
     <message>
         <source>Ozone sensors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EV chargers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Valves</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>valve</source>
+        <extracomment>Select ...</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EV charger</source>
+        <extracomment>Select ...</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>

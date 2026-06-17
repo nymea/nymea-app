@@ -394,7 +394,7 @@
     </message>
     <message>
         <source>Backup uploaded. The server is restoring it and will reboot once finished.</source>
-        <translation>Backup hochgeladen. Der Server wird es wieder herstellen und anschließend neu starten.</translation>
+        <translation>Backup hochgeladen. Der Server stellt es wieder her und startet anschließend neu.</translation>
     </message>
     <message>
         <source>Saving backup settings...</source>
@@ -442,7 +442,7 @@
     </message>
     <message>
         <source>Automatic backup interval</source>
-        <translation>Interval für automatische Backups</translation>
+        <translation>Intervall für automatische Backups</translation>
     </message>
     <message>
         <source>Custom interval in hours</source>
@@ -454,7 +454,7 @@
     </message>
     <message>
         <source>Failed to update the backup settings: %1</source>
-        <translation>Fehler beim Updaten der Backup Einstellungen: %1</translation>
+        <translation>Fehler beim Aktualisieren der Backup-Einstellungen: %1</translation>
     </message>
     <message>
         <source>Backup settings updated successfully.</source>
@@ -506,11 +506,11 @@
     </message>
     <message>
         <source>Backup file deleted.</source>
-        <translation>Backup Datei wurder gelöscht.</translation>
+        <translation>Backup-Datei wurde gelöscht.</translation>
     </message>
     <message>
         <source>Failed to restore the backup file: %1</source>
-        <translation>Fehler beim Wiederherstellen der Backup Dateil: %1</translation>
+        <translation>Fehler beim Wiederherstellen der Backup-Datei: %1</translation>
     </message>
     <message>
         <source>Backup restore started. The server will reboot once finished.</source>
@@ -540,6 +540,26 @@
     <message>
         <source>Do you really want to upload and restore the backup file %1? All current settings will be removed and the server will reboot once finished.</source>
         <translation>Möchten Sie die Sicherungsdatei %1 wirklich hochladen und wiederherstellen? Alle aktuellen Einstellungen werden gelöscht und der Server wird nach Abschluss des Vorgangs neu gestartet.</translation>
+    </message>
+    <message>
+        <source>Preparing backup download...</source>
+        <translation>Bereite Download vor...</translation>
+    </message>
+    <message>
+        <source>Could not prepare a local backup file for export.</source>
+        <translation>Die lokale Backup-Datei konnte nicht für den Export vorbereitet werden.</translation>
+    </message>
+    <message>
+        <source>Please select a backup archive (*.tar.gz).</source>
+        <translation>Bitte wähle ein Backup-Archiv (*.tar.gz).</translation>
+    </message>
+    <message>
+        <source>There is no backup file in the backup directory %1 yet.</source>
+        <translation>Es ist noch kein Backup im Sicherungsverzeichnis %1 vorhanden.</translation>
+    </message>
+    <message>
+        <source>Backup downloaded. Choose Save to Files to store it in Downloads.</source>
+        <translation>Backup heruntergeladen. Wähle „In Dateien sichern“, um es in Downloads zu speichern.</translation>
     </message>
 </context>
 <context>
@@ -760,7 +780,7 @@
     </message>
     <message>
         <source>The certificate for this %1 system has changed. This could be because the configuration has been changed, but could also mean the system has been compromised. Do you want to accept the new certificate?</source>
-        <translation>Das Zeritifikat für dieses %1 system hat sich geändert. Dies könnte durch eine Änderung der Konfiguration verursacht worden sein, aber auch darauf hindeuten, dass das System kompromittiert wurde. Möchtest du diesem Zertifikat vertrauen?</translation>
+        <translation>Das Zertifikat für dieses %1-System hat sich geändert. Dies könnte durch eine Änderung der Konfiguration verursacht worden sein, aber auch darauf hindeuten, dass das System kompromittiert wurde. Möchtest du diesem Zertifikat vertrauen?</translation>
     </message>
 </context>
 <context>
@@ -841,7 +861,7 @@
     </message>
     <message>
         <source>Connect Inputs/Outputs</source>
-        <translation>Verbundene Ein-/Ausgänge</translation>
+        <translation>Ein-/Ausgänge verbinden</translation>
     </message>
     <message>
         <source>Connect &quot;%1&quot; to:</source>
@@ -1108,7 +1128,7 @@
     </message>
     <message>
         <source>Bluetooth is turned off. Please enable Bluetooth on this device.</source>
-        <translation>Bluetooth ist deaktiviert. Bitte aktivieren Bluetooth auf diesem Gerät.</translation>
+        <translation>Bluetooth ist deaktiviert. Bitte aktiviere Bluetooth auf diesem Gerät.</translation>
     </message>
     <message>
         <source>Connecting to the nymea system...</source>
@@ -1164,7 +1184,7 @@
     </message>
     <message>
         <source>Location services are disabled. Please enable location services on this device in order to search for nearby nymea systems.</source>
-        <translation>Standortdienste sind deaktivert. Bitte aktiviere die Standortdienste auf diesem Gerät damit nymea Systeme in deiner Umgebung gefunden werden können.</translation>
+        <translation>Standortdienste sind deaktiviert. Bitte aktiviere die Standortdienste auf diesem Gerät, damit nymea-Systeme in deiner Umgebung gefunden werden können.</translation>
     </message>
 </context>
 <context>
@@ -1295,6 +1315,10 @@
         <source>My energy consumption</source>
         <translation>Mein Energieverbrauch</translation>
     </message>
+    <message>
+        <source>From car</source>
+        <translation>Vom Auto</translation>
+    </message>
 </context>
 <context>
     <name>CurrentPowerBalancePage</name>
@@ -1308,6 +1332,10 @@
     <message>
         <source>My energy mix</source>
         <translation>Mein Energiemix</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
     </message>
 </context>
 <context>
@@ -1331,6 +1359,10 @@
     <message>
         <source>To battery</source>
         <translation>Batterie</translation>
+    </message>
+    <message>
+        <source>To car</source>
+        <translation>Zum Auto</translation>
     </message>
 </context>
 <context>
@@ -1611,11 +1643,11 @@
     </message>
     <message>
         <source>No reachable web server configuration was found for %1. Please enable the web server on this address or on 0.0.0.0.</source>
-        <translation>Es wurde keine erreichbare Webserver Einstellung fefunden für %1. Bitte richte einen Webserver der auf 0.0.0.0 hört ein.</translation>
+        <translation>Es wurde keine erreichbare Webserver-Einstellung für %1 gefunden. Bitte richte einen Webserver ein, der auf 0.0.0.0 hört.</translation>
     </message>
     <message>
         <source>The debug interface can only be reached from the LAN. If you are using the remote connection, the following link might not work.</source>
-        <translation>Die Debug Schnittstelle kan nur innerhalb des LANs erreicht werden. Wenn Du über die Fernverbindung verbunden bist, könnte der folgende Link eventuell nicht funktionieren.</translation>
+        <translation>Die Debug-Schnittstelle kann nur innerhalb des LANs erreicht werden. Wenn du über die Fernverbindung verbunden bist, könnte der folgende Link eventuell nicht funktionieren.</translation>
     </message>
     <message>
         <source>Open debug interface</source>
@@ -2222,6 +2254,49 @@
         <source>Add things</source>
         <translation>&quot;Things&quot; hinzufügen</translation>
     </message>
+    <message>
+        <source>Valves</source>
+        <translation>Ventile</translation>
+    </message>
+    <message>
+        <source>Add valve</source>
+        <translation>Ventil hinzufügen</translation>
+    </message>
+    <message>
+        <source>Add valves</source>
+        <translation>Ventile hinzufügen</translation>
+    </message>
+    <message>
+        <source>No valves installed</source>
+        <translation>Keine Ventile installiert</translation>
+    </message>
+    <message>
+        <source>Before a valve can be assigned to this zone, it needs to be connected to nymea.</source>
+        <translation>Bevor ein Ventil einer Zone zugewiesen werden kann, muss er an nymea angebunden werden.</translation>
+    </message>
+    <message>
+        <source>Setup valves</source>
+        <translation>Richte Ventile ein</translation>
+    </message>
+</context>
+<context>
+    <name>ElectricVehiclesView</name>
+    <message>
+        <source>Electric vehicles</source>
+        <translation>Elektrisches Fahrzeug</translation>
+    </message>
+    <message>
+        <source>There are no electric vehicles set up.</source>
+        <translation>Es sind keine elektrischen Fahrzeuge eingerichtet.</translation>
+    </message>
+    <message>
+        <source>Connect your cars and chargers in order to access them from here.</source>
+        <translation>Verbinde dein Auto und den Lader um von hier aus zuzugreifen.</translation>
+    </message>
+    <message>
+        <source>Add things</source>
+        <translation>&quot;Things&quot; hinzufügen</translation>
+    </message>
 </context>
 <context>
     <name>EnergySettingsPage</name>
@@ -2293,6 +2368,21 @@
     </message>
 </context>
 <context>
+    <name>EvChargerDcThingPage</name>
+    <message>
+        <source>Charging power</source>
+        <translation>Ladeleistung</translation>
+    </message>
+    <message>
+        <source>The car is not plugged in.</source>
+        <translation>Das Fahrzeug ist nicht eingesteckt.</translation>
+    </message>
+    <message>
+        <source>Currently charging at %1.</source>
+        <translation>Aktuell wird mit %1 geladen.</translation>
+    </message>
+</context>
+<context>
     <name>EvChargerThingPage</name>
     <message>
         <source>Maximum charging current</source>
@@ -2359,7 +2449,7 @@
     </message>
     <message>
         <source>The dashboard can only be reached from the LAN. If you are using the remote connection, the following link might not work.</source>
-        <translation>Das Dashboard kan nur innerhalb des LANs erreicht werden. Wenn Du über die Fernverbindung verbunden bist, könnte der folgende Link eventuell nicht funktionieren.</translation>
+        <translation>Das Dashboard kann nur innerhalb des LANs erreicht werden. Wenn du über die Fernverbindung verbunden bist, könnte der folgende Link eventuell nicht funktionieren.</translation>
     </message>
     <message>
         <source>No active LAN IPv4 address was found in the network settings.</source>
@@ -2367,7 +2457,7 @@
     </message>
     <message>
         <source>No reachable web server configuration was found for %1. Please enable the web server on this address or on 0.0.0.0.</source>
-        <translation>Es wurde keine erreichbare Webserver Einstellung fefunden für %1. Bitte richte einen Webserver der auf 0.0.0.0 hört ein.</translation>
+        <translation>Es wurde keine erreichbare Webserver-Einstellung für %1 gefunden. Bitte richte einen Webserver ein, der auf 0.0.0.0 hört.</translation>
     </message>
     <message>
         <source>Open EVDash</source>
@@ -2428,7 +2518,7 @@
     </message>
     <message>
         <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
-        <translation>Favoriten erlauben es den Überblick über die wichtigsten &quot;Things&quot; zu behalten wenn Du viele davon eingebunden hast. Halte ausschau nach dem Stern wenn Du mit &quot;Things&quot; interagierst umd benutze ihn um diese als Favoriten zu markieren.</translation>
+        <translation>Favoriten erlauben es, den Überblick über die wichtigsten „Things“ zu behalten, wenn du viele davon eingebunden hast. Halte Ausschau nach dem Stern, wenn du mit „Things“ interagierst, und benutze ihn, um diese als Favoriten zu markieren.</translation>
     </message>
     <message>
         <source>Add things</source>
@@ -3366,18 +3456,6 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
         <translation>Bewegung geändert</translation>
     </message>
     <message>
-        <source>Maximum charging current</source>
-        <translation>Maximaler Ladestrom</translation>
-    </message>
-    <message>
-        <source>Maximum charging current changed</source>
-        <translation>Maximaler Ladestrom geändert</translation>
-    </message>
-    <message>
-        <source>Set maximum charging current</source>
-        <translation>Setze maximalen Ladestrom</translation>
-    </message>
-    <message>
         <source>Percentage</source>
         <translation>Prozent</translation>
     </message>
@@ -3900,6 +3978,14 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     <message>
         <source>Vibration detected</source>
         <translation>Vibration erkannt</translation>
+    </message>
+    <message>
+        <source>EV chargers</source>
+        <translation>Ladestationen</translation>
+    </message>
+    <message>
+        <source>Electric cars</source>
+        <translation>Elektrische Autos</translation>
     </message>
 </context>
 <context>
@@ -4437,6 +4523,10 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     <message>
         <source>AC</source>
         <translation>AC</translation>
+    </message>
+    <message>
+        <source>EVs</source>
+        <translation>Elektrische Fahrzeuge</translation>
     </message>
 </context>
 <context>
@@ -5501,10 +5591,6 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <translation>Intelligente Stromzähler</translation>
     </message>
     <message>
-        <source>EV-chargers</source>
-        <translation>EV-Ladestationen</translation>
-    </message>
-    <message>
         <source>Power sockets</source>
         <translation>Steckdosen</translation>
     </message>
@@ -5659,6 +5745,24 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
         <source>Ozone sensors</source>
         <translation>Ozonsensoren</translation>
     </message>
+    <message>
+        <source>EV chargers</source>
+        <translation>Ladestationen</translation>
+    </message>
+    <message>
+        <source>Valves</source>
+        <translation>Ventile</translation>
+    </message>
+    <message>
+        <source>valve</source>
+        <extracomment>Select ...</extracomment>
+        <translation>Ventil</translation>
+    </message>
+    <message>
+        <source>EV charger</source>
+        <extracomment>Select ...</extracomment>
+        <translation>Ladestation</translation>
+    </message>
 </context>
 <context>
     <name>NymeaItemDelegate</name>
@@ -5753,7 +5857,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 might not be functioning properly or restart during this time.</source>
-        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Miuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.</translation>
+        <translation>Diese Aktion startet ein System-Update. Dies kann mehrere Minuten dauern und dein %1-System könnte in dieser Zeit gegebenenfalls nicht ordnungsgemäß funktionieren.</translation>
     </message>
     <message>
         <source>
@@ -5772,7 +5876,7 @@ Möchtest Du fortfahren?</translation>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
 Do you want to proceed?</source>
-        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Miuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.
+        <translation>Diese Aktion startet ein System-Update. Dies kann mehrere Minuten dauern und dein %1-System könnte in dieser Zeit gegebenenfalls nicht ordnungsgemäß funktionieren.
 Möchtest Du fortfahren?</translation>
     </message>
     <message>
@@ -6210,7 +6314,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>The version of the %1 system you are trying to connect to is too old. This app requires at least API version %2 but this %1 system only supports API version %3. Please update your %1 system.</source>
-        <translation>Die Version dieses %1 Systems ist zu alt. Diese App benötigt mindestens API Version %2, dieses %1 System unterstützt jedoch nur API Version %3. Bitte update Dein %1 System.</translation>
+        <translation>Die Version dieses %1-Systems ist zu alt. Diese App benötigt mindestens API-Version %2, dieses %1-System unterstützt jedoch nur API-Version %3. Bitte aktualisiere dein %1-System.</translation>
     </message>
     <message>
         <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to API version %2 but this %1 system provides API version %3. Please update %4.</source>
@@ -6272,7 +6376,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Scenes provide a useful way to control your things with just one click.</source>
-        <translation>Szenen bieten einen einfachen Weg um deine &quot;Things&quot; mit nur einem klick zu steuern.</translation>
+        <translation>Szenen bieten einen einfachen Weg, um deine „Things“ mit nur einem Klick zu steuern.</translation>
     </message>
     <message>
         <source>Add things</source>
@@ -7129,7 +7233,7 @@ A consumer, not consuming anything</extracomment>
     </message>
     <message>
         <source>When a thing of a given type enters a state</source>
-        <translation>Wenn ein &quot;Things&quot; eines Typs einen Zustand betritt</translation>
+        <translation>Wenn ein „Thing“ eines bestimmten Typs einen Zustand annimmt</translation>
     </message>
 </context>
 <context>
@@ -7211,7 +7315,7 @@ A consumer, not consuming anything</extracomment>
     <message>
         <source>This will start a system update. Note that the update might take several minutes and your %1 system might not be functioning properly during this time and restart during the process.
 Do you want to proceed?</source>
-        <translation>Diese Aktion wird ein System-Update starten. Dies kann mehrere Minuten dauern und Dein %1 System könnte in dieser Zeit gegebenenfalls nicht ordungsgemäß funktionieren.
+        <translation>Diese Aktion startet ein System-Update. Dies kann mehrere Minuten dauern und dein %1-System könnte in dieser Zeit gegebenenfalls nicht ordnungsgemäß funktionieren.
 Möchtest Du fortfahren?</translation>
     </message>
     <message>
@@ -7219,7 +7323,7 @@ Möchtest Du fortfahren?</translation>
 This can potentially break your system and lead to problems.
 Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
         <translation>Das Aktivieren zusätzlicher Software-Quellen erlaubt das Installieren von %1 Vorschauversionen.
-Dies kann unter Umständen Deine Installation beschädigen und zu Problemen füren.
+Dies kann unter Umständen deine Installation beschädigen und zu Problemen führen.
 Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du möchtest und hilf uns Fehler zu finden indem Du uns darüber informierst.</translation>
     </message>
     <message>
@@ -8481,7 +8585,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Are you sure you want to remove the network and all associated devices from the system?</source>
-        <translation>Bist Du sicher, dass das Netzwerk und alle verknüpften Geräte aus dem System enfernt werden sollen?</translation>
+        <translation>Bist du sicher, dass das Netzwerk und alle verknüpften Geräte aus dem System entfernt werden sollen?</translation>
     </message>
 </context>
 <context>
@@ -8724,7 +8828,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>There are no ZigBee devices connected yet. Open the network for new devices to join and start the pairing procedure from the ZigBee device. Please refer to the devices manual for more information on how to start the pairing.</source>
-        <translation>Es sind noch keine ZigBee Geräte verbunden. Öffne das Netzwerk für neue Geräte und beginne dein Einrichtungsprozess am ZigBee Gerät. Bitte ziehen Sie das Handbuch des Gerätes heran um zu erfahren wie dies am jeweiligen Gerät gemacht wird.</translation>
+        <translation>Es sind noch keine ZigBee-Geräte verbunden. Öffne das Netzwerk für neue Geräte und starte die Verbindungsprozedur am ZigBee-Gerät. Weitere Informationen findest du im Handbuch des jeweiligen Geräts.</translation>
     </message>
     <message>
         <source>%1 things</source>
@@ -8877,7 +8981,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Are you sure you want to remove the network and all associated devices from the system?</source>
-        <translation>Bist Du sicher, dass das Netzwerk und alle verknüpften Geräte aus dem System enfernt werden sollen?</translation>
+        <translation>Bist du sicher, dass das Netzwerk und alle verknüpften Geräte aus dem System entfernt werden sollen?</translation>
     </message>
     <message>
         <source>Network map</source>
@@ -9230,11 +9334,11 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <name>description for accesscontroltemplates</name>
     <message>
         <source>Alert me on denied access attempts</source>
-        <translation>Benachritige mich bei Fehlgeschlagenen Zutrittsversuchen</translation>
+        <translation>Benachrichtige mich bei fehlgeschlagenen Zutrittsversuchen</translation>
     </message>
     <message>
         <source>Notify my about access</source>
-        <translation>Benachrichtige me über Zugänge</translation>
+        <translation>Benachrichtige mich über Zugänge</translation>
     </message>
     <message>
         <source>Notify my about user access</source>
@@ -9272,7 +9376,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
-        <translation>Alle Lichter einschlalten wenn es dunkel wird</translation>
+        <translation>Alle Lichter einschalten, wenn es dunkel wird</translation>
     </message>
 </context>
 <context>
@@ -9327,7 +9431,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <name>description for notificationtemplates</name>
     <message>
         <source>Notify me when a device runs out of battery</source>
-        <translation>Benachrichtige mich wenn sich die Batterie eines Gerätes zu Ende neight</translation>
+        <translation>Benachrichtige mich, wenn die Batterie eines Geräts leer wird</translation>
     </message>
     <message>
         <source>Notify me when a thing gets disconnected</source>
@@ -9391,11 +9495,11 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Access granted on %0</source>
-        <translation>Zugang erteikt bei %0</translation>
+        <translation>Zugang erteilt bei %0</translation>
     </message>
     <message>
         <source>Access granted to user on %0</source>
-        <translation>Zuggang für Benutzer bei %0 erlaubt</translation>
+        <translation>Zugang für Benutzer bei %0 erlaubt</translation>
     </message>
 </context>
 <context>
@@ -9519,7 +9623,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Turn on %1 when %0 reports arriving</source>
-        <translation>%1 einschalten %0 Ankunft registiert</translation>
+        <translation>%1 einschalten, wenn %0 Ankunft registriert</translation>
     </message>
 </context>
 <context>
@@ -9537,7 +9641,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <name>ruleNameTemplate for template</name>
     <message>
         <source>%0 ...</source>
-        <translation></translation>
+        <translation>%0 ...</translation>
     </message>
 </context>
 <context>
