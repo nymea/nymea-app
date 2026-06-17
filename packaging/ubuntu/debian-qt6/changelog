@@ -1,3 +1,12 @@
+nymea-app (1.13.6) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update translations
+  * AirConditioning: Add optional valve assignment to a zone
+  * Rework the energy flow graph
+
+ -- jenkins <developer@nymea.io>  Wed, 17 Jun 2026 20:33:12 +0200
+
 nymea-app (1.13.5) bionic; urgency=medium
 
   [ Simon Stürz ]
