@@ -208,7 +208,7 @@ Item {
         property bool evChargerVisible: root.rootMeterConfigured && root.showEvChargers && evChargers.count > 0
         property bool consumptionVisible: true
 
-        property real layoutWidthFactor: 3.0
+        property real layoutWidthFactor: 2.8
         property real layoutHeightFactor: evChargerVisible ? 4 : 2.9
         property int chartSize: contentContainer.width / layoutWidthFactor
         property real preferredContentHeight: chartSize * layoutHeightFactor
@@ -362,7 +362,7 @@ Item {
         id: contentContainer
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom; top: titleLabel.bottom}
 
-        readonly property real percentageOffset: 0.25
+        readonly property real centerMargin: 0.8
 
         FlowCurve {
             id: gridFlowCurve
@@ -505,7 +505,7 @@ Item {
 
             ColumnLayout {
                 anchors.centerIn: parent
-                width: acquisitionChart.plotArea.width * 0.8
+                width: acquisitionChart.plotArea.width * contentContainer.centerMargin
                 ColorIcon {
                     Layout.alignment: Qt.AlignHCenter
                     size: Style.bigIconSize
@@ -575,11 +575,10 @@ Item {
 
             ColumnLayout {
                 anchors.centerIn: parent
-                width: productionChart.plotArea.width * 0.8
+                width: productionChart.plotArea.width * contentContainer.centerMargin
                 ColorIcon {
                     Layout.alignment: Qt.AlignHCenter
                     size: Style.bigIconSize
-                    //            color: Style.yellow
                     name: root.pvIcon === "" ? "qrc:/icons/weathericons/weather-clear-day.svg" : root.pvIcon
 
                 }
@@ -587,7 +586,6 @@ Item {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
                     text: producers.count === 0 ? "?" : d.formatValue(Math.abs(energyManager.currentPowerProduction))
-                    //            color: energyManager.currentPowerAcquisition >= 0 ? Style.red : Style.green
                 }
             }
 
@@ -627,7 +625,7 @@ Item {
 
             ColumnLayout {
                 anchors.centerIn: parent
-                width: consumptionChart.plotArea.width * 0.8
+                width: consumptionChart.plotArea.width * contentContainer.centerMargin
                 visible: root.rootMeterConfigured
                 ColorIcon {
                     Layout.alignment: Qt.AlignHCenter
@@ -731,29 +729,29 @@ Item {
 
             ColumnLayout {
                 anchors.centerIn: parent
-                width: productionChart.plotArea.width * 0.8
-                ColorIcon {
+                width: productionChart.plotArea.width * contentContainer.centerMargin
+
+                Label {
                     Layout.alignment: Qt.AlignHCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    font: Style.smallFont
+                    text: batteryChart.averageLevel + "%"
+                }
+
+                ColorIcon {
                     size: Style.bigIconSize
-                    //            color: Style.purple
+                    Layout.alignment: Qt.AlignHCenter
                     name: "qrc:/icons/battery/battery-" + NymeaUtils.pad(Math.round(batteryChart.averageLevel / 10) * 10, 3) + ".svg"
                 }
+
                 Label {
                     Layout.fillWidth: true
                     horizontalAlignment: Text.AlignHCenter
                     text: d.formatValue(Math.abs(energyManager.currentPowerStorage))
-        //            color: energyManager.currentPowerStorage >= 0 ? Style.green : Style.red
                 }
             }
 
-            Label {
-                anchors.horizontalCenter: parent.horizontalCenter
-                y: batteryChart.y + batteryChart.plotArea.height * contentContainer.percentageOffset
-                horizontalAlignment: Text.AlignHCenter
-                font: Style.smallFont
-                text: batteryChart.averageLevel + "%"
-    //            color: energyManager.currentPowerStorage >= 0 ? Style.green : Style.red
-            }
+
 
             ChartView {
                 id: batteryChart
@@ -837,7 +835,16 @@ Item {
 
             ColumnLayout {
                 anchors.centerIn: parent
-                width: evChargerChart.plotArea.width * 0.8
+                width: evChargerChart.plotArea.width * contentContainer.centerMargin
+
+                Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    font: Style.smallFont
+                    visible: evChargerPowerRepeater.singleBatteryLevel >= 0
+                    text: evChargerPowerRepeater.singleBatteryLevel + "%"
+                }
+
                 ColorIcon {
                     Layout.alignment: Qt.AlignHCenter
                     size: Style.bigIconSize
@@ -848,15 +855,6 @@ Item {
                     horizontalAlignment: Text.AlignHCenter
                     text: d.formatValue(Math.abs(evChargerPowerRepeater.currentPower))
                 }
-            }
-
-            Label {
-                anchors.horizontalCenter: parent.horizontalCenter
-                y: evChargerChart.y + evChargerChart.plotArea.height * contentContainer.percentageOffset
-                horizontalAlignment: Text.AlignHCenter
-                font: Style.smallFont
-                visible: evChargerPowerRepeater.singleBatteryLevel >= 0
-                text: evChargerPowerRepeater.singleBatteryLevel + "%"
             }
 
             ChartView {
