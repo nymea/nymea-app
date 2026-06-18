@@ -1,3 +1,12 @@
+nymea-app (1.13.7) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Improve battery percentage and adjust energy overview proportions
+  * AirConditioning: Add optional valve assignment to a zone
+  * Rework the energy flow graph
+
+ -- jenkins <developer@nymea.io>  Thu, 18 Jun 2026 09:12:02 +0200
+
 nymea-app (1.13.6) bionic; urgency=medium
 
   [ Simon Stürz ]
