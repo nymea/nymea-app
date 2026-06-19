@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS += airconditioning evdash
+SUBDIRS += airconditioning evdash dynamicloadmanager

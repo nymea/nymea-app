@@ -328,6 +328,7 @@
         <file>ui/shaders/brightnesscircle.frag.qsb</file>
         <file>ui/shaders/colorizedimage.frag.qsb</file>
         <file>ui/system/EvDashSettingsPage.qml</file>
+        <file>ui/system/DynamicLoadManagerSettingsPage.qml</file>
         <file>ui/components/UsernameTextField.qml</file>
         <file>ui/system/BackupSettingsPage.qml</file>
         <file>ui/devicepages/EvChargerDcThingPage.qml</file>

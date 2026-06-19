@@ -156,6 +156,16 @@ Page {
 
             SettingsTile {
                 Layout.fillWidth: true
+                iconSource: "qrc:/icons/energy.svg"
+                text: qsTr("Dynamic load management")
+                subText: qsTr("Load balancing settings")
+                visible: NymeaUtils.hasPermissionScope(engine.jsonRpcClient.permissions, UserInfo.PermissionScopeAdmin) &&
+                         (engine.jsonRpcClient.experiences.hasOwnProperty("DynamicLoadManager"))
+                onClicked:pageStack.push(Qt.resolvedUrl("system/DynamicLoadManagerSettingsPage.qml"))
+            }
+
+            SettingsTile {
+                Layout.fillWidth: true
                 iconSource: "qrc:/icons/sdk.svg"
                 text: qsTr("Developer tools")
                 subText: qsTr("Access tools for debugging and error reporting")
