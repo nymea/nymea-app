@@ -43,7 +43,7 @@ NymeaDialog {
     readonly property bool isCharger: selectedType === "charger"
 
     title: parentNodeId === "" ? qsTr("Add root fuse") : qsTr("Add node")
-    headerIcon: "qrc:/icons/add.svg"
+    headerIcon: "qrc:/icons/zigbee/zigbee-node.svg"
     standardButtons: Dialog.NoButton
 
     function selectedChargerId() {

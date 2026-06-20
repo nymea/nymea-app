@@ -87,6 +87,15 @@ SettingsPageBase {
             .arg(limit.l3 !== undefined ? limit.l3 : "-")
     }
 
+    function phaseTriplet(l1, l2, l3) {
+        return qsTr("%1/%2/%3 A").arg(l1).arg(l2).arg(l3)
+    }
+
+    function loadPowerText(l1, l2, l3) {
+        var voltage = root.configuration && root.configuration.nominalVoltage !== undefined ? root.configuration.nominalVoltage : 230
+        return qsTr("%1 kW").arg(((l1 + l2 + l3) * voltage / 1000).toFixed(1))
+    }
+
     header: NymeaHeader {
         text: qsTr("Dynamic load management")
         onBackPressed: pageStack.pop()
@@ -119,7 +128,7 @@ SettingsPageBase {
     SwitchDelegate {
         text: qsTr("Dynamic load management enabled")
         checked: dynamicLoadManager.enabled
-        onClicked: dynamicLoadManager.setEnabled(checked)
+        onCheckedChanged: dynamicLoadManager.enabled = checked
         Layout.fillWidth: true
     }
 
@@ -150,6 +159,14 @@ SettingsPageBase {
         progressive: false
     }
 
+    NymeaItemDelegate {
+        Layout.fillWidth: true
+        iconName: "qrc:/icons/energy.svg"
+        text: qsTr("Edit topology")
+        subText: qsTr("Add and remove fuses and chargers")
+        onClicked: pageStack.push(Qt.resolvedUrl("dynamicloadmanager/DynamicLoadManagerTopologyPage.qml"))
+    }
+
     SettingsPageSectionHeader {
         text: qsTr("Nodes")
     }
@@ -167,7 +184,9 @@ SettingsPageBase {
         delegate: NymeaItemDelegate {
             Layout.fillWidth: true
             text: model.displayName
-            subText: root.limitText({l1: model.allocationL1, l2: model.allocationL2, l3: model.allocationL3})
+            subText: qsTr("Alloc %1 · Load %2")
+                     .arg(root.phaseTriplet(model.allocationL1, model.allocationL2, model.allocationL3))
+                     .arg(root.loadPowerText(model.measuredLoadL1, model.measuredLoadL2, model.measuredLoadL3))
             progressive: false
             iconName: model.faulted ? "qrc:/icons/dialog-warning-symbolic.svg" : "qrc:/icons/energy.svg"
             additionalItem: Label {

@@ -172,6 +172,7 @@ Page {
         ListElement { name: "media"; source: "MediaView"; displayName: qsTr("Media"); icon: "media"; minVersion: "2.0" }
         ListElement { name: "dashboard"; source: "DashboardView"; displayName: qsTr("Dashboard"); icon: "dashboard"; minVersion: "5.5" }
         ListElement { name: "airconditioning"; source: "AirConditioningView"; displayName: qsTr("AC"); icon: "sensors"; minVersion: "6.2" }
+        ListElement { name: "dynamicloadmanager"; source: "DynamicLoadManagerView"; displayName: qsTr("Topology"); icon: "energy"; minVersion: "0.0" }
     }
 
     ListModel {

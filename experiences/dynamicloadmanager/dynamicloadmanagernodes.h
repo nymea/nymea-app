@@ -42,6 +42,12 @@ public:
         AllocationL1Role,
         AllocationL2Role,
         AllocationL3Role,
+        MeasuredLoadL1Role,
+        MeasuredLoadL2Role,
+        MeasuredLoadL3Role,
+        SumOfChildrenL1Role,
+        SumOfChildrenL2Role,
+        SumOfChildrenL3Role,
         FaultedRole
     };
     Q_ENUM(Roles)
@@ -63,6 +69,12 @@ private:
         double allocationL1 = 0;
         double allocationL2 = 0;
         double allocationL3 = 0;
+        double measuredLoadL1 = 0;
+        double measuredLoadL2 = 0;
+        double measuredLoadL3 = 0;
+        double sumOfChildrenL1 = 0;
+        double sumOfChildrenL2 = 0;
+        double sumOfChildrenL3 = 0;
         bool faulted = false;
     };
 

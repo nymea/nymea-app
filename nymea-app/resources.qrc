@@ -291,6 +291,7 @@
         <file>ui/mainviews/energy/ConsumerStatsPage.qml</file>
         <file>ui/mainviews/energy/ConsumersPieChartPage.qml</file>
         <file>ui/connection/ManualConnectionEntry.qml</file>
+        <file>ui/mainviews/DynamicLoadManagerView.qml</file>
         <file>ui/mainviews/AirConditioningView.qml</file>
         <file>ui/mainviews/airconditioning/ZoneView.qml</file>
         <file>ui/mainviews/airconditioning/TimeSchedulePage.qml</file>
@@ -329,6 +330,11 @@
         <file>ui/shaders/colorizedimage.frag.qsb</file>
         <file>ui/system/EvDashSettingsPage.qml</file>
         <file>ui/system/DynamicLoadManagerSettingsPage.qml</file>
+        <file>ui/system/dynamicloadmanager/DynamicLoadManagerTopologyPage.qml</file>
+        <file>ui/system/dynamicloadmanager/TopologyNode.qml</file>
+        <file>ui/system/dynamicloadmanager/TopologyGraph.qml</file>
+        <file>ui/system/dynamicloadmanager/AddNodeDialog.qml</file>
+        <file>ui/system/dynamicloadmanager/ConfigureNodePage.qml</file>
         <file>ui/components/UsernameTextField.qml</file>
         <file>ui/system/BackupSettingsPage.qml</file>
         <file>ui/devicepages/EvChargerDcThingPage.qml</file>

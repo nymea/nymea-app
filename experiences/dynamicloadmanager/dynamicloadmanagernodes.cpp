@@ -56,6 +56,18 @@ QVariant DynamicLoadManagerNodes::data(const QModelIndex &index, int role) const
         return node.allocationL2;
     case AllocationL3Role:
         return node.allocationL3;
+    case MeasuredLoadL1Role:
+        return node.measuredLoadL1;
+    case MeasuredLoadL2Role:
+        return node.measuredLoadL2;
+    case MeasuredLoadL3Role:
+        return node.measuredLoadL3;
+    case SumOfChildrenL1Role:
+        return node.sumOfChildrenL1;
+    case SumOfChildrenL2Role:
+        return node.sumOfChildrenL2;
+    case SumOfChildrenL3Role:
+        return node.sumOfChildrenL3;
     case FaultedRole:
         return node.faulted;
     }
@@ -71,6 +83,12 @@ QHash<int, QByteArray> DynamicLoadManagerNodes::roleNames() const
     roles[AllocationL1Role] = "allocationL1";
     roles[AllocationL2Role] = "allocationL2";
     roles[AllocationL3Role] = "allocationL3";
+    roles[MeasuredLoadL1Role] = "measuredLoadL1";
+    roles[MeasuredLoadL2Role] = "measuredLoadL2";
+    roles[MeasuredLoadL3Role] = "measuredLoadL3";
+    roles[SumOfChildrenL1Role] = "sumOfChildrenL1";
+    roles[SumOfChildrenL2Role] = "sumOfChildrenL2";
+    roles[SumOfChildrenL3Role] = "sumOfChildrenL3";
     roles[FaultedRole] = "faulted";
     return roles;
 }
@@ -83,6 +101,8 @@ void DynamicLoadManagerNodes::update(const QVariantMap &statusNodes, const QHash
     for (auto it = statusNodes.constBegin(); it != statusNodes.constEnd(); ++it) {
         QVariantMap nodeMap = it.value().toMap();
         QVariantMap allocation = nodeMap.value("allocation").toMap();
+        QVariantMap measuredLoad = nodeMap.value("measuredLoad").toMap();
+        QVariantMap sumOfChildren = nodeMap.value("sumOfChildren").toMap();
 
         Node node;
         node.nodeId = nodeMap.value("nodeId", it.key()).toString();
@@ -90,6 +110,12 @@ void DynamicLoadManagerNodes::update(const QVariantMap &statusNodes, const QHash
         node.allocationL1 = allocation.value("l1").toDouble();
         node.allocationL2 = allocation.value("l2").toDouble();
         node.allocationL3 = allocation.value("l3").toDouble();
+        node.measuredLoadL1 = measuredLoad.value("l1").toDouble();
+        node.measuredLoadL2 = measuredLoad.value("l2").toDouble();
+        node.measuredLoadL3 = measuredLoad.value("l3").toDouble();
+        node.sumOfChildrenL1 = sumOfChildren.value("l1").toDouble();
+        node.sumOfChildrenL2 = sumOfChildren.value("l2").toDouble();
+        node.sumOfChildrenL3 = sumOfChildren.value("l3").toDouble();
         node.faulted = nodeMap.value("faulted").toBool();
         nodes.append(node);
     }

@@ -45,6 +45,9 @@ Item {
     // Curve strength relative to the available item width.
     // Positive values bend to one side of the path, negative values to the other.
     property real bendRatio: 0
+    // When set, the path leaves the start point and enters the end point
+    // vertically, producing a smooth rounded S-curve (e.g. for top-down trees).
+    property bool verticalEase: false
     property int dashLength: 2
     property int dashGap: 1
     property int animationDuration: 1200
@@ -65,6 +68,11 @@ Item {
     readonly property real bend: width * effectiveBendRatio
     readonly property real controlX: (effectiveStartPoint.x + effectiveEndPoint.x) / 2 + normalX * bend
     readonly property real controlY: (effectiveStartPoint.y + effectiveEndPoint.y) / 2 + normalY * bend
+    readonly property real midY: (effectiveStartPoint.y + effectiveEndPoint.y) / 2
+    readonly property real control1X: verticalEase ? effectiveStartPoint.x : controlX
+    readonly property real control1Y: verticalEase ? midY : controlY
+    readonly property real control2X: verticalEase ? effectiveEndPoint.x : controlX
+    readonly property real control2Y: verticalEase ? midY : controlY
 
     visible: routeVisible || effectiveFlowVisible
     opacity: 0.9
@@ -151,10 +159,10 @@ Item {
             startY: root.effectiveStartPoint.y
 
             PathCubic {
-                control1X: root.controlX
-                control1Y: root.controlY
-                control2X: root.controlX
-                control2Y: root.controlY
+                control1X: root.control1X
+                control1Y: root.control1Y
+                control2X: root.control2X
+                control2Y: root.control2Y
                 x: root.effectiveEndPoint.x
                 y: root.effectiveEndPoint.y
             }
@@ -184,10 +192,10 @@ Item {
             startY: root.effectiveStartPoint.y
 
             PathCubic {
-                control1X: root.controlX
-                control1Y: root.controlY
-                control2X: root.controlX
-                control2Y: root.controlY
+                control1X: root.control1X
+                control1Y: root.control1Y
+                control2X: root.control2X
+                control2Y: root.control2Y
                 x: root.effectiveEndPoint.x
                 y: root.effectiveEndPoint.y
             }

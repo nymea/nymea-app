@@ -104,11 +104,12 @@ SettingsPageBase {
 
     RowLayout {
         Layout.fillWidth: true
-        Label { text: qsTr("ID"); Layout.fillWidth: true }
+        Label { text: qsTr("ID") }
         Label {
+            Layout.fillWidth: true
             font: Style.smallFont
             elide: Text.ElideRight
-            Layout.maximumWidth: parent.width / 2
+            horizontalAlignment: Text.AlignRight
             text: root.node.id ? root.node.id : "-"
         }
     }

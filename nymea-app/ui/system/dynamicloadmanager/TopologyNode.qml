@@ -24,6 +24,8 @@
 
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
+
 import Nymea
 
 import "qrc:/ui/components"
@@ -36,18 +38,20 @@ Item {
     property string nodeType: "fuse"
     property string displayName: ""
     property real limit: -1
-    property string meterThingId: ""
+    property real nominalVoltage: 230
+    property string nodeId: ""
+    // The node's resolved load { l1, l2, l3 } in Amps, or null when unknown.
+    property var measuredLoad: null
 
     signal clicked()
 
     readonly property bool isCharger: nodeType === "charger"
 
-    // Resolve the assigned meter thing and watch its currentPower state live.
-    readonly property Thing meterThing: meterThingId !== ""
-        ? _engine.thingManager.things.getThing(meterThingId) : null
-    // Typed as var to avoid the name clash with QtQuick's State type.
-    readonly property var currentPowerState: meterThing ? meterThing.stateByName("currentPower") : null
-    readonly property bool hasPower: currentPowerState !== null
+    readonly property bool hasMeasured: measuredLoad !== null && measuredLoad !== undefined
+    readonly property real measuredMax: hasMeasured
+        ? Math.max(measuredLoad.l1 || 0, measuredLoad.l2 || 0, measuredLoad.l3 || 0) : 0
+    readonly property real measuredPowerKw: hasMeasured
+        ? ((measuredLoad.l1 || 0) + (measuredLoad.l2 || 0) + (measuredLoad.l3 || 0)) * nominalVoltage / 1000 : 0
 
     Label {
         id: nameLabel
@@ -88,10 +92,17 @@ Item {
                 visible: !root.isCharger
                 font: Style.bigFont
                 text: root.limit >= 0
-                      ? (root.hasPower
-                         ? qsTr("%1 A · %2 kW").arg(root.limit).arg((root.currentPowerState.value / 1000).toFixed(1))
+                      ? (root.hasMeasured
+                         ? qsTr("%1 kW / %2 A").arg(root.measuredPowerKw.toFixed(1)).arg(root.limit)
                          : qsTr("%1 A").arg(root.limit))
                       : "—"
+            }
+
+            Label {
+                Layout.alignment: Qt.AlignHCenter
+                visible: root.isCharger && root.hasMeasured
+                font: Style.smallFont
+                text: qsTr("%1 kW").arg(root.measuredPowerKw.toFixed(1))
             }
         }
     }
