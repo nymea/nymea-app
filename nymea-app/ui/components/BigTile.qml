@@ -49,6 +49,9 @@ Item {
 
     property bool interactive: true
 
+    // When true the tile permanently glows red to signal an error state.
+    property bool error: false
+
     signal clicked();
     signal pressAndHold();
 
@@ -108,8 +111,8 @@ Item {
         radius: 8
         samples: 17
         spread: 0.4
-        color: Style.accentColor
-        opacity: (content.pressed || content.visualFocus || content.hovered) ? 1 : 0
+        color: root.error ? Style.red : Style.accentColor
+        opacity: (root.error || content.pressed || content.visualFocus || content.hovered) ? 1 : 0
         Behavior on opacity {
             SmoothedAnimation { duration: Style.slowAnimationDuration }
         }

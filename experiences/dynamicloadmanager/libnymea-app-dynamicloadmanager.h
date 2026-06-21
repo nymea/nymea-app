@@ -25,6 +25,8 @@
 #ifndef LIBNYMEA_APP_DYNAMICLOADMANAGER_H
 #define LIBNYMEA_APP_DYNAMICLOADMANAGER_H
 
+#include "dynamicloadmanagerevents.h"
+#include "dynamicloadmanagerhistory.h"
 #include "dynamicloadmanagermanager.h"
 #include "dynamicloadmanagernodes.h"
 
@@ -36,6 +38,8 @@ namespace DynamicLoadManager {
 
 void registerQmlTypes() {
     qmlRegisterType<DynamicLoadManagerManager>("Nymea.DynamicLoadManager", 1, 0, "DynamicLoadManagerManager");
+    qmlRegisterType<DynamicLoadManagerHistory>("Nymea.DynamicLoadManager", 1, 0, "DynamicLoadManagerHistory");
+    qmlRegisterType<DynamicLoadManagerEvents>("Nymea.DynamicLoadManager", 1, 0, "DynamicLoadManagerEvents");
     qmlRegisterUncreatableType<DynamicLoadManagerNodes>("Nymea.DynamicLoadManager", 1, 0, "DynamicLoadManagerNodes", "Get it from the DynamicLoadManager Manager");
 }
 

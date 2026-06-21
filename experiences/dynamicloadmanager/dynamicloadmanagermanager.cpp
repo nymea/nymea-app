@@ -191,6 +191,10 @@ void DynamicLoadManagerManager::notificationReceived(const QVariantMap &data)
         QString nodeId = params.value("nodeId").toString();
         bool faulted = params.value("fault").toMap().value("faulted").toBool();
         m_nodes->setFaulted(nodeId, faulted);
+    } else if (notification == "DynamicLoadManager.NodeHistoryEntryAdded") {
+        emit nodeHistoryEntryAdded(params.value("entry").toMap());
+    } else if (notification == "DynamicLoadManager.NodeHistoryEventAdded") {
+        emit nodeHistoryEventAdded(params.value("event").toMap());
     } else {
         qCDebug(dcDynamicLoadManagerExperience()) << "Unhandled notification received" << data;
     }

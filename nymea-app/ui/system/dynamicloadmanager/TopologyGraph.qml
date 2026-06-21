@@ -47,8 +47,8 @@ Item {
 
     signal nodeClicked(var node)
 
-    readonly property int nodeWidth: 160
-    readonly property int nodeHeight: 84
+    readonly property int nodeWidth: 220
+    readonly property int nodeHeight: 150
     readonly property int hGap: Style.bigMargins
     readonly property int vGap: Style.hugeMargins * 3
     readonly property int pad: Style.bigMargins
@@ -206,7 +206,7 @@ Item {
                         verticalEase: true
                         routeVisible: true
                         animationsEnabled: root.animationsEnabled
-                        flowColor: Style.red
+                        flowColor: Style.accentColor
                         startPoint: Qt.point(modelData.x1, modelData.y1)
                         endPoint: Qt.point(modelData.x2, modelData.y2)
 
@@ -238,6 +238,8 @@ Item {
                         limit: modelData.limit
                         nominalVoltage: root.nominalVoltage
                         nodeId: modelData.id
+                        thingId: modelData.thingId
+                        meterThingId: modelData.meterThingId
                         // Re-evaluated on every live status update (statusChanged).
                         measuredLoad: {
                             var nodes = root.manager && root.manager.status && root.manager.status.nodes ? root.manager.status.nodes : null

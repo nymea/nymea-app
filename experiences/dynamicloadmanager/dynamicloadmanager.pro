@@ -16,11 +16,15 @@ android: {
 }
 
 HEADERS += \
+        dynamicloadmanagerevents.h \
+        dynamicloadmanagerhistory.h \
         dynamicloadmanagermanager.h \
         dynamicloadmanagernodes.h \
         libnymea-app-dynamicloadmanager.h
 
 SOURCES += \
+        dynamicloadmanagerevents.cpp \
+        dynamicloadmanagerhistory.cpp \
         dynamicloadmanagermanager.cpp \
         dynamicloadmanagernodes.cpp
 

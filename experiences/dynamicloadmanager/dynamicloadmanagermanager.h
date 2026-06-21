@@ -85,6 +85,9 @@ signals:
     void configurationChanged();
     void statusChanged();
 
+    void nodeHistoryEntryAdded(const QVariantMap &entry);
+    void nodeHistoryEventAdded(const QVariantMap &event);
+
     void setConfigurationReply(int commandId, DynamicLoadManagerManager::DynamicLoadManagerError error, const QVariantList &issues);
     void setEnabledReply(int commandId, DynamicLoadManagerManager::DynamicLoadManagerError error, const QVariantList &issues);
     void addNodeReply(int commandId, DynamicLoadManagerManager::DynamicLoadManagerError error, const QVariantList &issues);

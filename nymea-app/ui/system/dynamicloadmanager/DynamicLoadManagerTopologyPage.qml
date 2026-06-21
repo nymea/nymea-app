@@ -87,6 +87,10 @@ Page {
         pageStack.push(Qt.resolvedUrl("ConfigureNodePage.qml"), { "manager": dlm, "node": node })
     }
 
+    function openNodeHistory(node) {
+        pageStack.push(Qt.resolvedUrl("NodeHistoryPage.qml"), { "manager": dlm, "node": node })
+    }
+
     function openRemoveConfirm(node) {
         var dialog = removeConfirmDialog.createObject(app, { "node": node })
         dialog.open()
@@ -95,6 +99,11 @@ Page {
     header: NymeaHeader {
         text: qsTr("Load topology")
         onBackPressed: pageStack.pop()
+
+        HeaderButton {
+            imageSource: "qrc:/icons/help.svg"
+            onClicked: pageStack.push(Qt.resolvedUrl("TopologyHelpPage.qml"))
+        }
     }
 
     DynamicLoadManagerManager {
@@ -160,6 +169,14 @@ Page {
                 text: qsTr("Configure")
                 onClicked: {
                     root.openConfigureNode(actionsDlg.node)
+                    actionsDlg.close()
+                }
+            }
+            Button {
+                Layout.fillWidth: true
+                text: qsTr("History")
+                onClicked: {
+                    root.openNodeHistory(actionsDlg.node)
                     actionsDlg.close()
                 }
             }
