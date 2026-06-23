@@ -335,6 +335,7 @@
         <file>ui/system/dynamicloadmanager/TopologyGraph.qml</file>
         <file>ui/system/dynamicloadmanager/AddNodeDialog.qml</file>
         <file>ui/system/dynamicloadmanager/ConfigureNodePage.qml</file>
+        <file>ui/system/dynamicloadmanager/NodeInfoDialog.qml</file>
         <file>ui/system/dynamicloadmanager/TopologyHelpPage.qml</file>
         <file>ui/system/dynamicloadmanager/NodeHistoryPage.qml</file>
         <file>ui/components/UsernameTextField.qml</file>

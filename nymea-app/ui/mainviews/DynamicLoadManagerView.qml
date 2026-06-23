@@ -57,10 +57,20 @@ MainViewBase {
         id: graph
         anchors.fill: parent
         manager: dynamicLoadManager
+        editable: true
         animationsEnabled: root.isCurrentItem && Qt.application.active
         contentTopMargin: root.topMargin
         contentBottomMargin: root.bottomMargin
         visible: engine.jsonRpcClient.experiences.hasOwnProperty("DynamicLoadManager") && graph.layout.nodes.length > 0
+        onNodeClicked: (node) => {
+            var dialog = nodeInfoDialog.createObject(app, { "manager": dynamicLoadManager, "node": node })
+            dialog.open()
+        }
+    }
+
+    Component {
+        id: nodeInfoDialog
+        NodeInfoDialog { }
     }
 
     EmptyViewPlaceholder {

@@ -65,6 +65,8 @@ BigTile {
     readonly property State currentPowerState: chargerThing ? chargerThing.stateByName("currentPower") : null
     readonly property State connectedState: chargerThing ? chargerThing.stateByName("connected") : null
     readonly property bool disconnected: connectedState !== null && connectedState.value === false
+    readonly property State pluggedInState: chargerThing ? chargerThing.stateByName("pluggedIn") : null
+    readonly property bool pluggedIn: pluggedInState !== null && pluggedInState.value === true
 
     // Error state makes the tile glow red (e.g. a disconnected charger).
     error: root.disconnected
@@ -103,6 +105,15 @@ BigTile {
             text: root.displayName
             elide: Text.ElideRight
             font: Style.smallFont
+        }
+
+        // Car icon: shown on a charger node while a vehicle is plugged in.
+        ColorIcon {
+            Layout.preferredHeight: Style.smallIconSize
+            Layout.preferredWidth: Style.smallIconSize
+            visible: root.isCharger && root.pluggedIn
+            name: "qrc:/icons/car.svg"
+            color: Style.accentColor
         }
 
         // Meter icon: shown only when the node has an actual measured current
