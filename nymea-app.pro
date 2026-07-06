@@ -13,23 +13,24 @@ nymea-app.depends = libnymea-app experiences
 #     tests.depends = libnymea-app
 # }
 
-# Building a Windows installer:
-# Make sure your environment has the toolchain you want (e.g. msvc17 64 bit) by executing the command:
+# Building a Windows installer: see packaging/windows/README.md
 # $ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 # $ make wininstaller
 win32: {
     wininstaller.depends = nymea-app
 
-    OLDSTRING="<Version>.*</Version>"
-    NEWSTRING="<Version>$${APP_VERSION}</Version>"
-    wininstaller.commands += @powershell -Command \"(gc $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml) -replace \'$${OLDSTRING}\',\'$${NEWSTRING}\' | sc $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\package.xml\" &&
     wininstaller.commands += rmdir /S /Q $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data & mkdir $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
     wininstaller.commands += copy $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\meta\logo.ico $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\logo.ico &&
     CONFIG(debug,debug|release):wininstaller.commands += copy nymea-app\debug\\$${APPLICATION_NAME}.exe $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
     CONFIG(release,debug|release):wininstaller.commands += copy nymea-app\release\\$${APPLICATION_NAME}.exe $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\\$${APPLICATION_NAME}.exe &&
     wininstaller.commands += copy \"$${top_srcdir}\"\3rdParty\windows\windows_openssl\*.dll $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
+    wininstaller.commands += powershell -NoProfile -ExecutionPolicy Bypass -File \"$${top_srcdir}\"\packaging\windows\ensure-vcredist.ps1 &&
+    wininstaller.commands += copy \"$${top_srcdir}\"\3rdParty\windows\vc_redist\vc_redist.x64.exe $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data &&
     wininstaller.commands += windeployqt --compiler-runtime --qmldir \"$${top_srcdir}\"\nymea-app\ui $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_URN}\data\ &&
-    wininstaller.commands += binarycreator -c $${WIN_PACKAGE_DIR}\config\config.xml -p $${WIN_PACKAGE_DIR}\packages\ $${PACKAGE_NAME}-win-installer-$${APP_VERSION}
+    wininstaller.commands += if not exist $${top_builddir}\nymea-app\installer.iss (echo ERROR: $${top_builddir}\nymea-app\installer.iss was not generated - check the installerIss QMAKE_SUBSTITUTES entry in nymea-app/nymea-app.pro & exit /b 1) &&
+    wininstaller.commands += iscc $${top_builddir}\nymea-app\installer.iss &&
+    wininstaller.commands += if not exist $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_NAME}-win-installer-$${APP_VERSION}.exe (echo ERROR: Windows installer EXE was not created: $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_NAME}-win-installer-$${APP_VERSION}.exe & exit /b 1) &&
+    wininstaller.commands += copy /Y $${WIN_PACKAGE_DIR}\packages\\$${PACKAGE_NAME}-win-installer-$${APP_VERSION}.exe $${WIN_TOP_SRCDIR}\\$${PACKAGE_NAME}-win-installer-$${APP_VERSION}.exe
     message("Windows installer package directory: $${WIN_PACKAGE_DIR}")
     QMAKE_EXTRA_TARGETS += wininstaller
 }

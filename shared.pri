@@ -85,4 +85,10 @@ macx: {
 
 win32: {
     WIN_PACKAGE_DIR = $${PACKAGE_BASE_DIR}\windows
+    WIN_PACKAGE_DIR_SLASH = $${PACKAGE_BASE_DIR}/windows
+    # Native-separator form of top_srcdir (which is forward-slash, being $$PWD-derived) -
+    # Inno Setup's ISPP preprocessor is stricter about mixed separators in #include paths
+    # than plain Windows file APIs, so every path embedded in a .iss file must be pure
+    # backslash form.
+    WIN_TOP_SRCDIR = $$system_path($${top_srcdir})
 }

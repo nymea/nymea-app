@@ -1,0 +1,22 @@
+; Generated to installer.iss by qmake (QMAKE_SUBSTITUTES) at build time.
+; Do not hand-edit installer.iss - edit this file instead.
+
+; Branding-specific display name - no existing qmake variable holds this.
+#define AppName '"nymea:app"'
+
+; Branding asset filenames, relative to MetaDir (this file directory).
+#define LicenseFile '"license-gpl.txt"'
+#define IconFile '"logo.ico"'
+
+; Dynamic build/branding values, substituted by qmake from the current build.
+#define AppId '"$${PACKAGE_URN}"'
+#define AppPublisher '"$${ORGANISATION_NAME}"'
+#define AppExeName '"$${APPLICATION_NAME}.exe"'
+#define AppVersion '"$${APP_VERSION}"'
+#define TargetDirName '"$${PACKAGE_NAME}"'
+#define SourceDir '"$${WIN_PACKAGE_DIR_SLASH}/packages/$${PACKAGE_URN}/data"'
+#define MetaDir '"$${WIN_PACKAGE_DIR_SLASH}/packages/$${PACKAGE_URN}/meta"'
+#define OutputDir '"$${WIN_PACKAGE_DIR_SLASH}/packages"'
+#define OutputBaseFilename '"$${PACKAGE_NAME}-win-installer-$${APP_VERSION}"'
+
+#include '"$${WIN_TOP_SRCDIR}\packaging\windows\common\installer-common.iss"'

@@ -256,11 +256,17 @@ win32 {
     HEADERS += platformintegration/generic/platformhelpergeneric.h
     SOURCES += platformintegration/generic/platformhelpergeneric.cpp
 
-    equals(OVERLAY_PATH, "") {
-        win32:RCC_ICONS += ../packaging/windows/packages/io.nymea.nymeaapp/meta/logo.ico
-    } else {
-        win32:RCC_ICONS += $${OVERLAY_PATH}/packaging/windows/packages/io.guh.$${BR}/meta/logo.ico
-    }
+    RC_ICONS += $${WIN_PACKAGE_DIR_SLASH}/packages/$${PACKAGE_URN}/meta/logo.ico
+
+    VERSION = $${APP_VERSION}
+    QMAKE_TARGET_COMPANY = $${ORGANISATION_NAME}
+    QMAKE_TARGET_PRODUCT = $${APPLICATION_NAME}
+    QMAKE_TARGET_DESCRIPTION = "$${APPLICATION_NAME}"
+    QMAKE_TARGET_COPYRIGHT = "Copyright (C) $${ORGANISATION_NAME}"
+
+    installerIss.input = $${WIN_PACKAGE_DIR_SLASH}/packages/$${PACKAGE_URN}/meta/installer.iss.in
+    installerIss.output = $$OUT_PWD/installer.iss
+    QMAKE_SUBSTITUTES += installerIss
 }
 
 target.path = /usr/bin
