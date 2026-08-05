@@ -141,6 +141,11 @@ public:
     // terminal state.
     Q_INVOKABLE void acknowledge();
 
+    // Allocates a fresh event id for a paste/import action, matching the same
+    // dedup-by-eventId path used for native deep link delivery. QML has no built-in
+    // UUID generator to use for this itself.
+    Q_INVOKABLE QUuid generateEventId() const;
+
 signals:
     void nymeaHostsChanged();
     void schemeChanged();

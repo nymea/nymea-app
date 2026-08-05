@@ -389,6 +389,11 @@ void InvitationRedemptionController::acknowledge()
     startNextQueuedOrIdle();
 }
 
+QUuid InvitationRedemptionController::generateEventId() const
+{
+    return QUuid::createUuid();
+}
+
 void InvitationRedemptionController::startNextQueuedOrIdle()
 {
     m_result = Result::NoResult;

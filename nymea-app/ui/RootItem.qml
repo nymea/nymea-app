@@ -545,4 +545,8 @@ Item {
             }
         }
     }
+
+    InvitationRedemptionOverlay {
+        controller: app.invitationRedemptionController
+    }
 }

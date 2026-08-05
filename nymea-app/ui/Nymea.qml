@@ -142,6 +142,17 @@ ApplicationWindow {
         bluetoothDiscoveryEnabled: false// PlatformPermissions.bluetoothPermission === PlatformPermissions.PermissionStatusGranted
     }
 
+    // App-wide (not per-tab): a pasted or deep-linked invitation may target a server
+    // other than whichever tab happens to be active, so this cannot live on a per-tab
+    // Engine. See 02-nymea-app.md Task 4 and InvitationRedemptionOverlay.qml.
+    property InvitationRedemptionController invitationRedemptionController: InvitationRedemptionController {
+        nymeaHosts: nymeaDiscovery.nymeaHosts
+        // TODO(03-platform-integration.md): use the build-configured branded scheme
+        // once branding/scheme registration lands; "nymea" is the README default.
+        scheme: "nymea"
+        deviceLabel: "nymea-app (" + PlatformHelper.deviceModel + ")"
+    }
+
     property var supportedInterfaces: [
         "light",
         "media",

@@ -559,7 +559,7 @@ SettingsPageBase {
                     progressive: false
                     canDelete: true
                     busy: model.removalState === InvitationInfo.RemovalStatePending
-                    iconName: "qrc:/icons/mail.svg"
+                    iconName: "qrc:/icons/send.svg"
 
                     onDeleteClicked: userManager.removeInvitation(model.id)
                 }
