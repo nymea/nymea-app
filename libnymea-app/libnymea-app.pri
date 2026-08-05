@@ -124,6 +124,8 @@ SOURCES += \
     $${PWD}/types/wirelessaccesspoints.cpp \
     $${PWD}/types/tokeninfo.cpp \
     $${PWD}/types/tokeninfos.cpp \
+    $${PWD}/types/invitationinfo.cpp \
+    $${PWD}/types/invitations.cpp \
     $${PWD}/types/userinfo.cpp \
     $${PWD}/types/ioconnection.cpp \
     $${PWD}/types/ioconnections.cpp \
@@ -300,6 +302,8 @@ HEADERS += \
     $${PWD}/types/wirelessaccesspoints.h \
     $${PWD}/types/tokeninfo.h \
     $${PWD}/types/tokeninfos.h \
+    $${PWD}/types/invitationinfo.h \
+    $${PWD}/types/invitations.h \
     $${PWD}/types/userinfo.h \
     $${PWD}/types/ioconnection.h \
     $${PWD}/types/ioconnections.h \

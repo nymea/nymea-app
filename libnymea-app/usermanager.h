@@ -32,6 +32,7 @@
 
 #include "types/tokeninfos.h"
 #include "types/userinfo.h"
+#include "types/invitations.h"
 
 class Users;
 
@@ -44,6 +45,7 @@ class UserManager: public QObject
     Q_PROPERTY(UserInfo* userInfo READ userInfo CONSTANT)
     Q_PROPERTY(TokenInfos* tokenInfos READ tokenInfos CONSTANT)
     Q_PROPERTY(Users* users READ users CONSTANT)
+    Q_PROPERTY(Invitations* invitations READ invitations CONSTANT)
 
 public:
     enum UserError {
@@ -54,7 +56,10 @@ public:
         UserErrorBadPassword,
         UserErrorTokenNotFound,
         UserErrorPermissionDenied,
-        UserErrorInconsistantScopes
+        UserErrorInconsistantScopes,
+        UserErrorInvitationNotFound,
+        UserErrorInvalidInvitationDuration,
+        UserErrorInvitationsDisabled
     };
     Q_ENUM(UserError)
 
@@ -69,6 +74,7 @@ public:
     UserInfo* userInfo() const;
     TokenInfos* tokenInfos() const;
     Users *users() const;
+    Invitations *invitations() const;
 
     // NOTE: Q_FLAG from another QObject (UserInfo::PermissionScopes) doesn't seem to work in certain Qt versions. Using int instead
     Q_INVOKABLE int createUser(const QString &username, const QString &password, const QString &displayName, const QString &email, int permissionScopes = UserInfo::PermissionScopeAdmin, const QList<QUuid> &allowedThingIds = QList<QUuid>());
@@ -82,6 +88,16 @@ public:
     // call when entering a page that displays it rather than relying on a notification.
     Q_INVOKABLE void refreshTokens();
 
+    // validityDuration/tokenValidityDuration: -1 omits the optional JSON param (server
+    // default / "never expires" respectively). The returned secret is never cached here -
+    // it is delivered exactly once via createInvitationReply for the calling controller
+    // to assemble and hold, per the transport-trust and secret-handling contract.
+    Q_INVOKABLE int createInvitation(const QString &username, int validityDuration = -1, int tokenValidityDuration = -1);
+    Q_INVOKABLE int removeInvitation(const QUuid &invitationId);
+    // Absent invitationApiAvailable support is not checked here - the caller (UI) is
+    // expected to gate on JsonRpcClient::invitationApiAvailable before calling in.
+    Q_INVOKABLE void refreshInvitations(const QString &username = QString());
+
 signals:
     void engineChanged();
     void loadingChanged();
@@ -92,6 +108,11 @@ signals:
     void removeUserReply(int id, UserError error);
     void setUserScopesReply(int id, UserError error);
     void setUserInfoReply(int id, UserError error);
+
+    // token is the clear one-time secret on success, empty otherwise. Emitted once and
+    // never stored on this object or on the Invitations model.
+    void createInvitationReply(int id, UserError error, const QByteArray &token, const QUuid &invitationId);
+    void removeInvitationReply(int id, UserError error);
 
 private slots:
     void notificationReceived(const QVariantMap &data);
@@ -106,7 +127,13 @@ private slots:
     void setUserScopesResponse(int commandId, const QVariantMap &params);
     void setUserInfoResponse(int commandId, const QVariantMap &params);
 
+    void getInvitationsResponse(int commandId, const QVariantMap &params);
+    void createInvitationResponse(int commandId, const QVariantMap &params);
+    void removeInvitationResponse(int commandId, const QVariantMap &params);
+
 private:
+    static InvitationInfo *invitationInfoFromMap(const QVariantMap &invitationMap, QObject *parent = nullptr);
+
     Engine *m_engine = nullptr;
     bool m_loading = false;
 
@@ -114,8 +141,14 @@ private:
     TokenInfos *m_tokenInfos = nullptr;
 
     Users *m_users = nullptr;
+    Invitations *m_invitations = nullptr;
 
     QHash<int, QUuid> m_tokensToBeRemoved;
+    QHash<int, QUuid> m_invitationsToBeRemoved;
+    // Empty string means "all users" - only an unfiltered response is authoritative
+    // enough to prune rows the reply didn't include; a per-user filtered refresh must
+    // never remove other users' rows it simply wasn't asked to return.
+    QHash<int, QString> m_invitationsRequestFilter;
 };
 
 class Users: public QAbstractListModel {
