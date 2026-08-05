@@ -282,6 +282,11 @@ bool JsonRpcClient::pushButtonAuthAvailable() const
     return m_pushButtonAuthAvailable;
 }
 
+bool JsonRpcClient::invitationApiAvailable() const
+{
+    return m_invitationApiAvailable;
+}
+
 bool JsonRpcClient::authenticated() const
 {
     return m_authenticated;
@@ -516,6 +521,10 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
         m_initialSetupRequired = false;
         m_authenticationRequired = false;
         m_authenticated = false;
+        if (m_invitationApiAvailable) {
+            m_invitationApiAvailable = false;
+            emit invitationApiAvailableChanged();
+        }
         m_receiveBuffer.clear();
         m_serverQtVersion.clear();
         m_serverQtBuildVersion.clear();
@@ -703,6 +712,17 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
         return;
     }
 
+    // invitationsAvailable must be an explicit JSON boolean true - missing, malformed
+    // (e.g. a string) or false all fail closed. This is a stricter, separate gate from
+    // 00-token-lifecycle.md's last-seen/expiry display: a 10.2-only server can lack
+    // invitation support entirely while still exposing token timestamps.
+    bool newInvitationApiAvailable = m_jsonRpcVersion >= QVersionNumber(10, 3)
+            && params.value("invitationsAvailable").typeId() == QMetaType::Bool
+            && params.value("invitationsAvailable").toBool();
+    if (m_invitationApiAvailable != newInvitationApiAvailable) {
+        m_invitationApiAvailable = newInvitationApiAvailable;
+        emit invitationApiAvailableChanged();
+    }
 
     // Verify SSL certificate
     if (m_connection->isEncrypted()) {

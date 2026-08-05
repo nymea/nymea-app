@@ -49,6 +49,7 @@ class JsonRpcClient : public QObject
     Q_PROPERTY(bool authenticationRequired READ authenticationRequired NOTIFY authenticationRequiredChanged)
     Q_PROPERTY(bool pushButtonAuthAvailable READ pushButtonAuthAvailable NOTIFY pushButtonAuthAvailableChanged)
     Q_PROPERTY(bool authenticated READ authenticated NOTIFY authenticatedChanged)
+    Q_PROPERTY(bool invitationApiAvailable READ invitationApiAvailable NOTIFY invitationApiAvailableChanged)
     Q_PROPERTY(QString serverVersion READ serverVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString jsonRpcVersion READ jsonRpcVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QUuid serverUuid READ serverUuid NOTIFY handshakeReceived)
@@ -78,6 +79,11 @@ public:
     bool authenticationRequired() const;
     bool pushButtonAuthAvailable() const;
     bool authenticated() const;
+    // True only for protocol >= 10.3 (within the supported major range already enforced
+    // by invalidMaximumVersion) and an explicitly Boolean Hello.invitationsAvailable ==
+    // true. Missing/malformed/false fails closed. Distinct from and stricter than
+    // 00-token-lifecycle.md's last-seen/expiry display, which needs no such gate.
+    bool invitationApiAvailable() const;
     QHash<QString, QString> cacheHashes() const;
     // Note: This does not reflect the actual permission scopes of the user but is translated to effective permissions
     // That, is, if the user has the admin permission, all of the other scopes will be set too even if they might not be explicitly set
@@ -117,6 +123,7 @@ signals:
     void authenticationRequiredChanged();
     void pushButtonAuthAvailableChanged();
     void authenticatedChanged();
+    void invitationApiAvailableChanged();
     void tokenChanged();
     void invalidMinimumVersion(const QString &actualVersion, const QString &minVersion);
     void invalidMaximumVersion(const QString &actualVersion, const QString &maxVersion);
@@ -152,6 +159,7 @@ private:
     bool m_authenticationRequired = false;
     bool m_pushButtonAuthAvailable = false;
     bool m_authenticated = false;
+    bool m_invitationApiAvailable = false;
     int m_pendingPushButtonTransaction = -1;
     QUuid m_serverUuid;
     QVersionNumber m_jsonRpcVersion;
