@@ -129,6 +129,7 @@ signals:
     void serverNameChanged();
     void permissionsChanged();
 
+    void commandFailed(int commandId, const QString &error);
     void responseReceived(const int &commandId, const QVariantMap &response);
 
 private slots:
