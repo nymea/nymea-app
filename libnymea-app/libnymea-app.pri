@@ -131,6 +131,7 @@ SOURCES += \
     $${PWD}/connection/nymeahost.cpp \
     $${PWD}/connection/nymeahosts.cpp  \
     $${PWD}/connection/nymeaconnection.cpp \
+    $${PWD}/connection/invitation.cpp \
     $${PWD}/connection/nymeatransportinterface.cpp \
     $${PWD}/connection/websockettransport.cpp \
     $${PWD}/connection/tcpsockettransport.cpp \
@@ -306,6 +307,7 @@ HEADERS += \
     $${PWD}/connection/nymeahost.h \
     $${PWD}/connection/nymeahosts.h \
     $${PWD}/connection/nymeaconnection.h \
+    $${PWD}/connection/invitation.h \
     $${PWD}/connection/nymeatransportinterface.h \
     $${PWD}/connection/websockettransport.h \
     $${PWD}/connection/tcpsockettransport.h \

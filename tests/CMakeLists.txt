@@ -30,3 +30,20 @@ target_link_libraries(tst_nfchelper PRIVATE
 )
 
 add_test(NAME tst_nfchelper COMMAND tst_nfchelper)
+
+qt_add_executable(tst_invitation
+    auto/invitation/tst_invitation.cpp
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/connection/invitation.cpp
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/connection/invitation.h
+)
+
+target_include_directories(tst_invitation PRIVATE
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app
+)
+
+target_link_libraries(tst_invitation PRIVATE
+    Qt6::Core
+    Qt6::Test
+)
+
+add_test(NAME tst_invitation COMMAND tst_invitation)
