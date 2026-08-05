@@ -121,6 +121,7 @@
 #include "types/invitationinfo.h"
 #include "types/userinfo.h"
 #include "invitationcreatecontroller.h"
+#include "invitationredemptioncontroller.h"
 #include "thinggroup.h"
 #include "types/statetypesproxy.h"
 #include "types/ioconnection.h"
@@ -392,6 +393,7 @@ void registerQmlTypes() {
     qmlRegisterUncreatableType<InvitationInfo>(uri, 1, 0, "InvitationInfo", "Get it from Invitations");
     qmlRegisterUncreatableType<Invitations>(uri, 1, 0, "Invitations", "Get it from UserManager");
     qmlRegisterType<InvitationCreateController>(uri, 1, 0, "InvitationCreateController");
+    qmlRegisterType<InvitationRedemptionController>(uri, 1, 0, "InvitationRedemptionController");
 
     qmlRegisterUncreatableType<IOConnections>(uri, 1, 0, "IOConnections", "Get it from ThingManager");
     qmlRegisterUncreatableType<IOConnection>(uri, 1, 0, "IOConnection", "Get it from IOConnections");

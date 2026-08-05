@@ -118,6 +118,16 @@ public:
     Q_INVOKABLE bool tokenExists(const QString &serverUuid) const;
     Q_INVOKABLE void addToken(const QString &serverUuid, const QByteArray &token);
 
+    // When enabled, this instance never loads or sends a stored/regular token under any
+    // circumstance - including the existing tokenExists()-triggered "we just learned the
+    // real UUID, retry Hello with any stored token for it" step below, which is exactly
+    // the kind of automatic credential attachment the invitation redemption controller's
+    // candidate probe must not do. Every other JsonRpcClient instance in the app leaves
+    // this at its default (false) and is completely unaffected. Only meaningful set
+    // before connectToHost(); has no effect on an already-connected instance.
+    void setCredentialFreeProbeMode(bool enabled);
+    bool credentialFreeProbeMode() const;
+
     Q_INVOKABLE bool ensureServerVersion(const QString &jsonRpcVersion);
 
     Q_INVOKABLE int createUser(const QString &username, const QString &password, const QString &displayName, const QString &email);
@@ -157,6 +167,12 @@ public:
 signals:
     void availableBearerTypesChanged();
     void connectionStatusChanged();
+    // Fires as soon as the underlying transport connects/disconnects, before Hello is
+    // even sent - distinct from connectedChanged(), which only fires once authenticated
+    // and notifications are enabled. Useful for callers (e.g. the invitation redemption
+    // controller) that need to tell "still trying to reach this candidate" apart from
+    // "reached it, now waiting on the JSON-RPC handshake".
+    void transportConnectedChanged(bool connected);
     void connectedChanged(bool connected);
     void currentHostChanged();
     void currentConnectionChanged();
@@ -207,6 +223,7 @@ private:
     bool m_authenticationRequired = false;
     bool m_pushButtonAuthAvailable = false;
     bool m_authenticated = false;
+    bool m_credentialFreeProbeMode = false;
     bool m_invitationApiAvailable = false;
     int m_pendingPushButtonTransaction = -1;
     QUuid m_serverUuid;

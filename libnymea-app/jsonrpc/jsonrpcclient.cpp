@@ -290,6 +290,16 @@ bool JsonRpcClient::invitationApiAvailable() const
     return m_invitationApiAvailable;
 }
 
+void JsonRpcClient::setCredentialFreeProbeMode(bool enabled)
+{
+    m_credentialFreeProbeMode = enabled;
+}
+
+bool JsonRpcClient::credentialFreeProbeMode() const
+{
+    return m_credentialFreeProbeMode;
+}
+
 bool JsonRpcClient::authenticated() const
 {
     return m_authenticated;
@@ -661,6 +671,7 @@ bool JsonRpcClient::storePem(const QUuid &serverUuid, const QByteArray &pem)
 
 void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
 {
+    emit transportConnectedChanged(connected);
 
     if (!connected) {
         qCInfo(dcJsonRpc()) << "JsonRpcClient: Transport disconnected.";
@@ -683,11 +694,16 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
         // Clear anything that might be left in the buffer from a previous connection.
         m_receiveBuffer.clear();
 
-        // Load token for this host
-        QSettings settings;
-        settings.beginGroup("jsonTokens");
-        m_token = settings.value(currentHost()->uuid().toString()).toByteArray();
-        settings.endGroup();
+        // Load token for this host - unless this instance is a credential-free probe,
+        // which must never attach a bearer of any kind, discovered UUID or not.
+        if (m_credentialFreeProbeMode) {
+            m_token.clear();
+        } else {
+            QSettings settings;
+            settings.beginGroup("jsonTokens");
+            m_token = settings.value(currentHost()->uuid().toString()).toByteArray();
+            settings.endGroup();
+        }
 
 
         QVariantMap params;
@@ -834,8 +850,10 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     if (m_connection->currentHost()->uuid().isNull()) {
         qCDebug(dcJsonRpc()) << "Updating Server UUID in connection:" << m_connection->currentHost()->uuid().toString() << "->" << serverUuid;
         m_connection->currentHost()->setUuid(serverUuid);
-        // Now that we know the server uuid, if we have a token for this host, let's try again.
-        if (tokenExists(serverUuid.toString())){
+        // Now that we know the server uuid, if we have a token for this host, let's try
+        // again - never for a credential-free probe, which must not auto-attach a
+        // just-discovered stored token any more than it would an already-known one.
+        if (!m_credentialFreeProbeMode && tokenExists(serverUuid.toString())){
             onInterfaceConnectedChanged(true);
             return;
         }
