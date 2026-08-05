@@ -137,6 +137,23 @@ public:
     // is empty. Exposed statically so it stays independently unit-testable.
     static QString sanitizeDeviceName(const QString &label);
 
+    // True for JSON-RPC methods whose reply carries a bearer secret (a regular client
+    // token or a one-time invitation token): Authenticate, AuthenticateWithToken,
+    // RequestPushButtonAuth, and Users.CreateInvitation. Consulted before ever writing a
+    // reply to the plaintext disk cache, independent of whatever cache hash the server
+    // advertises for it. Public and static so it stays independently unit-testable.
+    static bool isSecretBearingMethod(const QString &fullMethod);
+
+    // Returns a copy of data with a top-level "token" and/or "params.token" value masked.
+    // Covers every shape logged here: outgoing requests (top-level token = the bearer
+    // sent with the request; params.token = a method-specific secret such as the one-time
+    // invitation token on AuthenticateWithToken), replies and notifications (params.token
+    // = a returned regular or one-time token). Safe to call even when neither key exists.
+    static QVariantMap redactSensitiveFields(const QVariantMap &data);
+    // Convenience wrapper returning ready-to-print redacted JSON for the qCDebug/qCWarning
+    // call sites that log a full payload.
+    static QByteArray redactedJson(const QVariantMap &data);
+
 signals:
     void availableBearerTypesChanged();
     void connectionStatusChanged();

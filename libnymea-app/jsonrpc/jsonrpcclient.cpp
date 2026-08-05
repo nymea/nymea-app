@@ -43,6 +43,7 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QRegularExpression>
+#include <QSet>
 
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcJsonRpc, "JsonRpc")
@@ -95,7 +96,9 @@ int JsonRpcClient::sendCommand(const QString &method, const QVariantMap &params,
 
     JsonRpcReply *reply = createReply(method, params, caller, callbackMethod);
 
-    if (m_cacheHashes.contains(method)) {
+    // Never persist a secret-bearing reply to the plaintext disk cache, no matter what
+    // cache hash a (possibly malicious or misconfigured) server advertises for it.
+    if (!isSecretBearingMethod(method) && m_cacheHashes.contains(method)) {
         QString hash = m_cacheHashes.value(method);
         QString callSignature = method + '-' + QJsonDocument::fromVariant(params).toJson() + '-' + QLocale().name();
         QString callSignatureHash = QCryptographicHash::hash(callSignature.toUtf8(), QCryptographicHash::Md5).toHex();
@@ -188,7 +191,7 @@ void JsonRpcClient::setNotificationsEnabledResponse(int commandId, const QVarian
 
 void JsonRpcClient::notificationReceived(const QVariantMap &data)
 {
-    qCDebug(dcJsonRpc()) << "Notification received:" << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
+    qCDebug(dcJsonRpc()) << "Notification received:" << qUtf8Printable(redactedJson(data));
     if (data.value("notification").toString() == "JSONRPC.PushButtonAuthFinished") {
         qCInfo(dcJsonRpc()) << "Push button auth finished.";
         if (data.value("params").toMap().value("transactionId").toInt() != m_pendingPushButtonTransaction) {
@@ -219,7 +222,7 @@ void JsonRpcClient::notificationReceived(const QVariantMap &data)
         return;
     }
 
-    qCWarning(dcJsonRpc()) << "JsonRpcClient: Unhandled notification received" << data;
+    qCWarning(dcJsonRpc()) << "JsonRpcClient: Unhandled notification received" << redactSensitiveFields(data);
 }
 
 void JsonRpcClient::getVersionsReply(int /*commandId*/, const QVariantMap &data)
@@ -479,7 +482,7 @@ void JsonRpcClient::processAuthenticate(int /*commandId*/, const QVariantMap &da
 
         setNotificationsEnabled();
     } else {
-        qCWarning(dcJsonRpc()) << "Authentication failed" << data;
+        qCWarning(dcJsonRpc()) << "Authentication failed" << redactSensitiveFields(data);
         emit authenticationFailed();
     }
 }
@@ -589,11 +592,43 @@ void JsonRpcClient::setNotificationsEnabled()
     sendRequest(reply->requestMap());
 }
 
+bool JsonRpcClient::isSecretBearingMethod(const QString &fullMethod)
+{
+    static const QSet<QString> secretBearingMethods = {
+        QStringLiteral("JSONRPC.Authenticate"),
+        QStringLiteral("JSONRPC.AuthenticateWithToken"),
+        QStringLiteral("JSONRPC.RequestPushButtonAuth"),
+        QStringLiteral("Users.CreateInvitation")
+    };
+    return secretBearingMethods.contains(fullMethod);
+}
+
+QVariantMap JsonRpcClient::redactSensitiveFields(const QVariantMap &data)
+{
+    QVariantMap redacted = data;
+    if (redacted.contains(QStringLiteral("token"))) {
+        redacted[QStringLiteral("token")] = QStringLiteral("<redacted>");
+    }
+    if (redacted.contains(QStringLiteral("params"))) {
+        QVariantMap params = redacted.value(QStringLiteral("params")).toMap();
+        if (params.contains(QStringLiteral("token"))) {
+            params[QStringLiteral("token")] = QStringLiteral("<redacted>");
+            redacted[QStringLiteral("params")] = params;
+        }
+    }
+    return redacted;
+}
+
+QByteArray JsonRpcClient::redactedJson(const QVariantMap &data)
+{
+    return QJsonDocument::fromVariant(redactSensitiveFields(data)).toJson();
+}
+
 void JsonRpcClient::sendRequest(const QVariantMap &request)
 {
     QVariantMap newRequest = request;
     newRequest.insert("token", m_token);
-    //    qDebug() << "Sending request" << qUtf8Printable(QJsonDocument::fromVariant(newRequest).toJson());
+    //    qDebug() << "Sending request" << qUtf8Printable(redactedJson(newRequest));
     m_connection->sendData(QJsonDocument::fromVariant(newRequest).toJson(QJsonDocument::Compact) + "\n");
 }
 
@@ -668,7 +703,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         // In that case we can discard all pending packages as we'll have to reconnect anyways.
         return;
     }
-    //    qDebug() << "JsonRpcClient: received data:" << qUtf8Printable(data);
+    //    qDebug() << "JsonRpcClient: received data:" << qUtf8Printable(redactedJson(QJsonDocument::fromJson(data).toVariant().toMap()));
     m_receiveBuffer.append(data);
 
     int splitIndex = static_cast<int>(m_receiveBuffer.indexOf("}\n{")) + 1;
@@ -681,7 +716,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         //        qWarning() << "Could not parse json data from nymea" << m_receiveBuffer.left(splitIndex) << error.errorString();
         return;
     }
-    //    qDebug() << "received response" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Indented));
+    //    qDebug() << "received response" << qUtf8Printable(redactedJson(jsonDoc.toVariant().toMap()));
     m_receiveBuffer = m_receiveBuffer.right(m_receiveBuffer.length() - splitIndex - 1);
     if (!m_receiveBuffer.isEmpty()) {
         staticMetaObject.invokeMethod(this, "dataReceived", Qt::QueuedConnection, Q_ARG(QByteArray, QByteArray()));
@@ -691,7 +726,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 
     // check if this is a notification
     if (dataMap.contains("notification")) {
-        qCDebug(dcJsonRpc()) << "Incoming notification:" << qUtf8Printable(jsonDoc.toJson());
+        qCDebug(dcJsonRpc()) << "Incoming notification:" << qUtf8Printable(redactedJson(dataMap));
         // Check if our permissions changed
         if (dataMap.value("notification").toString() == "Users.UserChanged") {
             QVariantMap userMap = dataMap.value("params").toMap().value("userInfo").toMap();
@@ -731,7 +766,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 
         if (dataMap.value("status").toString() == "error") {
             qCWarning(dcJsonRpc()) << "An error happened in the JSONRPC layer:" << dataMap.value("error").toString();
-            qCWarning(dcJsonRpc()) << "Request was:" << qUtf8Printable(QJsonDocument::fromVariant(reply->requestMap()).toJson());
+            qCWarning(dcJsonRpc()) << "Request was:" << qUtf8Printable(redactedJson(reply->requestMap()));
             if (reply->nameSpace() == "JSONRPC" && reply->method() == "Hello") {
                 qCInfo(dcJsonRpc()) << "Hello call failed. Trying again without locale";
                 m_id = 0;
@@ -749,9 +784,11 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         emit responseReceived(reply->commandId(), dataMap.value("params").toMap());
 
 
-        // If the server supports cache hashes, cache stuff locally
+        // If the server supports cache hashes, cache stuff locally. Never persist a
+        // secret-bearing reply to the plaintext disk cache, no matter what cache hash a
+        // (possibly malicious or misconfigured) server advertises for it.
         QString fullMethod = reply->nameSpace() + '.' + reply->method();
-        if (m_cacheHashes.contains(fullMethod)) {
+        if (!isSecretBearingMethod(fullMethod) && m_cacheHashes.contains(fullMethod)) {
             QString hash = m_cacheHashes.value(fullMethod);
             QString callSignature = fullMethod + '-' + QJsonDocument::fromVariant(reply->params()).toJson() + '-' + QLocale().name();
             QString callSignatureHash = QCryptographicHash::hash(callSignature.toUtf8(), QCryptographicHash::Md5).toHex();
@@ -866,7 +903,7 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     }
 
     m_cacheHashes.clear();
-    qCDebug(dcJsonRpc()) << "Hello reply:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    qCDebug(dcJsonRpc()) << "Hello reply:" << qUtf8Printable(redactedJson(params));
     QVariantList cacheHashes = params.value("cacheHashes").toList();
     foreach (const QVariant &cacheHash, cacheHashes) {
         m_cacheHashes.insert(cacheHash.toMap().value("method").toString(), cacheHash.toMap().value("hash").toString());

@@ -47,3 +47,20 @@ target_link_libraries(tst_invitation PRIVATE
 )
 
 add_test(NAME tst_invitation COMMAND tst_invitation)
+
+# Only available when tests/ is built as part of the full project tree (the normal way):
+# unlike Invitation, JsonRpcClient pulls in the whole transport stack, so exercising its
+# redaction/cache-safety helpers standalone reuses the already-configured nymea-app-core
+# target instead of re-listing every transitive source file.
+if(TARGET nymea-app-core)
+    qt_add_executable(tst_redaction
+        auto/redaction/tst_redaction.cpp
+    )
+
+    target_link_libraries(tst_redaction PRIVATE
+        nymea-app-core
+        Qt6::Test
+    )
+
+    add_test(NAME tst_redaction COMMAND tst_redaction)
+endif()

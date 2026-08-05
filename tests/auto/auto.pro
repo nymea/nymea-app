@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS = invitation
+SUBDIRS = invitation redaction
