@@ -85,12 +85,19 @@ public:
     // 44 bytes (rejects non-canonical encodings a lenient decoder might still accept).
     static bool isCanonicalToken(const QByteArray &token);
 
+    // Validates a single candidate against the shared-contract rules (scheme allowlist,
+    // host/port/userinfo/fragment/query, tunnel UUID match) and normalizes it (lowercase
+    // scheme/host, canonical tunnel query) in place. Returns false, leaving url
+    // unspecified, if the candidate is not usable. Public so admin-side assembly (task 3)
+    // can validate/normalize its own gathered candidates with the exact same rules the
+    // parser enforces on the way in, rather than duplicating them.
+    static bool validateAndNormalizeCandidate(QUrl &url, const QUuid &invitationUuid);
+
     static const int MaxEncodedUrlBytes = 2048;
     static const int MaxNameBytes = 128;
     static const int MaxCandidates = 8;
 
 private:
-    static bool validateAndNormalizeCandidate(QUrl &url, const QUuid &invitationUuid);
 
     ParseError m_error = ParseError::NoError;
     QUuid m_uuid;

@@ -156,6 +156,7 @@ SOURCES += \
     $${PWD}/scriptmanager.cpp \
     $${PWD}/scriptsyntaxhighlighter.cpp \
     $${PWD}/usermanager.cpp \
+    $${PWD}/invitationcreatecontroller.cpp \
     $${PWD}/vendorsproxy.cpp \
     $${PWD}/pluginsproxy.cpp \
     $${PWD}/interfacesmodel.cpp \
@@ -334,6 +335,7 @@ HEADERS += \
     $${PWD}/scriptmanager.h \
     $${PWD}/scriptsyntaxhighlighter.h \
     $${PWD}/usermanager.h \
+    $${PWD}/invitationcreatecontroller.h \
     $${PWD}/vendorsproxy.h \
     $${PWD}/pluginsproxy.h \
     $${PWD}/interfacesmodel.h \
