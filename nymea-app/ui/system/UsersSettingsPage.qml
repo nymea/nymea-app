@@ -410,6 +410,12 @@ SettingsPageBase {
 
             property UserInfo userInfo: null
 
+            Component.onCompleted: {
+                if (engine.jsonRpcClient.invitationApiAvailable) {
+                    userManager.refreshInvitations(userInfo.username)
+                }
+            }
+
             Component {
                 id: confirmUserDeletionComponent
                 NymeaDialog {
@@ -521,6 +527,42 @@ SettingsPageBase {
                          (userDetailsPage.userInfo.scopes & UserInfo.PermissionScopeAccessAllThings) !== UserInfo.PermissionScopeAccessAllThings
                 progressive: true
                 onClicked: pageStack.push(configureAllowedThingsComponent, {userInfo: userDetailsPage.userInfo})
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Invitations")
+                visible: engine.jsonRpcClient.invitationApiAvailable
+            }
+
+            NymeaItemDelegate {
+                Layout.fillWidth: true
+                text: qsTr("Invite…")
+                iconName: "qrc:/icons/add.svg"
+                visible: engine.jsonRpcClient.invitationApiAvailable
+                onClicked: pageStack.push(inviteUserComponent, {username: userDetailsPage.userInfo.username})
+            }
+
+            Repeater {
+                model: userManager.invitations
+                delegate: NymeaSwipeDelegate {
+                    Layout.fillWidth: true
+                    visible: model.username === userDetailsPage.userInfo.username
+                    height: visible ? implicitHeight : 0
+                    text: qsTr("Invitation created %1").arg(Qt.formatDateTime(model.creationTime, Qt.DefaultLocaleShortDate))
+                    subText: model.removalState === InvitationInfo.RemovalStateError
+                             ? qsTr("Could not remove the invitation. Please try again.")
+                             : qsTr("Expires %1").arg(Qt.formatDateTime(model.expiryTime, Qt.DefaultLocaleShortDate))
+                               + (model.tokenValidityDuration > 0
+                                  ? (" · " + qsTr("Access valid %1 days after redemption").arg(Math.round(model.tokenValidityDuration / 86400)))
+                                  : "")
+                    prominentSubText: false
+                    progressive: false
+                    canDelete: true
+                    busy: model.removalState === InvitationInfo.RemovalStatePending
+                    iconName: "qrc:/icons/mail.svg"
+
+                    onDeleteClicked: userManager.removeInvitation(model.id)
+                }
             }
 
             SettingsPageSectionHeader {
@@ -746,6 +788,225 @@ SettingsPageBase {
                         popup.open()
                     } else {
                         pageStack.pop();
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: inviteUserComponent
+        SettingsPageBase {
+            id: inviteUserPage
+            title: qsTr("Invite %1").arg(username)
+
+            property string username: ""
+            property bool showResult: false
+
+            property var durationOptions: [
+                { label: qsTr("1 hour"), seconds: 3600 },
+                { label: qsTr("1 day"), seconds: 86400 },
+                { label: qsTr("7 days"), seconds: 604800 },
+                { label: qsTr("30 days"), seconds: 2592000 },
+                { label: qsTr("Custom…"), seconds: -1 }
+            ]
+            property int selectedValidityDuration: 86400
+            property bool tokenNeverExpires: true
+            property int selectedTokenValidityDuration: 2592000
+
+            InvitationCreateController {
+                id: inviteController
+                engine: _engine
+                userManager: userManager
+            }
+
+            Component.onCompleted: inviteController.updatePreview()
+            Component.onDestruction: inviteController.clear()
+
+            Connections {
+                target: inviteController
+                function onCreated() {
+                    inviteUserPage.showResult = true
+                }
+            }
+
+            ColumnLayout {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                spacing: Style.margins
+                visible: !inviteUserPage.showResult
+
+                SettingsPageSectionHeader {
+                    text: qsTr("Invitation validity")
+                }
+
+                ComboBox {
+                    id: validityCombo
+                    Layout.fillWidth: true
+                    model: inviteUserPage.durationOptions.map(function(o) { return o.label })
+                    currentIndex: 1
+                    onActivated: (index) => {
+                        var seconds = inviteUserPage.durationOptions[index].seconds
+                        if (seconds > 0) {
+                            inviteUserPage.selectedValidityDuration = seconds
+                        }
+                    }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    visible: validityCombo.currentIndex === inviteUserPage.durationOptions.length - 1
+                    Label {
+                        Layout.fillWidth: true
+                        text: qsTr("Custom validity (hours):")
+                    }
+                    TextField {
+                        inputMethodHints: Qt.ImhDigitsOnly
+                        validator: IntValidator { bottom: 1; top: 720 }
+                        text: "24"
+                        onEditingFinished: inviteUserPage.selectedValidityDuration = parseInt(text) * 3600
+                    }
+                }
+
+                SettingsPageSectionHeader {
+                    text: qsTr("Client access after redemption")
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    Label {
+                        Layout.fillWidth: true
+                        text: qsTr("Never expires")
+                    }
+                    CheckBox {
+                        checked: inviteUserPage.tokenNeverExpires
+                        onClicked: inviteUserPage.tokenNeverExpires = checked
+                    }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    visible: !inviteUserPage.tokenNeverExpires
+                    Label {
+                        Layout.fillWidth: true
+                        text: qsTr("Expires after (days):")
+                    }
+                    TextField {
+                        inputMethodHints: Qt.ImhDigitsOnly
+                        validator: IntValidator { bottom: 1; top: 30 }
+                        text: "30"
+                        onEditingFinished: inviteUserPage.selectedTokenValidityDuration = parseInt(text) * 86400
+                    }
+                }
+
+                SettingsPageSectionHeader {
+                    text: qsTr("Destinations")
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    visible: !inviteController.previewUsable
+                    color: Style.accentColor
+                    text: qsTr("No usable connection was found to include in the invitation. Connect via a reachable address or configure a tunnel proxy first.")
+                }
+
+                Repeater {
+                    model: inviteController.previewDestinations
+                    delegate: Label {
+                        Layout.fillWidth: true
+                        elide: Text.ElideMiddle
+                        text: modelData
+                    }
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    visible: inviteController.previewOmittedCount > 0
+                    text: qsTr("%n destination(s) omitted to fit the link size limit.", "", inviteController.previewOmittedCount)
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    visible: inviteController.previewAllLanOnly
+                    color: Style.accentColor
+                    text: qsTr("All available destinations are local network only. The invited guest must be on the same network to redeem this invitation.")
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    visible: inviteController.errorMessage !== ""
+                    color: Style.accentColor
+                    text: inviteController.errorMessage
+                }
+
+                Button {
+                    Layout.fillWidth: true
+                    text: qsTr("Create invitation")
+                    enabled: !inviteController.busy && inviteController.previewUsable
+                    onClicked: inviteController.createInvitation(
+                                   inviteUserPage.username,
+                                   inviteUserPage.selectedValidityDuration,
+                                   inviteUserPage.tokenNeverExpires ? -1 : inviteUserPage.selectedTokenValidityDuration)
+                }
+
+                BusyIndicator {
+                    Layout.alignment: Qt.AlignHCenter
+                    running: inviteController.busy
+                    visible: inviteController.busy
+                }
+            }
+
+            ColumnLayout {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                spacing: Style.margins
+                visible: inviteUserPage.showResult
+
+                SettingsPageSectionHeader {
+                    text: qsTr("Invitation ready")
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    text: qsTr("Share this link with %1. It can only be used once and will expire if not redeemed in time.").arg(inviteUserPage.username)
+                }
+
+                // TODO(03-platform-integration.md): render a QR code for
+                // inviteController.link with the vendored qrcodegen library once that
+                // work package lands it.
+
+                TextArea {
+                    id: linkField
+                    Layout.fillWidth: true
+                    readOnly: true
+                    wrapMode: TextEdit.WrapAnywhere
+                    selectByMouse: true
+                    text: inviteController.link
+                }
+
+                Button {
+                    Layout.fillWidth: true
+                    text: qsTr("Copy link")
+                    onClicked: {
+                        linkField.selectAll()
+                        linkField.copy()
+                        linkField.deselect()
+                    }
+                }
+
+                // TODO(03-platform-integration.md): platform Share integration.
+
+                Button {
+                    Layout.fillWidth: true
+                    text: qsTr("Done")
+                    onClicked: {
+                        inviteController.clear()
+                        pageStack.pop()
                     }
                 }
             }
