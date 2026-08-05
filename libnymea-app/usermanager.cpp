@@ -181,6 +181,13 @@ int UserManager::setUserInfo(const QString &username, const QString &displayName
     return m_engine->jsonRpcClient()->sendCommand("Users.SetUserInfo", params, this, "setUserInfoResponse");
 }
 
+void UserManager::refreshTokens()
+{
+    if (!m_engine)
+        return;
+    m_engine->jsonRpcClient()->sendCommand("Users.GetTokens", QVariantMap(), this, "getTokensResponse");
+}
+
 void UserManager::notificationReceived(const QVariantMap &data)
 {
     qCDebug(dcUserManager()) << "Users notification" << data;
@@ -270,6 +277,9 @@ void UserManager::getUserInfoResponse(int commandId, const QVariantMap &data)
 void UserManager::getTokensResponse(int commandId, const QVariantMap &data)
 {
     Q_UNUSED(commandId)
+    // The full list is authoritative on every response (initial load and refreshTokens()
+    // alike); clear first so a refresh doesn't duplicate every existing entry.
+    m_tokenInfos->clear();
     foreach (const QVariant &tokenVariant, data.value("tokenInfoList").toList()) {
         //        qDebug() << "Token received" << tokenVariant.toMap();
         QVariantMap token = tokenVariant.toMap();
@@ -277,7 +287,15 @@ void UserManager::getTokensResponse(int commandId, const QVariantMap &data)
         QString username = token.value("username").toString();
         QString deviceName = token.value("deviceName").toString();
         QDateTime creationTime = QDateTime::fromSecsSinceEpoch(token.value("creationTime").toInt());
-        TokenInfo *tokenInfo = new TokenInfo(id, username, deviceName, creationTime);
+        // Optional fields: absent from the map entirely when unset. Do not default to
+        // epoch 0 - an invalid QDateTime means "never expires"/"not yet observed".
+        QDateTime expiryTime;
+        if (token.contains("expiryTime"))
+            expiryTime = QDateTime::fromSecsSinceEpoch(token.value("expiryTime").toLongLong());
+        QDateTime lastSeen;
+        if (token.contains("lastSeen"))
+            lastSeen = QDateTime::fromSecsSinceEpoch(token.value("lastSeen").toLongLong());
+        TokenInfo *tokenInfo = new TokenInfo(id, username, deviceName, creationTime, expiryTime, lastSeen);
         m_tokenInfos->addToken(tokenInfo);
     }
 }

@@ -78,6 +78,9 @@ public:
     // NOTE: Q_FLAG from another QObject (UserInfo::PermissionScopes) doesn't seem to work in certain Qt versions. Using int instead
     Q_INVOKABLE int setUserScopes(const QString &username, int permissionScopes, const QList<QUuid> &allowedThingIds = QList<QUuid>());
     Q_INVOKABLE int setUserInfo(const QString &username, const QString &displayName, const QString &email);
+    // Re-fetches the full token list so another client's latest lastSeen is visible;
+    // call when entering a page that displays it rather than relying on a notification.
+    Q_INVOKABLE void refreshTokens();
 
 signals:
     void engineChanged();

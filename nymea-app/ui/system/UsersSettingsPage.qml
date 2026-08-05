@@ -317,6 +317,8 @@ SettingsPageBase {
             id: manageTokensPage
             title: qsTr("Device access")
 
+            Component.onCompleted: userManager.refreshTokens()
+
             Component {
                 id: confirmTokenDeletionComponent
                 NymeaDialog {
@@ -342,6 +344,9 @@ SettingsPageBase {
                     Layout.fillWidth: true
                     text: model.deviceName
                     subText: qsTr("Created on %1").arg(Qt.formatDateTime(model.creationTime, Qt.DefaultLocaleShortDate))
+                        + " · " + (isNaN(model.lastSeen.getTime())
+                                   ? qsTr("Never used")
+                                   : qsTr("Last used %1").arg(Qt.formatDateTime(model.lastSeen, Qt.DefaultLocaleShortDate)))
                     prominentSubText: false
                     progressive: false
                     canDelete: true

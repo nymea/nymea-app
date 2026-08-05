@@ -24,12 +24,15 @@
 
 #include "tokeninfo.h"
 
-TokenInfo::TokenInfo(const QUuid &id, const QString &username, const QString &deviceName, const QDateTime &creationTime, QObject *parent):
+TokenInfo::TokenInfo(const QUuid &id, const QString &username, const QString &deviceName, const QDateTime &creationTime,
+                      const QDateTime &expiryTime, const QDateTime &lastSeen, QObject *parent):
     QObject(parent),
     m_id(id),
     m_username(username),
     m_deviceName(deviceName),
-    m_creationTime(creationTime)
+    m_creationTime(creationTime),
+    m_expiryTime(expiryTime),
+    m_lastSeen(lastSeen)
 {
 
 }
@@ -52,4 +55,14 @@ QString TokenInfo::deviceName() const
 QDateTime TokenInfo::creationTime() const
 {
     return m_creationTime;
+}
+
+QDateTime TokenInfo::expiryTime() const
+{
+    return m_expiryTime;
+}
+
+QDateTime TokenInfo::lastSeen() const
+{
+    return m_lastSeen;
 }
