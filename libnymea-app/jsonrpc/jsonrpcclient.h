@@ -40,6 +40,20 @@ class Params;
 class JsonRpcClient : public QObject
 {
     Q_OBJECT
+public:
+    // Bounded failure reason for AuthenticateWithToken, shared with the redemption
+    // controller in work package 02 task 4. "Cancelled" is never emitted by this class -
+    // it is reserved for the controller's own user-initiated abort path.
+    enum class AuthenticateWithTokenReason {
+        NoError,
+        Unsupported,
+        InvalidOrExpired,
+        Transport,
+        Cancelled,
+        Protocol
+    };
+    Q_ENUM(AuthenticateWithTokenReason)
+private:
     Q_PROPERTY(NymeaConnection::BearerTypes availableBearerTypes READ availableBearerTypes NOTIFY availableBearerTypesChanged)
     Q_PROPERTY(NymeaConnection::ConnectionStatus connectionStatus READ connectionStatus NOTIFY connectionStatusChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
@@ -110,6 +124,19 @@ public:
     Q_INVOKABLE int authenticate(const QString &username, const QString &password, const QString &deviceName);
     Q_INVOKABLE int requestPushButtonAuth(const QString &deviceName);
 
+    // Redeems a one-time invitation token for a regular client token. Refuses locally
+    // (no request sent, no secret transmitted) and returns -1 if invitationApiAvailable
+    // is false or the sanitized device name fails local validation. Result arrives via
+    // authenticateWithTokenFinished, never via authenticatedChanged/authenticationFailed,
+    // so a stale reply can never be mistaken for completing a newer invitation.
+    Q_INVOKABLE int authenticateWithToken(const QByteArray &oneTimeToken, const QString &deviceName);
+
+    // Shared by authenticate(), requestPushButtonAuth() and authenticateWithToken(): strips
+    // NUL and Unicode control/format characters, trims whitespace, and truncates only at a
+    // UTF-8 code-point boundary to at most 40 bytes. Falls back to "nymea-app" if the result
+    // is empty. Exposed statically so it stays independently unit-testable.
+    static QString sanitizeDeviceName(const QString &label);
+
 signals:
     void availableBearerTypesChanged();
     void connectionStatusChanged();
@@ -135,6 +162,10 @@ signals:
     void serverQtVersionChanged();
     void serverNameChanged();
     void permissionsChanged();
+
+    // Command-correlated so a stale reply can never complete a newer invitation. reason
+    // is AuthenticateWithTokenReason::NoError on success.
+    void authenticateWithTokenFinished(int commandId, bool success, JsonRpcClient::AuthenticateWithTokenReason reason);
 
     void responseReceived(const int &commandId, const QVariantMap &response);
 
@@ -177,6 +208,7 @@ private:
 
     // json handler
     Q_INVOKABLE void processAuthenticate(int commandId, const QVariantMap &data);
+    Q_INVOKABLE void processAuthenticateWithToken(int commandId, const QVariantMap &data);
     Q_INVOKABLE void processCreateUser(int commandId, const QVariantMap &data);
     Q_INVOKABLE void processRequestPushButtonAuth(int commandId, const QVariantMap &data);
 

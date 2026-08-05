@@ -363,7 +363,7 @@ int JsonRpcClient::authenticate(const QString &username, const QString &password
     QVariantMap params;
     params.insert("username", username);
     params.insert("password", password);
-    params.insert("deviceName", deviceName);
+    params.insert("deviceName", sanitizeDeviceName(deviceName));
     qDebug() << "Authenticating:" << username << password << deviceName;
     JsonRpcReply* reply = createReply("JSONRPC.Authenticate", params, this, "processAuthenticate");
     m_replies.insert(reply->commandId(), reply);
@@ -375,11 +375,80 @@ int JsonRpcClient::requestPushButtonAuth(const QString &deviceName)
 {
     qDebug() << "Requesting push button auth for device:" << deviceName;
     QVariantMap params;
-    params.insert("deviceName", deviceName);
+    params.insert("deviceName", sanitizeDeviceName(deviceName));
     JsonRpcReply *reply = createReply("JSONRPC.RequestPushButtonAuth", params, this, "processRequestPushButtonAuth");
     m_replies.insert(reply->commandId(), reply);
     m_connection->sendData(QJsonDocument::fromVariant(reply->requestMap()).toJson());
     return reply->commandId();
+}
+
+int JsonRpcClient::authenticateWithToken(const QByteArray &oneTimeToken, const QString &deviceName)
+{
+    if (!m_invitationApiAvailable) {
+        qCWarning(dcJsonRpc()) << "Refusing to redeem invitation: server does not advertise invitation support";
+        emit authenticateWithTokenFinished(-1, false, AuthenticateWithTokenReason::Unsupported);
+        return -1;
+    }
+
+    QString sanitizedDeviceName = sanitizeDeviceName(deviceName);
+    QByteArray sanitizedDeviceNameUtf8 = sanitizedDeviceName.toUtf8();
+    if (sanitizedDeviceNameUtf8.isEmpty() || sanitizedDeviceNameUtf8.size() > 40) {
+        qCWarning(dcJsonRpc()) << "Refusing to redeem invitation: local device name derivation produced an invalid value";
+        emit authenticateWithTokenFinished(-1, false, AuthenticateWithTokenReason::Protocol);
+        return -1;
+    }
+
+    QVariantMap params;
+    params.insert("token", oneTimeToken);
+    params.insert("deviceName", sanitizedDeviceName);
+    JsonRpcReply *reply = createReply("JSONRPC.AuthenticateWithToken", params, this, "processAuthenticateWithToken");
+    m_replies.insert(reply->commandId(), reply);
+    m_connection->sendData(QJsonDocument::fromVariant(reply->requestMap()).toJson());
+    return reply->commandId();
+}
+
+QString JsonRpcClient::sanitizeDeviceName(const QString &label)
+{
+    QString filtered;
+    filtered.reserve(label.length());
+    int i = 0;
+    while (i < label.length()) {
+        int charLength = 1;
+        uint codepoint = label.at(i).unicode();
+        if (label.at(i).isHighSurrogate() && i + 1 < label.length() && label.at(i + 1).isLowSurrogate()) {
+            codepoint = QChar::surrogateToUcs4(label.at(i), label.at(i + 1));
+            charLength = 2;
+        }
+        QChar::Category category = QChar::category(codepoint);
+        if (category != QChar::Other_Control && category != QChar::Other_Format) {
+            filtered += label.mid(i, charLength);
+        }
+        i += charLength;
+    }
+    filtered = filtered.trimmed();
+
+    // Truncate at a UTF-8 code-point boundary by growing code point by code point rather
+    // than slicing raw bytes, so a multi-byte character is never split.
+    QString truncated;
+    int byteCount = 0;
+    i = 0;
+    while (i < filtered.length()) {
+        int charLength = (filtered.at(i).isHighSurrogate() && i + 1 < filtered.length() && filtered.at(i + 1).isLowSurrogate()) ? 2 : 1;
+        QString ch = filtered.mid(i, charLength);
+        int chBytes = ch.toUtf8().size();
+        if (byteCount + chBytes > 40) {
+            break;
+        }
+        truncated += ch;
+        byteCount += chBytes;
+        i += charLength;
+    }
+    truncated = truncated.trimmed();
+
+    if (truncated.toUtf8().isEmpty()) {
+        return QStringLiteral("nymea-app");
+    }
+    return truncated;
 }
 
 bool JsonRpcClient::ensureServerVersion(const QString &jsonRpcVersion)
@@ -413,6 +482,48 @@ void JsonRpcClient::processAuthenticate(int /*commandId*/, const QVariantMap &da
         qCWarning(dcJsonRpc()) << "Authentication failed" << data;
         emit authenticationFailed();
     }
+}
+
+void JsonRpcClient::processAuthenticateWithToken(int commandId, const QVariantMap &data)
+{
+    // dataReceived() invokes this callback even on a JSON-RPC "error"/"unauthorized"
+    // status (with an empty params map) and after a dropped connection, so an empty/
+    // shapeless map means the request never got an authoritative reply from the server.
+    if (!data.contains("success")) {
+        qCWarning(dcJsonRpc()) << "AuthenticateWithToken got no authoritative reply";
+        emit authenticateWithTokenFinished(commandId, false, AuthenticateWithTokenReason::Transport);
+        return;
+    }
+
+    if (!data.value("success").toBool()) {
+        emit authenticateWithTokenFinished(commandId, false, AuthenticateWithTokenReason::InvalidOrExpired);
+        return;
+    }
+
+    if (data.value("token").toByteArray().isEmpty() || data.value("username").toString().isEmpty()) {
+        qCWarning(dcJsonRpc()) << "AuthenticateWithToken reported success but the response is missing required fields";
+        emit authenticateWithTokenFinished(commandId, false, AuthenticateWithTokenReason::Protocol);
+        return;
+    }
+
+    qCInfo(dcJsonRpc()) << "Invitation redemption successful";
+    m_token = data.value("token").toByteArray();
+    m_username = data.value("username").toString();
+    m_permissionScopes = UserInfo::listToScopes(data.value("scopes").toStringList());
+    emit permissionsChanged();
+
+    QSettings settings;
+    settings.beginGroup("jsonTokens");
+    settings.setValue(m_serverUuid.toString(), m_token);
+    settings.endGroup();
+    emit authenticationRequiredChanged();
+
+    m_authenticated = true;
+    emit authenticatedChanged();
+
+    setNotificationsEnabled();
+
+    emit authenticateWithTokenFinished(commandId, true, AuthenticateWithTokenReason::NoError);
 }
 
 void JsonRpcClient::processCreateUser(int /*commandId*/, const QVariantMap &data)
