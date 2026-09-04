@@ -24,9 +24,11 @@
 
 #include "usermanager.h"
 #include "types/tokeninfo.h"
+#include "types/invitationinfo.h"
 
 #include <QDebug>
 #include <QMetaEnum>
+#include <QSet>
 
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcUserManager, "UserManager")
@@ -38,6 +40,7 @@ UserManager::UserManager(QObject *parent):
     m_userInfo = new UserInfo(this);
     m_tokenInfos = new TokenInfos(this);
     m_users = new Users(this);
+    m_invitations = new Invitations(this);
 }
 
 UserManager::~UserManager()
@@ -57,6 +60,7 @@ void UserManager::setEngine(Engine *engine)
     if (m_engine != engine) {
         if (m_engine) {
             m_engine->jsonRpcClient()->unregisterNotificationHandler(this);
+            disconnect(m_engine->jsonRpcClient(), &JsonRpcClient::invitationApiAvailableChanged, this, nullptr);
         }
 
         m_engine = engine;
@@ -71,6 +75,21 @@ void UserManager::setEngine(Engine *engine)
             m_engine->jsonRpcClient()->sendCommand("Users.GetUsers", QVariantMap(), this, "getUsersResponse");
             m_engine->jsonRpcClient()->sendCommand("Users.GetUserInfo", QVariantMap(), this, "getUserInfoResponse");
             m_engine->jsonRpcClient()->sendCommand("Users.GetTokens", QVariantMap(), this, "getTokensResponse");
+
+            m_invitations->clear();
+            if (m_engine->jsonRpcClient()->invitationApiAvailable()) {
+                refreshInvitations();
+            } else {
+                m_invitations->setState(Invitations::StateIdle);
+            }
+            connect(m_engine->jsonRpcClient(), &JsonRpcClient::invitationApiAvailableChanged, this, [this]() {
+                if (m_engine->jsonRpcClient()->invitationApiAvailable()) {
+                    refreshInvitations();
+                } else {
+                    m_invitations->clear();
+                    m_invitations->setState(Invitations::StateIdle);
+                }
+            });
         }
     }
 }
@@ -93,6 +112,11 @@ TokenInfos *UserManager::tokenInfos() const
 Users *UserManager::users() const
 {
     return m_users;
+}
+
+Invitations *UserManager::invitations() const
+{
+    return m_invitations;
 }
 
 int UserManager::createUser(const QString &username, const QString &password, const QString &displayName, const QString &email, int permissionScopes, const QList<QUuid> &allowedThingIds)
@@ -181,6 +205,70 @@ int UserManager::setUserInfo(const QString &username, const QString &displayName
     return m_engine->jsonRpcClient()->sendCommand("Users.SetUserInfo", params, this, "setUserInfoResponse");
 }
 
+void UserManager::refreshTokens()
+{
+    if (!m_engine)
+        return;
+    m_engine->jsonRpcClient()->sendCommand("Users.GetTokens", QVariantMap(), this, "getTokensResponse");
+}
+
+int UserManager::createInvitation(const QString &username, int validityDuration, int tokenValidityDuration)
+{
+    QVariantMap params;
+    params.insert("username", username);
+    if (validityDuration >= 0) {
+        params.insert("validityDuration", validityDuration);
+    }
+    if (tokenValidityDuration >= 0) {
+        params.insert("tokenValidityDuration", tokenValidityDuration);
+    }
+    qCDebug(dcUserManager()) << "Creating invitation for user" << username;
+    return m_engine->jsonRpcClient()->sendCommand("Users.CreateInvitation", params, this, "createInvitationResponse");
+}
+
+int UserManager::removeInvitation(const QUuid &invitationId)
+{
+    InvitationInfo *invitationInfo = m_invitations->getInvitation(invitationId);
+    if (invitationInfo) {
+        invitationInfo->setRemovalState(InvitationInfo::RemovalStatePending);
+    }
+
+    QVariantMap params;
+    params.insert("invitationId", invitationId);
+    int callId = m_engine->jsonRpcClient()->sendCommand("Users.RemoveInvitation", params, this, "removeInvitationResponse");
+    m_invitationsToBeRemoved.insert(callId, invitationId);
+    return callId;
+}
+
+void UserManager::refreshInvitations(const QString &username)
+{
+    if (!m_engine)
+        return;
+    m_invitations->setState(Invitations::StateLoading);
+    QVariantMap params;
+    if (!username.isEmpty()) {
+        params.insert("username", username);
+    }
+    int callId = m_engine->jsonRpcClient()->sendCommand("Users.GetInvitations", params, this, "getInvitationsResponse");
+    m_invitationsRequestFilter.insert(callId, username);
+}
+
+InvitationInfo *UserManager::invitationInfoFromMap(const QVariantMap &invitationMap, QObject *parent)
+{
+    QUuid id = invitationMap.value("id").toUuid();
+    QString username = invitationMap.value("username").toString();
+    QDateTime creationTime = QDateTime::fromSecsSinceEpoch(invitationMap.value("creationTime").toLongLong());
+    QDateTime expiryTime = QDateTime::fromSecsSinceEpoch(invitationMap.value("expiryTime").toLongLong());
+    // Optional: absent from the map entirely when the redeemed token is meant to never
+    // expire - -1 is InvitationInfo's sentinel for that, matching TokenInfo's invalid-
+    // QDateTime idiom for the same "unset" semantics on a different property type.
+    int tokenValidityDuration = -1;
+    if (invitationMap.contains("tokenValidityDuration")) {
+        tokenValidityDuration = invitationMap.value("tokenValidityDuration").toInt();
+    }
+    return new InvitationInfo(id, username, creationTime, expiryTime, tokenValidityDuration, parent);
+}
+
 void UserManager::notificationReceived(const QVariantMap &data)
 {
     qCDebug(dcUserManager()) << "Users notification" << data;
@@ -229,6 +317,12 @@ void UserManager::notificationReceived(const QVariantMap &data)
         info->setEmail(email);
         info->setScopes(scopes);
         info->setAllowedThingIds(allowedThingIds);
+    } else if (notification == "Users.InvitationAdded") {
+        QVariantMap invitationMap = data.value("params").toMap().value("invitation").toMap();
+        m_invitations->addOrUpdateInvitation(invitationInfoFromMap(invitationMap));
+    } else if (notification == "Users.InvitationRemoved") {
+        QUuid invitationId = data.value("params").toMap().value("invitationId").toUuid();
+        m_invitations->removeInvitation(invitationId);
     }
 }
 
@@ -270,6 +364,9 @@ void UserManager::getUserInfoResponse(int commandId, const QVariantMap &data)
 void UserManager::getTokensResponse(int commandId, const QVariantMap &data)
 {
     Q_UNUSED(commandId)
+    // The full list is authoritative on every response (initial load and refreshTokens()
+    // alike); clear first so a refresh doesn't duplicate every existing entry.
+    m_tokenInfos->clear();
     foreach (const QVariant &tokenVariant, data.value("tokenInfoList").toList()) {
         //        qDebug() << "Token received" << tokenVariant.toMap();
         QVariantMap token = tokenVariant.toMap();
@@ -277,7 +374,15 @@ void UserManager::getTokensResponse(int commandId, const QVariantMap &data)
         QString username = token.value("username").toString();
         QString deviceName = token.value("deviceName").toString();
         QDateTime creationTime = QDateTime::fromSecsSinceEpoch(token.value("creationTime").toInt());
-        TokenInfo *tokenInfo = new TokenInfo(id, username, deviceName, creationTime);
+        // Optional fields: absent from the map entirely when unset. Do not default to
+        // epoch 0 - an invalid QDateTime means "never expires"/"not yet observed".
+        QDateTime expiryTime;
+        if (token.contains("expiryTime"))
+            expiryTime = QDateTime::fromSecsSinceEpoch(token.value("expiryTime").toLongLong());
+        QDateTime lastSeen;
+        if (token.contains("lastSeen"))
+            lastSeen = QDateTime::fromSecsSinceEpoch(token.value("lastSeen").toLongLong());
+        TokenInfo *tokenInfo = new TokenInfo(id, username, deviceName, creationTime, expiryTime, lastSeen);
         m_tokenInfos->addToken(tokenInfo);
     }
 }
@@ -294,6 +399,88 @@ void UserManager::removeTokenResponse(int commandId, const QVariantMap &params)
 
     if (error == UserErrorNoError) {
         m_tokenInfos->removeToken(tokenId);
+    }
+}
+
+void UserManager::getInvitationsResponse(int commandId, const QVariantMap &params)
+{
+    qCDebug(dcUserManager()) << "Get invitations response:" << commandId << params;
+    QString requestFilter = m_invitationsRequestFilter.take(commandId);
+
+    QString errorString = params.value("error").toString();
+    QMetaEnum metaEnum = QMetaEnum::fromType<UserManager::UserError>();
+    UserError error = static_cast<UserError>(metaEnum.keyToValue(errorString.toUtf8()));
+
+    if (error != UserErrorNoError) {
+        // Ambiguous/failed load: keep whatever was already reconciled from notifications
+        // rather than clearing it, and let the caller retry via refreshInvitations().
+        m_invitations->setErrorMessage(errorString);
+        m_invitations->setState(Invitations::StateError);
+        return;
+    }
+
+    // The list is authoritative for its own filter scope on every successful response;
+    // reconcile by id so an InvitationAdded/InvitationRemoved notification racing this
+    // reply is never clobbered or duplicated.
+    QSet<QUuid> receivedIds;
+    foreach (const QVariant &invitationVariant, params.value("invitations").toList()) {
+        InvitationInfo *invitationInfo = invitationInfoFromMap(invitationVariant.toMap());
+        receivedIds.insert(invitationInfo->id());
+        m_invitations->addOrUpdateInvitation(invitationInfo);
+    }
+    // Only an unfiltered ("all users") response is authoritative enough to prune rows it
+    // didn't return - a per-user filtered refresh must not remove other users' rows.
+    if (requestFilter.isEmpty()) {
+        for (int i = m_invitations->rowCount() - 1; i >= 0; i--) {
+            InvitationInfo *existing = m_invitations->get(i);
+            if (existing && !receivedIds.contains(existing->id())) {
+                m_invitations->removeInvitation(existing->id());
+            }
+        }
+    }
+
+    m_invitations->setState(Invitations::StateReady);
+}
+
+void UserManager::createInvitationResponse(int commandId, const QVariantMap &params)
+{
+    qCDebug(dcUserManager()) << "Create invitation response:" << commandId;
+    QMetaEnum metaEnum = QMetaEnum::fromType<UserManager::UserError>();
+    UserError error = static_cast<UserError>(metaEnum.keyToValue(params.value("error").toString().toUtf8()));
+
+    QByteArray token;
+    QUuid invitationId;
+    if (error == UserErrorNoError && params.contains("token") && params.contains("invitation")) {
+        token = params.value("token").toByteArray();
+        QVariantMap invitationMap = params.value("invitation").toMap();
+        invitationId = invitationMap.value("id").toUuid();
+        m_invitations->addOrUpdateInvitation(invitationInfoFromMap(invitationMap));
+    } else if (error == UserErrorNoError) {
+        // Malformed success payload: treat as a protocol-level failure rather than
+        // reporting a nonexistent invitation as created.
+        error = UserErrorBackendError;
+    }
+
+    emit createInvitationReply(commandId, error, token, invitationId);
+}
+
+void UserManager::removeInvitationResponse(int commandId, const QVariantMap &params)
+{
+    qCDebug(dcUserManager()) << "Remove invitation response:" << commandId << params;
+    QUuid invitationId = m_invitationsToBeRemoved.take(commandId);
+    QMetaEnum metaEnum = QMetaEnum::fromType<UserManager::UserError>();
+    UserError error = static_cast<UserError>(metaEnum.keyToValue(params.value("error").toString().toUtf8()));
+
+    emit removeInvitationReply(commandId, error);
+
+    if (error != UserErrorNoError) {
+        // Success is reconciled via the InvitationRemoved notification instead of being
+        // applied here directly, so a racing notification can never double-remove or
+        // fight this response for the row.
+        InvitationInfo *invitationInfo = m_invitations->getInvitation(invitationId);
+        if (invitationInfo) {
+            invitationInfo->setRemovalState(InvitationInfo::RemovalStateError);
+        }
     }
 }
 

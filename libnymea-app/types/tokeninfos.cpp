@@ -47,6 +47,10 @@ QVariant TokenInfos::data(const QModelIndex &index, int role) const
         return m_list.at(index.row())->deviceName();
     case RoleCreationTime:
         return m_list.at(index.row())->creationTime();
+    case RoleExpiryTime:
+        return m_list.at(index.row())->expiryTime();
+    case RoleLastSeen:
+        return m_list.at(index.row())->lastSeen();
     }
     return QVariant();
 }
@@ -58,6 +62,8 @@ QHash<int, QByteArray> TokenInfos::roleNames() const
     roles.insert(RoleUsername, "username");
     roles.insert(RoleDeviceName, "deviceName");
     roles.insert(RoleCreationTime, "creationTime");
+    roles.insert(RoleExpiryTime, "expiryTime");
+    roles.insert(RoleLastSeen, "lastSeen");
     return roles;
 }
 
@@ -81,6 +87,18 @@ void TokenInfos::removeToken(const QUuid &tokenId)
             return;
         }
     }
+}
+
+void TokenInfos::clear()
+{
+    if (m_list.isEmpty())
+        return;
+    beginRemoveRows(QModelIndex(), 0, static_cast<int>(m_list.count()) - 1);
+    foreach (TokenInfo *tokenInfo, m_list)
+        tokenInfo->deleteLater();
+    m_list.clear();
+    endRemoveRows();
+    emit countChanged();
 }
 
 TokenInfo *TokenInfos::get(int index) const

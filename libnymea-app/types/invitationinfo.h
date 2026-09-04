@@ -2,7 +2,6 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright (C) 2013 - 2024, nymea GmbH
 * Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
 * This file is part of libnymea-app.
@@ -22,42 +21,59 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef TOKENINFO_H
-#define TOKENINFO_H
+#ifndef INVITATIONINFO_H
+#define INVITATIONINFO_H
 
+#include <QDateTime>
 #include <QObject>
 #include <QUuid>
-#include <QDateTime>
 
-class TokenInfo : public QObject
+class InvitationInfo : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUuid id READ id CONSTANT)
     Q_PROPERTY(QString username READ username CONSTANT)
-    Q_PROPERTY(QString deviceName READ deviceName CONSTANT)
     Q_PROPERTY(QDateTime creationTime READ creationTime CONSTANT)
-    // Invalid QDateTime means "never expires" / "not yet observed" respectively.
     Q_PROPERTY(QDateTime expiryTime READ expiryTime CONSTANT)
-    Q_PROPERTY(QDateTime lastSeen READ lastSeen CONSTANT)
+    // -1 means absent: the redeemed regular client token never expires. The invitation's
+    // own expiryTime above is always set and unrelated - it bounds the invitation, not
+    // the token minted on redemption.
+    Q_PROPERTY(int tokenValidityDuration READ tokenValidityDuration CONSTANT)
+    // Per-row UI state for the revoke action, so a repeated click while a removal is
+    // already in flight cannot send a duplicate Users.RemoveInvitation, and a failed
+    // removal restores the action instead of leaving the row stuck.
+    Q_PROPERTY(RemovalState removalState READ removalState NOTIFY removalStateChanged)
 
 public:
-    explicit TokenInfo(const QUuid &id, const QString &username, const QString &deviceName, const QDateTime &creationTime,
-                        const QDateTime &expiryTime = QDateTime(), const QDateTime &lastSeen = QDateTime(), QObject *parent = nullptr);
+    enum RemovalState {
+        RemovalStateIdle,
+        RemovalStatePending,
+        RemovalStateError
+    };
+    Q_ENUM(RemovalState)
+
+    explicit InvitationInfo(const QUuid &id, const QString &username, const QDateTime &creationTime,
+                             const QDateTime &expiryTime, int tokenValidityDuration = -1, QObject *parent = nullptr);
 
     QUuid id() const;
     QString username() const;
-    QString deviceName() const;
     QDateTime creationTime() const;
     QDateTime expiryTime() const;
-    QDateTime lastSeen() const;
+    int tokenValidityDuration() const;
+
+    RemovalState removalState() const;
+    void setRemovalState(RemovalState state);
+
+signals:
+    void removalStateChanged();
 
 private:
     QUuid m_id;
     QString m_username;
-    QString m_deviceName;
     QDateTime m_creationTime;
     QDateTime m_expiryTime;
-    QDateTime m_lastSeen;
+    int m_tokenValidityDuration;
+    RemovalState m_removalState = RemovalStateIdle;
 };
 
-#endif // TOKENINFO_H
+#endif // INVITATIONINFO_H

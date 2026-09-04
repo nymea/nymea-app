@@ -2,7 +2,6 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *
-* Copyright (C) 2013 - 2024, nymea GmbH
 * Copyright (C) 2024 - 2025, chargebyte austria GmbH
 *
 * This file is part of libnymea-app.
@@ -22,47 +21,54 @@
 *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "tokeninfo.h"
+#include "invitationinfo.h"
 
-TokenInfo::TokenInfo(const QUuid &id, const QString &username, const QString &deviceName, const QDateTime &creationTime,
-                      const QDateTime &expiryTime, const QDateTime &lastSeen, QObject *parent):
+InvitationInfo::InvitationInfo(const QUuid &id, const QString &username, const QDateTime &creationTime,
+                               const QDateTime &expiryTime, int tokenValidityDuration, QObject *parent):
     QObject(parent),
     m_id(id),
     m_username(username),
-    m_deviceName(deviceName),
     m_creationTime(creationTime),
     m_expiryTime(expiryTime),
-    m_lastSeen(lastSeen)
+    m_tokenValidityDuration(tokenValidityDuration)
 {
-
 }
 
-QUuid TokenInfo::id() const
+QUuid InvitationInfo::id() const
 {
     return m_id;
 }
 
-QString TokenInfo::username() const
+QString InvitationInfo::username() const
 {
     return m_username;
 }
 
-QString TokenInfo::deviceName() const
-{
-    return m_deviceName;
-}
-
-QDateTime TokenInfo::creationTime() const
+QDateTime InvitationInfo::creationTime() const
 {
     return m_creationTime;
 }
 
-QDateTime TokenInfo::expiryTime() const
+QDateTime InvitationInfo::expiryTime() const
 {
     return m_expiryTime;
 }
 
-QDateTime TokenInfo::lastSeen() const
+int InvitationInfo::tokenValidityDuration() const
 {
-    return m_lastSeen;
+    return m_tokenValidityDuration;
+}
+
+InvitationInfo::RemovalState InvitationInfo::removalState() const
+{
+    return m_removalState;
+}
+
+void InvitationInfo::setRemovalState(RemovalState state)
+{
+    if (m_removalState == state) {
+        return;
+    }
+    m_removalState = state;
+    emit removalStateChanged();
 }

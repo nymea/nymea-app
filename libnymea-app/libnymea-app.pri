@@ -124,6 +124,8 @@ SOURCES += \
     $${PWD}/types/wirelessaccesspoints.cpp \
     $${PWD}/types/tokeninfo.cpp \
     $${PWD}/types/tokeninfos.cpp \
+    $${PWD}/types/invitationinfo.cpp \
+    $${PWD}/types/invitations.cpp \
     $${PWD}/types/userinfo.cpp \
     $${PWD}/types/ioconnection.cpp \
     $${PWD}/types/ioconnections.cpp \
@@ -131,6 +133,7 @@ SOURCES += \
     $${PWD}/connection/nymeahost.cpp \
     $${PWD}/connection/nymeahosts.cpp  \
     $${PWD}/connection/nymeaconnection.cpp \
+    $${PWD}/connection/invitation.cpp \
     $${PWD}/connection/nymeatransportinterface.cpp \
     $${PWD}/connection/websockettransport.cpp \
     $${PWD}/connection/tcpsockettransport.cpp \
@@ -153,6 +156,8 @@ SOURCES += \
     $${PWD}/scriptmanager.cpp \
     $${PWD}/scriptsyntaxhighlighter.cpp \
     $${PWD}/usermanager.cpp \
+    $${PWD}/invitationcreatecontroller.cpp \
+    $${PWD}/invitationredemptioncontroller.cpp \
     $${PWD}/vendorsproxy.cpp \
     $${PWD}/pluginsproxy.cpp \
     $${PWD}/interfacesmodel.cpp \
@@ -299,6 +304,8 @@ HEADERS += \
     $${PWD}/types/wirelessaccesspoints.h \
     $${PWD}/types/tokeninfo.h \
     $${PWD}/types/tokeninfos.h \
+    $${PWD}/types/invitationinfo.h \
+    $${PWD}/types/invitations.h \
     $${PWD}/types/userinfo.h \
     $${PWD}/types/ioconnection.h \
     $${PWD}/types/ioconnections.h \
@@ -306,6 +313,7 @@ HEADERS += \
     $${PWD}/connection/nymeahost.h \
     $${PWD}/connection/nymeahosts.h \
     $${PWD}/connection/nymeaconnection.h \
+    $${PWD}/connection/invitation.h \
     $${PWD}/connection/nymeatransportinterface.h \
     $${PWD}/connection/websockettransport.h \
     $${PWD}/connection/tcpsockettransport.h \
@@ -328,6 +336,8 @@ HEADERS += \
     $${PWD}/scriptmanager.h \
     $${PWD}/scriptsyntaxhighlighter.h \
     $${PWD}/usermanager.h \
+    $${PWD}/invitationcreatecontroller.h \
+    $${PWD}/invitationredemptioncontroller.h \
     $${PWD}/vendorsproxy.h \
     $${PWD}/pluginsproxy.h \
     $${PWD}/interfacesmodel.h \

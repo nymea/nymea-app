@@ -43,6 +43,7 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QRegularExpression>
+#include <QSet>
 
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcJsonRpc, "JsonRpc")
@@ -95,7 +96,9 @@ int JsonRpcClient::sendCommand(const QString &method, const QVariantMap &params,
 
     JsonRpcReply *reply = createReply(method, params, caller, callbackMethod);
 
-    if (m_cacheHashes.contains(method)) {
+    // Never persist a secret-bearing reply to the plaintext disk cache, no matter what
+    // cache hash a (possibly malicious or misconfigured) server advertises for it.
+    if (!isSecretBearingMethod(method) && m_cacheHashes.contains(method)) {
         QString hash = m_cacheHashes.value(method);
         QString callSignature = method + '-' + QJsonDocument::fromVariant(params).toJson() + '-' + QLocale().name();
         QString callSignatureHash = QCryptographicHash::hash(callSignature.toUtf8(), QCryptographicHash::Md5).toHex();
@@ -188,7 +191,7 @@ void JsonRpcClient::setNotificationsEnabledResponse(int commandId, const QVarian
 
 void JsonRpcClient::notificationReceived(const QVariantMap &data)
 {
-    qCDebug(dcJsonRpc()) << "Notification received:" << qUtf8Printable(QJsonDocument::fromVariant(data).toJson());
+    qCDebug(dcJsonRpc()) << "Notification received:" << qUtf8Printable(redactedJson(data));
     if (data.value("notification").toString() == "JSONRPC.PushButtonAuthFinished") {
         qCInfo(dcJsonRpc()) << "Push button auth finished.";
         if (data.value("params").toMap().value("transactionId").toInt() != m_pendingPushButtonTransaction) {
@@ -219,7 +222,7 @@ void JsonRpcClient::notificationReceived(const QVariantMap &data)
         return;
     }
 
-    qCWarning(dcJsonRpc()) << "JsonRpcClient: Unhandled notification received" << data;
+    qCWarning(dcJsonRpc()) << "JsonRpcClient: Unhandled notification received" << redactSensitiveFields(data);
 }
 
 void JsonRpcClient::getVersionsReply(int /*commandId*/, const QVariantMap &data)
@@ -280,6 +283,21 @@ bool JsonRpcClient::authenticationRequired() const
 bool JsonRpcClient::pushButtonAuthAvailable() const
 {
     return m_pushButtonAuthAvailable;
+}
+
+bool JsonRpcClient::invitationApiAvailable() const
+{
+    return m_invitationApiAvailable;
+}
+
+void JsonRpcClient::setCredentialFreeProbeMode(bool enabled)
+{
+    m_credentialFreeProbeMode = enabled;
+}
+
+bool JsonRpcClient::credentialFreeProbeMode() const
+{
+    return m_credentialFreeProbeMode;
 }
 
 bool JsonRpcClient::authenticated() const
@@ -358,7 +376,7 @@ int JsonRpcClient::authenticate(const QString &username, const QString &password
     QVariantMap params;
     params.insert("username", username);
     params.insert("password", password);
-    params.insert("deviceName", deviceName);
+    params.insert("deviceName", sanitizeDeviceName(deviceName));
     qDebug() << "Authenticating:" << username << password << deviceName;
     JsonRpcReply* reply = createReply("JSONRPC.Authenticate", params, this, "processAuthenticate");
     m_replies.insert(reply->commandId(), reply);
@@ -370,11 +388,80 @@ int JsonRpcClient::requestPushButtonAuth(const QString &deviceName)
 {
     qDebug() << "Requesting push button auth for device:" << deviceName;
     QVariantMap params;
-    params.insert("deviceName", deviceName);
+    params.insert("deviceName", sanitizeDeviceName(deviceName));
     JsonRpcReply *reply = createReply("JSONRPC.RequestPushButtonAuth", params, this, "processRequestPushButtonAuth");
     m_replies.insert(reply->commandId(), reply);
     m_connection->sendData(QJsonDocument::fromVariant(reply->requestMap()).toJson());
     return reply->commandId();
+}
+
+int JsonRpcClient::authenticateWithToken(const QByteArray &oneTimeToken, const QString &deviceName)
+{
+    if (!m_invitationApiAvailable) {
+        qCWarning(dcJsonRpc()) << "Refusing to redeem invitation: server does not advertise invitation support";
+        emit authenticateWithTokenFinished(-1, false, AuthenticateWithTokenReason::Unsupported);
+        return -1;
+    }
+
+    QString sanitizedDeviceName = sanitizeDeviceName(deviceName);
+    QByteArray sanitizedDeviceNameUtf8 = sanitizedDeviceName.toUtf8();
+    if (sanitizedDeviceNameUtf8.isEmpty() || sanitizedDeviceNameUtf8.size() > 40) {
+        qCWarning(dcJsonRpc()) << "Refusing to redeem invitation: local device name derivation produced an invalid value";
+        emit authenticateWithTokenFinished(-1, false, AuthenticateWithTokenReason::Protocol);
+        return -1;
+    }
+
+    QVariantMap params;
+    params.insert("token", oneTimeToken);
+    params.insert("deviceName", sanitizedDeviceName);
+    JsonRpcReply *reply = createReply("JSONRPC.AuthenticateWithToken", params, this, "processAuthenticateWithToken");
+    m_replies.insert(reply->commandId(), reply);
+    m_connection->sendData(QJsonDocument::fromVariant(reply->requestMap()).toJson());
+    return reply->commandId();
+}
+
+QString JsonRpcClient::sanitizeDeviceName(const QString &label)
+{
+    QString filtered;
+    filtered.reserve(label.length());
+    int i = 0;
+    while (i < label.length()) {
+        int charLength = 1;
+        uint codepoint = label.at(i).unicode();
+        if (label.at(i).isHighSurrogate() && i + 1 < label.length() && label.at(i + 1).isLowSurrogate()) {
+            codepoint = QChar::surrogateToUcs4(label.at(i), label.at(i + 1));
+            charLength = 2;
+        }
+        QChar::Category category = QChar::category(codepoint);
+        if (category != QChar::Other_Control && category != QChar::Other_Format) {
+            filtered += label.mid(i, charLength);
+        }
+        i += charLength;
+    }
+    filtered = filtered.trimmed();
+
+    // Truncate at a UTF-8 code-point boundary by growing code point by code point rather
+    // than slicing raw bytes, so a multi-byte character is never split.
+    QString truncated;
+    int byteCount = 0;
+    i = 0;
+    while (i < filtered.length()) {
+        int charLength = (filtered.at(i).isHighSurrogate() && i + 1 < filtered.length() && filtered.at(i + 1).isLowSurrogate()) ? 2 : 1;
+        QString ch = filtered.mid(i, charLength);
+        int chBytes = ch.toUtf8().size();
+        if (byteCount + chBytes > 40) {
+            break;
+        }
+        truncated += ch;
+        byteCount += chBytes;
+        i += charLength;
+    }
+    truncated = truncated.trimmed();
+
+    if (truncated.toUtf8().isEmpty()) {
+        return QStringLiteral("nymea-app");
+    }
+    return truncated;
 }
 
 bool JsonRpcClient::ensureServerVersion(const QString &jsonRpcVersion)
@@ -405,9 +492,51 @@ void JsonRpcClient::processAuthenticate(int /*commandId*/, const QVariantMap &da
 
         setNotificationsEnabled();
     } else {
-        qCWarning(dcJsonRpc()) << "Authentication failed" << data;
+        qCWarning(dcJsonRpc()) << "Authentication failed" << redactSensitiveFields(data);
         emit authenticationFailed();
     }
+}
+
+void JsonRpcClient::processAuthenticateWithToken(int commandId, const QVariantMap &data)
+{
+    // dataReceived() invokes this callback even on a JSON-RPC "error"/"unauthorized"
+    // status (with an empty params map) and after a dropped connection, so an empty/
+    // shapeless map means the request never got an authoritative reply from the server.
+    if (!data.contains("success")) {
+        qCWarning(dcJsonRpc()) << "AuthenticateWithToken got no authoritative reply";
+        emit authenticateWithTokenFinished(commandId, false, AuthenticateWithTokenReason::Transport);
+        return;
+    }
+
+    if (!data.value("success").toBool()) {
+        emit authenticateWithTokenFinished(commandId, false, AuthenticateWithTokenReason::InvalidOrExpired);
+        return;
+    }
+
+    if (data.value("token").toByteArray().isEmpty() || data.value("username").toString().isEmpty()) {
+        qCWarning(dcJsonRpc()) << "AuthenticateWithToken reported success but the response is missing required fields";
+        emit authenticateWithTokenFinished(commandId, false, AuthenticateWithTokenReason::Protocol);
+        return;
+    }
+
+    qCInfo(dcJsonRpc()) << "Invitation redemption successful";
+    m_token = data.value("token").toByteArray();
+    m_username = data.value("username").toString();
+    m_permissionScopes = UserInfo::listToScopes(data.value("scopes").toStringList());
+    emit permissionsChanged();
+
+    QSettings settings;
+    settings.beginGroup("jsonTokens");
+    settings.setValue(m_serverUuid.toString(), m_token);
+    settings.endGroup();
+    emit authenticationRequiredChanged();
+
+    m_authenticated = true;
+    emit authenticatedChanged();
+
+    setNotificationsEnabled();
+
+    emit authenticateWithTokenFinished(commandId, true, AuthenticateWithTokenReason::NoError);
 }
 
 void JsonRpcClient::processCreateUser(int /*commandId*/, const QVariantMap &data)
@@ -473,11 +602,43 @@ void JsonRpcClient::setNotificationsEnabled()
     sendRequest(reply->requestMap());
 }
 
+bool JsonRpcClient::isSecretBearingMethod(const QString &fullMethod)
+{
+    static const QSet<QString> secretBearingMethods = {
+        QStringLiteral("JSONRPC.Authenticate"),
+        QStringLiteral("JSONRPC.AuthenticateWithToken"),
+        QStringLiteral("JSONRPC.RequestPushButtonAuth"),
+        QStringLiteral("Users.CreateInvitation")
+    };
+    return secretBearingMethods.contains(fullMethod);
+}
+
+QVariantMap JsonRpcClient::redactSensitiveFields(const QVariantMap &data)
+{
+    QVariantMap redacted = data;
+    if (redacted.contains(QStringLiteral("token"))) {
+        redacted[QStringLiteral("token")] = QStringLiteral("<redacted>");
+    }
+    if (redacted.contains(QStringLiteral("params"))) {
+        QVariantMap params = redacted.value(QStringLiteral("params")).toMap();
+        if (params.contains(QStringLiteral("token"))) {
+            params[QStringLiteral("token")] = QStringLiteral("<redacted>");
+            redacted[QStringLiteral("params")] = params;
+        }
+    }
+    return redacted;
+}
+
+QByteArray JsonRpcClient::redactedJson(const QVariantMap &data)
+{
+    return QJsonDocument::fromVariant(redactSensitiveFields(data)).toJson();
+}
+
 void JsonRpcClient::sendRequest(const QVariantMap &request)
 {
     QVariantMap newRequest = request;
     newRequest.insert("token", m_token);
-    //    qDebug() << "Sending request" << qUtf8Printable(QJsonDocument::fromVariant(newRequest).toJson());
+    //    qDebug() << "Sending request" << qUtf8Printable(redactedJson(newRequest));
     m_connection->sendData(QJsonDocument::fromVariant(newRequest).toJson(QJsonDocument::Compact) + "\n");
 }
 
@@ -510,12 +671,17 @@ bool JsonRpcClient::storePem(const QUuid &serverUuid, const QByteArray &pem)
 
 void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
 {
+    emit transportConnectedChanged(connected);
 
     if (!connected) {
         qCInfo(dcJsonRpc()) << "JsonRpcClient: Transport disconnected.";
         m_initialSetupRequired = false;
         m_authenticationRequired = false;
         m_authenticated = false;
+        if (m_invitationApiAvailable) {
+            m_invitationApiAvailable = false;
+            emit invitationApiAvailableChanged();
+        }
         m_receiveBuffer.clear();
         m_serverQtVersion.clear();
         m_serverQtBuildVersion.clear();
@@ -528,11 +694,16 @@ void JsonRpcClient::onInterfaceConnectedChanged(bool connected)
         // Clear anything that might be left in the buffer from a previous connection.
         m_receiveBuffer.clear();
 
-        // Load token for this host
-        QSettings settings;
-        settings.beginGroup("jsonTokens");
-        m_token = settings.value(currentHost()->uuid().toString()).toByteArray();
-        settings.endGroup();
+        // Load token for this host - unless this instance is a credential-free probe,
+        // which must never attach a bearer of any kind, discovered UUID or not.
+        if (m_credentialFreeProbeMode) {
+            m_token.clear();
+        } else {
+            QSettings settings;
+            settings.beginGroup("jsonTokens");
+            m_token = settings.value(currentHost()->uuid().toString()).toByteArray();
+            settings.endGroup();
+        }
 
 
         QVariantMap params;
@@ -548,7 +719,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         // In that case we can discard all pending packages as we'll have to reconnect anyways.
         return;
     }
-    //    qDebug() << "JsonRpcClient: received data:" << qUtf8Printable(data);
+    //    qDebug() << "JsonRpcClient: received data:" << qUtf8Printable(redactedJson(QJsonDocument::fromJson(data).toVariant().toMap()));
     m_receiveBuffer.append(data);
 
     int splitIndex = static_cast<int>(m_receiveBuffer.indexOf("}\n{")) + 1;
@@ -561,7 +732,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         //        qWarning() << "Could not parse json data from nymea" << m_receiveBuffer.left(splitIndex) << error.errorString();
         return;
     }
-    //    qDebug() << "received response" << qUtf8Printable(jsonDoc.toJson(QJsonDocument::Indented));
+    //    qDebug() << "received response" << qUtf8Printable(redactedJson(jsonDoc.toVariant().toMap()));
     m_receiveBuffer = m_receiveBuffer.right(m_receiveBuffer.length() - splitIndex - 1);
     if (!m_receiveBuffer.isEmpty()) {
         staticMetaObject.invokeMethod(this, "dataReceived", Qt::QueuedConnection, Q_ARG(QByteArray, QByteArray()));
@@ -571,7 +742,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 
     // check if this is a notification
     if (dataMap.contains("notification")) {
-        qCDebug(dcJsonRpc()) << "Incoming notification:" << qUtf8Printable(jsonDoc.toJson());
+        qCDebug(dcJsonRpc()) << "Incoming notification:" << qUtf8Printable(redactedJson(dataMap));
         // Check if our permissions changed
         if (dataMap.value("notification").toString() == "Users.UserChanged") {
             QVariantMap userMap = dataMap.value("params").toMap().value("userInfo").toMap();
@@ -611,7 +782,7 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
 
         if (dataMap.value("status").toString() == "error") {
             qCWarning(dcJsonRpc()) << "An error happened in the JSONRPC layer:" << dataMap.value("error").toString();
-            qCWarning(dcJsonRpc()) << "Request was:" << qUtf8Printable(QJsonDocument::fromVariant(reply->requestMap()).toJson());
+            qCWarning(dcJsonRpc()) << "Request was:" << qUtf8Printable(redactedJson(reply->requestMap()));
             if (reply->nameSpace() == "JSONRPC" && reply->method() == "Hello") {
                 qCInfo(dcJsonRpc()) << "Hello call failed. Trying again without locale";
                 m_id = 0;
@@ -629,9 +800,11 @@ void JsonRpcClient::dataReceived(const QByteArray &data)
         emit responseReceived(reply->commandId(), dataMap.value("params").toMap());
 
 
-        // If the server supports cache hashes, cache stuff locally
+        // If the server supports cache hashes, cache stuff locally. Never persist a
+        // secret-bearing reply to the plaintext disk cache, no matter what cache hash a
+        // (possibly malicious or misconfigured) server advertises for it.
         QString fullMethod = reply->nameSpace() + '.' + reply->method();
-        if (m_cacheHashes.contains(fullMethod)) {
+        if (!isSecretBearingMethod(fullMethod) && m_cacheHashes.contains(fullMethod)) {
             QString hash = m_cacheHashes.value(fullMethod);
             QString callSignature = fullMethod + '-' + QJsonDocument::fromVariant(reply->params()).toJson() + '-' + QLocale().name();
             QString callSignatureHash = QCryptographicHash::hash(callSignature.toUtf8(), QCryptographicHash::Md5).toHex();
@@ -677,8 +850,10 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     if (m_connection->currentHost()->uuid().isNull()) {
         qCDebug(dcJsonRpc()) << "Updating Server UUID in connection:" << m_connection->currentHost()->uuid().toString() << "->" << serverUuid;
         m_connection->currentHost()->setUuid(serverUuid);
-        // Now that we know the server uuid, if we have a token for this host, let's try again.
-        if (tokenExists(serverUuid.toString())){
+        // Now that we know the server uuid, if we have a token for this host, let's try
+        // again - never for a credential-free probe, which must not auto-attach a
+        // just-discovered stored token any more than it would an already-known one.
+        if (!m_credentialFreeProbeMode && tokenExists(serverUuid.toString())){
             onInterfaceConnectedChanged(true);
             return;
         }
@@ -703,6 +878,17 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
         return;
     }
 
+    // invitationsAvailable must be an explicit JSON boolean true - missing, malformed
+    // (e.g. a string) or false all fail closed. This is a stricter, separate gate from
+    // 00-token-lifecycle.md's last-seen/expiry display: a 10.2-only server can lack
+    // invitation support entirely while still exposing token timestamps.
+    bool newInvitationApiAvailable = m_jsonRpcVersion >= QVersionNumber(10, 3)
+            && params.value("invitationsAvailable").typeId() == QMetaType::Bool
+            && params.value("invitationsAvailable").toBool();
+    if (m_invitationApiAvailable != newInvitationApiAvailable) {
+        m_invitationApiAvailable = newInvitationApiAvailable;
+        emit invitationApiAvailableChanged();
+    }
 
     // Verify SSL certificate
     if (m_connection->isEncrypted()) {
@@ -735,7 +921,7 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     }
 
     m_cacheHashes.clear();
-    qCDebug(dcJsonRpc()) << "Hello reply:" << qUtf8Printable(QJsonDocument::fromVariant(params).toJson());
+    qCDebug(dcJsonRpc()) << "Hello reply:" << qUtf8Printable(redactedJson(params));
     QVariantList cacheHashes = params.value("cacheHashes").toList();
     foreach (const QVariant &cacheHash, cacheHashes) {
         m_cacheHashes.insert(cacheHash.toMap().value("method").toString(), cacheHash.toMap().value("hash").toString());

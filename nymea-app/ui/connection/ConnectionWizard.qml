@@ -203,6 +203,10 @@ WizardPageBase {
 
             onBack: pageStack.pop()
 
+            showExtraButton: true
+            extraButtonText: qsTr("Have an invitation link?")
+            onExtraButtonPressed: pageStack.push(invitationPasteComponent)
+
             content: ColumnLayout {
                 Layout.maximumWidth: 500
                 Layout.alignment: Qt.AlignHCenter
@@ -333,6 +337,42 @@ WizardPageBase {
                 Layout.margins: Style.margins
                 Layout.maximumWidth: 500
                 Layout.alignment: Qt.AlignHCenter
+            }
+        }
+    }
+
+    Component {
+        id: invitationPasteComponent
+        WizardPageBase {
+            id: invitationPastePage
+            title: qsTr("Invitation link")
+            text: qsTr("Paste the invitation link you received below.")
+            nextButtonText: qsTr("Import")
+            nextButtonEnabled: linkTextField.text.trim().length > 0
+            onBack: pageStack.pop()
+
+            onNext: {
+                // Paste actions allocate their own event id and use the same
+                // handleUrl() path as native deep-link delivery; no gating on the
+                // currently selected/connected host - an imported invitation may
+                // target a completely different server. Progress/confirmation/result
+                // is shown by the global InvitationRedemptionOverlay (RootItem.qml),
+                // independent of this wizard, so just step back to where we came from.
+                app.invitationRedemptionController.handleUrl(linkTextField.text.trim(), app.invitationRedemptionController.generateEventId())
+                pageStack.pop()
+            }
+
+            content: ColumnLayout {
+                Layout.fillWidth: true
+                Layout.margins: Style.margins
+                Layout.maximumWidth: 500
+                Layout.alignment: Qt.AlignHCenter
+
+                TextField {
+                    id: linkTextField
+                    Layout.fillWidth: true
+                    placeholderText: qsTr("nymea://invite?...")
+                }
             }
         }
     }

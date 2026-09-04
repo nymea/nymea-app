@@ -38,7 +38,9 @@ public:
         RoleId,
         RoleUsername,
         RoleDeviceName,
-        RoleCreationTime
+        RoleCreationTime,
+        RoleExpiryTime,
+        RoleLastSeen
     };
 
     explicit TokenInfos(QObject *parent = nullptr);
@@ -49,6 +51,7 @@ public:
 
     void addToken(TokenInfo *tokenInfo);
     void removeToken(const QUuid &tokenId);
+    void clear();
 
     Q_INVOKABLE TokenInfo* get(int index) const;
 

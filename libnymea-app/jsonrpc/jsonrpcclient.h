@@ -40,6 +40,20 @@ class Params;
 class JsonRpcClient : public QObject
 {
     Q_OBJECT
+public:
+    // Bounded failure reason for AuthenticateWithToken, shared with the redemption
+    // controller in work package 02 task 4. "Cancelled" is never emitted by this class -
+    // it is reserved for the controller's own user-initiated abort path.
+    enum class AuthenticateWithTokenReason {
+        NoError,
+        Unsupported,
+        InvalidOrExpired,
+        Transport,
+        Cancelled,
+        Protocol
+    };
+    Q_ENUM(AuthenticateWithTokenReason)
+private:
     Q_PROPERTY(NymeaConnection::BearerTypes availableBearerTypes READ availableBearerTypes NOTIFY availableBearerTypesChanged)
     Q_PROPERTY(NymeaConnection::ConnectionStatus connectionStatus READ connectionStatus NOTIFY connectionStatusChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
@@ -49,6 +63,7 @@ class JsonRpcClient : public QObject
     Q_PROPERTY(bool authenticationRequired READ authenticationRequired NOTIFY authenticationRequiredChanged)
     Q_PROPERTY(bool pushButtonAuthAvailable READ pushButtonAuthAvailable NOTIFY pushButtonAuthAvailableChanged)
     Q_PROPERTY(bool authenticated READ authenticated NOTIFY authenticatedChanged)
+    Q_PROPERTY(bool invitationApiAvailable READ invitationApiAvailable NOTIFY invitationApiAvailableChanged)
     Q_PROPERTY(QString serverVersion READ serverVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QString jsonRpcVersion READ jsonRpcVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QUuid serverUuid READ serverUuid NOTIFY handshakeReceived)
@@ -78,6 +93,11 @@ public:
     bool authenticationRequired() const;
     bool pushButtonAuthAvailable() const;
     bool authenticated() const;
+    // True only for protocol >= 10.3 (within the supported major range already enforced
+    // by invalidMaximumVersion) and an explicitly Boolean Hello.invitationsAvailable ==
+    // true. Missing/malformed/false fails closed. Distinct from and stricter than
+    // 00-token-lifecycle.md's last-seen/expiry display, which needs no such gate.
+    bool invitationApiAvailable() const;
     QHash<QString, QString> cacheHashes() const;
     // Note: This does not reflect the actual permission scopes of the user but is translated to effective permissions
     // That, is, if the user has the admin permission, all of the other scopes will be set too even if they might not be explicitly set
@@ -98,15 +118,61 @@ public:
     Q_INVOKABLE bool tokenExists(const QString &serverUuid) const;
     Q_INVOKABLE void addToken(const QString &serverUuid, const QByteArray &token);
 
+    // When enabled, this instance never loads or sends a stored/regular token under any
+    // circumstance - including the existing tokenExists()-triggered "we just learned the
+    // real UUID, retry Hello with any stored token for it" step below, which is exactly
+    // the kind of automatic credential attachment the invitation redemption controller's
+    // candidate probe must not do. Every other JsonRpcClient instance in the app leaves
+    // this at its default (false) and is completely unaffected. Only meaningful set
+    // before connectToHost(); has no effect on an already-connected instance.
+    void setCredentialFreeProbeMode(bool enabled);
+    bool credentialFreeProbeMode() const;
+
     Q_INVOKABLE bool ensureServerVersion(const QString &jsonRpcVersion);
 
     Q_INVOKABLE int createUser(const QString &username, const QString &password, const QString &displayName, const QString &email);
     Q_INVOKABLE int authenticate(const QString &username, const QString &password, const QString &deviceName);
     Q_INVOKABLE int requestPushButtonAuth(const QString &deviceName);
 
+    // Redeems a one-time invitation token for a regular client token. Refuses locally
+    // (no request sent, no secret transmitted) and returns -1 if invitationApiAvailable
+    // is false or the sanitized device name fails local validation. Result arrives via
+    // authenticateWithTokenFinished, never via authenticatedChanged/authenticationFailed,
+    // so a stale reply can never be mistaken for completing a newer invitation.
+    Q_INVOKABLE int authenticateWithToken(const QByteArray &oneTimeToken, const QString &deviceName);
+
+    // Shared by authenticate(), requestPushButtonAuth() and authenticateWithToken(): strips
+    // NUL and Unicode control/format characters, trims whitespace, and truncates only at a
+    // UTF-8 code-point boundary to at most 40 bytes. Falls back to "nymea-app" if the result
+    // is empty. Exposed statically so it stays independently unit-testable.
+    static QString sanitizeDeviceName(const QString &label);
+
+    // True for JSON-RPC methods whose reply carries a bearer secret (a regular client
+    // token or a one-time invitation token): Authenticate, AuthenticateWithToken,
+    // RequestPushButtonAuth, and Users.CreateInvitation. Consulted before ever writing a
+    // reply to the plaintext disk cache, independent of whatever cache hash the server
+    // advertises for it. Public and static so it stays independently unit-testable.
+    static bool isSecretBearingMethod(const QString &fullMethod);
+
+    // Returns a copy of data with a top-level "token" and/or "params.token" value masked.
+    // Covers every shape logged here: outgoing requests (top-level token = the bearer
+    // sent with the request; params.token = a method-specific secret such as the one-time
+    // invitation token on AuthenticateWithToken), replies and notifications (params.token
+    // = a returned regular or one-time token). Safe to call even when neither key exists.
+    static QVariantMap redactSensitiveFields(const QVariantMap &data);
+    // Convenience wrapper returning ready-to-print redacted JSON for the qCDebug/qCWarning
+    // call sites that log a full payload.
+    static QByteArray redactedJson(const QVariantMap &data);
+
 signals:
     void availableBearerTypesChanged();
     void connectionStatusChanged();
+    // Fires as soon as the underlying transport connects/disconnects, before Hello is
+    // even sent - distinct from connectedChanged(), which only fires once authenticated
+    // and notifications are enabled. Useful for callers (e.g. the invitation redemption
+    // controller) that need to tell "still trying to reach this candidate" apart from
+    // "reached it, now waiting on the JSON-RPC handshake".
+    void transportConnectedChanged(bool connected);
     void connectedChanged(bool connected);
     void currentHostChanged();
     void currentConnectionChanged();
@@ -117,6 +183,7 @@ signals:
     void authenticationRequiredChanged();
     void pushButtonAuthAvailableChanged();
     void authenticatedChanged();
+    void invitationApiAvailableChanged();
     void tokenChanged();
     void invalidMinimumVersion(const QString &actualVersion, const QString &minVersion);
     void invalidMaximumVersion(const QString &actualVersion, const QString &maxVersion);
@@ -128,6 +195,10 @@ signals:
     void serverQtVersionChanged();
     void serverNameChanged();
     void permissionsChanged();
+
+    // Command-correlated so a stale reply can never complete a newer invitation. reason
+    // is AuthenticateWithTokenReason::NoError on success.
+    void authenticateWithTokenFinished(int commandId, bool success, JsonRpcClient::AuthenticateWithTokenReason reason);
 
     void responseReceived(const int &commandId, const QVariantMap &response);
 
@@ -152,6 +223,8 @@ private:
     bool m_authenticationRequired = false;
     bool m_pushButtonAuthAvailable = false;
     bool m_authenticated = false;
+    bool m_credentialFreeProbeMode = false;
+    bool m_invitationApiAvailable = false;
     int m_pendingPushButtonTransaction = -1;
     QUuid m_serverUuid;
     QVersionNumber m_jsonRpcVersion;
@@ -169,6 +242,7 @@ private:
 
     // json handler
     Q_INVOKABLE void processAuthenticate(int commandId, const QVariantMap &data);
+    Q_INVOKABLE void processAuthenticateWithToken(int commandId, const QVariantMap &data);
     Q_INVOKABLE void processCreateUser(int commandId, const QVariantMap &data);
     Q_INVOKABLE void processRequestPushButtonAuth(int commandId, const QVariantMap &data);
 
