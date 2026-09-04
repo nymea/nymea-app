@@ -3,7 +3,7 @@ nymea-app (1.13.19) bionic; urgency=medium
   [ Simon Stürz ]
   * Fix android NFC reading for the RFID experience
 
- -- jenkins <developer@nymea.io>  Tue, 04 Aug 2026 16:56:04 +0200
+ -- jenkins <developer@nymea.io>  Fri, 04 Sep 2026 15:22:14 +0200
 
 nymea-app (1.13.18) bionic; urgency=medium
 
