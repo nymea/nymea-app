@@ -1,3 +1,10 @@
+nymea-app (1.13.22) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Update iOS window size handling for Qt 6.11
+
+ -- jenkins <developer@nymea.io>  Mon, 07 Sep 2026 16:46:52 +0200
+
 nymea-app (1.13.19) bionic; urgency=medium
 
   [ Simon Stürz ]
