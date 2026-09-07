@@ -44,6 +44,15 @@ ApplicationWindow {
     color: Material.background
     title: Configuration.appName
 
+    // Since Qt 6.9, ApplicationWindow automatically pads its contentItem by the
+    // window's safe area margins. RootItem.qml already applies the same safe area
+    // insets manually (via PlatformHelper), so without this override the two stack
+    // and waste space at the top/bottom on iOS.
+    topPadding: 0
+    bottomPadding: 0
+    leftPadding: 0
+    rightPadding: 0
+
     Material.theme: NymeaUtils.isDark(Style.backgroundColor) ? Material.Dark : Material.Light
     Material.background: Style.backgroundColor
     Material.accent: Style.accentColor

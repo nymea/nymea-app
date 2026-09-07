@@ -270,7 +270,12 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_IOS
     if (!engine->rootObjects().isEmpty()) {
         if (QWindow *window = qobject_cast<QWindow*>(engine->rootObjects().constFirst())) {
-            const QRect screenRect = window->screen()->availableGeometry();
+            // Use the full screen geometry here, not availableGeometry(): the safe area
+            // (status bar / home indicator) is already handled as layout margins in
+            // RootItem.qml via PlatformHelper's safe area insets. Since Qt 6.11,
+            // availableGeometry() on iOS also excludes the safe area, so using it here
+            // caused the safe area to be subtracted twice, wasting space at top/bottom.
+            const QRect screenRect = window->screen()->geometry();
             window->setPosition(screenRect.topLeft());
             window->resize(screenRect.size());
             window->showFullScreen();
