@@ -74,7 +74,6 @@ private:
     void generateNotificationFeedback();
 
     void applyPanelColors();
-    void updateSafeAreaPadding();
 };
 
 #endif // PLATFORMHELPERIOS_H

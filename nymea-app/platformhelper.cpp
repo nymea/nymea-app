@@ -187,26 +187,6 @@ void PlatformHelper::setBottomPanelColor(const QColor &color)
     }
 }
 
-int PlatformHelper::topPadding() const
-{
-    return m_topPadding;
-}
-
-int PlatformHelper::bottomPadding() const
-{
-    return m_bottomPadding;
-}
-
-int PlatformHelper::leftPadding() const
-{
-    return m_leftPadding;
-}
-
-int PlatformHelper::rightPadding() const
-{
-    return m_rightPadding;
-}
-
 bool PlatformHelper::darkModeEnabled() const
 {
     return false;
@@ -239,32 +219,6 @@ void PlatformHelper::setSplashVisible(bool splashVisible)
 void PlatformHelper::vibrate(PlatformHelper::HapticsFeedback feedbackType)
 {
     Q_UNUSED(feedbackType)
-}
-
-void PlatformHelper::setSafeAreaPadding(int top, int right, int bottom, int left)
-{
-    bool changed = false;
-    if (m_topPadding != top) {
-        m_topPadding = top;
-        changed = true;
-        emit topPaddingChanged();
-    }
-    if (m_rightPadding != right) {
-        m_rightPadding = right;
-        changed = true;
-        emit rightPaddingChanged();
-    }
-    if (m_bottomPadding != bottom) {
-        m_bottomPadding = bottom;
-        changed = true;
-        emit bottomPaddingChanged();
-    }
-    if (m_leftPadding != left) {
-        m_leftPadding = left;
-        changed = true;
-        emit leftPaddingChanged();
-    }
-    Q_UNUSED(changed)
 }
 
 void PlatformHelper::toClipBoard(const QString &text)

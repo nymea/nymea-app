@@ -53,10 +53,6 @@ class PlatformHelper : public QObject
     Q_PROPERTY(bool darkModeEnabled READ darkModeEnabled NOTIFY darkModeEnabledChanged)
     Q_PROPERTY(QVariantList pendingNotificationActions READ pendingNotificationActions NOTIFY pendingNotificationActionsChanged)
     Q_PROPERTY(bool locationServicesEnabled READ locationServicesEnabled NOTIFY locationServicesEnabledChanged)
-    Q_PROPERTY(int topPadding READ topPadding NOTIFY topPaddingChanged)
-    Q_PROPERTY(int bottomPadding READ bottomPadding NOTIFY bottomPaddingChanged)
-    Q_PROPERTY(int leftPadding READ leftPadding NOTIFY leftPaddingChanged)
-    Q_PROPERTY(int rightPadding READ rightPadding NOTIFY rightPaddingChanged)
 
 public:
     enum HapticsFeedback {
@@ -86,11 +82,6 @@ public:
     virtual void setTopPanelColor(const QColor &color);
     virtual QColor bottomPanelColor() const;
     virtual void setBottomPanelColor(const QColor &color);
-
-    virtual int topPadding() const;
-    virtual int bottomPadding() const;
-    virtual int leftPadding() const;
-    virtual int rightPadding() const;
 
     virtual bool darkModeEnabled() const;
 
@@ -132,17 +123,12 @@ signals:
     void splashVisibleChanged();
     void pendingNotificationActionsChanged();
     void locationServicesEnabledChanged();
-    void topPaddingChanged();
-    void bottomPaddingChanged();
-    void leftPaddingChanged();
-    void rightPaddingChanged();
     void filePicked(const QUrl &fileUrl, const QString &fileName);
     void filePickCanceled();
     void filePickError(const QString &errorString);
 
 protected:
     explicit PlatformHelper(QObject *parent = nullptr);
-    void setSafeAreaPadding(int top, int right, int bottom, int left);
 
 private:
     static PlatformHelper *s_instance;
@@ -153,11 +139,6 @@ private:
     bool m_splashVisible = true;
 
     QHash<QUuid, QVariant> m_pendingNotificationActions;
-
-    int m_topPadding = 0;
-    int m_bottomPadding = 0;
-    int m_leftPadding = 0;
-    int m_rightPadding = 0;
 };
 
 #endif // PLATFORMHELPER_H

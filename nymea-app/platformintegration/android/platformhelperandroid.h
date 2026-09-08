@@ -55,11 +55,6 @@ public:
     void setBottomPanelColor(const QColor &color) override;
     void setBottomPanelTheme(Theme theme);
 
-    int topPadding() const override;
-    int bottomPadding() const override;
-    int leftPadding() const override;
-    int rightPadding() const override;
-
     bool darkModeEnabled() const override;
 
     bool locationServicesEnabled() const override;
@@ -70,9 +65,6 @@ public:
     static void darkModeEnabledChangedJNI();
     static void notificationActionReceivedJNI(JNIEnv *env, jobject /*thiz*/, jstring data);
     static void locationServicesEnabledChangedJNI();
-
-private:
-    void updateSafeAreaPadding();
 
 };
 

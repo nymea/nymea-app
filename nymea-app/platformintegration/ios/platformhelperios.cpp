@@ -336,5 +336,4 @@ void PlatformHelperIOS::applyPanelColors()
 {
     setTopPanelColor(topPanelColor());
     setBottomPanelColor(bottomPanelColor());
-    updateSafeAreaPadding();
 }

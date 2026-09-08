@@ -19,9 +19,6 @@ import android.location.LocationManager;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import androidx.core.content.FileProvider;
-import androidx.core.view.WindowCompat;
-import android.view.WindowInsets;
-import android.graphics.Insets;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -33,7 +30,6 @@ public class NymeaAppActivity extends QtActivity
 {
     private static final String TAG = "nymea-app: NymeaAppActivity";
     private static Context context = null;
-    private boolean mDecorFitsSystemWindows = true;
 
     private static native void darkModeEnabledChangedJNI();
     private static native void notificationActionReceivedJNI(String data);
@@ -60,13 +56,6 @@ public class NymeaAppActivity extends QtActivity
             setTheme(android.R.style.Theme_DeviceDefault_DayNight);
         }
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= 35) {
-            // Let the system handle insets to avoid double padding in Qt content.
-            WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
-            mDecorFitsSystemWindows = true;
-        }
-        // Move th app to the background (Edge to edge is forced since SDK 35)
-        //WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         this.context = getApplicationContext();
     }
 
@@ -214,79 +203,6 @@ public class NymeaAppActivity extends QtActivity
         // This was deprecated in API 28
         int mode = Settings.Secure.getInt(getApplicationContext().getContentResolver(), Settings.Secure.LOCATION_MODE, Settings.Secure.LOCATION_MODE_OFF);
         return (mode != Settings.Secure.LOCATION_MODE_OFF);
-    }
-
-    public int topPadding() {
-        if (mDecorFitsSystemWindows || Build.VERSION.SDK_INT < 35) {
-            return 0;
-        }
-
-        WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
-
-        if (windowInsets == null) {
-            return 0;
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            Insets insets = windowInsets.getInsets(WindowInsets.Type.statusBars() | WindowInsets.Type.displayCutout());
-            return insets != null ? insets.top : 0;
-        }
-
-        return windowInsets.getStableInsetTop();
-    }
-
-    public int bottomPadding() {
-        if (mDecorFitsSystemWindows || Build.VERSION.SDK_INT < 35) {
-            return 0;
-        }
-
-        WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
-        if (windowInsets == null) {
-            return 0;
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            Insets insets = windowInsets.getInsets(WindowInsets.Type.navigationBars() | WindowInsets.Type.displayCutout());
-            return insets != null ? insets.bottom : 0;
-        }
-
-        return windowInsets.getStableInsetBottom();
-    }
-
-    public int leftPadding() {
-        if (mDecorFitsSystemWindows || Build.VERSION.SDK_INT < 35) {
-            return 0;
-        }
-
-        WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
-        if (windowInsets == null) {
-            return 0;
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            Insets insets = windowInsets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
-            return insets != null ? insets.left : 0;
-        }
-
-        return windowInsets.getStableInsetLeft();
-    }
-
-    public int rightPadding() {
-        if (mDecorFitsSystemWindows || Build.VERSION.SDK_INT < 35) {
-            return 0;
-        }
-
-        WindowInsets windowInsets = getWindow().getDecorView().getRootWindowInsets();
-        if (windowInsets == null) {
-            return 0;
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            Insets insets = windowInsets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
-            return insets != null ? insets.right : 0;
-        }
-
-        return windowInsets.getStableInsetRight();
     }
 
     private void logStaticInitClassesMetadata() {

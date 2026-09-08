@@ -434,18 +434,3 @@ void PlatformHelperIOS::pickFile()
 
     [qtController presentViewController:picker animated:YES completion:nil];
 }
-
-void PlatformHelperIOS::updateSafeAreaPadding()
-{
-    UIWindow *window = activeWindow();
-    UIEdgeInsets insets = UIEdgeInsetsZero;
-    if (window) {
-        if (@available(iOS 11.0, *)) {
-            insets = window.safeAreaInsets;
-        } else {
-            CGRect statusFrame = statusBarFrameForWindow(window);
-            insets.top = statusFrame.size.height;
-        }
-    }
-    setSafeAreaPadding(qRound(insets.top), qRound(insets.right), qRound(insets.bottom), qRound(insets.left));
-}
