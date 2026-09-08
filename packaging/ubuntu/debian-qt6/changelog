@@ -1,3 +1,10 @@
+nymea-app (1.13.23) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * Add propper safe area handling for android and iOS
+
+ -- jenkins <developer@nymea.io>  Tue, 08 Sep 2026 10:32:46 +0200
+
 nymea-app (1.13.22) bionic; urgency=medium
 
   [ Simon Stürz ]
