@@ -44,11 +44,15 @@ Item {
     readonly property bool currentPageDefinesBottomMargin: currentPage && currentPage.hasOwnProperty("bottomMargin")
     readonly property int currentPageBottomMargin: currentPageDefinesBottomMargin ? currentPage.bottomMargin : 0
 
+    readonly property int safeAreaTopMargin: root.SafeArea.margins.top
+    readonly property int safeAreaLeftMargin: root.SafeArea.margins.left
+    readonly property int safeAreaRightMargin: root.SafeArea.margins.right
+
     readonly property int safeAreaBottomMargin: {
-        var margin = PlatformHelper.bottomPadding
+        var margin = root.SafeArea.margins.bottom
 
         if (Qt.platform.os === "ios") {
-            margin = Math.round(PlatformHelper.bottomPadding * Math.max(0, Configuration.iosSafeAreaBottomMarginScale))
+            margin = Math.round(root.SafeArea.margins.bottom * Math.max(0, Configuration.iosSafeAreaBottomMarginScale))
 
             if (currentPageCompactsBottomMargin && !app.landscape && currentPageBottomMargin > 0 && margin > 0) {
                 margin = Math.floor(margin * 0.5)
@@ -114,10 +118,10 @@ Item {
     ColumnLayout {
         anchors.fill: parent
 
-        anchors.topMargin: PlatformHelper.topPadding
+        anchors.topMargin: root.safeAreaTopMargin
         anchors.bottomMargin: root.safeAreaBottomMargin
-        anchors.leftMargin: PlatformHelper.leftPadding
-        anchors.rightMargin: PlatformHelper.rightPadding
+        anchors.leftMargin: root.safeAreaLeftMargin
+        anchors.rightMargin: root.safeAreaRightMargin
 
         spacing: 0
 

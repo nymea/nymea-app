@@ -45,9 +45,10 @@ ApplicationWindow {
     title: Configuration.appName
 
     // Since Qt 6.9, ApplicationWindow automatically pads its contentItem by the
-    // window's safe area margins. RootItem.qml already applies the same safe area
-    // insets manually (via PlatformHelper), so without this override the two stack
-    // and waste space at the top/bottom on iOS.
+    // window's safe area margins. We inset content manually further down the tree
+    // instead (RootItem.qml/MainMenu.qml use the SafeArea attached property), so
+    // this is disabled here to avoid the two stacking, per Qt's documented pattern:
+    // https://www.qt.io/blog/expanded-client-areas-and-safe-areas-in-qt-6.9
     topPadding: 0
     bottomPadding: 0
     leftPadding: 0
