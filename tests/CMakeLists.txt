@@ -30,3 +30,18 @@ target_link_libraries(tst_nfchelper PRIVATE
 )
 
 add_test(NAME tst_nfchelper COMMAND tst_nfchelper)
+
+qt_add_executable(tst_platformpermissionsiossettings
+    auto/platformintegration/tst_platformpermissionsiossettings.cpp
+)
+
+target_include_directories(tst_platformpermissionsiossettings PRIVATE
+    ${NYMEA_APP_SOURCE_ROOT}/nymea-app
+)
+
+target_link_libraries(tst_platformpermissionsiossettings PRIVATE
+    Qt6::Core
+    Qt6::Test
+)
+
+add_test(NAME tst_platformpermissionsiossettings COMMAND tst_platformpermissionsiossettings)

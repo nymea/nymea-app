@@ -201,7 +201,8 @@ ios: {
 
     LIBS += -framework CoreLocation \
             -framework CoreBluetooth \
-            -framework CoreNFC
+            -framework CoreNFC \
+            -framework Network
 
     # Add Firebase SDK
     QMAKE_LFLAGS += -ObjC $(inherited)

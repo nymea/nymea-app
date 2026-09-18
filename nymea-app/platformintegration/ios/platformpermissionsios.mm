@@ -11,10 +11,25 @@
 #import <UserNotifications/UNNotificationSettings.h>
 #import <CoreLocation/CoreLocation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+#import <Network/Network.h>
 #import <UIKit/UIKit.h>
 
 #include "logging.h"
 Q_DECLARE_LOGGING_CATEGORY(dcPlatformPermissions)
+
+static nw_browser_t s_localNetworkPermissionBrowser = nullptr;
+constexpr int DnsServiceErrPolicyDenied = -65570;
+
+static void stopLocalNetworkPermissionBrowser()
+{
+    if (!s_localNetworkPermissionBrowser) {
+        return;
+    }
+
+    nw_browser_cancel(s_localNetworkPermissionBrowser);
+    nw_release(s_localNetworkPermissionBrowser);
+    s_localNetworkPermissionBrowser = nullptr;
+}
 
 #ifdef QT_STATICPLUGIN
 Q_IMPORT_PLUGIN(QDarwinBluetoothPermissionPlugin)
@@ -190,6 +205,52 @@ void PlatformPermissionsIOS::requestBluetoothPermissionLegacy()
         m_bluetoothDelegate = [[BluetoothManagerDelegate alloc] init];
         m_bluetoothManager = [[CBCentralManager alloc] initWithDelegate:m_bluetoothDelegate queue:nil];
     }
+}
+
+void PlatformPermissionsIOS::requestLocalNetworkPermissionNative()
+{
+    if (s_localNetworkPermissionBrowser) {
+        return;
+    }
+
+    const auto descriptor = nw_browse_descriptor_create_bonjour_service("_jsonrpc._tcp", nullptr);
+    const auto parameters = nw_parameters_create();
+    s_localNetworkPermissionBrowser = nw_browser_create(descriptor, parameters);
+    nw_release(descriptor);
+    nw_release(parameters);
+
+    PlatformPermissionsIOS *permissions = this;
+
+    nw_browser_set_state_changed_handler(s_localNetworkPermissionBrowser, ^(nw_browser_state_t state, nw_error_t error) {
+        if (state == nw_browser_state_ready) {
+            qCDebug(dcPlatformPermissions()) << "Local network permission granted.";
+            permissions->setLocalNetworkPermissionStatus(PermissionStatusGranted);
+            stopLocalNetworkPermissionBrowser();
+            return;
+        }
+
+        if (state != nw_browser_state_waiting && state != nw_browser_state_failed) {
+            return;
+        }
+
+        if (error && nw_error_get_error_domain(error) == nw_error_domain_dns
+                && nw_error_get_error_code(error) == DnsServiceErrPolicyDenied) {
+            qCWarning(dcPlatformPermissions()) << "Local network permission denied.";
+            permissions->setLocalNetworkPermissionStatus(PermissionStatusDenied);
+            stopLocalNetworkPermissionBrowser();
+            return;
+        }
+
+        if (state == nw_browser_state_failed) {
+            qCWarning(dcPlatformPermissions()) << "Local network browser failed; it can be retried:" << error;
+            stopLocalNetworkPermissionBrowser();
+            return;
+        }
+
+        qCWarning(dcPlatformPermissions()) << "Local network browser is waiting:" << error;
+    });
+    nw_browser_set_queue(s_localNetworkPermissionBrowser, dispatch_get_main_queue());
+    nw_browser_start(s_localNetworkPermissionBrowser);
 }
 
 PlatformPermissions::PermissionStatus PlatformPermissionsIOS::checkLocationPermission() const

@@ -18,6 +18,11 @@
 
 static NymeaDocumentPickerDelegate *s_documentPickerDelegate = nil;
 
+void PlatformHelperIOS::disableShakeToEdit()
+{
+    [UIApplication sharedApplication].applicationSupportsShakeToEdit = NO;
+}
+
 static UIWindow *activeWindow()
 {
     UIApplication *application = [UIApplication sharedApplication];

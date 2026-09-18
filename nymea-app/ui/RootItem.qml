@@ -115,6 +115,13 @@ Item {
         swipeView.currentItem.pageStack.currentItem.configureViews()
     }
 
+    Timer {
+        interval: 0
+        running: Qt.platform.os === "ios"
+        repeat: false
+        onTriggered: PlatformPermissions.requestPermission(PlatformPermissions.PermissionLocalNetwork)
+    }
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -168,11 +175,7 @@ Item {
                         target: nymeaDiscovery
                         property: "discovering"
                         value: engine.jsonRpcClient.currentHost === null
-                               && (PlatformPermissions.localNetworkPermission === PlatformPermissions.PermissionStatusGranted
-                                   // This OR wouldn't be needed but we introduced the permission handling later and the localNetworkPerm can't be read on iOS.
-                                   // If there are configured hosts, it means that we actally already have the permission even though PlatformPermissions thinks we wouldn't...
-                                   // So skipping the check in that case for now (1.6)
-                                   || configuredHostsModel.count > 0)
+                               && PlatformPermissions.localNetworkPermission === PlatformPermissions.PermissionStatusGranted
 
                     }
 

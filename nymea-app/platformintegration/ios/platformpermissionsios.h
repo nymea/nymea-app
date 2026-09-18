@@ -67,8 +67,12 @@ private:
     void requestBluetoothPermissionLegacy();
     void requestLocationPermission();
     void requestBackgroundLocationPermission();
+    void requestLocalNetworkPermissionNative();
+    void setLocalNetworkPermissionStatus(PermissionStatus status);
 
     PermissionStatus m_notificationPermissions = PermissionStatusNotDetermined;
+    PermissionStatus m_localNetworkPermission = PermissionStatusNotDetermined;
+    bool m_localNetworkPermissionNeedsRevalidation = false;
 
     CLLocationManager *m_locationManager = nullptr;
     CBCentralManager *m_bluetoothManager = nullptr;

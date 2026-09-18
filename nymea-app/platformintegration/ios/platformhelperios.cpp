@@ -196,6 +196,7 @@ static QString deviceModelForMachineIdentifier(const QString &identifier)
 PlatformHelperIOS::PlatformHelperIOS(QObject *parent) : PlatformHelper(parent)
 {
     QtWebView::initialize();
+    disableShakeToEdit();
 
     QScreen *screen = qApp->primaryScreen();
     //screen->setOrientationUpdateMask(Qt::PortraitOrientation | Qt::LandscapeOrientation | Qt::InvertedPortraitOrientation | Qt::InvertedLandscapeOrientation);

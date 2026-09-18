@@ -72,6 +72,7 @@ private:
     void generateSelectionFeedback();
     void generateImpactFeedback();
     void generateNotificationFeedback();
+    void disableShakeToEdit();
 
     void applyPanelColors();
 };

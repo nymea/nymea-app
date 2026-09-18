@@ -29,6 +29,7 @@
 #include <QPermission>
 #include <QBluetoothPermission>
 
+#include "platformpermissionsiossettings.h"
 #include "logging.h"
 NYMEA_LOGGING_CATEGORY(dcPlatformPermissions, "PlatformPermissions")
 
@@ -39,6 +40,11 @@ PlatformPermissionsIOS::PlatformPermissionsIOS(QObject *parent)
 {
     s_instance = this;
     initObjC();
+
+    QSettings settings;
+    const auto localNetworkPermissionState = PlatformPermissionsIOSSettings::localNetworkPermissionState(settings);
+    m_localNetworkPermission = localNetworkPermissionState.status;
+    m_localNetworkPermissionNeedsRevalidation = localNetworkPermissionState.needsNativeRevalidation;
 
     connect(qApp, &QApplication::applicationStateChanged, this, [this](Qt::ApplicationState state){
         if (state == Qt::ApplicationActive) {
@@ -95,13 +101,32 @@ void PlatformPermissionsIOS::requestPermission(Permission platformPermission)
 
 PlatformPermissions::PermissionStatus PlatformPermissionsIOS::checkLocalNetworkPermission() const
 {
-    QSettings settings;
-    return settings.value("askedForLocalNetworkPermission", false).toBool() ? PermissionStatusGranted : PermissionStatusNotDetermined;
+    return m_localNetworkPermission;
 }
 
 void PlatformPermissionsIOS::requestLocalNetworkPermission()
 {
+    if (m_localNetworkPermission == PermissionStatusGranted && !m_localNetworkPermissionNeedsRevalidation) {
+        qCDebug(dcPlatformPermissions()) << "Local network permission already granted.";
+        return;
+    }
+
+    qCDebug(dcPlatformPermissions()) << "Requesting local network permission...";
+    requestLocalNetworkPermissionNative();
+}
+
+void PlatformPermissionsIOS::setLocalNetworkPermissionStatus(PermissionStatus status)
+{
+    const bool changed = m_localNetworkPermission != status;
+    if (!changed && !m_localNetworkPermissionNeedsRevalidation) {
+        return;
+    }
+
+    m_localNetworkPermission = status;
+    m_localNetworkPermissionNeedsRevalidation = false;
     QSettings settings;
-    settings.setValue("askedForLocalNetworkPermission", true);
-    emit localNetworkPermissionChanged();
+    PlatformPermissionsIOSSettings::setLocalNetworkPermissionStatus(settings, status);
+    if (changed) {
+        emit localNetworkPermissionChanged();
+    }
 }
