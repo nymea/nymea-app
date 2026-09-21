@@ -1,3 +1,11 @@
+nymea-app (1.13.24) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * iOS: Disable shake to edit and improve permission handling
+  * Energymix: Improve charger and negative houshold behavior
+
+ -- jenkins <developer@nymea.io>  Mon, 21 Sep 2026 09:59:20 +0200
+
 nymea-app (1.13.23) bionic; urgency=medium
 
   [ Simon Stürz ]
