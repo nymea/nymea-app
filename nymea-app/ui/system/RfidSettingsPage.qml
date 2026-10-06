@@ -35,15 +35,24 @@ SettingsPageBase {
         return profileMode(profile) === "Eco" ? qsTr("Eco") : qsTr("Quick")
     }
 
-    function profileActions(profile) {
-        if (profileMode(profile) === "Eco")
-            return [qsTr("Eco charging")]
+    function profileActions(profile, username) {
+        var actions = profileMode(profile) === "Eco" ? [qsTr("Eco charging")] : [qsTr("Quick charging")]
+        if (profileMode(profile) === "Quick") {
+            if (profile.maxChargingCurrent !== undefined)
+                actions.push(qsTr("Max charging current: %1 A").arg(profile.maxChargingCurrent))
+            if (profile.desiredPhaseCount !== undefined)
+                actions.push(qsTr("Phase count: %1").arg(profile.desiredPhaseCount))
+        }
 
-        var actions = [qsTr("Quick charging")]
-        if (profile.maxChargingCurrent !== undefined)
-            actions.push(qsTr("Max charging current: %1 A").arg(profile.maxChargingCurrent))
-        if (profile.desiredPhaseCount !== undefined)
-            actions.push(qsTr("Phase count: %1").arg(profile.desiredPhaseCount))
+        var assignedVehicleId = profileAssignedVehicleId(profile)
+        if (assignedVehicleId !== "") {
+            var vehicleThing = _engine.thingManager.things.getThing(assignedVehicleId)
+            var vehicleName = vehicleThing ? vehicleThing.name : assignedVehicleId
+            if (userCanUseVehicle(username, vehicleThing))
+                actions.push(qsTr("Vehicle: %1").arg(vehicleName))
+            else
+                actions.push(qsTr("Vehicle: %1 (unavailable)").arg(vehicleName))
+        }
         return actions
     }
 
@@ -54,15 +63,16 @@ SettingsPageBase {
         return "Manual"
     }
 
-    function buildProfile(mode, maxChargingCurrentText, desiredPhaseCount) {
-        if (mode === "Eco")
-            return {"mode": "Eco"}
-
+    function buildProfile(mode, maxChargingCurrentText, desiredPhaseCount, assignedVehicleId) {
         var profile = {"mode": backendProfileMode(mode)}
-        if (maxChargingCurrentText !== "")
-            profile.maxChargingCurrent = parseInt(maxChargingCurrentText)
-        if (desiredPhaseCount > 0)
-            profile.desiredPhaseCount = desiredPhaseCount
+        if (mode !== "Eco") {
+            if (maxChargingCurrentText !== "")
+                profile.maxChargingCurrent = parseInt(maxChargingCurrentText)
+            if (desiredPhaseCount > 0)
+                profile.desiredPhaseCount = desiredPhaseCount
+        }
+        if (uuidString(assignedVehicleId) !== "")
+            profile.assignedCarId = uuidString(assignedVehicleId)
         return profile
     }
 
@@ -149,13 +159,20 @@ SettingsPageBase {
         return value.toString()
     }
 
+    function profileAssignedVehicleId(profile) {
+        if (!profile || profile.assignedCarId === undefined || profile.assignedCarId === null)
+            return ""
+
+        return uuidString(profile.assignedCarId)
+    }
+
     function chargerThingName(thingId) {
         var chargerThing = _engine.thingManager.things.getThing(thingId)
         return chargerThing ? chargerThing.name : ""
     }
 
-    function userCanUseCharger(username, chargerThing) {
-        if (!chargerThing)
+    function userCanUseThing(username, thing) {
+        if (!thing)
             return false
 
         var userInfo = userManager.users.getUserInfo(username)
@@ -168,13 +185,75 @@ SettingsPageBase {
         if ((userInfo.scopes & UserInfo.PermissionScopeAccessAllThings) === UserInfo.PermissionScopeAccessAllThings)
             return true
 
-        return userInfo.thingAllowed(chargerThing.id)
+        return userInfo.thingAllowed(thing.id)
+    }
+
+    function userCanUseCharger(username, chargerThing) {
+        return userCanUseThing(username, chargerThing)
+    }
+
+    function isElectricVehicle(thing) {
+        return thing && thing.thingClass
+                && (thing.thingClass.interfaces.indexOf("electricvehicle") >= 0
+                    || thing.thingClass.interfaces.indexOf("electricvehiclehlc") >= 0)
+    }
+
+    function userCanUseVehicle(username, vehicleThing) {
+        return isElectricVehicle(vehicleThing) && userCanUseThing(username, vehicleThing)
+    }
+
+    function vehicleSelectionIsValid(username, vehicleThingId) {
+        if (uuidString(vehicleThingId) === "")
+            return true
+
+        return userCanUseVehicle(username, _engine.thingManager.things.getThing(vehicleThingId))
+    }
+
+    function populateVehicleSelectionModel(selectionModel, username, selectedVehicleThingId) {
+        var selectedId = uuidString(selectedVehicleThingId)
+        var selectedIndex = selectedId === "" ? 0 : -1
+
+        selectionModel.clear()
+        selectionModel.append({"text": qsTr("Not set"), "thingId": "", "available": true})
+
+        for (var i = 0; i < electricVehicleThingsProxy.count; ++i) {
+            var vehicleThing = electricVehicleThingsProxy.get(i)
+            if (!userCanUseVehicle(username, vehicleThing))
+                continue
+
+            var vehicleId = uuidString(vehicleThing.id)
+            selectionModel.append({"text": vehicleThing.name, "thingId": vehicleId, "available": true})
+            if (vehicleId === selectedId)
+                selectedIndex = selectionModel.count - 1
+        }
+
+        if (selectedId !== "" && selectedIndex < 0) {
+            var unavailableThing = _engine.thingManager.things.getThing(selectedId)
+            var unavailableName = unavailableThing ? unavailableThing.name : selectedId
+            selectionModel.append({
+                                      "text": qsTr("%1 (unavailable)").arg(unavailableName),
+                                      "thingId": selectedId,
+                                      "available": false
+                                  })
+            selectedIndex = selectionModel.count - 1
+        }
+
+        return selectedIndex
     }
 
     function usableChargerCount(username) {
         var count = 0
         for (var i = 0; i < rfidChargerThingsProxy.count; ++i) {
             if (userCanUseCharger(username, rfidChargerThingsProxy.get(i)))
+                ++count
+        }
+        return count
+    }
+
+    function usableVehicleCount(username) {
+        var count = 0
+        for (var i = 0; i < electricVehicleThingsProxy.count; ++i) {
+            if (userCanUseVehicle(username, electricVehicleThingsProxy.get(i)))
                 ++count
         }
         return count
@@ -220,6 +299,12 @@ SettingsPageBase {
         id: rfidChargerThingsProxy
         engine: _engine
         shownInterfaces: ["chargers"]
+    }
+
+    ThingsProxy {
+        id: electricVehicleThingsProxy
+        engine: _engine
+        shownInterfaces: ["electricvehicle", "electricvehiclehlc"]
     }
 
     ListModel {
@@ -320,6 +405,7 @@ SettingsPageBase {
         delegate: BigTile {
             readonly property bool shown: root.tagVisible(model.username)
             readonly property string tagTitle: model.displayName !== "" ? model.displayName : model.tagHash
+            readonly property string tagUsername: model.username
             readonly property var tagProfile: model.profile
 
             Layout.fillWidth: true
@@ -406,7 +492,7 @@ SettingsPageBase {
                         spacing: 0
 
                         Repeater {
-                            model: root.profileActions(tagProfile)
+                            model: root.profileActions(tagProfile, tagUsername)
 
                             delegate: Label {
                                 Layout.fillWidth: true
@@ -440,6 +526,7 @@ SettingsPageBase {
             property string newDisplayName: ""
             property bool newEnabled: true
             property var newProfile: ({"mode": "Eco"})
+            property string selectedVehicleThingId: ""
             property string pendingEnrollmentId: ""
             property string pendingEnrollmentExpiresAt: ""
 
@@ -490,6 +577,8 @@ SettingsPageBase {
                         iconColor: wizardRootPage.selectedOwnerUsername === model.username ? Style.accentColor : Style.iconColor
                         tertiaryIconName: wizardRootPage.selectedOwnerUsername === model.username ? "qrc:/icons/tick.svg" : ""
                         onClicked: {
+                            if (!root.vehicleSelectionIsValid(model.username, wizardRootPage.selectedVehicleThingId))
+                                wizardRootPage.selectedVehicleThingId = ""
                             wizardRootPage.selectedOwnerUsername = model.username
                             pageStack.push(addTagMethodComponent)
                         }
@@ -958,12 +1047,27 @@ SettingsPageBase {
                                        && (wizardRootPage.selectedAddMethod === wizardRootPage.addMethodChargerScan
                                            || wizardRootPage.scannedOrEnteredCode !== "")
                                        && userManager.users.contains(wizardRootPage.selectedOwnerUsername)
+                                       && addTagFinalizePage.vehicleModelRevision >= 0
+                                       && root.vehicleSelectionIsValid(wizardRootPage.selectedOwnerUsername,
+                                                                       wizardRootPage.selectedVehicleThingId)
                                        && (modeComboBox.selectedMode !== "Quick"
                                            || maxChargingCurrentField.text === ""
                                            || maxChargingCurrentField.acceptableInput)
 
                     property int pendingCommandId: -1
                     property string pendingCommandType: ""
+                    property int vehicleModelRevision: 0
+
+                    function rebuildVehicleModel() {
+                        if (!vehicleComboBox)
+                            return
+
+                        vehicleComboBox.currentIndex = root.populateVehicleSelectionModel(
+                                    vehicleSelectionModel,
+                                    wizardRootPage.selectedOwnerUsername,
+                                    wizardRootPage.selectedVehicleThingId)
+                        ++vehicleModelRevision
+                    }
 
                     function updateDraftProfile() {
                         if (!modeComboBox || !maxChargingCurrentField || !phaseCountComboBox)
@@ -972,8 +1076,11 @@ SettingsPageBase {
                         wizardRootPage.newProfile = root.buildProfile(
                                     modeComboBox.selectedMode,
                                     maxChargingCurrentField.text.trim(),
-                                    phaseCountComboBox.currentIndex >= 0 ? phaseCountModel.get(phaseCountComboBox.currentIndex).value : 0)
+                                    phaseCountComboBox.currentIndex >= 0 ? phaseCountModel.get(phaseCountComboBox.currentIndex).value : 0,
+                                    wizardRootPage.selectedVehicleThingId)
                     }
+
+                    Component.onCompleted: rebuildVehicleModel()
 
                     onNext: {
                         if (pendingCommandId !== -1)
@@ -1011,6 +1118,10 @@ SettingsPageBase {
                         ListElement { text: qsTr("Not set"); value: 0 }
                         ListElement { text: "1"; value: 1 }
                         ListElement { text: "3"; value: 3 }
+                    }
+
+                    ListModel {
+                        id: vehicleSelectionModel
                     }
 
                     content: ColumnLayout {
@@ -1173,6 +1284,48 @@ SettingsPageBase {
                         }
 
                         SettingsPageSectionHeader {
+                            text: qsTr("Vehicle")
+                        }
+
+                        ComboBox {
+                            id: vehicleComboBox
+                            Layout.fillWidth: true
+                            Layout.leftMargin: Style.margins
+                            Layout.rightMargin: Style.margins
+                            model: vehicleSelectionModel
+                            textRole: "text"
+                            onActivated: (index) => {
+                                wizardRootPage.selectedVehicleThingId = vehicleSelectionModel.get(index).thingId
+                                addTagFinalizePage.updateDraftProfile()
+                            }
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            Layout.leftMargin: Style.margins
+                            Layout.rightMargin: Style.margins
+                            visible: root.usableVehicleCount(wizardRootPage.selectedOwnerUsername) === 0
+                                     && !_engine.thingManager.fetchingData
+                            text: qsTr("No electric vehicles are available for the selected user.")
+                            wrapMode: Text.WordWrap
+                        }
+
+                        BusyIndicator {
+                            Layout.alignment: Qt.AlignHCenter
+                            visible: _engine.thingManager.fetchingData
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            Layout.leftMargin: Style.margins
+                            Layout.rightMargin: Style.margins
+                            text: qsTr("Select the vehicle to assign when this RFID tag is used. Not set keeps the charger's current vehicle assignment.")
+                            color: Style.unobtrusiveForegroundColor
+                            font: Style.smallFont
+                            wrapMode: Text.WordWrap
+                        }
+
+                        SettingsPageSectionHeader {
                             text: qsTr("EV chargers")
                         }
 
@@ -1249,6 +1402,26 @@ SettingsPageBase {
                             }
                         }
                     }
+
+                    Connections {
+                        target: electricVehicleThingsProxy
+
+                        function onCountChanged() {
+                            addTagFinalizePage.rebuildVehicleModel()
+                        }
+                    }
+
+                    Connections {
+                        target: userManager.users
+
+                        function onCountChanged() {
+                            addTagFinalizePage.rebuildVehicleModel()
+                        }
+
+                        function onDataChanged() {
+                            addTagFinalizePage.rebuildVehicleModel()
+                        }
+                    }
                 }
             }
         }
@@ -1264,6 +1437,8 @@ SettingsPageBase {
             property int pendingCommandId: -1
             property int pendingRemoveCommandId: -1
             property string selectedOwnerUsername: ""
+            property string selectedVehicleThingId: root.profileAssignedVehicleId(tagInfo ? tagInfo.profile : null)
+            property int vehicleModelRevision: 0
             title: createMode ? qsTr("Add RFID tag") : qsTr("Edit RFID tag")
 
             function currentUserInfo() {
@@ -1282,6 +1457,23 @@ SettingsPageBase {
                 return tagInfo && tagInfo.profile.maxChargingCurrent !== undefined ? String(tagInfo.profile.maxChargingCurrent) : ""
             }
 
+            function ownerUsername() {
+                return createMode ? selectedOwnerUsername : (tagInfo ? tagInfo.username : "")
+            }
+
+            function originalVehicleThingId() {
+                return root.profileAssignedVehicleId(tagInfo ? tagInfo.profile : null)
+            }
+
+            function rebuildVehicleModel() {
+                if (!vehicleComboBox)
+                    return
+
+                vehicleComboBox.currentIndex = root.populateVehicleSelectionModel(
+                            vehicleSelectionModel, ownerUsername(), selectedVehicleThingId)
+                ++vehicleModelRevision
+            }
+
             function canSubmit() {
                 if (pendingCommandId !== -1 || pendingRemoveCommandId !== -1)
                     return false
@@ -1294,6 +1486,10 @@ SettingsPageBase {
                 }
 
                 if (modeComboBox.selectedMode === "Quick" && maxChargingCurrentField.text !== "" && !maxChargingCurrentField.acceptableInput)
+                    return false
+
+                if (vehicleModelRevision >= 0
+                        && !root.vehicleSelectionIsValid(ownerUsername(), selectedVehicleThingId))
                     return false
 
                 return createMode || hasUnsavedChanges()
@@ -1311,6 +1507,7 @@ SettingsPageBase {
                             || modeComboBox.selectedMode !== "Eco"
                             || maxChargingCurrentField.text.trim() !== ""
                             || currentPhaseValue() !== 0
+                            || selectedVehicleThingId !== ""
                 }
 
                 if (!tagInfo)
@@ -1328,6 +1525,8 @@ SettingsPageBase {
                     if (currentPhaseValue() !== originalPhaseValue())
                         return true
                 }
+                if (selectedVehicleThingId !== originalVehicleThingId())
+                    return true
 
                 return false
             }
@@ -1360,7 +1559,8 @@ SettingsPageBase {
             }
 
             function submit() {
-                var profile = root.buildProfile(modeComboBox.selectedMode, maxChargingCurrentField.text.trim(), currentPhaseValue())
+                var profile = root.buildProfile(modeComboBox.selectedMode, maxChargingCurrentField.text.trim(),
+                                                currentPhaseValue(), selectedVehicleThingId)
                 busy = true
 
                 if (createMode) {
@@ -1380,6 +1580,8 @@ SettingsPageBase {
                     )
                 }
             }
+
+            Component.onCompleted: rebuildVehicleModel()
 
             header: NymeaHeader {
                 text: editorPage.title
@@ -1421,6 +1623,10 @@ SettingsPageBase {
                 ListElement { text: "3"; value: 3 }
             }
 
+            ListModel {
+                id: vehicleSelectionModel
+            }
+
             SettingsPageSectionHeader {
                 text: qsTr("Basic information")
             }
@@ -1438,12 +1644,23 @@ SettingsPageBase {
                     return selectedUser ? root.userLabel(selectedUser) : ""
                 }
                 onCurrentIndexChanged: {
+                    if (!editorPage.createMode)
+                        return
+
                     var selectedUser = userManager.users.get(currentIndex)
                     editorPage.selectedOwnerUsername = selectedUser ? selectedUser.username : ""
+                    if (!root.vehicleSelectionIsValid(editorPage.selectedOwnerUsername,
+                                                      editorPage.selectedVehicleThingId))
+                        editorPage.selectedVehicleThingId = ""
+                    editorPage.rebuildVehicleModel()
                 }
                 Component.onCompleted: {
+                    if (!editorPage.createMode)
+                        return
+
                     var selectedUser = userManager.users.get(currentIndex)
                     editorPage.selectedOwnerUsername = selectedUser ? selectedUser.username : ""
+                    editorPage.rebuildVehicleModel()
                 }
             }
 
@@ -1565,6 +1782,47 @@ SettingsPageBase {
                 Layout.rightMargin: Style.margins
                 visible: modeComboBox.selectedMode === "Quick"
                 text: qsTr("Select how many phases the charger should use. Leave this unset to let the charger decide.")
+                color: Style.unobtrusiveForegroundColor
+                font: Style.smallFont
+                wrapMode: Text.WordWrap
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Vehicle")
+            }
+
+            ComboBox {
+                id: vehicleComboBox
+                Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
+                model: vehicleSelectionModel
+                textRole: "text"
+                onActivated: (index) => {
+                    editorPage.selectedVehicleThingId = vehicleSelectionModel.get(index).thingId
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
+                visible: root.usableVehicleCount(editorPage.ownerUsername()) === 0
+                         && !_engine.thingManager.fetchingData
+                text: qsTr("No electric vehicles are available for the selected user.")
+                wrapMode: Text.WordWrap
+            }
+
+            BusyIndicator {
+                Layout.alignment: Qt.AlignHCenter
+                visible: _engine.thingManager.fetchingData
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
+                text: qsTr("Select the vehicle to assign when this RFID tag is used. Not set keeps the charger's current vehicle assignment.")
                 color: Style.unobtrusiveForegroundColor
                 font: Style.smallFont
                 wrapMode: Text.WordWrap
@@ -1764,6 +2022,26 @@ SettingsPageBase {
                     } else {
                         root.showRfidError(error)
                     }
+                }
+            }
+
+            Connections {
+                target: electricVehicleThingsProxy
+
+                function onCountChanged() {
+                    editorPage.rebuildVehicleModel()
+                }
+            }
+
+            Connections {
+                target: userManager.users
+
+                function onCountChanged() {
+                    editorPage.rebuildVehicleModel()
+                }
+
+                function onDataChanged() {
+                    editorPage.rebuildVehicleModel()
                 }
             }
         }

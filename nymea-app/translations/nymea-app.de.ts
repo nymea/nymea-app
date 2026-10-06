@@ -6961,6 +6961,30 @@ Möchtest Du fortfahren?</translation>
         <source>This tag can authorize charging on the EV chargers listed below because they are accessible to its owner.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Vehicle: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vehicle: %1 (unavailable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 (unavailable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vehicle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No electric vehicles are available for the selected user.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the vehicle to assign when this RFID tag is used. Not set keeps the charger's current vehicle assignment.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RootItem</name>
