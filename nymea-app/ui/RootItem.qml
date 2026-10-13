@@ -175,7 +175,10 @@ Item {
                         target: nymeaDiscovery
                         property: "discovering"
                         value: engine.jsonRpcClient.currentHost === null
-                               && PlatformPermissions.localNetworkPermission === PlatformPermissions.PermissionStatusGranted
+                               && (PlatformPermissions.localNetworkPermission === PlatformPermissions.PermissionStatusGranted
+                                   // Keep iOS discovery strictly permission-gated. On other platforms, retain
+                                   // discovery for existing installations whose hosts predate permission handling.
+                                   || (Qt.platform.os !== "ios" && configuredHostsModel.count > 0))
 
                     }
 
