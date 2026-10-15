@@ -63,6 +63,20 @@ void RfidTagInfo::setEnabled(bool enabled)
     emit enabledChanged();
 }
 
+bool RfidTagInfo::allowStopCharging() const
+{
+    return m_allowStopCharging;
+}
+
+void RfidTagInfo::setAllowStopCharging(bool allowStopCharging)
+{
+    if (m_allowStopCharging == allowStopCharging)
+        return;
+
+    m_allowStopCharging = allowStopCharging;
+    emit allowStopChargingChanged();
+}
+
 QString RfidTagInfo::tagHash() const
 {
     return m_tagHash;
@@ -104,6 +118,9 @@ void RfidTagInfo::updateFromVariantMap(const QVariantMap &tagMap)
 
     if (tagMap.contains("enabled"))
         setEnabled(tagMap.value("enabled").toBool());
+
+    if (tagMap.contains("allowStopCharging"))
+        setAllowStopCharging(tagMap.value("allowStopCharging").toBool());
 
     if (tagMap.contains("tagHash"))
         setTagHash(tagMap.value("tagHash").toString());

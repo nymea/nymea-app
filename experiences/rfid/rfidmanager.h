@@ -46,10 +46,10 @@ public:
     int enrollmentTimeout() const;
 
     Q_INVOKABLE int refreshTags(const QString &username = QString());
-    Q_INVOKABLE int addTag(const QString &username, const QString &code, const QString &displayName, bool enabled, const QVariantMap &profile);
-    Q_INVOKABLE int updateTag(const QUuid &inventoryItemId, const QString &displayName, bool enabled, const QVariantMap &profile);
+    Q_INVOKABLE int addTag(const QString &username, const QString &code, const QString &displayName, bool enabled, bool allowStopCharging, const QVariantMap &profile);
+    Q_INVOKABLE int updateTag(const QUuid &inventoryItemId, const QString &displayName, bool enabled, bool allowStopCharging, const QVariantMap &profile);
     Q_INVOKABLE int removeTag(const QUuid &inventoryItemId);
-    Q_INVOKABLE int startEnrollment(const QUuid &thingId, const QString &username, const QString &displayName, bool enabled, const QVariantMap &profile);
+    Q_INVOKABLE int startEnrollment(const QUuid &thingId, const QString &username, const QString &displayName, bool enabled, bool allowStopCharging, const QVariantMap &profile);
     Q_INVOKABLE int cancelEnrollment(const QUuid &enrollmentId);
 
     Q_INVOKABLE int refreshConfig();

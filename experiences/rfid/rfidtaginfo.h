@@ -14,6 +14,7 @@ class RfidTagInfo : public QObject
     Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
     Q_PROPERTY(QString displayName READ displayName WRITE setDisplayName NOTIFY displayNameChanged)
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
+    Q_PROPERTY(bool allowStopCharging READ allowStopCharging WRITE setAllowStopCharging NOTIFY allowStopChargingChanged)
     Q_PROPERTY(QString tagHash READ tagHash WRITE setTagHash NOTIFY tagHashChanged)
     Q_PROPERTY(QVariantMap profile READ profile WRITE setProfile NOTIFY profileChanged)
 
@@ -32,6 +33,9 @@ public:
     bool enabled() const;
     void setEnabled(bool enabled);
 
+    bool allowStopCharging() const;
+    void setAllowStopCharging(bool allowStopCharging);
+
     QString tagHash() const;
     void setTagHash(const QString &tagHash);
 
@@ -45,6 +49,7 @@ signals:
     void usernameChanged();
     void displayNameChanged();
     void enabledChanged();
+    void allowStopChargingChanged();
     void tagHashChanged();
     void profileChanged();
 
@@ -53,6 +58,7 @@ private:
     QString m_username;
     QString m_displayName;
     bool m_enabled = true;
+    bool m_allowStopCharging = true;
     QString m_tagHash;
     QVariantMap m_profile;
 };

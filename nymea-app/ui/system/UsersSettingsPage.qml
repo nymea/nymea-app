@@ -519,6 +519,22 @@ SettingsPageBase {
             }
 
             SettingsPageSectionHeader {
+                text: qsTr("RFID")
+                visible: engine.jsonRpcClient.experiences.hasOwnProperty("Rfid")
+                Layout.fillWidth: true
+            }
+
+            NymeaSwipeDelegate {
+                Layout.fillWidth: true
+                text: qsTr("RFID tags")
+                iconName: "qrc:/icons/rfid.svg"
+                visible: engine.jsonRpcClient.experiences.hasOwnProperty("Rfid")
+                progressive: true
+                onClicked: pageStack.push(Qt.resolvedUrl("RfidSettingsPage.qml"),
+                                          {initialUsername: userDetailsPage.userInfo.username})
+            }
+
+            SettingsPageSectionHeader {
                 text: qsTr("Remove")
             }
 

@@ -81,7 +81,7 @@ int RfidManager::refreshTags(const QString &username)
     return m_engine->jsonRpcClient()->sendCommand("Rfid.GetTags", params, this, "getTagsResponse");
 }
 
-int RfidManager::addTag(const QString &username, const QString &code, const QString &displayName, bool enabled, const QVariantMap &profile)
+int RfidManager::addTag(const QString &username, const QString &code, const QString &displayName, bool enabled, bool allowStopCharging, const QVariantMap &profile)
 {
     QVariantMap params;
     params.insert("username", username.trimmed());
@@ -91,6 +91,7 @@ int RfidManager::addTag(const QString &username, const QString &code, const QStr
         params.insert("displayName", displayName.trimmed());
 
     params.insert("enabled", enabled);
+    params.insert("allowStopCharging", allowStopCharging);
 
     if (!profile.isEmpty())
         params.insert("profile", profile);
@@ -98,12 +99,13 @@ int RfidManager::addTag(const QString &username, const QString &code, const QStr
     return m_engine->jsonRpcClient()->sendCommand("Rfid.AddTag", params, this, "addTagResponse");
 }
 
-int RfidManager::updateTag(const QUuid &inventoryItemId, const QString &displayName, bool enabled, const QVariantMap &profile)
+int RfidManager::updateTag(const QUuid &inventoryItemId, const QString &displayName, bool enabled, bool allowStopCharging, const QVariantMap &profile)
 {
     QVariantMap params;
     params.insert("inventoryItemId", inventoryItemId);
     params.insert("displayName", displayName.trimmed());
     params.insert("enabled", enabled);
+    params.insert("allowStopCharging", allowStopCharging);
     params.insert("profile", profile);
     return m_engine->jsonRpcClient()->sendCommand("Rfid.UpdateTag", params, this, "updateTagResponse");
 }
@@ -113,7 +115,7 @@ int RfidManager::removeTag(const QUuid &inventoryItemId)
     return m_engine->jsonRpcClient()->sendCommand("Rfid.RemoveTag", {{"inventoryItemId", inventoryItemId}}, this, "removeTagResponse");
 }
 
-int RfidManager::startEnrollment(const QUuid &thingId, const QString &username, const QString &displayName, bool enabled, const QVariantMap &profile)
+int RfidManager::startEnrollment(const QUuid &thingId, const QString &username, const QString &displayName, bool enabled, bool allowStopCharging, const QVariantMap &profile)
 {
     QVariantMap params;
     params.insert("thingId", thingId);
@@ -123,6 +125,7 @@ int RfidManager::startEnrollment(const QUuid &thingId, const QString &username, 
         params.insert("displayName", displayName.trimmed());
 
     params.insert("enabled", enabled);
+    params.insert("allowStopCharging", allowStopCharging);
 
     if (!profile.isEmpty())
         params.insert("profile", profile);

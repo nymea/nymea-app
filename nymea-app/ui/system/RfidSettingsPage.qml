@@ -14,8 +14,11 @@ SettingsPageBase {
     id: root
     title: qsTr("RFID charging")
 
+    property string initialUsername: ""
+
     property int pendingRemoveCommandId: -1
     property RfidTagInfo pendingRemovalTag: null
+    property bool initialUserFilterApplied: initialUsername === ""
 
     function userLabel(userInfo) {
         if (!userInfo)
@@ -118,6 +121,8 @@ SettingsPageBase {
         if (userFilterComboBox.currentIndex >= 0 && userFilterComboBox.currentIndex < userFilterModel.count)
             currentUsername = userFilterModel.get(userFilterComboBox.currentIndex).username
 
+        var filterUsername = initialUserFilterApplied ? currentUsername : initialUsername
+
         userFilterModel.clear()
         userFilterModel.append({"text": qsTr("All users"), "username": ""})
 
@@ -131,8 +136,10 @@ SettingsPageBase {
 
         var nextIndex = 0
         for (var j = 0; j < userFilterModel.count; ++j) {
-            if (userFilterModel.get(j).username === currentUsername) {
+            if (userFilterModel.get(j).username === filterUsername) {
                 nextIndex = j
+                if (!initialUserFilterApplied)
+                    initialUserFilterApplied = true
                 break
             }
         }
@@ -376,6 +383,7 @@ SettingsPageBase {
         Layout.rightMargin: Style.margins
         model: userFilterModel
         textRole: "text"
+        onActivated: root.initialUserFilterApplied = true
     }
 
     Button {
@@ -525,6 +533,7 @@ SettingsPageBase {
             property var scannedTagInformation: ({})
             property string newDisplayName: ""
             property bool newEnabled: true
+            property bool newAllowStopCharging: true
             property var newProfile: ({"mode": "Eco"})
             property string selectedVehicleThingId: ""
             property string pendingEnrollmentId: ""
@@ -1099,6 +1108,7 @@ SettingsPageBase {
                                         wizardRootPage.selectedOwnerUsername,
                                         wizardRootPage.newDisplayName,
                                         wizardRootPage.newEnabled,
+                                        wizardRootPage.newAllowStopCharging,
                                         wizardRootPage.newProfile)
                         } else {
                             pendingCommandType = "addTag"
@@ -1107,6 +1117,7 @@ SettingsPageBase {
                                         wizardRootPage.scannedOrEnteredCode,
                                         wizardRootPage.newDisplayName,
                                         wizardRootPage.newEnabled,
+                                        wizardRootPage.newAllowStopCharging,
                                         wizardRootPage.newProfile)
                         }
                     }
@@ -1223,6 +1234,13 @@ SettingsPageBase {
                             text: qsTr("Enabled")
                             checked: wizardRootPage.newEnabled
                             onToggled: wizardRootPage.newEnabled = checked
+                        }
+
+                        SwitchDelegate {
+                            Layout.fillWidth: true
+                            text: qsTr("Allow stopping charging")
+                            checked: wizardRootPage.newAllowStopCharging
+                            onToggled: wizardRootPage.newAllowStopCharging = checked
                         }
 
                         SettingsPageSectionHeader {
@@ -1504,6 +1522,7 @@ SettingsPageBase {
                             || codeTextField.text.trim() !== ""
                             || displayNameTextField.text !== ""
                             || enabledSwitch.checked !== true
+                            || allowStopChargingSwitch.checked !== true
                             || modeComboBox.selectedMode !== "Eco"
                             || maxChargingCurrentField.text.trim() !== ""
                             || currentPhaseValue() !== 0
@@ -1516,6 +1535,8 @@ SettingsPageBase {
                 if (displayNameTextField.text !== tagInfo.displayName)
                     return true
                 if (enabledSwitch.checked !== tagInfo.enabled)
+                    return true
+                if (allowStopChargingSwitch.checked !== tagInfo.allowStopCharging)
                     return true
                 if (modeComboBox.selectedMode !== root.profileMode(tagInfo.profile))
                     return true
@@ -1569,6 +1590,7 @@ SettingsPageBase {
                         codeTextField.text.trim(),
                         displayNameTextField.text,
                         enabledSwitch.checked,
+                        allowStopChargingSwitch.checked,
                         profile
                     )
                 } else {
@@ -1576,6 +1598,7 @@ SettingsPageBase {
                         tagInfo.inventoryItemId,
                         displayNameTextField.text,
                         enabledSwitch.checked,
+                        allowStopChargingSwitch.checked,
                         profile
                     )
                 }
@@ -1699,6 +1722,13 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 text: qsTr("Enabled")
                 checked: editorPage.tagInfo ? editorPage.tagInfo.enabled : true
+            }
+
+            SwitchDelegate {
+                id: allowStopChargingSwitch
+                Layout.fillWidth: true
+                text: qsTr("Allow stopping charging")
+                checked: editorPage.tagInfo ? editorPage.tagInfo.allowStopCharging : true
             }
 
             SettingsPageSectionHeader {

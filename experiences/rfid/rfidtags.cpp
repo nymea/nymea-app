@@ -56,6 +56,8 @@ QVariant RfidTags::data(const QModelIndex &index, int role) const
         return tagInfo->displayName();
     case RoleEnabled:
         return tagInfo->enabled();
+    case RoleAllowStopCharging:
+        return tagInfo->allowStopCharging();
     case RoleTagHash:
         return tagInfo->tagHash();
     case RoleProfile:
@@ -72,6 +74,7 @@ QHash<int, QByteArray> RfidTags::roleNames() const
         {RoleUsername, "username"},
         {RoleDisplayName, "displayName"},
         {RoleEnabled, "enabled"},
+        {RoleAllowStopCharging, "allowStopCharging"},
         {RoleTagHash, "tagHash"},
         {RoleProfile, "profile"}
     };
@@ -170,6 +173,7 @@ void RfidTags::connectTag(RfidTagInfo *tagInfo)
     connect(tagInfo, &RfidTagInfo::usernameChanged, this, [emitChanges]() { emitChanges({RoleUsername}); });
     connect(tagInfo, &RfidTagInfo::displayNameChanged, this, [emitChanges]() { emitChanges({RoleDisplayName}); });
     connect(tagInfo, &RfidTagInfo::enabledChanged, this, [emitChanges]() { emitChanges({RoleEnabled}); });
+    connect(tagInfo, &RfidTagInfo::allowStopChargingChanged, this, [emitChanges]() { emitChanges({RoleAllowStopCharging}); });
     connect(tagInfo, &RfidTagInfo::tagHashChanged, this, [emitChanges]() { emitChanges({RoleTagHash}); });
     connect(tagInfo, &RfidTagInfo::profileChanged, this, [emitChanges]() { emitChanges({RoleProfile}); });
 }

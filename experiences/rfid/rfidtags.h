@@ -19,6 +19,7 @@ public:
         RoleUsername,
         RoleDisplayName,
         RoleEnabled,
+        RoleAllowStopCharging,
         RoleTagHash,
         RoleProfile
     };

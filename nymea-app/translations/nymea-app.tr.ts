@@ -6954,7 +6954,11 @@ Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Select the vehicle to assign when this RFID tag is used. Not set keeps the charger's current vehicle assignment.</source>
+        <source>Select the vehicle to assign when this RFID tag is used. Not set keeps the charger&apos;s current vehicle assignment.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allow stopping charging</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8821,6 +8825,14 @@ Lütfen bunu istediğinizden eminseniz kullanın ve yayınlanmamış kanalları 
     </message>
     <message>
         <source>Return</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RFID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RFID tags</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
