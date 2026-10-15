@@ -4,7 +4,7 @@ nymea-app (1.13.26) bionic; urgency=medium
   * android: Fix zeroconf discovery
   * Energymix: Improve charger and negative houshold behavior
 
- -- jenkins <developer@nymea.io>  Wed, 14 Oct 2026 12:18:47 +0200
+ -- jenkins <developer@nymea.io>  Thu, 15 Oct 2026 14:16:46 +0200
 
 nymea-app (1.13.25) bionic; urgency=medium
 
