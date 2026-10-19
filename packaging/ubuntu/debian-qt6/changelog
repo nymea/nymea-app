@@ -1,3 +1,10 @@
+nymea-app (1.13.28) bionic; urgency=medium
+
+  [ Daniel Frost ]
+  * round average battery level
+
+ -- jenkins <developer@nymea.io>  Mon, 19 Oct 2026 11:05:47 +0200
+
 nymea-app (1.13.26) bionic; urgency=medium
 
   [ Simon Stürz ]
