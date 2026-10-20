@@ -45,3 +45,16 @@ target_link_libraries(tst_platformpermissionsiossettings PRIVATE
 )
 
 add_test(NAME tst_platformpermissionsiossettings COMMAND tst_platformpermissionsiossettings)
+
+
+qt_add_executable(tst_webinterfaceurls
+    auto/tst_webinterfaceurls.cpp
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/configuration/serverconfiguration.cpp
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/configuration/serverconfiguration.h
+)
+target_include_directories(tst_webinterfaceurls PRIVATE ${NYMEA_APP_SOURCE_ROOT}/libnymea-app)
+target_compile_definitions(tst_webinterfaceurls PRIVATE
+    WEB_INTERFACE_URLS_SOURCE="${NYMEA_APP_SOURCE_ROOT}/nymea-app/ui/system/WebInterfaceUrls.js"
+)
+target_link_libraries(tst_webinterfaceurls PRIVATE Qt6::Core Qt6::Qml Qt6::Test)
+add_test(NAME tst_webinterfaceurls COMMAND tst_webinterfaceurls)

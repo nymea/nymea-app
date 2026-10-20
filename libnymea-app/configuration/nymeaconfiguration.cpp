@@ -427,6 +427,9 @@ void NymeaConfiguration::getConfigurationsResponse(int commandId, const QVariant
                                                                     webServerConfigMap.value("authenticationEnabled").toBool(),
                                                                     webServerConfigMap.value("sslEnabled").toBool());
         config->setPublicFolder(webServerConfigMap.value("publicFolder").toString());
+        config->setProxySettings(webServerConfigMap.value("proxyPort").toInt(),
+                                 webServerConfigMap.value("proxySslEnabled").toBool(),
+                                 webServerConfigMap.value("proxyPathPrefix").toString());
         qCInfo(dcNymeaConfiguration) << "WebServer server config:" << config->id() << config->address() << config->port() << config->authenticationEnabled() << config->sslEnabled()
                                      << config->publicFolder();
         m_webServerConfigurations->addConfiguration(config);
@@ -725,6 +728,9 @@ void NymeaConfiguration::notificationReceived(const QVariantMap &notification)
         config->setAuthenticationEnabled(authEnabled);
         config->setSslEnabled(sslEnabled);
         config->setPublicFolder(publicFolder);
+        config->setProxySettings(configMap.value("proxyPort").toInt(),
+                                 configMap.value("proxySslEnabled").toBool(),
+                                 configMap.value("proxyPathPrefix").toString());
         if (!existing) {
             m_webServerConfigurations->addConfiguration(config);
         }

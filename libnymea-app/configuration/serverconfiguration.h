@@ -76,9 +76,17 @@ class WebServerConfiguration: public ServerConfiguration
 {
     Q_OBJECT
     Q_PROPERTY(QString publicFolder READ publicFolder WRITE setPublicFolder NOTIFY publicFolderChanged)
+    Q_PROPERTY(int proxyPort READ proxyPort NOTIFY proxySettingsChanged)
+    Q_PROPERTY(bool proxySslEnabled READ proxySslEnabled NOTIFY proxySettingsChanged)
+    Q_PROPERTY(QString proxyPathPrefix READ proxyPathPrefix NOTIFY proxySettingsChanged)
 public:
     explicit WebServerConfiguration(const QString &id, const QString &address = QString(), int port = 0, bool authEnabled = false, bool sslEnabled = false, QObject *parent = nullptr)
         : ServerConfiguration(id, address, port, authEnabled, sslEnabled, parent) {}
+
+    int proxyPort() const { return m_proxyPort; }
+    bool proxySslEnabled() const { return m_proxySslEnabled; }
+    QString proxyPathPrefix() const { return m_proxyPathPrefix; }
+    void setProxySettings(int port, bool sslEnabled, const QString &pathPrefix);
 
     QString publicFolder() const;
     void setPublicFolder(const QString &publicFolder);
@@ -87,9 +95,13 @@ public:
 
 signals:
     void publicFolderChanged();
+    void proxySettingsChanged();
 
 private:
     QString m_publicFolder;
+    int m_proxyPort = 0;
+    bool m_proxySslEnabled = false;
+    QString m_proxyPathPrefix;
 };
 
 class TunnelProxyServerConfiguration: public ServerConfiguration

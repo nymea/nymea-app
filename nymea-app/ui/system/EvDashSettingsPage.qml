@@ -23,6 +23,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import QtQuick
+import "WebInterfaceUrls.js" as WebInterfaceUrls
 import QtQuick.Controls
 import QtQuick.Layouts
 
@@ -38,14 +39,7 @@ SettingsPageBase {
 
     readonly property string serverIpAddress: resolveServerIpAddress()
     readonly property var webServerConfiguration: resolveWebServerConfiguration()
-    readonly property string dashboardUrl: {
-        if (root.serverIpAddress === "" || root.webServerConfiguration === null) {
-            return ""
-        }
-
-        var protocol = root.webServerConfiguration.sslEnabled ? "https" : "http"
-        return protocol + "://" + root.serverIpAddress + ":" + root.webServerConfiguration.port + "/evdash"
-    }
+    readonly property string dashboardUrl: WebInterfaceUrls.interfaceUrl(root.serverIpAddress, root.webServerConfiguration, "evdash")
 
     function normalizeAddress(address) {
         if (!address)
@@ -94,42 +88,10 @@ SettingsPageBase {
         return address
     }
 
-    function preferredConfiguration(currentConfiguration, candidateConfiguration) {
-        if (currentConfiguration === null)
-            return candidateConfiguration
-
-        // Prefer non-SSL to avoid local self-signed certificate issues.
-        if (currentConfiguration.sslEnabled && !candidateConfiguration.sslEnabled)
-            return candidateConfiguration
-
-        return currentConfiguration
-    }
-
     function resolveWebServerConfiguration() {
         if (!evDashManager.engine || !evDashManager.engine.nymeaConfiguration)
             return null
-
-        var exactMatchConfiguration = null
-        var wildcardConfiguration = null
-
-        for (var i = 0; i < evDashManager.engine.nymeaConfiguration.webServerConfigurations.count; i++) {
-            var configuration = evDashManager.engine.nymeaConfiguration.webServerConfigurations.get(i)
-            console.log("--->", (configuration.sslEnabled ? "https" : "http"), configuration.address, configuration.port)
-
-            if (!configuration || configuration.address === "127.0.0.1")
-                continue
-
-            if (configuration.address === root.serverIpAddress) {
-                exactMatchConfiguration = root.preferredConfiguration(exactMatchConfiguration, configuration)
-                continue
-            }
-
-            if (configuration.address === "0.0.0.0") {
-                wildcardConfiguration = root.preferredConfiguration(wildcardConfiguration, configuration)
-            }
-        }
-
-        return exactMatchConfiguration !== null ? exactMatchConfiguration : wildcardConfiguration
+        return WebInterfaceUrls.selectConfiguration(evDashManager.engine.nymeaConfiguration.webServerConfigurations, root.serverIpAddress)
     }
 
     header: NymeaHeader {

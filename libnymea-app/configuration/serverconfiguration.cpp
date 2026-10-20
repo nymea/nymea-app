@@ -115,10 +115,22 @@ void WebServerConfiguration::setPublicFolder(const QString &publicFolder)
     }
 }
 
+void WebServerConfiguration::setProxySettings(int port, bool sslEnabled, const QString &pathPrefix)
+{
+    if (m_proxyPort == port && m_proxySslEnabled == sslEnabled && m_proxyPathPrefix == pathPrefix)
+        return;
+
+    m_proxyPort = port;
+    m_proxySslEnabled = sslEnabled;
+    m_proxyPathPrefix = pathPrefix;
+    emit proxySettingsChanged();
+}
+
 ServerConfiguration *WebServerConfiguration::clone() const
 {
     WebServerConfiguration *ret = new WebServerConfiguration(id(), address(), port(), authenticationEnabled(), sslEnabled());
     ret->setPublicFolder(m_publicFolder);
+    ret->setProxySettings(m_proxyPort, m_proxySslEnabled, m_proxyPathPrefix);
     return ret;
 }
 
