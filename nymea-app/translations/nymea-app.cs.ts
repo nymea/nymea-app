@@ -2483,6 +2483,14 @@
         <source>anytime</source>
         <translation>vždy</translation>
     </message>
+    <message>
+        <source>only if %1 %2 %3</source>
+        <translation type="unfinished">jen když %1 %2 %3</translation>
+    </message>
+    <message>
+        <source>and %1 %2 %3</source>
+        <translation type="unfinished">a %1 %2 %3</translation>
+    </message>
 </context>
 <context>
     <name>EventLogPage</name>
@@ -5146,6 +5154,94 @@ Použijte hodnotu časového limitu větší nebo rovnou 10 ms.</translation>
         <translation>Konfigurace</translation>
     </message>
     <message>
+        <source>NetworkManager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>systemd-networkd</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 (not running)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ethernet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>WiFi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loopback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bridge</source>
+        <translation type="unfinished">Most</translation>
+    </message>
+    <message>
+        <source>VLAN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TUN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TAP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No carrier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dormant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Carrier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Degraded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Routable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Managed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configured</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Waiting for password</source>
         <translation>Čekání na heslo</translation>
     </message>
@@ -5164,6 +5260,10 @@ Použijte hodnotu časového limitu větší nebo rovnou 10 ms.</translation>
     <message>
         <source>Connected</source>
         <translation>Připojené</translation>
+    </message>
+    <message>
+        <source>Network management</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Current connection state</source>
@@ -5206,6 +5306,22 @@ Použijte hodnotu časového limitu větší nebo rovnou 10 ms.</translation>
         <translation>Zakázat práci v síti?</translation>
     </message>
     <message>
+        <source>Network interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No network interfaces reported by the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All network interfaces are hidden by the filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No IPv4 address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Wired network</source>
         <translation>Kabelová síť</translation>
     </message>
@@ -5224,6 +5340,66 @@ Použijte hodnotu časového limitu větší nebo rovnou 10 ms.</translation>
     <message>
         <source>Disable WiFi?</source>
         <translation>Zakázat WiFi?</translation>
+    </message>
+    <message>
+        <source>This network interface is no longer available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wired connection</source>
+        <translation type="unfinished">Kabelové připojení</translation>
+    </message>
+    <message>
+        <source>WiFi connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Interface</source>
+        <translation type="unfinished">Rozhraní</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">Typ</translation>
+    </message>
+    <message>
+        <source>MAC address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Administrative state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Operational state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Management</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IPv4 addresses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No IPv4 addresses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IPv6 addresses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No IPv6 addresses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Netmask %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>WiFi networks</source>
@@ -7029,16 +7205,13 @@ Chcete pokračovat?</translation>
     <name>S:</name>
     <message>
         <source></source>
-        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
+        <comment>example: &quot;only if temperature &gt; 5&quot;</comment>
         <translation></translation>
     </message>
     <message>
-        <source>only if %1 %2 %3</source>
-        <translation type="unfinished">jen když %1 %2 %3</translation>
-    </message>
-    <message>
-        <source>and %1 %2 %3</source>
-        <translation type="unfinished">a %1 %2 %3</translation>
+        <source></source>
+        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
+        <translation></translation>
     </message>
 </context>
 <context>

@@ -34,7 +34,31 @@ import "qrc:/ui/components"
 SettingsPageBase {
     id: root
     title: qsTr("Network settings")
-    busy: networkManager.loading || d.pendingCallId !== -1
+
+    header: NymeaHeader {
+        text: root.title
+        backButtonVisible: true
+        onBackPressed: pageStack.pop()
+
+        HeaderButton {
+            imageSource: "qrc:/icons/filters.svg"
+            visible: d.interfaceList
+            color: d.filterInterfaces ? Style.accentColor : Style.iconColor
+            onClicked: d.filterInterfaces = !d.filterInterfaces
+        }
+    }
+    busy: networkManager.loading || networkInfo.loading || d.pendingCallId !== -1
+
+    NetworkInfo {
+        id: networkInfo
+        engine: _engine
+    }
+
+    NetworkInterfacesProxy {
+        id: networkInterfacesProxy
+        networkInterfaces: networkInfo.interfaces
+        hiddenKinds: d.filterInterfaces ? ["loopback", "bridge", "unknown"] : []
+    }
 
     NetworkManager {
         id: networkManager
@@ -102,6 +126,136 @@ SettingsPageBase {
     QtObject {
         id: d
         property int pendingCallId: -1
+
+        // Servers without the Network API only offer the NetworkManager based page
+        readonly property bool legacyPage: !networkInfo.loading && !networkInfo.supported
+        readonly property bool interfaceList: !networkInfo.loading && networkInfo.supported
+        property bool filterInterfaces: true
+        readonly property bool networkManagerControls: networkManager.available && (legacyPage || (interfaceList && networkInfo.backend === "networkmanager"))
+    }
+
+    function openWiredNetworkDevice(wiredNetworkDevice) {
+        if (wiredNetworkDevice.state === NetworkDevice.NetworkDeviceStateDisconnected) {
+            pageStack.push(createWiredConnectionPageComponent, {wiredNetworkDevice: wiredNetworkDevice})
+        } else {
+            pageStack.push(currentEthernetConnectionPageComponent, {wiredNetworkDevice: wiredNetworkDevice})
+        }
+    }
+
+    function openWirelessNetworkDevice(wirelessNetworkDevice) {
+        if (wirelessNetworkDevice.state === NetworkDevice.NetworkDeviceStateDisconnected) {
+            networkManager.refreshWifis(wirelessNetworkDevice.interface)
+            pageStack.push(wirelessAccessPointsPageComponent, {wirelessNetworkDevice: wirelessNetworkDevice})
+        } else {
+            pageStack.push(currentApPageComponent, {wirelessNetworkDevice: wirelessNetworkDevice})
+        }
+    }
+
+    function backendToString(backend, available) {
+        var ret;
+        switch (backend) {
+        case "networkmanager":
+            ret = qsTr("NetworkManager");
+            break;
+        case "networkd":
+            ret = qsTr("systemd-networkd");
+            break;
+        case "none":
+        case "":
+            return qsTr("None");
+        default:
+            ret = backend;
+        }
+        return available ? ret : qsTr("%1 (not running)").arg(ret);
+    }
+
+    function interfaceKindToString(kind) {
+        switch (kind) {
+        case "ethernet":
+            return qsTr("Ethernet");
+        case "wifi":
+            return qsTr("WiFi");
+        case "loopback":
+            return qsTr("Loopback");
+        case "bridge":
+            return qsTr("Bridge");
+        case "vlan":
+            return qsTr("VLAN");
+        case "tun":
+            return qsTr("TUN");
+        case "tap":
+            return qsTr("TAP");
+        case "unknown":
+            return qsTr("Unknown type");
+        }
+        return kind;
+    }
+
+    function linkStateToString(linkState) {
+        switch (linkState) {
+        case "up":
+            return qsTr("Up");
+        case "down":
+            return qsTr("Down");
+        case "off":
+            return qsTr("Off");
+        case "no-carrier":
+            return qsTr("No carrier");
+        case "dormant":
+            return qsTr("Dormant");
+        case "carrier":
+            return qsTr("Carrier");
+        case "degraded":
+            return qsTr("Degraded");
+        case "routable":
+            return qsTr("Routable");
+        case "unknown":
+            return qsTr("Unknown");
+        }
+        return linkState;
+    }
+
+    function managementStatusToString(managementStatus) {
+        switch (managementStatus) {
+        case "managed":
+            return qsTr("Managed");
+        case "unmanaged":
+            return qsTr("Unmanaged");
+        case "configured":
+            return qsTr("Configured");
+        case "configuring":
+            return qsTr("Configuring");
+        case "failed":
+            return qsTr("Failed");
+        case "unknown":
+            return qsTr("Unknown");
+        }
+        return managementStatus;
+    }
+
+    function interfaceIcon(kind, operationalState) {
+        var offline = operationalState === "down" || operationalState === "off" || operationalState === "no-carrier";
+        if (kind === "wifi") {
+            return offline ? "qrc:/icons/connections/network-wifi-offline.svg" : "qrc:/icons/connections/network-wifi.svg";
+        }
+        return offline ? "qrc:/icons/connections/network-wired-offline.svg" : "qrc:/icons/connections/network-wired.svg";
+    }
+
+    function prefixLengthToNetmask(prefixLength) {
+        var octets = [];
+        for (var i = 0; i < 4; i++) {
+            var bits = Math.max(0, Math.min(8, prefixLength - i * 8));
+            octets.push(256 - Math.pow(2, 8 - bits));
+        }
+        return octets.join(".");
+    }
+
+    function addressesToString(addresses) {
+        var ret = [];
+        for (var i = 0; i < addresses.length; i++) {
+            ret.push(addresses[i].address + "/" + addresses[i].prefixLength);
+        }
+        return ret.join(", ");
     }
 
     function networkStateToString(networkState, mode) {
@@ -159,7 +313,7 @@ SettingsPageBase {
         Layout.topMargin: app.margins * 6
         Layout.leftMargin: app.margins
         Layout.rightMargin: app.margins
-        visible: !networkManager.available && !networkManager.loading
+        visible: d.legacyPage && !networkManager.available && !networkManager.loading
         spacing: app.margins
         ColorIcon {
             Layout.preferredHeight: Style.iconSize
@@ -176,14 +330,23 @@ SettingsPageBase {
 
     SettingsPageSectionHeader {
         text: qsTr("General")
-        visible: networkManager.available
+        visible: d.interfaceList || d.networkManagerControls
+    }
+
+    NymeaItemDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Network management")
+        subText: root.backendToString(networkInfo.backend, networkInfo.backendAvailable)
+        prominentSubText: false
+        progressive: false
+        visible: d.interfaceList
     }
 
     NymeaItemDelegate {
         Layout.fillWidth: true
         text: qsTr("Current connection state")
         prominentSubText: false
-        visible: networkManager.available
+        visible: d.networkManagerControls
         subText: {
             switch (networkManager.state) {
             case NetworkManager.NetworkManagerStateUnknown:
@@ -234,7 +397,7 @@ SettingsPageBase {
         subText: qsTr("Enable or disable networking altogether")
         prominentSubText: false
         progressive: false
-        visible: networkManager.available
+        visible: d.networkManagerControls
         additionalItem: Switch {
             anchors.verticalCenter: parent.verticalCenter
             checked: networkManager.networkingEnabled
@@ -257,8 +420,42 @@ SettingsPageBase {
     }
 
     SettingsPageSectionHeader {
+        text: qsTr("Network interfaces")
+        visible: d.interfaceList
+    }
+
+    Label {
+        Layout.fillWidth: true
+        Layout.leftMargin: app.margins
+        Layout.rightMargin: app.margins
+        text: networkInfo.interfaces.count === 0
+              ? qsTr("No network interfaces reported by the system.")
+              : qsTr("All network interfaces are hidden by the filter.")
+        wrapMode: Text.WordWrap
+        visible: d.interfaceList && networkInterfacesProxy.count === 0
+    }
+
+    Repeater {
+        model: d.interfaceList ? networkInterfacesProxy : null
+
+        NymeaItemDelegate {
+            Layout.fillWidth: true
+            iconName: root.interfaceIcon(model.kind, model.operationalState)
+            text: model.name
+            prominentSubText: false
+            subText: {
+                var ret = root.interfaceKindToString(model.kind) + " · " + root.linkStateToString(model.operationalState)
+                var addresses = root.addressesToString(model.ipv4Addresses)
+                ret += " · " + (addresses.length > 0 ? addresses : qsTr("No IPv4 address"))
+                return ret;
+            }
+            onClicked: pageStack.push(interfaceDetailsPageComponent, {interfaceIndex: model.interfaceIndex, interfaceName: model.name})
+        }
+    }
+
+    SettingsPageSectionHeader {
         text: qsTr("Wired network")
-        visible: networkManager.available && networkManager.networkingEnabled
+        visible: d.legacyPage && networkManager.available && networkManager.networkingEnabled
     }
 
     Label {
@@ -267,11 +464,11 @@ SettingsPageBase {
         Layout.rightMargin: app.margins
         text: qsTr("No wired network interfaces available")
         wrapMode: Text.WordWrap
-        visible: networkManager.available && networkManager.networkingEnabled && networkManager.wiredNetworkDevices.count == 0
+        visible: d.legacyPage && networkManager.available && networkManager.networkingEnabled && networkManager.wiredNetworkDevices.count == 0
     }
 
     Repeater {
-        model: networkManager.wiredNetworkDevices
+        model: d.legacyPage ? networkManager.wiredNetworkDevices : null
 
         NymeaItemDelegate {
             Layout.fillWidth: true
@@ -290,12 +487,7 @@ SettingsPageBase {
                     return;
                 }
 
-                var wiredNetworkDevice = networkManager.wiredNetworkDevices.getWiredNetworkDevice(model.interface);
-                if (wiredNetworkDevice.state === NetworkDevice.NetworkDeviceStateDisconnected) {
-                    pageStack.push(createWiredConnectionPageComponent, {wiredNetworkDevice: wiredNetworkDevice})
-                } else {
-                    pageStack.push(currentEthernetConnectionPageComponent, {wiredNetworkDevice: wiredNetworkDevice})
-                }
+                root.openWiredNetworkDevice(networkManager.wiredNetworkDevices.getWiredNetworkDevice(model.interface))
             }
         }
     }
@@ -316,7 +508,7 @@ SettingsPageBase {
 
     SettingsPageSectionHeader {
         text: qsTr("Wireless network")
-        visible: networkManager.available && networkManager.networkingEnabled
+        visible: d.networkManagerControls && networkManager.networkingEnabled
     }
 
     NymeaItemDelegate {
@@ -325,11 +517,10 @@ SettingsPageBase {
         subText: qsTr("Enable or disable WiFi")
         progressive: false
         prominentSubText: false
-        visible: networkManager.available && networkManager.networkingEnabled
+        visible: d.networkManagerControls && networkManager.networkingEnabled
         additionalItem: Switch {
             anchors.verticalCenter: parent.verticalCenter
             checked: networkManager.wirelessNetworkingEnabled
-            visible: networkManager.available && networkManager.networkingEnabled
             onClicked: {
                 if (!checked) {
                     root.showNetworkAccessWarning(
@@ -354,11 +545,11 @@ SettingsPageBase {
         Layout.rightMargin: app.margins
         text: qsTr("No wireless network interfaces available")
         wrapMode: Text.WordWrap
-        visible: networkManager.available && networkManager.wirelessNetworkDevices.count == 0
+        visible: d.legacyPage && networkManager.available && networkManager.wirelessNetworkDevices.count == 0
     }
 
     Repeater {
-        model: networkManager.wirelessNetworkDevices
+        model: d.legacyPage ? networkManager.wirelessNetworkDevices : null
         NymeaSwipeDelegate {
             Layout.fillWidth: true
             visible: networkManager.available && networkManager.networkingEnabled
@@ -392,13 +583,147 @@ SettingsPageBase {
             text: model.interface + " (" + model.macAddress + ")"
             subText: networkStateToString(model.state, model.wirelessMode)
             onClicked: {
-                print("*** --", model.wirelessMode)
-                var wirelessNetworkDevice = networkManager.wirelessNetworkDevices.getWirelessNetworkDevice(model.interface);
-                if (wirelessNetworkDevice.state === NetworkDevice.NetworkDeviceStateDisconnected) {
-                    networkManager.refreshWifis(model.interface)
-                    pageStack.push(wirelessAccessPointsPageComponent, {wirelessNetworkDevice: wirelessNetworkDevice})
-                } else {
-                    pageStack.push(currentApPageComponent, {wirelessNetworkDevice: wirelessNetworkDevice})
+                root.openWirelessNetworkDevice(networkManager.wirelessNetworkDevices.getWirelessNetworkDevice(model.interface))
+            }
+        }
+    }
+
+    Component {
+        id: interfaceDetailsPageComponent
+        SettingsPageBase {
+            id: interfaceDetailsPage
+            title: interfaceName
+
+            property int interfaceIndex: 0
+            property string interfaceName
+            property var networkInterface: null
+
+            // Like the legacy page, configuration is only offered while networking is enabled
+            readonly property bool configurable: networkInterface !== null && d.networkManagerControls && networkManager.networkingEnabled
+            readonly property WiredNetworkDevice wiredNetworkDevice: configurable && networkManager.wiredNetworkDevices.count >= 0
+                                                                     ? networkManager.wiredNetworkDevices.getWiredNetworkDevice(networkInterface.name) : null
+            readonly property WirelessNetworkDevice wirelessNetworkDevice: configurable && networkManager.wirelessNetworkDevices.count >= 0
+                                                                           ? networkManager.wirelessNetworkDevices.getWirelessNetworkDevice(networkInterface.name) : null
+
+            function refresh() {
+                for (var i = 0; i < networkInfo.interfaces.count; i++) {
+                    var entry = networkInfo.interfaces.get(i);
+                    if (interfaceIndex > 0 ? entry.index === interfaceIndex : entry.name === interfaceName) {
+                        networkInterface = entry;
+                        interfaceName = entry.name;
+                        return;
+                    }
+                }
+                networkInterface = null;
+            }
+
+            Component.onCompleted: refresh()
+
+            Connections {
+                target: networkInfo.interfaces
+                function onDataChanged() { interfaceDetailsPage.refresh() }
+                function onRowsInserted() { interfaceDetailsPage.refresh() }
+                function onRowsRemoved() { interfaceDetailsPage.refresh() }
+                function onModelReset() { interfaceDetailsPage.refresh() }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.margins: app.margins
+                wrapMode: Text.WordWrap
+                text: qsTr("This network interface is no longer available.")
+                visible: interfaceDetailsPage.networkInterface === null
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Configuration")
+                visible: interfaceDetailsPage.wiredNetworkDevice !== null || interfaceDetailsPage.wirelessNetworkDevice !== null
+            }
+
+            NymeaItemDelegate {
+                Layout.fillWidth: true
+                visible: interfaceDetailsPage.wiredNetworkDevice !== null
+                iconName: "qrc:/icons/connections/network-wired.svg"
+                text: qsTr("Wired connection")
+                subText: interfaceDetailsPage.wiredNetworkDevice
+                         ? (interfaceDetailsPage.wiredNetworkDevice.pluggedIn ? qsTr("Plugged in") : qsTr("Unplugged")) + " - " + root.networkStateToString(interfaceDetailsPage.wiredNetworkDevice.state)
+                         : ""
+                progressive: engine.jsonRpcClient.ensureServerVersion("6.2")
+                onClicked: {
+                    if (engine.jsonRpcClient.ensureServerVersion("6.2")) {
+                        root.openWiredNetworkDevice(interfaceDetailsPage.wiredNetworkDevice)
+                    }
+                }
+            }
+
+            NymeaItemDelegate {
+                Layout.fillWidth: true
+                visible: interfaceDetailsPage.wirelessNetworkDevice !== null
+                iconName: "qrc:/icons/connections/network-wifi.svg"
+                text: qsTr("WiFi connection")
+                subText: interfaceDetailsPage.wirelessNetworkDevice
+                         ? root.networkStateToString(interfaceDetailsPage.wirelessNetworkDevice.state, interfaceDetailsPage.wirelessNetworkDevice.wirelessMode)
+                         : ""
+                onClicked: root.openWirelessNetworkDevice(interfaceDetailsPage.wirelessNetworkDevice)
+            }
+
+            SettingsPageSectionHeader {
+                text: qsTr("Interface")
+                visible: interfaceDetailsPage.networkInterface !== null
+            }
+
+            Repeater {
+                model: interfaceDetailsPage.networkInterface ? [
+                    {label: qsTr("Type"), value: root.interfaceKindToString(interfaceDetailsPage.networkInterface.kind)},
+                    {label: qsTr("MAC address"), value: interfaceDetailsPage.networkInterface.macAddress},
+                    {label: qsTr("Administrative state"), value: root.linkStateToString(interfaceDetailsPage.networkInterface.administrativeState)},
+                    {label: qsTr("Operational state"), value: root.linkStateToString(interfaceDetailsPage.networkInterface.operationalState)},
+                    {label: qsTr("Management"), value: root.managementStatusToString(interfaceDetailsPage.networkInterface.managementStatus)}
+                ].filter(function(row) { return row.value !== ""; }) : []
+
+                NymeaItemDelegate {
+                    Layout.fillWidth: true
+                    text: modelData.label
+                    subText: modelData.value
+                    prominentSubText: false
+                    progressive: false
+                }
+            }
+
+            Repeater {
+                model: interfaceDetailsPage.networkInterface ? [
+                    {title: qsTr("IPv4 addresses"), addresses: interfaceDetailsPage.networkInterface.ipv4Addresses, empty: qsTr("No IPv4 addresses")},
+                    {title: qsTr("IPv6 addresses"), addresses: interfaceDetailsPage.networkInterface.ipv6Addresses, empty: qsTr("No IPv6 addresses")}
+                ] : []
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: 0
+
+                    SettingsPageSectionHeader {
+                        text: modelData.title
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: app.margins
+                        Layout.rightMargin: app.margins
+                        wrapMode: Text.WordWrap
+                        text: modelData.empty
+                        visible: modelData.addresses.length === 0
+                    }
+
+                    Repeater {
+                        model: modelData.addresses
+
+                        NymeaItemDelegate {
+                            Layout.fillWidth: true
+                            text: modelData.address + "/" + modelData.prefixLength
+                            subText: modelData.address.indexOf(":") < 0 ? qsTr("Netmask %1").arg(root.prefixLengthToNetmask(modelData.prefixLength)) : ""
+                            prominentSubText: false
+                            progressive: false
+                        }
+                    }
                 }
             }
         }
