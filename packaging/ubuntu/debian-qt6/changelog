@@ -1,3 +1,12 @@
+nymea-app (1.14.1) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * EnergyView: Improve color consistancy, add view settings
+  * Network: Add networkd backend support
+  * Add websocket proxy handling
+
+ -- jenkins <developer@nymea.io>  Thu, 29 Oct 2026 15:36:12 +0100
+
 nymea-app (1.13.28) bionic; urgency=medium
 
   [ Daniel Frost ]
