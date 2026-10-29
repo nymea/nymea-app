@@ -58,3 +58,23 @@ target_compile_definitions(tst_webinterfaceurls PRIVATE
 )
 target_link_libraries(tst_webinterfaceurls PRIVATE Qt6::Core Qt6::Qml Qt6::Test)
 add_test(NAME tst_webinterfaceurls COMMAND tst_webinterfaceurls)
+
+# NetworkInfo is compiled against stubbed Engine/JsonRpcClient headers to drive the protocol flow
+qt_add_executable(tst_networkinfo
+    auto/networkinfo/tst_networkinfo.cpp
+    auto/networkinfo/stubs/engine.h
+    auto/networkinfo/stubs/jsonrpc/jsonrpcclient.h
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/configuration/networkinfo.cpp
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/configuration/networkinfo.h
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/configuration/networkinterfaces.cpp
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/configuration/networkinterfaces.h
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/configuration/networkinterfacesproxy.cpp
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/configuration/networkinterfacesproxy.h
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/logging.cpp
+)
+target_include_directories(tst_networkinfo BEFORE PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/auto/networkinfo/stubs
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app
+)
+target_link_libraries(tst_networkinfo PRIVATE Qt6::Core Qt6::Test)
+add_test(NAME tst_networkinfo COMMAND tst_networkinfo)

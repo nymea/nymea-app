@@ -103,6 +103,9 @@
 #include "types/repositories.h"
 #include "models/packagesfiltermodel.h"
 #include "configuration/networkmanager.h"
+#include "configuration/networkinfo.h"
+#include "configuration/networkinterfaces.h"
+#include "configuration/networkinterfacesproxy.h"
 #include "types/networkdevices.h"
 #include "types/networkdevice.h"
 #include "scriptsyntaxhighlighter.h"
@@ -360,6 +363,9 @@ void registerQmlTypes() {
     qmlRegisterType<SerialPortsProxy>(uri, 1, 0, "SerialPortsProxy");
 
     qmlRegisterType<NetworkManager>(uri, 1, 0, "NetworkManager");
+    qmlRegisterType<NetworkInfo>(uri, 1, 0, "NetworkInfo");
+    qmlRegisterUncreatableType<NetworkInterfaces>(uri, 1, 0, "NetworkInterfaces", "Get it from NetworkInfo");
+    qmlRegisterType<NetworkInterfacesProxy>(uri, 1, 0, "NetworkInterfacesProxy");
     qmlRegisterUncreatableType<NetworkDevices>(uri, 1, 0, "NetworkDevices", "Get it from NetworkManager");
     qmlRegisterUncreatableType<WiredNetworkDevices>(uri, 1, 0, "WiredNetworkDevices", "Get it from NetworkManager");
     qmlRegisterUncreatableType<WirelessNetworkDevices>(uri, 1, 0, "WirelessNetworkDevices", "Get it from NetworkManager");

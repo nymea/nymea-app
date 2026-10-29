@@ -2484,6 +2484,14 @@
         <source>anytime</source>
         <translation>op elk moment</translation>
     </message>
+    <message>
+        <source>only if %1 %2 %3</source>
+        <translation type="unfinished">alleen als %1 %2 %3</translation>
+    </message>
+    <message>
+        <source>and %1 %2 %3</source>
+        <translation type="unfinished">en %1 %2 %3</translation>
+    </message>
 </context>
 <context>
     <name>EventLogPage</name>
@@ -5090,6 +5098,29 @@ Gebruik een timeout waarde die groter of gelijk is dan 10 ms.</translation>
     </message>
 </context>
 <context>
+    <name>NetworkSettingsFilterPage</name>
+    <message>
+        <source>Network settings options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show all network interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loopback, bridge and unknown network interfaces are hidden otherwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show dangerous options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show options to disable networking or WiFi and to disconnect network interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NetworkSettingsPage</name>
     <message>
         <source>Network settings</source>
@@ -5132,6 +5163,94 @@ Gebruik een timeout waarde die groter of gelijk is dan 10 ms.</translation>
         <translation>Bezig met instellen</translation>
     </message>
     <message>
+        <source>NetworkManager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>systemd-networkd</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 (not running)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ethernet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>WiFi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loopback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bridge</source>
+        <translation type="unfinished">Brug</translation>
+    </message>
+    <message>
+        <source>VLAN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TUN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TAP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished">Uit</translation>
+    </message>
+    <message>
+        <source>No carrier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dormant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Carrier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Degraded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Routable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Managed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configured</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Waiting for password</source>
         <translation>Wachten op het wachtwoord</translation>
     </message>
@@ -5150,6 +5269,10 @@ Gebruik een timeout waarde die groter of gelijk is dan 10 ms.</translation>
     <message>
         <source>Connected</source>
         <translation>Verbonden</translation>
+    </message>
+    <message>
+        <source>Network management</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Current connection state</source>
@@ -5192,6 +5315,22 @@ Gebruik een timeout waarde die groter of gelijk is dan 10 ms.</translation>
         <translation>Netwerkgebruik uitschakelen?</translation>
     </message>
     <message>
+        <source>Network interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No network interfaces reported by the system.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All network interfaces are hidden by the filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No IPv4 address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Wired network</source>
         <translation>Bedraad netwerk</translation>
     </message>
@@ -5210,6 +5349,66 @@ Gebruik een timeout waarde die groter of gelijk is dan 10 ms.</translation>
     <message>
         <source>Disable WiFi?</source>
         <translation>WiFi uitschakelen?</translation>
+    </message>
+    <message>
+        <source>This network interface is no longer available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configuration</source>
+        <translation type="unfinished">Instellingen</translation>
+    </message>
+    <message>
+        <source>Wired connection</source>
+        <translation type="unfinished">Bedrade verbinding</translation>
+    </message>
+    <message>
+        <source>WiFi connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Interface</source>
+        <translation type="unfinished">Interface</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">Type</translation>
+    </message>
+    <message>
+        <source>MAC address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Administrative state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Operational state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Management</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IPv4 addresses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No IPv4 addresses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IPv6 addresses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No IPv6 addresses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Netmask %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>WiFi networks</source>
@@ -7015,16 +7214,13 @@ Wil je doorgaan?</translation>
     <name>S:</name>
     <message>
         <source></source>
-        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
+        <comment>example: &quot;only if temperature &gt; 5&quot;</comment>
         <translation></translation>
     </message>
     <message>
-        <source>only if %1 %2 %3</source>
-        <translation type="unfinished">alleen als %1 %2 %3</translation>
-    </message>
-    <message>
-        <source>and %1 %2 %3</source>
-        <translation type="unfinished">en %1 %2 %3</translation>
+        <source></source>
+        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
+        <translation></translation>
     </message>
 </context>
 <context>

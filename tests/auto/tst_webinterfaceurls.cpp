@@ -36,6 +36,50 @@ private slots:
         QCOMPARE(engine.evaluate("interfaceUrl('192.168.1.10', null, 'debug')").toString(), QString());
     }
 
+    void interfaceAddress()
+    {
+        QJSEngine engine;
+        QVERIFY(loadHelper(engine));
+        QVERIFY(!engine.evaluate(R"(
+            var interfaces = [];
+            var model = {get:function(i) { return interfaces[i]; }};
+            function pick() { model.count = interfaces.length; return interfaceAddress(model); }
+            function iface(kind, state, addresses) {
+                return {kind:kind, operationalState:state, ipv4Addresses:addresses.map(function(a) { return {address:a, prefixLength:24}; })};
+            }
+        )").isError());
+        QCOMPARE(engine.evaluate("pick()").toString(), QString());
+        QCOMPARE(engine.evaluate("interfaceAddress(null)").toString(), QString());
+
+        engine.evaluate("interfaces = [iface('loopback','up',['127.0.0.1']), iface('bridge','up',['10.0.3.1']), iface('wifi','up',['192.168.1.20'])]");
+        QCOMPARE(engine.evaluate("pick()").toString(), QString("192.168.1.20"));
+
+        engine.evaluate("interfaces.push(iface('ethernet','routable',['169.254.1.2','192.168.1.10']))");
+        QCOMPARE(engine.evaluate("pick()").toString(), QString("192.168.1.10"));
+
+        engine.evaluate("interfaces[3].operationalState = 'no-carrier'");
+        QCOMPARE(engine.evaluate("pick()").toString(), QString("192.168.1.20"));
+
+        engine.evaluate("interfaces = [iface('ethernet','up',[]), iface('unknown','up',['172.17.0.1'])]");
+        QCOMPARE(engine.evaluate("pick()").toString(), QString("172.17.0.1"));
+
+        engine.evaluate("interfaces = [iface('loopback','up',['127.0.0.1'])]");
+        QCOMPARE(engine.evaluate("pick()").toString(), QString());
+    }
+
+    void ipv4Address()
+    {
+        QJSEngine engine;
+        QVERIFY(loadHelper(engine));
+        QVERIFY(engine.evaluate("isIpv4Address('192.168.1.10')").toBool());
+        QVERIFY(engine.evaluate("isIpv4Address('127.0.0.1')").toBool());
+        QVERIFY(!engine.evaluate("isIpv4Address('256.1.1.1')").toBool());
+        QVERIFY(!engine.evaluate("isIpv4Address('nymea.local')").toBool());
+        QVERIFY(!engine.evaluate("isIpv4Address('fe80::1')").toBool());
+        QVERIFY(!engine.evaluate("isIpv4Address('')").toBool());
+        QVERIFY(!engine.evaluate("isIpv4Address(undefined)").toBool());
+    }
+
     void selection()
     {
         QJSEngine engine;

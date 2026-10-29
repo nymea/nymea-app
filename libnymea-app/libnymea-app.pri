@@ -57,6 +57,9 @@ SOURCES += \
     $$PWD/types/serialports.cpp \
     $$PWD/types/serialportsproxy.cpp \
     $${PWD}/configuration/networkmanager.cpp \
+    $${PWD}/configuration/networkinfo.cpp \
+    $${PWD}/configuration/networkinterfaces.cpp \
+    $${PWD}/configuration/networkinterfacesproxy.cpp \
     $${PWD}/engine.cpp \
     $${PWD}/models/barseriesadapter.cpp \
     $${PWD}/models/sortfilterproxymodel.cpp \
@@ -232,6 +235,9 @@ HEADERS += \
     $$PWD/types/serialports.h \
     $$PWD/types/serialportsproxy.h \
     $${PWD}/configuration/networkmanager.h \
+    $${PWD}/configuration/networkinfo.h \
+    $${PWD}/configuration/networkinterfaces.h \
+    $${PWD}/configuration/networkinterfacesproxy.h \
     $${PWD}/engine.h \
     $${PWD}/models/barseriesadapter.h \
     $${PWD}/models/sortfilterproxymodel.h \

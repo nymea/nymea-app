@@ -75,6 +75,20 @@ SettingsPageBase {
     }
 
     function resolveServerIpAddress() {
+        // The address the app is connected to is known to be reachable from here
+        var connection = _engine.jsonRpcClient.currentConnection
+        if (connection && (connection.bearerType === Connection.BearerTypeLan || connection.bearerType === Connection.BearerTypeLoopback)
+                && WebInterfaceUrls.isIpv4Address(connection.hostAddress)) {
+            return connection.hostAddress
+        }
+
+        if (networkInfo.supported && !networkInfo.loading && root.interfacesRevision >= 0) {
+            var interfaceAddress = WebInterfaceUrls.interfaceAddress(networkInfo.interfaces)
+            if (interfaceAddress !== "")
+                return interfaceAddress
+        }
+
+        // Servers without the Network API only report addresses through NetworkManager
         var address = root.getActiveIpv4Address(networkManager.wiredNetworkDevices)
         if (address !== "") {
             console.log("--> server IP (LAN):", address)
@@ -115,6 +129,21 @@ SettingsPageBase {
     NetworkManager {
         id: networkManager
         engine: _engine
+    }
+
+    NetworkInfo {
+        id: networkInfo
+        engine: _engine
+    }
+
+    // Bumped on every interface snapshot change so the address binding re-evaluates
+    property int interfacesRevision: 0
+    Connections {
+        target: networkInfo.interfaces
+        function onDataChanged() { root.interfacesRevision++ }
+        function onRowsInserted() { root.interfacesRevision++ }
+        function onRowsRemoved() { root.interfacesRevision++ }
+        function onModelReset() { root.interfacesRevision++ }
     }
 
     Component {
@@ -206,7 +235,7 @@ SettingsPageBase {
         Layout.fillWidth: true
         Layout.margins: Style.margins
         wrapMode: Text.WordWrap
-        visible: evDashManager.enabled && root.serverIpAddress === ""
+        visible: evDashManager.enabled && root.serverIpAddress === "" && !networkInfo.loading
         color: "red"
         text: qsTr("No active LAN IPv4 address was found in the network settings.")
     }
