@@ -2313,6 +2313,10 @@
 <context>
     <name>EnergySettingsPage</name>
     <message>
+        <source>View settings</source>
+        <translation>Ansichtseinstellungen</translation>
+    </message>
+    <message>
         <source>Energy settings</source>
         <translation>Energieeinstellungen</translation>
     </message>
@@ -2335,6 +2339,14 @@
     <message>
         <source>Uncheck individual consumers to hide them from the energy charts.</source>
         <translation>Entferne das Häkchen bei einzelnen Verbrauchern, um diese in den Energieansichten auszublenden.</translation>
+    </message>
+    <message>
+        <source>With a root meter, separately shown EV chargers remain visible in the energy view. This setting determines whether their power is also counted in the household total.</source>
+        <translation>Bei konfiguriertem Hauptzähler bleiben separat angezeigte EV-Ladegeräte in der Energieansicht sichtbar. Diese Einstellung legt fest, ob ihre Leistung auch zum gesamten Haushaltsverbrauch gezählt wird.</translation>
+    </message>
+    <message>
+        <source>Include separate loads in household total</source>
+        <translation>Separate Verbraucher zum Haushaltsgesamtverbrauch zählen</translation>
     </message>
 </context>
 <context>
@@ -2481,14 +2493,6 @@
     <message>
         <source>anytime</source>
         <translation>immer</translation>
-    </message>
-    <message>
-        <source>only if %1 %2 %3</source>
-        <translation type="unfinished">nur wenn %1 %2 %3</translation>
-    </message>
-    <message>
-        <source>and %1 %2 %3</source>
-        <translation type="unfinished">und %1 %2 %3</translation>
     </message>
 </context>
 <context>
@@ -7211,13 +7215,16 @@ Möchtest Du fortfahren?</translation>
     <name>S:</name>
     <message>
         <source></source>
-        <comment>example: &quot;only if temperature &gt; 5&quot;</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <source></source>
         <comment>example: &quot;and temperature &gt; 5&quot;</comment>
         <translation>Beispiel: &quot;und Temperatur &gt; 5&quot;</translation>
+    </message>
+    <message>
+        <source>only if %1 %2 %3</source>
+        <translation type="unfinished">nur wenn %1 %2 %3</translation>
+    </message>
+    <message>
+        <source>and %1 %2 %3</source>
+        <translation type="unfinished">und %1 %2 %3</translation>
     </message>
 </context>
 <context>

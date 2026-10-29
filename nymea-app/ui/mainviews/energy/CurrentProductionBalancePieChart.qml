@@ -57,6 +57,8 @@ ChartView {
         id: evChargers
         engine: _engine
         shownInterfaces: ["evcharger"]
+        hideTagId: "hiddenInEnergyView"
+        hiddenThingIds: [energyManager.rootMeterId]
     }
     Repeater {
         id: evChargerPowerRepeater
@@ -66,7 +68,7 @@ ChartView {
             var count = 0
             for (var i = 0; i < evChargerPowerRepeater.count; i++) {
                 var item = evChargerPowerRepeater.itemAt(i)
-                if (item && item.hasCurrentPower) {
+                if (item && item.hasEnergyMeter && item.hasCurrentPower) {
                     count++
                 }
             }
@@ -76,7 +78,7 @@ ChartView {
             var power = 0
             for (var i = 0; i < evChargerPowerRepeater.count; i++) {
                 var item = evChargerPowerRepeater.itemAt(i)
-                if (item && item.hasCurrentPower) {
+                if (item && item.hasEnergyMeter && item.hasCurrentPower) {
                     power += item.currentPower
                 }
             }
@@ -85,6 +87,8 @@ ChartView {
 
         delegate: Item {
             property Thing thing: evChargers.get(index)
+            property bool hasEnergyMeter: thing && (thing.thingClass.interfaces.indexOf("energymeter") >= 0
+                                                    || thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0)
             property State currentPowerState: thing ? thing.stateByName("currentPower") : null
             property bool hasCurrentPower: currentPowerState !== null
             property double currentPower: currentPowerState ? currentPowerState.value : 0

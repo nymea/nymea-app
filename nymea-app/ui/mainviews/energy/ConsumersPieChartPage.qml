@@ -34,7 +34,6 @@ Page {
 
     property alias energyManager: consumersPieChart.energyManager
     property alias consumers: consumersPieChart.consumers
-    property alias showEvChargers: consumersPieChart.showEvChargers
 
     header: NymeaHeader {
         text: qsTr("Consumers balance")

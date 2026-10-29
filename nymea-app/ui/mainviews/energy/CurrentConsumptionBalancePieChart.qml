@@ -46,6 +46,7 @@ ChartView {
     property bool animationsEnabled: true
     property EnergyManager energyManager: null
     property bool showEvChargers: false
+    property bool includeEvChargersInHousehold: false
 
     ThingsProxy {
         id: batteries
@@ -56,6 +57,8 @@ ChartView {
         id: evChargers
         engine: _engine
         shownInterfaces: ["evcharger"]
+        hideTagId: "hiddenInEnergyView"
+        hiddenThingIds: [energyManager.rootMeterId]
     }
 
     Repeater {
@@ -66,7 +69,7 @@ ChartView {
             var count = 0
             for (var i = 0; i < evChargerPowerRepeater.count; i++) {
                 var item = evChargerPowerRepeater.itemAt(i)
-                if (item && item.hasCurrentPower) {
+                if (item && item.hasEnergyMeter && item.hasCurrentPower) {
                     count++
                 }
             }
@@ -76,7 +79,7 @@ ChartView {
             var power = 0
             for (var i = 0; i < evChargerPowerRepeater.count; i++) {
                 var item = evChargerPowerRepeater.itemAt(i)
-                if (item && item.hasCurrentPower) {
+                if (item && item.hasEnergyMeter && item.hasCurrentPower) {
                     power += item.currentPower
                 }
             }
@@ -85,6 +88,8 @@ ChartView {
 
         delegate: Item {
             property Thing thing: evChargers.get(index)
+            property bool hasEnergyMeter: thing && (thing.thingClass.interfaces.indexOf("energymeter") >= 0
+                                                    || thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0)
             property State currentPowerState: thing ? thing.stateByName("currentPower") : null
             property bool hasCurrentPower: currentPowerState !== null
             property double currentPower: currentPowerState ? currentPowerState.value : 0
@@ -100,7 +105,7 @@ ChartView {
         property double fromStorage: -Math.min(0, energyManager.currentPowerStorage)
         property double fromCar: consumptionPieChart.showEvChargers ? -Math.min(0, evChargerPowerRepeater.currentPower) : 0
         property double toCar: consumptionPieChart.showEvChargers ? Math.max(0, evChargerPowerRepeater.currentPower) : 0
-        property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption - toCar)
+        property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption - (consumptionPieChart.showEvChargers && !consumptionPieChart.includeEvChargersInHousehold ? evChargerPowerRepeater.currentPower : 0))
         property double fromGridToConsumption: Math.min(fromGrid, Math.max(0, householdConsumption - fromStorage - fromCar))
         property double fromProduction: Math.max(0, householdConsumption - fromGridToConsumption - fromStorage - fromCar)
 

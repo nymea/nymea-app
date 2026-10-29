@@ -34,6 +34,7 @@ SettingsPageBase {
     title: qsTr("Energy settings")
 
     property EnergyManager energyManager: null
+    property var energyView: null
 
     property ThingsProxy allConsumers: ThingsProxy {
         engine: _engine
@@ -119,16 +120,27 @@ SettingsPageBase {
     }
 
 
-    // SettingsPageSectionHeader {
-    //     text: qsTr("View settings")
-    // }
+    SettingsPageSectionHeader {
+        text: qsTr("View settings")
+    }
 
-    // SwitchDelegate {
-    //     Layout.fillWidth: true
-    //     text: qsTr("Show EV Charger")
-    //     checked:
-    //     onClicked: {
-    //     }
-    // }
+    Label {
+        Layout.fillWidth: true
+        Layout.leftMargin: Style.margins
+        Layout.rightMargin: Style.margins
+        wrapMode: Text.WordWrap
+        text: qsTr("With a root meter, separately shown EV chargers remain visible in the energy view. This setting determines whether their power is also counted in the household total.")
+    }
+
+    SwitchDelegate {
+        Layout.fillWidth: true
+        text: qsTr("Include separate loads in household total")
+        checked: root.energyView ? root.energyView.includeEvChargersInHousehold : false
+        onToggled: {
+            if (root.energyView) {
+                root.energyView.includeEvChargersInHousehold = checked
+            }
+        }
+    }
 
 }

@@ -2314,6 +2314,10 @@
 <context>
     <name>EnergySettingsPage</name>
     <message>
+        <source>View settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Energy settings</source>
         <translation>Nastavení napájení</translation>
     </message>
@@ -2336,6 +2340,14 @@
     <message>
         <source>Uncheck individual consumers to hide them from the energy charts.</source>
         <translation>Zrušte zaškrtnutí jednotlivých spotřebitelů, pro jejich skrytíi v zobrazeních spotřeby energie.</translation>
+    </message>
+    <message>
+        <source>With a root meter, separately shown EV chargers remain visible in the energy view. This setting determines whether their power is also counted in the household total.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Include separate loads in household total</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2482,14 +2494,6 @@
     <message>
         <source>anytime</source>
         <translation>vždy</translation>
-    </message>
-    <message>
-        <source>only if %1 %2 %3</source>
-        <translation type="unfinished">jen když %1 %2 %3</translation>
-    </message>
-    <message>
-        <source>and %1 %2 %3</source>
-        <translation type="unfinished">a %1 %2 %3</translation>
     </message>
 </context>
 <context>
@@ -7228,13 +7232,16 @@ Chcete pokračovat?</translation>
     <name>S:</name>
     <message>
         <source></source>
-        <comment>example: &quot;only if temperature &gt; 5&quot;</comment>
+        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
         <translation></translation>
     </message>
     <message>
-        <source></source>
-        <comment>example: &quot;and temperature &gt; 5&quot;</comment>
-        <translation></translation>
+        <source>only if %1 %2 %3</source>
+        <translation type="unfinished">jen když %1 %2 %3</translation>
+    </message>
+    <message>
+        <source>and %1 %2 %3</source>
+        <translation type="unfinished">a %1 %2 %3</translation>
     </message>
 </context>
 <context>

@@ -40,11 +40,51 @@ Item {
     property ThingsProxy consumers: null
     property bool animationsEnabled: true
     property bool titleVisible: true
-    property bool showEvChargers: true
+
+    ConsumerColorPalette {
+        id: consumerColors
+        consumers: root.consumers
+        chargers: evChargers
+        onRevisionChanged: Qt.callLater(root.updateConsumers)
+    }
 
     readonly property Thing rootMeter: engine.thingManager.fetchingData ? null : engine.thingManager.things.getThing(energyManager.rootMeterId)
-    readonly property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption - (showEvChargers ? evChargerPowerRepeater.currentPower : 0))
-    onRootMeterChanged: updateConsumers()
+    readonly property double householdConsumption: Math.max(0, energyManager.currentPowerConsumption)
+    onRootMeterChanged: Qt.callLater(updateConsumers)
+
+    function isSeparateEvCharger(thing) {
+        for (var i = 0; i < evChargerPowerRepeater.count; i++) {
+            var item = evChargerPowerRepeater.itemAt(i)
+            if (item && item.thing === thing && item.hasEnergyMeter && item.hasCurrentPower) {
+                return true
+            }
+        }
+        return false
+    }
+
+    function updateConsumerValues() {
+        var summation = 0
+        for (var i = 0; i < d.consumerSlices.length; i++) {
+            var consumerEntry = d.consumerSlices[i]
+            if (!consumerEntry.state || !consumerEntry.slice) {
+                continue
+            }
+            consumerEntry.slice.value = Math.max(0, consumerEntry.state.value)
+            summation += consumerEntry.slice.value
+        }
+        for (var j = 0; j < d.evSlices.length; j++) {
+            var evEntry = d.evSlices[j]
+            if (!evEntry.item || !evEntry.slice) {
+                continue
+            }
+            evEntry.slice.value = Math.max(0, evEntry.item.currentPower)
+            summation += evEntry.slice.value
+        }
+        d.consumersSummation = summation
+        if (d.unknownSlice) {
+            d.unknownSlice.value = Math.max(0, root.householdConsumption - summation)
+        }
+    }
 
     Connections {
         target: engine.thingManager
@@ -58,23 +98,23 @@ Item {
     Connections {
         target: root.consumers
         function onCountChanged() {
-            if (!engine.thingManager.fetchingData) {
-                updateConsumers()
-            }
+            Qt.callLater(root.updateConsumers)
+        }
+        function onRowsInserted() {
+            Qt.callLater(root.updateConsumers)
+        }
+        function onRowsRemoved() {
+            Qt.callLater(root.updateConsumers)
+        }
+        function onModelReset() {
+            Qt.callLater(root.updateConsumers)
         }
     }
 
     Connections {
         target: energyManager
         function onPowerBalanceChanged() {
-            var consumersSummation = 0
-            for (var i = 0; i < consumers.count; i++) {
-                consumersSummation += Math.max(0, consumers.get(i).stateByName("currentPower").value)
-            }
-            d.consumersSummation = consumersSummation;
-            if (d.unknownSlice) {
-                d.unknownSlice.value = Math.max(0, root.householdConsumption - consumersSummation)
-            }
+            root.updateConsumerValues()
         }
     }
 
@@ -82,17 +122,29 @@ Item {
         id: evChargers
         engine: _engine
         shownInterfaces: ["evcharger"]
+        hideTagId: "hiddenInEnergyView"
+        hiddenThingIds: [energyManager.rootMeterId]
     }
 
     Repeater {
         id: evChargerPowerRepeater
         model: evChargers
 
+        property int meteredChargerCount: {
+            var count = 0
+            for (var i = 0; i < evChargerPowerRepeater.count; i++) {
+                var item = evChargerPowerRepeater.itemAt(i)
+                if (item && item.hasEnergyMeter && item.hasCurrentPower) {
+                    count++
+                }
+            }
+            return count
+        }
         property double currentPower: {
             var power = 0
             for (var i = 0; i < evChargerPowerRepeater.count; i++) {
                 var item = evChargerPowerRepeater.itemAt(i)
-                if (item && item.hasCurrentPower) {
+                if (item && item.hasEnergyMeter && item.hasCurrentPower) {
                     power += item.currentPower
                 }
             }
@@ -101,9 +153,35 @@ Item {
 
         delegate: Item {
             property Thing thing: evChargers.get(index)
+            property bool hasEnergyMeter: thing && (thing.thingClass.interfaces.indexOf("energymeter") >= 0
+                                                    || thing.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0)
             property State currentPowerState: thing ? thing.stateByName("currentPower") : null
             property bool hasCurrentPower: currentPowerState !== null
             property double currentPower: currentPowerState ? currentPowerState.value : 0
+        }
+    }
+
+    Connections {
+        target: evChargerPowerRepeater
+        function onCountChanged() {
+            Qt.callLater(root.updateConsumers)
+        }
+        function onCurrentPowerChanged() {
+            root.updateConsumerValues()
+        }
+    }
+
+    Repeater {
+        model: root.consumers
+        delegate: Item {
+            property Thing consumer: root.consumers.get(index)
+            property State currentPowerState: consumer ? consumer.stateByName("currentPower") : null
+            Connections {
+                target: currentPowerState
+                function onValueChanged() {
+                    root.updateConsumerValues()
+                }
+            }
         }
     }
 
@@ -111,9 +189,10 @@ Item {
 
     QtObject {
         id: d
-        property var thingsColorMap: ({})
         property PieSlice unknownSlice: null
         property PieSlice idleSlice: null
+        property var consumerSlices: []
+        property var evSlices: []
 
         property double consumersSummation: 0
     }
@@ -123,28 +202,44 @@ Item {
         consumersBalanceSeries.clear();
         d.unknownSlice = null
         d.idleSlice = null
-        print("cleared consumers pie chart")
+        d.consumerSlices = []
+        d.evSlices = []
 
         if (engine.thingManager.fetchingData) {
             return;
         }
 
 
-        var colorMap = {}
-        var consumersSummation = 0;
-        for (var i = 0; i < consumers.count; i++) {
+        var consumerSlices = []
+        var evSlices = []
+        var consumersSummation = 0
+        for (var i = 0; consumers && i < consumers.count; i++) {
             var consumer = consumers.get(i)
             let currentPowerState = consumer.stateByName("currentPower")
+            if (!currentPowerState || root.isSeparateEvCharger(consumer)) {
+                continue
+            }
             let slice = consumersBalanceSeries.append(consumer.name, Math.max(0, currentPowerState.value))
-            slice.color = NymeaUtils.generateColor(Style.generationBaseColor, i)
+            slice.color = consumerColors.colorFor(consumer)
             slice.borderWidth = 0
             slice.borderColor = slice.color
-            colorMap[consumer] = slice.color
-            currentPowerState.valueChanged.connect(function() {
-                slice.value = Math.max(0, currentPowerState.value)
-            })
+            consumerSlices.push({state: currentPowerState, slice: slice})
             consumersSummation += Math.max(0, currentPowerState.value)
         }
+        for (var j = 0; j < evChargerPowerRepeater.count; j++) {
+            var charger = evChargerPowerRepeater.itemAt(j)
+            if (!charger || !charger.hasEnergyMeter || !charger.hasCurrentPower) {
+                continue
+            }
+            var evSlice = consumersBalanceSeries.append(charger.thing.name, Math.max(0, charger.currentPower))
+            evSlice.color = consumerColors.colorFor(charger.thing)
+            evSlice.borderColor = evSlice.color
+            evSlice.borderWidth = 0
+            evSlices.push({item: charger, slice: evSlice})
+            consumersSummation += evSlice.value
+        }
+        d.consumerSlices = consumerSlices
+        d.evSlices = evSlices
         d.consumersSummation = consumersSummation
 
         if (root.rootMeter) {
@@ -153,14 +248,13 @@ Item {
             d.unknownSlice.color = Style.gray
             d.unknownSlice.borderColor = Style.gray
             d.unknownSlice.borderWidth = 0
-        } else {
+        } else if (consumersSummation <= 0) {
             d.idleSlice = consumersBalanceSeries.append(qsTr(""), 0.00001)
             d.idleSlice.color = Style.tooltipBackgroundColor
             d.idleSlice.borderColor = d.idleSlice.color
             d.idleSlice.borderWidth = 0
         }
 
-        d.thingsColorMap = colorMap
 
         chart.animationOptions = Qt.binding(function() {
             return root.animationsEnabled ? NymeaUtils.chartsAnimationOptions : ChartView.NoAnimation
@@ -176,7 +270,7 @@ Item {
             MouseArea {
             anchors.fill: parent
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("ConsumersPieChartPage.qml"), {energyManager: root.energyManager, consumers: root.consumers, showEvChargers: root.showEvChargers})
+                pageStack.push(Qt.resolvedUrl("ConsumersPieChartPage.qml"), {energyManager: root.energyManager, consumers: root.consumers})
             }
         }
     }
@@ -225,7 +319,7 @@ Item {
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: 0
-                    visible: root.rootMeter
+                    visible: root.rootMeter || (root.consumers && root.consumers.count > 0) || evChargerPowerRepeater.meteredChargerCount > 0
                     Label {
                         text: qsTr("Total")
                         font: Style.smallFont
@@ -239,7 +333,7 @@ Item {
                         // * in a standard setup, the energy manager would know everything and the consumption will always be greater than the sum of all individual consumers
                         // * if there is a producer which is unknown to nymea though, it will decrease the consumption on the root meter so it may be smaller than the
                         //   summation of all consumers. In this particular chart that would be nonsense so in the end we'll only lose the "unknown" power consumption in such a setup
-                        property double finalTotal: Math.max(root.householdConsumption, d.consumersSummation)
+                        property double finalTotal: root.rootMeter ? Math.max(root.householdConsumption, d.consumersSummation) : d.consumersSummation
                         text: "%1 %2"
                         .arg((finalTotal / (finalTotal > 1000 ? 1000 : 1)).toFixed(1))
                         .arg(finalTotal > 1000 ? "kW" : "W")
@@ -274,10 +368,38 @@ Item {
                             font: Style.extraSmallFont
                         }
                         Label {
-                            color: d.thingsColorMap.hasOwnProperty(consumer) ? d.thingsColorMap[consumer] : "transparent"
+                            color: consumerColors.colorFor(consumer)
                             text: "%1 %2"
                             .arg((consumerDelegate.value / (consumerDelegate.value > 1000 ? 1000 : 1)).toFixed(1))
                             .arg(consumerDelegate.value > 1000 ? "kW" : "W")
+                            Layout.fillWidth: true
+                            horizontalAlignment: Text.AlignHCenter
+                            font: Style.smallFont
+                        }
+                    }
+                }
+
+                Repeater {
+                    model: evChargers
+                    delegate: ColumnLayout {
+                        width: parent ? parent.width : 0
+                        spacing: 0
+                        property Thing charger: evChargers.get(index)
+                        property State currentPowerState: charger ? charger.stateByName("currentPower") : null
+                        property bool metered: charger && (charger.thingClass.interfaces.indexOf("energymeter") >= 0 || charger.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0)
+                        property double value: currentPowerState ? Math.max(0, currentPowerState.value) : 0
+                        visible: metered && value > 0 && (!root.consumers || root.consumers.indexOf(charger) < 0)
+
+                        Label {
+                            text: parent.charger ? parent.charger.name : ""
+                            Layout.fillWidth: true
+                            horizontalAlignment: Text.AlignHCenter
+                            font: Style.extraSmallFont
+                        }
+                        Label {
+                            color: consumerColors.colorFor(parent.charger)
+                            text: "%1 %2".arg((parent.value / (parent.value > 1000 ? 1000 : 1)).toFixed(1))
+                                          .arg(parent.value > 1000 ? "kW" : "W")
                             Layout.fillWidth: true
                             horizontalAlignment: Text.AlignHCenter
                             font: Style.smallFont

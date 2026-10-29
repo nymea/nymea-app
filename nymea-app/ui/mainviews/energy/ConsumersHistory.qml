@@ -36,6 +36,11 @@ Item {
 
     property EnergyManager energyManager: null
     property ThingsProxy consumers: null
+
+    ConsumerColorPalette {
+        id: consumerColors
+        consumers: root.consumers
+    }
     property bool titleVisible: true
 
     PowerBalanceLogs {
@@ -552,7 +557,7 @@ Item {
                             series = chartView.createSeries(ChartView.SeriesTypeArea, thing.name, dateTimeAxis, valueAxis)
                             lowerSeries = lineSeriesComponent.createObject(series)
                             upperSeries = lineSeriesComponent.createObject(series)
-                            series.color = NymeaUtils.generateColor(Style.generationBaseColor, index)
+                            series.color = Qt.binding(function() { return consumerColors.colorFor(thing) })
                             series.opacity = Qt.binding(function() {
                                 return d.selectedSeries == null || d.selectedSeries == series ? 1 : 0.3
                             })
@@ -598,7 +603,7 @@ Item {
                             ColorIcon {
                                 name: app.interfacesToIcon(legendDelegate.thing.thingClass.interfaces)
                                 size: Style.smallIconSize
-                                color: index >= 0 ? NymeaUtils.generateColor(Style.generationBaseColor, index) : "white"
+                                color: consumerColors.colorFor(legendDelegate.thing)
                             }
                             Label {
                                 text: legendDelegate.thing.name
@@ -788,7 +793,7 @@ Item {
                                 Rectangle {
                                     width: Style.extraSmallFont.pixelSize
                                     height: width
-                                    color: index >= 0 ? NymeaUtils.generateColor(Style.generationBaseColor, index) : "white"
+                                    color: consumerColors.colorFor(chartItem.thing)
                                 }
 
                                 Label {

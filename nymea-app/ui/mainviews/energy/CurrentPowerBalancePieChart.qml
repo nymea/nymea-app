@@ -43,6 +43,17 @@ Item {
     property EnergyManager energyManager: null
     property ThingsProxy consumers: null
     property bool showEvChargers: true
+    property bool includeEvChargersInHousehold: false
+
+    ConsumerColorPalette {
+        id: consumerColors
+        consumers: root.consumers
+        chargers: evChargers
+        onRevisionChanged: {
+            Qt.callLater(root.updateConsumerSlices)
+            Qt.callLater(evChargerChart.rebuildSlices)
+        }
+    }
 
     property string gridIcon
     property string pvIcon
@@ -53,6 +64,9 @@ Item {
         Qt.callLater(evChargerChart.updateSliceValues)
         Qt.callLater(updateConsumerSlices)
     }
+    onIncludeEvChargersInHouseholdChanged: Qt.callLater(updateConsumerSlices)
+    onShowEvChargersChanged: Qt.callLater(updateConsumerSlices)
+    onRootMeterConfiguredChanged: Qt.callLater(updateConsumerSlices)
 
     readonly property double gridIn: Math.max(0, energyManager.currentPowerAcquisition)
     readonly property double gridOut: Math.max(0, -energyManager.currentPowerAcquisition)
@@ -62,11 +76,24 @@ Item {
     readonly property double evIn: showEvChargers ? Math.max(0, evChargerPowerRepeater.currentPower) : 0
     readonly property double evOut: showEvChargers ? Math.max(0, -evChargerPowerRepeater.currentPower) : 0
     readonly property double homeIn: Math.max(0, householdConsumption)
-    readonly property double calculatedHouseholdConsumption: energyManager.currentPowerConsumption - (showEvChargers ? evChargerPowerRepeater.currentPower : 0)
+    readonly property double calculatedHouseholdConsumption: energyManager.currentPowerConsumption - (rootMeterConfigured && showEvChargers && !includeEvChargersInHousehold ? evChargerPowerRepeater.currentPower : 0)
     readonly property bool householdConsumptionIsConclusive: calculatedHouseholdConsumption >= 0
     readonly property double householdConsumption: Math.max(0, calculatedHouseholdConsumption)
     readonly property double visiblePowerThreshold: 0.05
     readonly property bool flowAnimationsEnabled: animationsEnabled && (!pauseParticleEmittersOnWindowFocusChanged || Qt.application.active)
+
+    function isSeparateEvCharger(thing) {
+        if (!root.rootMeterConfigured || !root.showEvChargers || !thing) {
+            return false
+        }
+        for (var i = 0; i < evChargerPowerRepeater.count; i++) {
+            var item = evChargerPowerRepeater.itemAt(i)
+            if (item && item.thing === thing && item.hasEnergyMeter && item.hasCurrentPower) {
+                return true
+            }
+        }
+        return false
+    }
 
     function updateConsumerUnknownSlice() {
         var consumersSummation = 0
@@ -74,10 +101,19 @@ Item {
             for (var i = 0; i < root.consumers.count; i++) {
                 let consumer = root.consumers.get(i)
                 let currentPowerState = consumer ? consumer.stateByName("currentPower") : null
-                if (currentPowerState) {
+                if (currentPowerState && !root.isSeparateEvCharger(consumer)) {
                     consumersSummation += Math.max(0, currentPowerState.value)
                 }
             }
+        }
+
+        for (var j = 0; j < d.evConsumerSlices.length; j++) {
+            var entry = d.evConsumerSlices[j]
+            if (!entry.item || !entry.slice) {
+                continue
+            }
+            entry.slice.value = Math.max(0, entry.item.currentPower)
+            consumersSummation += entry.slice.value
         }
 
         d.consumersSummation = consumersSummation
@@ -133,21 +169,20 @@ Item {
         consumptionSeries.clear()
         d.unknownConsumerSlice = null
         d.idleConsumerSlice = null
+        d.evConsumerSlices = []
 
-        var colorMap = {}
         var consumersSummation = 0
         for (var i = 0; i < root.consumers.count; i++) {
             let consumer = root.consumers.get(i)
             let currentPowerState = consumer ? consumer.stateByName("currentPower") : null
-            if (!consumer || !currentPowerState) {
+            if (!consumer || !currentPowerState || root.isSeparateEvCharger(consumer)) {
                 continue
             }
 
             let slice = consumptionSeries.append(consumer.name, Math.max(0, currentPowerState.value))
-            slice.color = NymeaUtils.generateColor(Style.generationBaseColor, i)
+            slice.color = consumerColors.colorFor(consumer)
             slice.borderColor = slice.color
             slice.borderWidth = 0
-            colorMap[consumer] = slice.color
             currentPowerState.valueChanged.connect(function() {
                 slice.value = Math.max(0, currentPowerState.value)
                 root.updateConsumerUnknownSlice()
@@ -155,8 +190,24 @@ Item {
             consumersSummation += Math.max(0, currentPowerState.value)
         }
 
+        if (root.rootMeterConfigured && root.showEvChargers && root.includeEvChargersInHousehold) {
+            var evSlices = []
+            for (var j = 0; j < evChargerPowerRepeater.count; j++) {
+                var charger = evChargerPowerRepeater.itemAt(j)
+                if (!charger || !charger.hasEnergyMeter || !charger.hasCurrentPower) {
+                    continue
+                }
+                var evSlice = consumptionSeries.append(charger.thing.name, Math.max(0, charger.currentPower))
+                evSlice.color = consumerColors.colorFor(charger.thing)
+                evSlice.borderColor = evSlice.color
+                evSlice.borderWidth = 0
+                evSlices.push({item: charger, slice: evSlice})
+                consumersSummation += evSlice.value
+            }
+            d.evConsumerSlices = evSlices
+        }
+
         d.consumersSummation = consumersSummation
-        d.consumersColorMap = colorMap
 
         if (root.rootMeterConfigured) {
             d.unknownConsumerSlice = consumptionSeries.append(qsTr("Unknown"), Math.max(0, root.householdConsumption - consumersSummation))
@@ -183,7 +234,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("CurrentPowerBalancePage.qml"), {energyManager: root.energyManager, consumers: root.consumers, showEvChargers: root.showEvChargers})
+                pageStack.push(Qt.resolvedUrl("CurrentPowerBalancePage.qml"), {energyManager: root.energyManager, consumers: root.consumers, producers: producers, showEvChargers: root.showEvChargers, includeEvChargersInHousehold: root.includeEvChargersInHousehold})
             }
         }
     }
@@ -192,7 +243,7 @@ Item {
         id: d
         property PieSlice unknownConsumerSlice: null
         property PieSlice idleConsumerSlice: null
-        property var consumersColorMap: ({})
+        property var evConsumerSlices: []
         property double consumersSummation: 0
 
         function formatValue(value) {
@@ -220,7 +271,9 @@ Item {
         property color productionFlowColor: Style.powerReturnColor
         property color storageChargingFlowColor: Style.powerBatteryChargingColor
         property color storageDischargingFlowColor: Style.powerBatteryDischargingColor
-        property color evChargerFlowColor: app.interfaceToColor("evcharger")
+        property color evChargerFlowColor: evChargerPowerRepeater.meteredChargerCount === 1
+                                          ? consumerColors.colorFor(evChargerPowerRepeater.singleMeteredCharger)
+                                          : app.interfaceToColor("evcharger")
         property color householdFlowColor: Style.powerSelfProductionConsumptionColor
         property double minimumFlowPower: 100
         property double maximumFlowPower: 5000
@@ -291,6 +344,8 @@ Item {
         id: evChargers
         engine: _engine
         shownInterfaces: ["evcharger"]
+        hideTagId: "hiddenInEnergyView"
+        hiddenThingIds: [energyManager.rootMeterId]
     }
     ThingsProxy {
         id: electricVehicles
@@ -321,6 +376,18 @@ Item {
                 }
             }
             return count
+        }
+        property Thing singleMeteredCharger: {
+            if (meteredChargerCount !== 1) {
+                return null
+            }
+            for (var i = 0; i < evChargerPowerRepeater.count; i++) {
+                var item = evChargerPowerRepeater.itemAt(i)
+                if (item && item.hasEnergyMeter) {
+                    return item.thing
+                }
+            }
+            return null
         }
         property int connectedVehicleCount: {
             var count = 0
@@ -369,6 +436,16 @@ Item {
                 return null
             }
             property State batteryLevelState: connectedVehicle ? connectedVehicle.stateByName("batteryLevel") : null
+        }
+    }
+
+    Connections {
+        target: evChargerPowerRepeater
+        function onCountChanged() {
+            Qt.callLater(root.updateConsumerSlices)
+        }
+        function onCurrentPowerChanged() {
+            root.updateConsumerUnknownSlice()
         }
     }
 
@@ -448,7 +525,9 @@ Item {
             startPoint: d.consumptionPos
             endPoint: d.evChargerPos
             reverse: evChargerPowerRepeater.currentPower < 0
-            flowColor: reverse ? d.storageDischargingFlowColor : d.evChargerFlowColor
+            flowColor: evChargerPowerRepeater.meteredChargerCount === 1
+                       ? d.evChargerFlowColor
+                       : (reverse ? d.storageDischargingFlowColor : d.evChargerFlowColor)
             backgroundColor: Qt.rgba(flowColor.r, flowColor.g, flowColor.b, 0.12)
             lineWidth: d.signedFlowWidth(evChargerPowerRepeater.currentPower)
             backgroundLineWidth: d.signedFlowBackgroundWidth(evChargerPowerRepeater.currentPower)
@@ -695,7 +774,7 @@ Item {
                                 font: Style.extraSmallFont
                             }
                             Label {
-                                color: d.consumersColorMap.hasOwnProperty(parent.consumer) ? d.consumersColorMap[parent.consumer] : "transparent"
+                                color: consumerColors.colorFor(parent.consumer)
                                 text: "%1 %2"
                                 .arg((parent.value / (parent.value > 1000 ? 1000 : 1)).toFixed(1))
                                 .arg(parent.value > 1000 ? "kW" : "W")
@@ -900,7 +979,7 @@ Item {
                             continue
                         }
                         var slice = evChargerSeries.append(item && item.thing ? item.thing.name : "", Math.max(0.00001, Math.abs(item ? item.currentPower : 0)))
-                        slice.color = NymeaUtils.generateColor(Style.generationBaseColor, slices.length)
+                        slice.color = consumerColors.colorFor(item.thing)
                         slice.borderColor = slice.color
                         slice.borderWidth = 0
                         slices.push(slice)
@@ -934,7 +1013,7 @@ Item {
                             continue
                         }
                         chargerSlices[sliceIndex].value = Math.max(0.00001, Math.abs(item.currentPower))
-                        chargerSlices[sliceIndex].color = NymeaUtils.generateColor(Style.generationBaseColor, sliceIndex)
+                        chargerSlices[sliceIndex].color = consumerColors.colorFor(item.thing)
                         chargerSlices[sliceIndex].borderColor = chargerSlices[sliceIndex].color
                         sliceIndex++
                     }
