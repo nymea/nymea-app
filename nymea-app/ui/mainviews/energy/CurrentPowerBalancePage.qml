@@ -36,6 +36,7 @@ Page {
     property ThingsProxy consumers: null
     property ThingsProxy producers: null
     property bool showEvChargers: false
+    property bool includeEvChargersInHousehold: false
 
     header: NymeaHeader {
         text: qsTr("My energy mix")
@@ -45,14 +46,14 @@ Page {
 
     GridLayout {
         anchors.fill: parent
-        columns: app.landscape ? 2 : 1
+        columns: app.landscape && root.producers && root.producers.count > 0 ? 2 : 1
 
         CurrentConsumptionBalancePieChart {
             Layout.fillWidth: true
             Layout.fillHeight: true
             energyManager: root.energyManager
             showEvChargers: root.showEvChargers
-            visible: root.producers ? root.producers.count > 0 : false
+            includeEvChargersInHousehold: root.includeEvChargersInHousehold
             animationsEnabled: Qt.application.active
         }
         CurrentProductionBalancePieChart {

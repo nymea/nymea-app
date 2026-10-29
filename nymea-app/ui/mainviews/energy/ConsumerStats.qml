@@ -36,6 +36,11 @@ StatsBase {
 
     property EnergyManager energyManager: null
     property ThingsProxy consumers: null
+
+    ConsumerColorPalette {
+        id: consumerColors
+        consumers: root.consumers
+    }
     property bool titleVisible: true
 
     QtObject {
@@ -186,7 +191,7 @@ StatsBase {
 
                 barSet = barSeries.append(consumerDelegate.thing.name, values)
                 barSet.color = Qt.binding(function() {
-                    return NymeaUtils.generateColor(Style.generationBaseColor, index, d.selectedThing == null || consumerDelegate.thing == d.selectedThing ? 1 : 0.3)
+                    return consumerColors.colorFor(consumerDelegate.thing, d.selectedThing == null || consumerDelegate.thing == d.selectedThing ? 1 : 0.3)
                 })
                 barSet.borderColor = Qt.binding(function(){ return barSet.color})
                 barSet.borderWidth = 0
@@ -389,7 +394,7 @@ StatsBase {
                             ColorIcon {
                                 name: app.interfacesToIcon(legendDelegate.thing.thingClass.interfaces)
                                 size: Style.smallIconSize
-                                color: index >= 0 ? NymeaUtils.generateColor(Style.generationBaseColor, index) : "white"
+                                color: consumerColors.colorFor(legendDelegate.thing)
                             }
                             Label {
                                 text: legendDelegate.thing.name
@@ -601,7 +606,7 @@ StatsBase {
                                 Rectangle {
                                     width: Style.extraSmallFont.pixelSize
                                     height: width
-                                    color: NymeaUtils.generateColor(Style.generationBaseColor, model.indexInModel)
+                                    color: consumerColors.colorFor(model.consumer)
                                 }
                                 Label {
                                     text: "%1: %2 kWh".arg(model.consumer.name).arg(model.value)

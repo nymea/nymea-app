@@ -28,6 +28,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import QtCharts
+import QtCore
 import Nymea
 
 import "../components"
@@ -44,15 +45,70 @@ MainViewBase {
             iconSource: "qrc:/icons/configure.svg",
             color: Style.iconColor,
             trigger: function() {
-                pageStack.push("energy/EnergySettingsPage.qml", {energyManager: energyManager});
-            },
-            visible: energyMeters.count > 1 || allConsumers.count - Math.min(energyMeters.count, 1) > 0
+                pageStack.push("energy/EnergySettingsPage.qml", {energyManager: energyManager, energyView: root});
+            }
         }
     ]
 
     EnergyManager {
         id: energyManager
         engine: _engine
+    }
+
+    property bool includeEvChargersInHousehold: false
+    readonly property string energyHostUuid: engine.jsonRpcClient.currentHost ? engine.jsonRpcClient.currentHost.uuid : ""
+    property bool energySettingsReady: false
+    property bool loadingEnergySettings: false
+
+    function loadEnergySettings() {
+        loadingEnergySettings = true
+        var savedValue = energyHostUuid
+                ? energyViewSettings.value(energyHostUuid + "/includeEvChargersInHousehold", false)
+                : false
+        includeEvChargersInHousehold = savedValue === true || savedValue === "true" || savedValue === 1
+        loadingEnergySettings = false
+    }
+
+    onEnergyHostUuidChanged: {
+        if (energySettingsReady) {
+            loadEnergySettings()
+        }
+    }
+    onIncludeEvChargersInHouseholdChanged: {
+        if (energySettingsReady && !loadingEnergySettings && energyHostUuid) {
+            energyViewSettings.setValue(energyHostUuid + "/includeEvChargersInHousehold", includeEvChargersInHousehold)
+            energyViewSettings.sync()
+        }
+    }
+    Component.onCompleted: {
+        loadEnergySettings()
+        energySettingsReady = true
+    }
+
+    Settings {
+        id: energyViewSettings
+        category: "EnergyView"
+    }
+
+    ThingsProxy {
+        id: evChargers
+        engine: _engine
+        shownInterfaces: ["evcharger"]
+        hideTagId: "hiddenInEnergyView"
+        hiddenThingIds: [energyManager.rootMeterId]
+    }
+
+    readonly property int meteredEvChargerCount: {
+        var count = 0
+        for (var i = 0; i < evChargers.count; i++) {
+            var charger = evChargers.get(i)
+            if (charger && charger.stateByName("currentPower") &&
+                    (charger.thingClass.interfaces.indexOf("energymeter") >= 0 ||
+                     charger.thingClass.interfaces.indexOf("smartmeterconsumer") >= 0)) {
+                count++
+            }
+        }
+        return count
     }
 
 
@@ -112,6 +168,7 @@ MainViewBase {
                     Layout.preferredHeight: implicitHeight
                     energyManager: energyManager
                     consumers: consumers
+                    includeEvChargersInHousehold: root.includeEvChargersInHousehold
                     visible: rootMeter != null || producers.count > 0
                     animationsEnabled: root.isCurrentItem && flickable.contentY < height
 //                    onAnimationsEnabledChanged: print("animations for power balance chart", animationsEnabled ? "enabled" : "disabled")
@@ -135,7 +192,7 @@ MainViewBase {
                     Layout.fillWidth: true
                     Layout.preferredHeight: width
                     energyManager: energyManager
-                    visible: consumers.count > 0
+                    visible: consumers.count > 0 || meteredEvChargerCount > 0
                     consumers: consumers
                     animationsEnabled: Qt.application.active && root.isCurrentItem && flickable.contentY < y + height && flickable.contentY + flickable.height > y
                     onAnimationsEnabledChanged: print("animations for consumer balance chart", animationsEnabled ? "enabled" : "disabled")
