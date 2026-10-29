@@ -44,7 +44,7 @@
     </message>
     <message>
         <source>Start with configuring your zones.</source>
-        <translation>Beginne damit Zonen einzurichten.</translation>
+        <translation>Beginne damit, Zonen einzurichten.</translation>
     </message>
     <message>
         <source>Add zone</source>
@@ -188,7 +188,7 @@
     </message>
     <message>
         <source>WebSocket server interfaces</source>
-        <translation>WebSocket server Schnittstellen</translation>
+        <translation>WebSocket Server Schnittstellen</translation>
     </message>
     <message>
         <source>Remote connection server interfaces</source>
@@ -219,7 +219,7 @@
     </message>
     <message>
         <source>Start with configuring your zones.</source>
-        <translation>Beginne damit Zonen einzurichten.</translation>
+        <translation>Beginne damit, Zonen einzurichten.</translation>
     </message>
     <message>
         <source>Add zone</source>
@@ -274,7 +274,7 @@
     </message>
     <message>
         <source>Unhealthy for sensitive groups</source>
-        <translation>Ungesund für sensitive Gruppen</translation>
+        <translation>Ungesund für empfindliche Gruppen</translation>
     </message>
     <message>
         <source>Very unhealthy</source>
@@ -446,7 +446,7 @@
     </message>
     <message>
         <source>Number of backups to keep (Select 0 to keep all backups)</source>
-        <translation>Anzahl der Backup die behalten werden sollen (Stelle 0 ein um alle zu behalten)</translation>
+        <translation>Anzahl der Backups, die behalten werden sollen (Stelle 0 ein, um alle zu behalten)</translation>
     </message>
     <message>
         <source>Automatic backups</source>
@@ -543,7 +543,7 @@
     </message>
     <message>
         <source>Do you really want to restore the backup file %1? All current settings will be removed and the server will reboot once finished.</source>
-        <translation>Möchten Sie die Sicherungsdatei %1 wirklich wiederherstellen? Alle aktuellen Einstellungen werden entfernt und der Server wird nach Abschluss des Vorgangs neu gestartet.</translation>
+        <translation>Möchtest Du die Sicherungsdatei %1 wirklich wiederherstellen? Alle aktuellen Einstellungen werden entfernt und der Server wird nach Abschluss des Vorgangs neu gestartet.</translation>
     </message>
     <message>
         <source>Upload and restore backup?</source>
@@ -551,7 +551,7 @@
     </message>
     <message>
         <source>Do you really want to upload and restore the backup file %1? All current settings will be removed and the server will reboot once finished.</source>
-        <translation>Möchten Sie die Sicherungsdatei %1 wirklich hochladen und wiederherstellen? Alle aktuellen Einstellungen werden gelöscht und der Server wird nach Abschluss des Vorgangs neu gestartet.</translation>
+        <translation>Möchtest Du die Sicherungsdatei %1 wirklich hochladen und wiederherstellen? Alle aktuellen Einstellungen werden gelöscht und der Server wird nach Abschluss des Vorgangs neu gestartet.</translation>
     </message>
     <message>
         <source>Preparing backup download...</source>
@@ -582,7 +582,7 @@
     </message>
     <message>
         <source>Scan a code to see it appearing here.</source>
-        <translation>Scanne einen Code um ihn hier zu sehen.</translation>
+        <translation>Scanne einen Code, um ihn hier zu sehen.</translation>
     </message>
     <message>
         <source>Last scan</source>
@@ -695,7 +695,7 @@
     </message>
     <message>
         <source>Press a button on the switch to see logs appearing here.</source>
-        <translation>Drücke einen Knopf auf dem Schalter um die Ereignisse hier anzuzeigen.</translation>
+        <translation>Drücke einen Knopf auf dem Schalter, um die Ereignisse hier anzuzeigen.</translation>
     </message>
 </context>
 <context>
@@ -1048,11 +1048,11 @@
     </message>
     <message>
         <source>In order to use nymea, you will need to install nymea:core on a computer in your network. This can be a Raspberry Pi or any generic Linux computer.</source>
-        <translation>Um nymea zu nutzen wird eine nymea:core Installation auf einem Computer in Deinem Netzwerk benötigt. Dies könnte ein Raspberry Pi oder ein normaler Linux PC sein.</translation>
+        <translation>Um nymea zu nutzen, wird eine nymea:core Installation auf einem Computer in Deinem Netzwerk benötigt. Dies könnte ein Raspberry Pi oder ein normaler Linux PC sein.</translation>
     </message>
     <message>
         <source>Please follow the installation instructions on %1 to install a nymea system.</source>
-        <translation>Bitte befolge die Installationsanweisungen unter %1 um ein nymea System zu installieren.</translation>
+        <translation>Bitte befolge die Installationsanweisungen unter %1, um ein nymea System zu installieren.</translation>
     </message>
     <message>
         <source>Connectivity</source>
@@ -1100,7 +1100,7 @@
     </message>
     <message>
         <source>Please wait while your nymea system is being discovered.</source>
-        <translation>Bitte warte einen Moment während nach deinem nymea System gesucht wird.</translation>
+        <translation>Bitte warte einen Moment, während nach deinem nymea System gesucht wird.</translation>
     </message>
     <message>
         <source>Info</source>
@@ -1116,7 +1116,7 @@
     </message>
     <message>
         <source>Connect the nymea system to your network using an ethernet cable and turn it on.</source>
-        <translation>Benutze ein Netzwerkkabel um Dein nymea System zu verbinden und Schalte es dann ein.</translation>
+        <translation>Benutze ein Netzwerkkabel, um Dein nymea System zu verbinden und schalte es dann ein.</translation>
     </message>
     <message>
         <source>Wireless connection</source>
@@ -1124,7 +1124,7 @@
     </message>
     <message>
         <source>Turn the nymea system on by connecting the power cable and wait for it to start up.</source>
-        <translation>Schalte Dein nymea System ein und warte einen Moment bis es gestartet ist.</translation>
+        <translation>Schalte Dein nymea System ein und warte einen Moment, bis es gestartet ist.</translation>
     </message>
     <message>
         <source>Wireless setup</source>
@@ -1148,7 +1148,7 @@
     </message>
     <message>
         <source>Select the WiFi you want to use.</source>
-        <translation>Wähle das WLAN aus welches Du benutzen möchtest.</translation>
+        <translation>Wähle das WLAN aus, welches Du benutzen möchtest.</translation>
     </message>
     <message>
         <source>Hidden Network</source>
@@ -1156,7 +1156,7 @@
     </message>
     <message>
         <source>Hidden WiFi</source>
-        <translation>Verstecktest WLAN</translation>
+        <translation>Verstecktes WLAN</translation>
     </message>
     <message>
         <source>Enter the information for the hidden WiFi</source>
@@ -1180,7 +1180,7 @@
     </message>
     <message>
         <source>Please wait while the nymea system is being connected to the WiFi.</source>
-        <translation>Bitte warte bis Dein nymea System mit dem WLAN verbunden ist.</translation>
+        <translation>Bitte warte, bis Dein nymea System mit dem WLAN verbunden ist.</translation>
     </message>
     <message>
         <source>The nymea system has been connected successfully.</source>
@@ -1192,7 +1192,7 @@
     </message>
     <message>
         <source>Waiting for your nymea setup to appear in the network.</source>
-        <translation>Warte bis Dein nymea System im Netzwerk auftaucht.</translation>
+        <translation>Warte, bis Dein nymea System im Netzwerk auftaucht.</translation>
     </message>
     <message>
         <source>Location services are disabled. Please enable location services on this device in order to search for nearby nymea systems.</source>
@@ -1490,7 +1490,7 @@
     <name>DashboardWebViewDelegate</name>
     <message>
         <source>Web view is not supported on this platform.</source>
-        <translation>Die Web-Ansicht ist auf dieser Plattform nicht unterstützt.</translation>
+        <translation>Die Web-Ansicht wird auf dieser Plattform nicht unterstützt.</translation>
     </message>
     <message>
         <source>Location</source>
@@ -1845,7 +1845,7 @@
     </message>
     <message>
         <source>Execute actions when something happens.</source>
-        <translation>Aktionen ausführen wenn ein Ereignis eintritt.</translation>
+        <translation>Aktionen ausführen, wenn ein Ereignis eintritt.</translation>
     </message>
     <message>
         <source>When any of these events happen...</source>
@@ -1871,11 +1871,11 @@
     </message>
     <message>
         <source>Do something while a condition is met.</source>
-        <translation>Etwas tun während eine Bedingung erfüllt ist.</translation>
+        <translation>Etwas tun, während eine Bedingung erfüllt ist.</translation>
     </message>
     <message>
         <source>...but only if those conditions are met...</source>
-        <translation>...aber nur wenn diese Bedingungen erfüllt sind...</translation>
+        <translation>...aber nur, wenn diese Bedingungen erfüllt sind...</translation>
     </message>
     <message>
         <source>When this condition...</source>
@@ -1903,7 +1903,7 @@
     </message>
     <message>
         <source>Just pick some actions which will be executed when the scene is activated. Scenes are like any other magic except they can also be activated manually.</source>
-        <translation>Wähle Aktionen aus welche ausgeführt werden sobald die Szene aktiviert wird. Szenen sind wie alle andere Magie, mit Ausnahme, dass sie auch manuell aktiviert werden können.</translation>
+        <translation>Wähle Aktionen aus, die ausgeführt werden, sobald die Szene aktiviert wird. Szenen sind wie jede andere Magie, mit der Ausnahme, dass sie auch manuell aktiviert werden können.</translation>
     </message>
     <message>
         <source>Add event</source>
@@ -2216,11 +2216,11 @@
     </message>
     <message>
         <source>Indoor sensors</source>
-        <translation>Inneraumsensoren</translation>
+        <translation>Innenraumsensoren</translation>
     </message>
     <message>
         <source>Add indoor sensor</source>
-        <translation>Inneraumsensor hinzufügen</translation>
+        <translation>Innenraumsensor hinzufügen</translation>
     </message>
     <message>
         <source>Add indoor sensors</source>
@@ -2284,7 +2284,7 @@
     </message>
     <message>
         <source>Before a valve can be assigned to this zone, it needs to be connected to nymea.</source>
-        <translation>Bevor ein Ventil einer Zone zugewiesen werden kann, muss er an nymea angebunden werden.</translation>
+        <translation>Bevor ein Ventil einer Zone zugewiesen werden kann, muss es an nymea angebunden werden.</translation>
     </message>
     <message>
         <source>Setup valves</source>
@@ -2303,7 +2303,7 @@
     </message>
     <message>
         <source>Connect your cars and chargers in order to access them from here.</source>
-        <translation>Verbinde dein Auto und den Lader um von hier aus zuzugreifen.</translation>
+        <translation>Verbinde dein Auto und den Lader, um von hier aus zuzugreifen.</translation>
     </message>
     <message>
         <source>Add things</source>
@@ -2334,7 +2334,7 @@
     </message>
     <message>
         <source>Uncheck individual consumers to hide them from the energy charts.</source>
-        <translation>Entferne das Häkchen bei einzelnen Verbrauchern um diese in den Energieansichten auszublenden.</translation>
+        <translation>Entferne das Häkchen bei einzelnen Verbrauchern, um diese in den Energieansichten auszublenden.</translation>
     </message>
 </context>
 <context>
@@ -2453,7 +2453,7 @@
     </message>
     <message>
         <source>Dashboard enabled</source>
-        <translation>Dasboard aktivieren</translation>
+        <translation>Dashboard aktivieren</translation>
     </message>
     <message>
         <source>Manage users</source>
@@ -2534,7 +2534,7 @@
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use favorites you need to add some things first.</source>
-        <translation>Es scheint als seien auch noch keine &quot;Things&quot; eingerichtet. Um Favoriten einzurichten musst Du zuerst einige &quot;Things&quot; hinzufügen.</translation>
+        <translation>Es scheint, als seien auch noch keine &quot;Things&quot; eingerichtet. Um Favoriten einzurichten, musst Du zuerst einige &quot;Things&quot; hinzufügen.</translation>
     </message>
     <message>
         <source>Favorites allow you to keep track of your most important things when you have lots of them. Watch out for the star when interacting with things and use it to mark them as your favorites.</source>
@@ -2549,7 +2549,7 @@
     <name>FingerprintReaderDevicePage</name>
     <message>
         <source>Manage access</source>
-        <translation>Zugriff Einrichten</translation>
+        <translation>Zugriff einrichten</translation>
     </message>
     <message>
         <source>Access granted for user %1</source>
@@ -2593,7 +2593,7 @@
     </message>
     <message>
         <source>Left index finger</source>
-        <translation>Linker Zeigerfinger</translation>
+        <translation>Linker Zeigefinger</translation>
     </message>
     <message>
         <source>Left middle finger</source>
@@ -2659,7 +2659,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Access request details</source>
-        <translation>Details über Zugriffanfrage</translation>
+        <translation>Details über Zugriffsanfrage</translation>
     </message>
     <message>
         <source>Date/Time</source>
@@ -2701,7 +2701,7 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Connect your garage doors in order to control them from here.</source>
-        <translation>Verbinde deine Garagentore um diese von hier aus zu steuern.</translation>
+        <translation>Verbinde deine Garagentore, um diese von hier aus zu steuern.</translation>
     </message>
     <message>
         <source>Add things</source>
@@ -2776,13 +2776,13 @@ Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Factory reset</source>
-        <translation>Wekseinstellungen zurücksetzen</translation>
+        <translation>Werkseinstellungen zurücksetzen</translation>
     </message>
     <message>
         <source>Are you sure you want to delete all settings and configurations?
 Please make sure you have a backup of your configurations. The system will perform a restart into the factory defaults once the reset has been done.</source>
-        <translation>Sind Sie sicher, dass Sie alle Einstellungen und Konfigurationen löschen möchten?
-Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen haben. Das System wird nach dem Zurücksetzen auf die Werkseinstellungen zurückgesetzt.</translation>
+        <translation>Bist Du sicher, dass Du alle Einstellungen und Konfigurationen löschen möchtest?
+Bitte stelle sicher, dass Du eine Sicherungskopie Deiner Konfigurationen hast. Das System wird nach dem Zurücksetzen auf die Werkseinstellungen zurückgesetzt.</translation>
     </message>
 </context>
 <context>
@@ -2894,7 +2894,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     <name>Graph</name>
     <message>
         <source>Sorry, there isn&apos;t enough data to display a graph here yet!</source>
-        <translation>Entschuldigung, es gibt noch nicht genügend Daten um hier ein Diagramm anzuzeigen!</translation>
+        <translation>Entschuldigung, es gibt noch nicht genügend Daten, um hier ein Diagramm anzuzeigen!</translation>
     </message>
 </context>
 <context>
@@ -2905,14 +2905,14 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Grouping things can be useful to control multiple devices at once, for example an entire room. Watch out for the group symbol when interacting with things and use it to add them to groups.</source>
-        <translation>&quot;Things&quot; in Gruppen zu verwalten ist hilfreich um mehrere Geräte gleichzeitig zu schalten, z.B. einen ganzen Raum. Halte Ausschau nach dem Gruppensymbol wenn du mit &quot;Things&quot; interagierst und benutze es um sie Gruppen hinzuzufügen.</translation>
+        <translation>&quot;Things&quot; in Gruppen zu verwalten, ist hilfreich, um mehrere Geräte gleichzeitig zu schalten, z.B. einen ganzen Raum. Halte Ausschau nach dem Gruppensymbol, wenn du mit &quot;Things&quot; interagierst, und benutze es, um sie Gruppen hinzuzufügen.</translation>
     </message>
 </context>
 <context>
     <name>Imprint</name>
     <message>
         <source>Developer options are now enabled. If you have found this by accident, it is most likely not of any use for you. It will just enable some nerdy developer gibberish in the app. Tap the icon another 10 times to disable it again.</source>
-        <translation>Entwicklereinstellungen sind jetzt aktiviert. Falls Du diese Einstellung aus Zufall gefunden hast, wirst Du wahrscheinlich keinen Nutzen davon haben. Sie aktiviert nur ein wenig unverständliches Entwickler-Zeug. Berühre das Icon weitere 10 mal um die Entwicklereinstellungen wieder zu deaktivieren.</translation>
+        <translation>Entwicklereinstellungen sind jetzt aktiviert. Falls Du diese Einstellung aus Zufall gefunden hast, wirst Du wahrscheinlich keinen Nutzen davon haben. Sie aktiviert nur ein wenig unverständliches Entwickler-Zeug. Berühre das Icon weitere 10-mal, um die Entwicklereinstellungen wieder zu deaktivieren.</translation>
     </message>
     <message>
         <source>Developer options are now disabled.</source>
@@ -2924,7 +2924,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Visit GitHub page</source>
-        <translation>Besuchen Sie die GitHub Seite</translation>
+        <translation>Besuche die GitHub Seite</translation>
     </message>
     <message>
         <source>View privacy policy</source>
@@ -2932,7 +2932,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Licensed under the terms of the GNU General Public License, version 3. Please visit the GitHub page for source code and build instructions.</source>
-        <translation>Lizensiert unter den Bedingungen der GNU General Public License, Version 3. Bitte besuche die GitHub Seite für mehr Informationen zum Quellcode und Kompilier-Anleitungen.</translation>
+        <translation>Lizenziert unter den Bedingungen der GNU General Public License, Version 3. Bitte besuche die GitHub Seite für mehr Informationen zum Quellcode und Kompilier-Anleitungen.</translation>
     </message>
     <message>
         <source>Software license</source>
@@ -2952,7 +2952,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Visit the nymea project website</source>
-        <translation>Besuchen Sie die nymea-Projektwebseite</translation>
+        <translation>Besuche die nymea-Projektwebseite</translation>
     </message>
     <message>
         <source>Open Source Licenses</source>
@@ -3141,7 +3141,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>A thing is turned on or off</source>
-        <translation>Ein Gerät wurde ein oder ausgeschaltet</translation>
+        <translation>Ein Gerät wurde ein- oder ausgeschaltet</translation>
     </message>
     <message>
         <source>Turn things on or off</source>
@@ -3193,11 +3193,11 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Shutters</source>
-        <translation>Rolläden</translation>
+        <translation>Rollläden</translation>
     </message>
     <message>
         <source>Humidity sensors</source>
-        <translation>Feuchtigkeitsensoren</translation>
+        <translation>Feuchtigkeitssensoren</translation>
     </message>
     <message>
         <source>Humidity</source>
@@ -3245,7 +3245,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Decrease volume</source>
-        <translation>Laustärke verringern</translation>
+        <translation>Lautstärke verringern</translation>
     </message>
     <message>
         <source>Gateways</source>
@@ -3321,7 +3321,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Access control systems</source>
-        <translation>Zutrittsysteme</translation>
+        <translation>Zutrittssysteme</translation>
     </message>
     <message>
         <source>Access granted</source>
@@ -3541,7 +3541,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Volume</source>
-        <translation>Laustärke</translation>
+        <translation>Lautstärke</translation>
     </message>
     <message>
         <source>Volume changed</source>
@@ -3605,7 +3605,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Incoming events</source>
-        <translation>Einkommende Ereignisse</translation>
+        <translation>Eingehende Ereignisse</translation>
     </message>
     <message>
         <source>Triggered</source>
@@ -3689,7 +3689,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Outgoing events</source>
-        <translation>Ausgehende ereignisse</translation>
+        <translation>Ausgehende Ereignisse</translation>
     </message>
     <message>
         <source>Trigger</source>
@@ -3937,7 +3937,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Flammable gas level changed</source>
-        <translation>Wert für Entflammbare Gase geändert</translation>
+        <translation>Wert für entflammbare Gase geändert</translation>
     </message>
     <message>
         <source>Total consumed energy changed</source>
@@ -3969,19 +3969,19 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Air flow rate</source>
-        <translation>Luftflußrate</translation>
+        <translation>Luftflussrate</translation>
     </message>
     <message>
         <source>Air flow rate changed</source>
-        <translation>Luftflußrate geändert</translation>
+        <translation>Luftflussrate geändert</translation>
     </message>
     <message>
         <source>Set air flow rate</source>
-        <translation>Setze Luftflußrate</translation>
+        <translation>Setze Luftflussrate</translation>
     </message>
     <message>
         <source>Fire sensors</source>
-        <translation>Feuer Sensoren</translation>
+        <translation>Feuersensoren</translation>
     </message>
     <message>
         <source>Fire detected</source>
@@ -4251,7 +4251,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     <name>LoginPage</name>
     <message>
         <source>Sorry, that wasn&apos;t right. Try again please.</source>
-        <translation>Entschuldingung, das war nicht richtig. Bitte versuche es erneut.</translation>
+        <translation>Entschuldigung, das war nicht richtig. Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>The email you&apos;ve entered isn&apos;t valid.</source>
@@ -4259,7 +4259,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>In order to use your %1 system, please log in.</source>
-        <translation>Um Dein %1 System zu nutzen, melden Sie sich bitte an.</translation>
+        <translation>Um Dein %1 System zu nutzen, melde Dich bitte an.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -4334,7 +4334,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>The application needs to be restarted for style changes to take effect.</source>
-        <translation>Die Anwendung muss neu gestartet werden damit Stil-Änderungen wirksam werden.</translation>
+        <translation>Die Anwendung muss neu gestartet werden, damit Stil-Änderungen wirksam werden.</translation>
     </message>
     <message>
         <source>Turn screen off when idle</source>
@@ -4342,7 +4342,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Screen off timeout</source>
-        <translation>Leerlaufzeit bis der Bildschirm ausgeschaltet wird</translation>
+        <translation>Leerlaufzeit, bis der Bildschirm ausgeschaltet wird</translation>
     </message>
     <message>
         <source>seconds</source>
@@ -4393,7 +4393,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Use magic to make your things smart! In a few easy steps you&apos;ll have your things wired up and work for you.</source>
-        <translation>Benutze Magie um deine &quot;Things&quot; smart zu machen! In ein paar wenigen Schritten werden deine Geräte und Dienste vernetzt sein und dir das Leben erleichtern.</translation>
+        <translation>Benutze Magie, um deine &quot;Things&quot; smart zu machen! In ein paar wenigen Schritten werden deine Geräte und Dienste vernetzt sein und dir das Leben erleichtern.</translation>
     </message>
     <message>
         <source>Add some magic</source>
@@ -4629,7 +4629,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Connect your media players in order to control them from here.</source>
-        <translation>Verbinde deine Medienabspielgeräte um diese von hier aus zu steuern.</translation>
+        <translation>Verbinde deine Medienabspielgeräte, um diese von hier aus zu steuern.</translation>
     </message>
     <message>
         <source>Add things</source>
@@ -4814,7 +4814,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Modbus is not supported on this platform.</source>
-        <translation>Modbus ist auf diesem System nicht unterstützt.</translation>
+        <translation>Modbus wird auf diesem System nicht unterstützt.</translation>
     </message>
     <message>
         <source>Unknown baud rate</source>
@@ -4834,7 +4834,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Space parity</source>
-        <translation>Raumparität</translation>
+        <translation>Space-Parität</translation>
     </message>
     <message>
         <source>Mark parity</source>
@@ -4870,7 +4870,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>One and a half stop bits</source>
-        <translation>Eineinhalt Stopbits</translation>
+        <translation>Eineinhalb Stopbits</translation>
     </message>
     <message>
         <source>Two stop bits</source>
@@ -4886,7 +4886,7 @@ Bitte stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Konfigurationen ha
     </message>
     <message>
         <source>Modbus RTU is not supported on this platorm.</source>
-        <translation>Modbus RTU ist auf diesem System nicht unterstützt.</translation>
+        <translation>Modbus RTU wird auf diesem System nicht unterstützt.</translation>
     </message>
     <message>
         <source>Connected</source>
@@ -5068,7 +5068,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Client info</source>
-        <translation>Klient-Informationen</translation>
+        <translation>Client-Informationen</translation>
     </message>
 </context>
 <context>
@@ -5092,6 +5092,29 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     <message>
         <source>No data</source>
         <translation>Keine Daten</translation>
+    </message>
+</context>
+<context>
+    <name>NetworkSettingsFilterPage</name>
+    <message>
+        <source>Network settings options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show all network interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loopback, bridge and unknown network interfaces are hidden otherwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show dangerous options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show options to disable networking or WiFi and to disconnect network interfaces</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5270,7 +5293,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Site connected</source>
-        <translation>Im Intra-Net verbunden</translation>
+        <translation>Im Intranet verbunden</translation>
     </message>
     <message>
         <source>Globally connected</source>
@@ -5286,7 +5309,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Disable networking?</source>
-        <translation>Netwerk deativieren?</translation>
+        <translation>Netzwerk deaktivieren?</translation>
     </message>
     <message>
         <source>Network interfaces</source>
@@ -5474,7 +5497,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Network management is unavailable on this system.</source>
-        <translation>Die Netwerkverwaltung ist auf dieses System nicht verfügbar.</translation>
+        <translation>Die Netzwerkverwaltung ist auf diesem System nicht verfügbar.</translation>
     </message>
     <message>
         <source>Access Point</source>
@@ -5562,7 +5585,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>This feature is not supported on this platform.</source>
-        <translation>Diese Funktion wird auf diese Plattform nicht unterstützt.</translation>
+        <translation>Diese Funktion wird auf dieser Plattform nicht unterstützt.</translation>
     </message>
     <message>
         <source>Disabling networking will disconnect all connected clients and may make this %1 system inaccessible from this app. Do not proceed unless you have another way to access the system.</source>
@@ -5898,7 +5921,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Incoming Events</source>
-        <translation>Einkommende Ereignisse</translation>
+        <translation>Eingehende Ereignisse</translation>
     </message>
     <message>
         <source>Events</source>
@@ -5906,7 +5929,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Shutters</source>
-        <translation>Rolläden</translation>
+        <translation>Rollläden</translation>
     </message>
     <message>
         <source>Blinds</source>
@@ -6176,7 +6199,7 @@ Die Versuchsdauer muss mindestens 10 ms betragen.</translation>
     </message>
     <message>
         <source>Execute actions and use things and services.</source>
-        <translation>Führe Aktionaus und nutze Geräte und Services.</translation>
+        <translation>Führe Aktionen aus und nutze Geräte und Services.</translation>
     </message>
     <message>
         <source>Add new things and change settings.</source>
@@ -6266,7 +6289,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>We&apos;re sorry. We couldn&apos;t find any package matching the search term %1.</source>
-        <translation>Es tut uns leid. Wir konnten keine Pakete finden, auf denen der Suchbegriff %1 zutrifft.</translation>
+        <translation>Es tut uns leid. Wir konnten keine Pakete finden, auf die der Suchbegriff %1 zutrifft.</translation>
     </message>
 </context>
 <context>
@@ -6576,7 +6599,7 @@ Möchtest Du fortfahren?</translation>
     <name>PowerProductionBalanceHistory</name>
     <message>
         <source>My production history</source>
-        <translation>Meine Erzeugnishistorie</translation>
+        <translation>Meine Erzeugungshistorie</translation>
     </message>
     <message>
         <source>Consumed</source>
@@ -6642,7 +6665,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Sorry, something went wrong during the setup. Try again please.</source>
-        <translation>Entschuldigung, bei der Einrichtung ist etwas schief gelaufen. Bitte versuchen Sie es erneut.</translation>
+        <translation>Entschuldigung, bei der Einrichtung ist etwas schiefgelaufen. Bitte versuche es erneut.</translation>
     </message>
     <message>
         <source>Authentication required</source>
@@ -6650,7 +6673,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Please press the button on your %1 gateway to authenticate this device.</source>
-        <translation>Bitte drücke den Knopf auf deinem %1 Gateway um die Authentifizierung abzuschließen.</translation>
+        <translation>Bitte drücke den Knopf auf deinem %1 Gateway, um die Authentifizierung abzuschließen.</translation>
     </message>
 </context>
 <context>
@@ -6684,7 +6707,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Do you want to save the changes before leaving this page?</source>
-        <translation>Möchten Sie die Änderungen speichern, bevor Sie diese Seite verlassen?</translation>
+        <translation>Möchtest Du die Änderungen speichern, bevor Du diese Seite verlässt?</translation>
     </message>
     <message>
         <source>Discard</source>
@@ -6831,7 +6854,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Are you sure you want to remove &quot;%1&quot; for %2?</source>
-        <translation>Sind Sie sicher, dass Sie &quot;%1&quot; für %2 entfernen möchten?</translation>
+        <translation>Bist Du sicher, dass Du &quot;%1&quot; für %2 entfernen möchtest?</translation>
     </message>
     <message>
         <source>Filter</source>
@@ -6859,11 +6882,11 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Select the user this RFID tag belongs to.</source>
-        <translation>Wählen Sie den Benutzer aus, dem dieser RFID-Tag gehört.</translation>
+        <translation>Wähle den Benutzer aus, dem dieser RFID-Tag gehört.</translation>
     </message>
     <message>
         <source>Choose how to read the RFID tag for %1.</source>
-        <translation>Wählen Sie aus, wie der RFID-Tag für %1 gelesen werden soll.</translation>
+        <translation>Wähle aus, wie der RFID-Tag für %1 gelesen werden soll.</translation>
     </message>
     <message>
         <source>Scan on charger</source>
@@ -6871,7 +6894,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Select a charger and prepare it for the next RFID tag.</source>
-        <translation>Wählen Sie eine Ladestation aus und bereiten Sie sie auf den nächsten RFID-Tag vor.</translation>
+        <translation>Wähle eine Ladestation aus und bereite sie auf den nächsten RFID-Tag vor.</translation>
     </message>
     <message>
         <source>Enter manually</source>
@@ -6879,7 +6902,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Type the RFID code manually.</source>
-        <translation>Geben Sie den RFID-Code manuell ein.</translation>
+        <translation>Gib den RFID-Code manuell ein.</translation>
     </message>
     <message>
         <source>Scan with phone NFC</source>
@@ -6907,7 +6930,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Select the charger that should scan the RFID tag.</source>
-        <translation>Wählen Sie die Ladestation aus, die den RFID-Tag scannen soll.</translation>
+        <translation>Wähle die Ladestation aus, die den RFID-Tag scannen soll.</translation>
     </message>
     <message>
         <source>Find charger</source>
@@ -6939,7 +6962,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Present the RFID tag to %1 now.</source>
-        <translation>Halten Sie den RFID-Tag jetzt an %1.</translation>
+        <translation>Halte den RFID-Tag jetzt an %1.</translation>
     </message>
     <message>
         <source>The selected charger is no longer available.</source>
@@ -6959,7 +6982,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Please go back and select another charger.</source>
-        <translation>Bitte gehen Sie zurück und wählen Sie eine andere Ladestation aus.</translation>
+        <translation>Bitte gehe zurück und wähle eine andere Ladestation aus.</translation>
     </message>
     <message>
         <source>No RFID tag was detected before the scan expired.</source>
@@ -6971,7 +6994,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Enter the RFID code manually.</source>
-        <translation>Geben Sie den RFID-Code manuell ein.</translation>
+        <translation>Gib den RFID-Code manuell ein.</translation>
     </message>
     <message>
         <source>RFID code</source>
@@ -6983,7 +7006,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Name the RFID tag, configure its charging profile, then prepare the charger for the next tag.</source>
-        <translation>Benennen Sie den RFID-Tag, konfigurieren Sie sein Ladeprofil und bereiten Sie anschließend die Ladestation auf den nächsten Tag vor.</translation>
+        <translation>Benenne den RFID-Tag, konfiguriere sein Ladeprofil und bereite anschließend die Ladestation auf den nächsten Tag vor.</translation>
     </message>
     <message>
         <source>Review the scanned RFID tag, name it, and configure its charging profile.</source>
@@ -6991,7 +7014,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Name the RFID tag and configure its charging profile.</source>
-        <translation>Benennen Sie den RFID-Tag und konfigurieren Sie sein Ladeprofil.</translation>
+        <translation>Benenne den RFID-Tag und konfiguriere sein Ladeprofil.</translation>
     </message>
     <message>
         <source>Start scan</source>
@@ -7103,7 +7126,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Do you want to save the changes before leaving this page?</source>
-        <translation>Möchten Sie die Änderungen speichern, bevor Sie diese Seite verlassen?</translation>
+        <translation>Möchtest Du die Änderungen speichern, bevor Du diese Seite verlässt?</translation>
     </message>
     <message>
         <source>Discard</source>
@@ -7154,7 +7177,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>The version of the %1 system you are trying to connect to is too new. This app supports only up to API version %2 but this %1 system provides API version %3. Please update %4.</source>
-        <translation>Die Version dieses %1 Systems ist zu neu. Diese App unterstützt nur bis zu API Version %2, dieses %1 System basiert jedoch auf API Version %3. Bitte update %4.</translation>
+        <translation>Die Version dieses %1 Systems ist zu neu. Diese App unterstützt nur bis zu API Version %2, dieses %1 System basiert jedoch auf API Version %3. Bitte aktualisiere %4.</translation>
     </message>
 </context>
 <context>
@@ -7205,7 +7228,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>It appears there are no things set up either yet. In order to use scenes you need to add some things first.</source>
-        <translation>Es scheint als seien auch noch keine &quot;Things&quot; eingerichtet. Um Szenen zu erstellen musst Du zuerst einige &quot;Things&quot; hinzufügen.</translation>
+        <translation>Es scheint, als seien auch noch keine &quot;Things&quot; eingerichtet. Um Szenen zu erstellen, musst Du zuerst einige &quot;Things&quot; hinzufügen.</translation>
     </message>
     <message>
         <source>Scenes provide a useful way to control your things with just one click.</source>
@@ -7228,7 +7251,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>nymea:app is available for all kinds of devices. In order to edit scripts we recommend to use nymea:app on your personal computer or connect a keyboard to your tablet.</source>
-        <translation>nymea:app gibt es für alle Arten von Geräten. Um Scripte zu bearbeiten empfehlen wir nymea:app auf einem PC zu nutzen.</translation>
+        <translation>nymea:app gibt es für alle Arten von Geräten. Um Scripte zu bearbeiten, empfehlen wir, nymea:app auf einem PC zu nutzen.</translation>
     </message>
     <message>
         <source>Unsaved changes</source>
@@ -7252,7 +7275,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>The script has not been deployed because it contains errors.</source>
-        <translation>Das Script wurde nicht installiert weil es Fehler enthält.</translation>
+        <translation>Das Script wurde nicht installiert, weil es Fehler enthält.</translation>
     </message>
     <message>
         <source>Errors</source>
@@ -7264,7 +7287,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>An autosaved version of this script has been loaded. Deploy to store this version or reload to restore the deployed version.</source>
-        <translation>Eine automatisch gespeicherte Version dieses Scriptes wurde geladen. Bereitstellen um diese Version zu speichern, Erneut laden um die bereitgestellte Version wiederherzustellen.</translation>
+        <translation>Eine automatisch gespeicherte Version dieses Scriptes wurde geladen. Bereitstellen, um diese Version zu speichern, Erneut laden, um die bereitgestellte Version wiederherzustellen.</translation>
     </message>
     <message>
         <source>Reload</source>
@@ -7295,7 +7318,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Press &quot;Add script&quot; to get started.</source>
-        <translation>Drücke den &quot;Script erstellen&quot; Knopf um loszulegen.</translation>
+        <translation>Drücke den &quot;Script erstellen&quot; Knopf, um loszulegen.</translation>
     </message>
     <message>
         <source>Add script</source>
@@ -7313,7 +7336,7 @@ Möchtest Du fortfahren?</translation>
     <name>SelectEventDescriptorPage</name>
     <message>
         <source>State change</source>
-        <translation>Zuständsänderung</translation>
+        <translation>Zustandsänderung</translation>
     </message>
     <message>
         <source>Event</source>
@@ -7709,7 +7732,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Configure who can log in</source>
-        <translation>Konfiguriere, wer sich Verbinden darf</translation>
+        <translation>Konfiguriere, wer sich verbinden darf</translation>
     </message>
     <message>
         <source>ZigBee</source>
@@ -7721,7 +7744,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Update your %1 system</source>
-        <translation>Update Dein %1 System</translation>
+        <translation>Aktualisiere Dein %1 System</translation>
     </message>
     <message>
         <source>About %1</source>
@@ -7800,7 +7823,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>Make sure your things are set up and connected, try searching again or go back and pick a different kind of thing.</source>
-        <translation>Stellen Sie sicher, dass Ihr &quot;Thing&quot; eingerichtet und verbunden ist, versuchen Sie dann erneut zu suchen oder wählen Sie einen anderen Typ von &quot;Things&quot;.</translation>
+        <translation>Stelle sicher, dass Dein &quot;Thing&quot; eingerichtet und verbunden ist, versuche dann erneut zu suchen oder wähle einen anderen Typ von &quot;Things&quot;.</translation>
     </message>
     <message>
         <source>Name the thing:</source>
@@ -7848,7 +7871,7 @@ Möchtest Du fortfahren?</translation>
     </message>
     <message>
         <source>OAuth is not supported on this platform. Please use this app on a different device to set up this thing.</source>
-        <translation>OAuth wird auf diesem System nicht unterstützt. Bitte benutze diese App auf einem anderen Gerät um dieses &quot;Thing&quot; einzurichten.</translation>
+        <translation>OAuth wird auf diesem System nicht unterstützt. Bitte benutze diese App auf einem anderen Gerät, um dieses &quot;Thing&quot; einzurichten.</translation>
     </message>
     <message>
         <source>In order to use OAuth on this platform, make sure qml-module-qtwebview is installed.</source>
@@ -7891,14 +7914,14 @@ Möchtest Du fortfahren?</translation>
     <name>ShutterDeviceListPage</name>
     <message>
         <source>Shutters</source>
-        <translation>Rolläden</translation>
+        <translation>Rollläden</translation>
     </message>
 </context>
 <context>
     <name>SimpleStateEvaluatorDelegate</name>
     <message>
         <source>Press to edit condition</source>
-        <translation>Drücken um Bedingung zu ändern</translation>
+        <translation>Drücken, um Bedingung zu ändern</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -8165,7 +8188,7 @@ This can potentially break your system and lead to problems.
 Please only use this if you are sure you want this and consider reporting the issues you find when testing unreleased channels.</source>
         <translation>Das Aktivieren zusätzlicher Software-Quellen erlaubt das Installieren von %1 Vorschauversionen.
 Dies kann unter Umständen deine Installation beschädigen und zu Problemen führen.
-Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du möchtest und hilf uns Fehler zu finden indem Du uns darüber informierst.</translation>
+Bitte benutze diese Funktion nur, wenn Du sicher bist, dass es das ist, was Du möchtest, und hilf uns, Fehler zu finden, indem Du uns darüber informierst.</translation>
     </message>
     <message>
         <source>Update sources</source>
@@ -8363,7 +8386,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Add some using the wizard stick!</source>
-        <translation>Fügen Sie welche mit dem Zauberstab hinzu!</translation>
+        <translation>Füge welche mit dem Zauberstab hinzu!</translation>
     </message>
 </context>
 <context>
@@ -8480,7 +8503,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>In order for your %1 system to be useful, go ahead and add some things.</source>
-        <translation>Um dein %1 system zu nutzen, füge einige &quot;Things&quot; hinzu.</translation>
+        <translation>Um dein %1 System zu nutzen, füge einige &quot;Things&quot; hinzu.</translation>
     </message>
     <message>
         <source>Add things</source>
@@ -8558,7 +8581,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Select how long the manual temperature setpoint should be kept.</source>
-        <translation>Wähle aus wie lange der manuelle Modus beibehalten werden soll.</translation>
+        <translation>Wähle aus, wie lange der manuelle Modus beibehalten werden soll.</translation>
     </message>
     <message>
         <source>Eventual</source>
@@ -8566,7 +8589,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Until the temperature is changed by some other event.</source>
-        <translation>Bis die Temperature durch ein anderes Ereignis verändert wird.</translation>
+        <translation>Bis die Temperatur durch ein anderes Ereignis verändert wird.</translation>
     </message>
     <message>
         <source>Forever</source>
@@ -8783,7 +8806,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Not requiring a login for the remote connection will allow anyone on the internet to connect to your %1 system.</source>
-        <translation>Wenn keine Anmeldung erfordert wird, wird dieses %1 System für jedermann aus dem Internet zugänglich sein.</translation>
+        <translation>Wenn keine Anmeldung erforderlich ist, wird dieses %1 System für jedermann aus dem Internet zugänglich sein.</translation>
     </message>
     <message>
         <source>SSL enabled</source>
@@ -8806,7 +8829,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>The system may restart in order to complete the update. %1:app will reconnect automatically after the update.</source>
-        <translation>Das System wird möglicherweise neu starten um die Aktualisierung abzuschließen. %1:app wird automatisch neu verbinden sobald die Aktualisierung abgeschlossen ist.</translation>
+        <translation>Das System wird möglicherweise neu starten, um die Aktualisierung abzuschließen. %1:app wird automatisch neu verbinden, sobald die Aktualisierung abgeschlossen ist.</translation>
     </message>
 </context>
 <context>
@@ -8900,7 +8923,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Devices / Apps accessing %1</source>
-        <translation>Geräte/Anwendungen die auf %1 zugreifen</translation>
+        <translation>Geräte/Anwendungen, die auf %1 zugreifen</translation>
     </message>
     <message>
         <source>Users</source>
@@ -8992,7 +9015,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>The user has not been added yet. Do you want to discard the changes or return to editing?</source>
-        <translation>Der Benutzer wurde noch nicht hinzugefügt. Möchten Sie die Änderungen verwerfen oder zur Bearbeitung zurückkehren?</translation>
+        <translation>Der Benutzer wurde noch nicht hinzugefügt. Möchtest Du die Änderungen verwerfen oder zur Bearbeitung zurückkehren?</translation>
     </message>
     <message>
         <source>Discard</source>
@@ -9137,7 +9160,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Tap an NFC tag to link it to %1.</source>
-        <translation>Berühre ein NFC Tag um es mit %1 zu verknüpfen.</translation>
+        <translation>Berühre ein NFC Tag, um es mit %1 zu verknüpfen.</translation>
     </message>
     <message>
         <source>Writing NFC tag...</source>
@@ -9180,7 +9203,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Please verify that the Z-Wave adapter is properly connected to a serial port and select the appropriate port.</source>
-        <translation>Bitte überprüfe ob der Z-Wave Adapter ordnungsgemäß an einer seriellen Schnittstelle verbunden ist und wähle die entsprechende Schnittstelle aus.</translation>
+        <translation>Bitte überprüfe, ob der Z-Wave Adapter ordnungsgemäß an einer seriellen Schnittstelle verbunden ist und wähle die entsprechende Schnittstelle aus.</translation>
     </message>
 </context>
 <context>
@@ -9203,7 +9226,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>The operation could not be started because the Z-Wave network is busy. Please try again later.</source>
-        <translation>Die Operation konnte nicht gestartet werden weil das Z-Wave Netzwerk gerade beschäftigt ist. Bitte versuche es später wieder.</translation>
+        <translation>Die Operation konnte nicht gestartet werden, weil das Z-Wave Netzwerk gerade beschäftigt ist. Bitte versuche es später wieder.</translation>
     </message>
     <message>
         <source>An unexpected error happened. Status code: %1</source>
@@ -9215,7 +9238,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>The Z-Wave network is now accepting new devices for inclusion. Please start the pairing procedure from the Z-Wave device you want to add to the network. Check the device manual for further details.</source>
-        <translation>Das Z-Wave Netzwerk akzeptiert jetzt neue Geräte. Bitte starte die Verbindungs-Prozedur am Z-Wave Gerät welches in das Netzwerk eingebunden werden soll. Weitere Information findest Du im Handbuch des Gerätes.</translation>
+        <translation>Das Z-Wave Netzwerk akzeptiert jetzt neue Geräte. Bitte starte die Verbindungs-Prozedur am Z-Wave Gerät, welches in das Netzwerk eingebunden werden soll. Weitere Information findest Du im Handbuch des Gerätes.</translation>
     </message>
     <message>
         <source>Exclude Z-Wave device</source>
@@ -9223,7 +9246,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>The Z-Wave network is now accepting devices for exclusion. Please start the pairing procedure from the Z-Wave device you want to remove from the network. Check the device manual for further details.</source>
-        <translation>Z-Wave Geräte können jetzt vom Netzwerk abgemeldet werden. Bitte start die Verbindungsprozedur am Z-Wave Gerät welches aus dem Netzwerk entfernt werden soll. Weitere Informationen findest Du im Handbuch der Geräts.</translation>
+        <translation>Z-Wave Geräte können jetzt vom Netzwerk abgemeldet werden. Bitte starte die Verbindungsprozedur am Z-Wave Gerät, welches aus dem Netzwerk entfernt werden soll. Weitere Informationen findest Du im Handbuch des Geräts.</translation>
     </message>
     <message>
         <source>Network</source>
@@ -9283,7 +9306,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Unrecognized device</source>
-        <translation>Unerkanntes Gerät</translation>
+        <translation>Nicht erkanntes Gerät</translation>
     </message>
     <message>
         <source>Node ID:</source>
@@ -9477,11 +9500,11 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>There are no Z-Wave networks set up yet. In order to use Z-Wave, create a Z-Wave network.</source>
-        <translation>Es sind noch keine Z-Wave Netzwerke eingerichtet. Erstelle ein Z-Wave Netzwerk um Z-Wave zu nutzen.</translation>
+        <translation>Es sind noch keine Z-Wave Netzwerke eingerichtet. Erstelle ein Z-Wave Netzwerk, um Z-Wave zu nutzen.</translation>
     </message>
     <message>
         <source>Z-Wave is not available on this system as no Z-Wave backend is installed.</source>
-        <translation>Z-Wave ist auf diesem System nicht verfügbar da kein Z-Wave Backend installiert ist.</translation>
+        <translation>Z-Wave ist auf diesem System nicht verfügbar, da kein Z-Wave Backend installiert ist.</translation>
     </message>
     <message>
         <source>Add network</source>
@@ -9550,7 +9573,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>No ZigBee adapters or serial ports are available on this system. Connect a ZigBee adapter via USB or UART serial port.</source>
-        <translation>Es konnte kein ZigBee Adapter und keine serielle Schnittstelle auf diesem System gefunden werden. Verbinde einen ZigBee Adapter über USB oder den die serielle Schnittstelle (UART).</translation>
+        <translation>Es konnte kein ZigBee Adapter und keine serielle Schnittstelle auf diesem System gefunden werden. Verbinde einen ZigBee Adapter über USB oder die serielle Schnittstelle (UART).</translation>
     </message>
     <message>
         <source>Available ZigBee adapters</source>
@@ -9558,7 +9581,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Please select the ZigBee adapter on which the new network will be created.</source>
-        <translation>Bitte wähle den ZigBee Adapter auf dem das Netzwerk erstellt wird.</translation>
+        <translation>Bitte wähle den ZigBee Adapter, auf dem das Netzwerk erstellt wird.</translation>
     </message>
     <message>
         <source>Available serial ports</source>
@@ -9566,7 +9589,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Please verify that the ZigBee adapter is properly connected to a serial port and select the appropriate port.</source>
-        <translation>Bitte überprüfe ob der ZigBee Adapter korrekt verbunden ist und wähle die entsprechende Schnittstelle aus.</translation>
+        <translation>Bitte überprüfe, ob der ZigBee Adapter korrekt verbunden ist und wähle die entsprechende Schnittstelle aus.</translation>
     </message>
     <message>
         <source>Serial port options</source>
@@ -9645,7 +9668,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Updating</source>
-        <translation>Wird upgedated</translation>
+        <translation>Wird aktualisiert</translation>
     </message>
     <message>
         <source>Error</source>
@@ -9713,7 +9736,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Unrecognized device</source>
-        <translation>Unerkanntes Gerät</translation>
+        <translation>Nicht erkanntes Gerät</translation>
     </message>
     <message>
         <source>IEEE address:</source>
@@ -10076,7 +10099,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Unrecognized device</source>
-        <translation>Unerkanntes Gerät</translation>
+        <translation>Nicht erkanntes Gerät</translation>
     </message>
     <message>
         <source>Destination endpoint</source>
@@ -10092,7 +10115,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>The selected node is a sleepy device. Please wake up the device by pressing a button.</source>
-        <translation>Der ausgewählte Knoten ist ein schlafendes Gerät. Bitte drücke eine Taste am Gerät um es aufzuwecken.</translation>
+        <translation>Der ausgewählte Knoten ist ein schlafendes Gerät. Bitte drücke eine Taste am Gerät, um es aufzuwecken.</translation>
     </message>
     <message>
         <source>Show detailed information about the node</source>
@@ -10167,7 +10190,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Updating</source>
-        <translation>Wird upgedated</translation>
+        <translation>Wird aktualisiert</translation>
     </message>
     <message>
         <source>Error</source>
@@ -10245,11 +10268,11 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <name>description for daylightsensor</name>
     <message>
         <source>Turn on a light while it&apos;s dark outside</source>
-        <translation>Ein Licht einschalten während es dunkel ist</translation>
+        <translation>Ein Licht einschalten, während es dunkel ist</translation>
     </message>
     <message>
         <source>Turn on a light when it gets dark outside</source>
-        <translation>Ein Licht einschalten wenn es dunkel wird</translation>
+        <translation>Ein Licht einschalten, wenn es dunkel wird</translation>
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
@@ -10312,15 +10335,15 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Notify me when a thing gets disconnected</source>
-        <translation>Benachrichtige mich wenn ein Gerät die Verbindung verliert</translation>
+        <translation>Benachrichtige mich, wenn ein Gerät die Verbindung verliert</translation>
     </message>
     <message>
         <source>Notify me when a thing connects</source>
-        <translation>Benachrichtige mich wenn sich ein Gerät verbindet</translation>
+        <translation>Benachrichtige mich, wenn sich ein Gerät verbindet</translation>
     </message>
     <message>
         <source>Notify me when something dries out</source>
-        <translation>Benachrichtigung wenn etwas austrocknet</translation>
+        <translation>Benachrichtigung, wenn etwas austrocknet</translation>
     </message>
 </context>
 <context>
@@ -10350,18 +10373,18 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <name>description for smartmetertemplates</name>
     <message>
         <source>Charge my car while producing energy</source>
-        <translation>Fahrzeug laden während Strom erzeugt wird</translation>
+        <translation>Fahrzeug laden, während Strom erzeugt wird</translation>
     </message>
     <message>
         <source>Turn on heating while producing energy</source>
-        <translation>Heizung einschalten während Strom erzeugt wird</translation>
+        <translation>Heizung einschalten, während Strom erzeugt wird</translation>
     </message>
 </context>
 <context>
     <name>description for thermostattemplates</name>
     <message>
         <source>Set temperature while I&apos;m home</source>
-        <translation>Temperatur einstellen während ich zuhause bin</translation>
+        <translation>Temperatur einstellen, während ich zuhause bin</translation>
     </message>
 </context>
 <context>
@@ -10402,22 +10425,22 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <name>ruleNameTemplate for daylightsensor</name>
     <message>
         <source>Turn on %1 while it&apos;s dark outside</source>
-        <translation>%1 einschalten während es draußen dunkel ist</translation>
+        <translation>%1 einschalten, während es draußen dunkel ist</translation>
     </message>
     <message>
         <source>Turn on %1 when it gets dark outside (%0)</source>
-        <translation>Schalte %1 ein wenn es draußen dunkel wird (%0)</translation>
+        <translation>Schalte %1 ein, wenn es draußen dunkel wird (%0)</translation>
     </message>
     <message>
         <source>Turn on all lights when it gets dark outside</source>
-        <translation>Alle Lichter einschalten wenn es draußen dunkel wird</translation>
+        <translation>Alle Lichter einschalten, wenn es draußen dunkel wird</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for doorbellruletemplates</name>
     <message>
         <source>Alert %1 when someone is at %0</source>
-        <translation>Signal bei %1 wenn jemand bei %0 ist</translation>
+        <translation>Signal bei %1, wenn jemand bei %0 ist</translation>
     </message>
 </context>
 <context>
@@ -10477,26 +10500,26 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     </message>
     <message>
         <source>Notify %1 when %0 dries out</source>
-        <translation>Benachrichtige %1 wenn %0 austrocknet</translation>
+        <translation>Benachrichtige %1, wenn %0 austrocknet</translation>
     </message>
 </context>
 <context>
     <name>ruleNameTemplate for presencesensortemplates</name>
     <message>
         <source>Turn on %1 while %0 reports presence</source>
-        <translation>%1 einschalten während %0 Anwesenheit registriert</translation>
+        <translation>%1 einschalten, während %0 Anwesenheit registriert</translation>
     </message>
     <message>
         <source>Turn off %1 when %0 reports leaving</source>
-        <translation>%1 ausschalten wenn %0 verlassen wird</translation>
+        <translation>%1 ausschalten, wenn %0 verlassen wird</translation>
     </message>
     <message>
         <source>Turn off everything when %0 reports leaving</source>
-        <translation>Alles ausschalten wenn %0 verlassen wird</translation>
+        <translation>Alles ausschalten, wenn %0 verlassen wird</translation>
     </message>
     <message>
         <source>Turn off all lights when %0 reports leaving</source>
-        <translation>Alle Lichter ausschalten wenn %0 verlassen wird</translation>
+        <translation>Alle Lichter ausschalten, wenn %0 verlassen wird</translation>
     </message>
     <message>
         <source>Turn on %1 when %0 reports arriving</source>
@@ -10525,7 +10548,7 @@ Bitte benutze diese Funktion nur wenn Du sicher bist, dass es das ist was Du mö
     <name>ruleNameTemplate for thermostattemplates</name>
     <message>
         <source>Set temperature while I&apos;m home</source>
-        <translation>Setze Temperatur während ich zuhause bin</translation>
+        <translation>Setze Temperatur, während ich zuhause bin</translation>
     </message>
 </context>
 </TS>

@@ -5112,6 +5112,29 @@ Použijte hodnotu časového limitu větší nebo rovnou 10 ms.</translation>
     </message>
 </context>
 <context>
+    <name>NetworkSettingsFilterPage</name>
+    <message>
+        <source>Network settings options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show all network interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loopback, bridge and unknown network interfaces are hidden otherwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show dangerous options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show options to disable networking or WiFi and to disconnect network interfaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NetworkSettingsPage</name>
     <message>
         <source>Network settings</source>

@@ -42,12 +42,23 @@ SettingsPageBase {
 
         HeaderButton {
             imageSource: "qrc:/icons/filters.svg"
-            visible: d.interfaceList
-            color: d.filterInterfaces ? Style.accentColor : Style.iconColor
-            onClicked: d.filterInterfaces = !d.filterInterfaces
+            visible: d.interfaceList || d.networkManagerControls
+            color: d.interfaceList && !networkSettings.showAllInterfaces ? Style.accentColor : Style.iconColor
+            onClicked: pageStack.push(Qt.resolvedUrl("NetworkSettingsFilterPage.qml"), {
+                                          networkSettings: networkSettings,
+                                          interfaceListAvailable: d.interfaceList,
+                                          networkManagerControlsAvailable: d.networkManagerControls
+                                      })
         }
     }
     busy: networkManager.loading || networkInfo.loading || d.pendingCallId !== -1
+
+    Settings {
+        id: networkSettings
+        category: "NetworkSettings"
+        property bool showAllInterfaces: false
+        property bool showDangerousOptions: false
+    }
 
     NetworkInfo {
         id: networkInfo
@@ -57,7 +68,7 @@ SettingsPageBase {
     NetworkInterfacesProxy {
         id: networkInterfacesProxy
         networkInterfaces: networkInfo.interfaces
-        hiddenKinds: d.filterInterfaces ? ["loopback", "bridge", "unknown"] : []
+        hiddenKinds: networkSettings.showAllInterfaces ? [] : ["loopback", "bridge", "unknown"]
     }
 
     NetworkManager {
@@ -130,7 +141,6 @@ SettingsPageBase {
         // Servers without the Network API only offer the NetworkManager based page
         readonly property bool legacyPage: !networkInfo.loading && !networkInfo.supported
         readonly property bool interfaceList: !networkInfo.loading && networkInfo.supported
-        property bool filterInterfaces: true
         readonly property bool networkManagerControls: networkManager.available && (legacyPage || (interfaceList && networkInfo.backend === "networkmanager"))
     }
 
@@ -397,7 +407,8 @@ SettingsPageBase {
         subText: qsTr("Enable or disable networking altogether")
         prominentSubText: false
         progressive: false
-        visible: d.networkManagerControls
+        // Stays visible while disabled so networking can always be turned back on
+        visible: d.networkManagerControls && (networkSettings.showDangerousOptions || !networkManager.networkingEnabled)
         additionalItem: Switch {
             anchors.verticalCenter: parent.verticalCenter
             checked: networkManager.networkingEnabled
@@ -518,6 +529,7 @@ SettingsPageBase {
         progressive: false
         prominentSubText: false
         visible: d.networkManagerControls && networkManager.networkingEnabled
+                 && (networkSettings.showDangerousOptions || !networkManager.wirelessNetworkingEnabled)
         additionalItem: Switch {
             anchors.verticalCenter: parent.verticalCenter
             checked: networkManager.wirelessNetworkingEnabled
@@ -1066,6 +1078,7 @@ SettingsPageBase {
             Button {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
+                visible: networkSettings.showDangerousOptions
                 text: qsTr("Disconnect")
                 onClicked: {
                     root.showNetworkAccessWarning(
@@ -1134,6 +1147,7 @@ SettingsPageBase {
             Button {
                 Layout.fillWidth: true
                 Layout.margins: app.margins
+                visible: networkSettings.showDangerousOptions
                 text: qsTr("Disconnect")
                 onClicked: {
                     root.showNetworkAccessWarning(
