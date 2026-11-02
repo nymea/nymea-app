@@ -1,3 +1,12 @@
+nymea-app (1.14.2) bionic; urgency=medium
+
+  [ Simon Stürz ]
+  * EnergyView: Fix average battery rounding
+  * EnergyView: Improve color consistancy, add view settings
+  * Network: Add networkd backend support
+
+ -- jenkins <developer@nymea.io>  Mon, 02 Nov 2026 12:38:20 +0100
+
 nymea-app (1.14.1) bionic; urgency=medium
 
   [ Simon Stürz ]
