@@ -874,7 +874,7 @@ Item {
                         averageLevel += batteriesRepeater.itemAt(i).batteryLevelState.value
                     }
                     averageLevel /= batteriesRepeater.count
-                    return Math.round(averageLevel / 10) * 10;
+                    return Math.round(averageLevel * 10) / 10;
                 }
 
                 Repeater {
