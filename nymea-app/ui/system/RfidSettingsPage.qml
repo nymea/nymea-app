@@ -95,12 +95,33 @@ SettingsPageBase {
         case RfidManager.RfidErrorEnrollmentNotFound:
             text = qsTr("The RFID tag scan is no longer active.")
             break
+        case RfidManager.RfidErrorChargerOccupied:
+            text = qsTr("Unplug the car before scanning an RFID tag on this charger.")
+            break
+        case RfidManager.RfidErrorChargerStateUnavailable:
+            text = qsTr("The charger status is unavailable. Select another charger to scan the RFID tag.")
+            break
         default:
             text = qsTr("The RFID tag request could not be completed. (Error code: %1)").arg(error)
             break
         }
 
         showErrorDialog(text)
+    }
+
+    function enrollmentAvailability(chargerThing, pluggedInValue, chargingValue, currentPowerValue) {
+        if (!chargerThing)
+            return "unavailable"
+
+        var interfaces = chargerThing.thingClass.interfaces
+        var isAcCharger = interfaces.indexOf("evchargerac") !== -1
+        if (isAcCharger && chargingValue === true)
+            return "occupied"
+        if (!isAcCharger && interfaces.indexOf("evchargerdc") !== -1 && currentPowerValue > 0)
+            return "occupied"
+        if (pluggedInValue === true)
+            return "occupied"
+        return pluggedInValue === false ? "available" : "unavailable"
     }
 
     function rebuildUserFilterModel() {
@@ -442,6 +463,8 @@ SettingsPageBase {
             property var newProfile: ({"mode": "Eco"})
             property string pendingEnrollmentId: ""
             property string pendingEnrollmentExpiresAt: ""
+            property var earlyEnrollmentOutcomes: ({})
+            property bool startEnrollmentPending: false
 
             readonly property string addMethodChargerScan: "chargerScan"
             readonly property string addMethodManual: "manual"
@@ -463,6 +486,39 @@ SettingsPageBase {
                 if (pendingEnrollmentId !== "")
                     rfidManager.cancelEnrollment(pendingEnrollmentId)
                 clearPendingEnrollment()
+            }
+
+            function recordEarlyEnrollmentOutcome(enrollmentId, thingId, outcome) {
+                if (!startEnrollmentPending || pendingEnrollmentId !== ""
+                        || root.uuidString(thingId) !== root.uuidString(selectedChargerThingId))
+                    return
+                earlyEnrollmentOutcomes[root.uuidString(enrollmentId)] = outcome
+            }
+
+            function takeEarlyEnrollmentOutcome(enrollmentId) {
+                var key = root.uuidString(enrollmentId)
+                var outcome = earlyEnrollmentOutcomes[key]
+                delete earlyEnrollmentOutcomes[key]
+                return outcome
+            }
+
+            Connections {
+                target: rfidManager
+
+                function onEnrollmentFinished(enrollmentId, thingId, error, tagInfo) {
+                    wizardRootPage.recordEarlyEnrollmentOutcome(enrollmentId, thingId,
+                                                                {kind: "finished", error: error})
+                }
+
+                function onEnrollmentCanceled(enrollmentId, thingId, reason) {
+                    wizardRootPage.recordEarlyEnrollmentOutcome(enrollmentId, thingId,
+                                                                {kind: "canceled", reason: reason})
+                }
+
+                function onEnrollmentTimedOut(enrollmentId, thingId) {
+                    wizardRootPage.recordEarlyEnrollmentOutcome(enrollmentId, thingId,
+                                                                {kind: "timedOut"})
+                }
             }
 
             onNext: pageStack.push(addTagMethodComponent)
@@ -631,20 +687,33 @@ SettingsPageBase {
                             delegate: NymeaItemDelegate {
                                 width: parent.width
                                 readonly property Thing chargerThing: scanChargerThingsProxy.get(index)
+                                readonly property State pluggedInState: chargerThing ? chargerThing.stateByName("pluggedIn") : null
+                                readonly property State chargingState: chargerThing ? chargerThing.stateByName("charging") : null
+                                readonly property State currentPowerState: chargerThing ? chargerThing.stateByName("currentPower") : null
+                                readonly property string availability: root.enrollmentAvailability(
+                                                                        chargerThing,
+                                                                        pluggedInState ? pluggedInState.value : undefined,
+                                                                        chargingState ? chargingState.value : undefined,
+                                                                        currentPowerState ? currentPowerState.value : undefined)
                                 readonly property bool shown: chargerSelectionPage.showAllChargers
                                                               || root.userCanUseCharger(wizardRootPage.selectedOwnerUsername, chargerThing)
 
                                 height: shown ? implicitHeight : 0
                                 visible: shown
+                                enabled: availability === "available"
                                 progressive: false
                                 text: chargerThing ? chargerThing.name : model.name
-                                subText: chargerSelectionPage.showAllChargers
+                                subText: availability === "occupied"
+                                         ? qsTr("Car plugged in or charging. Unplug it to scan a tag.")
+                                         : availability === "unavailable"
+                                         ? qsTr("Charger status unavailable for RFID scanning.")
+                                         : chargerSelectionPage.showAllChargers
                                          && !root.userCanUseCharger(wizardRootPage.selectedOwnerUsername, chargerThing)
                                          ? qsTr("Not available to %1").arg(root.selectedUserLabel(wizardRootPage.selectedOwnerUsername))
                                          : qsTr("Use this charger to scan the next tag")
                                 iconName: chargerThing ? app.interfacesToIcon(chargerThing.thingClass.interfaces) : "qrc:/icons/things.svg"
                                 onClicked: {
-                                    if (!chargerThing)
+                                    if (!chargerThing || availability !== "available")
                                         return
 
                                     wizardRootPage.selectedChargerThingId = chargerThing.id
@@ -803,12 +872,19 @@ SettingsPageBase {
                             pageStack.pop()
                         }
 
-                        function onEnrollmentCanceled(enrollmentId, thingId) {
+                        function onEnrollmentCanceled(enrollmentId, thingId, reason) {
                             if (root.uuidString(enrollmentId) !== root.uuidString(wizardRootPage.pendingEnrollmentId))
                                 return
 
                             waitForTagPage.completed = true
                             wizardRootPage.clearPendingEnrollment()
+                            if (reason === "chargerOccupied")
+                                root.showRfidError(RfidManager.RfidErrorChargerOccupied)
+                            else if (reason === "chargerStateUnavailable")
+                                root.showRfidError(RfidManager.RfidErrorChargerStateUnavailable)
+                            else if (reason !== "userCanceled")
+                                root.showErrorDialog(qsTr("The charger stopped the RFID tag scan."))
+                            pageStack.pop()
                         }
                     }
                 }
@@ -987,6 +1063,7 @@ SettingsPageBase {
                         updateDraftProfile()
                         if (wizardRootPage.selectedAddMethod === wizardRootPage.addMethodChargerScan) {
                             pendingCommandType = "enrollment"
+                            wizardRootPage.startEnrollmentPending = true
                             pendingCommandId = rfidManager.startEnrollment(
                                         wizardRootPage.selectedChargerThingId,
                                         wizardRootPage.selectedOwnerUsername,
@@ -1240,11 +1317,32 @@ SettingsPageBase {
 
                             addTagFinalizePage.pendingCommandId = -1
                             addTagFinalizePage.pendingCommandType = ""
+                            wizardRootPage.startEnrollmentPending = false
                             if (error === RfidManager.RfidErrorNoError) {
+                                var earlyOutcome = wizardRootPage.takeEarlyEnrollmentOutcome(enrollmentId)
+                                wizardRootPage.earlyEnrollmentOutcomes = ({})
+                                if (earlyOutcome) {
+                                    if (earlyOutcome.kind === "finished") {
+                                        if (earlyOutcome.error === RfidManager.RfidErrorNoError)
+                                            pageStack.pop(root)
+                                        else
+                                            root.showRfidError(earlyOutcome.error)
+                                    } else if (earlyOutcome.kind === "timedOut") {
+                                        root.showErrorDialog(qsTr("No RFID tag was detected before the scan expired."))
+                                    } else if (earlyOutcome.reason === "chargerOccupied") {
+                                        root.showRfidError(RfidManager.RfidErrorChargerOccupied)
+                                    } else if (earlyOutcome.reason === "chargerStateUnavailable") {
+                                        root.showRfidError(RfidManager.RfidErrorChargerStateUnavailable)
+                                    } else if (earlyOutcome.reason !== "userCanceled") {
+                                        root.showErrorDialog(qsTr("The charger stopped the RFID tag scan."))
+                                    }
+                                    return
+                                }
                                 wizardRootPage.pendingEnrollmentId = enrollmentId
                                 wizardRootPage.pendingEnrollmentExpiresAt = expiresAt
                                 pageStack.push(waitForTagComponent)
                             } else {
+                                wizardRootPage.earlyEnrollmentOutcomes = ({})
                                 root.showRfidError(error)
                             }
                         }

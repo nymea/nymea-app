@@ -7136,6 +7136,26 @@ Do you want to proceed?</source>
         <source>This tag can authorize charging on the EV chargers listed below because they are accessible to its owner.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unplug the car before scanning an RFID tag on this charger.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The charger status is unavailable. Select another charger to scan the RFID tag.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Car plugged in or charging. Unplug it to scan a tag.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Charger status unavailable for RFID scanning.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The charger stopped the RFID tag scan.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RootItem</name>

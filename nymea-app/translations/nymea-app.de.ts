@@ -7164,6 +7164,26 @@ Möchtest Du fortfahren?</translation>
         <source>This tag can authorize charging on the EV chargers listed below because they are accessible to its owner.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unplug the car before scanning an RFID tag on this charger.</source>
+        <translation>Bitte das Fahrzeug ausstecken, bevor an diesem Ladepunkt ein RFID-Tag eingelesen wird.</translation>
+    </message>
+    <message>
+        <source>The charger status is unavailable. Select another charger to scan the RFID tag.</source>
+        <translation>Der Status des Ladepunkts ist nicht verfügbar. Bitte einen anderen Ladepunkt zum Einlesen des RFID-Tags auswählen.</translation>
+    </message>
+    <message>
+        <source>Car plugged in or charging. Unplug it to scan a tag.</source>
+        <translation>Fahrzeug eingesteckt oder wird geladen. Zum Einlesen eines Tags bitte ausstecken.</translation>
+    </message>
+    <message>
+        <source>Charger status unavailable for RFID scanning.</source>
+        <translation>Der Status des Ladepunkts ist für das Einlesen per RFID nicht verfügbar.</translation>
+    </message>
+    <message>
+        <source>The charger stopped the RFID tag scan.</source>
+        <translation>Der Ladepunkt hat das Einlesen des RFID-Tags beendet.</translation>
+    </message>
 </context>
 <context>
     <name>RootItem</name>

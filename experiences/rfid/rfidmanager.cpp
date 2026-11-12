@@ -176,7 +176,8 @@ void RfidManager::notificationReceived(const QVariantMap &data)
         }
         emit enrollmentFinished(enrollmentId, thingId, error, tagInfo);
     } else if (notification == "Rfid.EnrollmentCanceled") {
-        emit enrollmentCanceled(params.value("enrollmentId").toUuid(), params.value("thingId").toUuid());
+        emit enrollmentCanceled(params.value("enrollmentId").toUuid(), params.value("thingId").toUuid(),
+                                params.value("reason").toString());
     } else if (notification == "Rfid.EnrollmentTimedOut") {
         emit enrollmentTimedOut(params.value("enrollmentId").toUuid(), params.value("thingId").toUuid());
     } else if (notification == "Rfid.Authorized" || notification == "Rfid.Denied") {

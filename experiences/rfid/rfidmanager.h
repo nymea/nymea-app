@@ -29,7 +29,9 @@ public:
         RfidErrorDuplicateTag,
         RfidErrorInvalidProfile,
         RfidErrorEnrollmentActive,
-        RfidErrorEnrollmentNotFound
+        RfidErrorEnrollmentNotFound,
+        RfidErrorChargerOccupied,
+        RfidErrorChargerStateUnavailable
     };
     Q_ENUM(RfidError)
 
@@ -68,7 +70,7 @@ signals:
     void getConfigReply(int commandId, RfidManager::RfidError error);
     void setConfigReply(int commandId, RfidManager::RfidError error);
     void enrollmentFinished(const QUuid &enrollmentId, const QUuid &thingId, RfidManager::RfidError error, RfidTagInfo *tagInfo);
-    void enrollmentCanceled(const QUuid &enrollmentId, const QUuid &thingId);
+    void enrollmentCanceled(const QUuid &enrollmentId, const QUuid &thingId, const QString &reason);
     void enrollmentTimedOut(const QUuid &enrollmentId, const QUuid &thingId);
 
 private slots:
