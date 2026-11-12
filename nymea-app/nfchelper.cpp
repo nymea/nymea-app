@@ -116,7 +116,7 @@ bool NfcHelper::isAvailable() const
 
 bool NfcHelper::tagUidScanningAvailable() const
 {
-#if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
+#if defined(Q_OS_ANDROID)
     return isAvailable()
             && m_manager->isSupported(QNearFieldTarget::TagTypeSpecificAccess);
 #else
@@ -162,7 +162,7 @@ bool NfcHelper::startTagUidScan()
         return false;
     }
 
-#if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
+#if defined(Q_OS_ANDROID)
 #if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
     m_manager->setUserInformation(tr("Hold the RFID tag near the phone."));
 #endif
