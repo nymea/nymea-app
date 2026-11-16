@@ -61,6 +61,7 @@ JsonRpcClient::JsonRpcClient(QObject *parent) :
     connect(m_connection, &NymeaConnection::connectionStatusChanged, this, &JsonRpcClient::connectionStatusChanged);
     connect(m_connection, &NymeaConnection::connectedChanged, this, &JsonRpcClient::onInterfaceConnectedChanged);
     connect(m_connection, &NymeaConnection::currentHostChanged, this, &JsonRpcClient:: currentHostChanged);
+    connect(m_connection, &NymeaConnection::currentHostChanged, this, &JsonRpcClient::productInfoChanged);
     connect(m_connection, &NymeaConnection::currentConnectionChanged, this, &JsonRpcClient:: currentConnectionChanged);
     // We'll connect this Queued, because in case of a disconnect we'll want to react on that ASAP instead of processing a queue that may be left in buffers
     // Especially on mobile platforms (hello Android) we get a huge queue of buffers upon resume from suspend just to get a disconnect after that.
@@ -142,16 +143,21 @@ void JsonRpcClient::connectToHost(NymeaHost *host, Connection *connection)
 {
     if (m_connection->currentHost()) {
         disconnect(m_connection->currentHost(), &NymeaHost::nameChanged, this, &JsonRpcClient::serverNameChanged);
+        disconnect(m_connection->currentHost(), &NymeaHost::productInfoChanged, this, &JsonRpcClient::productInfoChanged);
     }
 
     m_connection->connectToHost(host, connection);
 
     connect(host, &NymeaHost::nameChanged, this, &JsonRpcClient::serverNameChanged);
+    connect(host, &NymeaHost::productInfoChanged, this, &JsonRpcClient::productInfoChanged);
     emit serverNameChanged();
 }
 
 void JsonRpcClient::disconnectFromHost()
 {
+    if (m_connection->currentHost()) {
+        disconnect(m_connection->currentHost(), &NymeaHost::productInfoChanged, this, &JsonRpcClient::productInfoChanged);
+    }
     m_connection->disconnectFromHost();
 }
 
@@ -315,6 +321,31 @@ QUuid JsonRpcClient::serverUuid() const
 QString JsonRpcClient::serverName() const
 {
     return m_connection->currentHost() ? m_connection->currentHost()->name() : "";
+}
+
+QString JsonRpcClient::vendor() const
+{
+    return currentHost() ? currentHost()->vendor() : QString();
+}
+
+QString JsonRpcClient::vendorurl() const
+{
+    return currentHost() ? currentHost()->vendorurl() : QString();
+}
+
+QString JsonRpcClient::model() const
+{
+    return currentHost() ? currentHost()->model() : QString();
+}
+
+QString JsonRpcClient::hardwareRevision() const
+{
+    return currentHost() ? currentHost()->hardwareRevision() : QString();
+}
+
+QString JsonRpcClient::producttype() const
+{
+    return currentHost() ? currentHost()->producttype() : QString();
 }
 
 QString JsonRpcClient::serverQtVersion()
@@ -690,6 +721,12 @@ void JsonRpcClient::helloReply(int /*commandId*/, const QVariantMap &params)
     }
 
     m_connection->currentHost()->setName(name);
+    QVariantMap productInfo = params.value("productInfo").toMap();
+    m_connection->currentHost()->setProductInfo(productInfo.value("vendor").toString(),
+                                                productInfo.value("vendorurl").toString(),
+                                                productInfo.value("model").toString(),
+                                                productInfo.value("hardwareRevision").toString(),
+                                                productInfo.value("producttype").toString());
 
     QVersionNumber minimumRequiredVersion = QVersionNumber(5, 0);
     QVersionNumber maximumMajorVersion = QVersionNumber(10);

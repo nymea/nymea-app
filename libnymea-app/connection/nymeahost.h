@@ -134,6 +134,11 @@ class NymeaHost: public QObject
     Q_PROPERTY(QUuid uuid READ uuid CONSTANT)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(QString version READ version NOTIFY versionChanged)
+    Q_PROPERTY(QString vendor READ vendor NOTIFY productInfoChanged)
+    Q_PROPERTY(QString vendorurl READ vendorurl NOTIFY productInfoChanged)
+    Q_PROPERTY(QString model READ model NOTIFY productInfoChanged)
+    Q_PROPERTY(QString hardwareRevision READ hardwareRevision NOTIFY productInfoChanged)
+    Q_PROPERTY(QString producttype READ producttype NOTIFY productInfoChanged)
     Q_PROPERTY(Connections* connections READ connections CONSTANT)
     Q_PROPERTY(bool online READ online NOTIFY onlineChanged)
 
@@ -150,6 +155,14 @@ public:
     QString version() const;
     void setVersion(const QString &version);
 
+    QString vendor() const;
+    QString vendorurl() const;
+    QString model() const;
+    QString hardwareRevision() const;
+    QString producttype() const;
+    void setProductInfo(const QString &vendor, const QString &vendorurl, const QString &model,
+                        const QString &hardwareRevision, const QString &producttype);
+
     Connections *connections() const;
 
     bool online() const;
@@ -157,6 +170,7 @@ public:
 signals:
     void nameChanged();
     void versionChanged();
+    void productInfoChanged();
     void connectionChanged();
     void onlineChanged();
 
@@ -167,6 +181,11 @@ private:
     QUuid m_uuid;
     QString m_name;
     QString m_version;
+    QString m_vendor;
+    QString m_vendorurl;
+    QString m_model;
+    QString m_hardwareRevision;
+    QString m_producttype;
     Connections *m_connections = nullptr;
     bool m_online = false;
 };
