@@ -42,6 +42,43 @@ SettingsPageBase {
 
         NymeaSwipeDelegate {
             Layout.fillWidth: true
+            text: qsTr("Vendor:")
+            subText: engine.jsonRpcClient.vendor
+            visible: engine.jsonRpcClient.vendor.length > 0
+            progressive: false
+            prominentSubText: false
+        }
+
+        NymeaSwipeDelegate {
+            Layout.fillWidth: true
+            text: qsTr("Vendor website:")
+            subText: engine.jsonRpcClient.vendorurl
+            visible: engine.jsonRpcClient.vendorurl.length > 0
+            progressive: false
+            prominentSubText: false
+            onClicked: Qt.openUrlExternally(engine.jsonRpcClient.vendorurl)
+        }
+
+        NymeaSwipeDelegate {
+            Layout.fillWidth: true
+            text: qsTr("Product model:")
+            subText: engine.jsonRpcClient.model
+            visible: engine.jsonRpcClient.model.length > 0
+            progressive: false
+            prominentSubText: false
+        }
+
+        NymeaSwipeDelegate {
+            Layout.fillWidth: true
+            text: qsTr("Product type:")
+            subText: engine.jsonRpcClient.producttype
+            visible: engine.jsonRpcClient.producttype.length > 0
+            progressive: false
+            prominentSubText: false
+        }
+
+        NymeaSwipeDelegate {
+            Layout.fillWidth: true
             text: qsTr("Connection:")
             subText: engine.jsonRpcClient.currentConnection.url
             progressive: false

@@ -85,6 +85,46 @@ void NymeaHost::setVersion(const QString &version)
     }
 }
 
+QString NymeaHost::vendor() const
+{
+    return m_vendor;
+}
+
+QString NymeaHost::vendorurl() const
+{
+    return m_vendorurl;
+}
+
+QString NymeaHost::model() const
+{
+    return m_model;
+}
+
+QString NymeaHost::hardwareRevision() const
+{
+    return m_hardwareRevision;
+}
+
+QString NymeaHost::producttype() const
+{
+    return m_producttype;
+}
+
+void NymeaHost::setProductInfo(const QString &vendor, const QString &vendorurl, const QString &model,
+                               const QString &hardwareRevision, const QString &producttype)
+{
+    if (m_vendor == vendor && m_vendorurl == vendorurl && m_model == model
+            && m_hardwareRevision == hardwareRevision && m_producttype == producttype) {
+        return;
+    }
+    m_vendor = vendor;
+    m_vendorurl = vendorurl;
+    m_model = model;
+    m_hardwareRevision = hardwareRevision;
+    m_producttype = producttype;
+    emit productInfoChanged();
+}
+
 Connections* NymeaHost::connections() const
 {
     return m_connections;

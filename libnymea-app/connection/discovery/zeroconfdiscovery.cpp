@@ -112,6 +112,9 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     bool sslEnabled = false;
     QString serverName;
     QString version;
+    QString vendor;
+    QString model;
+    QString producttype;
     foreach (const QByteArray &key, entry->txt().keys()) {
         QPair<QString, QString> txtRecord = qMakePair<QString, QString>(key, entry->txt().value(key));
         if (!sslEnabled && txtRecord.first == "sslEnabled") {
@@ -126,6 +129,15 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
         if (txtRecord.first == "serverVersion") {
             version = txtRecord.second;
         }
+        if (txtRecord.first == "vendor") {
+            vendor = txtRecord.second;
+        }
+        if (txtRecord.first == "model") {
+            model = txtRecord.second;
+        }
+        if (txtRecord.first == "producttype") {
+            producttype = txtRecord.second;
+        }
     }
     qCDebug(dcZeroConf()) << "Service entry added" << serverName << uuid << sslEnabled;
 
@@ -139,6 +151,7 @@ void ZeroconfDiscovery::serviceEntryAdded(const QZeroConfService &entry)
     }
     host->setName(serverName);
     host->setVersion(version);
+    host->setProductInfo(vendor, host->vendorurl(), model, host->hardwareRevision(), producttype);
     QUrl url;
     // NOTE: On linux this is "_jsonrpc._tcp" while on apple systems this is "_jsonrpc._tcp."
     if (entry->type().startsWith("_jsonrpc._tcp")) {

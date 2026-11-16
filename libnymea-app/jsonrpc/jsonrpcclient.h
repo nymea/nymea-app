@@ -53,6 +53,11 @@ class JsonRpcClient : public QObject
     Q_PROPERTY(QString jsonRpcVersion READ jsonRpcVersion NOTIFY handshakeReceived)
     Q_PROPERTY(QUuid serverUuid READ serverUuid NOTIFY handshakeReceived)
     Q_PROPERTY(QString serverName READ serverName NOTIFY serverNameChanged)
+    Q_PROPERTY(QString vendor READ vendor NOTIFY productInfoChanged)
+    Q_PROPERTY(QString vendorurl READ vendorurl NOTIFY productInfoChanged)
+    Q_PROPERTY(QString model READ model NOTIFY productInfoChanged)
+    Q_PROPERTY(QString hardwareRevision READ hardwareRevision NOTIFY productInfoChanged)
+    Q_PROPERTY(QString producttype READ producttype NOTIFY productInfoChanged)
     Q_PROPERTY(QString serverQtVersion READ serverQtVersion NOTIFY serverQtVersionChanged)
     Q_PROPERTY(QString serverQtBuildVersion READ serverQtBuildVersion NOTIFY serverQtVersionChanged)
     Q_PROPERTY(QVariantMap certificateIssuerInfo READ certificateIssuerInfo NOTIFY currentConnectionChanged)
@@ -87,6 +92,11 @@ public:
     QString jsonRpcVersion() const;
     QUuid serverUuid() const;
     QString serverName() const;
+    QString vendor() const;
+    QString vendorurl() const;
+    QString model() const;
+    QString hardwareRevision() const;
+    QString producttype() const;
     QString serverQtVersion();
     QString serverQtBuildVersion();
     QVariantMap experiences() const;
@@ -127,6 +137,7 @@ signals:
     void createUserFailed(const QString &error);
     void serverQtVersionChanged();
     void serverNameChanged();
+    void productInfoChanged();
     void permissionsChanged();
 
     void commandFailed(int commandId, const QString &error);

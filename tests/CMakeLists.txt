@@ -10,7 +10,7 @@ else()
     set(NYMEA_APP_SOURCE_ROOT "${CMAKE_SOURCE_DIR}")
 endif()
 
-find_package(Qt6 REQUIRED COMPONENTS Nfc Qml Test)
+find_package(Qt6 REQUIRED COMPONENTS Network Nfc Qml Test)
 
 qt_add_executable(tst_nfchelper
     auto/tst_nfchelper.cpp
@@ -58,6 +58,15 @@ target_compile_definitions(tst_webinterfaceurls PRIVATE
 )
 target_link_libraries(tst_webinterfaceurls PRIVATE Qt6::Core Qt6::Qml Qt6::Test)
 add_test(NAME tst_webinterfaceurls COMMAND tst_webinterfaceurls)
+
+qt_add_executable(tst_productinfo
+    auto/tst_productinfo.cpp
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/connection/nymeahost.cpp
+    ${NYMEA_APP_SOURCE_ROOT}/libnymea-app/connection/nymeahost.h
+)
+target_include_directories(tst_productinfo PRIVATE ${NYMEA_APP_SOURCE_ROOT}/libnymea-app)
+target_link_libraries(tst_productinfo PRIVATE Qt6::Core Qt6::Network Qt6::Test)
+add_test(NAME tst_productinfo COMMAND tst_productinfo)
 
 # NetworkInfo is compiled against stubbed Engine/JsonRpcClient headers to drive the protocol flow
 qt_add_executable(tst_networkinfo
