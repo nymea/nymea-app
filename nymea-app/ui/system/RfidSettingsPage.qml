@@ -36,10 +36,12 @@ SettingsPageBase {
     }
 
     function profileActions(profile) {
+        var actions = [profileMode(profile) === "Eco" ? qsTr("Eco charging") : qsTr("Quick charging")]
+        if (profile && profile.assignedCarId !== undefined && profile.assignedCarId !== "")
+            actions.push(qsTr("Car: %1").arg(chargerThingName(profile.assignedCarId) || profile.assignedCarId))
         if (profileMode(profile) === "Eco")
-            return [qsTr("Eco charging")]
+            return actions
 
-        var actions = [qsTr("Quick charging")]
         if (profile.maxChargingCurrent !== undefined)
             actions.push(qsTr("Max charging current: %1 A").arg(profile.maxChargingCurrent))
         if (profile.desiredPhaseCount !== undefined)
@@ -54,16 +56,80 @@ SettingsPageBase {
         return "Manual"
     }
 
-    function buildProfile(mode, maxChargingCurrentText, desiredPhaseCount) {
-        if (mode === "Eco")
-            return {"mode": "Eco"}
-
+    function buildProfile(mode, maxChargingCurrent, desiredPhaseCount, assignedCarId) {
         var profile = {"mode": backendProfileMode(mode)}
-        if (maxChargingCurrentText !== "")
-            profile.maxChargingCurrent = parseInt(maxChargingCurrentText)
+        if (assignedCarId !== "")
+            profile.assignedCarId = assignedCarId
+        if (mode === "Eco")
+            return profile
+
+        if (maxChargingCurrent !== null && maxChargingCurrent !== undefined)
+            profile.maxChargingCurrent = Math.round(maxChargingCurrent)
         if (desiredPhaseCount > 0)
             profile.desiredPhaseCount = desiredPhaseCount
         return profile
+    }
+
+    function carOptions(username, selectedCarId) {
+        var options = [{"text": qsTr("Not set"), "value": ""}]
+        var selectedCarFound = selectedCarId === ""
+        for (var i = 0; i < carsProxy.count; ++i) {
+            var car = carsProxy.get(i)
+            if (!car || !userCanAccessThing(username, car))
+                continue
+            var carId = car.id.toString()
+            options.push({"text": car.name, "value": carId})
+            if (sameCarId(carId, selectedCarId))
+                selectedCarFound = true
+        }
+        if (!selectedCarFound)
+            options.push({"text": chargerThingName(selectedCarId) || selectedCarId, "value": selectedCarId})
+        return options
+    }
+
+    function carOptionIndex(options, selectedCarId) {
+        for (var i = 0; i < options.length; ++i) {
+            if (sameCarId(options[i].value, selectedCarId))
+                return i
+        }
+        return 0
+    }
+
+    function sameCarId(first, second) {
+        return String(first).replace(/[{}]/g, "").toLowerCase()
+                === String(second).replace(/[{}]/g, "").toLowerCase()
+    }
+
+    function chargerCapabilities(username, selectedChargerThingId) {
+        var minimum = 0
+        var maximum = Infinity
+        var phases = []
+        var count = 0
+        for (var i = 0; i < rfidChargerThingsProxy.count; ++i) {
+            var charger = rfidChargerThingsProxy.get(i)
+            if (!charger || !userCanUseCharger(username, charger)
+                    || (selectedChargerThingId && charger.id.toString() !== selectedChargerThingId.toString()))
+                continue
+
+            var currentState = charger.stateByName("maxChargingCurrent")
+            if (!currentState || currentState.minValue === undefined || currentState.maxValue === undefined
+                    || currentState.minValue === null || currentState.maxValue === null)
+                continue
+
+            minimum = Math.max(minimum, Math.ceil(Number(currentState.minValue)))
+            maximum = Math.min(maximum, Math.floor(Number(currentState.maxValue)))
+            var phaseState = charger.stateByName("desiredPhaseCount")
+            var possiblePhases = phaseState ? phaseState.possibleValues : []
+            if (count === 0)
+                phases = possiblePhases.slice()
+            else
+                phases = phases.filter(function(value) { return possiblePhases.indexOf(value) !== -1 })
+            ++count
+        }
+
+        return {"available": count > 0 && minimum > 0 && minimum <= maximum && isFinite(maximum),
+                "minimum": minimum, "maximum": maximum,
+                "phases": count > 0 && phases.length > 1 ? phases : []}
     }
 
     function showErrorDialog(text) {
@@ -171,6 +237,14 @@ SettingsPageBase {
         return userInfo.thingAllowed(chargerThing.id)
     }
 
+    function userCanAccessThing(username, thing) {
+        if (!thing)
+            return false
+        var userInfo = userManager.users.getUserInfo(username)
+        return userInfo && ((userInfo.scopes & UserInfo.PermissionScopeAccessAllThings) === UserInfo.PermissionScopeAccessAllThings
+                            || userInfo.thingAllowed(thing.id))
+    }
+
     function usableChargerCount(username) {
         var count = 0
         for (var i = 0; i < rfidChargerThingsProxy.count; ++i) {
@@ -220,6 +294,12 @@ SettingsPageBase {
         id: rfidChargerThingsProxy
         engine: _engine
         shownInterfaces: ["chargers"]
+    }
+
+    ThingsProxy {
+        id: carsProxy
+        engine: _engine
+        shownInterfaces: ["electricvehicle", "electricvehiclehlc"]
     }
 
     ListModel {
@@ -440,6 +520,8 @@ SettingsPageBase {
             property string newDisplayName: ""
             property bool newEnabled: true
             property var newProfile: ({"mode": "Eco"})
+            property string newAssignedCarId: ""
+            property bool newLimitEnabled: true
             property string pendingEnrollmentId: ""
             property string pendingEnrollmentExpiresAt: ""
 
@@ -959,20 +1041,24 @@ SettingsPageBase {
                                            || wizardRootPage.scannedOrEnteredCode !== "")
                                        && userManager.users.contains(wizardRootPage.selectedOwnerUsername)
                                        && (modeComboBox.selectedMode !== "Quick"
-                                           || maxChargingCurrentField.text === ""
-                                           || maxChargingCurrentField.acceptableInput)
+                                           || !currentLimitSwitch.checked || capabilities.available)
 
                     property int pendingCommandId: -1
                     property string pendingCommandType: ""
+                    readonly property var capabilities: root.chargerCapabilities(wizardRootPage.selectedOwnerUsername,
+                                                                                   wizardRootPage.selectedAddMethod === wizardRootPage.addMethodChargerScan
+                                                                                   ? wizardRootPage.selectedChargerThingId : null)
 
                     function updateDraftProfile() {
-                        if (!modeComboBox || !maxChargingCurrentField || !phaseCountComboBox)
+                        if (!modeComboBox || !maxChargingCurrentSlider || !phaseCountComboBox)
                             return
 
                         wizardRootPage.newProfile = root.buildProfile(
                                     modeComboBox.selectedMode,
-                                    maxChargingCurrentField.text.trim(),
-                                    phaseCountComboBox.currentIndex >= 0 ? phaseCountModel.get(phaseCountComboBox.currentIndex).value : 0)
+                                    currentLimitSwitch.checked && capabilities.available ? maxChargingCurrentSlider.value : null,
+                                    phaseCountComboBox.visible && phaseCountComboBox.currentIndex >= 0
+                                    ? phaseCountComboBox.model[phaseCountComboBox.currentIndex].value : 0,
+                                    wizardRootPage.newAssignedCarId)
                     }
 
                     onNext: {
@@ -1005,13 +1091,6 @@ SettingsPageBase {
                     }
 
                     onBack: pageStack.pop()
-
-                    ListModel {
-                        id: phaseCountModel
-                        ListElement { text: qsTr("Not set"); value: 0 }
-                        ListElement { text: "1"; value: 1 }
-                        ListElement { text: "3"; value: 3 }
-                    }
 
                     content: ColumnLayout {
                         Layout.fillWidth: true
@@ -1118,6 +1197,27 @@ SettingsPageBase {
                             text: qsTr("Charging profile")
                         }
 
+                        Label {
+                            Layout.fillWidth: true
+                            Layout.leftMargin: Style.margins
+                            Layout.rightMargin: Style.margins
+                            text: qsTr("Car")
+                        }
+
+                        ComboBox {
+                            id: carComboBox
+                            Layout.fillWidth: true
+                            Layout.leftMargin: Style.margins
+                            Layout.rightMargin: Style.margins
+                            model: root.carOptions(wizardRootPage.selectedOwnerUsername, wizardRootPage.newAssignedCarId)
+                            textRole: "text"
+                            currentIndex: root.carOptionIndex(model, wizardRootPage.newAssignedCarId)
+                            onActivated: function(index) {
+                                wizardRootPage.newAssignedCarId = model[index].value
+                                addTagFinalizePage.updateDraftProfile()
+                            }
+                        }
+
                         ComboBox {
                             id: modeComboBox
                             Layout.fillWidth: true
@@ -1135,17 +1235,39 @@ SettingsPageBase {
                             onCurrentIndexChanged: addTagFinalizePage.updateDraftProfile()
                         }
 
-                        TextField {
-                            id: maxChargingCurrentField
+                        SwitchDelegate {
+                            id: currentLimitSwitch
+                            Layout.fillWidth: true
+                            visible: modeComboBox.selectedMode === "Quick"
+                            text: qsTr("Max charging current (A)")
+                            checked: wizardRootPage.newLimitEnabled
+                            onToggled: {
+                                wizardRootPage.newLimitEnabled = checked
+                                addTagFinalizePage.updateDraftProfile()
+                            }
+                        }
+
+                        Label {
                             Layout.fillWidth: true
                             Layout.leftMargin: Style.margins
                             Layout.rightMargin: Style.margins
-                            visible: modeComboBox.selectedMode === "Quick"
-                            placeholderText: qsTr("Max charging current (A)")
-                            text: wizardRootPage.newProfile && wizardRootPage.newProfile.maxChargingCurrent !== undefined ? wizardRootPage.newProfile.maxChargingCurrent : ""
-                            inputMethodHints: Qt.ImhDigitsOnly
-                            validator: IntValidator { bottom: 1; top: 128 }
-                            onTextEdited: addTagFinalizePage.updateDraftProfile()
+                            visible: modeComboBox.selectedMode === "Quick" && currentLimitSwitch.checked && addTagFinalizePage.capabilities.available
+                            text: qsTr("Max charging current: %1 A").arg(Math.round(maxChargingCurrentSlider.value))
+                        }
+
+                        Slider {
+                            id: maxChargingCurrentSlider
+                            Layout.fillWidth: true
+                            Layout.leftMargin: Style.margins
+                            Layout.rightMargin: Style.margins
+                            visible: modeComboBox.selectedMode === "Quick" && currentLimitSwitch.checked && addTagFinalizePage.capabilities.available
+                            from: addTagFinalizePage.capabilities.available ? addTagFinalizePage.capabilities.minimum : 0
+                            to: addTagFinalizePage.capabilities.available ? addTagFinalizePage.capabilities.maximum : 0
+                            stepSize: 1
+                            snapMode: Slider.SnapAlways
+                            value: wizardRootPage.newProfile && wizardRootPage.newProfile.maxChargingCurrent !== undefined
+                                   ? Math.max(from, Math.min(to, wizardRootPage.newProfile.maxChargingCurrent)) : to
+                            onMoved: addTagFinalizePage.updateDraftProfile()
                         }
 
                         ComboBox {
@@ -1153,15 +1275,18 @@ SettingsPageBase {
                             Layout.fillWidth: true
                             Layout.leftMargin: Style.margins
                             Layout.rightMargin: Style.margins
-                            visible: modeComboBox.selectedMode === "Quick"
-                            model: phaseCountModel
+                            visible: modeComboBox.selectedMode === "Quick" && addTagFinalizePage.capabilities.phases.length > 1
+                            model: [{"text": qsTr("Not set"), "value": 0}].concat(
+                                       addTagFinalizePage.capabilities.phases.map(function(value) {
+                                           return {"text": String(value), "value": value}
+                                       }))
                             textRole: "text"
 
                             Component.onCompleted: {
                                 var desiredPhaseCount = wizardRootPage.newProfile && wizardRootPage.newProfile.desiredPhaseCount !== undefined
                                         ? wizardRootPage.newProfile.desiredPhaseCount : 0
-                                for (var i = 0; i < phaseCountModel.count; ++i) {
-                                    if (phaseCountModel.get(i).value === desiredPhaseCount) {
+                                for (var i = 0; i < model.length; ++i) {
+                                    if (model[i].value === desiredPhaseCount) {
                                         currentIndex = i
                                         return
                                     }
@@ -1264,6 +1389,10 @@ SettingsPageBase {
             property int pendingCommandId: -1
             property int pendingRemoveCommandId: -1
             property string selectedOwnerUsername: ""
+            property string selectedCarId: tagInfo && tagInfo.profile.assignedCarId !== undefined
+                                           ? String(tagInfo.profile.assignedCarId) : ""
+            property bool currentLimitEnabled: createMode || (tagInfo && tagInfo.profile.maxChargingCurrent !== undefined)
+            readonly property var capabilities: root.chargerCapabilities(tagInfo ? tagInfo.username : selectedOwnerUsername, null)
             title: createMode ? qsTr("Add RFID tag") : qsTr("Edit RFID tag")
 
             function currentUserInfo() {
@@ -1271,15 +1400,25 @@ SettingsPageBase {
             }
 
             function currentPhaseValue() {
-                return phaseCountComboBox.currentIndex >= 0 ? phaseCountModel.get(phaseCountComboBox.currentIndex).value : 0
+                if (!phaseCountComboBox.visible)
+                    return originalPhaseValue()
+                return phaseCountComboBox.currentIndex >= 0
+                        ? phaseCountComboBox.model[phaseCountComboBox.currentIndex].value : 0
             }
 
             function originalPhaseValue() {
-                return tagInfo && tagInfo.profile.desiredPhaseCount !== undefined ? tagInfo.profile.desiredPhaseCount : 0
+                return tagInfo && tagInfo.profile.desiredPhaseCount !== undefined
+                        ? tagInfo.profile.desiredPhaseCount : 0
             }
 
-            function originalMaxChargingCurrentText() {
-                return tagInfo && tagInfo.profile.maxChargingCurrent !== undefined ? String(tagInfo.profile.maxChargingCurrent) : ""
+            function currentMaxChargingCurrent() {
+                if (!currentLimitEnabled)
+                    return null
+                return capabilities.available ? Math.round(maxChargingCurrentSlider.value) : originalMaxChargingCurrent()
+            }
+
+            function originalMaxChargingCurrent() {
+                return tagInfo && tagInfo.profile.maxChargingCurrent !== undefined ? tagInfo.profile.maxChargingCurrent : null
             }
 
             function canSubmit() {
@@ -1293,7 +1432,8 @@ SettingsPageBase {
                         return false
                 }
 
-                if (modeComboBox.selectedMode === "Quick" && maxChargingCurrentField.text !== "" && !maxChargingCurrentField.acceptableInput)
+                if (modeComboBox.selectedMode === "Quick" && currentLimitEnabled && !capabilities.available
+                        && originalMaxChargingCurrent() === null)
                     return false
 
                 return createMode || hasUnsavedChanges()
@@ -1309,7 +1449,7 @@ SettingsPageBase {
                             || displayNameTextField.text !== ""
                             || enabledSwitch.checked !== true
                             || modeComboBox.selectedMode !== "Eco"
-                            || maxChargingCurrentField.text.trim() !== ""
+                            || currentLimitEnabled
                             || currentPhaseValue() !== 0
                 }
 
@@ -1322,8 +1462,10 @@ SettingsPageBase {
                     return true
                 if (modeComboBox.selectedMode !== root.profileMode(tagInfo.profile))
                     return true
+                if (!root.sameCarId(selectedCarId, tagInfo.profile.assignedCarId || ""))
+                    return true
                 if (modeComboBox.selectedMode === "Quick") {
-                    if (maxChargingCurrentField.text.trim() !== originalMaxChargingCurrentText())
+                    if (currentMaxChargingCurrent() !== originalMaxChargingCurrent())
                         return true
                     if (currentPhaseValue() !== originalPhaseValue())
                         return true
@@ -1360,7 +1502,8 @@ SettingsPageBase {
             }
 
             function submit() {
-                var profile = root.buildProfile(modeComboBox.selectedMode, maxChargingCurrentField.text.trim(), currentPhaseValue())
+                var profile = root.buildProfile(modeComboBox.selectedMode, currentMaxChargingCurrent(),
+                                                currentPhaseValue(), selectedCarId)
                 busy = true
 
                 if (createMode) {
@@ -1412,13 +1555,6 @@ SettingsPageBase {
                     enabled: editorPage.canSubmit()
                     onClicked: editorPage.saveIfValid()
                 }
-            }
-
-            ListModel {
-                id: phaseCountModel
-                ListElement { text: qsTr("Not set"); value: 0 }
-                ListElement { text: "1"; value: 1 }
-                ListElement { text: "3"; value: 3 }
             }
 
             SettingsPageSectionHeader {
@@ -1492,6 +1628,25 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.leftMargin: Style.margins
                 Layout.rightMargin: Style.margins
+                text: qsTr("Car")
+            }
+
+            ComboBox {
+                id: carComboBox
+                Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
+                model: root.carOptions(editorPage.tagInfo ? editorPage.tagInfo.username : editorPage.selectedOwnerUsername,
+                                       editorPage.selectedCarId)
+                textRole: "text"
+                currentIndex: root.carOptionIndex(model, editorPage.selectedCarId)
+                onActivated: function(index) { editorPage.selectedCarId = model[index].value }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
                 text: qsTr("The charger will apply the following profile when this tag is detected on an assigned charger.")
                 color: Style.unobtrusiveForegroundColor
                 font: Style.smallFont
@@ -1524,17 +1679,35 @@ SettingsPageBase {
                 wrapMode: Text.WordWrap
             }
 
-            TextField {
-                id: maxChargingCurrentField
+            SwitchDelegate {
+                id: currentLimitSwitch
+                Layout.fillWidth: true
+                visible: modeComboBox.selectedMode === "Quick"
+                text: qsTr("Max charging current (A)")
+                checked: editorPage.currentLimitEnabled
+                onToggled: editorPage.currentLimitEnabled = checked
+            }
+
+            Label {
                 Layout.fillWidth: true
                 Layout.leftMargin: Style.margins
                 Layout.rightMargin: Style.margins
-                Layout.topMargin: Style.smallMargins
-                visible: modeComboBox.selectedMode === "Quick"
-                placeholderText: qsTr("Max charging current (A)")
-                text: editorPage.tagInfo && editorPage.tagInfo.profile.maxChargingCurrent !== undefined ? editorPage.tagInfo.profile.maxChargingCurrent : ""
-                inputMethodHints: Qt.ImhDigitsOnly
-                validator: IntValidator { bottom: 1; top: 128 }
+                visible: modeComboBox.selectedMode === "Quick" && currentLimitSwitch.checked && editorPage.capabilities.available
+                text: qsTr("Max charging current: %1 A").arg(Math.round(maxChargingCurrentSlider.value))
+            }
+
+            Slider {
+                id: maxChargingCurrentSlider
+                Layout.fillWidth: true
+                Layout.leftMargin: Style.margins
+                Layout.rightMargin: Style.margins
+                visible: modeComboBox.selectedMode === "Quick" && currentLimitSwitch.checked && editorPage.capabilities.available
+                from: editorPage.capabilities.available ? editorPage.capabilities.minimum : 0
+                to: editorPage.capabilities.available ? editorPage.capabilities.maximum : 0
+                stepSize: 1
+                snapMode: Slider.SnapAlways
+                value: editorPage.tagInfo && editorPage.tagInfo.profile.maxChargingCurrent !== undefined
+                       ? Math.max(from, Math.min(to, editorPage.tagInfo.profile.maxChargingCurrent)) : to
             }
 
             ComboBox {
@@ -1542,15 +1715,18 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.leftMargin: Style.margins
                 Layout.rightMargin: Style.margins
-                visible: modeComboBox.selectedMode === "Quick"
-                model: phaseCountModel
+                visible: modeComboBox.selectedMode === "Quick" && editorPage.capabilities.phases.length > 1
+                model: [{"text": qsTr("Not set"), "value": 0}].concat(
+                           editorPage.capabilities.phases.map(function(value) {
+                               return {"text": String(value), "value": value}
+                           }))
                 textRole: "text"
 
                 Component.onCompleted: {
                     var desiredPhaseCount = editorPage.tagInfo && editorPage.tagInfo.profile.desiredPhaseCount !== undefined
                             ? editorPage.tagInfo.profile.desiredPhaseCount : 0
-                    for (var i = 0; i < phaseCountModel.count; ++i) {
-                        if (phaseCountModel.get(i).value === desiredPhaseCount) {
+                    for (var i = 0; i < model.length; ++i) {
+                        if (model[i].value === desiredPhaseCount) {
                             currentIndex = i
                             return
                         }
@@ -1563,7 +1739,7 @@ SettingsPageBase {
                 Layout.fillWidth: true
                 Layout.leftMargin: Style.margins
                 Layout.rightMargin: Style.margins
-                visible: modeComboBox.selectedMode === "Quick"
+                visible: phaseCountComboBox.visible
                 text: qsTr("Select how many phases the charger should use. Leave this unset to let the charger decide.")
                 color: Style.unobtrusiveForegroundColor
                 font: Style.smallFont

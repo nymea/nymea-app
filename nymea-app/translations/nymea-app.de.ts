@@ -6805,6 +6805,14 @@ Möchtest Du fortfahren?</translation>
         <translation>Schnellladen</translation>
     </message>
     <message>
+        <source>Car</source>
+        <translation>Auto</translation>
+    </message>
+    <message>
+        <source>Car: %1</source>
+        <translation>Auto: %1</translation>
+    </message>
+    <message>
         <source>Max charging current: %1 A</source>
         <translation>Max. Ladestrom: %1 A</translation>
     </message>
